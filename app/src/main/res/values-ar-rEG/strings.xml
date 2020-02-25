@@ -17,4 +17,7 @@
     <string name="title_your_library">مكتبتك</string>
     <string name="you_are_not_online">غير متصل بالإنترنت</string>
     <string name="title_dashboard">لوحة البيانات</string>
+    <string name="email_or_username">البريد الإلكتروني أو اسم المستخدم</string>
+    <string name="password">كلمة السر</string>
+    <string name="forget_your_paswword">هل نسيت كلمة السر؟</string>
 </resources>
