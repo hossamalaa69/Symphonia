@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">سيمفونيا</string>
+    <string name="cancel">إلغاء</string>
+    <string name="connect">توصيل</string>
+    <string name="connect_with_facebook">تسجيل عن طريق فيسبوك</string>
+    <string name="free_on_symphonia">مجانًا على سيمفونيا</string>
+    <string name="log_in">تسجيل الدخول</string>
+    <string name="millions_of_songs">ملايين الأغاني</string>
+    <string name="network">الإنترنت</string>
+    <string name="sign_up_free">إنشاء حساب مجانًا</string>
+    <string name="title_home">الصفحة الرئيسية</string>
+    <string name="title_library">المكتبة</string>
+    <string name="title_notifications">الإشعارات</string>
+    <string name="title_premium">إستثنائي</string>
+    <string name="title_search">بحث</string>
+    <string name="title_your_library">مكتبتك</string>
+    <string name="you_are_not_online">غير متصل بالإنترنت</string>
+    <string name="title_dashboard">لوحة البيانات</string>
+</resources>

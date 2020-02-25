@@ -11,4 +11,9 @@
     <string name="you_are_not_online">you are not online</string>
     <string name="connect">Connect</string>
     <string name="cancel">Cancel</string>
+    <string name="millions_of_songs">Millions of songs.</string>
+    <string name="free_on_symphonia">Free on Symphonia.</string>
+    <string name="sign_up_free">SIGN UP FREE</string>
+    <string name="connect_with_facebook">CONNECT WITH FACEBOOK</string>
+    <string name="log_in">LOG IN</string>
 </resources>

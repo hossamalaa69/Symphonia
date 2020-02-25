@@ -5,4 +5,9 @@
     <color name="dark_gray">#212121</color>
     <color name="colorPrimaryDark">#121212</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="colorGreen" >#1DB954</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorDark">#101010</color>
+    <color name="colorGradient1" >#404040</color>
+    <color name="colorGradient2">#000000</color>
 </resources>
