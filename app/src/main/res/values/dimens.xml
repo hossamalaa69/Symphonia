@@ -10,4 +10,6 @@
     <dimen name="image_item_size">140dp</dimen>
     <dimen name="medium_dimen">7dp</dimen>
     <dimen name="small_dimen">5dp</dimen>
+    <dimen name="image_small_item_size">60dp</dimen>
+    <dimen name="fram_padding_scrolling">310dp</dimen>
 </resources>

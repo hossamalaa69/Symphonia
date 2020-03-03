@@ -1,13 +1,10 @@
 package com.example.symphonia.ui.home;
 
 import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.R;
+import com.example.symphonia.adapters.RvPlaylistsAdapterHome;
 import com.example.symphonia.data.Playlist;
 import com.example.symphonia.data.Track;
 
@@ -36,7 +34,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView rvBasedOnYourRecentlyPlayed;
 
     RecyclerView.LayoutManager layoutManager;
-    RvTrackAdapterHome rvTrackAdapterHome;
+    RvPlaylistsAdapterHome rvPlaylistsAdapterHome;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -73,6 +71,22 @@ public class HomeFragment extends Fragment {
 
         // test
         ArrayList<Track> tracks = new ArrayList<Track>();
+
+        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.images));
+        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.download));
+        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.download));
+        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.images3));
+        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.images2));
+        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.images));
+        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.download1));
+        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.download));
+        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.download1));
+        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.download));
+        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.download1));
+        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.images2));
+        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.download));
+
+
         ArrayList<Playlist> playlists = new ArrayList<>();
         playlists.add(new Playlist("HOme", "khaled,seyam,azoz this playlist is so popular",
                 BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.ic_launcher_background), tracks));
@@ -98,8 +112,8 @@ public class HomeFragment extends Fragment {
         playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
         playlistTitle.setText(R.string.recently_played);
         rvRecentlyPlayed.setLayoutManager(layoutManager);
-        rvTrackAdapterHome = new RvTrackAdapterHome(getContext(), playlists);
-        rvRecentlyPlayed.setAdapter(rvTrackAdapterHome);
+        rvPlaylistsAdapterHome = new RvPlaylistsAdapterHome(getContext(), playlists);
+        rvRecentlyPlayed.setAdapter(rvPlaylistsAdapterHome);
 
         // made for you playlist
         layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
@@ -108,8 +122,8 @@ public class HomeFragment extends Fragment {
         playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
         playlistTitle.setText(R.string.made_for_you);
         rvMadeForYou.setLayoutManager(layoutManager);
-        rvTrackAdapterHome = new RvTrackAdapterHome(getContext(), playlists);
-        rvMadeForYou.setAdapter(rvTrackAdapterHome);
+        rvPlaylistsAdapterHome = new RvPlaylistsAdapterHome(getContext(), playlists);
+        rvMadeForYou.setAdapter(rvPlaylistsAdapterHome);
 
         //heavy playlist
         layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
@@ -118,8 +132,8 @@ public class HomeFragment extends Fragment {
         playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
         playlistTitle.setText(R.string.heavy_playlist);
         rvHeavyPlaylist.setLayoutManager(layoutManager);
-        rvTrackAdapterHome = new RvTrackAdapterHome(getContext(), playlists);
-        rvHeavyPlaylist.setAdapter(rvTrackAdapterHome);
+        rvPlaylistsAdapterHome = new RvPlaylistsAdapterHome(getContext(), playlists);
+        rvHeavyPlaylist.setAdapter(rvPlaylistsAdapterHome);
 
         //popular playlist
         layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
@@ -128,8 +142,8 @@ public class HomeFragment extends Fragment {
         playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
         playlistTitle.setText(R.string.popular_playlist);
         rvPopularPlaylist.setLayoutManager(layoutManager);
-        rvTrackAdapterHome = new RvTrackAdapterHome(getContext(), playlists);
-        rvPopularPlaylist.setAdapter(rvTrackAdapterHome);
+        rvPlaylistsAdapterHome = new RvPlaylistsAdapterHome(getContext(), playlists);
+        rvPopularPlaylist.setAdapter(rvPlaylistsAdapterHome);
 
         // based on your recently played
         layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
@@ -138,8 +152,8 @@ public class HomeFragment extends Fragment {
         playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
         playlistTitle.setText(R.string.based_on_your_recently_played);
         rvBasedOnYourRecentlyPlayed.setLayoutManager(layoutManager);
-        rvTrackAdapterHome = new RvTrackAdapterHome(getContext(),playlists);
-        rvBasedOnYourRecentlyPlayed.setAdapter(rvTrackAdapterHome);
+        rvPlaylistsAdapterHome = new RvPlaylistsAdapterHome(getContext(), playlists);
+        rvBasedOnYourRecentlyPlayed.setAdapter(rvPlaylistsAdapterHome);
 
     }
 }

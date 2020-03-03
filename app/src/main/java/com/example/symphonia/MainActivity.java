@@ -6,18 +6,63 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
+import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.symphonia.adapters.RvPlaylistsAdapterHome;
+import com.example.symphonia.adapters.RvTracksAdapterHome;
+import com.example.symphonia.data.Playlist;
+import com.example.symphonia.data.Track;
+import com.example.symphonia.ui.home.HomeFragment;
+import com.example.symphonia.ui.library.LibraryFragment;
+import com.example.symphonia.ui.playlist.PlaylistFragment;
+import com.example.symphonia.ui.premium.PremiumFragment;
+import com.example.symphonia.ui.search.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RvPlaylistsAdapterHome.OnPlaylistClicked, RvTracksAdapterHome.OnTrackClicked {
+
+    ImageView playBarButton;
+
+    @Override
+    public void OnTrackClickedListener(Track track) {
+        View view = findViewById(R.id.layout_playing_bar);
+        view.setVisibility(View.VISIBLE);
+        TextView details = view.findViewById(R.id.tv_track_details_bar);
+        details.setText(track.getmTitle() + " . " + track.getmDescription());
+        ImageView image = view.findViewById(R.id.iv_track_image_bar);
+        image.setImageResource(track.getmImageResources());
+        image = view.findViewById(R.id.iv_play_track_bar);
+        image.setImageResource(R.drawable.ic_pause_black_24dp);
+        playBarButton = image;
+        playBarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO handle button clicked
+            }
+        });
+        //TODO set on click listenr for like songs in bar
+    }
+
+    @Override
+    public void OnPlaylistClickedListener(Playlist playlist) {
+        getSupportFragmentManager().beginTransaction().replace(
+                R.id.nav_host_fragment, new PlaylistFragment(playlist)
+                , this.getString(R.string.playlist_fragment))
+                .addToBackStack(null)
+                .commit();
+
+        // hide setting button
+        ImageView imageView = findViewById(R.id.iv_setting_home);
+        imageView.setVisibility(View.GONE);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,13 +71,45 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_search, R.id.navigation_library, R.id.navigation_premium)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-       // NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(navView, navController);
+
+
+        NavHostFragment navHostFragment = NavHostFragment.create(R.navigation.mobile_navigation);
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.nav_host_fragment, navHostFragment)
+                .setPrimaryNavigationFragment(navHostFragment)
+                .commit();
+
+        navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.navigation_home:
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.nav_host_fragment, new HomeFragment())
+                                .commit();
+                        return true;
+                    case R.id.navigation_library:
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.nav_host_fragment, new LibraryFragment())
+                                .commit();
+                        return true;
+                    case R.id.navigation_search:
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.nav_host_fragment, new SearchFragment())
+                                .commit();
+                        return true;
+                    case R.id.navigation_premium:
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.nav_host_fragment, new PremiumFragment())
+                                .commit();
+                        return true;
+                }
+                return false;
+            }
+        });
+
     }
+
 
     @Override
     protected void onStart() {

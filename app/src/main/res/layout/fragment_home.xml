@@ -2,16 +2,16 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/sv_home"
     android:layout_width="match_parent"
-    android:background="@android:color/transparent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
 
     <LinearLayout
         android:id="@+id/linear_layout_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        android:paddingTop="?android:actionBarSize"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="?android:actionBarSize">
 
         <include
             android:id="@+id/recently_played_playlist"
