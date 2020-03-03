@@ -65,7 +65,7 @@
         android:contentDescription="@string/track_image"
         android:padding="@dimen/medium_dimen"
         android:scaleType="fitXY"
-        android:src="@drawable/ic_more_vert_black_24dp" />
+        android:src="@drawable/ic_favorite_border_black_24dp" />
 
     <ImageView
         android:id="@+id/iv_track_settings_item"
