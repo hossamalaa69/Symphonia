@@ -9,6 +9,7 @@ import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,15 +52,15 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsAdapte
             @Override
             public void onClick(View view) {
                 //TODO handle button clicked
-                Toast.makeText(MainActivity.this,"play",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "play", Toast.LENGTH_SHORT).show();
             }
         });
         //TODO set on click listenr for like songs in bar
-        image= view.findViewById(R.id.iv_like_track_bar);
+        image = view.findViewById(R.id.iv_like_track_bar);
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this,"added to liked playlist",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "added to liked playlist", Toast.LENGTH_SHORT).show();
             }
         });
         view.setOnClickListener(new View.OnClickListener() {
@@ -93,8 +94,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsAdapte
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-
-
         NavHostFragment navHostFragment = NavHostFragment.create(R.navigation.mobile_navigation);
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.nav_host_fragment, navHostFragment)
@@ -201,8 +200,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsAdapte
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         if (connMgr != null) {
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-            if (networkInfo != null && networkInfo.isConnectedOrConnecting())
-                return true;
+            return networkInfo != null && networkInfo.isConnectedOrConnecting();
         }
         return false;
     }

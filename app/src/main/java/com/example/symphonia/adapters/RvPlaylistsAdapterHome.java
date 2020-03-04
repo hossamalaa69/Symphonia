@@ -18,14 +18,9 @@ import java.util.Random;
 
 public class RvPlaylistsAdapterHome extends RecyclerView.Adapter<RvPlaylistsAdapterHome.Holder> {
 
+    public OnPlaylistClicked onPlaylistClicked;
     private ArrayList<Playlist> mPlaylists;
     private Context context;
-
-    public OnPlaylistClicked onPlaylistClicked;
-
-    public interface OnPlaylistClicked {
-        void OnPlaylistClickedListener(Playlist playlist);
-    }
 
     public RvPlaylistsAdapterHome(Context context, ArrayList<Playlist> list) {
         this.mPlaylists = list;
@@ -50,9 +45,15 @@ public class RvPlaylistsAdapterHome extends RecyclerView.Adapter<RvPlaylistsAdap
         return mPlaylists.size();
     }
 
+    public interface OnPlaylistClicked {
+        void OnPlaylistClickedListener(Playlist playlist);
+    }
+
     public class Holder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
 
+        // TODO delete this hard coded data
+        int[] images = {R.drawable.download, R.drawable.download1, R.drawable.images, R.drawable.images2, R.drawable.images3};
         private ImageView ivPlaylistImage;
         private TextView tvPlaylistTitle;
         private TextView tvPlaylistDescription;
@@ -66,9 +67,6 @@ public class RvPlaylistsAdapterHome extends RecyclerView.Adapter<RvPlaylistsAdap
             tvPlaylistDescription = itemView.findViewById(R.id.tv_playlist_description_home);
 
         }
-
-        // TODO delete this hard coded data
-        int[] images = {R.drawable.download, R.drawable.download1, R.drawable.images, R.drawable.images2, R.drawable.images3};
 
         public void bind(int pos) {
             // TODO add data to views

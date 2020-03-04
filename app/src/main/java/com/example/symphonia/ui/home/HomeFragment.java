@@ -25,17 +25,14 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
 
 
+    RecyclerView.LayoutManager layoutManager;
+    RvPlaylistsAdapterHome rvPlaylistsAdapterHome;
     private HomeViewModel homeViewModel;
     private RecyclerView rvRecentlyPlayed;
-
     private RecyclerView rvMadeForYou;
     private RecyclerView rvHeavyPlaylist;
     private RecyclerView rvPopularPlaylist;
     private RecyclerView rvBasedOnYourRecentlyPlayed;
-
-    RecyclerView.LayoutManager layoutManager;
-    RvPlaylistsAdapterHome rvPlaylistsAdapterHome;
-
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

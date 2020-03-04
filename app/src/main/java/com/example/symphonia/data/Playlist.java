@@ -1,7 +1,6 @@
 package com.example.symphonia.data;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 
 import java.util.ArrayList;
 
@@ -19,35 +18,35 @@ public class Playlist {
         this.tracks = tracks;
     }
 
-    public void setmPlaylistTitle(String mPlaylistTitle) {
-        this.mPlaylistTitle = mPlaylistTitle;
-    }
-
-    public void setmPlaylistDescription(String mPlaylistDescription) {
-        this.mPlaylistDescription = mPlaylistDescription;
-    }
-
-    public void setmPlaylistImage(Bitmap mPlaylistImage) {
-        this.mPlaylistImage = mPlaylistImage;
-    }
-
-    public void setTracks(ArrayList<Track> tracks) {
-        this.tracks = tracks;
-    }
-
     public String getmPlaylistTitle() {
         return mPlaylistTitle;
+    }
+
+    public void setmPlaylistTitle(String mPlaylistTitle) {
+        this.mPlaylistTitle = mPlaylistTitle;
     }
 
     public String getmPlaylistDescription() {
         return mPlaylistDescription;
     }
 
+    public void setmPlaylistDescription(String mPlaylistDescription) {
+        this.mPlaylistDescription = mPlaylistDescription;
+    }
+
     public Bitmap getmPlaylistImage() {
         return mPlaylistImage;
     }
 
+    public void setmPlaylistImage(Bitmap mPlaylistImage) {
+        this.mPlaylistImage = mPlaylistImage;
+    }
+
     public ArrayList<Track> getTracks() {
         return tracks;
+    }
+
+    public void setTracks(ArrayList<Track> tracks) {
+        this.tracks = tracks;
     }
 }

@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,12 +19,8 @@ public class RvTracksAdapterPlayActivity extends RecyclerView.Adapter<RvTracksAd
     private Context context;
     private ArrayList<Track> tracks;
     private int prevPos = -1;       //hold pos of view that is recycled
-    private int  nextPos = -1;      //hold pos of view that is visible  now
+    private int nextPos = -1;      //hold pos of view that is visible  now
     private OnItemSwitched onItemSwitched;
-
-    public interface OnItemSwitched {
-        void OnItemSwitchedListener(int pos);
-    }
 
     public RvTracksAdapterPlayActivity(Context context, ArrayList<Track> tracks) {
         this.context = context;
@@ -60,8 +55,6 @@ public class RvTracksAdapterPlayActivity extends RecyclerView.Adapter<RvTracksAd
 
     }
 
-
-
     @Override
     public void onViewAttachedToWindow(@NonNull Holder holder) {
         super.onViewAttachedToWindow(holder);
@@ -80,6 +73,10 @@ public class RvTracksAdapterPlayActivity extends RecyclerView.Adapter<RvTracksAd
     @Override
     public int getItemCount() {
         return tracks.size();
+    }
+
+    public interface OnItemSwitched {
+        void OnItemSwitchedListener(int pos);
     }
 
     public class Holder extends RecyclerView.ViewHolder {

@@ -9,6 +9,7 @@ import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,8 +39,36 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
     TextView trackTitle;
     TextView trackArtist;
     TextView playlistTitle;
+    ImageButton closeActivity;
+    ImageButton trackSettings;
+    ImageButton playBtn;
+    ImageButton nextBtn;
+    ImageButton prevBtn;
+    ImageButton hideBtn;
+    ImageButton likeBtn;
+
     int trackPos;
+    int pos;
+    Toast toast;
     private Drawable trackBackgroun;
+
+    /**
+     * gets the dominant color in a bitmap image
+     *
+     * @param bitmap
+     * @return integer refers to the dominant color
+     */
+    public static int getDominantColor(Bitmap bitmap) {
+        List<Palette.Swatch> swatchesTemp = Palette.from(bitmap).generate().getSwatches();
+        List<Palette.Swatch> swatches = new ArrayList<Palette.Swatch>(swatchesTemp);
+        Collections.sort(swatches, new Comparator<Palette.Swatch>() {
+            @Override
+            public int compare(Palette.Swatch swatch1, Palette.Swatch swatch2) {
+                return swatch2.getPopulation() - swatch1.getPopulation();
+            }
+        });
+        return swatches.size() > 0 ? swatches.get(0).getRgb() : 0;
+    }
 
     @Override
     public void OnItemSwitchedListener(int pos) {
@@ -53,6 +82,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
         attachViews();
+        addListeners();
         readDataSendByIntent();
         trackBackgroun = getResources().getDrawable(R.drawable.background);
         updateScreen();
@@ -78,6 +108,66 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
             }
         });
 
+
+    }
+
+    private void addListeners() {
+        playBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO handle btn here
+                Toast.makeText(PlayActivity.this, "play", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        nextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO handle btn here
+                Toast.makeText(PlayActivity.this, "next", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        prevBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO handle btn here
+                Toast.makeText(PlayActivity.this, "prev", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        likeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO handle btn here
+                Toast.makeText(PlayActivity.this, "added to liked", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        hideBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO handle btn here
+                Toast.makeText(PlayActivity.this, "track hidden from playlist", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        closeActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                finish();
+            }
+        });
+        trackSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO handle btn here
+                Toast.makeText(PlayActivity.this, "Settings", Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
     }
 
@@ -123,9 +213,30 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         trackArtist = findViewById(R.id.tv_track_artist);
         trackTitle = findViewById(R.id.tv_track_title_play_activity);
         playlistTitle = findViewById(R.id.tv_playlist_title_play_activity);
+        closeActivity = findViewById(R.id.iv_close_play_activity);
+        trackSettings = findViewById(R.id.iv_track_settings_play_activity);
+        playBtn = findViewById(R.id.iv_play_track_playActivity);
+        nextBtn = findViewById(R.id.iv_next_track_playActivity);
+        prevBtn = findViewById(R.id.iv_prev_track_playActivity);
+        hideBtn = findViewById(R.id.iv_hide_track_playActivity);
+        likeBtn = findViewById(R.id.iv_like_track_playActivity);
+
 
     }
 
+    /**
+     * create gradient background for track
+     *
+     * @return
+     */
+    private Drawable createBackground(int pos) {
+        int color = getDominantColor(BitmapFactory.decodeResource(getResources()
+                , tracks.get(pos).getmImageResources()));
+
+        SomeDrawable drawable = new SomeDrawable(color, Color.BLACK);
+        return drawable;
+
+    }
 
     /**
      * makes the recycler view scroll one item at a time
@@ -160,41 +271,6 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
           */
             return currentPosition;
         }
-    }
-
-    int pos;
-    Toast toast;
-
-    /**
-     * gets the dominant color in a bitmap image
-     *
-     * @param bitmap
-     * @return integer refers to the dominant color
-     */
-    public static int getDominantColor(Bitmap bitmap) {
-        List<Palette.Swatch> swatchesTemp = Palette.from(bitmap).generate().getSwatches();
-        List<Palette.Swatch> swatches = new ArrayList<Palette.Swatch>(swatchesTemp);
-        Collections.sort(swatches, new Comparator<Palette.Swatch>() {
-            @Override
-            public int compare(Palette.Swatch swatch1, Palette.Swatch swatch2) {
-                return swatch2.getPopulation() - swatch1.getPopulation();
-            }
-        });
-        return swatches.size() > 0 ? swatches.get(0).getRgb() : 0;
-    }
-
-    /**
-     * create gradient background for track
-     *
-     * @return
-     */
-    private Drawable createBackground(int pos) {
-        int color = getDominantColor(BitmapFactory.decodeResource(getResources()
-                , tracks.get(pos).getmImageResources()));
-
-        SomeDrawable drawable = new SomeDrawable(color, Color.BLACK);
-        return drawable;
-
     }
 
     /**

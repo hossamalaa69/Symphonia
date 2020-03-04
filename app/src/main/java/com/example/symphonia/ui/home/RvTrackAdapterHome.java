@@ -50,6 +50,8 @@ public class RvTrackAdapterHome extends RecyclerView.Adapter<RvTrackAdapterHome.
     public class Holder extends RecyclerView.ViewHolder {
 
 
+        // TODO delete this hard coded data
+        int[] images = {R.drawable.download, R.drawable.download1, R.drawable.images, R.drawable.images2, R.drawable.images3};
         private ImageView ivPlaylistImage;
         private TextView tvPlaylistTitle;
         private TextView tvPlaylistDescription;
@@ -70,9 +72,6 @@ public class RvTrackAdapterHome extends RecyclerView.Adapter<RvTrackAdapterHome.
                 }
             });
         }
-
-        // TODO delete this hard coded data
-        int[] images = {R.drawable.download, R.drawable.download1, R.drawable.images, R.drawable.images2, R.drawable.images3};
 
         public void bind(int pos) {
             // TODO add data to views

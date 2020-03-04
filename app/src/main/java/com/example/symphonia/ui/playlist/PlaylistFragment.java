@@ -21,18 +21,13 @@ import com.example.symphonia.data.Playlist;
  */
 public class PlaylistFragment extends Fragment {
 
+    RecyclerView.LayoutManager layoutManager;
+    RvTracksAdapterHome rvTracksAdapterHome;
     private Playlist mPlaylist;
     private ImageView playlistImage;
     private TextView playlistTitle;
     private TextView madeForUser;
-
     private RecyclerView rvTracks;
-    RecyclerView.LayoutManager layoutManager;
-    RvTracksAdapterHome rvTracksAdapterHome;
-
-    void setmPlaylist(Playlist mPlaylist) {
-        this.mPlaylist = mPlaylist;
-    }
 
     public PlaylistFragment() {
         // Required empty public constructor
@@ -41,6 +36,10 @@ public class PlaylistFragment extends Fragment {
 
     public PlaylistFragment(Playlist mPlaylist) {
         // Required empty public constructor
+        this.mPlaylist = mPlaylist;
+    }
+
+    void setmPlaylist(Playlist mPlaylist) {
         this.mPlaylist = mPlaylist;
     }
 
