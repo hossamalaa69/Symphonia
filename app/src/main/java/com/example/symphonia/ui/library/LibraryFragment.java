@@ -11,8 +11,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.symphonia.R;
+import com.google.android.material.tabs.TabLayout;
 
 public class LibraryFragment extends Fragment {
 
@@ -20,16 +22,15 @@ public class LibraryFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        libraryViewModel =
-                ViewModelProviders.of(this).get(LibraryViewModel.class);
+
         View root = inflater.inflate(R.layout.fragment_your_library, container, false);
-        final TextView textView = root.findViewById(R.id.text_library);
-        libraryViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+        LibraryPagerAdapter sectionsPagerAdapter = new LibraryPagerAdapter(getContext(), getActivity().getSupportFragmentManager());
+        ViewPager viewPager = root.findViewById(R.id.view_pager);
+        viewPager.setAdapter(sectionsPagerAdapter);
+        TabLayout tabs = root.findViewById(R.id.tabs);
+        tabs.setupWithViewPager(viewPager);
+
+
         return root;
     }
 }
