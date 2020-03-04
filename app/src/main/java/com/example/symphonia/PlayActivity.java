@@ -122,7 +122,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         rvTracks = findViewById(R.id.rv_playlist_play_activity);
         trackArtist = findViewById(R.id.tv_track_artist);
         trackTitle = findViewById(R.id.tv_track_title_play_activity);
-        playlistTitle= findViewById(R.id.tv_playlist_title_play_activity);
+        playlistTitle = findViewById(R.id.tv_playlist_title_play_activity);
 
     }
 
