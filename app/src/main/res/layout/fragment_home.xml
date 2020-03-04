@@ -3,13 +3,13 @@
     android:id="@+id/sv_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent">
+    >
 
     <LinearLayout
         android:id="@+id/linear_layout_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
+        android:background="@drawable/recycler_background"
         android:orientation="vertical"
         android:paddingTop="?android:actionBarSize">
 

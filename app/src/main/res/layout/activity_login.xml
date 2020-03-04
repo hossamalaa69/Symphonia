@@ -13,9 +13,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/email_or_username"
-        android:textStyle="bold"
         android:textColor="@color/colorWhite"
-        android:textSize="35sp" />
+        android:textSize="35sp"
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/emailInput"
@@ -29,53 +29,53 @@
         android:textStyle="bold" />
 
     <TextView
-        android:layout_marginTop="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:text="@string/password"
-        android:textStyle="bold"
         android:textColor="@color/colorWhite"
-        android:textSize="35sp" />
+        android:textSize="35sp"
+        android:textStyle="bold" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_marginTop="2dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:passwordToggleEnabled="true"
-        >
+        android:layout_marginTop="2dp"
+        app:passwordToggleEnabled="true">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:background="@drawable/edit_text_style"
             android:inputType="textPassword"
-            android:textSize="35sp"
-            android:textStyle="bold"
             android:textColor="@color/colorWhite"
-            />
+            android:textSize="35sp"
+            android:textStyle="bold" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/login"
-        android:layout_marginTop="45dp"
         android:layout_width="150dp"
         android:layout_height="55dp"
-        android:background="@drawable/btn_curved_gray"
         android:layout_gravity="center"
+        android:layout_marginTop="45dp"
+        android:background="@drawable/btn_curved_gray"
+        android:enabled="false"
         android:text="@string/log_in"
         android:textColor="@color/colorGradient2"
         android:textSize="18sp"
-        android:textStyle="bold"
-        android:enabled="false" />
+        android:textStyle="bold" />
+
     <Button
         android:id="@+id/forgetPassword"
-        android:layout_marginTop="40dp"
         android:layout_width="250dp"
         android:layout_height="30dp"
-        android:text="@string/forget_your_paswword"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
         android:background="@drawable/btn_curved_border"
+        android:text="@string/forget_your_paswword"
         android:textColor="#FFFFFF"
         android:textSize="15sp"
-        android:textStyle="bold"
-        android:layout_gravity="center" />
+        android:textStyle="bold" />
 </LinearLayout>

@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -27,18 +28,22 @@ import com.example.symphonia.ui.premium.PremiumFragment;
 import com.example.symphonia.ui.search.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity implements RvPlaylistsAdapterHome.OnPlaylistClicked, RvTracksAdapterHome.OnTrackClicked {
+import java.io.Serializable;
+import java.util.ArrayList;
 
+public class MainActivity extends AppCompatActivity implements RvPlaylistsAdapterHome.OnPlaylistClicked
+        , RvTracksAdapterHome.OnTrackClicked
+        , Serializable {
     ImageView playBarButton;
 
     @Override
-    public void OnTrackClickedListener(Track track) {
+    public void OnTrackClickedListener(final ArrayList<Track> tracks, final int pos) {
         View view = findViewById(R.id.layout_playing_bar);
         view.setVisibility(View.VISIBLE);
         TextView details = view.findViewById(R.id.tv_track_details_bar);
-        details.setText(track.getmTitle() + " . " + track.getmDescription());
+        details.setText(tracks.get(pos).getmTitle() + " . " + tracks.get(pos).getmDescription());
         ImageView image = view.findViewById(R.id.iv_track_image_bar);
-        image.setImageResource(track.getmImageResources());
+        image.setImageResource(tracks.get(pos).getmImageResources());
         image = view.findViewById(R.id.iv_play_track_bar);
         image.setImageResource(R.drawable.ic_pause_black_24dp);
         playBarButton = image;
@@ -49,6 +54,15 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsAdapte
             }
         });
         //TODO set on click listenr for like songs in bar
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, PlayActivity.class);
+                intent.putExtra(getString(R.string.playlist_send_to_playActivtiy_intent), tracks);
+                intent.putExtra(getString(R.string.curr_playing_track_play_acitivity_intent), pos);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -118,6 +132,8 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsAdapte
         //check if user online
         if (!isOnline()) {
             connectToInternet();
+        } else {
+            //TODO load data from internet here and send it to fragments
         }
     }
 
@@ -153,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsAdapte
         builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                System.exit(0);
+                Toast.makeText(MainActivity.this, getString(R.string.only_local_data_show), Toast.LENGTH_SHORT).show();
             }
         });
         AlertDialog dialog = builder.create();

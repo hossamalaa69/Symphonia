@@ -1,6 +1,8 @@
 package com.example.symphonia.data;
 
-public class Track {
+import java.io.Serializable;
+
+public class Track implements Serializable {
     //TODO complete track class
     private String mTitle;
     private String mDescription;

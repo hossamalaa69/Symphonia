@@ -24,7 +24,7 @@ public class RvTracksAdapterHome extends RecyclerView.Adapter<RvTracksAdapterHom
     public OnTrackClicked onTrackClicked;
 
     public interface OnTrackClicked {
-        void OnTrackClickedListener(Track track);
+        void OnTrackClickedListener(ArrayList<Track> tracks, int pos);
     }
 
     public RvTracksAdapterHome(Context context, ArrayList<Track> mTracks) {
@@ -86,8 +86,8 @@ public class RvTracksAdapterHome extends RecyclerView.Adapter<RvTracksAdapterHom
 
         @Override
         public void onClick(View view) {
-            onTrackClicked.OnTrackClickedListener(
-                    mTracks.get(getAdapterPosition()));
+            onTrackClicked.OnTrackClickedListener(mTracks,
+                    getAdapterPosition());
 
         }
     }

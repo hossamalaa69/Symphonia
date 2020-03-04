@@ -47,7 +47,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/large_dimen"
-                android:background="@drawable/btn_curved_green">
+                android:background="@drawable/btn_curved_green"
+                android:paddingLeft="@dimen/large_dimen"
+                android:paddingRight="@dimen/large_dimen">
 
                 <Button
                     android:id="@+id/btn_play"

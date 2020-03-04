@@ -10,8 +10,8 @@
         android:id="@+id/iv_playlist_image_home"
         android:layout_width="@dimen/image_item_size"
         android:layout_height="@dimen/image_item_size"
-        android:scaleType="fitXY"
         android:layout_margin="@dimen/medium_dimen"
+        android:scaleType="fitXY"
         tools:src="@drawable/ic_launcher_background" />
 
     <TextView
@@ -23,8 +23,8 @@
         android:layout_marginLeft="@dimen/medium_dimen"
         android:layout_marginTop="@dimen/small_dimen"
         android:ellipsize="end"
-        android:maxLines="1"
         android:inputType="text"
+        android:maxLines="1"
         android:textColor="@android:color/white"
         android:textSize="@dimen/body_size"
         tools:text="playlist name" />

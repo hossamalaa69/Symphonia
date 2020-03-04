@@ -30,4 +30,9 @@
     <string name="playlist_fragment">playlist fragment</string>
     <string name="play">Play</string>
     <string name="track_image">Track Image</string>
+    <string name="playlist_send_to_playActivtiy_intent">Playlist_Send_to_PlayActivity</string>
+    <string name="cant_read">can\'t read</string>
+    <string name="curr_playing_track_play_acitivity_intent">Currnet Playing Track</string>
+    <string name="only_local_data_show">only local data will appear</string>
+    <string name="playing_from">PLAYING FROM PLAYLIST</string>
 </resources>

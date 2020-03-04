@@ -12,4 +12,5 @@
     <dimen name="small_dimen">5dp</dimen>
     <dimen name="image_small_item_size">60dp</dimen>
     <dimen name="fram_padding_scrolling">310dp</dimen>
+    <dimen name="small_text_size">12sp</dimen>
 </resources>
