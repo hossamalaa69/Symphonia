@@ -73,8 +73,8 @@ public class HomeFragment extends Fragment {
         ArrayList<Track> tracks = new ArrayList<Track>();
 
         tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.images));
-        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.download));
-        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.download));
+        tracks.add(new Track("la la land ", "islam", "HOme", R.drawable.download));
+        tracks.add(new Track("ha ha hand ", "Hossam", "baba ma ", R.drawable.download1));
         tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.images3));
         tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.images2));
         tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.images));

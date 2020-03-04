@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,11 +21,12 @@ public class RvTracksAdapterHome extends RecyclerView.Adapter<RvTracksAdapterHom
     private ArrayList<Track> mTracks;
     private Context context;
 
-    // TODO : declare interface
-    public OnTrackClicked onTrackClicked;
+
+    private OnTrackClicked onTrackClicked;
 
     public interface OnTrackClicked {
         void OnTrackClickedListener(ArrayList<Track> tracks, int pos);
+        //TODO add functions for listeners
     }
 
     public RvTracksAdapterHome(Context context, ArrayList<Track> mTracks) {
@@ -70,7 +72,32 @@ public class RvTracksAdapterHome extends RecyclerView.Adapter<RvTracksAdapterHom
             ivTrackImage = itemView.findViewById(R.id.iv_track_image_item);
             tvTrackTitle = itemView.findViewById(R.id.tv_track_title_item);
             tvTrackDescription = itemView.findViewById(R.id.tv_track_description_item);
+            setListeners();
 
+        }
+
+        private void setListeners() {
+            ivHide.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //TODO handle hiding track, call func of interface
+                    Toast.makeText(context, "track hidden ", Toast.LENGTH_SHORT).show();
+                }
+            });
+            ivLike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //TODO handle adding to playlist, call func of interface
+                    Toast.makeText(context, "added to liked playlist ", Toast.LENGTH_SHORT).show();
+                }
+            });
+            ivSettings.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //TODO handle open settings track, call func of interface
+                    Toast.makeText(context, "open settings ", Toast.LENGTH_SHORT).show();
+                }
+            });
 
         }
 

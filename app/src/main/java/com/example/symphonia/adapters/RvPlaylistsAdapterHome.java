@@ -21,7 +21,6 @@ public class RvPlaylistsAdapterHome extends RecyclerView.Adapter<RvPlaylistsAdap
     private ArrayList<Playlist> mPlaylists;
     private Context context;
 
-    // TODO : declare interface
     public OnPlaylistClicked onPlaylistClicked;
 
     public interface OnPlaylistClicked {

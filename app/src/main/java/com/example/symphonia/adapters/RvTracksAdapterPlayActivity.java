@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,9 +19,17 @@ public class RvTracksAdapterPlayActivity extends RecyclerView.Adapter<RvTracksAd
 
     private Context context;
     private ArrayList<Track> tracks;
+    private int prevPos = -1;       //hold pos of view that is recycled
+    private int  nextPos = -1;      //hold pos of view that is visible  now
+    private OnItemSwitched onItemSwitched;
+
+    public interface OnItemSwitched {
+        void OnItemSwitchedListener(int pos);
+    }
 
     public RvTracksAdapterPlayActivity(Context context, ArrayList<Track> tracks) {
         this.context = context;
+        onItemSwitched = (OnItemSwitched) context;
         this.tracks = tracks;
     }
 
@@ -35,6 +44,37 @@ public class RvTracksAdapterPlayActivity extends RecyclerView.Adapter<RvTracksAd
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         holder.bind();
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(@NonNull Holder holder) {
+        super.onViewDetachedFromWindow(holder);
+
+        // get pos of the detached view
+        prevPos = holder.getAdapterPosition();
+
+        // check if new view is visible and the other one that was visible isn't now
+        if (nextPos - prevPos == 1 || prevPos - nextPos == 1) {
+            onItemSwitched.OnItemSwitchedListener(nextPos);
+        }
+
+    }
+
+
+
+    @Override
+    public void onViewAttachedToWindow(@NonNull Holder holder) {
+        super.onViewAttachedToWindow(holder);
+
+        // get position of attached view to update to its data
+        nextPos = holder.getAdapterPosition();
+
+    }
+
+    @Override
+    public void onViewRecycled(@NonNull Holder holder) {
+        super.onViewRecycled(holder);
+        //   Toast.makeText(context,""+holder.getAdapterPosition(),Toast.LENGTH_SHORT).show();
     }
 
     @Override

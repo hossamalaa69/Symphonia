@@ -51,9 +51,17 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsAdapte
             @Override
             public void onClick(View view) {
                 //TODO handle button clicked
+                Toast.makeText(MainActivity.this,"play",Toast.LENGTH_SHORT).show();
             }
         });
         //TODO set on click listenr for like songs in bar
+        image= view.findViewById(R.id.iv_like_track_bar);
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this,"added to liked playlist",Toast.LENGTH_SHORT).show();
+            }
+        });
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
