@@ -43,4 +43,8 @@
     <string name="create_playlist">Create playlist</string>
     <string name="add_artists">Add Artists</string>
     <string name="albums_empty_state">Your albums will appear here</string>
+    <string name="create_playlist_description">Give your playlist a name.</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="create_playlist_button">Create</string>
+    <string name="skip_playlist_name">Skip</string>
 </resources>
