@@ -18,4 +18,5 @@
     <dimen name="library_item_size">64dp</dimen>
     <dimen name="albumsTextHorizontalMargin">48dp</dimen>
     <dimen name="albumsPaddingBottom">100dp</dimen>
+    <dimen name="app_bar_height">120dp</dimen>
 </resources>

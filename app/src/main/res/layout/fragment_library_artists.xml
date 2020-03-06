@@ -10,7 +10,7 @@
     tools:context=".ui.library.LibraryArtistsFragment">
 
     <LinearLayout
-        android:id="@+id/create_artist"
+        android:id="@+id/add_artists"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
