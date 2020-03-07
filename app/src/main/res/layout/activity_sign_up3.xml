@@ -32,7 +32,6 @@
         android:text="@string/age_requirements"
         android:textColor="@color/colorWhite"
         android:textSize="18sp"
-        android:textStyle="bold"
         android:layout_marginTop="5dp"
         />
     <Button

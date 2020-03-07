@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.symphonia.MainActivity;
@@ -23,6 +25,11 @@ public class SignUp5Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up5);
+
+        TextView t1 = (TextView) findViewById(R.id.t1);
+        t1.setMovementMethod(LinkMovementMethod.getInstance());
+        TextView t2 = (TextView) findViewById(R.id.t2);
+        t2.setMovementMethod(LinkMovementMethod.getInstance());
 
         Bundle b = getIntent().getExtras();
         user = b.getString("user");
