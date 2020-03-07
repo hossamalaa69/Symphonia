@@ -26,7 +26,7 @@
         android:layout_toRightOf="@id/iv_track_image_item"
         android:ellipsize="end"
         android:maxLines="1"
-        android:padding="@dimen/medium_dimen"
+        android:padding="@dimen/small_dimen"
         android:textSize="@dimen/title_size"
         tools:text="Start Again" />
 
@@ -35,11 +35,13 @@
         style="@style/textStyleItem"
         android:layout_below="@id/tv_track_title_item"
         android:layout_alignBottom="@id/iv_track_image_item"
+        android:layout_toStartOf="@+id/iv_like_track_item"
+        android:layout_toLeftOf="@+id/iv_like_track_item"
         android:layout_toEndOf="@id/iv_track_image_item"
         android:layout_toRightOf="@id/iv_track_image_item"
-        android:paddingStart="@dimen/medium_dimen"
-        android:paddingLeft="@dimen/medium_dimen"
-        android:paddingEnd="@dimen/medium_dimen"
+        android:paddingStart="@dimen/small_dimen"
+        android:paddingLeft="@dimen/small_dimen"
+        android:paddingEnd="@dimen/small_dimen"
         android:textColor="@color/light_gray"
         android:textSize="@dimen/body_size"
         tools:text="khaled, mohamed, ali, youssef" />
