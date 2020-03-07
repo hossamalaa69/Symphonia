@@ -7,7 +7,7 @@
     android:background="@color/colorDark"
     android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".Listener_Register.SignUp5Activity">
+    tools:context=".SignUp_Process.SignUp5Activity">
 
     <TextView
         android:layout_width="wrap_content"
@@ -20,12 +20,12 @@
     <EditText
         android:id="@+id/name_input"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginTop="2dp"
         android:background="@drawable/edit_text_style"
         android:inputType="text"
         android:textColor="@color/colorWhite"
-        android:textSize="35sp"
+        android:textSize="22sp"
         />
     <TextView
         android:layout_width="wrap_content"
@@ -33,7 +33,6 @@
         android:text="@string/this_appears"
         android:textColor="@color/colorWhite"
         android:textSize="18sp"
-        android:textStyle="bold"
         android:layout_marginTop="5dp"
         />
     <Button
@@ -49,5 +48,24 @@
         android:textColor="@color/colorGradient2"
         android:textSize="18sp"
         android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/service_terms"
+        android:id="@+id/t1"
+        android:textColor="@color/colorWhite"
+        android:textSize="15sp"
+        android:layout_marginTop="15dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/privacy_policy"
+        android:id="@+id/t2"
+        android:textColor="@color/colorWhite"
+        android:textSize="15sp"
+        android:layout_marginTop="15dp"
+        />
 
 </LinearLayout>

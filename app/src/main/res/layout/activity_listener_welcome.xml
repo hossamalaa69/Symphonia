@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,28 +16,36 @@
 
     <TextView
         android:id="@+id/t1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="320dp"
+        android:layout_height="50dp"
+        android:gravity="center"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:baselineAligned="false"
         android:fontFamily="sans-serif"
         android:text="@string/millions_of_songs"
         android:textColor="#FFFFFF"
-        android:textSize="25sp"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="10sp"
+        app:autoSizeMaxTextSize="44sp"
+        app:autoSizeStepGranularity="2sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/t2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="230dp"
+        android:layout_height="50dp"
+        android:gravity="center"
         android:layout_below="@+id/t1"
         android:layout_centerHorizontal="true"
         android:fontFamily="sans-serif"
         android:paddingLeft="10dp"
         android:text="@string/free_on_symphonia"
         android:textColor="#FFFFFF"
-        android:textSize="25sp"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="10sp"
+        app:autoSizeMaxTextSize="44sp"
+        app:autoSizeStepGranularity="2sp"
         android:textStyle="bold" />
 
     <Button
@@ -46,12 +55,15 @@
         android:layout_height="55dp"
         android:layout_below="@+id/t2"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/btn_curved_green"
         android:fontFamily="sans-serif"
         android:text="@string/sign_up_free"
         android:textColor="#FFFFFF"
-        android:textSize="15sp"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="10sp"
+        app:autoSizeMaxTextSize="18sp"
+        app:autoSizeStepGranularity="1sp"
         android:textStyle="bold" />
 
     <Button
@@ -65,7 +77,10 @@
         android:fontFamily="sans-serif"
         android:text="@string/connect_with_facebook"
         android:textColor="#FFFFFF"
-        android:textSize="15sp"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="10sp"
+        app:autoSizeMaxTextSize="16sp"
+        app:autoSizeStepGranularity="1sp"
         android:textStyle="bold" />
 
     <Button
@@ -80,7 +95,10 @@
         android:onClick="openLogin"
         android:text="@string/log_in"
         android:textColor="#FFFFFF"
-        android:textSize="15sp"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="10sp"
+        app:autoSizeMaxTextSize="18sp"
+        app:autoSizeStepGranularity="1sp"
         android:textStyle="bold" />
 
 </RelativeLayout>

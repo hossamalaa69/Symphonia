@@ -7,7 +7,7 @@
     android:background="@color/colorDark"
     android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".Listener_Register.SignUp2Activity">
+    tools:context=".SignUp_Process.SignUp2Activity">
 
     <TextView
         android:layout_width="wrap_content"
@@ -26,11 +26,11 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="50dp"
             android:background="@drawable/edit_text_style"
             android:inputType="textPassword"
             android:textColor="@color/colorWhite"
-            android:textSize="35sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -40,7 +40,6 @@
         android:text="@string/use_8_characters"
         android:textColor="@color/colorWhite"
         android:textSize="18sp"
-        android:textStyle="bold"
         android:layout_marginTop="5dp"
         />
     <Button

@@ -76,4 +76,12 @@ public class LoginListenerActivity extends AppCompatActivity {
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
     }
+
+    public void openForget(View view) {
+        email = (EditText) findViewById(R.id.emailInput);
+        Intent i = new Intent(this, ForgetPasswordListener.class);
+        i.putExtra("user", email.getText().toString());
+        startActivity(i);
+    }
+
 }

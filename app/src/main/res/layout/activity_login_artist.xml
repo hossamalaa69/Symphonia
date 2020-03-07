@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_gray"
+    android:background="@color/colorDark"
     android:orientation="vertical"
     android:padding="20dp"
     tools:context=".Artist_Register.LoginArtistActivity">
@@ -20,12 +20,12 @@
     <EditText
         android:id="@+id/emailInput"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginTop="2dp"
         android:background="@drawable/edit_text_style"
         android:inputType="textEmailAddress"
         android:textColor="@color/colorWhite"
-        android:textSize="35sp"
+        android:textSize="22sp"
         android:textStyle="bold" />
 
     <TextView
@@ -46,11 +46,11 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="50dp"
             android:background="@drawable/edit_text_style"
             android:inputType="textPassword"
             android:textColor="@color/colorWhite"
-            android:textSize="35sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -64,11 +64,15 @@
         android:enabled="false"
         android:text="@string/log_in"
         android:textColor="@color/colorWhite"
-        android:textSize="18sp"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="8sp"
+        app:autoSizeMaxTextSize="20sp"
+        app:autoSizeStepGranularity="1sp"
         android:textStyle="bold" />
 
     <Button
         android:id="@+id/forgetPassword"
+        android:onClick="openForgetPassword"
         android:layout_width="250dp"
         android:layout_height="30dp"
         android:layout_gravity="center"
@@ -76,6 +80,9 @@
         android:background="@drawable/btn_curved_border"
         android:text="@string/forget_your_paswword"
         android:textColor="#FFFFFF"
-        android:textSize="15sp"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="4sp"
+        app:autoSizeMaxTextSize="16sp"
+        app:autoSizeStepGranularity="1sp"
         android:textStyle="bold" />
 </LinearLayout>

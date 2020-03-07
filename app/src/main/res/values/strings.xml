@@ -19,11 +19,11 @@
     <string name="email_or_username">Email or Username</string>
     <string name="password">Password</string>
     <string name="forget_your_paswword">Forget Your Paswword ?</string>
-    <string name="recently_played" translatable="false">Recently played</string>
-    <string name="made_for_you" translatable="false">Made for you</string>
-    <string name="heavy_playlist" translatable="false">Your heavy rotations playlist</string>
-    <string name="popular_playlist" translatable="false">Popular playlist</string>
-    <string name="based_on_your_recently_played" translatable="false">based on your recentlry played</string>
+    <string name="recently_played">Recently played</string>
+    <string name="made_for_you">Made for you</string>
+    <string name="heavy_playlist">Your heavy rotations playlist</string>
+    <string name="popular_playlist">Popular playlist</string>
+    <string name="based_on_your_recently_played">based on your recentlry played</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -68,5 +68,14 @@
     <string name="what_s_your_name">What\'s your name?</string>
     <string name="create">Create</string>
     <string name="this_appears">This appears on your Spotify profile.</string>
+    <string name="forgot_password">Forgot your password?</string>
+    <string name="we_ll_send_a_link">We\'ll send a link to your email that will log you in.</string>
+    <string name="get_link">GET LINK</string>
+    <string name="check_email">Check your email</string>
+    <string name="we_will_send">We sent you an email with a link that will log you in at</string>
 
+    <string name="service_terms">By creating an account, you agree to Symphonia\'s <a
+        href="http://www.google.com">Terms of Service</a></string>
+    <string name="privacy_policy">To learn more about how Symphonia collects, uses, shares and protects your
+        personal data please read Symphonia\'s <a href="http://www.google.com">Privacy Policy</a></string>
 </resources>

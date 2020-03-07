@@ -1,4 +1,4 @@
-package com.example.symphonia.Listener_Register;
+package com.example.symphonia.SignUp_Process;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,9 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.symphonia.MainActivity;
 import com.example.symphonia.R;
 
 import java.util.Date;
@@ -20,12 +18,16 @@ import java.util.Date;
 public class SignUp3Activity extends AppCompatActivity {
 
     private TextView dateValidity;
+    private String user;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up3);
+
+        Bundle b = getIntent().getExtras();
+        user = b.getString("user");
 
         dateValidity = (TextView) findViewById(R.id.validDate);
 
@@ -44,6 +46,7 @@ public class SignUp3Activity extends AppCompatActivity {
 
     public void openNext(View view) {
         Intent i = new Intent(this, SignUp4Activity.class);
+        i.putExtra("user", user);
         startActivity(i);
     }
     public void enableButton() {

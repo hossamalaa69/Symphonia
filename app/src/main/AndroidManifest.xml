@@ -11,46 +11,81 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".Listener_Register.SignUp5Activity"
-            android:label="@string/create_account"
-            android:parentActivityName=".Listener_Register.SignUp4Activity"
+        <activity android:name=".Artist_Register.ForgetPasswordArtist"
+            android:label="@string/forgot_password"
+            android:parentActivityName=".Artist_Register.LoginArtistActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Listener_Register.SignUp4Activity" />
+                android:value=".MainActivity" />
         </activity>
 
-        <activity
-            android:name=".Listener_Register.SignUp4Activity"
-            android:label="@string/create_account"
-            android:parentActivityName=".Listener_Register.SignUp3Activity"
+        <activity android:name=".Artist_Register.EmailCheckArtist"
+            android:label="@string/check_email"
+            android:parentActivityName=".Artist_Register.ForgetPasswordArtist"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Listener_Register.SignUp3Activity" />
+                android:value=".MainActivity" />
         </activity>
 
         <activity
-            android:name=".Listener_Register.SignUp3Activity"
-            android:label="@string/create_account"
-            android:parentActivityName=".Listener_Register.SignUp2Activity"
+            android:name=".Listener_Register.EmailCheckListener"
+            android:label="@string/check_email"
+            android:parentActivityName=".Listener_Register.ForgetPasswordListener"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Listener_Register.SignUp2Activity" />
+                android:value=".MainActivity" />
         </activity>
+
         <activity
-            android:name=".Listener_Register.SignUp2Activity"
-            android:label="@string/create_account"
-            android:parentActivityName=".Listener_Register.SignUp1Activity"
+            android:name=".Listener_Register.ForgetPasswordListener"
+            android:label="@string/forgot_password"
+            android:parentActivityName=".Listener_Register.LoginListenerActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Listener_Register.SignUp1Activity" />
+                android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".Listener_Register.SignUp1Activity"
+            android:name=".SignUp_Process.SignUp5Activity"
+            android:label="@string/create_account"
+            android:parentActivityName=".SignUp_Process.SignUp4Activity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".SignUp_Process.SignUp4Activity" />
+        </activity>
+        <activity
+            android:name=".SignUp_Process.SignUp4Activity"
+            android:label="@string/create_account"
+            android:parentActivityName=".SignUp_Process.SignUp3Activity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".SignUp_Process.SignUp3Activity" />
+        </activity>
+        <activity
+            android:name=".SignUp_Process.SignUp3Activity"
+            android:label="@string/create_account"
+            android:parentActivityName=".SignUp_Process.SignUp2Activity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".SignUp_Process.SignUp2Activity" />
+        </activity>
+        <activity
+            android:name=".SignUp_Process.SignUp2Activity"
+            android:label="@string/create_account"
+            android:parentActivityName=".SignUp_Process.SignUp1Activity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".SignUp_Process.SignUp1Activity" />
+        </activity>
+        <activity
+            android:name=".SignUp_Process.SignUp1Activity"
             android:label="@string/create_account"
             android:parentActivityName=".Listener_Register.WelcomeListenerActivity"
             android:theme="@style/AppTheme">
@@ -60,15 +95,12 @@
         </activity>
         <activity
             android:name=".Artist_Register.LoginArtistActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".StartActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
+            android:label=""
+            android:parentActivityName=".Artist_Register.WelcomeArtistActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".Artist_Register.WelcomeArtistActivity"
@@ -99,7 +131,16 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".StartActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
