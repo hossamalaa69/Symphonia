@@ -31,4 +31,10 @@
     <string name="use_8_characters">Use at least 8 characters.</string>
     <string name="what_date_of_birth">What\'s your date of birth?</string>
     <string name="age_requirements">Sorry, you don\'t meet Symphonia\'s age requirements.</string>
+    <string name="what_s_your_gender">What\'s your gender?</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="what_s_your_name">What\'s your name?</string>
+    <string name="create">Create</string>
+    <string name="this_appears">This appears on your Spotify profile.</string>
 </resources>

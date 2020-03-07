@@ -7,37 +7,30 @@
     android:background="@color/colorDark"
     android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".Listener_Register.SignUp2Activity">
+    tools:context=".Listener_Register.SignUp5Activity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/create_a_password"
+        android:text="@string/what_s_your_name"
         android:textColor="@color/colorWhite"
         android:textSize="35sp"
         android:textStyle="bold" />
 
-    <com.google.android.material.textfield.TextInputLayout
+    <EditText
+        android:id="@+id/name_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        app:passwordToggleEnabled="true">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:background="@drawable/edit_text_style"
-            android:inputType="textPassword"
-            android:textColor="@color/colorWhite"
-            android:textSize="35sp"
-            android:textStyle="bold" />
-    </com.google.android.material.textfield.TextInputLayout>
-
+        android:background="@drawable/edit_text_style"
+        android:inputType="text"
+        android:textColor="@color/colorWhite"
+        android:textSize="35sp"
+        />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/use_8_characters"
+        android:text="@string/this_appears"
         android:textColor="@color/colorWhite"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -52,7 +45,7 @@
         android:layout_marginTop="30dp"
         android:background="@drawable/btn_curved_gray"
         android:enabled="false"
-        android:text="@string/next"
+        android:text="@string/create"
         android:textColor="@color/colorGradient2"
         android:textSize="18sp"
         android:textStyle="bold" />

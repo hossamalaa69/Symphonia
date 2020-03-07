@@ -1,60 +1,55 @@
 package com.example.symphonia.Listener_Register;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.EditText;
 
 import com.example.symphonia.MainActivity;
 import com.example.symphonia.R;
 
-import java.util.Date;
+public class SignUp5Activity extends AppCompatActivity {
 
-public class SignUp3Activity extends AppCompatActivity {
-
-    private TextView dateValidity;
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    private EditText name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up3);
+        setContentView(R.layout.activity_sign_up5);
 
-        dateValidity = (TextView) findViewById(R.id.validDate);
-
-        DatePicker datePicker = findViewById(R.id.datePicker1);
-        datePicker.setMaxDate(new Date().getTime());
-        datePicker.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
-            @Override
-            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                if(year<=1999)
+        name = (EditText) findViewById(R.id.name_input);
+        name.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                if(s.length()>=1)
                     enableButton();
                 else
                     lockButton();
+            }
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
             }
         });
     }
 
     public void openNext(View view) {
-        Intent i = new Intent(this, SignUp4Activity.class);
+        Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
     }
+
     public void enableButton() {
-        dateValidity.setVisibility(View.INVISIBLE);
         Button login = (Button) findViewById(R.id.next);
         login.setEnabled(true);
         login.setBackgroundResource(R.drawable.btn_curved_white);
     }
 
     public void lockButton() {
-        dateValidity.setVisibility(View.VISIBLE);
         Button login = (Button) findViewById(R.id.next);
         login.setEnabled(false);
         login.setBackgroundResource(R.drawable.btn_curved_gray);
