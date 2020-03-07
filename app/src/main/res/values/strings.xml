@@ -19,11 +19,11 @@
     <string name="email_or_username">Email or Username</string>
     <string name="password">Password</string>
     <string name="forget_your_paswword">Forget Your Paswword ?</string>
-    <string name="recently_played" translatable="false">Recently played</string>
-    <string name="made_for_you" translatable="false">Made for you</string>
-    <string name="heavy_playlist" translatable="false">Your heavy rotations playlist</string>
-    <string name="popular_playlist" translatable="false">Popular playlist</string>
-    <string name="based_on_your_recently_played" translatable="false">based on your recentlry played</string>
+    <string name="recently_played">Recently played</string>
+    <string name="made_for_you">Made for you</string>
+    <string name="heavy_playlist">Your heavy rotations playlist</string>
+    <string name="popular_playlist">Popular playlist</string>
+    <string name="based_on_your_recently_played">based on your recentlry played</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

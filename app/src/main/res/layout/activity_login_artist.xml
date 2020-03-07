@@ -64,7 +64,10 @@
         android:enabled="false"
         android:text="@string/log_in"
         android:textColor="@color/colorWhite"
-        android:textSize="18sp"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="8sp"
+        app:autoSizeMaxTextSize="20sp"
+        app:autoSizeStepGranularity="1sp"
         android:textStyle="bold" />
 
     <Button
@@ -76,6 +79,9 @@
         android:background="@drawable/btn_curved_border"
         android:text="@string/forget_your_paswword"
         android:textColor="#FFFFFF"
-        android:textSize="15sp"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="4sp"
+        app:autoSizeMaxTextSize="16sp"
+        app:autoSizeStepGranularity="1sp"
         android:textStyle="bold" />
 </LinearLayout>
