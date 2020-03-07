@@ -20,13 +20,11 @@ public class LibraryFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_your_library, container, false);
-        LibraryPagerAdapter sectionsPagerAdapter = new LibraryPagerAdapter(getContext(), getActivity().getSupportFragmentManager());
+        LibraryPagerAdapter sectionsPagerAdapter = new LibraryPagerAdapter(getContext(), getChildFragmentManager());
         ViewPager viewPager = root.findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = root.findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
-
-
         return root;
     }
 }

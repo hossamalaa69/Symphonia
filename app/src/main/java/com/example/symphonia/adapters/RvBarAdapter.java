@@ -69,6 +69,7 @@ public class RvBarAdapter extends RecyclerView.Adapter<RvBarAdapter.BarHolder> {
 
     public interface ItemInterface {
         void OnItemSwitchedListener(int pos);
+
         void OnItemClickedListener(ArrayList<Track> tracks, int adapterPosition);
     }
 
@@ -83,11 +84,12 @@ public class RvBarAdapter extends RecyclerView.Adapter<RvBarAdapter.BarHolder> {
 
         @Override
         public void onClick(View view) {
-            itemInterface.OnItemClickedListener(tracks,getAdapterPosition());
+            itemInterface.OnItemClickedListener(tracks, getAdapterPosition());
         }
 
         public void bind() {
             trackDetails.setText(tracks.get(getAdapterPosition()).getmTitle()
+                    .concat(" ")
                     .concat(tracks.get(getAdapterPosition()).getmDescription()));
         }
     }

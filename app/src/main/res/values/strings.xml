@@ -11,7 +11,7 @@
     <string name="you_are_not_online">you are not online</string>
     <string name="connect">Connect</string>
     <string name="cancel">Cancel</string>
-    <string name="millions_of_songs">Millions of songs.</string>
+    <string name="millions_of_songs">Listen To Millions of songs.</string>
     <string name="free_on_symphonia">Free on Symphonia.</string>
     <string name="sign_up_free">SIGN UP FREE</string>
     <string name="connect_with_facebook">CONTINUE WITH FACEBOOK</string>
@@ -40,4 +40,27 @@
     <string name="library_tab_playlists">Playlists</string>
     <string name="library_tab_artists">Artists</string>
     <string name="library_tab_albums">Albums</string>
+    <string name="create_playlist">Create playlist</string>
+    <string name="add_artists">Add Artists</string>
+    <string name="albums_empty_state">Your albums will appear here</string>
+    <string name="create_playlist_description">Give your playlist a name.</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="create_playlist_button">Create</string>
+    <string name="skip_playlist_name">Skip</string>
+
+    <string name="title_activity_add_artists">Choose more artists you like.</string>
+    <string name="done_button">Done</string>
+    <string name="welcome_to_symphonia">Welcome To Symphonia</string>
+    <string name="listener">Listener</string>
+    <string name="artist">Artist</string>
+    <string name="share_million_of_songs">Share Your Songs</string>
+    <string name="create_account">Create Account</string>
+    <string name="what_s_your_email">What\'s your email?</string>
+    <string name="confirm_this_email">You\'ll need to confirm this email later.</string>
+    <string name="next">Next</string>
+    <string name="create_a_password">Create a password</string>
+    <string name="use_8_characters">Use at least 8 characters.</string>
+    <string name="what_date_of_birth">What\'s your date of birth?</string>
+    <string name="age_requirements">Sorry, you don\'t meet Symphonia\'s age requirements.</string>
+
 </resources>

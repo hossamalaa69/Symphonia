@@ -3,4 +3,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.library.LibraryAlbumsFragment" />
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimary"
+    tools:context=".ui.library.LibraryAlbumsFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_albums"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toBottomOf="@+id/create_playlist" />
+
+    <TextView
+        android:id="@+id/albums_empty_state"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/albumsTextHorizontalMargin"
+        android:layout_marginRight="@dimen/albumsTextHorizontalMargin"
+        android:paddingBottom="@dimen/albumsPaddingBottom"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:text="@string/albums_empty_state"
+        android:textStyle="bold"
+        android:textAppearance="?android:textAppearanceLarge"
+        />
+
+</FrameLayout>

@@ -7,7 +7,7 @@
     android:background="@color/dark_gray"
     android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".LoginActivity">
+    tools:context=".Listener_Register.LoginListenerActivity">
 
     <TextView
         android:layout_width="wrap_content"
@@ -56,6 +56,7 @@
 
     <Button
         android:id="@+id/login"
+        android:onClick="openHome"
         android:layout_width="150dp"
         android:layout_height="55dp"
         android:layout_gravity="center"

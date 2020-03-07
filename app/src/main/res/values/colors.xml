@@ -2,14 +2,18 @@
 <resources>
     <color name="colorPrimary">#121212</color>
     <color name="light_gray">#b3b3b3</color>
-    <color name="dark_gray">#212121</color>
+    <color name="dark_gray">#222327</color>
     <color name="colorPrimaryDark">#121212</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorGreen">#1DB954</color>
+    <color name="colorGreenDark">#28821C</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorDark">#101010</color>
     <color name="colorGradient1">#404040</color>
     <color name="colorGradient2">#000000</color>
     <color name="colorGray">#626567</color>
+    <color name="colorRed">#DC0846</color>
+    <color name="colorRedDark">#A52F52</color>
     <color name="libraryTabsTextColor">#8DFFFFFF</color>
+    <color name="addImageBackground">#282828</color>
 </resources>

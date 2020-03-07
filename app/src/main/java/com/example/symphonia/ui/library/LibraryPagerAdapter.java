@@ -27,9 +27,11 @@ public class LibraryPagerAdapter extends FragmentPagerAdapter {
             return new LibraryPlaylistsFragment();
         } else if (position == 1) {
             return new LibraryArtistsFragment();
-        } else {
+        } else if(position == 2){
             return new LibraryAlbumsFragment();
         }
+        else
+            return new LibraryPlaylistsFragment();
     }
 
     @Nullable

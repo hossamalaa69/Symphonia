@@ -68,17 +68,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsAdapte
         View view = findViewById(R.id.layout_playing_bar);
         view.setVisibility(View.VISIBLE);
 
-        // initialize recycler view of bar
-        rvBar = view.findViewById(R.id.rv_bar_main_activity);
-        layoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
-        rvBar.setLayoutManager(layoutManager);
-        barAdapter = new RvBarAdapter(this, tracks);
-        rvBar.setAdapter(barAdapter);
-        rvBar.setHasFixedSize(true);
-
-        // add recycler to snap to control scroll one item at a time
-        LinearSnapHelper linearSnapHelper = new SnapHelperOneByOne();
-        linearSnapHelper.attachToRecyclerView(rvBar);
 
         // update date of bar
         ImageView image = view.findViewById(R.id.iv_track_image_bar);
@@ -111,11 +100,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsAdapte
         });
     }
 
-
-    private void attachViews() {
-        rvBar = findViewById(R.id.rv_bar_main_activity);
-    }
-
     @Override
     public void OnPlaylistClickedListener(Playlist playlist) {
         getSupportFragmentManager().beginTransaction().replace(
@@ -127,6 +111,25 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsAdapte
         // hide setting button
         ImageView imageView = findViewById(R.id.iv_setting_home);
         imageView.setVisibility(View.GONE);
+
+        // add tracks of playlist to play bar recycler view
+        barAdapter = new RvBarAdapter(this, playlist.getTracks());
+        rvBar.setAdapter(barAdapter);
+
+    }
+
+
+    private void attachViews() {
+        rvBar = findViewById(R.id.rv_bar_main_activity);
+        // add recycler to snap to control scroll one item at a time
+        LinearSnapHelper linearSnapHelper = new SnapHelperOneByOne();
+        linearSnapHelper.attachToRecyclerView(rvBar);
+
+        layoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
+        rvBar.setLayoutManager(layoutManager);
+        rvBar.setHasFixedSize(true);
+
+
     }
 
     @Override

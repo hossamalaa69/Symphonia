@@ -16,4 +16,8 @@
     <dimen name="libraryTitleSize">32sp</dimen>
     <dimen name="libraryTabLayoutMargin">4dp</dimen>
     <dimen name="xlarge_dimen">20dp</dimen>
+    <dimen name="library_item_size">64dp</dimen>
+    <dimen name="albumsTextHorizontalMargin">48dp</dimen>
+    <dimen name="albumsPaddingBottom">100dp</dimen>
+    <dimen name="app_bar_height">120dp</dimen>
 </resources>
