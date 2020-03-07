@@ -11,7 +11,7 @@
     <string name="you_are_not_online">you are not online</string>
     <string name="connect">Connect</string>
     <string name="cancel">Cancel</string>
-    <string name="millions_of_songs">Millions of songs.</string>
+    <string name="millions_of_songs">Listen To Millions of songs.</string>
     <string name="free_on_symphonia">Free on Symphonia.</string>
     <string name="sign_up_free">SIGN UP FREE</string>
     <string name="connect_with_facebook">CONTINUE WITH FACEBOOK</string>
@@ -50,5 +50,9 @@
 
     <string name="title_activity_add_artists">Choose more artists you like.</string>
     <string name="done_button">Done</string>
+    <string name="welcome_to_symphonia">Welcome To Symphonia</string>
+    <string name="listener">Listener</string>
+    <string name="artist">Artist</string>
+    <string name="share_million_of_songs">Share Your Songs</string>
 
 </resources>

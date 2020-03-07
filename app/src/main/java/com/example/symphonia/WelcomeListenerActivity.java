@@ -6,16 +6,16 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class WelcomeActivity extends AppCompatActivity {
+public class WelcomeListenerActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome);
+        setContentView(R.layout.activity_listener_welcome);
     }
 
     public void openLogin(View view) {
-        Intent i = new Intent(this, LoginActivity.class);
+        Intent i = new Intent(this, LoginListenerActivity.class);
         startActivity(i);
     }
 

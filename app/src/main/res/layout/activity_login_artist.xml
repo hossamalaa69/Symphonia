@@ -7,7 +7,7 @@
     android:background="@color/dark_gray"
     android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".LoginActivity">
+    tools:context=".LoginArtistActivity">
 
     <TextView
         android:layout_width="wrap_content"

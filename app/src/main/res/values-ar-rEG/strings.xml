@@ -20,4 +20,7 @@
     <string name="email_or_username">البريد الإلكتروني أو اسم المستخدم</string>
     <string name="password">كلمة السر</string>
     <string name="forget_your_paswword">هل نسيت كلمة السر؟</string>
+    <string name="welcome_to_symphonia">Welcome To Symphonia</string>
+    <string name="listener">Listener</string>
+    <string name="artist">Artist</string>
 </resources>
