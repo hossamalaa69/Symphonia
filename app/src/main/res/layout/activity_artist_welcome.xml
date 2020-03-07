@@ -50,6 +50,7 @@
 
     <Button
         android:id="@+id/signup"
+        android:onClick="openSignUp"
         android:layout_width="300dp"
         android:layout_height="55dp"
         android:layout_below="@+id/t2"
@@ -61,7 +62,7 @@
         android:textColor="#FFFFFF"
         app:autoSizeTextType="uniform"
         app:autoSizeMinTextSize="10sp"
-        app:autoSizeMaxTextSize="20sp"
+        app:autoSizeMaxTextSize="18sp"
         app:autoSizeStepGranularity="1sp"
         android:textStyle="bold" />
 
@@ -78,7 +79,7 @@
         android:textColor="#FFFFFF"
         app:autoSizeTextType="uniform"
         app:autoSizeMinTextSize="10sp"
-        app:autoSizeMaxTextSize="18sp"
+        app:autoSizeMaxTextSize="16sp"
         app:autoSizeStepGranularity="1sp"
         android:textStyle="bold" />
 

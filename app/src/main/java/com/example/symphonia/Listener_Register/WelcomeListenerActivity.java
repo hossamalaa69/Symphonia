@@ -7,6 +7,7 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.symphonia.R;
+import com.example.symphonia.SignUp_Process.SignUp1Activity;
 
 public class WelcomeListenerActivity extends AppCompatActivity {
 
@@ -23,6 +24,7 @@ public class WelcomeListenerActivity extends AppCompatActivity {
 
     public void openSignUp1(View view) {
         Intent i = new Intent(this, SignUp1Activity.class);
+        i.putExtra("user", "Listener");
         startActivity(i);
     }
 }
