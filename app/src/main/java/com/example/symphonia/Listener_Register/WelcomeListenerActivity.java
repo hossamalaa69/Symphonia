@@ -1,10 +1,12 @@
-package com.example.symphonia;
+package com.example.symphonia.Listener_Register;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.symphonia.R;
 
 public class WelcomeListenerActivity extends AppCompatActivity {
 
@@ -19,4 +21,8 @@ public class WelcomeListenerActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    public void openSignUp1(View view) {
+        Intent i = new Intent(this, SignUp1Activity.class);
+        startActivity(i);
+    }
 }

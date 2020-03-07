@@ -1,10 +1,12 @@
-package com.example.symphonia;
+package com.example.symphonia.Artist_Register;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import com.example.symphonia.R;
 
 public class WelcomeArtistActivity extends AppCompatActivity {
 

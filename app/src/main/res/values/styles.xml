@@ -43,5 +43,8 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="MyDatePicker" parent="@android:style/Widget.DeviceDefault.DatePicker">
+        <item name="android:textColorPrimary">@color/colorWhite</item>
+    </style>
 
 </resources>

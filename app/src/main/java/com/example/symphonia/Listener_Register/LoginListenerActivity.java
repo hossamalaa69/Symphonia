@@ -1,13 +1,18 @@
-package com.example.symphonia;
+package com.example.symphonia.Listener_Register;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.symphonia.MainActivity;
+import com.example.symphonia.R;
 
 public class LoginListenerActivity extends AppCompatActivity {
 
@@ -65,5 +70,10 @@ public class LoginListenerActivity extends AppCompatActivity {
         Button login = (Button) findViewById(R.id.login);
         login.setEnabled(false);
         login.setBackgroundResource(R.drawable.btn_curved_gray);
+    }
+
+    public void openHome(View view) {
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
     }
 }

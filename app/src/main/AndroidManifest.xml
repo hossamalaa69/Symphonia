@@ -11,9 +11,38 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginArtistActivity" android:theme="@style/AppTheme.NoActionBar">
 
+        <activity android:name=".Listener_Register.SignUp3Activity"
+            android:label="@string/create_account"
+            android:parentActivityName=".Listener_Register.SignUp2Activity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Listener_Register.SignUp2Activity" />
         </activity>
+
+        <activity
+            android:name=".Listener_Register.SignUp2Activity"
+            android:label="@string/create_account"
+            android:parentActivityName=".Listener_Register.SignUp1Activity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Listener_Register.SignUp1Activity" />
+        </activity>
+
+        <activity
+            android:name=".Listener_Register.SignUp1Activity"
+            android:label="@string/create_account"
+            android:parentActivityName=".Listener_Register.WelcomeListenerActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Listener_Register.WelcomeListenerActivity" />
+        </activity>
+        <activity
+            android:name=".Artist_Register.LoginArtistActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".StartActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -23,15 +52,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name=".WelcomeArtistActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
+            android:name=".Artist_Register.WelcomeArtistActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".WelcomeListenerActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
+            android:name=".Listener_Register.WelcomeListenerActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AddArtistsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -43,9 +69,9 @@
             android:name=".PlayActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".LoginListenerActivity"
+            android:name=".Listener_Register.LoginListenerActivity"
             android:label=""
-            android:parentActivityName=".WelcomeListenerActivity"
+            android:parentActivityName=".Listener_Register.WelcomeListenerActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

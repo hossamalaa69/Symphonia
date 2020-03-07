@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.symphonia.Artist_Register.WelcomeArtistActivity;
+import com.example.symphonia.Listener_Register.WelcomeListenerActivity;
+
 public class StartActivity extends AppCompatActivity {
 
     @Override

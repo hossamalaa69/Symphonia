@@ -1,4 +1,4 @@
-package com.example.symphonia;
+package com.example.symphonia.Artist_Register;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.symphonia.R;
 
 public class LoginArtistActivity extends AppCompatActivity {
 
