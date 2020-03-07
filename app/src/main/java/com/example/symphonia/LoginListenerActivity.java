@@ -11,15 +11,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginListenerActivity extends AppCompatActivity {
 
+    private EditText email;
+    private EditText password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_listener);
 
-        EditText email = (EditText) findViewById(R.id.emailInput);
+        email = (EditText) findViewById(R.id.emailInput);
         email.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
-                final EditText password2 = (EditText) findViewById(R.id.password);
+                EditText password2 = (EditText) findViewById(R.id.password);
                 if(password2.getText().length()>=8 && s.length()>=1) {
                     enableButton();
                 }
@@ -34,10 +36,10 @@ public class LoginListenerActivity extends AppCompatActivity {
             }
         });
 
-        EditText password = (EditText) findViewById(R.id.password);
-        email.addTextChangedListener(new TextWatcher() {
+        password = (EditText) findViewById(R.id.password);
+        password.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
-                final EditText email2 = (EditText) findViewById(R.id.emailInput);
+                EditText email2 = (EditText) findViewById(R.id.emailInput);
                 if(email2.getText().length()>=1 && s.length()>=8) {
                     enableButton();
                 }

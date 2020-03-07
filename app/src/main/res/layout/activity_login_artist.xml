@@ -63,7 +63,7 @@
         android:background="@drawable/btn_curved_gray"
         android:enabled="false"
         android:text="@string/log_in"
-        android:textColor="@color/colorGradient2"
+        android:textColor="@color/colorWhite"
         android:textSize="18sp"
         android:textStyle="bold" />
 
