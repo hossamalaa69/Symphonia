@@ -15,20 +15,12 @@
         android:scaleType="fitXY"
         tools:src="@drawable/images2" />
 
-
-    <TextView
-
-        android:id="@+id/tv_track_details_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@id/iv_track_image_bar"
-        android:layout_toRightOf="@id/iv_track_image_bar"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:padding="@dimen/semi_large_dimen"
-        android:textColor="@android:color/white"
-        tools:text="@string/play" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_bar_main_activity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@id/iv_like_track_bar"
+        android:layout_toRightOf="@id/iv_track_image_bar" />
 
     <ImageView
         android:id="@+id/iv_like_track_bar"

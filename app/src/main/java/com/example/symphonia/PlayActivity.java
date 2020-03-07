@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.symphonia.Helpers.SnapHelperOneByOne;
 import com.example.symphonia.adapters.RvTracksAdapterPlayActivity;
 import com.example.symphonia.data.Track;
 
@@ -96,18 +97,9 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         //TODO set playlist title
         //  playlistTitle.setText(tracks.get(trackPos).getPlaylistName());
 
-        // attach the recycler view to the snapHelper
+        // add the recycler view to the snapHelper
         LinearSnapHelper linearSnapHelper = new SnapHelperOneByOne();
         linearSnapHelper.attachToRecyclerView(rvTracks);
-        rvTracks.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                //    Toast.makeText(PlayActivity.this,""+ layoutManager.getPosition(getCurrentFocus()) ,Toast.LENGTH_SHORT).show();
-            }
-        });
-
 
     }
 
@@ -236,41 +228,6 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         SomeDrawable drawable = new SomeDrawable(color, Color.BLACK);
         return drawable;
 
-    }
-
-    /**
-     * makes the recycler view scroll one item at a time
-     */
-    private class SnapHelperOneByOne extends LinearSnapHelper {
-
-        @Override
-        public int findTargetSnapPosition(RecyclerView.LayoutManager layoutManager, int velocityX, int velocityY) {
-
-            if (!(layoutManager instanceof RecyclerView.SmoothScroller.ScrollVectorProvider)) {
-                return RecyclerView.NO_POSITION;
-            }
-
-            final View currentView = findSnapView(layoutManager);
-
-            if (currentView == null) {
-                return RecyclerView.NO_POSITION;
-            }
-
-            final int currentPosition = layoutManager.getPosition(currentView);
-
-            if (currentPosition == RecyclerView.NO_POSITION) {
-                return RecyclerView.NO_POSITION;
-            }
-            if (toast != null) {
-                toast.cancel();
-            }
-
-            /*  toast= Toast.makeText(PlayActivity.this
-                    ,Integer.toHexString(getDominantColor( BitmapFactory.decodeResource(getResources(),R.drawable.download1)))+"",Toast.LENGTH_SHORT);
-            toast.show();
-          */
-            return currentPosition;
-        }
     }
 
     /**

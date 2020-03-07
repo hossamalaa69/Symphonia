@@ -9,7 +9,6 @@ import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +16,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.symphonia.Helpers.SnapHelperOneByOne;
+import com.example.symphonia.adapters.RvBarAdapter;
 import com.example.symphonia.adapters.RvPlaylistsAdapterHome;
 import com.example.symphonia.adapters.RvTracksAdapterHome;
 import com.example.symphonia.data.Playlist;
@@ -34,15 +38,49 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements RvPlaylistsAdapterHome.OnPlaylistClicked
         , RvTracksAdapterHome.OnTrackClicked
-        , Serializable {
-    ImageView playBarButton;
+        , RvBarAdapter.ItemInterface, Serializable {
+    private ImageView playBarButton;
+    private RecyclerView rvBar;
+    private RvBarAdapter barAdapter;
+    RecyclerView.LayoutManager layoutManager;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // initialize bottom navigation view
+        initBottomNavView();
+
+        // attach views
+        attachViews();
+    }
+
+    @Override
+    public void OnItemSwitchedListener(int pos) {
+        //TODO handle change track here
+        Toast.makeText(this, "new track", Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     public void OnTrackClickedListener(final ArrayList<Track> tracks, final int pos) {
+        //TODO set on click listenr for like songs in bar
         View view = findViewById(R.id.layout_playing_bar);
         view.setVisibility(View.VISIBLE);
-        TextView details = view.findViewById(R.id.tv_track_details_bar);
-        details.setText(tracks.get(pos).getmTitle() + " . " + tracks.get(pos).getmDescription());
+
+        // initialize recycler view of bar
+        rvBar = view.findViewById(R.id.rv_bar_main_activity);
+        layoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
+        rvBar.setLayoutManager(layoutManager);
+        barAdapter = new RvBarAdapter(this, tracks);
+        rvBar.setAdapter(barAdapter);
+        rvBar.setHasFixedSize(true);
+
+        // add recycler to snap to control scroll one item at a time
+        LinearSnapHelper linearSnapHelper = new SnapHelperOneByOne();
+        linearSnapHelper.attachToRecyclerView(rvBar);
+
+        // update date of bar
         ImageView image = view.findViewById(R.id.iv_track_image_bar);
         image.setImageResource(tracks.get(pos).getmImageResources());
         image = view.findViewById(R.id.iv_play_track_bar);
@@ -55,7 +93,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsAdapte
                 Toast.makeText(MainActivity.this, "play", Toast.LENGTH_SHORT).show();
             }
         });
-        //TODO set on click listenr for like songs in bar
         image = view.findViewById(R.id.iv_like_track_bar);
         image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +111,11 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsAdapte
         });
     }
 
+
+    private void attachViews() {
+        rvBar = findViewById(R.id.rv_bar_main_activity);
+    }
+
     @Override
     public void OnPlaylistClickedListener(Playlist playlist) {
         getSupportFragmentManager().beginTransaction().replace(
@@ -88,11 +130,16 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsAdapte
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public void OnItemClickedListener(ArrayList<Track> tracks, int pos) {
+        Intent intent = new Intent(MainActivity.this, PlayActivity.class);
+        intent.putExtra(getString(R.string.playlist_send_to_playActivtiy_intent), tracks);
+        intent.putExtra(getString(R.string.curr_playing_track_play_acitivity_intent), pos);
+        startActivity(intent);
+    }
+
+    private void initBottomNavView() {
         BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
+
         // menu should be considered as top level destinations.
         NavHostFragment navHostFragment = NavHostFragment.create(R.navigation.mobile_navigation);
         getSupportFragmentManager().beginTransaction()

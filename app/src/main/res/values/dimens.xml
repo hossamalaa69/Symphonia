@@ -15,4 +15,5 @@
     <dimen name="small_text_size">12sp</dimen>
     <dimen name="libraryTitleSize">32sp</dimen>
     <dimen name="libraryTabLayoutMargin">4dp</dimen>
+    <dimen name="xlarge_dimen">20dp</dimen>
 </resources>
