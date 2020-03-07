@@ -68,5 +68,10 @@
     <string name="what_s_your_name">What\'s your name?</string>
     <string name="create">Create</string>
     <string name="this_appears">This appears on your Spotify profile.</string>
+    <string name="forgot_password">Forgot your password?</string>
+    <string name="we_ll_send_a_link">We\'ll send a link to your email that will log you in.</string>
+    <string name="get_link">GET LINK</string>
+    <string name="check_email">Check your email</string>
+    <string name="we_will_send">We sent you an email with a link that will log you in at</string>
 
 </resources>

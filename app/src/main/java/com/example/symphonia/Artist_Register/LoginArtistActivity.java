@@ -2,12 +2,15 @@ package com.example.symphonia.Artist_Register;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.symphonia.Listener_Register.ForgetPasswordListener;
 import com.example.symphonia.R;
 
 public class LoginArtistActivity extends AppCompatActivity {
@@ -68,4 +71,11 @@ public class LoginArtistActivity extends AppCompatActivity {
             login.setEnabled(false);
             login.setBackgroundResource(R.drawable.btn_curved_gray);
         }
-    }
+
+        public void openForgetPassword(View view) {
+            email = (EditText) findViewById(R.id.emailInput);
+            Intent i = new Intent(this, ForgetPasswordListener.class);
+            i.putExtra("user", email.getText().toString());
+            startActivity(i);
+        }
+}
