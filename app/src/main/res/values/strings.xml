@@ -78,4 +78,9 @@
         href="http://www.google.com">Terms of Service</a></string>
     <string name="privacy_policy">To learn more about how Symphonia collects, uses, shares and protects your
         personal data please read Symphonia\'s <a href="http://www.google.com">Privacy Policy</a></string>
+
+    <string name="search">Search</string>
+    <string name="browse_all">Browse all</string>
+    <string name="your_top_genres">Your top genres</string>
+    <string name="Artists_songs_albums_search">Artists,songs or albums</string>
 </resources>

@@ -1,18 +1,17 @@
 package com.example.symphonia;
 
 import android.os.Bundle;
-
-import com.example.symphonia.adapters.GridSpacingItemDecoration;
-import com.example.symphonia.adapters.RvGridArtistsAdapter;
-import com.example.symphonia.data.Artist;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.View;
-import android.widget.Button;
+import com.example.symphonia.adapters.GridSpacingItemDecoration;
+import com.example.symphonia.adapters.RvGridArtistsAdapter;
+import com.example.symphonia.data.Artist;
 
 import java.util.ArrayList;
 

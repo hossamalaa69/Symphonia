@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsAdapte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         // initialize bottom navigation view
         initBottomNavView();
 
