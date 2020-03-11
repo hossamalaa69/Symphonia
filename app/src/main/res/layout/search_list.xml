@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/list_search_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorDark"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/recent_searches"
+        android:id="@+id/recent_searches_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_search_layout"/>
+
+    <LinearLayout
+        android:id="@+id/text_search_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="#595959"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/img_arrow_left"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical"
+            android:background="#595959"
+            android:padding="4dp"
+            android:src="@mipmap/keyboard_arrow_left_foreground"
+            android:visibility="invisible" />
+
+
+        <EditText
+            android:id="@+id/search_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="2dp"
+            android:background="#595959"
+            android:cursorVisible="true"
+            android:gravity="center_vertical"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:textColor="@color/colorWhite"
+            android:textCursorDrawable="@color/colorGreen"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/search_list_text"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="@string/search"
+        android:textColor="@color/colorWhite"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/find_music_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:padding="4dp"
+        android:text="Find the music you love"
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/find_music_text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/find_music_text"
+        android:layout_centerHorizontal="true"
+        android:padding="4dp"
+        android:text="Search for artists, songs, playlists, and more"
+        android:textColor="@color/colorWhite"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/img_best_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/find_music_text"
+        android:layout_centerHorizontal="true"
+        android:padding="4dp"
+        android:src="@mipmap/big_search_foreground" />
+
+    <FrameLayout
+        android:id="@+id/frame_recycler_list_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_search_layout">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_list_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+    </FrameLayout>
+
+    <include
+        android:id="@+id/search_list_filter_layout"
+        layout="@layout/search_list_filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/frame_recycler_list_search"
+        android:visibility="gone" />
+
+
+</RelativeLayout>

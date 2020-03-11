@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorDark">
+
+    <TextView
+        android:id="@+id/tv_recent_searches"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="Recent searches"
+        android:textColor="@color/colorWhite"
+        android:textSize="24sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_recent_searches"
+        android:id="@+id/recycler_recent_searches"/>
+    <TextView
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_clear_recent_searches"
+        android:layout_below="@+id/recycler_recent_searches"
+        android:text="Clear recent searches"
+        android:textColor="#bfbfbf"
+        android:textSize="18sp"/>
+</RelativeLayout>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/search_list_filter"
+    android:paddingLeft="12dp">
+
+    <TextView
+        android:id="@+id/tv_serch_artists"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="See all artists"
+        android:gravity="center_vertical"
+        android:textColor="@color/colorWhite"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"/>
+
+    <TextView
+        android:id="@+id/tv_serch_songs"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="See all songs"
+        android:gravity="center_vertical"
+        android:textColor="@color/colorWhite"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"/>
+
+    <TextView
+        android:id="@+id/tv_serch_playlists"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="See all playlists"
+        android:gravity="center_vertical"
+        android:textColor="@color/colorWhite"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"/>
+
+    <TextView
+        android:id="@+id/tv_serch_albums"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="See all albums"
+        android:gravity="center_vertical"
+        android:textColor="@color/colorWhite"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"/>
+
+    <TextView
+        android:id="@+id/tv_serch_genres"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="See all genres &#38; modes"
+        android:gravity="center_vertical"
+        android:textColor="@color/colorWhite"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"/>
+
+    <TextView
+        android:id="@+id/tv_serch_profiles"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="See all profiles"
+        android:gravity="center_vertical"
+        android:textColor="@color/colorWhite"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"/>
+
+</LinearLayout>

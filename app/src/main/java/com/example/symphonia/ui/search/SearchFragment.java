@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +25,15 @@ import java.util.ArrayList;
 
 public class SearchFragment extends Fragment {
 
+    private View.OnClickListener listener=new View.OnClickListener(){
+        @Override
+        public void onClick(View v){
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.main_search_view,new SearchListFragment()) // Add this transaction to the back stack (name is an optional name for this back stack state, or null).
+                    .addToBackStack(null)
+                    .commit();
+        }
+    };
 
 
 
@@ -44,9 +54,8 @@ public class SearchFragment extends Fragment {
             }
         });
 
-
-
-
+        RelativeLayout RL=(RelativeLayout)root.findViewById(R.id.send_to_serchlist);
+        RL.setOnClickListener(listener);
 
         ArrayList<Container> Genre=new ArrayList<Container>();
         Genre.add(new Container("string",R.drawable.download));
