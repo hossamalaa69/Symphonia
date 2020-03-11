@@ -8,7 +8,7 @@
     android:background="@drawable/background2"
     android:orientation="vertical"
     android:padding="15dp"
-    tools:context=".Artist_Register.EmailCheckArtist">
+    tools:context=".Activities.ArtistRegister.EmailCheckArtistActivity">
 
 
     <TextView

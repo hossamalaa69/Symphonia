@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".Listener_Register.WelcomeListenerActivity">
+    tools:context=".Activities.ListenerRegister.WelcomeListenerActivity">
 
     <ImageView
         android:layout_width="100dp"

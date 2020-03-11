@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:background="@color/colorPrimary"
-    tools:context=".ui.library.LibraryArtistsFragment">
+    tools:context=".Fragments_and_models.library.LibraryArtistsFragment">
 
     <LinearLayout
         android:id="@+id/add_artists"

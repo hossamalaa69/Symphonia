@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/create_playlist_background"
-    tools:context=".CreatePlaylistActivity">
+    tools:context=".Activities.UserUI.CreatePlaylistActivity">
 
     <TextView
         android:id="@+id/textView"

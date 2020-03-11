@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:background="@color/colorPrimary"
-    tools:context=".ui.library.LibraryPlaylistsFragment">
+    tools:context=".Fragments_and_models.library.LibraryPlaylistsFragment">
 
     <LinearLayout
         android:id="@+id/create_playlist"

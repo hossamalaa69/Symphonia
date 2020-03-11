@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.R;
-import com.example.symphonia.data.Artist;
+import com.example.symphonia.Utils.Artist;
 
 import java.util.ArrayList;
 
@@ -48,10 +48,11 @@ public class RvGridArtistsAdapter extends RecyclerView.Adapter<RvGridArtistsAdap
         ArtistViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            artistImage = (ImageView)itemView.findViewById(R.id.artist_image);
-            artistName = (TextView) itemView.findViewById(R.id.artist_name);
+            artistImage = itemView.findViewById(R.id.artist_image);
+            artistName = itemView.findViewById(R.id.artist_name);
             checkImage = itemView.findViewById(R.id.check_image);
         }
+
         void bind(int position) {
             Artist artist = artists.get(position);
             artistImage.setImageResource(artist.getImageResourceId());
@@ -61,7 +62,7 @@ public class RvGridArtistsAdapter extends RecyclerView.Adapter<RvGridArtistsAdap
 
         @Override
         public void onClick(View v) {
-            checkImage.setVisibility((checkImage.getVisibility() == View.VISIBLE)? View.GONE:View.VISIBLE);
+            checkImage.setVisibility((checkImage.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE);
         }
     }
 

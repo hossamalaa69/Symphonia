@@ -1,0 +1,225 @@
+package com.example.symphonia.Fragments_and_models.search;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.symphonia.R;
+import com.example.symphonia.Utils.Container;
+import com.example.symphonia.adapters.SearchResultAdapter;
+
+import java.util.ArrayList;
+
+
+public class SearchListFragment extends Fragment {
+
+    private SearchResultAdapter Adapter1;
+    private SearchResultAdapter Adapter2;
+    private View Filter;
+    private View RecentRecearches;
+    private FrameLayout frameLayout;
+    private TextView tv1;
+    private TextView tv2;
+    private ImageView ImgItem;
+    private TextView SearchText;
+    private ImageView Arrow_Img;
+    private RecyclerView RV;
+    private RecyclerView RV2;
+    /*private View.OnFocusChangeListener FocusListener=new View.OnFocusChangeListener(){
+
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            if(hasFocus){
+                SearchText.setVisibility(View.INVISIBLE);
+                Arrow_Img.setVisibility(View.VISIBLE);
+            }
+            else {
+                SearchText.setVisibility(View.INVISIBLE);
+                Arrow_Img.setVisibility(View.VISIBLE);
+            }
+        }
+    };*/
+
+    private TextWatcher filterTextWatcher = new TextWatcher() {
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (count == 0) {
+                Adapter1 = new SearchResultAdapter(GetResentData());
+            } else {
+                Adapter2 = new SearchResultAdapter(GetResultData(s));
+                RV2.setAdapter(Adapter1);
+            }
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+
+    /*private ViewTreeObserver.OnGlobalLayoutListener d=new ViewTreeObserver.OnGlobalLayoutListener() {
+        @Override
+        public void onGlobalLayout() {
+            int x=listview.getRootView().getHeight();
+            int y=listview.getHeight();
+            int heightDiff = x-y;
+            if (heightDiff > 100) {
+                t.makeText(getContext(),"yes",Toast.LENGTH_SHORT);
+            }
+            else     //it will work
+            {
+                t.makeText(getContext(),"no",Toast.LENGTH_SHORT);
+            }
+
+        }
+    };*/
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+     /*   KeyboardVisibilityEvent.setEventListener(
+                getActivity(),
+                new KeyboardVisibilityEventListener() {
+                    @Override
+                    public void onVisibilityChanged(boolean isOpen) {
+                        // some code depending on keyboard visiblity status
+                        if(isOpen){
+                            SearchText.setVisibility(View.INVISIBLE);
+                            Arrow_Img.setVisibility(View.VISIBLE);
+                        }
+                        else {
+                            SearchText.setVisibility(View.VISIBLE);
+                            Arrow_Img.setVisibility(View.INVISIBLE);
+                        }
+                    }
+                });*/
+        View root = inflater.inflate(R.layout.search_list, container, false);
+        final EditText editText = root.findViewById(R.id.search_edit_text);
+        SearchText = root.findViewById(R.id.search_list_text);
+        Arrow_Img = root.findViewById(R.id.img_arrow_left);
+        RecentRecearches = root.findViewById(R.id.recent_searches_layout);
+        Filter = root.findViewById(R.id.search_list_filter_layout);
+        frameLayout = root.findViewById(R.id.frame_recycler_list_search);
+        tv1 = root.findViewById(R.id.find_music_text);
+        tv2 = root.findViewById(R.id.find_music_text2);
+        ImgItem = root.findViewById(R.id.img_best_search);
+        editText.addTextChangedListener(filterTextWatcher);
+        RV = root.findViewById(R.id.recycler_recent_searches);
+        RV.setNestedScrollingEnabled(false);
+        LinearLayoutManager LM = new LinearLayoutManager(getContext());
+        RV.setLayoutManager(LM);
+        RV.setHasFixedSize(true);
+        Adapter1 = new SearchResultAdapter(GetResentData());
+        RV.setAdapter(Adapter1);
+
+        RV2 = root.findViewById(R.id.recycler_list_search);
+        RV2.setNestedScrollingEnabled(false);
+        LinearLayoutManager LM2 = new LinearLayoutManager(getContext());
+        RV2.setLayoutManager(LM2);
+        RV2.setHasFixedSize(true);
+
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        //listview.getViewTreeObserver().addOnGlobalLayoutListener(d);
+        //editText.setOnFocusChangeListener(FocusListener);
+        return root;
+    }
+
+    private ArrayList<Container> GetResultData(CharSequence s) {
+        ArrayList<Container> data = new ArrayList<Container>();
+        //data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
+        if (data.size() == 0) {
+            SearchResultOff(s);
+        } else {
+            SearchResultOn();
+        }
+        return data;
+    }
+
+    private ArrayList<Container> GetResentData() {
+        ArrayList<Container> data = new ArrayList<Container>();
+        data.add(new Container("song name(somthing)", "song.sadf", R.drawable.download1));
+        if (data.size() == 0) {
+            RecentSearchesOff();
+        } else {
+            RecentSearchesOn();
+        }
+        return data;
+    }
+
+    private void RecentSearchesOn() {
+        frameLayout.setVisibility(View.GONE);
+        Filter.setVisibility(View.GONE);
+        tv1.setVisibility(View.GONE);
+        tv2.setVisibility(View.GONE);
+        ImgItem.setVisibility(View.GONE);
+        RecentRecearches.setVisibility(View.VISIBLE);
+    }
+
+    private void RecentSearchesOff() {
+        frameLayout.setVisibility(View.GONE);
+        Filter.setVisibility(View.GONE);
+        tv1.setVisibility(View.VISIBLE);
+        tv2.setVisibility(View.VISIBLE);
+        ImgItem.setVisibility(View.VISIBLE);
+        RecentRecearches.setVisibility(View.GONE);
+        tv1.setText("Find the music you love");
+        tv2.setText("Search for artists, songs, playlists, and more");
+        ImgItem.setImageResource(R.mipmap.big_search_foreground);
+    }
+
+    private void SearchResultOn() {
+        frameLayout.setVisibility(View.VISIBLE);
+        Filter.setVisibility(View.VISIBLE);
+        tv1.setVisibility(View.GONE);
+        tv2.setVisibility(View.GONE);
+        ImgItem.setVisibility(View.GONE);
+        RecentRecearches.setVisibility(View.GONE);
+    }
+
+    private void SearchResultOff(CharSequence s) {
+        frameLayout.setVisibility(View.GONE);
+        Filter.setVisibility(View.GONE);
+        tv1.setVisibility(View.VISIBLE);
+        tv2.setVisibility(View.VISIBLE);
+        ImgItem.setVisibility(View.VISIBLE);
+        RecentRecearches.setVisibility(View.GONE);
+        tv1.setText("No result found for \"" + s + "\"");
+        tv2.setText("Please check you have the right spelling, or try differant keywords.");
+        ImgItem.setImageResource(R.mipmap.flag_white_foreground);
+    }
+}
