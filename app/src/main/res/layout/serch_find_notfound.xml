@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorDark">
+    <TextView
+        android:id="@+id/find_music_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:padding="4dp"
+        android:text="Find the music you love"
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/find_music_text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/find_music_text"
+        android:layout_centerHorizontal="true"
+        android:padding="4dp"
+        android:text="Search for artists, songs, playlists, and more"
+        android:textColor="@color/colorWhite"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/img_best_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/find_music_text"
+        android:layout_centerHorizontal="true"
+        android:padding="4dp"
+        android:src="@mipmap/big_search_foreground" />
+
+</RelativeLayout>

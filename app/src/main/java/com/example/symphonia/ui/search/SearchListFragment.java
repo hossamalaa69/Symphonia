@@ -39,32 +39,63 @@ public class SearchListFragment extends Fragment {
     private ImageView ImgItem;
     private TextView SearchText;
     private ImageView Arrow_Img;
+    private ImageView EraseText;
     private RecyclerView RV;
     private RecyclerView RV2;
-    /*private View.OnFocusChangeListener FocusListener=new View.OnFocusChangeListener(){
+    private TextView ClearRecentSearches;
+    private EditText editText;
+
+    private View.OnClickListener CLearRecentListener=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Adapter1=new SearchResultAdapter(new ArrayList<Container>(),false);
+            RV.setAdapter(Adapter1);
+        }
+    };
+
+    private View.OnClickListener Back=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+            getFragmentManager().popBackStack();
+        }
+    };
+
+    private View.OnClickListener Erase=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            editText.setText("");
+        }
+    };
+
+    private View.OnFocusChangeListener FocusListener=new View.OnFocusChangeListener(){
 
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
             if(hasFocus){
                 SearchText.setVisibility(View.INVISIBLE);
                 Arrow_Img.setVisibility(View.VISIBLE);
+                EraseText.setVisibility(View.VISIBLE);
             }
             else {
                 SearchText.setVisibility(View.INVISIBLE);
                 Arrow_Img.setVisibility(View.VISIBLE);
+                EraseText.setVisibility(View.GONE);
             }
         }
-    };*/
+    };
 
     private TextWatcher filterTextWatcher = new TextWatcher() {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if(count==0){
-                Adapter1=new SearchResultAdapter(GetResentData());
+                Adapter1=new SearchResultAdapter(GetResentData(),false);
+                RV.setAdapter(Adapter1);
             }
             else{
-                Adapter2=new SearchResultAdapter(GetResultData(s));
+                Adapter1=new SearchResultAdapter(GetResultData(s),true);
                 RV2.setAdapter(Adapter1);
             }
         }
@@ -118,9 +149,14 @@ public class SearchListFragment extends Fragment {
                     }
                 });*/
         View root = inflater.inflate(R.layout.search_list, container, false);
-        final EditText editText = (EditText) root.findViewById(R.id.search_edit_text);
+        editText = (EditText) root.findViewById(R.id.search_edit_text);
+        EraseText=(ImageView)root.findViewById(R.id.close_search_rectangle);
+        EraseText.setOnClickListener(Erase);
+        ClearRecentSearches=(TextView)root.findViewById(R.id.tv_clear_recent_searches);
+        ClearRecentSearches.setOnClickListener(CLearRecentListener);
         SearchText=root.findViewById(R.id.search_list_text);
         Arrow_Img=root.findViewById(R.id.img_arrow_left);
+        Arrow_Img.setOnClickListener(Back);
         RecentRecearches=root.findViewById(R.id.recent_searches_layout);
         Filter=root.findViewById(R.id.search_list_filter_layout);
         frameLayout=root.findViewById(R.id.frame_recycler_list_search);
@@ -132,15 +168,15 @@ public class SearchListFragment extends Fragment {
         RV.setNestedScrollingEnabled(false);
         LinearLayoutManager LM=new LinearLayoutManager(getContext());
         RV.setLayoutManager(LM);
-        RV.setHasFixedSize(true);
-        Adapter1=new SearchResultAdapter(GetResentData());
+        RV.setHasFixedSize(false);
+        Adapter1=new SearchResultAdapter(GetResentData(),false);
         RV.setAdapter(Adapter1);
 
         RV2=(RecyclerView)root.findViewById(R.id.recycler_list_search);
         RV2.setNestedScrollingEnabled(false);
         LinearLayoutManager LM2=new LinearLayoutManager(getContext());
         RV2.setLayoutManager(LM2);
-        RV2.setHasFixedSize(true);
+        RV2.setHasFixedSize(false);
 
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -155,13 +191,13 @@ public class SearchListFragment extends Fragment {
         });
 
         //listview.getViewTreeObserver().addOnGlobalLayoutListener(d);
-        //editText.setOnFocusChangeListener(FocusListener);
+        editText.setOnFocusChangeListener(FocusListener);
         return root;
     }
 
     private ArrayList<Container> GetResultData(CharSequence s) {
         ArrayList<Container> data=new ArrayList<Container>();
-        //data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
+        data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
         if(data.size()==0){
             SearchResultOff(s);
         }
@@ -173,6 +209,19 @@ public class SearchListFragment extends Fragment {
 
     private ArrayList<Container> GetResentData() {
         ArrayList<Container> data=new ArrayList<Container>();
+        data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
+        data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
+        data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
+        data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
+        data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
+        data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
+        data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
+        data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
+        data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
+        data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
+        data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
+        data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
+        data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
         data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
         if(data.size()==0){
             RecentSearchesOff();
@@ -224,4 +273,5 @@ public class SearchListFragment extends Fragment {
         tv2.setText("Please check you have the right spelling, or try differant keywords.");
         ImgItem.setImageResource(R.mipmap.flag_white_foreground);
     }
+
 }
