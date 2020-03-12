@@ -8,9 +8,15 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Activities.UserUI.AddArtistsActivity;
 import com.example.symphonia.R;
+import com.example.symphonia.Utils.Artist;
+import com.example.symphonia.adapters.RvListArtistsAdapter;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,14 +33,30 @@ public class LibraryArtistsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_library_artists, container, false);
-        LinearLayout addArtists = rootView.findViewById(R.id.add_artists);
-        addArtists.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent addArtistsIntent = new Intent(getActivity(), AddArtistsActivity.class);
-                startActivity(addArtistsIntent);
-            }
-        });
+
+        ArrayList<Artist> artists = new ArrayList<>();
+        artists.add(new Artist(R.drawable.download, "Mahmoud El Esseily"));
+        artists.add(new Artist(R.drawable.download1, "Mahmoud El Esseily"));
+        artists.add(new Artist(R.drawable.images, "Mahmoud El Esseily"));
+        artists.add(new Artist(R.drawable.images2, "Mahmoud El Esseily"));
+        artists.add(new Artist(R.drawable.images3, "Mahmoud El Esseily"));
+        artists.add(new Artist(R.drawable.download, "Mahmoud El Esseily"));
+        artists.add(new Artist(R.drawable.download1, "Mahmoud El Esseily"));
+        artists.add(new Artist(R.drawable.images, "Mahmoud El Esseily"));
+        artists.add(new Artist(R.drawable.images2, "Mahmoud El Esseily"));
+        artists.add(new Artist(R.drawable.images3, "Mahmoud El Esseily"));
+        artists.add(new Artist(R.drawable.download, "Mahmoud El Esseily"));
+        artists.add(new Artist(R.drawable.download1, "Mahmoud El Esseily"));
+
+        artists.add(new Artist(R.drawable.add_image, "Add Artists"));
+
+
+        RecyclerView artistList = rootView.findViewById(R.id.rv_artists);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        artistList.setLayoutManager(layoutManager);
+        RvListArtistsAdapter adapter = new RvListArtistsAdapter(artists, getActivity());
+        artistList.setAdapter(adapter);
+
         return rootView;
     }
 }
