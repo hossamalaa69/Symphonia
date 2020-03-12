@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Symphonia</string>
+<string name="app_name">Symphonia</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
@@ -83,4 +84,6 @@
     <string name="browse_all">Browse all</string>
     <string name="your_top_genres">Your top genres</string>
     <string name="Artists_songs_albums_search">Artists,songs or albums</string>
+    <string name="todo">TODO</string>
+    <string name="settings">Settings</string>
 </resources>

@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.R;
-import com.example.symphonia.data.Track;
+import com.example.symphonia.Utils.Track;
 
 import java.util.ArrayList;
 

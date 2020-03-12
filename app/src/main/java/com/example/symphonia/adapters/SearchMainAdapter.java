@@ -10,14 +10,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.R;
-import com.example.symphonia.data.Container;
+import com.example.symphonia.Utils.Container;
 
 import java.util.ArrayList;
 
 public class SearchMainAdapter extends RecyclerView.Adapter<SearchMainAdapter.SearchCategoriesViewHolder> {
     private ArrayList<Container> CategorySet;
-    public SearchMainAdapter(ArrayList<Container> data){
-        CategorySet=data;
+
+    public SearchMainAdapter(ArrayList<Container> data) {
+        CategorySet = data;
     }
 
     @Override
@@ -40,17 +41,18 @@ public class SearchMainAdapter extends RecyclerView.Adapter<SearchMainAdapter.Se
         holder.MakeCategory(position);
     }
 
-    class SearchCategoriesViewHolder extends RecyclerView.ViewHolder{
+    class SearchCategoriesViewHolder extends RecyclerView.ViewHolder {
         private TextView TV;
         private ImageView IV;
+
         public SearchCategoriesViewHolder(@NonNull View itemView) {
             super(itemView);
-            TV=(TextView)itemView.findViewById(R.id.tv_search_item);
-            IV=(ImageView)itemView.findViewById(R.id.img_search_item);
+            TV = itemView.findViewById(R.id.tv_search_item);
+            IV = itemView.findViewById(R.id.img_search_item);
         }
 
-        public void MakeCategory(int pos){
-            Container temp=CategorySet.get(pos);
+        public void MakeCategory(int pos) {
+            Container temp = CategorySet.get(pos);
             TV.setText(temp.getCat_Name());
             IV.setImageResource(temp.getImg_Res());
         }
