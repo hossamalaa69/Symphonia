@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#121212</color>
+    <color name="rippleEffectColor">#0A0A0A</color>
     <color name="light_gray">#b3b3b3</color>
     <color name="dark_gray">#222327</color>
     <color name="colorPrimaryDark">#121212</color>
