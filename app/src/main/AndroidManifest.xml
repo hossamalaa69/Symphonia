@@ -11,7 +11,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.ArtistRegister.ForgetPasswordArtistActivity"
+        <activity android:name=".Activities.UserUI.ArtistsSearchActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize">
+        </activity>
+        <activity
+            android:name=".Activities.ArtistRegister.ForgetPasswordArtistActivity"
             android:label="@string/forgot_password"
             android:parentActivityName=".Activities.ArtistRegister.LoginArtistActivity"
             android:theme="@style/AppTheme">
@@ -19,8 +24,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.UserUI.MainActivity" />
         </activity>
-
-        <activity android:name=".Activities.ArtistRegister.EmailCheckArtistActivity"
+        <activity
+            android:name=".Activities.ArtistRegister.EmailCheckArtistActivity"
             android:label="@string/check_email"
             android:parentActivityName=".Activities.ArtistRegister.ForgetPasswordArtistActivity"
             android:theme="@style/AppTheme">
@@ -28,7 +33,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.UserUI.MainActivity" />
         </activity>
-
         <activity
             android:name=".Activities.ListenerRegister.EmailCheckListenerActivity"
             android:label="@string/check_email"
@@ -38,7 +42,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.UserUI.MainActivity" />
         </activity>
-
         <activity
             android:name=".Activities.ListenerRegister.ForgetPasswordListenerActivity"
             android:label="@string/forgot_password"
