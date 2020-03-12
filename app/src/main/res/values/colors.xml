@@ -17,4 +17,6 @@
     <color name="colorRedDark">#A52F52</color>
     <color name="libraryTabsTextColor">#8DFFFFFF</color>
     <color name="addImageBackground">#282828</color>
+    <color name="artists_search_bar_background">#2a2a2a</color>
+    <color name="artists_search_bar_content">#959595</color>
 </resources>
