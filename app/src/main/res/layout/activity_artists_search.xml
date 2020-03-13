@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".Activities.UserUI.ArtistsSearchActivity">
+
+    <com.mancj.materialsearchbar.MaterialSearchBar
+        android:id="@+id/searchBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:mt_hint=""
+        android:background="@color/artists_search_bar_background"
+        app:mt_textCursorTint="#1db954"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:mt_backIconTint="@android:color/white"
+        app:mt_clearIconTint="@android:color/white"
+        app:mt_maxSuggestionsCount="10"
+        app:mt_placeholder="@string/search"
+        app:mt_placeholderColor="@color/artists_search_bar_content"
+        app:mt_searchBarColor="@color/artists_search_bar_background"
+        app:mt_searchIconTint="@color/artists_search_bar_content"
+        app:mt_textColor="@color/artists_search_bar_content" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Find your favorite artists"
+        android:textStyle="bold"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchBar" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
