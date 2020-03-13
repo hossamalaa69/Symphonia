@@ -34,6 +34,10 @@ public class User {
 
     private ArrayList<Track> mPlayedTracks;
 
+    public User(String mName) {
+        this.mName = mName;
+    }
+
     public User(String mEmail, Bitmap userImage, String mName, String mDOB
             , String mGender, boolean isPremuim, int numOfFollowers, int numOfFollowings
             , ArrayList<User> mFollowings, ArrayList<User> mFollowers
