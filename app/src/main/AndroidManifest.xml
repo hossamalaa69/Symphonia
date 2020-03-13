@@ -52,43 +52,43 @@
                 android:value=".Activities.UserUI.MainActivity" />
         </activity>
         <activity
-            android:name=".Activities.SignUp.SignUp5Activity"
+            android:name=".Activities.SignUp.SignUp5"
             android:label="@string/create_account"
-            android:parentActivityName=".Activities.SignUp.SignUp4Activity"
+            android:parentActivityName=".Activities.SignUp.SignUp4"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.SignUp.SignUp4Activity" />
+                android:value=".Activities.SignUp.SignUp4" />
         </activity>
         <activity
-            android:name=".Activities.SignUp.SignUp4Activity"
+            android:name=".Activities.SignUp.SignUp4"
             android:label="@string/create_account"
-            android:parentActivityName=".Activities.SignUp.SignUp3Activity"
+            android:parentActivityName=".Activities.SignUp.SignUp3"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.SignUp.SignUp3Activity" />
+                android:value=".Activities.SignUp.SignUp3" />
         </activity>
         <activity
-            android:name=".Activities.SignUp.SignUp3Activity"
+            android:name=".Activities.SignUp.SignUp3"
             android:label="@string/create_account"
-            android:parentActivityName=".Activities.SignUp.SignUp2Activity"
+            android:parentActivityName=".Activities.SignUp.SignUp2"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.SignUp.SignUp2Activity" />
+                android:value=".Activities.SignUp.SignUp2" />
         </activity>
         <activity
-            android:name=".Activities.SignUp.SignUp2Activity"
+            android:name=".Activities.SignUp.SignUp2"
             android:label="@string/create_account"
-            android:parentActivityName=".Activities.SignUp.SignUp1Activity"
+            android:parentActivityName=".Activities.SignUp.SignUp1"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.SignUp.SignUp1Activity" />
+                android:value=".Activities.SignUp.SignUp1" />
         </activity>
         <activity
-            android:name=".Activities.SignUp.SignUp1Activity"
+            android:name=".Activities.SignUp.SignUp1"
             android:label="@string/create_account"
             android:parentActivityName=".Activities.ListenerRegister.WelcomeListenerActivity"
             android:theme="@style/AppTheme">

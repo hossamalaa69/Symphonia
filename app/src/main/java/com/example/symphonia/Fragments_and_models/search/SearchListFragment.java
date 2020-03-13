@@ -22,8 +22,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.R;
-import com.example.symphonia.Utils.Container;
-import com.example.symphonia.adapters.SearchResultAdapter;
+import com.example.symphonia.Entities.Container;
+import com.example.symphonia.Adapters.SearchResultAdapter;
 
 import java.util.ArrayList;
 

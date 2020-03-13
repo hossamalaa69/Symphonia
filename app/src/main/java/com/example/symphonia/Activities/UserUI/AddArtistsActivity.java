@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.R;
-import com.example.symphonia.Utils.Artist;
-import com.example.symphonia.adapters.GridSpacingItemDecorationAdapter;
-import com.example.symphonia.adapters.RvGridArtistsAdapter;
+import com.example.symphonia.Entities.Artist;
+import com.example.symphonia.Adapters.GridSpacingItemDecorationAdapter;
+import com.example.symphonia.Adapters.RvGridArtistsAdapter;
 
 import java.util.ArrayList;
 

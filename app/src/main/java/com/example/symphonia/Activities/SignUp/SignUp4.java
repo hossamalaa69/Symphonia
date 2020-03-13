@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.symphonia.R;
 
-public class SignUp4Activity extends AppCompatActivity {
+public class SignUp4 extends AppCompatActivity {
 
     private String user;
 
@@ -22,7 +22,7 @@ public class SignUp4Activity extends AppCompatActivity {
     }
 
     public void openNext(View view) {
-        Intent i = new Intent(this, SignUp5Activity.class);
+        Intent i = new Intent(this, SignUp5.class);
         i.putExtra("user", user);
         startActivity(i);
     }

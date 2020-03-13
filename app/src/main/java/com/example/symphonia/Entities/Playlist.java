@@ -1,4 +1,4 @@
-package com.example.symphonia.Utils;
+package com.example.symphonia.Entities;
 
 import android.graphics.Bitmap;
 
