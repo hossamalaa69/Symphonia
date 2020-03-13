@@ -46,6 +46,13 @@ public class SearchListFragment extends Fragment {
     private TextView ClearRecentSearches;
     private EditText editText;
 
+    private TextView artistsText;
+    private TextView songsText;
+    private TextView playlistsText;
+    private TextView albumsText;
+    private TextView genresText;
+    private TextView profilesText;
+
     private View.OnClickListener CLearRecentListener=new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -60,6 +67,66 @@ public class SearchListFragment extends Fragment {
             InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
             getFragmentManager().popBackStack();
+        }
+    };
+
+    private View.OnClickListener getAllSongs=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.list_search_view, new SearchForAllFragment("Songs",editText.getText().toString()))
+                    .addToBackStack(null)
+                    .commit();
+        }
+    };
+
+    private View.OnClickListener getAllArtists=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.list_search_view, new SearchForAllFragment("Artists",editText.getText().toString()))
+                    .addToBackStack(null)
+                    .commit();
+        }
+    };
+
+    private View.OnClickListener getAllAlbums=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.list_search_view, new SearchForAllFragment("Albums",editText.getText().toString()))
+                    .addToBackStack(null)
+                    .commit();
+        }
+    };
+
+    private View.OnClickListener getAllPlaylists=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.list_search_view, new SearchForAllFragment("Playlists",editText.getText().toString()))
+                    .addToBackStack(null)
+                    .commit();
+        }
+    };
+
+    private View.OnClickListener getAllGenres=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.list_search_view, new SearchForAllFragment("Genres & Moods",editText.getText().toString()))
+                    .addToBackStack(null)
+                    .commit();
+        }
+    };
+
+    private View.OnClickListener getAllProfiles=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.list_search_view, new SearchForAllFragment("Profiles",editText.getText().toString()))
+                    .addToBackStack(null)
+                    .commit();
         }
     };
 
@@ -92,10 +159,12 @@ public class SearchListFragment extends Fragment {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if(count==0){
+                EraseText.setVisibility(View.GONE);
                 Adapter1=new SearchResultAdapter(GetResentData(),false);
                 RV.setAdapter(Adapter1);
             }
             else{
+                EraseText.setVisibility(View.VISIBLE);
                 Adapter1=new SearchResultAdapter(GetResultData(s),true);
                 RV2.setAdapter(Adapter1);
             }
@@ -150,6 +219,20 @@ public class SearchListFragment extends Fragment {
                     }
                 });*/
         View root = inflater.inflate(R.layout.search_list, container, false);
+
+        artistsText=root.findViewById(R.id.tv_search_artists);
+        artistsText.setOnClickListener(getAllArtists);
+        songsText=root.findViewById(R.id.tv_search_songs);
+        songsText.setOnClickListener(getAllSongs);
+        albumsText=root.findViewById(R.id.tv_search_albums);
+        albumsText.setOnClickListener(getAllAlbums);
+        playlistsText=root.findViewById(R.id.tv_search_playlists);
+        playlistsText.setOnClickListener(getAllPlaylists);
+        genresText=root.findViewById(R.id.tv_search_genres);
+        genresText.setOnClickListener(getAllGenres);
+        profilesText=root.findViewById(R.id.tv_search_profiles);
+        profilesText.setOnClickListener(getAllProfiles);
+
         editText = (EditText) root.findViewById(R.id.search_edit_text);
         EraseText=(ImageView)root.findViewById(R.id.close_search_rectangle);
         EraseText.setOnClickListener(Erase);

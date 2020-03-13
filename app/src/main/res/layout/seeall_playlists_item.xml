@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/colorDark">
+
+    <ImageView
+        android:id="@+id/img_search_all_playlists"
+        android:layout_width="170dp"
+        android:layout_height="175dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:background="@color/colorWhite"
+            android:layout_width="20dp"
+            android:layout_height="10dp"
+            android:src="@mipmap/shuffle_black_foreground"/>
+
+        <TextView
+            android:id="@+id/tv_search_all_playlists"
+            android:gravity="center_vertical"
+            android:paddingLeft="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp" />
+    </LinearLayout>
+</LinearLayout>
