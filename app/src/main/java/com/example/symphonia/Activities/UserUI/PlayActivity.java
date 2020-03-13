@@ -22,8 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.R;
 import com.example.symphonia.ScrollingHelpers.SnapHelperOneByOne;
-import com.example.symphonia.Utils.Track;
-import com.example.symphonia.adapters.RvTracksPlayActivityAdapter;
+import com.example.symphonia.Entities.Track;
+import com.example.symphonia.Adapters.RvTracksPlayActivityAdapter;
 
 import java.io.Serializable;
 import java.util.ArrayList;

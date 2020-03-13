@@ -16,10 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.R;
-import com.example.symphonia.Utils.Container;
-import com.example.symphonia.adapters.SearchResultAdapter;
-import com.example.symphonia.adapters.SeeAllArtistsAdapter;
-import com.example.symphonia.adapters.SeeAllPlaylistsAdapter;
+import com.example.symphonia.Entities.Container;
+import com.example.symphonia.Adapters.SearchResultAdapter;
+import com.example.symphonia.Adapters.SeeAllArtistsAdapter;
+import com.example.symphonia.Adapters.SeeAllPlaylistsAdapter;
 
 import java.util.ArrayList;
 

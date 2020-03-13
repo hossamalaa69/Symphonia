@@ -1,4 +1,4 @@
-package com.example.symphonia.adapters;
+package com.example.symphonia.Adapters;
 
 import android.content.Context;
 

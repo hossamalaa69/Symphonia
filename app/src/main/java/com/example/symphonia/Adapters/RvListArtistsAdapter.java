@@ -1,4 +1,4 @@
-package com.example.symphonia.adapters;
+package com.example.symphonia.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Activities.UserUI.AddArtistsActivity;
 import com.example.symphonia.R;
-import com.example.symphonia.Utils.Artist;
+import com.example.symphonia.Entities.Artist;
 
 import java.util.ArrayList;
 

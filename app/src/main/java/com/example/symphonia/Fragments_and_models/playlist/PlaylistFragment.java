@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.R;
-import com.example.symphonia.Utils.Playlist;
-import com.example.symphonia.adapters.RvTracksHomeAdapter;
+import com.example.symphonia.Entities.Playlist;
+import com.example.symphonia.Adapters.RvTracksHomeAdapter;
 import com.google.android.material.appbar.AppBarLayout;
 
 /**

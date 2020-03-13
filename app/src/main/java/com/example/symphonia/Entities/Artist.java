@@ -1,4 +1,4 @@
-package com.example.symphonia.Utils;
+package com.example.symphonia.Entities;
 
 public class Artist {
     private int mImageResourceId;

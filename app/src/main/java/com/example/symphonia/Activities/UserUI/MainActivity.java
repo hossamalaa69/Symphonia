@@ -27,11 +27,11 @@ import com.example.symphonia.Fragments_and_models.premium.PremiumFragment;
 import com.example.symphonia.Fragments_and_models.search.SearchFragment;
 import com.example.symphonia.R;
 import com.example.symphonia.ScrollingHelpers.SnapHelperOneByOne;
-import com.example.symphonia.Utils.Playlist;
-import com.example.symphonia.Utils.Track;
-import com.example.symphonia.adapters.RvBarAdapter;
-import com.example.symphonia.adapters.RvPlaylistsHomeAdapter;
-import com.example.symphonia.adapters.RvTracksHomeAdapter;
+import com.example.symphonia.Entities.Playlist;
+import com.example.symphonia.Entities.Track;
+import com.example.symphonia.Adapters.RvBarAdapter;
+import com.example.symphonia.Adapters.RvPlaylistsHomeAdapter;
+import com.example.symphonia.Adapters.RvTracksHomeAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.Serializable;

@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.R;
-import com.example.symphonia.Utils.Artist;
-import com.example.symphonia.adapters.RvListArtistsAdapter;
+import com.example.symphonia.Entities.Artist;
+import com.example.symphonia.Adapters.RvListArtistsAdapter;
 
 import java.util.ArrayList;
 

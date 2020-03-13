@@ -1,4 +1,4 @@
-package com.example.symphonia.adapters;
+package com.example.symphonia.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.R;
-import com.example.symphonia.Utils.Container;
+import com.example.symphonia.Entities.Container;
 
 import java.util.ArrayList;
 

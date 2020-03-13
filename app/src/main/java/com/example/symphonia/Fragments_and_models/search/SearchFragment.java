@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.R;
-import com.example.symphonia.Utils.Container;
-import com.example.symphonia.adapters.SearchMainAdapter;
+import com.example.symphonia.Entities.Container;
+import com.example.symphonia.Adapters.SearchMainAdapter;
 
 import java.util.ArrayList;
 
