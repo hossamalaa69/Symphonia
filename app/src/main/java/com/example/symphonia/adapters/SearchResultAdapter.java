@@ -16,11 +16,11 @@ import java.util.ArrayList;
 
 public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder> {
     private ArrayList<Container> container;
-    private Boolean ChooseImg;
+    private Boolean chooseImg;
 
     public SearchResultAdapter(ArrayList<Container> data,Boolean b) {
         container = data;
-        ChooseImg = b;
+        chooseImg = b;
     }
     @NonNull
     @Override
@@ -35,7 +35,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     @Override
     public void onBindViewHolder(@NonNull SearchResultViewHolder holder, final int position) {
         holder.MakeResult(position);
-       holder.Close.setOnClickListener(new View.OnClickListener() {
+       holder.close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 container.remove(position);
@@ -52,32 +52,32 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
 
 
     class SearchResultViewHolder extends RecyclerView.ViewHolder {
-        private TextView TV;
-        private TextView TV2;
-        private ImageView IV;
-        private ImageView Show;
-        private ImageView Close;
+        private TextView textView;
+        private TextView textView2;
+        private ImageView imageView;
+        private ImageView show;
+        private ImageView close;
         public SearchResultViewHolder(@NonNull View itemView) {
             super(itemView);
-            TV=(TextView)itemView.findViewById(R.id.tv_search_list_item);
-            TV2=(TextView)itemView.findViewById(R.id.tv_search_list_item_type);
-            IV=(ImageView)itemView.findViewById(R.id.img_search_list_item);
-            Show=(ImageView)itemView.findViewById(R.id.img_show);
-            Close=(ImageView)itemView.findViewById(R.id.img_close);
+            textView=(TextView)itemView.findViewById(R.id.tv_search_list_item);
+            textView2=(TextView)itemView.findViewById(R.id.tv_search_list_item_type);
+            imageView=(ImageView)itemView.findViewById(R.id.img_search_list_item);
+            show=(ImageView)itemView.findViewById(R.id.img_show);
+            close=(ImageView)itemView.findViewById(R.id.img_close);
         }
 
         public void MakeResult(int pos) {
             Container temp = container.get(pos);
-            TV.setText(temp.getCat_Name());
-            TV2.setText(temp.getCat_Name2());
-            IV.setImageResource(temp.getImg_Res());
-            if(ChooseImg){
-                Show.setVisibility(View.VISIBLE);
-                Close.setVisibility(View.GONE);
+            textView.setText(temp.getCat_Name());
+            textView2.setText(temp.getCat_Name2());
+            imageView.setImageResource(temp.getImg_Res());
+            if(chooseImg){
+                show.setVisibility(View.VISIBLE);
+                close.setVisibility(View.GONE);
             }
             else {
-                Show.setVisibility(View.GONE);
-                Close.setVisibility(View.VISIBLE);
+                show.setVisibility(View.GONE);
+                close.setVisibility(View.VISIBLE);
             }
         }
     }

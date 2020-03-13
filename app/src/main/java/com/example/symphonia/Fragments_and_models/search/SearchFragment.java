@@ -34,8 +34,8 @@ public class SearchFragment extends Fragment {
     };
 
 
-    private SearchMainAdapter Cat_Adapter;
-    private SearchMainAdapter Genres_Adapter;
+    private SearchMainAdapter catAdapter;
+    private SearchMainAdapter genresAdapter;
     private SearchViewModel searchViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -63,8 +63,8 @@ public class SearchFragment extends Fragment {
         GridLayoutManager LM = new GridLayoutManager(getContext(), 2);
         RV.setLayoutManager(LM);
         RV.setHasFixedSize(true);
-        Genres_Adapter = new SearchMainAdapter(Genre);
-        RV.setAdapter(Genres_Adapter);
+        genresAdapter = new SearchMainAdapter(Genre);
+        RV.setAdapter(genresAdapter);
 
         ArrayList<Container> Category = new ArrayList<Container>();
         Category.add(new Container("string", R.drawable.download));
@@ -79,8 +79,8 @@ public class SearchFragment extends Fragment {
         GridLayoutManager LM2 = new GridLayoutManager(getContext(), 2);
         RV2.setLayoutManager(LM2);
         RV2.setHasFixedSize(true);
-        Cat_Adapter = new SearchMainAdapter(Category);
-        RV2.setAdapter(Cat_Adapter);
+        catAdapter = new SearchMainAdapter(Category);
+        RV2.setAdapter(catAdapter);
 
         return root;
     }

@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorDark">
     <TextView
+        android:id="@+id/tv_search_background"
         android:layout_gravity="center"
         android:gravity="center"
         android:paddingTop="75dp"

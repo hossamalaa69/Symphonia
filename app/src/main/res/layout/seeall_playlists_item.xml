@@ -17,6 +17,7 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:id="@+id/img_search_shuffle_playlist"
             android:layout_gravity="center_vertical"
             android:background="@color/colorWhite"
             android:layout_width="20dp"

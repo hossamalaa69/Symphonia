@@ -32,7 +32,7 @@ public class SeeAllPlaylistsAdapter extends RecyclerView.Adapter<SeeAllPlaylists
 
     @Override
     public void onBindViewHolder(@NonNull SeeAllPlaylistsAdapter.SeeAllPlaylistsViewHolder holder, int position) {
-        holder.MakeResult(position);
+        holder.makeResult(position);
     }
 
 
@@ -52,7 +52,7 @@ public class SeeAllPlaylistsAdapter extends RecyclerView.Adapter<SeeAllPlaylists
             imageView=itemView.findViewById(R.id.img_search_all_playlists);
         }
 
-        public void MakeResult(int pos) {
+        public void makeResult(int pos) {
             Container temp = container.get(pos);
             textView.setText(temp.getCat_Name());
             imageView.setImageResource(temp.getImg_Res());

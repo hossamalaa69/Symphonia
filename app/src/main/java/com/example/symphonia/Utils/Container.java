@@ -1,31 +1,31 @@
 package com.example.symphonia.Utils;
 
 public class Container {
-    private String Cat_Name;
-    private String Cat_Name2;
-    private int Img_Res;
+    private String catName;
+    private String catName2;
+    private int imgRes;
 
     public Container(String s, int i) {
-        Cat_Name = s;
-        Img_Res = i;
-        Cat_Name2 = null;
+        catName = s;
+        imgRes = i;
+        catName2 = null;
     }
 
     public Container(String s, String s2, int i) {
-        Cat_Name = s;
-        Img_Res = i;
-        Cat_Name2 = s2;
+        catName = s;
+        imgRes = i;
+        catName2 = s2;
     }
 
     public String getCat_Name2() {
-        return Cat_Name2;
+        return catName2;
     }
 
     public String getCat_Name() {
-        return Cat_Name;
+        return catName;
     }
 
     public int getImg_Res() {
-        return Img_Res;
+        return imgRes;
     }
 }

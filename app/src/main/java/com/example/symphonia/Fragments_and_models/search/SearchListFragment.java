@@ -30,20 +30,19 @@ import java.util.ArrayList;
 
 public class SearchListFragment extends Fragment {
 
-    private SearchResultAdapter Adapter1;
-    private SearchResultAdapter Adapter2;
-    private View Filter;
-    private View RecentRecearches;
+    private SearchResultAdapter adapter1;
+    private View filter;
+    private View recentSearches;
     private FrameLayout frameLayout;
-    private TextView tv1;
-    private TextView tv2;
-    private ImageView ImgItem;
-    private TextView SearchText;
-    private ImageView Arrow_Img;
-    private ImageView EraseText;
-    private RecyclerView RV;
-    private RecyclerView RV2;
-    private TextView ClearRecentSearches;
+    private TextView textView1;
+    private TextView textView2;
+    private ImageView imgItem;
+    private TextView searchText;
+    private ImageView arrow_Img;
+    private ImageView eraseText;
+    private RecyclerView recentRecycler;
+    private RecyclerView resultRecycler;
+    private TextView clearRecentSearches;
     private EditText editText;
 
     private TextView artistsText;
@@ -56,8 +55,8 @@ public class SearchListFragment extends Fragment {
     private View.OnClickListener CLearRecentListener=new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Adapter1=new SearchResultAdapter(new ArrayList<Container>(),false);
-            RV.setAdapter(Adapter1);
+            adapter1=new SearchResultAdapter(new ArrayList<Container>(),false);
+            recentRecycler.setAdapter(adapter1);
         }
     };
 
@@ -142,14 +141,14 @@ public class SearchListFragment extends Fragment {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
             if(hasFocus){
-                SearchText.setVisibility(View.INVISIBLE);
-                Arrow_Img.setVisibility(View.VISIBLE);
-                EraseText.setVisibility(View.VISIBLE);
+                searchText.setVisibility(View.INVISIBLE);
+                arrow_Img.setVisibility(View.VISIBLE);
+                eraseText.setVisibility(View.VISIBLE);
             }
             else {
-                SearchText.setVisibility(View.INVISIBLE);
-                Arrow_Img.setVisibility(View.VISIBLE);
-                EraseText.setVisibility(View.GONE);
+                searchText.setVisibility(View.INVISIBLE);
+                arrow_Img.setVisibility(View.VISIBLE);
+                eraseText.setVisibility(View.GONE);
             }
         }
     };
@@ -159,14 +158,14 @@ public class SearchListFragment extends Fragment {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if(count==0){
-                EraseText.setVisibility(View.GONE);
-                Adapter1=new SearchResultAdapter(GetResentData(),false);
-                RV.setAdapter(Adapter1);
+                eraseText.setVisibility(View.GONE);
+                adapter1=new SearchResultAdapter(GetResentData(),false);
+                recentRecycler.setAdapter(adapter1);
             }
             else{
-                EraseText.setVisibility(View.VISIBLE);
-                Adapter1=new SearchResultAdapter(GetResultData(s),true);
-                RV2.setAdapter(Adapter1);
+                eraseText.setVisibility(View.VISIBLE);
+                adapter1=new SearchResultAdapter(GetResultData(s),true);
+                resultRecycler.setAdapter(adapter1);
             }
         }
 
@@ -209,12 +208,12 @@ public class SearchListFragment extends Fragment {
                     public void onVisibilityChanged(boolean isOpen) {
                         // some code depending on keyboard visiblity status
                         if(isOpen){
-                            SearchText.setVisibility(View.INVISIBLE);
-                            Arrow_Img.setVisibility(View.VISIBLE);
+                            searchText.setVisibility(View.INVISIBLE);
+                            arrow_Img.setVisibility(View.VISIBLE);
                         }
                         else {
-                            SearchText.setVisibility(View.VISIBLE);
-                            Arrow_Img.setVisibility(View.INVISIBLE);
+                            searchText.setVisibility(View.VISIBLE);
+                            arrow_Img.setVisibility(View.INVISIBLE);
                         }
                     }
                 });*/
@@ -234,33 +233,33 @@ public class SearchListFragment extends Fragment {
         profilesText.setOnClickListener(getAllProfiles);
 
         editText = (EditText) root.findViewById(R.id.search_edit_text);
-        EraseText=(ImageView)root.findViewById(R.id.close_search_rectangle);
-        EraseText.setOnClickListener(Erase);
-        ClearRecentSearches=(TextView)root.findViewById(R.id.tv_clear_recent_searches);
-        ClearRecentSearches.setOnClickListener(CLearRecentListener);
-        SearchText=root.findViewById(R.id.search_list_text);
-        Arrow_Img=root.findViewById(R.id.img_arrow_left);
-        Arrow_Img.setOnClickListener(Back);
-        RecentRecearches=root.findViewById(R.id.recent_searches_layout);
-        Filter=root.findViewById(R.id.search_list_filter_layout);
+        eraseText=(ImageView)root.findViewById(R.id.close_search_rectangle);
+        eraseText.setOnClickListener(Erase);
+        clearRecentSearches=(TextView)root.findViewById(R.id.tv_clear_recent_searches);
+        clearRecentSearches.setOnClickListener(CLearRecentListener);
+        searchText=root.findViewById(R.id.search_list_text);
+        arrow_Img=root.findViewById(R.id.img_arrow_left);
+        arrow_Img.setOnClickListener(Back);
+        recentSearches=root.findViewById(R.id.recent_searches_layout);
+        filter=root.findViewById(R.id.search_list_filter_layout);
         frameLayout=root.findViewById(R.id.frame_recycler_list_search);
-        tv1=(TextView)root.findViewById(R.id.find_music_text);
-        tv2=(TextView)root.findViewById(R.id.find_music_text2);
-        ImgItem=(ImageView)root.findViewById(R.id.img_best_search);
+        textView1=(TextView)root.findViewById(R.id.find_music_text);
+        textView2=(TextView)root.findViewById(R.id.find_music_text2);
+        imgItem=(ImageView)root.findViewById(R.id.img_best_search);
         editText.addTextChangedListener(filterTextWatcher);
-        RV = root.findViewById(R.id.recycler_recent_searches);
-        RV.setNestedScrollingEnabled(false);
+        recentRecycler = root.findViewById(R.id.recycler_recent_searches);
+        recentRecycler.setNestedScrollingEnabled(false);
         LinearLayoutManager LM = new LinearLayoutManager(getContext());
-        RV.setLayoutManager(LM);
-        RV.setHasFixedSize(false);
-        Adapter1=new SearchResultAdapter(GetResentData(),false);
-        RV.setAdapter(Adapter1);
+        recentRecycler.setLayoutManager(LM);
+        recentRecycler.setHasFixedSize(false);
+        adapter1=new SearchResultAdapter(GetResentData(),false);
+        recentRecycler.setAdapter(adapter1);
 
-        RV2 = root.findViewById(R.id.recycler_list_search);
-        RV2.setNestedScrollingEnabled(false);
+        resultRecycler = root.findViewById(R.id.recycler_list_search);
+        resultRecycler.setNestedScrollingEnabled(false);
         LinearLayoutManager LM2 = new LinearLayoutManager(getContext());
-        RV2.setLayoutManager(LM2);
-        RV2.setHasFixedSize(false);
+        resultRecycler.setLayoutManager(LM2);
+        resultRecycler.setHasFixedSize(false);
 
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -316,44 +315,44 @@ public class SearchListFragment extends Fragment {
 
     private void RecentSearchesOn() {
         frameLayout.setVisibility(View.GONE);
-        Filter.setVisibility(View.GONE);
-        tv1.setVisibility(View.GONE);
-        tv2.setVisibility(View.GONE);
-        ImgItem.setVisibility(View.GONE);
-        RecentRecearches.setVisibility(View.VISIBLE);
+        filter.setVisibility(View.GONE);
+        textView1.setVisibility(View.GONE);
+        textView2.setVisibility(View.GONE);
+        imgItem.setVisibility(View.GONE);
+        recentSearches.setVisibility(View.VISIBLE);
     }
 
     private void RecentSearchesOff() {
         frameLayout.setVisibility(View.GONE);
-        Filter.setVisibility(View.GONE);
-        tv1.setVisibility(View.VISIBLE);
-        tv2.setVisibility(View.VISIBLE);
-        ImgItem.setVisibility(View.VISIBLE);
-        RecentRecearches.setVisibility(View.GONE);
-        tv1.setText("Find the music you love");
-        tv2.setText("Search for artists, songs, playlists, and more");
-        ImgItem.setImageResource(R.mipmap.big_search_foreground);
+        filter.setVisibility(View.GONE);
+        textView1.setVisibility(View.VISIBLE);
+        textView2.setVisibility(View.VISIBLE);
+        imgItem.setVisibility(View.VISIBLE);
+        recentSearches.setVisibility(View.GONE);
+        textView1.setText("Find the music you love");
+        textView2.setText("Search for artists, songs, playlists, and more");
+        imgItem.setImageResource(R.mipmap.big_search_foreground);
     }
 
     private void SearchResultOn() {
         frameLayout.setVisibility(View.VISIBLE);
-        Filter.setVisibility(View.VISIBLE);
-        tv1.setVisibility(View.GONE);
-        tv2.setVisibility(View.GONE);
-        ImgItem.setVisibility(View.GONE);
-        RecentRecearches.setVisibility(View.GONE);
+        filter.setVisibility(View.VISIBLE);
+        textView1.setVisibility(View.GONE);
+        textView2.setVisibility(View.GONE);
+        imgItem.setVisibility(View.GONE);
+        recentSearches.setVisibility(View.GONE);
     }
 
     private void SearchResultOff(CharSequence s) {
         frameLayout.setVisibility(View.GONE);
-        Filter.setVisibility(View.GONE);
-        tv1.setVisibility(View.VISIBLE);
-        tv2.setVisibility(View.VISIBLE);
-        ImgItem.setVisibility(View.VISIBLE);
-        RecentRecearches.setVisibility(View.GONE);
-        tv1.setText("No result found for \"" + s + "\"");
-        tv2.setText("Please check you have the right spelling, or try differant keywords.");
-        ImgItem.setImageResource(R.mipmap.flag_white_foreground);
+        filter.setVisibility(View.GONE);
+        textView1.setVisibility(View.VISIBLE);
+        textView2.setVisibility(View.VISIBLE);
+        imgItem.setVisibility(View.VISIBLE);
+        recentSearches.setVisibility(View.GONE);
+        textView1.setText("No result found for \"" + s + "\"");
+        textView2.setText("Please check you have the right spelling, or try differant keywords.");
+        imgItem.setImageResource(R.mipmap.flag_white_foreground);
     }
 
 }
