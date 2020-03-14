@@ -15,7 +15,7 @@ public class MockService implements APIs {
     ArrayList<Container> data;
     ArrayList<Container> recentSearches;
 
-    MockService() {
+    public MockService() {
         data = new ArrayList<>();
         data.add(new Container("Quran", "Playlist", R.drawable.images2));
         data.add(new Container("George Wassouf", "Artist", R.drawable.download));
@@ -212,7 +212,7 @@ public class MockService implements APIs {
         ArrayList<Container> temp = getAllResultsOfSearch(context, searchWord);
         ArrayList<Container> genres = new ArrayList<>();
         for (int i = 0; i < temp.size(); i++) {
-            if (temp.get(i).getCat_Name2().startsWith("Artist"))
+            if (temp.get(i).getCat_Name2().startsWith("Genre"))
                 genres.add(temp.get(i));
         }
         return genres;
