@@ -21,15 +21,16 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.symphonia.R;
 import com.example.symphonia.Entities.Container;
+import com.example.symphonia.R;
 import com.example.symphonia.Adapters.SearchResultAdapter;
 
 import java.util.ArrayList;
 
 
-public class SearchListFragment extends Fragment {
+public class SearchListFragment extends Fragment implements SearchResultAdapter.ListItemClickListner{
 
+    private SearchListFragment context;
     private SearchResultAdapter adapter1;
     private View filter;
     private View recentSearches;
@@ -52,11 +53,16 @@ public class SearchListFragment extends Fragment {
     private TextView genresText;
     private TextView profilesText;
 
+    SearchListFragment(){
+        context=this;
+    }
+
     private View.OnClickListener CLearRecentListener=new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            adapter1=new SearchResultAdapter(new ArrayList<Container>(),false);
+            adapter1=new SearchResultAdapter(new ArrayList<Container>(),false,context);
             recentRecycler.setAdapter(adapter1);
+            recentSearchesOff();
         }
     };
 
@@ -159,12 +165,12 @@ public class SearchListFragment extends Fragment {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if(count==0){
                 eraseText.setVisibility(View.GONE);
-                adapter1=new SearchResultAdapter(GetResentData(),false);
+                adapter1=new SearchResultAdapter(GetResentData(),false,context);
                 recentRecycler.setAdapter(adapter1);
             }
             else{
                 eraseText.setVisibility(View.VISIBLE);
-                adapter1=new SearchResultAdapter(GetResultData(s),true);
+                adapter1=new SearchResultAdapter(GetResultData(s),true,context);
                 resultRecycler.setAdapter(adapter1);
             }
         }
@@ -252,7 +258,7 @@ public class SearchListFragment extends Fragment {
         LinearLayoutManager LM = new LinearLayoutManager(getContext());
         recentRecycler.setLayoutManager(LM);
         recentRecycler.setHasFixedSize(false);
-        adapter1=new SearchResultAdapter(GetResentData(),false);
+        adapter1=new SearchResultAdapter(GetResentData(),false,context);
         recentRecycler.setAdapter(adapter1);
 
         resultRecycler = root.findViewById(R.id.recycler_list_search);
@@ -282,9 +288,9 @@ public class SearchListFragment extends Fragment {
         ArrayList<Container> data=new ArrayList<Container>();
         data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
         if (data.size() == 0) {
-            SearchResultOff(s);
+            searchResultOff(s);
         } else {
-            SearchResultOn();
+            searchResultOn();
         }
         return data;
     }
@@ -292,6 +298,7 @@ public class SearchListFragment extends Fragment {
     private ArrayList<Container> GetResentData() {
         ArrayList<Container> data=new ArrayList<Container>();
         data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
+        /*data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
         data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
         data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
         data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
@@ -303,17 +310,16 @@ public class SearchListFragment extends Fragment {
         data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
         data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
         data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
-        data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
-        data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
+        data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));*/
         if(data.size()==0){
-            RecentSearchesOff();
+            recentSearchesOff();
         } else {
-            RecentSearchesOn();
+            recentSearchesOn();
         }
         return data;
     }
 
-    private void RecentSearchesOn() {
+    private void recentSearchesOn() {
         frameLayout.setVisibility(View.GONE);
         filter.setVisibility(View.GONE);
         textView1.setVisibility(View.GONE);
@@ -322,9 +328,10 @@ public class SearchListFragment extends Fragment {
         recentSearches.setVisibility(View.VISIBLE);
     }
 
-    private void RecentSearchesOff() {
-        frameLayout.setVisibility(View.GONE);
+    public void recentSearchesOff() {
+
         filter.setVisibility(View.GONE);
+        frameLayout.setVisibility(View.GONE);
         textView1.setVisibility(View.VISIBLE);
         textView2.setVisibility(View.VISIBLE);
         imgItem.setVisibility(View.VISIBLE);
@@ -334,7 +341,7 @@ public class SearchListFragment extends Fragment {
         imgItem.setImageResource(R.mipmap.big_search_foreground);
     }
 
-    private void SearchResultOn() {
+    private void searchResultOn() {
         frameLayout.setVisibility(View.VISIBLE);
         filter.setVisibility(View.VISIBLE);
         textView1.setVisibility(View.GONE);
@@ -343,7 +350,7 @@ public class SearchListFragment extends Fragment {
         recentSearches.setVisibility(View.GONE);
     }
 
-    private void SearchResultOff(CharSequence s) {
+    private void searchResultOff(CharSequence s) {
         frameLayout.setVisibility(View.GONE);
         filter.setVisibility(View.GONE);
         textView1.setVisibility(View.VISIBLE);
@@ -351,8 +358,15 @@ public class SearchListFragment extends Fragment {
         imgItem.setVisibility(View.VISIBLE);
         recentSearches.setVisibility(View.GONE);
         textView1.setText("No result found for \"" + s + "\"");
-        textView2.setText("Please check you have the right spelling, or try differant keywords.");
+        textView2.setText("Please check you have the right spelling,\n or try differant keywords.");
         imgItem.setImageResource(R.mipmap.flag_white_foreground);
     }
 
+    @Override
+    public void onItemEraseListener(int pos, int containerSize) {
+        adapter1.notifyItemRemoved(pos);
+        adapter1.notifyItemRangeChanged(pos, containerSize);
+        if(containerSize==0)
+            recentSearchesOff();
+    }
 }

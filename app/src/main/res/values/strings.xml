@@ -83,6 +83,16 @@
     <string name="browse_all">Browse all</string>
     <string name="your_top_genres">Your top genres</string>
     <string name="Artists_songs_albums_search">Artists,songs or albums</string>
+    <string name="Find_the_music_you_love">Find the music you love</string>
+    <string name="Search_for_artists_songs_playlists_and_more">Search for artists, songs, playlists, and more</string>
+    <string name="See_all_artists">See all artists</string>
+    <string name="See_all_songs">See all songs</string>
+    <string name="See_all_playlists">See all playlists</string>
+    <string name="See_all_albums">See all albums</string>
+    <string name="See_all_genres_and_modes">See all genres &#38; modes</string>
+    <string name="See_all_profiles">See all profiles</string>
+    <string name="Clear_recent_searches">Clear recent searches</string>
+    <string name="Recent_searches">Recent searches</string>
     <string name="todo">TODO</string>
     <string name="settings">Settings</string>
 </resources>

@@ -9,15 +9,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.symphonia.R;
 import com.example.symphonia.Entities.Container;
+import com.example.symphonia.R;
 
 import java.util.ArrayList;
 
 public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder> {
     private ArrayList<Container> container;
     private Boolean chooseImg;
+    private ListItemClickListner listner;
 
+    public interface ListItemClickListner{
+        void onItemEraseListener(int pos,int containerSize);
+    }
+
+    public SearchResultAdapter(ArrayList<Container> data,Boolean b,ListItemClickListner l) {
+        container = data;
+        chooseImg = b;
+        listner=l;
+    }
     public SearchResultAdapter(ArrayList<Container> data,Boolean b) {
         container = data;
         chooseImg = b;
@@ -39,8 +49,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
             @Override
             public void onClick(View v) {
                 container.remove(position);
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position, container.size());
+                listner.onItemEraseListener(position,container.size());
             }
         });
     }
