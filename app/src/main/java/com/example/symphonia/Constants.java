@@ -8,4 +8,8 @@ public class Constants {
 
     public static User user = null;
 
+    public static final boolean debug = true;
+
+
+
 }
