@@ -1,4 +1,4 @@
-package com.example.symphonia.ScrollingHelpers;
+package com.example.symphonia.Helpers;
 
 import android.view.View;
 

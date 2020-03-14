@@ -20,7 +20,7 @@
     <string name="email_or_username">البريد الإلكتروني أو اسم المستخدم</string>
     <string name="password">كلمة السر</string>
     <string name="forget_your_paswword">هل نسيت كلمة السر؟</string>
-    <string name="welcome_to_symphonia">مرحبُا في سيمفونيا</string>
+    <string name="welcome_to_symphonia">مرحبًا في سيمفونيا</string>
     <string name="listener">مستمع</string>
     <string name="artist">مؤلف</string>
     <string name="create_account">إنشاء حساب</string>
@@ -40,4 +40,15 @@
     <string name="recently_played">تم تشغيله حديثًا</string>
     <string name="made_for_you">مخصص لك</string>
     <string name="share_million_of_songs">شارك أغانيك</string>
+    <string name="forgot_password">هل نسيت كلمة السر؟</string>
+    <string name="we_ll_send_a_link">سوف نرسل إليك رابط لتسجيل الدخول من خلاله</string>
+    <string name="get_link">الرابط</string>
+    <string name="check_email">تفحص بريدك</string>
+    <string name="we_will_send">تم إرسال رابط لتسجيل الدخول من خلاله</string>
+    <string name="service_terms">"من خلال تسجيل, فأنت توافق على <a href="http://www.google.com">بنود الخدمة</a> "</string>
+    <string name="privacy_policy" > " لكي تعلم أكتر عن كيف تقوم سيمفونيا بتجميع واستخدام ومشاركة بياناتك الخاصة, من فضلك قم بقراءة<a href="http://www.google.com">سياسة الخصوصية</a> "  </string>
+    <string name="wrong_password_or_email">تركيبة البريد الإلكتروني مع الرقم السري غير صحيحة</string>
+    <string name="Not_connnected">غير متصل</string>
+    <string name="check_internet">تفقد اتصالك بالانترنت</string>
+
 </resources>

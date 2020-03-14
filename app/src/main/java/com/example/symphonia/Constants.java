@@ -10,6 +10,4 @@ public class Constants {
 
     public static final boolean debug = true;
 
-
-
 }

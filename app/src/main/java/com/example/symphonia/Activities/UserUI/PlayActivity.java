@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.R;
-import com.example.symphonia.ScrollingHelpers.SnapHelperOneByOne;
+import com.example.symphonia.Helpers.SnapHelperOneByOne;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Adapters.RvTracksPlayActivityAdapter;
 

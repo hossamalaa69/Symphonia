@@ -42,13 +42,6 @@ public class User {
         this.mType = mType;
     }
 
-    public boolean isListenerType() {
-        return mType;
-    }
-
-    public void setType(boolean mType) {
-        this.mType = mType;
-    }
 
     public User(String mEmail, boolean mType, Bitmap userImage, String mName, String mDOB
             , String mGender, boolean isPremuim, int numOfFollowers, int numOfFollowings
@@ -184,4 +177,13 @@ public class User {
     public void setmPlayedTracks(ArrayList<Track> mPlayedTracks) {
         this.mPlayedTracks = mPlayedTracks;
     }
+
+    public boolean isListenerType() {
+        return mType;
+    }
+
+    public void setType(boolean mType) {
+        this.mType = mType;
+    }
+
 }

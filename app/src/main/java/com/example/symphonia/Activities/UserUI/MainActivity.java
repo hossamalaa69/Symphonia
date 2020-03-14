@@ -20,13 +20,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.symphonia.Constants;
 import com.example.symphonia.Fragments_and_models.home.HomeFragment;
 import com.example.symphonia.Fragments_and_models.library.LibraryFragment;
 import com.example.symphonia.Fragments_and_models.playlist.PlaylistFragment;
 import com.example.symphonia.Fragments_and_models.premium.PremiumFragment;
 import com.example.symphonia.Fragments_and_models.search.SearchFragment;
 import com.example.symphonia.R;
-import com.example.symphonia.ScrollingHelpers.SnapHelperOneByOne;
+import com.example.symphonia.Helpers.SnapHelperOneByOne;
 import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Adapters.RvBarAdapter;
@@ -49,6 +50,9 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        checkUserType();
+
         // initialize bottom navigation view
         initBottomNavView();
 
@@ -248,13 +252,20 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
      *
      * @return true if user online otherwise return false
      */
-    private boolean isOnline() {
+    public boolean isOnline() {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         if (connMgr != null) {
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
             return networkInfo != null && networkInfo.isConnectedOrConnecting();
         }
         return false;
+    }
+
+    public void checkUserType() {
+        if(Constants.user.isListenerType())
+            Toast.makeText(this, "Listener", Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(this, "Artist", Toast.LENGTH_SHORT).show();
     }
 
 }

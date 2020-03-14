@@ -11,24 +11,16 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.symphonia.Activities.ListenerRegister.EmailCheckListenerActivity;
+import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
+
 
 public class ForgetPasswordArtistActivity extends AppCompatActivity {
 
     private EditText email;
     private String user;
 
-    /**
-     * check if string is ic_email form or not
-     *
-     * @param target: input string
-     * @return boolean
-     */
-    public final static boolean isValidEmail(CharSequence target) {
-        if (target == null)
-            return false;
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +35,7 @@ public class ForgetPasswordArtistActivity extends AppCompatActivity {
 
         email.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
-                if (isValidEmail(s.toString()))
+                if (Utils.isValidEmail(s.toString()))
                     enableButton();
                 else
                     lockButton();
