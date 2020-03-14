@@ -17,11 +17,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.symphonia.R;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Adapters.SearchMainAdapter;
+import com.example.symphonia.Service.ServiceController;
 
 import java.util.ArrayList;
 
 
 public class SearchFragment extends Fragment {
+
+    private ServiceController con;
 
     private View.OnClickListener listener = new View.OnClickListener() {
         @Override
@@ -51,13 +54,13 @@ public class SearchFragment extends Fragment {
             }
         });
 
+        con=ServiceController.getInstance();
+
         RelativeLayout RL = root.findViewById(R.id.send_to_serchlist);
         RL.setOnClickListener(listener);
 
-        ArrayList<Container> Genre = new ArrayList<Container>();
-        Genre.add(new Container("string", R.drawable.download));
-        Genre.add(new Container("string", R.drawable.download1));
-        Genre.add(new Container("string", R.drawable.images2));
+        ArrayList<Container> Genre = con.getGenres(getContext());
+
         RecyclerView RV = root.findViewById(R.id.search_top_genres_grid);
         RV.setNestedScrollingEnabled(false);
         GridLayoutManager LM = new GridLayoutManager(getContext(), 2);
@@ -66,14 +69,8 @@ public class SearchFragment extends Fragment {
         genresAdapter = new SearchMainAdapter(Genre);
         RV.setAdapter(genresAdapter);
 
-        ArrayList<Container> Category = new ArrayList<Container>();
-        Category.add(new Container("string", R.drawable.download));
-        Category.add(new Container("string", R.drawable.download1));
-        Category.add(new Container("string", R.drawable.images2));
-        Category.add(new Container("long string", R.drawable.images));
-        Category.add(new Container("long string", R.drawable.images));
-        Category.add(new Container("long string", R.drawable.download1));
-        Category.add(new Container("long string", R.drawable.download1));
+        ArrayList<Container> Category = con.getCategories(getContext());
+
         RecyclerView RV2 = root.findViewById(R.id.search_browse_all_grid);
         RV2.setNestedScrollingEnabled(false);
         GridLayoutManager LM2 = new GridLayoutManager(getContext(), 2);

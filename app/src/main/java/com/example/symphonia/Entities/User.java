@@ -8,6 +8,9 @@ public class User {
 
     private String mEmail;
 
+    // true for listener, Flase for artist
+    private boolean mType;
+
     private Bitmap userImage;
 
     private String mName;
@@ -34,17 +37,20 @@ public class User {
 
     private ArrayList<Track> mPlayedTracks;
 
-    public User(String mName) {
+    public User(String mName, boolean mType) {
         this.mName = mName;
+        this.mType = mType;
     }
 
-    public User(String mEmail, Bitmap userImage, String mName, String mDOB
+
+    public User(String mEmail, boolean mType, Bitmap userImage, String mName, String mDOB
             , String mGender, boolean isPremuim, int numOfFollowers, int numOfFollowings
             , ArrayList<User> mFollowings, ArrayList<User> mFollowers
             , ArrayList<Playlist> favPlaylists, ArrayList<Playlist> madePlaylists
             , ArrayList<Artist> mFollowingArtists, ArrayList<Track> mPlayedTracks) {
 
         this.mEmail = mEmail;
+        this.mType = mType;
         this.userImage = userImage;
         this.mName = mName;
         this.mDOB = mDOB;
@@ -171,4 +177,13 @@ public class User {
     public void setmPlayedTracks(ArrayList<Track> mPlayedTracks) {
         this.mPlayedTracks = mPlayedTracks;
     }
+
+    public boolean isListenerType() {
+        return mType;
+    }
+
+    public void setType(boolean mType) {
+        this.mType = mType;
+    }
+
 }

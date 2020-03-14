@@ -24,12 +24,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.R;
 import com.example.symphonia.Adapters.SearchResultAdapter;
+import com.example.symphonia.Service.ServiceController;
 
 import java.util.ArrayList;
 
 
 public class SearchListFragment extends Fragment implements SearchResultAdapter.ListItemClickListner{
 
+    private ServiceController controller;
     private SearchListFragment context;
     private SearchResultAdapter adapter1;
     private View filter;
@@ -62,6 +64,7 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
         public void onClick(View v) {
             adapter1=new SearchResultAdapter(new ArrayList<Container>(),false,context);
             recentRecycler.setAdapter(adapter1);
+            controller.removeAllRecentSearches(getContext());
             recentSearchesOff();
         }
     };
@@ -207,23 +210,10 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-     /*   KeyboardVisibilityEvent.setEventListener(
-                getActivity(),
-                new KeyboardVisibilityEventListener() {
-                    @Override
-                    public void onVisibilityChanged(boolean isOpen) {
-                        // some code depending on keyboard visiblity status
-                        if(isOpen){
-                            searchText.setVisibility(View.INVISIBLE);
-                            arrow_Img.setVisibility(View.VISIBLE);
-                        }
-                        else {
-                            searchText.setVisibility(View.VISIBLE);
-                            arrow_Img.setVisibility(View.INVISIBLE);
-                        }
-                    }
-                });*/
+
         View root = inflater.inflate(R.layout.search_list, container, false);
+
+        controller=ServiceController.getInstance();
 
         artistsText=root.findViewById(R.id.tv_search_artists);
         artistsText.setOnClickListener(getAllArtists);
@@ -285,8 +275,7 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
     }
 
     private ArrayList<Container> GetResultData(CharSequence s) {
-        ArrayList<Container> data=new ArrayList<Container>();
-        data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
+        ArrayList<Container> data=controller.getResultsOfSearch(getContext(),s.toString());
         if (data.size() == 0) {
             searchResultOff(s);
         } else {
@@ -296,21 +285,8 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
     }
 
     private ArrayList<Container> GetResentData() {
-        ArrayList<Container> data=new ArrayList<Container>();
-        data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
-        /*data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
-        data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
-        data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
-        data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
-        data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
-        data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
-        data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
-        data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
-        data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
-        data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
-        data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
-        data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));
-        data.add(new Container("song name(somthing)","song.sadf",R.drawable.download1));*/
+        ArrayList<Container> data=controller.getResentResult(getContext());
+
         if(data.size()==0){
             recentSearchesOff();
         } else {
@@ -366,6 +342,7 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
     public void onItemEraseListener(int pos, int containerSize) {
         adapter1.notifyItemRemoved(pos);
         adapter1.notifyItemRangeChanged(pos, containerSize);
+
         if(containerSize==0)
             recentSearchesOff();
     }

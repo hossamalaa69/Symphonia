@@ -26,6 +26,9 @@
             android:textSize="24sp" />
     </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
+        android:padding="8dp"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
         android:id="@+id/rv_search_result"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

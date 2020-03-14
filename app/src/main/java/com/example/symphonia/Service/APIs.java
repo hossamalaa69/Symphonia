@@ -8,9 +8,8 @@ import java.util.ArrayList;
 
 public interface APIs {
 
-    boolean logInAsListener(Context context, String username, String password);
+    boolean logIn(Context context, String username, String password, boolean mType);
 
-    boolean logInAsArtist(Context context, String username, String password);
 
     ArrayList<Container> getResentResult(Context context);
 
