@@ -18,8 +18,8 @@
     <TextView
         android:id="@+id/t1"
         android:gravity="center"
-        android:layout_width="350dp"
-        android:layout_height="80dp"
+        android:layout_width="300dp"
+        android:layout_height="90dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:baselineAligned="false"
@@ -27,8 +27,8 @@
         android:text="@string/welcome_to_symphonia"
         android:textColor="#FFFFFF"
         app:autoSizeTextType="uniform"
-        app:autoSizeMinTextSize="10sp"
-        app:autoSizeMaxTextSize="44sp"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeMaxTextSize="30sp"
         app:autoSizeStepGranularity="2sp"
         android:textStyle="bold" />
 
