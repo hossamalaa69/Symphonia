@@ -29,21 +29,24 @@ public class AddArtistsActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ServiceController serviceController = ServiceController.getInstance();
+        final ServiceController serviceController = ServiceController.getInstance();
         ArrayList<Artist> mRecommendedArtists = serviceController.getRecommendedArtists(Constants.user.isListenerType(), Constants.mToken, 20);
-
+        final ArrayList<Artist> selectedArtists = new ArrayList<>();
 
         RecyclerView artistList = findViewById(R.id.rv_artists_grid);
         artistList.addItemDecoration(new GridSpacingItemDecorationAdapter(mRecommendedArtists.size(),3, 50, true));
         GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         artistList.setLayoutManager(layoutManager);
-        RvGridArtistsAdapter adapter = new RvGridArtistsAdapter(mRecommendedArtists);
+        RvGridArtistsAdapter adapter = new RvGridArtistsAdapter(mRecommendedArtists, selectedArtists);
         artistList.setAdapter(adapter);
 
         Button doneButton = findViewById(R.id.done_button);
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                for (Artist artist: selectedArtists) {
+                    serviceController.followArtistOrUser(Constants.user.isListenerType(), Constants.mToken, artist.getId());
+                }
                 finish();
             }
         });

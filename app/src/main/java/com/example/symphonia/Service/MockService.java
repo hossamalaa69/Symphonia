@@ -314,13 +314,13 @@ public class MockService implements APIs {
         if(type)
         {
             for (int i = 0; i < 20 && i < limit; i++) {
-                Constants.user.followArtist(artists.get(i));
+                followArtistOrUser(type, mToken, artists.get(i).getId());
             }
         }
         else
         {
             for (int i = 20; i < 40 && i < 20 + limit; i++) {
-                Constants.user.followArtist(artists.get(i));
+                followArtistOrUser(type, mToken, artists.get(i).getId());
             }
         }
 
@@ -328,10 +328,11 @@ public class MockService implements APIs {
     }
 
     @Override
-    public void followArtistOrUser(Boolean type, String mToken, String artistId) {
+    public void followArtistOrUser(Boolean type, String mToken, String id) {
         for (Artist artist: artists) {
-            if(artist.getId().equals(artistId)){
-                Constants.user.followArtist(artist);
+            if(artist.getId().equals(id)){
+                if(!isFollowing(type, mToken, id))
+                    Constants.user.followArtist(artist);
                 return;
             }
         }

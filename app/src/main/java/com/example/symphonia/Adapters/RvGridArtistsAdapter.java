@@ -17,9 +17,10 @@ import java.util.ArrayList;
 public class RvGridArtistsAdapter extends RecyclerView.Adapter<RvGridArtistsAdapter.ArtistViewHolder> {
 
     private ArrayList<Artist> artists;
-
-    public RvGridArtistsAdapter(ArrayList<Artist> artists) {
+    private ArrayList<Artist> selectedArtists;
+    public RvGridArtistsAdapter(ArrayList<Artist> artists, ArrayList<Artist> selectedArtists) {
         this.artists = artists;
+        this.selectedArtists = selectedArtists;
     }
 
     @Override
@@ -62,9 +63,15 @@ public class RvGridArtistsAdapter extends RecyclerView.Adapter<RvGridArtistsAdap
 
         @Override
         public void onClick(View v) {
-            checkImage.setVisibility((checkImage.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE);
+            if(checkImage.getVisibility() == View.VISIBLE){
+                checkImage.setVisibility(View.GONE);
+                selectedArtists.remove(artists.get(getAdapterPosition()));
+            }
+            else{
+                checkImage.setVisibility(View.VISIBLE);
+                selectedArtists.add(artists.get(getAdapterPosition()));
+            }
         }
     }
-
 
 }

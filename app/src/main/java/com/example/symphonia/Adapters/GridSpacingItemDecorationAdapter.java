@@ -11,7 +11,7 @@ public class GridSpacingItemDecorationAdapter extends RecyclerView.ItemDecoratio
     private int spacing;
     private boolean includeEdge;
     private int dataSize;
-    private final int mBottomOffset = 250;
+    private final int mBottomOffset = 200;
 
     public GridSpacingItemDecorationAdapter(int dataSize, int spanCount, int spacing, boolean includeEdge) {
         this.spanCount = spanCount;

@@ -29,7 +29,7 @@ public class RvListArtistsAdapter extends RecyclerView.Adapter<RvListArtistsAdap
 
     @Override
     public int getItemCount() {
-        return artists.size();
+        return artists.size() + 1;
     }
 
     @NonNull
@@ -56,15 +56,22 @@ public class RvListArtistsAdapter extends RecyclerView.Adapter<RvListArtistsAdap
             artistName = (TextView) itemView.findViewById(R.id.artist_name);
         }
         void bind(int position) {
-            Artist artist = artists.get(position);
-            artistImage.setImageBitmap(artist.getImage());
-            artistName.setText(artist.getArtistName());
+            if(position == artists.size()) {
+                artistImage.setImageResource(R.drawable.add_image);
+                artistName.setText(R.string.add_artists);
+            }
+            else{
+                Artist artist = artists.get(position);
+                artistImage.setImageBitmap(artist.getImage());
+                artistName.setText(artist.getArtistName());
+            }
+
 
         }
 
         @Override
         public void onClick(View v) {
-            if(getAdapterPosition() == artists.size() - 1)
+            if(getAdapterPosition() == artists.size())
             {
                 Intent addArtistsIntent = new Intent(context, AddArtistsActivity.class);
                 context.startActivity(addArtistsIntent);

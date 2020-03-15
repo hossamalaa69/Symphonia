@@ -23,6 +23,10 @@ import java.util.ArrayList;
  */
 public class LibraryArtistsFragment extends Fragment {
 
+    private RecyclerView artistList;
+    private RvListArtistsAdapter adapter;
+    private ArrayList<Artist> mFollowedArtists;
+
     public LibraryArtistsFragment() {
         // Required empty public constructor
     }
@@ -36,15 +40,20 @@ public class LibraryArtistsFragment extends Fragment {
 
         ServiceController serviceController = ServiceController.getInstance();
 
-        ArrayList<Artist> mFollowedArtists = serviceController.getFollowedArtists(Constants.user.isListenerType(), Constants.mToken, 25);
-        mFollowedArtists.add(new Artist("-1", Utils.convertToBitmap(R.drawable.add_image), "Add Artists"));
+        mFollowedArtists = serviceController.getFollowedArtists(Constants.user.isListenerType(), Constants.mToken, 25);
 
-        RecyclerView artistList = rootView.findViewById(R.id.rv_artists);
+        artistList = rootView.findViewById(R.id.rv_artists);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         artistList.setLayoutManager(layoutManager);
-        RvListArtistsAdapter adapter = new RvListArtistsAdapter(mFollowedArtists, getActivity());
+        adapter = new RvListArtistsAdapter(mFollowedArtists, getActivity());
         artistList.setAdapter(adapter);
 
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 }
