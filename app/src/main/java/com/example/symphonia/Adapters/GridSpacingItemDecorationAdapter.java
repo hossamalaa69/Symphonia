@@ -10,11 +10,14 @@ public class GridSpacingItemDecorationAdapter extends RecyclerView.ItemDecoratio
     private int spanCount;
     private int spacing;
     private boolean includeEdge;
+    private int dataSize;
+    private final int mBottomOffset = 250;
 
-    public GridSpacingItemDecorationAdapter(int spanCount, int spacing, boolean includeEdge) {
+    public GridSpacingItemDecorationAdapter(int dataSize, int spanCount, int spacing, boolean includeEdge) {
         this.spanCount = spanCount;
         this.spacing = spacing;
         this.includeEdge = includeEdge;
+        this.dataSize = dataSize;
     }
 
     @Override
@@ -36,6 +39,10 @@ public class GridSpacingItemDecorationAdapter extends RecyclerView.ItemDecoratio
             if (position >= spanCount) {
                 outRect.top = spacing; // item top
             }
+        }
+
+        if (((dataSize-1)/spanCount + 1) == (position/spanCount + 1)) {
+            outRect.bottom = mBottomOffset;
         }
     }
 }

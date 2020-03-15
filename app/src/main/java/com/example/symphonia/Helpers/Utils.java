@@ -1,5 +1,8 @@
 package com.example.symphonia.Helpers;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 public class Utils {
 
     /**
@@ -14,6 +17,10 @@ public class Utils {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 
+    public static Bitmap convertToBitmap(int mImageResourceId)
+    {
+        return BitmapFactory.decodeResource(App.getContext().getResources(), mImageResourceId);
+    }
 
     public int add2(int x, int y){
         return x+y;

@@ -57,7 +57,7 @@ public class RvListArtistsAdapter extends RecyclerView.Adapter<RvListArtistsAdap
         }
         void bind(int position) {
             Artist artist = artists.get(position);
-            artistImage.setImageResource(artist.getImageResourceId());
+            artistImage.setImageBitmap(artist.getImage());
             artistName.setText(artist.getArtistName());
 
         }

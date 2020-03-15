@@ -6,14 +6,21 @@ import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.User;
 import com.example.symphonia.R;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
+import com.example.symphonia.Entities.Artist;
+import com.example.symphonia.Entities.Playlist;
+import com.example.symphonia.Entities.Track;
+import com.example.symphonia.Helpers.Utils;
+
+
+import java.util.ArrayList;
 
 public class MockService implements APIs {
 
-    ArrayList<Container> data;
-    ArrayList<Container> recentSearches;
+    private ArrayList<Artist> artists;
+    private ArrayList<Container> data;
+    private ArrayList<Container> recentSearches;
 
     public MockService() {
         data = new ArrayList<>();
@@ -89,20 +96,71 @@ public class MockService implements APIs {
         recentSearches.add(new Container("Playlist", "Playlist", R.drawable.images2));
         recentSearches.add(new Container("Miley Cyrus", "Artist", R.drawable.download));
 
+        artists = new ArrayList<>();
+        artists.add(new Artist("1", Utils.convertToBitmap(R.drawable.download), "Ragheb Alama"));
+        artists.add(new Artist("2", Utils.convertToBitmap(R.drawable.download), "Elissa"));
+        artists.add(new Artist("3", Utils.convertToBitmap(R.drawable.download), "Angham"));
+        artists.add(new Artist("4", Utils.convertToBitmap(R.drawable.download), "Wael Kfoury"));
+        artists.add(new Artist("5", Utils.convertToBitmap(R.drawable.download), "Wael Jassar"));
+        artists.add(new Artist("6", Utils.convertToBitmap(R.drawable.download), "Shawn Mendes"));
+        artists.add(new Artist("7", Utils.convertToBitmap(R.drawable.download), "BTS"));
+        artists.add(new Artist("8", Utils.convertToBitmap(R.drawable.download), "Billie Eilish"));
+        artists.add(new Artist("9", Utils.convertToBitmap(R.drawable.download), "Alan Walker"));
+        artists.add(new Artist("10", Utils.convertToBitmap(R.drawable.download), "Saad Lamjarred"));
+        artists.add(new Artist("11", Utils.convertToBitmap(R.drawable.download), "Ed Sheeran"));
+        artists.add(new Artist("12", Utils.convertToBitmap(R.drawable.download), "Halsey"));
+        artists.add(new Artist("13", Utils.convertToBitmap(R.drawable.download), "Imagine Dragons"));
+        artists.add(new Artist("14", Utils.convertToBitmap(R.drawable.download), "Ariana Grande"));
+        artists.add(new Artist("15", Utils.convertToBitmap(R.drawable.download), "Aseel Hameem"));
+        artists.add(new Artist("16", Utils.convertToBitmap(R.drawable.download), "Maroon 5"));
+        artists.add(new Artist("17", Utils.convertToBitmap(R.drawable.download), "Ali Gatie"));
+        artists.add(new Artist("18", Utils.convertToBitmap(R.drawable.download), "ZAYN"));
+        artists.add(new Artist("19", Utils.convertToBitmap(R.drawable.download), "Cairokee"));
+        artists.add(new Artist("20", Utils.convertToBitmap(R.drawable.download), "Rauf & Faik"));
+        artists.add(new Artist("21", Utils.convertToBitmap(R.drawable.download1), "Adham Nabulsi"));
+        artists.add(new Artist("22", Utils.convertToBitmap(R.drawable.download1), "Abu"));
+        artists.add(new Artist("23", Utils.convertToBitmap(R.drawable.download1), "Eminem"));
+        artists.add(new Artist("24", Utils.convertToBitmap(R.drawable.download1), "Hussain Al Jassmi"));
+        artists.add(new Artist("25", Utils.convertToBitmap(R.drawable.download1), "Nancy Ajram"));
+        artists.add(new Artist("26", Utils.convertToBitmap(R.drawable.download1), "Camila Cabello"));
+        artists.add(new Artist("27", Utils.convertToBitmap(R.drawable.download1), "Selena Gomez"));
+        artists.add(new Artist("28", Utils.convertToBitmap(R.drawable.download1), "Taylor Swift"));
+        artists.add(new Artist("29", Utils.convertToBitmap(R.drawable.download1), "Tamer Ashour"));
+        artists.add(new Artist("30", Utils.convertToBitmap(R.drawable.download1), "Assala Nasri"));
+        artists.add(new Artist("31", Utils.convertToBitmap(R.drawable.download1), "Maher Zain"));
+        artists.add(new Artist("32", Utils.convertToBitmap(R.drawable.download1), "Adele"));
+        artists.add(new Artist("33", Utils.convertToBitmap(R.drawable.download1), "Hamza Namira"));
+        artists.add(new Artist("34", Utils.convertToBitmap(R.drawable.download1), "Justin Bieber"));
+        artists.add(new Artist("35", Utils.convertToBitmap(R.drawable.download1), "Jannat"));
+        artists.add(new Artist("36", Utils.convertToBitmap(R.drawable.download1), "Samira Said"));
+        artists.add(new Artist("37", Utils.convertToBitmap(R.drawable.download1), "Myriam Fares"));
+        artists.add(new Artist("38", Utils.convertToBitmap(R.drawable.download1), "Amr Diab"));
+        artists.add(new Artist("39", Utils.convertToBitmap(R.drawable.download1), "Bahaa Sultan"));
+        artists.add(new Artist("40", Utils.convertToBitmap(R.drawable.download1), "Loai"));
+
     }
+
 
     @Override
     public boolean logIn(Context context, String username, String password, boolean mType) {
 
         if ((username.equals("artist1") || username.equals("artist@symphonia.com"))
-                && password.equals("12345678") && !mType) {
+                && password.equals("12345678") && mType) {
             Constants.mToken = "token2";
-            Constants.user = new User(username, mType);
+            Constants.user=new User(username, mType, Utils.convertToBitmap(R.drawable.download)
+                    , "Islam Ahmed", "1998/24/11", "male", true
+                    , 65500, 40, new ArrayList<User>()
+                    , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
+                    , new ArrayList<Artist>(), new ArrayList<Track>());
             return true;
         } else if ((username.equals("user1") || username.equals("user@symphonia.com"))
                 && password.equals("12345678") && mType) {
             Constants.mToken = "token1";
-            Constants.user = new User(username, mType);
+            Constants.user=new User(username, mType, Utils.convertToBitmap(R.drawable.download)
+                    , "Islam Ahmed", "1998/24/11", "male", true
+                    , 65500, 40, new ArrayList<User>()
+                    , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
+                    , new ArrayList<Artist>(), new ArrayList<Track>());
             return true;
         }
         return false;
@@ -250,4 +308,68 @@ public class MockService implements APIs {
 
         recentSearches = new ArrayList<Container>();
     }
+
+    @Override
+    public ArrayList<Artist> getFollowedArtists(Boolean type, String mToken, int limit) {
+        if(type)
+        {
+            for (int i = 0; i < 20 && i < limit; i++) {
+                Constants.user.followArtist(artists.get(i));
+            }
+        }
+        else
+        {
+            for (int i = 20; i < 40 && i < 20 + limit; i++) {
+                Constants.user.followArtist(artists.get(i));
+            }
+        }
+
+        return Constants.user.getFollowingArtists();
+    }
+
+    @Override
+    public void followArtistOrUser(Boolean type, String mToken, String artistId) {
+        for (Artist artist: artists) {
+            if(artist.getId().equals(artistId)){
+                Constants.user.followArtist(artist);
+                return;
+            }
+        }
+    }
+
+    @Override
+    public Boolean isFollowing(Boolean type, String mToken, String id) {
+        ArrayList<Artist> mFollowingArtists = Constants.user.getFollowingArtists();
+        for (Artist artist: mFollowingArtists) {
+            if(artist.getId().equals(id))
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    public ArrayList<Artist> getRecommendedArtists(Boolean type, String mToken, int limit) {
+        ArrayList<Artist> mRecommendedArtists = new ArrayList<>();
+        if(type){
+            for (int i = 20; i < 40 && i < 20 + limit; i++) {
+                Artist artist = artists.get(i);
+                if(!isFollowing(type, mToken, artist.getId()))
+                    mRecommendedArtists.add(artist);
+                else
+                    limit++;
+            }
+        }
+        else{
+            for (int i = 0; i < 20 && i < limit; i++) {
+                Artist artist = artists.get(i);
+                if(!isFollowing(type, mToken, artist.getId()))
+                    mRecommendedArtists.add(artist);
+                else
+                    limit++;
+            }
+        }
+
+        return mRecommendedArtists;
+    }
+
 }
