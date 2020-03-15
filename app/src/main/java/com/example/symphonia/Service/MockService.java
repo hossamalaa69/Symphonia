@@ -145,7 +145,7 @@ public class MockService implements APIs {
     public boolean logIn(Context context, String username, String password, boolean mType) {
 
         if ((username.equals("artist1") || username.equals("artist@symphonia.com"))
-                && password.equals("12345678") && mType) {
+                && password.equals("12345678") && !mType) {
             Constants.mToken = "token2";
 
             ArrayList<Artist> followed = new ArrayList<>();
