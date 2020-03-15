@@ -21,9 +21,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.symphonia.Adapters.SearchResultAdapter;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.R;
-import com.example.symphonia.Adapters.SearchResultAdapter;
 import com.example.symphonia.Service.ServiceController;
 
 import java.util.ArrayList;
@@ -167,6 +167,7 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if(count==0){
+
                 eraseText.setVisibility(View.GONE);
                 adapter1=new SearchResultAdapter(GetResentData(),false,context);
                 recentRecycler.setAdapter(adapter1);
@@ -346,4 +347,6 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
         if(containerSize==0)
             recentSearchesOff();
     }
+
+
 }

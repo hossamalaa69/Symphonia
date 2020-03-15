@@ -47,12 +47,17 @@
         <TextView
             android:id="@+id/tv_search_view_nav"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:gravity="center"
+            android:layout_height="70dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text= "@string/Artists_songs_albums_search"
             android:textColor="@color/colorDark"
-            android:textSize="18sp" />
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeMaxTextSize="100sp"
+            app:autoSizeStepGranularity="2sp"
+            />
 
         <ImageView
             android:id="@+id/search_icon"

@@ -50,5 +50,23 @@
     <string name="wrong_password_or_email">تركيبة البريد الإلكتروني مع الرقم السري غير صحيحة</string>
     <string name="Not_connnected">غير متصل</string>
     <string name="check_internet">تفقد اتصالك بالانترنت</string>
+    <string name="browse_all">تصفح الكل</string>
+    <string name="search">بحث</string>
+    <string name="your_top_genres">الأنواع المفضلة لك</string>
+    <string name="Artists_songs_albums_search">فنانين أو أغاني أو ألبومات </string>
+    <string name="Find_the_music_you_love">اعثر على الموسيقى التي تحبها</string>
+    <string name="Search_for_artists_songs_playlists_and_more"> بحث عن الفنانين والأغاني وقوائم التشغيل والمزيد</string>
+    <string name="See_all_artists">شاهد كل الفنانين</string>
+    <string name="See_all_songs">شاهد جميع الأغاني</string>
+    <string name="See_all_playlists">شاهد جميع قوائم التشغيل</string>
+    <string name="See_all_albums">شاهد كل الألبومات</string>
+    <string name="See_all_genres_and_modes">شاهد جميع الأنواع والأوضاع</string>
+    <string name="See_all_profiles">مشاهدة جميع ملفات التعريف</string>
+    <string name="Clear_recent_searches">مسح عمليات البحث الأخيرة</string>
+    <string name="Recent_searches">عمليات البحث الأخيرة</string>
+
+
+
+
 
 </resources>
