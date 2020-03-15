@@ -6,170 +6,169 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        android:name=".Helpers.App"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_splash"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".Activities.UserUI.ArtistsSearchActivity"
+        <activity
+            android:name=".Activities.UserUI.ArtistsSearchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize">
-        </activity>
-
-        <activity android:name=".Activities.ArtistRegister.ForgetPasswordArtistActivity"
-            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"></activity>
+        <activity
+            android:name=".Activities.ArtistRegister.ForgetPasswordArtistActivity"
             android:label="@string/forgot_password"
             android:parentActivityName=".Activities.ArtistRegister.LoginArtistActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.UserUI.MainActivity" />
         </activity>
-
-        <activity android:name=".Activities.ArtistRegister.EmailCheckArtistActivity"
-            android:screenOrientation="portrait"
+        <activity
+            android:name=".Activities.ArtistRegister.EmailCheckArtistActivity"
             android:label="@string/check_email"
             android:parentActivityName=".Activities.ArtistRegister.ForgetPasswordArtistActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.UserUI.MainActivity" />
         </activity>
-
-        <activity android:name=".Activities.ListenerRegister.EmailCheckListenerActivity"
-            android:screenOrientation="portrait"
+        <activity
+            android:name=".Activities.ListenerRegister.EmailCheckListenerActivity"
             android:label="@string/check_email"
             android:parentActivityName=".Activities.ListenerRegister.ForgetPasswordListenerActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.UserUI.MainActivity" />
         </activity>
-
-        <activity android:name=".Activities.ListenerRegister.ForgetPasswordListenerActivity"
-            android:screenOrientation="portrait"
+        <activity
+            android:name=".Activities.ListenerRegister.ForgetPasswordListenerActivity"
             android:label="@string/forgot_password"
             android:parentActivityName=".Activities.ListenerRegister.LoginListenerActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.UserUI.MainActivity" />
         </activity>
-
-        <activity android:name=".Activities.SignUp.SignUp5"
-            android:screenOrientation="portrait"
+        <activity
+            android:name=".Activities.SignUp.SignUp5"
             android:label="@string/create_account"
             android:parentActivityName=".Activities.SignUp.SignUp4"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.SignUp.SignUp4" />
         </activity>
-
-        <activity android:name=".Activities.SignUp.SignUp4"
-            android:screenOrientation="portrait"
+        <activity
+            android:name=".Activities.SignUp.SignUp4"
             android:label="@string/create_account"
             android:parentActivityName=".Activities.SignUp.SignUp3"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.SignUp.SignUp3" />
         </activity>
-
-        <activity android:name=".Activities.SignUp.SignUp3"
-            android:screenOrientation="portrait"
+        <activity
+            android:name=".Activities.SignUp.SignUp3"
             android:label="@string/create_account"
             android:parentActivityName=".Activities.SignUp.SignUp2"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.SignUp.SignUp2" />
         </activity>
-
-        <activity android:name=".Activities.SignUp.SignUp2"
+        <activity
+            android:name=".Activities.SignUp.SignUp2"
             android:label="@string/create_account"
-            android:screenOrientation="portrait"
             android:parentActivityName=".Activities.SignUp.SignUp1"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.SignUp.SignUp1" />
         </activity>
-
-        <activity android:name=".Activities.SignUp.SignUp1"
+        <activity
+            android:name=".Activities.SignUp.SignUp1"
             android:label="@string/create_account"
-            android:screenOrientation="portrait"
             android:parentActivityName=".Activities.ListenerRegister.WelcomeListenerActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.ListenerRegister.WelcomeListenerActivity" />
         </activity>
-
-        <activity android:name=".Activities.ArtistRegister.LoginArtistActivity"
+        <activity
+            android:name=".Activities.ArtistRegister.LoginArtistActivity"
             android:label=""
-            android:screenOrientation="portrait"
             android:parentActivityName=".Activities.ArtistRegister.WelcomeArtistActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.UserUI.MainActivity" />
         </activity>
-
-        <activity android:name=".Activities.ArtistRegister.WelcomeArtistActivity"
+        <activity
+            android:name=".Activities.ArtistRegister.WelcomeArtistActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".Activities.ListenerRegister.WelcomeListenerActivity"
+        <activity
+            android:name=".Activities.ListenerRegister.WelcomeListenerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".Activities.UserUI.AddArtistsActivity"
+        <activity
+            android:name=".Activities.UserUI.AddArtistsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".Activities.UserUI.CreatePlaylistActivity"
+        <activity
+            android:name=".Activities.UserUI.CreatePlaylistActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
-
-        <activity android:name=".Activities.UserUI.PlayActivity"
+        <activity
+            android:name=".Activities.UserUI.PlayActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-
-        <activity android:name=".Activities.ListenerRegister.LoginListenerActivity"
+        <activity
+            android:name=".Activities.ListenerRegister.LoginListenerActivity"
             android:label=""
-            android:screenOrientation="portrait"
             android:parentActivityName=".Activities.ListenerRegister.WelcomeListenerActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.UserUI.MainActivity" />
         </activity>
-
-        <activity android:name=".Activities.UserUI.MainActivity"
+        <activity
+            android:name=".Activities.UserUI.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="adjustPan">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
         </activity>
 
         <activity android:name=".Activities.UserUI.StartActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity android:name=".Activities.UserUI.SplashScreenActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

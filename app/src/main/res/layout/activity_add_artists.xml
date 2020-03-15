@@ -29,6 +29,7 @@
             app:expandedTitleGravity="start"
             app:expandedTitleMarginEnd="16dp"
             app:expandedTitleMarginStart="16dp"
+            app:expandedTitleTextAppearance="@style/TextAppearance.MyApp.Title.Expanded"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:maxLines="2"
             app:title="@string/title_activity_add_artists"

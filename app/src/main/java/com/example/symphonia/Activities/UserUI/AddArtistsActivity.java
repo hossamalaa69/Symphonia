@@ -10,10 +10,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.symphonia.Constants;
 import com.example.symphonia.R;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Adapters.GridSpacingItemDecorationAdapter;
 import com.example.symphonia.Adapters.RvGridArtistsAdapter;
+import com.example.symphonia.Service.ServiceController;
 
 import java.util.ArrayList;
 
@@ -27,34 +29,24 @@ public class AddArtistsActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ArrayList<Artist> artists = new ArrayList<>();
-
-        artists.add(new Artist(R.drawable.download, "Mahmoud El Esseily"));
-        artists.add(new Artist(R.drawable.download1, "Mahmoud El Esseily"));
-        artists.add(new Artist(R.drawable.images, "Mahmoud El Esseily"));
-        artists.add(new Artist(R.drawable.images2, "Mahmoud El Esseily"));
-        artists.add(new Artist(R.drawable.images3, "Mahmoud El Esseily"));
-        artists.add(new Artist(R.drawable.download, "Mahmoud El Esseily"));
-        artists.add(new Artist(R.drawable.download1, "Mahmoud El Esseily"));
-        artists.add(new Artist(R.drawable.images, "Mahmoud El Esseily"));
-        artists.add(new Artist(R.drawable.images2, "Mahmoud El Esseily"));
-        artists.add(new Artist(R.drawable.images3, "Mahmoud El Esseily"));
-        artists.add(new Artist(R.drawable.download, "Mahmoud El Esseily"));
-        artists.add(new Artist(R.drawable.download1, "Mahmoud El Esseily"));
-        artists.add(new Artist(R.drawable.images, "Mahmoud El Esseily"));
-
+        final ServiceController serviceController = ServiceController.getInstance();
+        ArrayList<Artist> mRecommendedArtists = serviceController.getRecommendedArtists(Constants.user.isListenerType(), Constants.mToken, 20);
+        final ArrayList<Artist> selectedArtists = new ArrayList<>();
 
         RecyclerView artistList = findViewById(R.id.rv_artists_grid);
-        artistList.addItemDecoration(new GridSpacingItemDecorationAdapter(3, 50, true));
+        artistList.addItemDecoration(new GridSpacingItemDecorationAdapter(mRecommendedArtists.size(),3, 50, true));
         GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         artistList.setLayoutManager(layoutManager);
-        RvGridArtistsAdapter adapter = new RvGridArtistsAdapter(artists);
+        RvGridArtistsAdapter adapter = new RvGridArtistsAdapter(mRecommendedArtists, selectedArtists);
         artistList.setAdapter(adapter);
 
         Button doneButton = findViewById(R.id.done_button);
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                for (Artist artist: selectedArtists) {
+                    serviceController.followArtistOrUser(Constants.user.isListenerType(), Constants.mToken, artist.getId());
+                }
                 finish();
             }
         });

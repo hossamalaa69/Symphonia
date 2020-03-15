@@ -98,5 +98,6 @@
     <string name="wrong_password_or_email">This email and password combination are incorrect</string>
     <string name="Not_connnected">Not online</string>
     <string name="check_internet">Check your internet connection</string>
+    <string name="artist_search_empty_state">Find your favorite artists</string>
 
 </resources>

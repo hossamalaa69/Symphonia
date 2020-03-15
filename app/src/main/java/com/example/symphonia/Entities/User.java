@@ -8,7 +8,7 @@ public class User {
 
     private String mEmail;
 
-    // true for listener, Flase for artist
+    // true for listener, false for artist
     private boolean mType;
 
     private Bitmap userImage;
@@ -162,13 +162,19 @@ public class User {
         this.madePlaylists = madePlaylists;
     }
 
-    public ArrayList<Artist> getmFollowingArtists() {
+    public ArrayList<Artist> getFollowingArtists() {
         return mFollowingArtists;
     }
 
     public void setmFollowingArtists(ArrayList<Artist> mFollowingArtists) {
         this.mFollowingArtists = mFollowingArtists;
     }
+
+    public void followArtist(Artist artist)
+    {
+        mFollowingArtists.add(artist);
+    }
+
 
     public ArrayList<Track> getmPlayedTracks() {
         return mPlayedTracks;

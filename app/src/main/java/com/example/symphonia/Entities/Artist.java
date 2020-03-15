@@ -1,20 +1,28 @@
 package com.example.symphonia.Entities;
 
-public class Artist {
-    private int mImageResourceId;
-    private String mArtistName;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
-    public Artist(int mImageResourceId, String mArtistName) {
-        this.mImageResourceId = mImageResourceId;
+import com.example.symphonia.Helpers.Utils;
+import com.example.symphonia.R;
+
+public class Artist {
+    private Bitmap mImage;
+    private String mArtistName;
+    private String id;
+
+    public Artist(String id, Bitmap mImage, String mArtistName) {
+        this.id = id;
+        this.mImage = mImage;
         this.mArtistName = mArtistName;
     }
 
-    public int getImageResourceId() {
-        return mImageResourceId;
+    public Bitmap getImage(){
+        return mImage;
     }
 
-    public void setImageResourceId(int mImageResourceId) {
-        this.mImageResourceId = mImageResourceId;
+    public void setImage(Bitmap mImage) {
+        this.mImage = mImage;
     }
 
     public String getArtistName() {
@@ -24,4 +32,9 @@ public class Artist {
     public void setArtistName(String mArtistName) {
         this.mArtistName = mArtistName;
     }
+
+    public String getId() {
+        return id;
+    }
+
 }

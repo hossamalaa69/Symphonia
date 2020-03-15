@@ -9,9 +9,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.symphonia.Constants;
+import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Adapters.RvListArtistsAdapter;
+import com.example.symphonia.Service.ServiceController;
 
 import java.util.ArrayList;
 
@@ -19,6 +22,10 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class LibraryArtistsFragment extends Fragment {
+
+    private RecyclerView artistList;
+    private RvListArtistsAdapter adapter;
+    private ArrayList<Artist> mFollowedArtists;
 
     public LibraryArtistsFragment() {
         // Required empty public constructor
@@ -31,29 +38,22 @@ public class LibraryArtistsFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_library_artists, container, false);
 
-        ArrayList<Artist> artists = new ArrayList<>();
-        artists.add(new Artist(R.drawable.download, "Mahmoud El Esseily"));
-        artists.add(new Artist(R.drawable.download1, "Mahmoud El Esseily"));
-        artists.add(new Artist(R.drawable.images, "Mahmoud El Esseily"));
-        artists.add(new Artist(R.drawable.images2, "Mahmoud El Esseily"));
-        artists.add(new Artist(R.drawable.images3, "Mahmoud El Esseily"));
-        artists.add(new Artist(R.drawable.download, "Mahmoud El Esseily"));
-        artists.add(new Artist(R.drawable.download1, "Mahmoud El Esseily"));
-        artists.add(new Artist(R.drawable.images, "Mahmoud El Esseily"));
-        artists.add(new Artist(R.drawable.images2, "Mahmoud El Esseily"));
-        artists.add(new Artist(R.drawable.images3, "Mahmoud El Esseily"));
-        artists.add(new Artist(R.drawable.download, "Mahmoud El Esseily"));
-        artists.add(new Artist(R.drawable.download1, "Mahmoud El Esseily"));
+        ServiceController serviceController = ServiceController.getInstance();
 
-        artists.add(new Artist(R.drawable.add_image, "Add Artists"));
+        mFollowedArtists = serviceController.getFollowedArtists(Constants.user.isListenerType(), Constants.mToken, 25);
 
-
-        RecyclerView artistList = rootView.findViewById(R.id.rv_artists);
+        artistList = rootView.findViewById(R.id.rv_artists);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         artistList.setLayoutManager(layoutManager);
-        RvListArtistsAdapter adapter = new RvListArtistsAdapter(artists, getActivity());
+        adapter = new RvListArtistsAdapter(mFollowedArtists, getActivity());
         artistList.setAdapter(adapter);
 
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 }

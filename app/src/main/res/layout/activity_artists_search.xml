@@ -31,10 +31,10 @@
         app:mt_textColor="@color/artists_search_bar_content" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/artist_search_empty_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Find your favorite artists"
+        android:text="@string/artist_search_empty_state"
         android:textStyle="bold"
         android:textAppearance="?android:textAppearanceLarge"
         android:textColor="@android:color/white"

@@ -3,6 +3,7 @@ package com.example.symphonia.Service;
 import android.content.Context;
 
 import com.example.symphonia.Entities.Container;
+import com.example.symphonia.Entities.Artist;
 
 import java.util.ArrayList;
 
@@ -10,6 +11,13 @@ public interface APIs {
 
     boolean logIn(Context context, String username, String password, boolean mType);
 
+    ArrayList<Artist> getFollowedArtists(Boolean type, String mToken, int limit);
+
+    void followArtistOrUser(Boolean type, String mToken, String id);
+
+    Boolean isFollowing(Boolean type, String mToken, String id);
+
+    ArrayList<Artist> getRecommendedArtists(Boolean type, String mToken, int limit);
 
     ArrayList<Container> getResentResult(Context context);
 
@@ -34,5 +42,4 @@ public interface APIs {
     void removeOneRecentSearch(Context context,int position);
 
     void removeAllRecentSearches(Context context);
-
 }
