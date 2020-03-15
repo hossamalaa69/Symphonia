@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background2"
+    android:background="@drawable/gradient_list"
+    android:id="@+id/layout"
     tools:context=".Activities.UserUI.StartActivity">
 
     <ImageView
