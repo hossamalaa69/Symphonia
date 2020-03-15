@@ -147,20 +147,33 @@ public class MockService implements APIs {
         if ((username.equals("artist1") || username.equals("artist@symphonia.com"))
                 && password.equals("12345678") && mType) {
             Constants.mToken = "token2";
+
+            ArrayList<Artist> followed = new ArrayList<>();
+            for (int i = 20; i < 40; i++) {
+                followed.add(artists.get(i));
+            }
+
             Constants.user=new User(username, mType, Utils.convertToBitmap(R.drawable.download)
                     , "Islam Ahmed", "1998/24/11", "male", true
                     , 65500, 40, new ArrayList<User>()
                     , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
-                    , new ArrayList<Artist>(), new ArrayList<Track>());
+                    , followed, new ArrayList<Track>());
             return true;
         } else if ((username.equals("user1") || username.equals("user@symphonia.com"))
                 && password.equals("12345678") && mType) {
             Constants.mToken = "token1";
+
+            ArrayList<Artist> followed = new ArrayList<>();
+
+            for (int i = 0; i < 20; i++) {
+                followed.add(artists.get(i));
+            }
+
             Constants.user=new User(username, mType, Utils.convertToBitmap(R.drawable.download)
                     , "Islam Ahmed", "1998/24/11", "male", true
                     , 65500, 40, new ArrayList<User>()
                     , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
-                    , new ArrayList<Artist>(), new ArrayList<Track>());
+                    , followed, new ArrayList<Track>());
             return true;
         }
         return false;
@@ -311,20 +324,14 @@ public class MockService implements APIs {
 
     @Override
     public ArrayList<Artist> getFollowedArtists(Boolean type, String mToken, int limit) {
-        if(type)
+        ArrayList<Artist> followedArtists = Constants.user.getFollowingArtists();
+        ArrayList<Artist> returnedArtists = new ArrayList<>();
+        for (int i = 0; i < Math.min(limit, followedArtists.size()); i++)
         {
-            for (int i = 0; i < 20 && i < limit; i++) {
-                followArtistOrUser(type, mToken, artists.get(i).getId());
-            }
-        }
-        else
-        {
-            for (int i = 20; i < 40 && i < 20 + limit; i++) {
-                followArtistOrUser(type, mToken, artists.get(i).getId());
-            }
+            returnedArtists.add(followedArtists.get(i));
         }
 
-        return Constants.user.getFollowingArtists();
+        return returnedArtists;
     }
 
     @Override

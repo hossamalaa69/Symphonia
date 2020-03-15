@@ -79,5 +79,14 @@ public class RvListArtistsAdapter extends RecyclerView.Adapter<RvListArtistsAdap
         }
     }
 
+    public void clear(){
+        artists.clear();
+        artists = new ArrayList<>();
+    }
+
+    public void addAll(ArrayList<Artist> artists){
+        this.artists.addAll(artists);
+    }
+
 
 }

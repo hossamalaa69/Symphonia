@@ -26,6 +26,7 @@ public class LibraryArtistsFragment extends Fragment {
     private RecyclerView artistList;
     private RvListArtistsAdapter adapter;
     private ArrayList<Artist> mFollowedArtists;
+    private ServiceController serviceController;
 
     public LibraryArtistsFragment() {
         // Required empty public constructor
@@ -38,9 +39,9 @@ public class LibraryArtistsFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_library_artists, container, false);
 
-        ServiceController serviceController = ServiceController.getInstance();
+        serviceController = ServiceController.getInstance();
 
-        mFollowedArtists = serviceController.getFollowedArtists(Constants.user.isListenerType(), Constants.mToken, 25);
+        mFollowedArtists = serviceController.getFollowedArtists(Constants.user.isListenerType(), Constants.mToken, 30);
 
         artistList = rootView.findViewById(R.id.rv_artists);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -54,6 +55,9 @@ public class LibraryArtistsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        mFollowedArtists = serviceController.getFollowedArtists(Constants.user.isListenerType(), Constants.mToken, 30);
+        adapter.clear();
+        adapter.addAll(mFollowedArtists);
         adapter.notifyDataSetChanged();
     }
 }
