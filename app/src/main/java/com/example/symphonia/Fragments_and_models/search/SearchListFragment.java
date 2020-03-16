@@ -91,7 +91,7 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
         @Override
         public void onClick(View v) {
             getFragmentManager().beginTransaction()
-                    .replace(R.id.list_search_view, new SearchForAllFragment("Songs",editText.getText().toString()))
+                    .replace(R.id.search_include, new SearchForAllFragment("Songs",editText.getText().toString()))
                     .addToBackStack(null)
                     .commit();
         }
@@ -101,7 +101,7 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
         @Override
         public void onClick(View v) {
             getFragmentManager().beginTransaction()
-                    .replace(R.id.list_search_view, new SearchForAllFragment("Artists",editText.getText().toString()))
+                    .replace(R.id.search_include, new SearchForAllFragment("Artists",editText.getText().toString()))
                     .addToBackStack(null)
                     .commit();
         }
@@ -111,7 +111,7 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
         @Override
         public void onClick(View v) {
             getFragmentManager().beginTransaction()
-                    .replace(R.id.list_search_view, new SearchForAllFragment("Albums",editText.getText().toString()))
+                    .replace(R.id.search_include, new SearchForAllFragment("Albums",editText.getText().toString()))
                     .addToBackStack(null)
                     .commit();
         }
@@ -121,7 +121,7 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
         @Override
         public void onClick(View v) {
             getFragmentManager().beginTransaction()
-                    .replace(R.id.list_search_view, new SearchForAllFragment("Playlists",editText.getText().toString()))
+                    .replace(R.id.search_include, new SearchForAllFragment("Playlists",editText.getText().toString()))
                     .addToBackStack(null)
                     .commit();
         }
@@ -131,7 +131,7 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
         @Override
         public void onClick(View v) {
             getFragmentManager().beginTransaction()
-                    .replace(R.id.list_search_view, new SearchForAllFragment("Genres & Moods",editText.getText().toString()))
+                    .replace(R.id.search_include, new SearchForAllFragment("Genres & Moods",editText.getText().toString()))
                     .addToBackStack(null)
                     .commit();
         }
@@ -141,7 +141,7 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
         @Override
         public void onClick(View v) {
             getFragmentManager().beginTransaction()
-                    .replace(R.id.list_search_view, new SearchForAllFragment("Profiles",editText.getText().toString()))
+                    .replace(R.id.search_include, new SearchForAllFragment("Profiles",editText.getText().toString()))
                     .addToBackStack(null)
                     .commit();
         }

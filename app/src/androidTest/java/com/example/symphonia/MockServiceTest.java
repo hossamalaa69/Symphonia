@@ -6,7 +6,12 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Entities.Container;
+import com.example.symphonia.Entities.Playlist;
+import com.example.symphonia.Entities.Track;
+import com.example.symphonia.Entities.User;
+import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.Service.MockService;
 
 import org.junit.Before;
@@ -31,11 +36,26 @@ public class MockServiceTest {
 
     MockService mockService;
     Context appContext;
+    User user;
+
 
     @Before
     public void setUp() {
         mockService = new MockService();
+
+        ArrayList<Artist> artists = new ArrayList<>();
+        artists.add(new Artist("1", Utils.convertToBitmap(R.drawable.ragheb), "Ragheb Alama"));
+        artists.add(new Artist("2", Utils.convertToBitmap(R.drawable.elissa), "Elissa"));
+        artists.add(new Artist("3", Utils.convertToBitmap(R.drawable.angham), "Angham"));
+        artists.add(new Artist("4", Utils.convertToBitmap(R.drawable.wael), "Wael Kfoury"));
+        artists.add(new Artist("5", Utils.convertToBitmap(R.drawable.wael_gassar), "Wael Jassar"));
+
         appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        user = new User("eslam1092@hotmail.com", true, Utils.convertToBitmap(R.drawable.amr)
+                , "Islam Ahmed", "1998-11-24", "male", true
+                , 65500, 40, new ArrayList<User>()
+                , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
+                , artists, new ArrayList<Track>());
     }
 
     @Test
@@ -51,6 +71,56 @@ public class MockServiceTest {
     @Test
     public void LoginArtistFail() {
         assertFalse(mockService.logIn(appContext,"anything","1234",false));
+    }
+
+    @Test
+    public void getFollowedArtistsSuccess(){
+        Constants.user = user;
+        assertEquals(5, mockService.getFollowedArtists(false, "token1", 15).size());
+    }
+
+    @Test
+    public void getFollowedArtistsFail(){
+        Constants.user = user;
+        assertNotEquals(5, mockService.getFollowedArtists(false, "token1", 3).size());
+    }
+
+    @Test
+    public void followArtistSuccess(){
+        Constants.user = user;
+        mockService.followArtistOrUser(false, "token1", "6");
+        assertEquals(6, mockService.getFollowedArtists(false, "token1", 20).size());
+    }
+
+    @Test
+    public void followArtistFail(){
+        Constants.user = user;
+        mockService.followArtistOrUser(false, "token1", "3");
+        assertNotEquals(6, mockService.getFollowedArtists(false, "token1", 20).size());
+    }
+
+    @Test
+    public void isFollowingSuccess(){
+        Constants.user = user;
+        assertTrue(mockService.isFollowing(false, "token1", "2"));
+    }
+
+    @Test
+    public void isFollowingFail(){
+        Constants.user = user;
+        assertFalse(mockService.isFollowing(false, "token1", "6"));
+    }
+
+    @Test
+    public void getRecommendedArtistsSuccess(){
+        Constants.user = user;
+        assertEquals(20, mockService.getRecommendedArtists(true, "token2", 20).size());
+    }
+
+    @Test
+    public void getRecommendedArtistsFail(){
+        Constants.user = user;
+        assertNotEquals(20, mockService.getRecommendedArtists(false, "token1", 20).size());
     }
 
     @Test

@@ -64,9 +64,30 @@
     <string name="See_all_profiles">مشاهدة جميع ملفات التعريف</string>
     <string name="Clear_recent_searches">مسح عمليات البحث الأخيرة</string>
     <string name="Recent_searches">عمليات البحث الأخيرة</string>
-
-
-
+    <string name="artist_search_empty_state">ابحث عن فنانيك المفضلين</string>
+    <string name="library_toolbar_title">الموسيقى</string>
+    <string name="library_tab_playlists">قوائم التشغيل</string>
+    <string name="library_tab_artists">الفنانين</string>
+    <string name="library_tab_albums">الألبومات</string>
+    <string name="create_playlist">انشئ قائمة تشغيل</string>
+    <string name="add_artists">أضف فنانين</string>
+    <string name="albums_empty_state">ألبوماتك سوف تظهر هنا</string>
+    <string name="create_playlist_description">أعطِ قائمة تشغيلك اسمًا</string>
+    <string name="cancel_button">إلغاء</string>
+    <string name="create_playlist_button">إنشاء</string>
+    <string name="skip_playlist_name">تخطي</string>
+    <string name="title_activity_add_artists">اختر فنانيك المفضلون</string>
+    <string name="done_button">تم</string>
+    <string name="settings">الإعدادات</string>
+    <string name="todo">مطلوب</string>
+    <string name="popular_playlist">قوائم تشغيل شائعة</string>
+    <string name="based_on_your_recently_played">مرتبط بما تم تشغيله مؤخرًا</string>
+    <string name="play">تشغيل</string>
+    <string name="track_image">صورة الأغنية</string>
+    <string name="cant_read">لا يستطيع القراءة</string>
+    <string name="curr_playing_track_play_acitivity_intent">الأغنية الحالية</string>
+    <string name="only_local_data_show">سوف تظهر البيانات المحلية فقط</string>
+    <string name="playing_from">من قائمة التشغيل</string>
 
 
 </resources>

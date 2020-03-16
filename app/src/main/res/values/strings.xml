@@ -23,7 +23,7 @@
     <string name="recently_played">Recently played</string>
     <string name="made_for_you">Made for you</string>
     <string name="heavy_playlist">Your heavy rotations playlist</string>
-    <string name="popular_playlist">Popular playlist</string>
+    <string name="popular_playlist">Popular playlists</string>
     <string name="based_on_your_recently_played">based on your recentlry played</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -75,7 +75,7 @@
     <string name="check_email">Check your email</string>
     <string name="we_will_send">We sent you an email with a link that will log you in at</string>
 
-    <string name="service_terms">By creating an account, you agree to Symphonia\'s <a href="http://www.google.com">Terms of com.example.symphonia.Service</a></string>
+    <string name="service_terms">By creating an account, you agree to Symphonia\'s <a href="http://www.google.com">Terms of Service</a></string>
     <string name="privacy_policy">To learn more about how Symphonia collects, uses, shares and protects your
         personal data please read Symphonia\'s <a href="http://www.google.com">Privacy Policy</a></string>
 
