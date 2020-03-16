@@ -22,6 +22,7 @@
         android:textSize="18sp"
         android:textColor="@color/colorWhite"
         android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         app:autoSizeTextType="uniform"
         app:autoSizeMinTextSize="8sp"
         app:autoSizeMaxTextSize="20sp"

@@ -1,6 +1,12 @@
 package com.example.symphonia.Fragments_and_models.search;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,6 +24,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.palette.graphics.Palette;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,10 +34,12 @@ import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 
 public class SearchListFragment extends Fragment implements SearchResultAdapter.ListItemClickListner{
-
     private ServiceController controller;
     private SearchListFragment context;
     private SearchResultAdapter adapter1;
@@ -48,13 +57,13 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
     private TextView clearRecentSearches;
     private EditText editText;
 
+
     private TextView artistsText;
     private TextView songsText;
     private TextView playlistsText;
     private TextView albumsText;
     private TextView genresText;
     private TextView profilesText;
-
     SearchListFragment(){
         context=this;
     }
@@ -173,6 +182,19 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
                 recentRecycler.setAdapter(adapter1);
             }
             else{
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    ArrayList<Container>f=GetResultData(s);
+                    if(f.size()!=0) {
+                        Drawable drawable = createBackground(f.get(0));
+
+                        // transition drawable controls the animation ov changing background
+                   /*TransitionDrawable td = new TransitionDrawable(new Drawable[]{trackBackgroun, drawable});
+                    trackBackgroun = drawable;
+                    rl.setBackground(td);
+                    td.startTransition(500);*/
+                        resultRecycler.setBackground(drawable);
+                    }
+                }
                 eraseText.setVisibility(View.VISIBLE);
                 adapter1=new SearchResultAdapter(GetResultData(s),true,context);
                 resultRecycler.setAdapter(adapter1);
@@ -212,10 +234,9 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.search_list, container, false);
+        View root = inflater.inflate(R.layout.search_include, container, false);
 
         controller=ServiceController.getInstance();
-
         artistsText=root.findViewById(R.id.tv_search_artists);
         artistsText.setOnClickListener(getAllArtists);
         songsText=root.findViewById(R.id.tv_search_songs);
@@ -228,7 +249,6 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
         genresText.setOnClickListener(getAllGenres);
         profilesText=root.findViewById(R.id.tv_search_profiles);
         profilesText.setOnClickListener(getAllProfiles);
-
         editText = (EditText) root.findViewById(R.id.search_edit_text);
         eraseText=(ImageView)root.findViewById(R.id.close_search_rectangle);
         eraseText.setOnClickListener(Erase);
@@ -346,6 +366,44 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
 
         if(containerSize==0)
             recentSearchesOff();
+    }
+
+    /**
+     * create gradient background for track
+     *
+     * @return
+     */
+    private Drawable createBackground(Container container) {
+        int color = getDominantColor(BitmapFactory.decodeResource(getContext().getResources()
+                , container.getImg_Res()));
+
+        SearchListFragment.SomeDrawable drawable = new SearchListFragment.SomeDrawable(color, Color.BLACK);
+        return drawable;
+
+    }
+
+    /**
+     * create gradient drawable for track image
+     */
+    public class SomeDrawable extends GradientDrawable {
+
+        public SomeDrawable(int pStartColor, int pEndColor) {
+            super(Orientation.BOTTOM_TOP, new int[]{pEndColor, pStartColor, pStartColor});
+            setShape(GradientDrawable.RECTANGLE);
+        }
+
+    }
+
+    public static int getDominantColor(Bitmap bitmap) {
+        List<Palette.Swatch> swatchesTemp = Palette.from(bitmap).generate().getSwatches();
+        List<Palette.Swatch> swatches = new ArrayList<Palette.Swatch>(swatchesTemp);
+        Collections.sort(swatches, new Comparator<Palette.Swatch>() {
+            @Override
+            public int compare(Palette.Swatch swatch1, Palette.Swatch swatch2) {
+                return swatch2.getPopulation() - swatch1.getPopulation();
+            }
+        });
+        return swatches.size() > 0 ? swatches.get(0).getRgb() : 0;
     }
 
 

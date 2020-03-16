@@ -14,9 +14,9 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.symphonia.R;
-import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Adapters.SearchMainAdapter;
+import com.example.symphonia.Entities.Container;
+import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
 
 import java.util.ArrayList;
