@@ -6,6 +6,7 @@
     android:background="@color/colorDark">
 
     <ImageView
+        android:scaleType="centerCrop"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:id="@+id/img_search_all_playlists"

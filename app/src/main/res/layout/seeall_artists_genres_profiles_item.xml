@@ -8,6 +8,8 @@
     android:background="@color/colorDark">
 
     <ImageView
+        android:paddingLeft="8dp"
+        android:scaleType="centerCrop"
         android:paddingRight="4dp"
         android:id="@+id/img_search_all_artists"
         android:layout_width="55dp"

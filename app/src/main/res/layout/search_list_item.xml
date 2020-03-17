@@ -7,10 +7,12 @@
    >
 
   <ImageView
+      android:paddingLeft="16dp"
       android:paddingRight="4dp"
       android:id="@+id/img_search_list_item"
       android:layout_width="55dp"
-      android:layout_height="55dp" />
+      android:layout_height="55dp"
+      android:scaleType="centerCrop"/>
 
   <LinearLayout
       android:padding="4dp"
