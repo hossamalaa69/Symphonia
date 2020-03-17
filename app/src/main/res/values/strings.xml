@@ -99,5 +99,11 @@
     <string name="Not_connnected">Not online</string>
     <string name="check_internet">Check your internet connection</string>
     <string name="artist_search_empty_state">Find your favorite artists</string>
+    <string name="Artist">Artist</string>
+    <string name="Playlist">Playlist</string>
+    <string name="Song">Song</string>
+    <string name="Genre">Genre</string>
+    <string name="Album">Album</string>
+    <string name="Profile">Profile</string>
 
 </resources>

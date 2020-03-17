@@ -3,25 +3,22 @@ package com.example.symphonia.Service;
 import android.content.Context;
 
 import com.example.symphonia.Constants;
-import com.example.symphonia.Entities.Container;
-import com.example.symphonia.Entities.User;
-import com.example.symphonia.R;
-import java.util.ArrayList;
-import java.util.LinkedList;
 import com.example.symphonia.Entities.Artist;
+import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Track;
+import com.example.symphonia.Entities.User;
 import com.example.symphonia.Helpers.Utils;
-
+import com.example.symphonia.R;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class MockService implements APIs {
 
     private ArrayList<Artist> artists;
     private ArrayList<Container> data;
     private ArrayList<Container> recentSearches;
-
     public MockService() {
         data = new ArrayList<>();
         data.add(new Container("Quran", "Playlist", R.drawable.images2));

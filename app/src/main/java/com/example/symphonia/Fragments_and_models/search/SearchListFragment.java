@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -56,7 +57,7 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
     private RecyclerView resultRecycler;
     private TextView clearRecentSearches;
     private EditText editText;
-
+    private Drawable trackBackgroun;
 
     private TextView artistsText;
     private TextView songsText;
@@ -188,11 +189,11 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
                         Drawable drawable = createBackground(f.get(0));
 
                         // transition drawable controls the animation ov changing background
-                   /*TransitionDrawable td = new TransitionDrawable(new Drawable[]{trackBackgroun, drawable});
+                   TransitionDrawable td = new TransitionDrawable(new Drawable[]{trackBackgroun, drawable});
                     trackBackgroun = drawable;
-                    rl.setBackground(td);
-                    td.startTransition(500);*/
-                        resultRecycler.setBackground(drawable);
+                    resultRecycler.setBackground(td);
+                    td.startTransition(300);
+                        //resultRecycler.setBackground(drawable);
                     }
                 }
                 eraseText.setVisibility(View.VISIBLE);
@@ -235,6 +236,7 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.search_include, container, false);
+        trackBackgroun=getResources().getDrawable(R.drawable.search_background);
 
         controller=ServiceController.getInstance();
         artistsText=root.findViewById(R.id.tv_search_artists);
