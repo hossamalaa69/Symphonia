@@ -4,43 +4,152 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="false"
+    android:animationCache="false"
     android:background="@color/colorPrimary"
     tools:context=".Activities.UserUI.ArtistsSearchActivity">
 
-    <com.mancj.materialsearchbar.MaterialSearchBar
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/artist_search_bar_height"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:visibility="gone"
+        app:cardBackgroundColor="@color/artists_search_bar_background"
+        app:cardCornerRadius="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:src="@drawable/ic_search_black_24dp"
+                android:tint="@color/artists_search_bar_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:text="@string/search"
+                android:textColor="@color/artists_search_bar_content" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <RelativeLayout
+        android:id="@+id/search_bar_focused"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/artists_search_bar_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/arrow_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:paddingRight="16dp"
+            android:paddingLeft="16dp"
+            android:background="?selectableItemBackground"
+            android:src="@drawable/ic_arrow_back" />
+
+        <EditText
+            android:id="@+id/search_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_vertical"
+            android:layout_toStartOf="@id/clear"
+            android:layout_toLeftOf="@id/clear"
+            android:layout_toEndOf="@id/arrow_back"
+            android:layout_toRightOf="@id/arrow_back"
+            android:background="@android:color/transparent"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textColor="@android:color/white" />
+
+        <ImageButton
+            android:id="@+id/clear"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:paddingRight="16dp"
+            android:paddingLeft="16dp"
+            android:background="?selectableItemBackground"
+            android:src="@drawable/ic_close_black_24dp"
+            android:tint="@android:color/white"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+    </RelativeLayout>
+
+    <!--<com.mancj.materialsearchbar.MaterialSearchBar
         android:id="@+id/searchBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:mt_hint=""
         android:background="@color/artists_search_bar_background"
-        app:mt_textCursorTint="#1db954"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingTop="8dp"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingBottom="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:mt_backIconTint="@android:color/white"
         app:mt_clearIconTint="@android:color/white"
+        app:mt_dividerColor="#1db954"
+        app:mt_highlightedTextColor="#661DB954"
+        app:mt_hint=""
         app:mt_maxSuggestionsCount="10"
         app:mt_placeholder="@string/search"
         app:mt_placeholderColor="@color/artists_search_bar_content"
         app:mt_searchBarColor="@color/artists_search_bar_background"
         app:mt_searchIconTint="@color/artists_search_bar_content"
-        app:mt_textColor="@color/artists_search_bar_content" />
+        app:mt_textColor="@android:color/white"
+        app:mt_textCursorTint="#1db954" />-->
 
     <TextView
-        android:id="@+id/artist_search_empty_state"
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/artist_search_empty_state"
-        android:textStyle="bold"
+        android:text="Find your favorite artists"
         android:textAppearance="?android:textAppearanceLarge"
         android:textColor="@android:color/white"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchBar" />
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
