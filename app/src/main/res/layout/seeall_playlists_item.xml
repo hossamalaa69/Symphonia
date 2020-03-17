@@ -10,7 +10,7 @@
         android:paddingRight="8dp"
         android:id="@+id/img_search_all_playlists"
         android:layout_width="170dp"
-        android:layout_height="170dp" />
+        android:layout_height="160dp" />
 
     <LinearLayout
         android:layout_width="match_parent"

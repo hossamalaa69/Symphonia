@@ -21,76 +21,81 @@ public class MockService implements APIs {
     private ArrayList<Container> recentSearches;
     public MockService() {
         data = new ArrayList<>();
-        data.add(new Container("Quran", "Playlist", R.drawable.images2));
+        data.add(new Container("Quran", "Playlist", R.drawable.selena));
         data.add(new Container("George Wassouf", "Artist", R.drawable.download));
         data.add(new Container("Get Weird", "Album.Little Mix", R.drawable.download1));
         data.add(new Container("Godzilla", "Song.Eminem juice WRLD", R.drawable.images));
         data.add(new Container("Believer", "Song.Eminem juice WRLD", R.drawable.images));
-        data.add(new Container("Natural", "Song.Imagine Dragons", R.drawable.images2));
+        data.add(new Container("Natural", "Song.Imagine Dragons", R.drawable.abu));
         data.add(new Container("Love Save Us Once", "Album.Little Mix", R.drawable.download));
         data.add(new Container("Get Weird", "Album.Little Mix", R.drawable.download1));
         data.add(new Container("Mozart", "Genre", R.drawable.images3));
         data.add(new Container("Get Weird", "Album.Little Mix", R.drawable.images3));
         data.add(new Container("Mine", "Playlist", R.drawable.images));
-        data.add(new Container("ALVXARO", "Playlist", R.drawable.images2));
+        data.add(new Container("ALVXARO", "Playlist", R.drawable.adele));
 
-        data.add(new Container("Amr Diab", "Artist", R.drawable.download));
+        data.add(new Container("Amr Diab", "Artist", R.drawable.amr));
         data.add(new Container("Stop Noise", "Album.Little Mix", R.drawable.download1));
         data.add(new Container("Beautiful Song", "Song.Eminem juice WRLD", R.drawable.images));
         data.add(new Container("Lose Yourself", "Song.Eminem juice WRLD", R.drawable.images));
-        data.add(new Container("Whatever It Takes", "Song.Imagine Dragons", R.drawable.images2));
+        data.add(new Container("Whatever It Takes", "Song.Imagine Dragons", R.drawable.tamer_ashour));
         data.add(new Container("Max Payne", "Album.Little Mix", R.drawable.download));
         data.add(new Container("Rick And Morty", "Album.Little Mix", R.drawable.download1));
         data.add(new Container("Rock", "Genre", R.drawable.images3));
         data.add(new Container("Elephant", "Album.Little Mix", R.drawable.images3));
         data.add(new Container("End Of World", "Playlist", R.drawable.images));
-        data.add(new Container("Crazy Love", "Playlist", R.drawable.images2));
+        data.add(new Container("Crazy Love", "Playlist", R.drawable.angham));
 
         data.add(new Container("Van Diesel", "Artist", R.drawable.download));
         data.add(new Container("Wind", "Album.Little Mix", R.drawable.download1));
         data.add(new Container("I Will Survive", "Song.Eminem juice WRLD", R.drawable.images));
         data.add(new Container("Beautiful Mind", "Song.Eminem juice WRLD", R.drawable.images));
-        data.add(new Container("Sucker For Pain", "Song.Imagine Dragons", R.drawable.images2));
+        data.add(new Container("Sucker For Pain", "Song.Imagine Dragons", R.drawable.billie));
         data.add(new Container("Pain", "Album.Little Mix", R.drawable.download));
         data.add(new Container("Quite Place", "Album.Little Mix", R.drawable.download1));
         data.add(new Container("Sleep", "Genre", R.drawable.images3));
         data.add(new Container("Gamal", "Album.Little Mix", R.drawable.images3));
         data.add(new Container("Nerds", "Playlist", R.drawable.images));
-        data.add(new Container("Smoke Grenades", "Playlist", R.drawable.images2));
+        data.add(new Container("Smoke Grenades", "Playlist", R.drawable.jannat));
 
         data.add(new Container("Samir Abo Elnil", "Artist", R.drawable.download));
         data.add(new Container("Sun Rises", "Album.Little Mix", R.drawable.download1));
         data.add(new Container("Cat Sound", "Song.Eminem juice WRLD", R.drawable.images));
         data.add(new Container("Billie Jean", "Song.Eminem juice WRLD", R.drawable.images));
-        data.add(new Container("Thunder", "Song.Imagine Dragons", R.drawable.images2));
+        data.add(new Container("Thunder", "Song.Imagine Dragons", R.drawable.loai));
         data.add(new Container("The Shadows", "Album.Little Mix", R.drawable.download));
         data.add(new Container("Silence Of Lambs", "Album.Little Mix", R.drawable.download1));
         data.add(new Container("Afro", "Genre", R.drawable.images3));
         data.add(new Container("Fancy", "Album.Little Mix", R.drawable.images3));
         data.add(new Container("Jungles", "Playlist", R.drawable.images));
-        data.add(new Container("Oranges", "Playlist", R.drawable.images2));
+        data.add(new Container("Oranges", "Playlist", R.drawable.hamza));
 
-        data.add(new Container("Adele", "Artist", R.drawable.download));
+        data.add(new Container("Adele", "Artist", R.drawable.adele));
         data.add(new Container("Yellow Album", "Album.Little Mix", R.drawable.download1));
         data.add(new Container("Stressed Out", "Song.Eminem juice WRLD", R.drawable.images));
         data.add(new Container("ThunderClouds", "Song.Eminem juice WRLD", R.drawable.images));
-        data.add(new Container("Thunder", "Song.Imagine Dragons", R.drawable.images2));
+        data.add(new Container("Thunder", "Song.Imagine Dragons", R.drawable.halsey));
         data.add(new Container("High Waves", "Album.Little Mix", R.drawable.download));
         data.add(new Container("Nice Album", "Album.Little Mix", R.drawable.download1));
         data.add(new Container("Pop", "Genre", R.drawable.images3));
         data.add(new Container("Lollipop", "Album.Little Mix", R.drawable.images3));
         data.add(new Container("Friction", "Playlist", R.drawable.images));
-        data.add(new Container("Playlist", "Playlist", R.drawable.images2));
+        data.add(new Container("Playlist", "Playlist", R.drawable.wael));
         data.add(new Container("Miley Cyrus", "Artist", R.drawable.download));
 
+        data.add((new Container("my profile","Profile",R.drawable.assala)));
+        data.add((new Container("mohammed ahmed","Profile",R.drawable.cairokee)));
+        data.add((new Container("ali saad","Profile",R.drawable.samira)));
+
+
         recentSearches = new ArrayList<>();
-        recentSearches.add(new Container("Quran", "Playlist", R.drawable.images2));
+        recentSearches.add(new Container("Quran", "Playlist", R.drawable.images));
         recentSearches.add(new Container("George Wassouf", "Artist", R.drawable.download));
         recentSearches.add(new Container("Get Weird", "Album.Little Mix", R.drawable.download1));
         recentSearches.add(new Container("Godzilla", "Song.Eminem juice WRLD", R.drawable.images));
         recentSearches.add(new Container("Lollipop", "Album.Little Mix", R.drawable.images3));
         recentSearches.add(new Container("Friction", "Playlist", R.drawable.images));
-        recentSearches.add(new Container("Playlist", "Playlist", R.drawable.images2));
+        recentSearches.add(new Container("Playlist", "Playlist", R.drawable.alan));
         recentSearches.add(new Container("Miley Cyrus", "Artist", R.drawable.download));
 
         artists = new ArrayList<>();

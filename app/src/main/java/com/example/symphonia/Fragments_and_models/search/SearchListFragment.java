@@ -196,6 +196,13 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
                         //resultRecycler.setBackground(drawable);
                     }
                 }
+                if(controller.getArtists(getContext(),editText.getText().toString()).size()==0) artistsText.setVisibility(View.GONE);
+                if(controller.getAlbums(getContext(),editText.getText().toString()).size()==0) albumsText.setVisibility(View.GONE);
+                if(controller.getSongs(getContext(),editText.getText().toString()).size()==0) songsText.setVisibility(View.GONE);
+                if(controller.getPlaylists(getContext(),editText.getText().toString()).size()==0) playlistsText.setVisibility(View.GONE);
+                if(controller.getGenresAndMoods(getContext(),editText.getText().toString()).size()==0) genresText.setVisibility(View.GONE);
+                if(controller.getProfiles(getContext(),editText.getText().toString()).size()==0) profilesText.setVisibility(View.GONE);
+
                 eraseText.setVisibility(View.VISIBLE);
                 adapter1=new SearchResultAdapter(GetResultData(s),true,context);
                 resultRecycler.setAdapter(adapter1);

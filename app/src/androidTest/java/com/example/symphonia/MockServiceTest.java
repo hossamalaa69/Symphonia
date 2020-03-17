@@ -261,7 +261,7 @@ public class MockServiceTest {
     @Test
     public void getPlaylistsFails(){
         ArrayList<Container>testedData=new ArrayList<>();
-        testedData.add(new Container("quran", "Playlist", R.drawable.images2));
+        testedData.add(new Container("quran", "Playlist", R.drawable.images));
         ArrayList<Container>comingData=mockService.getPlaylists(appContext,"Q");
         assertNotEquals(comingData.size(),testedData.size());
     }
@@ -269,7 +269,7 @@ public class MockServiceTest {
     @Test
     public void getPlaylistsSuccess(){
         ArrayList<Container>testedData=new ArrayList<>();
-        testedData.add(new Container("Quran", "Playlist", R.drawable.images2));
+        testedData.add(new Container("Quran", "Playlist", R.drawable.images));
         ArrayList<Container>comingData=mockService.getPlaylists(appContext,"Q");
         assertEquals(comingData.size(),testedData.size());
         for (int i = 0; i < comingData.size(); i++) {
