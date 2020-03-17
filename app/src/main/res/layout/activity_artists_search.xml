@@ -113,43 +113,65 @@
 
     </RelativeLayout>
 
-    <!--<com.mancj.materialsearchbar.MaterialSearchBar
-        android:id="@+id/searchBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/artists_search_bar_background"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingTop="8dp"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingBottom="8dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_artists_list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:mt_backIconTint="@android:color/white"
-        app:mt_clearIconTint="@android:color/white"
-        app:mt_dividerColor="#1db954"
-        app:mt_highlightedTextColor="#661DB954"
-        app:mt_hint=""
-        app:mt_maxSuggestionsCount="10"
-        app:mt_placeholder="@string/search"
-        app:mt_placeholderColor="@color/artists_search_bar_content"
-        app:mt_searchBarColor="@color/artists_search_bar_background"
-        app:mt_searchIconTint="@color/artists_search_bar_content"
-        app:mt_textColor="@android:color/white"
-        app:mt_textCursorTint="#1db954" />-->
+        app:layout_constraintTop_toBottomOf="@+id/search_bar_focused">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/artist_search_empty_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Find your favorite artists"
+        android:text="@string/artist_search_empty_state"
         android:textAppearance="?android:textAppearanceLarge"
         android:textColor="@android:color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/not_found_state_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/not_found_state_1"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/rv_artists_list"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/not_found_state_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:gravity="center"
+        android:text="@string/not_found_state_2"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textColor="@color/artist_not_found_small_text"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/rv_artists_list"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/not_found_state_1"
+        tools:visibility="visible" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

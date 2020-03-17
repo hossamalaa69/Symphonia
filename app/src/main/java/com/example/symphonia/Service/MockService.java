@@ -419,4 +419,19 @@ public class MockService implements APIs {
         return mRecommendedArtists;
     }
 
+    @Override
+    public ArrayList<Artist> searchArtist(Context context, String q, int offset, int limit) {
+        ArrayList<Artist> found = new ArrayList<>();
+        for (Artist artist : artists) {
+            if (artist.getArtistName().contains(q))
+                found.add(artist);
+        }
+
+        ArrayList<Artist> searchResult = new ArrayList<>();
+        for (int i = offset; i < Math.min(found.size(), offset + limit); i++) {
+            searchResult.add(found.get(i));
+        }
+
+        return searchResult;
+    }
 }

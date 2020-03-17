@@ -1,42 +1,63 @@
 package com.example.symphonia.Activities.UserUI;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.symphonia.Adapters.RvListArtistSearchAdapter;
+import com.example.symphonia.Entities.Artist;
+import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
+import com.example.symphonia.Service.ServiceController;
 
-import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 public class ArtistsSearchActivity extends AppCompatActivity {
 
     private View cardSearchBar;
     private RelativeLayout searchBarFocused;
     private EditText searchEditText;
+    private RecyclerView artistsList;
+    private TextView emptyState;
+    private TextView notFound1;
+    private TextView notFound2;
+
+    private RvListArtistSearchAdapter adapter;
+    private ArrayList<Artist> searchResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artists_search);
 
+        final ServiceController serviceController = ServiceController.getInstance();
+
         searchEditText = findViewById(R.id.search_edit_text);
         cardSearchBar = findViewById(R.id.search_bar);
         searchBarFocused = findViewById(R.id.search_bar_focused);
+        emptyState = findViewById(R.id.artist_search_empty_state);
+        notFound1 = findViewById(R.id.not_found_state_1);
+        notFound2 = findViewById(R.id.not_found_state_2);
+
+        searchResult = new ArrayList<>();
+        artistsList = findViewById(R.id.rv_artists_list);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        artistsList.setLayoutManager(layoutManager);
+        adapter = new RvListArtistSearchAdapter(searchResult, this);
+        artistsList.setAdapter(adapter);
 
         searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -65,18 +86,14 @@ public class ArtistsSearchActivity extends AppCompatActivity {
             public void onClick(View v) {
                 clearIcon.callOnClick();
                 searchEditText.clearFocus();
-                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                //Find the currently focused view, so we can grab the correct window token from it.
-                View view = ArtistsSearchActivity.this.getCurrentFocus();
-                //If no view currently has focus, create a new one, just so we can grab a window token from it
-                if (view == null) {
-                    view = new View(ArtistsSearchActivity.this);
-                }
-                assert imm != null;
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                Utils.hideKeyboard(ArtistsSearchActivity.this, ArtistsSearchActivity.this);
 
+                artistsList.setVisibility(View.GONE);
                 searchBarFocused.setVisibility(View.GONE);
+                emptyState.setVisibility(View.VISIBLE);
                 cardSearchBar.setVisibility(View.VISIBLE);
+                notFound1.setVisibility(View.GONE);
+                notFound2.setVisibility(View.GONE);
             }
         });
 
@@ -85,7 +102,7 @@ public class ArtistsSearchActivity extends AppCompatActivity {
             public void onClick(View v) {
                 cardSearchBar.setVisibility(View.GONE);
                 searchBarFocused.setVisibility(View.VISIBLE);
-
+                artistsList.setVisibility(View.VISIBLE);
                 searchEditText.requestFocus();
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 assert imm != null;
@@ -106,7 +123,7 @@ public class ArtistsSearchActivity extends AppCompatActivity {
             }
         });
 
-        
+
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -115,10 +132,32 @@ public class ArtistsSearchActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.toString().isEmpty())
+                if (s.toString().isEmpty()) {
+                    emptyState.setVisibility(View.VISIBLE);
                     clearIcon.setVisibility(View.GONE);
-                else
+                    notFound1.setVisibility(View.GONE);
+                    notFound2.setVisibility(View.GONE);
+                    adapter.clear();
+                    adapter.notifyDataSetChanged();
+
+                } else {
+                    emptyState.setVisibility(View.GONE);
                     clearIcon.setVisibility(View.VISIBLE);
+
+                    searchResult = serviceController.searchArtist(ArtistsSearchActivity.this, s.toString());
+                    adapter.clear();
+                    adapter.addAll(searchResult);
+                    adapter.notifyDataSetChanged();
+                    if(searchResult.isEmpty()) {
+                        notFound1.setText(getString(R.string.not_found_state_1) + " \"" + s + "\"");
+                        notFound1.setVisibility(View.VISIBLE);
+                        notFound2.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        notFound1.setVisibility(View.GONE);
+                        notFound2.setVisibility(View.GONE);
+                    }
+                }
             }
 
             @Override

@@ -105,5 +105,7 @@
     <string name="Genre">Genre</string>
     <string name="Album">Album</string>
     <string name="Profile">Profile</string>
+    <string name="not_found_state_1">Couldn\'t find</string>
+    <string name="not_found_state_2">Try searching again or using a different spelling or\nkeyword.</string>
 
 </resources>

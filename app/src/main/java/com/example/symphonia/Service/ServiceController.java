@@ -105,4 +105,12 @@ public class ServiceController {
         return mSupplier.getRecommendedArtists(type, mToken, limit);
     }
 
+    public ArrayList<Artist> searchArtist(Context context, String q){
+        return mSupplier.searchArtist(context, q, 0, 20);
+    }
+
+    public ArrayList<Artist> searchArtist(Context context, String q, int offset, int limit){
+        return mSupplier.searchArtist(context, q, offset, limit);
+    }
+
 }

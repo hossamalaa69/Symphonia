@@ -45,4 +45,6 @@ public interface APIs {
     void removeOneRecentSearch(Context context,int position);
 
     void removeAllRecentSearches(Context context);
+
+    ArrayList<Artist> searchArtist(Context context, String q, int offset, int limit);
 }
