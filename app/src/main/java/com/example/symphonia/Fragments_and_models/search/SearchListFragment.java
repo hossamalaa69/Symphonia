@@ -176,7 +176,7 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if(count==0){
+            if(count==0&&s.length()==0){
 
                 eraseText.setVisibility(View.GONE);
                 adapter1=new SearchResultAdapter(GetResentData(),false,context);
