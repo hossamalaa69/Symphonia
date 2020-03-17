@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Artist;
+import com.example.symphonia.Entities.Playlist;
 
 import java.util.ArrayList;
 
@@ -26,6 +27,10 @@ public class ServiceController {
         return restClient;
     }
 
+    public ArrayList<Playlist> getRecentPlaylists(Context context)
+    {
+        return mSupplier.getRecentPlaylists(context);
+    }
     public boolean logIn(Context context, String username, String password, boolean mType) {
         return mSupplier.logIn(context, username, password, mType);
     }

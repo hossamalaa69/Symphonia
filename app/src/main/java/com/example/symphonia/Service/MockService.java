@@ -19,6 +19,8 @@ public class MockService implements APIs {
     private ArrayList<Artist> artists;
     private ArrayList<Container> data;
     private ArrayList<Container> recentSearches;
+    private ArrayList<Playlist> playlists;
+
     public MockService() {
         data = new ArrayList<>();
         data.add(new Container("Quran", "Playlist", R.drawable.selena));
@@ -140,8 +142,45 @@ public class MockService implements APIs {
         artists.add(new Artist("39", Utils.convertToBitmap(R.drawable.bahaa), "Bahaa Sultan"));
         artists.add(new Artist("40", Utils.convertToBitmap(R.drawable.loai), "Loai"));
 
+
+        playlists = new ArrayList<>();
+        ArrayList<Track> tracks = new ArrayList<Track>();
+
+        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.images));
+      /*  tracks.add(new Track("la la land ", "islam", "HOme", R.drawable.download));
+        tracks.add(new Track("ha ha hand ", "Hossam", "baba ma ", R.drawable.download1));
+        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.images3));
+        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.images2));
+        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.images));
+        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.download1));
+        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.download));
+        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.download1));
+        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.download));
+        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.download1));
+        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.images2));
+        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.download));
+        */
+        playlists.add(new Playlist("HOme", "khaled,seyam,azoz this playlist is so popular",
+                Utils.convertToBitmap(R.drawable.loai), tracks));
+     /*   playlists.add(new Playlist("HOme", "khaled,seyam,azoz this playlist is so popular",
+                Utils.convertToBitmap(R.drawable.loai), tracks));
+        playlists.add(new Playlist("HOme", "khaled,seyam,azoz this playlist is so popular",
+                Utils.convertToBitmap(R.drawable.loai), tracks));
+        playlists.add(new Playlist("HOme", "khaled,seyam,azoz this playlist is so popular",
+                Utils.convertToBitmap(R.drawable.loai), tracks));
+        playlists.add(new Playlist("HOme", "khaled,seyam,azoz this playlist is so popular",
+                Utils.convertToBitmap(R.drawable.loai), tracks));
+        playlists.add(new Playlist("HOme", "khaled,seyam,azoz this playlist is so popular",
+                Utils.convertToBitmap(R.drawable.loai), tracks));
+        playlists.add(new Playlist("HOme", "khaled,seyam,azoz this playlist is so popular",
+                Utils.convertToBitmap(R.drawable.loai), tracks));*/
+
     }
 
+    @Override
+    public ArrayList<Playlist> getRecentPlaylists(Context context) {
+        return playlists;
+    }
 
     @Override
     public boolean logIn(Context context, String username, String password, boolean mType) {
@@ -155,7 +194,7 @@ public class MockService implements APIs {
                 followed.add(artists.get(i));
             }
 
-            Constants.user=new User(username, mType, Utils.convertToBitmap(R.drawable.download)
+            Constants.user = new User(username, mType, Utils.convertToBitmap(R.drawable.download)
                     , "Islam Ahmed", "1998/24/11", "male", true
                     , 65500, 40, new ArrayList<User>()
                     , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
@@ -171,7 +210,7 @@ public class MockService implements APIs {
                 followed.add(artists.get(i));
             }
 
-            Constants.user=new User(username, mType, Utils.convertToBitmap(R.drawable.download)
+            Constants.user = new User(username, mType, Utils.convertToBitmap(R.drawable.download)
                     , "Islam Ahmed", "1998/24/11", "male", true
                     , 65500, 40, new ArrayList<User>()
                     , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
@@ -204,10 +243,10 @@ public class MockService implements APIs {
         ArrayList<Container> results = new ArrayList<>();
         ArrayList<Container> temp;
         temp = getAllResultsOfSearch(context, searchWord);
-        int size=7;
-        if(temp.size()<7) size=temp.size();
+        int size = 7;
+        if (temp.size() < 7) size = temp.size();
         for (int i = 0; i < size; i++) {
-                results.add(temp.get(i));
+            results.add(temp.get(i));
         }
         return results;
     }
@@ -328,8 +367,7 @@ public class MockService implements APIs {
     public ArrayList<Artist> getFollowedArtists(Boolean type, String mToken, int limit) {
         ArrayList<Artist> followedArtists = Constants.user.getFollowingArtists();
         ArrayList<Artist> returnedArtists = new ArrayList<>();
-        for (int i = 0; i < Math.min(limit, followedArtists.size()); i++)
-        {
+        for (int i = 0; i < Math.min(limit, followedArtists.size()); i++) {
             returnedArtists.add(followedArtists.get(i));
         }
 
@@ -338,9 +376,9 @@ public class MockService implements APIs {
 
     @Override
     public void followArtistOrUser(Boolean type, String mToken, String id) {
-        for (Artist artist: artists) {
-            if(artist.getId().equals(id)){
-                if(!isFollowing(type, mToken, id))
+        for (Artist artist : artists) {
+            if (artist.getId().equals(id)) {
+                if (!isFollowing(type, mToken, id))
                     Constants.user.followArtist(artist);
                 return;
             }
@@ -350,8 +388,8 @@ public class MockService implements APIs {
     @Override
     public Boolean isFollowing(Boolean type, String mToken, String id) {
         ArrayList<Artist> mFollowingArtists = Constants.user.getFollowingArtists();
-        for (Artist artist: mFollowingArtists) {
-            if(artist.getId().equals(id))
+        for (Artist artist : mFollowingArtists) {
+            if (artist.getId().equals(id))
                 return true;
         }
         return false;
@@ -360,19 +398,18 @@ public class MockService implements APIs {
     @Override
     public ArrayList<Artist> getRecommendedArtists(Boolean type, String mToken, int limit) {
         ArrayList<Artist> mRecommendedArtists = new ArrayList<>();
-        if(type){
+        if (type) {
             for (int i = 20; i < 40 && i < 20 + limit; i++) {
                 Artist artist = artists.get(i);
-                if(!isFollowing(type, mToken, artist.getId()))
+                if (!isFollowing(type, mToken, artist.getId()))
                     mRecommendedArtists.add(artist);
                 else
                     limit++;
             }
-        }
-        else{
+        } else {
             for (int i = 0; i < 20 && i < limit; i++) {
                 Artist artist = artists.get(i);
-                if(!isFollowing(type, mToken, artist.getId()))
+                if (!isFollowing(type, mToken, artist.getId()))
                     mRecommendedArtists.add(artist);
                 else
                     limit++;

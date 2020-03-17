@@ -19,6 +19,7 @@ import com.example.symphonia.R;
 import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Adapters.RvPlaylistsHomeAdapter;
+import com.example.symphonia.Service.ServiceController;
 
 import java.util.ArrayList;
 
@@ -67,39 +68,8 @@ public class HomeFragment extends Fragment {
     void initViews(View root) {
 
         // test
-        ArrayList<Track> tracks = new ArrayList<Track>();
-
-        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.images));
-        tracks.add(new Track("la la land ", "islam", "HOme", R.drawable.download));
-        tracks.add(new Track("ha ha hand ", "Hossam", "baba ma ", R.drawable.download1));
-        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.images3));
-        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.images2));
-        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.images));
-        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.download1));
-        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.download));
-        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.download1));
-        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.download));
-        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.download1));
-        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.images2));
-        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.download));
-
-
-        ArrayList<Playlist> playlists = new ArrayList<>();
-        playlists.add(new Playlist("HOme", "khaled,seyam,azoz this playlist is so popular",
-                BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.ic_launcher_background), tracks));
-        playlists.add(new Playlist("HOme", "khaled,seyam,azoz this playlist is so popular",
-                BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.ic_launcher_background), tracks));
-        playlists.add(new Playlist("HOme", "khaled,seyam,azoz this playlist is so popular",
-                BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.ic_launcher_background), tracks));
-        playlists.add(new Playlist("HOme", "khaled,seyam,azoz this playlist is so popular",
-                BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.ic_launcher_background), tracks));
-        playlists.add(new Playlist("HOme", "khaled,seyam,azoz this playlist is so popular",
-                BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.ic_launcher_background), tracks));
-        playlists.add(new Playlist("HOme", "khaled,seyam,azoz this playlist is so popular",
-                BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.ic_launcher_background), tracks));
-        playlists.add(new Playlist("HOme", "khaled,seyam,azoz this playlist is so popular",
-                BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.ic_launcher_background), tracks));
-
+        ServiceController SController =  ServiceController.getInstance();
+        ArrayList<Playlist> playlists = SController.getRecentPlaylists(getContext());
         //----------------------
         TextView playlistTitle;
         layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);

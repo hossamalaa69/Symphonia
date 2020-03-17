@@ -4,10 +4,13 @@ import android.content.Context;
 
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Artist;
+import com.example.symphonia.Entities.Playlist;
 
 import java.util.ArrayList;
 
 public interface APIs {
+
+    ArrayList<Playlist> getRecentPlaylists(Context context);
 
     boolean logIn(Context context, String username, String password, boolean mType);
 
