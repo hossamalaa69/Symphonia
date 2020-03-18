@@ -1,5 +1,7 @@
 package com.example.symphonia.Adapters;
 
+import android.app.Activity;
+import android.app.ListFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -20,11 +22,11 @@ import java.util.ArrayList;
 public class RvListArtistSearchAdapter extends RecyclerView.Adapter<RvListArtistSearchAdapter.ArtistViewHolder> {
 
     private ArrayList<Artist> artists;
-    private Context context;
+    private ListItemClickListener mOnClickListener;
 
-    public RvListArtistSearchAdapter(ArrayList<Artist> artists, Context context) {
+    public RvListArtistSearchAdapter(ArrayList<Artist> artists, ListItemClickListener mOnClickListener) {
         this.artists = artists;
-        this.context = context;
+        this.mOnClickListener = mOnClickListener;
     }
 
     @Override
@@ -63,6 +65,7 @@ public class RvListArtistSearchAdapter extends RecyclerView.Adapter<RvListArtist
 
         @Override
         public void onClick(View v) {
+            mOnClickListener.onListItemClick(getAdapterPosition());
         }
     }
 
@@ -75,5 +78,8 @@ public class RvListArtistSearchAdapter extends RecyclerView.Adapter<RvListArtist
         this.artists.addAll(artists);
     }
 
+    public interface ListItemClickListener{
+        void onListItemClick(int clickedItemIndex);
+    }
 
 }

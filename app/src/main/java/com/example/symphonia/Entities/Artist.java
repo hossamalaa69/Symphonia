@@ -1,28 +1,29 @@
 package com.example.symphonia.Entities;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
-import com.example.symphonia.Helpers.Utils;
-import com.example.symphonia.R;
+import com.example.symphonia.Helpers.SerialBitmap;
 
-public class Artist {
-    private Bitmap mImage;
+import java.io.Serializable;
+
+
+public class Artist implements Serializable {
+    private SerialBitmap mImage;
     private String mArtistName;
     private String id;
 
     public Artist(String id, Bitmap mImage, String mArtistName) {
         this.id = id;
-        this.mImage = mImage;
+        this.mImage = new SerialBitmap(mImage);
         this.mArtistName = mArtistName;
     }
 
     public Bitmap getImage(){
-        return mImage;
+        return mImage.getBitmap();
     }
 
     public void setImage(Bitmap mImage) {
-        this.mImage = mImage;
+        this.mImage.setBitmap(mImage);
     }
 
     public String getArtistName() {
@@ -36,5 +37,7 @@ public class Artist {
     public String getId() {
         return id;
     }
+
+
 
 }

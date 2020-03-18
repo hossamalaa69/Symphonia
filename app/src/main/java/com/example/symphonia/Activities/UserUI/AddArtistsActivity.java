@@ -1,10 +1,12 @@
 package com.example.symphonia.Activities.UserUI;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -21,7 +23,8 @@ import java.util.ArrayList;
 
 public class AddArtistsActivity extends AppCompatActivity {
 
-
+    private static final int STATIC_INTEGER_VALUE = 1;
+    private Artist selectedArtist;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,8 +59,23 @@ public class AddArtistsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent ArtistsSearchActivityIntent = new Intent(AddArtistsActivity.this, ArtistsSearchActivity.class);
-                startActivity(ArtistsSearchActivityIntent);
+                startActivityForResult(ArtistsSearchActivityIntent, STATIC_INTEGER_VALUE);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case STATIC_INTEGER_VALUE:{
+                if (resultCode == Activity.RESULT_OK) {
+                    assert data != null;
+                    selectedArtist = (Artist)data.getSerializableExtra("SelectedArtist");
+                }
+                break;
+            }
+
+        }
     }
 }

@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,7 +27,7 @@ import com.example.symphonia.Service.ServiceController;
 
 import java.util.ArrayList;
 
-public class ArtistsSearchActivity extends AppCompatActivity {
+public class ArtistsSearchActivity extends AppCompatActivity implements RvListArtistSearchAdapter.ListItemClickListener{
 
     private View cardSearchBar;
     private RelativeLayout searchBarFocused;
@@ -169,4 +171,12 @@ public class ArtistsSearchActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onListItemClick(int clickedItemIndex) {
+        Intent resultIntent = new Intent();
+        Artist artist = searchResult.get(clickedItemIndex);
+        resultIntent.putExtra("SelectedArtist", artist);
+        setResult(Activity.RESULT_OK, resultIntent);
+        finish();
+    }
 }

@@ -21,11 +21,13 @@ import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Constants;
+import com.example.symphonia.Entities.User;
 import com.example.symphonia.Fragments_and_models.home.HomeFragment;
 import com.example.symphonia.Fragments_and_models.library.LibraryFragment;
 import com.example.symphonia.Fragments_and_models.playlist.PlaylistFragment;
 import com.example.symphonia.Fragments_and_models.premium.PremiumFragment;
 import com.example.symphonia.Fragments_and_models.search.SearchFragment;
+import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Helpers.SnapHelperOneByOne;
 import com.example.symphonia.Entities.Playlist;
@@ -33,6 +35,7 @@ import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Adapters.RvBarAdapter;
 import com.example.symphonia.Adapters.RvPlaylistsHomeAdapter;
 import com.example.symphonia.Adapters.RvTracksHomeAdapter;
+import com.example.symphonia.Service.ServiceController;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.w3c.dom.Text;
@@ -269,6 +272,9 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             Toast.makeText(this, "Listener", Toast.LENGTH_SHORT).show();
         else
             Toast.makeText(this, "Artist", Toast.LENGTH_SHORT).show();*/
+
+        ServiceController serviceController = ServiceController.getInstance();
+        serviceController.logIn(this, "user@symphonia.com", "12345678", true);
     }
 
 }
