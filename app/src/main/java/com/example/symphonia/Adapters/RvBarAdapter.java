@@ -9,8 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.symphonia.R;
 import com.example.symphonia.Entities.Track;
+import com.example.symphonia.R;
 
 import java.util.ArrayList;
 
@@ -90,7 +90,7 @@ public class RvBarAdapter extends RecyclerView.Adapter<RvBarAdapter.BarHolder> {
         public void bind() {
             trackDetails.setText(tracks.get(getAdapterPosition()).getmTitle()
                     .concat(" ")
-                    .concat(tracks.get(getAdapterPosition()).getmDescription()));
+                    .concat((tracks.get(getAdapterPosition()).getmDescription() != null) ? tracks.get(getAdapterPosition()).getmDescription() : ""));
         }
     }
 }

@@ -22,12 +22,13 @@
             layout="@layout/home_sample" />
 
         <include
-            android:id="@+id/your_heavy_rotation_playlist"
+            android:id="@+id/popular_playlist_playlist"
             layout="@layout/home_sample" />
 
         <include
-            android:id="@+id/popular_playlist_playlist"
+            android:id="@+id/your_heavy_rotation_playlist"
             layout="@layout/home_sample" />
+
 
         <include
             android:id="@+id/based_on_your_recently_listening_playlist"

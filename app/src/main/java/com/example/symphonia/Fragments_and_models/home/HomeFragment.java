@@ -1,6 +1,5 @@
 package com.example.symphonia.Fragments_and_models.home;
 
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +14,10 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.symphonia.R;
-import com.example.symphonia.Entities.Playlist;
-import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Adapters.RvPlaylistsHomeAdapter;
+import com.example.symphonia.Constants;
+import com.example.symphonia.Entities.Playlist;
+import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
 
 import java.util.ArrayList;
@@ -68,8 +67,11 @@ public class HomeFragment extends Fragment {
     void initViews(View root) {
 
         // test
-        ServiceController SController =  ServiceController.getInstance();
-        ArrayList<Playlist> playlists = SController.getRecentPlaylists(getContext());
+        ServiceController SController = ServiceController.getInstance();
+        ArrayList<Playlist> playlists = SController.getRandomPlaylists(getContext(), Constants.mToken);
+        ArrayList<Playlist> popularPlaylists = SController.getPopularPlaylists(getContext(), Constants.mToken);
+        ArrayList<Playlist> recentPlaylists = SController.getRecentPlaylists(getContext(), Constants.mToken);
+
         //----------------------
         TextView playlistTitle;
         layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
@@ -79,10 +81,10 @@ public class HomeFragment extends Fragment {
         playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
         playlistTitle.setText(R.string.recently_played);
         rvRecentlyPlayed.setLayoutManager(layoutManager);
-        rvPlaylistsHomeAdapter = new RvPlaylistsHomeAdapter(getContext(), playlists);
+        rvPlaylistsHomeAdapter = new RvPlaylistsHomeAdapter(getContext(), recentPlaylists);
         rvRecentlyPlayed.setAdapter(rvPlaylistsHomeAdapter);
 
-        // made for you playlist
+        // made for you playlist;
         layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
         view = root.findViewById(R.id.made_for_you_playlist);
         rvMadeForYou = view.findViewById(R.id.rv_sample_home);
@@ -109,7 +111,7 @@ public class HomeFragment extends Fragment {
         playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
         playlistTitle.setText(R.string.popular_playlist);
         rvPopularPlaylist.setLayoutManager(layoutManager);
-        rvPlaylistsHomeAdapter = new RvPlaylistsHomeAdapter(getContext(), playlists);
+        rvPlaylistsHomeAdapter = new RvPlaylistsHomeAdapter(getContext(), popularPlaylists);
         rvPopularPlaylist.setAdapter(rvPlaylistsHomeAdapter);
 
         // based on your recently played

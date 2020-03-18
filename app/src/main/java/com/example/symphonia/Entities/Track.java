@@ -7,26 +7,45 @@ public class Track implements Serializable {
     private String mTitle;
     private String mDescription;
     private String PlaylistName;
+    private String mAlbum;
+    private String mArtist;
     private String mURL;
-    private boolean isHidded;
+    private boolean isHidden;
     private boolean isLiked;
     private int mImageResources;
     private int mDuration;
 
     //TODO delete this constructor; made for testing and not real testing
-    public Track(String mTitle, String mDescription, String playlistName, int mImageResources) {
+    public Track(String mTitle, String mArtist, String playlistName, String mAlbum, int mImageResources) {
         this.mTitle = mTitle;
-        this.mDescription = mDescription;
-        PlaylistName = playlistName;
+        this.mArtist = mArtist;
+        this.mAlbum = mAlbum;
+        this.PlaylistName = playlistName;
         this.mImageResources = mImageResources;
     }
 
-    public Track(String mTitle, String mDescription, String playlistName, String mURL, boolean isHidded, boolean isLiked, int mImageResources, int mDuration) {
+    public void setmAlbum(String mAlbum) {
+        this.mAlbum = mAlbum;
+    }
+
+    public void setmArtist(String mArtist) {
+        this.mArtist = mArtist;
+    }
+
+    public String getmAlbum() {
+        return mAlbum;
+    }
+
+    public String getmArtist() {
+        return mArtist;
+    }
+
+    public Track(String mTitle, String mDescription, String playlistName, String mURL, boolean isHidden, boolean isLiked, int mImageResources, int mDuration) {
         this.mTitle = mTitle;
         this.mDescription = mDescription;
         PlaylistName = playlistName;
         this.mURL = mURL;
-        this.isHidded = isHidded;
+        this.isHidden = isHidden;
         this.isLiked = isLiked;
         this.mImageResources = mImageResources;
         this.mDuration = mDuration;
@@ -64,12 +83,12 @@ public class Track implements Serializable {
         this.mURL = mURL;
     }
 
-    public boolean isHidded() {
-        return isHidded;
+    public boolean isHidden() {
+        return isHidden;
     }
 
-    public void setHidded(boolean hidded) {
-        isHidded = hidded;
+    public void setHidden(boolean hidden) {
+        isHidden = hidden;
     }
 
     public boolean isLiked() {

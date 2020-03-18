@@ -10,11 +10,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.symphonia.R;
 import com.example.symphonia.Entities.Playlist;
+import com.example.symphonia.R;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class RvPlaylistsHomeAdapter extends RecyclerView.Adapter<RvPlaylistsHomeAdapter.Holder> {
 
@@ -69,13 +68,21 @@ public class RvPlaylistsHomeAdapter extends RecyclerView.Adapter<RvPlaylistsHome
         }
 
         public void bind(int pos) {
-            // TODO add data to views
-            /*ivPlaylistImage.setImageDrawable(new BitmapDrawable(context.getResources(),
-                    mPlaylists.get(pos).getmPlaylistImage()));
-            */
-            ivPlaylistImage.setImageResource(images[new Random().nextInt(5)]);
+            if (mPlaylists.get(pos).getmPlaylistImage() == null) {
+                ivPlaylistImage.setImageResource(R.drawable.no_image);
+            }
+            ivPlaylistImage.setImageBitmap(
+                    mPlaylists.get(pos).getmPlaylistImage());
+            if (mPlaylists.get(pos).getmPlaylistTitle() == null) {
+                tvPlaylistTitle.setVisibility(View.GONE);
+            }
+
             tvPlaylistTitle.setText(mPlaylists.get(pos).getmPlaylistTitle());
-            tvPlaylistDescription.setText(mPlaylists.get(pos).getmPlaylistDescription());
+            if (mPlaylists.get(pos).getmPlaylistDescription() == null) {
+                tvPlaylistDescription.setVisibility(View.GONE);
+            } else {
+                tvPlaylistDescription.setText(mPlaylists.get(pos).getmPlaylistDescription());
+            }
         }
 
         @Override

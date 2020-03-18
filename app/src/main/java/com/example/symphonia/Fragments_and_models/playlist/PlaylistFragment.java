@@ -13,9 +13,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.symphonia.R;
-import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Adapters.RvTracksHomeAdapter;
+import com.example.symphonia.Entities.Playlist;
+import com.example.symphonia.R;
 import com.google.android.material.appbar.AppBarLayout;
 
 /**
@@ -60,9 +60,9 @@ public class PlaylistFragment extends Fragment {
         appBarLayout.setScrollbarFadingEnabled(true);
 
         //TODO add data of playlist (real data ) delete hard coded
-        playlistImage.setImageResource(R.drawable.download1);
+        playlistImage.setImageBitmap(mPlaylist.getmPlaylistImage());
         playlistTitle.setText(mPlaylist.getmPlaylistTitle());
-        madeForUser.setText(R.string.made_for_you);
+        madeForUser.setText(R.string.made_for_you_by_spotify);
         layoutManager = new LinearLayoutManager(getContext());
         rvTracks.setHasFixedSize(true);
         rvTracks.setLayoutManager(layoutManager);

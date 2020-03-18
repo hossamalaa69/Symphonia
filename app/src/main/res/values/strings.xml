@@ -107,5 +107,6 @@
     <string name="Profile">Profile</string>
     <string name="not_found_state_1">Couldn\'t find</string>
     <string name="not_found_state_2">Try searching again or using a different spelling or\nkeyword.</string>
+    <string name="made_for_you_by_spotify">make for you by spotify</string>
 
 </resources>

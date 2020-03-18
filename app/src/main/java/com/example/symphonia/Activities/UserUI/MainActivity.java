@@ -35,6 +35,8 @@ import com.example.symphonia.Adapters.RvPlaylistsHomeAdapter;
 import com.example.symphonia.Adapters.RvTracksHomeAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.w3c.dom.Text;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -78,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         // update date of bar
         ImageView image = view.findViewById(R.id.iv_track_image_bar);
         image.setImageResource(tracks.get(pos).getmImageResources());
+        rvBar.getLayoutManager().scrollToPosition(pos);
         image = view.findViewById(R.id.iv_play_track_bar);
         image.setImageResource(R.drawable.ic_pause_black_24dp);
         playBarButton = image;
@@ -262,10 +265,10 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     }
 
     public void checkUserType() {
-        if(Constants.user.isListenerType())
+     /*   if(Constants.user.isListenerType())
             Toast.makeText(this, "Listener", Toast.LENGTH_SHORT).show();
         else
-            Toast.makeText(this, "Artist", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Artist", Toast.LENGTH_SHORT).show();*/
     }
 
 }

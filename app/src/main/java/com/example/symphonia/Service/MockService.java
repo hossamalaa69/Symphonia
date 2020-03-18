@@ -16,10 +16,12 @@ import java.util.LinkedList;
 
 public class MockService implements APIs {
 
+    private ArrayList<Playlist> randomPlaylists;
+    private ArrayList<Playlist> recentPlaylists;
     private ArrayList<Artist> artists;
     private ArrayList<Container> data;
     private ArrayList<Container> recentSearches;
-    private ArrayList<Playlist> playlists;
+    private ArrayList<Playlist> popularPlaylists;
 
     public MockService() {
         data = new ArrayList<>();
@@ -85,9 +87,9 @@ public class MockService implements APIs {
         data.add(new Container("Playlist", "Playlist", R.drawable.wael));
         data.add(new Container("Miley Cyrus", "Artist", R.drawable.download));
 
-        data.add((new Container("my profile","Profile",R.drawable.assala)));
-        data.add((new Container("mohammed ahmed","Profile",R.drawable.cairokee)));
-        data.add((new Container("ali saad","Profile",R.drawable.samira)));
+        data.add((new Container("my profile", "Profile", R.drawable.assala)));
+        data.add((new Container("mohammed ahmed", "Profile", R.drawable.cairokee)));
+        data.add((new Container("ali saad", "Profile", R.drawable.samira)));
 
 
         recentSearches = new ArrayList<>();
@@ -143,43 +145,51 @@ public class MockService implements APIs {
         artists.add(new Artist("40", Utils.convertToBitmap(R.drawable.loai), "Loai"));
 
 
-        playlists = new ArrayList<>();
+        popularPlaylists = new ArrayList<>();
         ArrayList<Track> tracks = new ArrayList<Track>();
+        tracks.add(new Track("Rescue Me", "OneRepublic", "mood booster", "Rescue Me", R.drawable.rescue_me));
+        tracks.add(new Track("Freaking Me Out", "Ava Max", "mood booster", null, R.drawable.freaking_me_out));
+        tracks.add(new Track("You Can't Stop The Girl", "Bebe Rexha", "mood booster", null, R.drawable.you_cant_stop_the_girl));
+        popularPlaylists.add(new Playlist("mood booster", "Get happy with this pick-up playlist full of current feel-good songs",
+                Utils.convertToBitmap(R.drawable.mood_booster), tracks));
 
-        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.images));
-      /*  tracks.add(new Track("la la land ", "islam", "HOme", R.drawable.download));
-        tracks.add(new Track("ha ha hand ", "Hossam", "baba ma ", R.drawable.download1));
-        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.images3));
-        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.images2));
-        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.images));
-        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.download1));
-        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.download));
-        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.download1));
-        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.download));
-        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.download1));
-        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.images2));
-        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.download));
-        */
-        playlists.add(new Playlist("HOme", "khaled,seyam,azoz this playlist is so popular",
-                Utils.convertToBitmap(R.drawable.loai), tracks));
-     /*   playlists.add(new Playlist("HOme", "khaled,seyam,azoz this playlist is so popular",
-                Utils.convertToBitmap(R.drawable.loai), tracks));
-        playlists.add(new Playlist("HOme", "khaled,seyam,azoz this playlist is so popular",
-                Utils.convertToBitmap(R.drawable.loai), tracks));
-        playlists.add(new Playlist("HOme", "khaled,seyam,azoz this playlist is so popular",
-                Utils.convertToBitmap(R.drawable.loai), tracks));
-        playlists.add(new Playlist("HOme", "khaled,seyam,azoz this playlist is so popular",
-                Utils.convertToBitmap(R.drawable.loai), tracks));
-        playlists.add(new Playlist("HOme", "khaled,seyam,azoz this playlist is so popular",
-                Utils.convertToBitmap(R.drawable.loai), tracks));
-        playlists.add(new Playlist("HOme", "khaled,seyam,azoz this playlist is so popular",
-                Utils.convertToBitmap(R.drawable.loai), tracks));*/
+        recentPlaylists = new ArrayList<>();
+        ArrayList<Track> rTracks = new ArrayList<Track>();
+        rTracks.add(new Track("Little Do You Know", "Alex & Sierra", "Rewind-the sound of 2014", null, R.drawable.little_do_you_know));
+        rTracks.add(new Track("Wildest Dreams", "Taylor Swift", "Rewind-the sound of 2014", null, R.drawable.wildest_dreams));
+        rTracks.add(new Track("One Last Time", "Ariana Grande", "Rewind-the sound of 2014", null, R.drawable.one_last_time));
+        recentPlaylists.add(new Playlist("Rewind-the sound of 2014", null,
+                Utils.convertToBitmap(R.drawable.rewind_the_sound), rTracks));
+
+        randomPlaylists = new ArrayList<>();
+        ArrayList<Track> ranTracks = new ArrayList<Track>();
+        ranTracks.add(new Track("Intentions", "Justing Bieber, Quavo", "Daily Left", null, R.drawable.intentions));
+        ranTracks.add(new Track("Stupid Love", "Lady Gaga", "Daily Left", null, R.drawable.stupid_love));
+        ranTracks.add(new Track("Feel Me", "Selena Gomez", "Daily Left", null, R.drawable.feel_me));
+        randomPlaylists.add(new Playlist("Daily Left", "Sia, J Balvin, Bad Bunny, Justin Bieber, Drake",
+                Utils.convertToBitmap(R.drawable.daily_left), ranTracks));
+
 
     }
 
     @Override
-    public ArrayList<Playlist> getRecentPlaylists(Context context) {
-        return playlists;
+    public ArrayList<Playlist> getMadeForYouPlaylists(Context context, String mToken) {
+        return randomPlaylists;
+    }
+
+    @Override
+    public ArrayList<Playlist> getRecentPlaylists(Context context, String mToken) {
+        return recentPlaylists;
+    }
+
+    @Override
+    public ArrayList<Playlist> getRandomPlaylists(Context context, String mToken) {
+        return randomPlaylists;
+    }
+
+    @Override
+    public ArrayList<Playlist> getPopularPlaylists(Context context, String mToken) {
+        return popularPlaylists;
     }
 
     @Override

@@ -1,11 +1,14 @@
 package com.example.symphonia;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import com.example.symphonia.Activities.UserUI.MainActivity;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Playlist;
@@ -261,26 +264,29 @@ public class MockServiceTest {
     }
 
     @Test
-    public void getPlaylistsFails(){
-        ArrayList<Container>testedData=new ArrayList<>();
-        testedData.add(new Container("quran", "Playlist", R.drawable.images));
-        ArrayList<Container>comingData=mockService.getPlaylists(appContext,"Q");
-        assertNotEquals(comingData.size(),testedData.size());
-    }
-
-    @Test
-    public void getPlaylistsSuccess(){
-        ArrayList<Container>testedData=new ArrayList<>();
-        testedData.add(new Container("Quran", "Playlist", R.drawable.images));
-        ArrayList<Container>comingData=mockService.getPlaylists(appContext,"Q");
-        assertEquals(comingData.size(),testedData.size());
     public void getPlaylistsFails() {
         ArrayList<Container> testedData = new ArrayList<>();
-        testedData.add(new Container("quran", "Playlist", R.drawable.images2));
+        testedData.add(new Container("quran", "Playlist", R.drawable.images));
         ArrayList<Container> comingData = mockService.getPlaylists(appContext, "Q");
         assertNotEquals(comingData.size(), testedData.size());
     }
 
+    /* @Test
+     public void getPlaylistsSuccess() {
+         ArrayList<Container> testedData = new ArrayList<>();
+         testedData.add(new Container("Quran", "Playlist", R.drawable.images));
+         ArrayList<Container> comingData = mockService.getPlaylists(appContext, "Q");
+         assertEquals(comingData.size(), testedData.size());
+     }
+
+     @Test
+     public void getPlaylistsFails() {
+         ArrayList<Container> testedData = new ArrayList<>();
+         testedData.add(new Container("quran", "Playlist", R.drawable.images2));
+         ArrayList<Container> comingData = mockService.getPlaylists(appContext, "Q");
+         assertNotEquals(comingData.size(), testedData.size());
+     }
+ */
     @Test
     public void getPlaylistsSuccess() {
         ArrayList<Container> testedData = new ArrayList<>();
@@ -307,10 +313,12 @@ public class MockServiceTest {
     public void getRecentPlaylistsTest() {
         ArrayList<Playlist> testPlaylists = new ArrayList<>();
         ArrayList<Track> tracks = new ArrayList<Track>();
-        tracks.add(new Track("Try this", "khaled,seyam,azoz", "HOme", R.drawable.images));
-        testPlaylists.add(new Playlist("HOme", "khaled,seyam,azoz this playlist is so popular",
-                Utils.convertToBitmap(R.drawable.loai), tracks));
-        ArrayList<Playlist> comingData = mockService.getRecentPlaylists(appContext);
+        tracks.add(new Track("Rescue Me", "OneRepublic", "mood booster", "Rescue Me", R.drawable.rescue_me));
+        tracks.add(new Track("Freaking Me Out", "Ava Max", "mood booster", null, R.drawable.freaking_me_out));
+        tracks.add(new Track("You Can't Stop The Girl", "Bebe Rexha", "mood booster", null, R.drawable.you_cant_stop_the_girl));
+        testPlaylists.add(new Playlist("mood booster", "Get happy with this pick-up playlist full of current feel-good songs",
+                Utils.convertToBitmap(R.drawable.mood_booster), tracks));
+        ArrayList<Playlist> comingData = mockService.getPopularPlaylists(appContext, Constants.mToken);
         assertEquals(testPlaylists.size(), comingData.size());
         for (int i = 0; i < testPlaylists.size(); i++) {
             assertEquals(testPlaylists.get(i), comingData.get(i));
@@ -321,4 +329,172 @@ public class MockServiceTest {
             }
         }
     }
+
+    @Test
+    public void getRecentPlaylistsFails() {
+        ArrayList<Playlist> testPlaylists = new ArrayList<>();
+        ArrayList<Track> tracks = new ArrayList<Track>();
+        tracks.add(new Track("Rescue Me", "OneRepublic", "mood booster", "Rescue Me", R.drawable.rescue_me));
+        testPlaylists.add(new Playlist("mood booster", "Get happy with this pick-up playlist full of current feel-good songs",
+                Utils.convertToBitmap(R.drawable.mood_booster), tracks));
+        ArrayList<Playlist> comingData = mockService.getPopularPlaylists(appContext, Constants.mToken);
+        assertNotEquals(testPlaylists.size(), comingData.size());
+    }
+
+    @Test
+    public void getRandomPlaylists() {
+        ArrayList<Playlist> testPlaylists = new ArrayList<>();
+        ArrayList<Track> tracks = new ArrayList<Track>();
+        tracks.add(new Track("Intentions", "Justing Bieber, Quavo", "Daily Left", null, R.drawable.intentions));
+        tracks.add(new Track("Stupid Love", "Lady Gaga", "Daily Left", null, R.drawable.stupid_love));
+        tracks.add(new Track("Feel Me", "Selena Gomez", "Daily Left", null, R.drawable.feel_me));
+        testPlaylists.add(new Playlist("Daily Left", "Sia, J Balvin, Bad Bunny, Justin Bieber, Drake",
+                Utils.convertToBitmap(R.drawable.images), tracks));
+        ArrayList<Playlist> comingData = mockService.getRandomPlaylists(appContext, Constants.mToken);
+        assertEquals(testPlaylists.size(), comingData.size());
+        for (int i = 0; i < testPlaylists.size(); i++) {
+            assertEquals(testPlaylists.get(i), comingData.get(i));
+            assertEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
+            assertEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
+            for (int j = 0; j < testPlaylists.get(i).getTracks().size(); j++) {
+                assertEquals(testPlaylists.get(i).getTracks().get(j), comingData.get(i).getTracks().get(j));
+            }
+        }
+    }
+
+    @Test
+    public void getRandomPlaylistsFails() {
+        ArrayList<Playlist> testPlaylists = new ArrayList<>();
+        ArrayList<Track> tracks = new ArrayList<Track>();
+        tracks.add(new Track("Intentions", "Justing Bieber, Quavo", "Daily Left", null, R.drawable.intentions));
+        testPlaylists.add(new Playlist("Daily Left", "Sia, J Balvin, Bad Bunny, Justin Bieber, Drake",
+                Utils.convertToBitmap(R.drawable.images), tracks));
+        ArrayList<Playlist> comingData = mockService.getRandomPlaylists(appContext, Constants.mToken);
+        assertNotEquals(testPlaylists.size(), comingData.size());
+    }
+
+    @Test
+    public void getMadeForYouPlaylists() {
+        ArrayList<Playlist> testPlaylists = new ArrayList<>();
+        ArrayList<Track> tracks = new ArrayList<Track>();
+        tracks.add(new Track("Intentions", "Justing Bieber, Quavo", "Daily Left", null, R.drawable.intentions));
+        tracks.add(new Track("Stupid Love", "Lady Gaga", "Daily Left", null, R.drawable.stupid_love));
+        tracks.add(new Track("Feel Me", "Selena Gomez", "Daily Left", null, R.drawable.feel_me));
+        testPlaylists.add(new Playlist("Daily Left", "Sia, J Balvin, Bad Bunny, Justin Bieber, Drake",
+                Utils.convertToBitmap(R.drawable.images), tracks));
+        ArrayList<Playlist> comingData = mockService.getMadeForYouPlaylists(appContext, Constants.mToken);
+        assertEquals(testPlaylists.size(), comingData.size());
+        for (int i = 0; i < testPlaylists.size(); i++) {
+            assertEquals(testPlaylists.get(i), comingData.get(i));
+            assertEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
+            assertEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
+            for (int j = 0; j < testPlaylists.get(i).getTracks().size(); j++) {
+                assertEquals(testPlaylists.get(i).getTracks().get(j), comingData.get(i).getTracks().get(j));
+            }
+        }
+    }
+
+    @Test
+    public void getMadeForYouPlaylistsFails() {
+        ArrayList<Playlist> testPlaylists = new ArrayList<>();
+        ArrayList<Track> tracks = new ArrayList<Track>();
+        tracks.add(new Track("Intentions", "Justing Bieber, Quavo", "Daily Left", null, R.drawable.intentions));
+        testPlaylists.add(new Playlist("Daily Left", "Sia, J Balvin, Bad Bunny, Justin Bieber, Drake",
+                Utils.convertToBitmap(R.drawable.images), tracks));
+        ArrayList<Playlist> comingData = mockService.getMadeForYouPlaylists(appContext, Constants.mToken);
+        assertNotEquals(testPlaylists.size(), comingData.size());
+    }
+
+    @Test
+    public void getRecentlyPlayedPlaylists() {
+        ArrayList<Playlist> testPlaylists = new ArrayList<>();
+        ArrayList<Track> tracks = new ArrayList<Track>();
+        tracks.add(new Track("Little Do You Know", "Alex & Sierra", "Rewind-the sound of 2014", null, R.drawable.rescue_me));
+        tracks.add(new Track("Wildest Dreams", "Taylor Swift", "Rewind-the sound of 2014", null, R.drawable.freaking_me_out));
+        tracks.add(new Track("One Last Time", "Ariana Grande", "Rewind-the sound of 2014", null, R.drawable.you_cant_stop_the_girl));
+        testPlaylists.add(new Playlist("Rewind-the sound of 2014", null,
+                Utils.convertToBitmap(R.drawable.rewind_the_sound), tracks));
+        ArrayList<Playlist> comingData = mockService.getRecentPlaylists(appContext, Constants.mToken);
+        assertEquals(testPlaylists.size(), comingData.size());
+        for (int i = 0; i < testPlaylists.size(); i++) {
+            assertEquals(testPlaylists.get(i), comingData.get(i));
+            assertEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
+            assertEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
+            for (int j = 0; j < testPlaylists.get(i).getTracks().size(); j++) {
+                assertEquals(testPlaylists.get(i).getTracks().get(j), comingData.get(i).getTracks().get(j));
+            }
+        }
+    }
+
+    @Test
+    public void getRecentlyPlayedPlaylistsFails() {
+        ArrayList<Playlist> testPlaylists = new ArrayList<>();
+        ArrayList<Track> tracks = new ArrayList<Track>();
+        tracks.add(new Track("Little Do You Know", "Alex & Sierra", "Rewind-the sound of 2014", null, R.drawable.rescue_me));
+        testPlaylists.add(new Playlist("Rewind-the sound of 2014", null,
+                Utils.convertToBitmap(R.drawable.rewind_the_sound), tracks));
+        ArrayList<Playlist> comingData = mockService.getRecentPlaylists(appContext, Constants.mToken);
+        assertNotEquals(testPlaylists.size(), comingData.size());
+
+    }
+
+    @Test
+    public void isOnlineTest() {
+        MainActivity activity = new MainActivity();
+        ConnectivityManager connMgr = (ConnectivityManager) activity.getSystemService(activity.CONNECTIVITY_SERVICE);
+        if (connMgr != null) {
+            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+            assertEquals(networkInfo != null && networkInfo.isConnectedOrConnecting(), activity.isOnline());
+            ;
+        }
+    }
+
+    @Test
+    public void isOnlineTestFails() {
+        MainActivity activity = new MainActivity();
+        ConnectivityManager connMgr = (ConnectivityManager) activity.getSystemService(activity.CONNECTIVITY_SERVICE);
+        if (connMgr != null) {
+            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+            assertNotEquals(networkInfo != null && networkInfo.isConnectedOrConnecting(), activity.isOnline());
+            ;
+        }
+    }
+
+    @Test
+    public void getPopularPlaylists() {
+        ArrayList<Playlist> testPlaylists = new ArrayList<>();
+        ArrayList<Track> tracks = new ArrayList<Track>();
+        tracks.add(new Track("Rescue Me", "OneRepublic", "mood booster", "Rescue Me", R.drawable.rescue_me));
+        tracks.add(new Track("Freaking Me Out", "Ava Max", "mood booster", null, R.drawable.freaking_me_out));
+        tracks.add(new Track("You Can't Stop The Girl", "Bebe Rexha", "mood booster", null, R.drawable.you_cant_stop_the_girl));
+        testPlaylists.add(new Playlist("mood booster", "Get happy with this pick-up playlist full of current feel-good songs",
+                Utils.convertToBitmap(R.drawable.mood_booster), tracks));
+        ArrayList<Playlist> comingData = mockService.getRecentPlaylists(appContext, Constants.mToken);
+        assertEquals(testPlaylists.size(), comingData.size());
+        for (int i = 0; i < testPlaylists.size(); i++) {
+            assertEquals(testPlaylists.get(i), comingData.get(i));
+            assertEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
+            assertEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
+            for (int j = 0; j < testPlaylists.get(i).getTracks().size(); j++) {
+                assertEquals(testPlaylists.get(i).getTracks().get(j), comingData.get(i).getTracks().get(j));
+            }
+        }
+    }
+
+    @Test
+    public void getPopularPlaylistsFails() {
+        ArrayList<Playlist> testPlaylists = new ArrayList<>();
+        ArrayList<Track> tracks = new ArrayList<Track>();
+        tracks.add(new Track("Rescue Me", "OneRepublic", "mood booster", "Rescue Me", R.drawable.rescue_me));
+        testPlaylists.add(new Playlist("mood booster", "Get happy with this pick-up playlist full of current feel-good songs",
+                Utils.convertToBitmap(R.drawable.mood_booster), tracks));
+        ArrayList<Playlist> comingData = mockService.getRecentPlaylists(appContext, Constants.mToken);
+        assertNotEquals(testPlaylists.size(), comingData.size());
+
+    }
+
+
 }
+
+
+

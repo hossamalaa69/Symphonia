@@ -2,8 +2,8 @@ package com.example.symphonia.Service;
 
 import android.content.Context;
 
-import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Artist;
+import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Playlist;
 
 import java.util.ArrayList;
@@ -27,81 +27,91 @@ public class ServiceController {
         return restClient;
     }
 
-    public ArrayList<Playlist> getRecentPlaylists(Context context)
-    {
-        return mSupplier.getRecentPlaylists(context);
+    public ArrayList<Playlist> getRecentPlaylists(Context context, String mToken) {
+        return mSupplier.getRecentPlaylists(context, mToken);
     }
+
+    public ArrayList<Playlist> getRandomPlaylists(Context context, String mToken) {
+        return mSupplier.getRandomPlaylists(context, mToken);
+    }
+
+    public ArrayList<Playlist> getMadeForYoutPlaylists(Context context, String mToken) {
+        return mSupplier.getMadeForYouPlaylists(context, mToken);
+    }
+
+    public ArrayList<Playlist> getPopularPlaylists(Context context, String mToken) {
+        return mSupplier.getPopularPlaylists(context, mToken);
+    }
+
     public boolean logIn(Context context, String username, String password, boolean mType) {
         return mSupplier.logIn(context, username, password, mType);
     }
 
-    public ArrayList<Container> getResentResult(Context context){
+    public ArrayList<Container> getResentResult(Context context) {
         return mSupplier.getResentResult(context);
     }
 
-    public ArrayList<Container> getResultsOfSearch(Context context,String searchWord){
-        return mSupplier.getResultsOfSearch(context,searchWord);
+    public ArrayList<Container> getResultsOfSearch(Context context, String searchWord) {
+        return mSupplier.getResultsOfSearch(context, searchWord);
     }
 
-    public ArrayList<Container>getCategories(Context context){
+    public ArrayList<Container> getCategories(Context context) {
         return mSupplier.getCategories(context);
     }
 
-    public ArrayList<Container>getGenres(Context context){
+    public ArrayList<Container> getGenres(Context context) {
         return mSupplier.getGenres(context);
     }
 
-    public ArrayList<Container>getArtists(Context context,String searchWord){
-        return mSupplier.getArtists(context,searchWord);
+    public ArrayList<Container> getArtists(Context context, String searchWord) {
+        return mSupplier.getArtists(context, searchWord);
     }
 
-    public ArrayList<Container>getSongs(Context context,String searchWord){
-        return mSupplier.getSongs(context,searchWord);
+    public ArrayList<Container> getSongs(Context context, String searchWord) {
+        return mSupplier.getSongs(context, searchWord);
     }
 
-    public ArrayList<Container>getAlbums(Context context,String searchWord){
-        return mSupplier.getAlbums(context,searchWord);
-
-    }
-
-    public ArrayList<Container>getGenresAndMoods(Context context,String searchWord){
-        return mSupplier.getGenresAndMoods(context,searchWord);
+    public ArrayList<Container> getAlbums(Context context, String searchWord) {
+        return mSupplier.getAlbums(context, searchWord);
 
     }
 
-    public ArrayList<Container>getPlaylists(Context context,String searchWord){
-        return mSupplier.getPlaylists(context,searchWord);
+    public ArrayList<Container> getGenresAndMoods(Context context, String searchWord) {
+        return mSupplier.getGenresAndMoods(context, searchWord);
 
     }
 
-    public ArrayList<Container>getProfiles(Context context,String searchWord){
-        return mSupplier.getProfiles(context,searchWord);
+    public ArrayList<Container> getPlaylists(Context context, String searchWord) {
+        return mSupplier.getPlaylists(context, searchWord);
 
     }
 
-    public void removeOneRecentSearch(Context context,int position){
-        mSupplier.removeOneRecentSearch(context,position);
+    public ArrayList<Container> getProfiles(Context context, String searchWord) {
+        return mSupplier.getProfiles(context, searchWord);
+
+    }
+
+    public void removeOneRecentSearch(Context context, int position) {
+        mSupplier.removeOneRecentSearch(context, position);
     }
 
     public void removeAllRecentSearches(Context context) {
         mSupplier.removeAllRecentSearches(context);
     }
 
-    public ArrayList<Artist> getFollowedArtists(Boolean type, String mToken, int limit)
-    {
+    public ArrayList<Artist> getFollowedArtists(Boolean type, String mToken, int limit) {
         return mSupplier.getFollowedArtists(type, mToken, limit);
     }
 
-    public void followArtistOrUser(Boolean type, String mToken, String id)
-    {
+    public void followArtistOrUser(Boolean type, String mToken, String id) {
         mSupplier.followArtistOrUser(type, mToken, id);
     }
 
-    public Boolean isFollowing(Boolean type, String mToken, String id){
+    public Boolean isFollowing(Boolean type, String mToken, String id) {
         return mSupplier.isFollowing(type, mToken, id);
     }
 
-    public ArrayList<Artist> getRecommendedArtists(Boolean type, String mToken, int limit){
+    public ArrayList<Artist> getRecommendedArtists(Boolean type, String mToken, int limit) {
         return mSupplier.getRecommendedArtists(type, mToken, limit);
     }
 
