@@ -101,18 +101,28 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
             serviceController.followArtistOrUser(Constants.user.isListenerType(), Constants.mToken
                     , mRecommendedArtists.get(clickedItemIndex).getId());
 
+            boolean isAdded = false;
             ArrayList<Artist> relatedArtists = serviceController.getArtistRelatedArtists(this, mRecommendedArtists.get(clickedItemIndex).getId());
             for(Artist artist : relatedArtists)
             {
                 if(!serviceController.isFollowing(Constants.user.isListenerType(), Constants.mToken
                         , artist.getId()))
-                    mRecommendedArtists.add(clickedItemIndex + 1, artist);
+                {
+                    if (!mRecommendedArtists.contains(artist)) {
+                        mRecommendedArtists.add(clickedItemIndex + 1, artist);
+                        adapter.notifyItemInserted(clickedItemIndex + 1);
+                        artistList.removeItemDecoration(mItemDecoration);
+                        mItemDecoration.setDataSize(mRecommendedArtists.size());
+                        artistList.addItemDecoration(mItemDecoration);
+                        isAdded = true;
+                    }
+
+                }
+
             }
-
-            adapter.notifyDataSetChanged();
-            mItemDecoration.setDataSize(mRecommendedArtists.size());
-            layoutManager.scrollToPositionWithOffset(clickedItemIndex, 0);
-
+            if(isAdded) {
+                layoutManager.scrollToPositionWithOffset(clickedItemIndex, 0);
+            }
         }
         else {
             checkImage.setVisibility(View.GONE);
