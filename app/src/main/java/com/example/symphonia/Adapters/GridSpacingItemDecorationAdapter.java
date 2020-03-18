@@ -20,6 +20,10 @@ public class GridSpacingItemDecorationAdapter extends RecyclerView.ItemDecoratio
         this.dataSize = dataSize;
     }
 
+    public void setDataSize(int dataSize) {
+        this.dataSize = dataSize;
+    }
+
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         int position = parent.getChildAdapterPosition(view); // item position

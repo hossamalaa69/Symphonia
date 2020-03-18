@@ -200,7 +200,7 @@ public class MockService implements APIs {
             Constants.mToken = "token2";
 
             ArrayList<Artist> followed = new ArrayList<>();
-            for (int i = 20; i < 40; i++) {
+            for (int i = 5; i < 10; i++) {
                 followed.add(artists.get(i));
             }
 
@@ -216,7 +216,7 @@ public class MockService implements APIs {
 
             ArrayList<Artist> followed = new ArrayList<>();
 
-            for (int i = 0; i < 20; i++) {
+            for (int i = 0; i < 5; i++) {
                 followed.add(artists.get(i));
             }
 
@@ -374,6 +374,24 @@ public class MockService implements APIs {
     }
 
     @Override
+    public ArrayList<Artist> getArtistRelatedArtists(Context context, String id) {
+        ArrayList<Artist> related;
+        if(id.equals("1") || id.equals("6"))
+            related = new ArrayList<>(artists.subList(10, 16));
+        else if(id.equals("2") || id.equals("7"))
+            related = new ArrayList<>(artists.subList(16, 22));
+        else if(id.equals("3") || id.equals("8"))
+            related = new ArrayList<>(artists.subList(22, 28));
+        else if(id.equals("4") || id.equals("9"))
+            related = new ArrayList<>(artists.subList(28, 34));
+        else if(id.equals("5") || id.equals("10"))
+            related = new ArrayList<>(artists.subList(34, 40));
+        else
+            related = new ArrayList<>();
+        return related;
+    }
+
+    @Override
     public ArrayList<Artist> getFollowedArtists(Boolean type, String mToken, int limit) {
         ArrayList<Artist> followedArtists = Constants.user.getFollowingArtists();
         ArrayList<Artist> returnedArtists = new ArrayList<>();
@@ -396,6 +414,17 @@ public class MockService implements APIs {
     }
 
     @Override
+    public void unFollowArtistOrUser(Boolean type, String mToken, String id) {
+        for (Artist artist : artists) {
+            if (artist.getId().equals(id)) {
+                if (isFollowing(type, mToken, id))
+                    Constants.user.unFollowArtist(artist);
+                return;
+            }
+        }
+    }
+
+    @Override
     public Boolean isFollowing(Boolean type, String mToken, String id) {
         ArrayList<Artist> mFollowingArtists = Constants.user.getFollowingArtists();
         for (Artist artist : mFollowingArtists) {
@@ -409,20 +438,14 @@ public class MockService implements APIs {
     public ArrayList<Artist> getRecommendedArtists(Boolean type, String mToken, int limit) {
         ArrayList<Artist> mRecommendedArtists = new ArrayList<>();
         if (type) {
-            for (int i = 20; i < 40 && i < 20 + limit; i++) {
+            for (int i = 5; i < Math.min(10, limit + 5); i++) {
                 Artist artist = artists.get(i);
-                if (!isFollowing(type, mToken, artist.getId()))
-                    mRecommendedArtists.add(artist);
-                else
-                    limit++;
+                mRecommendedArtists.add(artist);
             }
         } else {
-            for (int i = 0; i < 20 && i < limit; i++) {
+            for (int i = 0; i < Math.min(5, limit); i++) {
                 Artist artist = artists.get(i);
-                if (!isFollowing(type, mToken, artist.getId()))
-                    mRecommendedArtists.add(artist);
-                else
-                    limit++;
+                mRecommendedArtists.add(artist);
             }
         }
 

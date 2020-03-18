@@ -24,6 +24,8 @@ public interface APIs {
 
     void followArtistOrUser(Boolean type, String mToken, String id);
 
+    void unFollowArtistOrUser(Boolean type, String mToken, String id);
+
     Boolean isFollowing(Boolean type, String mToken, String id);
 
     ArrayList<Artist> getRecommendedArtists(Boolean type, String mToken, int limit);
@@ -52,5 +54,8 @@ public interface APIs {
 
     void removeAllRecentSearches(Context context);
 
+    ArrayList<Artist> getArtistRelatedArtists(Context context, String id);
+
     ArrayList<Artist> searchArtist(Context context, String q, int offset, int limit);
+
 }

@@ -175,6 +175,11 @@ public class User {
         mFollowingArtists.add(artist);
     }
 
+    public void unFollowArtist(Artist artist)
+    {
+        mFollowingArtists.remove(artist);
+    }
+
 
     public ArrayList<Track> getmPlayedTracks() {
         return mPlayedTracks;

@@ -9,18 +9,23 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.symphonia.Constants;
 import com.example.symphonia.R;
 import com.example.symphonia.Entities.Artist;
+import com.example.symphonia.Service.ServiceController;
 
 import java.util.ArrayList;
 
 public class RvGridArtistsAdapter extends RecyclerView.Adapter<RvGridArtistsAdapter.ArtistViewHolder> {
 
     private ArrayList<Artist> artists;
-    private ArrayList<Artist> selectedArtists;
-    public RvGridArtistsAdapter(ArrayList<Artist> artists, ArrayList<Artist> selectedArtists) {
+    private ListItemClickListener mOnClickListener;
+    private ServiceController serviceController;
+
+    public RvGridArtistsAdapter(ArrayList<Artist> artists, ListItemClickListener mOnClickListener) {
         this.artists = artists;
-        this.selectedArtists = selectedArtists;
+        this.mOnClickListener = mOnClickListener;
+        serviceController = ServiceController.getInstance();
     }
 
     @Override
@@ -41,6 +46,10 @@ public class RvGridArtistsAdapter extends RecyclerView.Adapter<RvGridArtistsAdap
         holder.bind(position);
     }
 
+    public interface ListItemClickListener{
+        void onListItemClick(View v, int clickedItemIndex);
+    }
+
     public class ArtistViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView artistImage;
         TextView artistName;
@@ -58,20 +67,26 @@ public class RvGridArtistsAdapter extends RecyclerView.Adapter<RvGridArtistsAdap
             Artist artist = artists.get(position);
             artistImage.setImageBitmap(artist.getImage());
             artistName.setText(artist.getArtistName());
+            if(serviceController.isFollowing(Constants.user.isListenerType(), Constants.mToken, artists.get(position).getId()))
+                checkImage.setVisibility(View.VISIBLE);
+            else
+                checkImage.setVisibility(View.GONE);
 
         }
 
         @Override
         public void onClick(View v) {
-            if(checkImage.getVisibility() == View.VISIBLE){
-                checkImage.setVisibility(View.GONE);
-                selectedArtists.remove(artists.get(getAdapterPosition()));
-            }
-            else{
-                checkImage.setVisibility(View.VISIBLE);
-                selectedArtists.add(artists.get(getAdapterPosition()));
-            }
+            mOnClickListener.onListItemClick(v, getAdapterPosition());
         }
+    }
+
+    public void clear(){
+        artists.clear();
+        artists = new ArrayList<>();
+    }
+
+    public void addAll(ArrayList<Artist> artists){
+        this.artists.addAll(artists);
     }
 
 }

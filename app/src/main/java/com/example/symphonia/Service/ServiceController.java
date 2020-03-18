@@ -107,6 +107,10 @@ public class ServiceController {
         mSupplier.followArtistOrUser(type, mToken, id);
     }
 
+    public void unFollowArtistOrUser(Boolean type, String mToken, String id){
+        mSupplier.unFollowArtistOrUser(type, mToken, id);
+    }
+
     public Boolean isFollowing(Boolean type, String mToken, String id) {
         return mSupplier.isFollowing(type, mToken, id);
     }
@@ -121,6 +125,10 @@ public class ServiceController {
 
     public ArrayList<Artist> searchArtist(Context context, String q, int offset, int limit){
         return mSupplier.searchArtist(context, q, offset, limit);
+    }
+
+    public ArrayList<Artist> getArtistRelatedArtists(Context context, String id){
+        return mSupplier.getArtistRelatedArtists(context, id);
     }
 
 }
