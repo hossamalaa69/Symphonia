@@ -261,7 +261,17 @@ public class MockService implements APIs {
 
     @Override
     public boolean checkEmailAvailability(Context context, String email, boolean mType) {
-        return false;
+        if(mType){
+            for(int i=0;i<listenerArrayList.size();i++)
+                if(email.equals(listenerArrayList.get(i).getmEmail()))
+                    return false;
+        }
+        else{
+            for(int i=0;i<artistArrayList.size();i++)
+                if(email.equals(artistArrayList.get(i).getmEmail()))
+                    return false;
+        }
+        return true;
     }
 
     @Override

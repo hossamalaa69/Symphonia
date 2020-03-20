@@ -27,6 +27,15 @@ public class ServiceController {
         return restClient;
     }
 
+    public boolean logIn(Context context, String username, String password, boolean mType) {
+        return mSupplier.logIn(context, username, password, mType);
+    }
+
+    public boolean checkEmailAvailability(Context context, String email, boolean mType) {
+        return mSupplier.checkEmailAvailability(context, email, mType);
+    }
+
+
     public ArrayList<Playlist> getRecentPlaylists(Context context, String mToken) {
         return mSupplier.getRecentPlaylists(context, mToken);
     }
@@ -43,9 +52,6 @@ public class ServiceController {
         return mSupplier.getPopularPlaylists(context, mToken);
     }
 
-    public boolean logIn(Context context, String username, String password, boolean mType) {
-        return mSupplier.logIn(context, username, password, mType);
-    }
 
     public ArrayList<Container> getResentResult(Context context) {
         return mSupplier.getResentResult(context);

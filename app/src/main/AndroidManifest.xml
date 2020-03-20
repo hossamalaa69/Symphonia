@@ -60,20 +60,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.User_Management.SignUp.SignUp4" />
         </activity>
+
         <activity
             android:name=".Activities.User_Management.SignUp.SignUp4"
             android:label="@string/create_account"
             android:parentActivityName=".Activities.User_Management.SignUp.SignUp3"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.User_Management.SignUp.SignUp3" />
         </activity>
+
         <activity
             android:name=".Activities.User_Management.SignUp.SignUp3"
             android:label="@string/create_account"
             android:parentActivityName=".Activities.User_Management.SignUp.SignUp2"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
@@ -83,6 +87,7 @@
         <activity
             android:name=".Activities.User_Management.SignUp.SignUp2"
             android:label="@string/create_account"
+            android:launchMode="singleTop"
             android:parentActivityName=".Activities.User_Management.SignUp.SignUp1"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
@@ -90,20 +95,25 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.User_Management.SignUp.SignUp1" />
         </activity>
+
         <activity
             android:name=".Activities.User_Management.SignUp.SignUp1"
             android:label="@string/create_account"
             android:parentActivityName=".Activities.User_Management.WelcomeActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.User_Management.WelcomeActivity" />
         </activity>
+
         <activity
             android:name=".Activities.User_Management.WelcomeActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".Activities.UserUI.AddArtistsActivity"
             android:screenOrientation="portrait"

@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,7 +19,11 @@ public class SignUp5 extends AppCompatActivity {
 
     private EditText name;
     private String user;
-
+    private String password;
+    private String email;
+    private String dob;
+    private String gender;
+    private String mName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +36,10 @@ public class SignUp5 extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
         user = b.getString("user");
+        password = b.getString("password");
+        email = b.getString("email");
+        dob = b.getString("DOB");
+        gender = b.getString("gender");
 
         name = findViewById(R.id.name_input);
         name.addTextChangedListener(new TextWatcher() {
@@ -54,9 +61,8 @@ public class SignUp5 extends AppCompatActivity {
     }
 
     public void openNext(View view) {
-        Intent i = new Intent(this, MainActivity.class);
-        Toast.makeText(this, user, Toast.LENGTH_SHORT).show();
-        startActivity(i);
+        mName = name.getText().toString();
+
     }
 
     public void enableButton() {

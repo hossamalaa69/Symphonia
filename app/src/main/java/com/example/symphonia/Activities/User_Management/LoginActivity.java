@@ -15,10 +15,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.symphonia.Activities.User_Management.ListenerPages.ForgetPasswordListenerActivity;
 import com.example.symphonia.Activities.UserUI.MainActivity;
-import com.example.symphonia.Helpers.Custom_Dialog;
+import com.example.symphonia.Helpers.Custom_Dialog_Offline;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
+
+import java.util.concurrent.ExecutionException;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -36,6 +38,14 @@ public class LoginActivity extends AppCompatActivity {
         type = b.getString("user");
 
         email = findViewById(R.id.emailInput);
+
+        try{
+            String mEmail = b.getString("email");
+            email.setText(mEmail);
+        } catch(Exception e) {
+             email.setText("");
+        }
+
         email.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 EditText password2 = findViewById(R.id.password);
@@ -92,8 +102,8 @@ public class LoginActivity extends AppCompatActivity {
 
         if(!isOnline()){
 
-            Custom_Dialog custom_dialog = new Custom_Dialog();
-            custom_dialog.showDialog(this);
+            Custom_Dialog_Offline custom_dialogOffline = new Custom_Dialog_Offline();
+            custom_dialogOffline.showDialog(this);
             return;
         }
 

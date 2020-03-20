@@ -16,6 +16,7 @@ public class SignUp2 extends AppCompatActivity {
 
     private EditText password;
     private String user;
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,7 @@ public class SignUp2 extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
         user = b.getString("user");
+        email = b.getString("email");
 
         password = findViewById(R.id.password);
         password.addTextChangedListener(new TextWatcher() {
@@ -47,6 +49,8 @@ public class SignUp2 extends AppCompatActivity {
     public void openNext(View view) {
         Intent i = new Intent(this, SignUp3.class);
         i.putExtra("user", user);
+        i.putExtra("email",email);
+        i.putExtra("password",password.getText().toString());
         startActivity(i);
     }
 

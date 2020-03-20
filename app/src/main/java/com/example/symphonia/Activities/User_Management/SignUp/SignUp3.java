@@ -19,6 +19,9 @@ public class SignUp3 extends AppCompatActivity {
 
     private TextView dateValidity;
     private String user;
+    private String password;
+    private String email;
+    private DatePicker datePicker;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -28,10 +31,12 @@ public class SignUp3 extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
         user = b.getString("user");
+        email = b.getString("email");
+        password = b.getString("password");
 
         dateValidity = findViewById(R.id.validDate);
 
-        DatePicker datePicker = findViewById(R.id.datePicker1);
+        datePicker = findViewById(R.id.datePicker1);
         datePicker.setMaxDate(new Date().getTime());
         datePicker.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
             @Override
@@ -47,6 +52,13 @@ public class SignUp3 extends AppCompatActivity {
     public void openNext(View view) {
         Intent i = new Intent(this, SignUp4.class);
         i.putExtra("user", user);
+        i.putExtra("email", email);
+        i.putExtra("password", password);
+        String dob = "";
+        dob +=""+datePicker.getDayOfMonth()+'/';
+        dob +=""+datePicker.getMonth()+1+'/';
+        dob +=""+datePicker.getYear();
+        i.putExtra("DOB", dob);
         startActivity(i);
     }
 
