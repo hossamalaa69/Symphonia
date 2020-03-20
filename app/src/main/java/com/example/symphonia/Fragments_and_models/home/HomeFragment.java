@@ -1,10 +1,16 @@
 package com.example.symphonia.Fragments_and_models.home;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -47,6 +53,33 @@ public class HomeFragment extends Fragment {
 
             }
         });
+
+        final ImageView ivSettings = root.findViewById(R.id.iv_setting_home);
+        ivSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "settings", Toast.LENGTH_SHORT).show();
+            }
+        });
+        final FrameLayout frameLayout= root.findViewById(R.id.frame_home_fragment);
+        final ScrollView scrollView = root.findViewById(R.id.sv_home);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+
+                    // get distance from padding and normalize it
+                    float alpha = (float) ((scrollView.getPaddingTop() - scrollY) / (scrollView.getPaddingTop() * 1.0));
+                    frameLayout.setAlpha(1-alpha);
+                    if(scrollView.getPaddingTop()>scrollY)
+                    ivSettings.setAlpha(alpha);
+                    if (alpha <= 0) {
+                        ivSettings.setVisibility(View.GONE);
+                    } else
+                        ivSettings.setVisibility(View.VISIBLE);
+                }
+            });
+        }
 
         return root;
 

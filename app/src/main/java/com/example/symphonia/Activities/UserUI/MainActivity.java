@@ -120,9 +120,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                 .addToBackStack(null)
                 .commit();
 
-        // hide setting button
-        ImageView imageView = findViewById(R.id.iv_setting_home);
-        imageView.setVisibility(View.GONE);
+
 
         // add tracks of playlist to play bar recycler view
         barAdapter = new RvBarAdapter(this, playlist.getTracks());

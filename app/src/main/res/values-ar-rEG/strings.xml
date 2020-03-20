@@ -88,6 +88,12 @@
     <string name="curr_playing_track_play_acitivity_intent">الأغنية الحالية</string>
     <string name="only_local_data_show">سوف تظهر البيانات المحلية فقط</string>
     <string name="playing_from">من قائمة التشغيل</string>
+    <string name="heavy_playlist">الاكثر سماعا منك</string>
+    <string name="Artist">فنان</string>
+    <string name="Playlist">قائمة الاغانى</string>
+    <string name="Song">اغنية</string>
+    <string name="Album">البوم</string>
+    <string name="made_for_you_by_spotify">من اسبوتيفاى من اجلك</string>
 
 
 </resources>

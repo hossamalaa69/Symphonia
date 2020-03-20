@@ -27,11 +27,11 @@
     <string name="based_on_your_recently_played">based on your recentlry played</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="playlist_fragment">playlist fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="playlist_fragment" translatable="false">playlist fragment</string>
     <string name="play">Play</string>
     <string name="track_image">Track Image</string>
-    <string name="playlist_send_to_playActivtiy_intent">Playlist_Send_to_PlayActivity</string>
+    <string name="playlist_send_to_playActivtiy_intent" translatable="false">Playlist_Send_to_PlayActivity</string>
     <string name="cant_read">can\'t read</string>
     <string name="curr_playing_track_play_acitivity_intent">Currnet Playing Track</string>
     <string name="only_local_data_show">only local data will appear</string>

@@ -6,19 +6,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/background">
 
-    <ImageView
-        android:id="@+id/iv_setting_home"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="@dimen/large_dimen"
-        android:layout_marginEnd="@dimen/semi_large_dimen"
-        android:layout_marginRight="@dimen/semi_large_dimen"
-        android:contentDescription="@string/settings"
-        android:src="@drawable/ic_settings_black_24dp" />
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
         android:layout_width="match_parent"
@@ -30,33 +17,11 @@
         app:menu="@menu/bottom_nav_menu" />
 
     <FrameLayout
+        android:id="@+id/nav_host_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/layout_playing_bar"
-        android:background="@android:color/transparent">
-
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/appBarLayout"
-                android:layout_width="match_parent"
-                android:layout_height="?android:actionBarSize"
-                android:background="@android:color/black"
-                android:alpha="0"
-                 android:orientation="vertical">
-
-            </com.google.android.material.appbar.AppBarLayout>
-
-            <FrameLayout
-                android:id="@+id/nav_host_fragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_above="@id/layout_playing_bar"
-                android:background="@android:color/transparent" />
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
-    </FrameLayout>
+        android:background="@android:color/transparent" />
 
     <include
         android:id="@+id/layout_playing_bar"

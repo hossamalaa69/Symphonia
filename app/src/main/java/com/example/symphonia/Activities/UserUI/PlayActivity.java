@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Helpers.SnapHelperOneByOne;
 import com.example.symphonia.Entities.Track;
@@ -50,23 +51,6 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
     int trackPos;
     private Drawable trackBackgroun;
 
-    /**
-     * gets the dominant color in a bitmap image
-     *
-     * @param bitmap
-     * @return integer refers to the dominant color
-     */
-    public static int getDominantColor(Bitmap bitmap) {
-        List<Palette.Swatch> swatchesTemp = Palette.from(bitmap).generate().getSwatches();
-        List<Palette.Swatch> swatches = new ArrayList<Palette.Swatch>(swatchesTemp);
-        Collections.sort(swatches, new Comparator<Palette.Swatch>() {
-            @Override
-            public int compare(Palette.Swatch swatch1, Palette.Swatch swatch2) {
-                return swatch2.getPopulation() - swatch1.getPopulation();
-            }
-        });
-        return swatches.size() > 0 ? swatches.get(0).getRgb() : 0;
-    }
 
     @Override
     public void OnItemSwitchedListener(int pos) {
@@ -168,7 +152,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         // change background color according to track image
         ConstraintLayout constraintLayout = findViewById(R.id.background_play_activity);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            Drawable drawable = createBackground(trackPos);
+            Drawable drawable = Utils.createBackground( this, tracks.get(trackPos).getmImageResources());
 
             // transition drawable controls the animation ov changing background
             TransitionDrawable td = new TransitionDrawable(new Drawable[]{trackBackgroun, drawable});
@@ -213,29 +197,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
 
     }
 
-    /**
-     * create gradient background for track
-     *
-     * @return
-     */
-    private Drawable createBackground(int pos) {
-        int color = getDominantColor(BitmapFactory.decodeResource(getResources()
-                , tracks.get(pos).getmImageResources()));
 
-        SomeDrawable drawable = new SomeDrawable(color, Color.BLACK);
-        return drawable;
 
-    }
 
-    /**
-     * create gradient drawable for track image
-     */
-    public class SomeDrawable extends GradientDrawable {
-
-        public SomeDrawable(int pStartColor, int pEndColor) {
-            super(Orientation.BOTTOM_TOP, new int[]{pEndColor, pStartColor, pStartColor});
-            setShape(GradientDrawable.RECTANGLE);
-        }
-
-    }
 }
