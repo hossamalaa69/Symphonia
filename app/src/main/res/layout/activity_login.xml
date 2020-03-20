@@ -7,7 +7,7 @@
     android:background="@color/colorDark"
     android:orientation="vertical"
     android:padding="15dp"
-    tools:context=".Activities.ListenerRegister.LoginListenerActivity">
+    tools:context=".Activities.User_Management.LoginActivity">
 
     <TextView
         android:layout_width="wrap_content"

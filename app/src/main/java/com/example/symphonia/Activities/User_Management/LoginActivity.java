@@ -1,4 +1,4 @@
-package com.example.symphonia.Activities.ListenerRegister;
+package com.example.symphonia.Activities.User_Management;
 
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.symphonia.Activities.ListenerPages.ForgetPasswordListenerActivity;
 import com.example.symphonia.Activities.UserUI.MainActivity;
 import com.example.symphonia.Helpers.Custom_Dialog;
 import com.example.symphonia.Helpers.Utils;
@@ -20,15 +21,19 @@ import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
 
 
-public class LoginListenerActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     private EditText email;
     private EditText password;
 
+    private String type;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_listener);
+        setContentView(R.layout.activity_login);
+
+        Bundle b = getIntent().getExtras();
+        type = b.getString("user");
 
         email = findViewById(R.id.emailInput);
         email.addTextChangedListener(new TextWatcher() {
@@ -82,6 +87,7 @@ public class LoginListenerActivity extends AppCompatActivity {
     }
 
     public void openHome(View view) {
+
         ServiceController serviceController = ServiceController.getInstance();
 
         if(!isOnline()){
@@ -91,15 +97,28 @@ public class LoginListenerActivity extends AppCompatActivity {
             return;
         }
 
-        if(serviceController.logIn(this, email.getText().toString(),
-                password.getText().toString(), true)) {
+        if(type.equals("Listener")) {
+            if (serviceController.logIn(this, email.getText().toString(),
+                    password.getText().toString(), true)) {
 
-            Intent i = new Intent(this, MainActivity.class);
-            startActivity(i);
+                Intent i = new Intent(this, MainActivity.class);
+                startActivity(i);
+            } else {
+                TextView errorInput = (TextView) findViewById(R.id.error_text);
+                errorInput.setText(R.string.wrong_password_or_email);
+            }
         }
-        else {
-            TextView errorInput = (TextView) findViewById(R.id.error_text);
-            errorInput.setText(R.string.wrong_password_or_email);
+
+        else if(type.equals("Artist")){
+            if(serviceController.logIn(this, email.getText().toString(),
+                    password.getText().toString(), false)) {
+                Intent i = new Intent(this, MainActivity.class);
+                startActivity(i);
+            }
+            else {
+                TextView errorInput = (TextView) findViewById(R.id.error_text);
+                errorInput.setText(R.string.wrong_password_or_email);
+            }
         }
     }
 

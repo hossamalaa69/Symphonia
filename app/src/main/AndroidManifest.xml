@@ -12,25 +12,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".Activities.UserUI.ArtistsSearchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize"></activity>
+
         <activity
-            android:name=".Activities.ArtistRegister.ForgetPasswordArtistActivity"
-            android:label="@string/forgot_password"
-            android:parentActivityName=".Activities.ArtistRegister.LoginArtistActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.UserUI.MainActivity" />
-        </activity>
-        <activity
-            android:name=".Activities.ArtistRegister.EmailCheckArtistActivity"
+            android:name=".Activities.ArtistPages.EmailCheckArtistActivity"
             android:label="@string/check_email"
-            android:parentActivityName=".Activities.ArtistRegister.ForgetPasswordArtistActivity"
+            android:parentActivityName=".Activities.ArtistPages.ForgetPasswordArtistActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
@@ -38,9 +30,9 @@
                 android:value=".Activities.UserUI.MainActivity" />
         </activity>
         <activity
-            android:name=".Activities.ListenerRegister.EmailCheckListenerActivity"
+            android:name=".Activities.ListenerPages.EmailCheckListenerActivity"
             android:label="@string/check_email"
-            android:parentActivityName=".Activities.ListenerRegister.ForgetPasswordListenerActivity"
+            android:parentActivityName=".Activities.ListenerPages.ForgetPasswordListenerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
@@ -48,15 +40,16 @@
                 android:value=".Activities.UserUI.MainActivity" />
         </activity>
         <activity
-            android:name=".Activities.ListenerRegister.ForgetPasswordListenerActivity"
+            android:name=".Activities.ListenerPages.ForgetPasswordListenerActivity"
             android:label="@string/forgot_password"
-            android:parentActivityName=".Activities.ListenerRegister.LoginListenerActivity"
+            android:parentActivityName=".Activities.User_Management.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.UserUI.MainActivity" />
         </activity>
+        
         <activity
             android:name=".Activities.SignUp.SignUp5"
             android:label="@string/create_account"
@@ -100,29 +93,15 @@
         <activity
             android:name=".Activities.SignUp.SignUp1"
             android:label="@string/create_account"
-            android:parentActivityName=".Activities.ListenerRegister.WelcomeListenerActivity"
+            android:parentActivityName=".Activities.User_Management.WelcomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.ListenerRegister.WelcomeListenerActivity" />
+                android:value=".Activities.User_Management.WelcomeActivity" />
         </activity>
         <activity
-            android:name=".Activities.ArtistRegister.LoginArtistActivity"
-            android:label=""
-            android:parentActivityName=".Activities.ArtistRegister.WelcomeArtistActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.UserUI.MainActivity" />
-        </activity>
-        <activity
-            android:name=".Activities.ArtistRegister.WelcomeArtistActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Activities.ListenerRegister.WelcomeListenerActivity"
+            android:name=".Activities.User_Management.WelcomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -138,16 +117,18 @@
             android:name=".Activities.UserUI.PlayActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
         <activity
-            android:name=".Activities.ListenerRegister.LoginListenerActivity"
+            android:name=".Activities.User_Management.LoginActivity"
             android:label=""
-            android:parentActivityName=".Activities.ListenerRegister.WelcomeListenerActivity"
+            android:parentActivityName=".Activities.User_Management.WelcomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.UserUI.MainActivity" />
         </activity>
+
         <activity
             android:name=".Activities.UserUI.MainActivity"
             android:label="@string/app_name"
@@ -156,7 +137,7 @@
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
@@ -169,7 +150,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 

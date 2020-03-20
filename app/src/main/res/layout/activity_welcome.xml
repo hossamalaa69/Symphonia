@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
-    tools:context=".Activities.ListenerRegister.WelcomeListenerActivity">
+    android:background="@drawable/background2"
+    tools:context=".Activities.User_Management.WelcomeActivity">
 
     <ImageView
         android:layout_width="100dp"
@@ -23,17 +23,17 @@
         android:layout_centerVertical="true"
         android:baselineAligned="false"
         android:fontFamily="sans-serif"
-        android:text="@string/share_million_of_songs"
+        android:text="@string/millions_of_songs"
         android:textColor="#FFFFFF"
         app:autoSizeTextType="uniform"
         app:autoSizeMinTextSize="10sp"
-        app:autoSizeMaxTextSize="40sp"
+        app:autoSizeMaxTextSize="44sp"
         app:autoSizeStepGranularity="2sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/t2"
-        android:layout_width="320dp"
+        android:layout_width="230dp"
         android:layout_height="50dp"
         android:gravity="center"
         android:layout_below="@+id/t1"
@@ -44,13 +44,13 @@
         android:textColor="#FFFFFF"
         app:autoSizeTextType="uniform"
         app:autoSizeMinTextSize="10sp"
-        app:autoSizeMaxTextSize="40sp"
+        app:autoSizeMaxTextSize="44sp"
         app:autoSizeStepGranularity="2sp"
         android:textStyle="bold" />
 
     <Button
         android:id="@+id/signup"
-        android:onClick="openSignUp"
+        android:onClick="openSignUp1"
         android:layout_width="300dp"
         android:layout_height="55dp"
         android:layout_below="@+id/t2"

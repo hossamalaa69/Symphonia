@@ -1,4 +1,4 @@
-package com.example.symphonia.Activities.ArtistRegister;
+package com.example.symphonia.Activities.ListenerPages;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,16 +10,14 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.symphonia.Activities.ListenerRegister.EmailCheckListenerActivity;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 
 
-public class ForgetPasswordArtistActivity extends AppCompatActivity {
+public class ForgetPasswordListenerActivity extends AppCompatActivity {
 
     private EditText email;
     private String user;
-
 
 
     @Override

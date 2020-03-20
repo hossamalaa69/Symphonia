@@ -1,4 +1,4 @@
-package com.example.symphonia.Activities.ListenerRegister;
+package com.example.symphonia.Activities.ArtistPages;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.symphonia.R;
 
-public class EmailCheckListenerActivity extends AppCompatActivity {
+public class EmailCheckArtistActivity extends AppCompatActivity {
 
     private String user;
     private TextView message;

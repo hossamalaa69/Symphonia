@@ -7,10 +7,8 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.example.symphonia.Activities.ArtistRegister.WelcomeArtistActivity;
-import com.example.symphonia.Activities.ListenerRegister.WelcomeListenerActivity;
+import com.example.symphonia.Activities.User_Management.WelcomeActivity;
 import com.example.symphonia.R;
 
 public class StartActivity extends AppCompatActivity {
@@ -28,12 +26,15 @@ public class StartActivity extends AppCompatActivity {
     }
 
     public void openListener(View view) {
-        Intent i = new Intent(this, WelcomeListenerActivity.class);
+        Intent i = new Intent(this, WelcomeActivity.class);
+        i.putExtra("user", "Listener");
         startActivity(i);
     }
 
     public void openArtist(View view) {
-        Intent i = new Intent(this, WelcomeArtistActivity.class);
+        Intent i = new Intent(this, WelcomeActivity.class);
+        i.putExtra("user", "Artist");
         startActivity(i);
     }
+
 }
