@@ -46,7 +46,7 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         for (Artist artist : returnedArtists) {
             if(!serviceController.isFollowing(Constants.user.isListenerType(), Constants.mToken
                     , artist.getId()))
-               mRecommendedArtists.add(artist);
+                mRecommendedArtists.add(artist);
         }
 
         artistList = findViewById(R.id.rv_artists_grid);

@@ -46,8 +46,5 @@ public class GridSpacingItemDecorationAdapter extends RecyclerView.ItemDecoratio
             }
         }
 
-        if (((dataSize-1)/spanCount + 1) == (position/spanCount + 1)) {
-            outRect.bottom = mBottomOffset;
-        }
     }
 }

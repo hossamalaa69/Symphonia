@@ -24,7 +24,7 @@
             android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
             android:textColor="@android:color/white"
             android:textSize="@dimen/libraryTitleSize"
-            app:layout_scrollFlags="scroll|enterAlways" />
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed" />
 
 
         <com.google.android.material.tabs.TabLayout
