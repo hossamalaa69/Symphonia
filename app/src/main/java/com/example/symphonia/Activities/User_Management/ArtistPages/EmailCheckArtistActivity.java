@@ -1,4 +1,4 @@
-package com.example.symphonia.Activities.ArtistPages;
+package com.example.symphonia.Activities.User_Management.ArtistPages;
 
 import android.content.Intent;
 import android.os.Bundle;

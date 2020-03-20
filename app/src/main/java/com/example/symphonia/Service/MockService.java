@@ -23,7 +23,23 @@ public class MockService implements APIs {
     private ArrayList<Container> recentSearches;
     private ArrayList<Playlist> popularPlaylists;
 
+    private ArrayList<User> listenerArrayList;
+
+    private ArrayList<User> artistArrayList;
+
     public MockService() {
+        listenerArrayList = new ArrayList<>();
+        artistArrayList=new ArrayList<>();
+
+        listenerArrayList.add(new User("user1@symphonia.com","12345678",true));
+        listenerArrayList.add(new User("user2@symphonia.com","12345678",true));
+        listenerArrayList.add(new User("user3@symphonia.com","12345678",true));
+
+        artistArrayList.add(new User("artist1@symphonia.com","12345678",false));
+        artistArrayList.add(new User("artist2@symphonia.com","12345678",false));
+        artistArrayList.add(new User("artist3@symphonia.com","12345678",false));
+
+
         data = new ArrayList<>();
         data.add(new Container("Quran", "Playlist", R.drawable.selena));
         data.add(new Container("George Wassouf", "Artist", R.drawable.download));
@@ -194,39 +210,57 @@ public class MockService implements APIs {
 
     @Override
     public boolean logIn(Context context, String username, String password, boolean mType) {
-
-        if ((username.equals("artist1") || username.equals("artist@symphonia.com"))
-                && password.equals("12345678") && !mType) {
-            Constants.mToken = "token2";
-
-            ArrayList<Artist> followed = new ArrayList<>();
-            for (int i = 5; i < 10; i++) {
-                followed.add(artists.get(i));
+        int userIndex=-1;
+        if(mType){
+            for(int i = 0; i < listenerArrayList.size(); i++){
+               if(username.equals(listenerArrayList.get(i).getmEmail()) &&
+                       password.equals(listenerArrayList.get(i).getmPassword())){
+                   userIndex = i;
+                   break;
+               }
             }
-
-            Constants.user = new User(username, mType, Utils.convertToBitmap(R.drawable.download)
-                    , "Islam Ahmed", "1998/24/11", "male", true
-                    , 65500, 40, new ArrayList<User>()
-                    , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
-                    , followed, new ArrayList<Track>());
-            return true;
-        } else if ((username.equals("user1") || username.equals("user@symphonia.com"))
-                && password.equals("12345678") && mType) {
-            Constants.mToken = "token1";
-
-            ArrayList<Artist> followed = new ArrayList<>();
-
-            for (int i = 0; i < 5; i++) {
-                followed.add(artists.get(i));
-            }
-
-            Constants.user = new User(username, mType, Utils.convertToBitmap(R.drawable.download)
-                    , "Islam Ahmed", "1998/24/11", "male", true
-                    , 65500, 40, new ArrayList<User>()
-                    , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
-                    , followed, new ArrayList<Track>());
-            return true;
         }
+        else{
+            for(int i=0; i < artistArrayList.size(); i++){
+                if(username.equals(artistArrayList.get(i).getmEmail()) &&
+                        password.equals(artistArrayList.get(i).getmPassword())) {
+                    userIndex = i;
+                    break;
+                }
+            }
+        }
+
+        if(userIndex==-1)
+            return false;
+
+        ArrayList<Artist> followed = new ArrayList<>();
+        for (int i = 5; i < 10; i++) {
+            followed.add(artists.get(i));
+        }
+
+        if (!mType) {
+            Constants.mToken = "token2";
+            Constants.user = new User(artistArrayList.get(userIndex).getmEmail(), false
+                    , Utils.convertToBitmap(R.drawable.download)
+                    , "Islam Ahmed", "1998/24/11", "male", true
+                    , 65500, 40, new ArrayList<User>()
+                    , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
+                    , followed, new ArrayList<Track>());
+        }
+        else {
+            Constants.mToken = "token1";
+            Constants.user = new User(listenerArrayList.get(userIndex).getmEmail(), true
+                    , Utils.convertToBitmap(R.drawable.download)
+                    , "Hossam Alaa", "1999/04/06", "male", true
+                    , 65500, 40, new ArrayList<User>()
+                    , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
+                    , followed, new ArrayList<Track>());
+        }
+        return true;
+    }
+
+    @Override
+    public boolean checkEmailAvailability(Context context, String email, boolean mType) {
         return false;
     }
 

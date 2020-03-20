@@ -1,38 +1,43 @@
-package com.example.symphonia.Activities.SignUp;
+package com.example.symphonia.Activities.User_Management.SignUp;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.symphonia.Helpers.Utils;
+import com.example.symphonia.Activities.UserUI.MainActivity;
 import com.example.symphonia.R;
 
-public class SignUp1 extends AppCompatActivity {
+public class SignUp5 extends AppCompatActivity {
 
-    private EditText email;
+    private EditText name;
     private String user;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up1);
+        setContentView(R.layout.activity_sign_up5);
+
+        TextView t1 = findViewById(R.id.t1);
+        t1.setMovementMethod(LinkMovementMethod.getInstance());
+        TextView t2 = findViewById(R.id.t2);
+        t2.setMovementMethod(LinkMovementMethod.getInstance());
 
         Bundle b = getIntent().getExtras();
         user = b.getString("user");
 
-        // Toast.makeText(this, user, Toast.LENGTH_SHORT).show();
-
-        email = findViewById(R.id.emailInput);
-        email.addTextChangedListener(new TextWatcher() {
+        name = findViewById(R.id.name_input);
+        name.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
-                if (Utils.isValidEmail(s.toString()))
+                if (s.length() >= 1)
                     enableButton();
                 else
                     lockButton();
@@ -49,8 +54,8 @@ public class SignUp1 extends AppCompatActivity {
     }
 
     public void openNext(View view) {
-        Intent i = new Intent(this, SignUp2.class);
-        i.putExtra("user", user);
+        Intent i = new Intent(this, MainActivity.class);
+        Toast.makeText(this, user, Toast.LENGTH_SHORT).show();
         startActivity(i);
     }
 

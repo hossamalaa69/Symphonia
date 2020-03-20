@@ -6,8 +6,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.symphonia.Activities.SignUp.SignUp1;
-import com.example.symphonia.Activities.User_Management.LoginActivity;
+import com.example.symphonia.Activities.User_Management.SignUp.SignUp1;
 import com.example.symphonia.R;
 
 public class WelcomeActivity extends AppCompatActivity {

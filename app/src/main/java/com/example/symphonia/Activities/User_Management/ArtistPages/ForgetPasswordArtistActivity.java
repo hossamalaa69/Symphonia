@@ -1,4 +1,4 @@
-package com.example.symphonia.Activities.ArtistPages;
+package com.example.symphonia.Activities.User_Management.ArtistPages;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.symphonia.Activities.ListenerPages.EmailCheckListenerActivity;
+import com.example.symphonia.Activities.User_Management.ListenerPages.EmailCheckListenerActivity;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 

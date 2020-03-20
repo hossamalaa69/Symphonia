@@ -10,6 +10,10 @@ import java.util.ArrayList;
 
 public interface APIs {
 
+    boolean logIn(Context context, String username, String password, boolean mType);
+
+    boolean checkEmailAvailability(Context context, String email, boolean mType);
+
     ArrayList<Playlist> getPopularPlaylists(Context context, String mToken);
 
     ArrayList<Playlist> getMadeForYouPlaylists(Context context, String mToken);
@@ -17,8 +21,6 @@ public interface APIs {
     ArrayList<Playlist> getRecentPlaylists(Context context, String mToken);
 
     ArrayList<Playlist> getRandomPlaylists(Context context, String mToken);
-
-    boolean logIn(Context context, String username, String password, boolean mType);
 
     ArrayList<Artist> getFollowedArtists(Boolean type, String mToken, int limit);
 

@@ -8,6 +8,7 @@ public class User {
 
     private String mEmail;
 
+    private String mPassword;
     // true for listener, false for artist
     private boolean mType;
 
@@ -42,6 +43,11 @@ public class User {
         this.mType = mType;
     }
 
+    public User(String email, String password, boolean mType){
+        this.mEmail=email;
+        this.mPassword=password;
+        this.mType=mType;
+    }
 
     public User(String mEmail, boolean mType, Bitmap userImage, String mName, String mDOB
             , String mGender, boolean isPremuim, int numOfFollowers, int numOfFollowings
@@ -65,6 +71,8 @@ public class User {
         this.mFollowingArtists = mFollowingArtists;
         this.mPlayedTracks = mPlayedTracks;
     }
+
+    public String getmPassword() {return mPassword;}
 
     public String getmEmail() {
         return mEmail;

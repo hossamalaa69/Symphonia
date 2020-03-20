@@ -1,4 +1,4 @@
-package com.example.symphonia.Activities.SignUp;
+package com.example.symphonia.Activities.User_Management.SignUp;
 
 import android.content.Intent;
 import android.os.Bundle;
