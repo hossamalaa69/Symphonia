@@ -3,8 +3,10 @@ package com.example.symphonia.Service;
 import android.content.Context;
 
 import com.example.symphonia.Constants;
+import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Entities.Container;
+import com.example.symphonia.Entities.Copyright;
 import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Entities.User;
@@ -12,13 +14,17 @@ import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 
 public class MockService implements APIs {
 
     private ArrayList<Playlist> randomPlaylists;
     private ArrayList<Playlist> recentPlaylists;
     private ArrayList<Artist> artists;
+    private ArrayList<Album> albums;
     private ArrayList<Container> data;
     private ArrayList<Container> recentSearches;
     private ArrayList<Playlist> popularPlaylists;
@@ -161,6 +167,43 @@ public class MockService implements APIs {
         artists.add(new Artist("40", Utils.convertToBitmap(R.drawable.loai), "Loai"));
 
 
+        albums = new ArrayList<>();
+
+        albums.add(new Album("6qqNVTkY8uBg9cP3Jd7DAH", "single",
+                new ArrayList<Artist>(Collections.singletonList(artists.get(7))),
+                new ArrayList<Copyright>(Arrays.asList(new Copyright("© 2020 Darkroom/Interscope Records", "C"),
+                        new Copyright("℗ 2020 Darkroom/Interscope Records", "P"))),
+                Utils.convertToBitmap(R.drawable.no_time_to_die), "No Time To Die", "2020-02-13",
+                new ArrayList<Track>()));
+
+        albums.add(new Album("7eFyrxZRPqw8yvZXMUm88A", "album",
+                new ArrayList<Artist>(Collections.singletonList(artists.get(37))),
+                new ArrayList<Copyright>(Arrays.asList(new Copyright("2018 Nay", "C"),
+                        new Copyright("2018 Nay", "P"))),
+                Utils.convertToBitmap(R.drawable.kol_hayaty), "Kol Hayaty", "2018-10-03",
+                new ArrayList<Track>()));
+
+        albums.add(new Album("2D1nEskDzLz38JiUeVK5mh", "single",
+                new ArrayList<Artist>(Collections.singletonList(artists.get(29))),
+                new ArrayList<Copyright>(Arrays.asList(new Copyright("2020 MuzicUp", "C"),
+                        new Copyright("2020 MuzicUp", "P"))),
+                Utils.convertToBitmap(R.drawable.shamekh), "Shamekh", "2020-01-12",
+                new ArrayList<Track>()));
+
+        albums.add(new Album("0hZwt0aSEEiwUByVQuxntK", "album",
+                new ArrayList<Artist>(Collections.singletonList(artists.get(30))),
+                new ArrayList<Copyright>(Collections.singletonList(new Copyright("(C) 2012 Awakening Worldwide", "C"))),
+                Utils.convertToBitmap(R.drawable.fogive_me), "Forgive Me", "2012-04-02",
+                new ArrayList<Track>()));
+
+        albums.add(new Album("3JfSxDfmwS5OeHPwLSkrfr", "album",
+                new ArrayList<Artist>(Collections.singletonList(artists.get(12))),
+                new ArrayList<Copyright>(Arrays.asList(new Copyright("© 2018 KIDinaKORNER/Interscope Records", "C"),
+                        new Copyright("℗ 2018 KIDinaKORNER/Interscope Records", "P"))),
+                Utils.convertToBitmap(R.drawable.origins), "Origins (Deluxe)", "2018-11-09",
+                new ArrayList<Track>()));
+
+
         popularPlaylists = new ArrayList<>();
         ArrayList<Track> tracks = new ArrayList<Track>();
         tracks.add(new Track("Rescue Me", "OneRepublic", "mood booster", "Rescue Me", R.drawable.rescue_me));
@@ -213,11 +256,11 @@ public class MockService implements APIs {
         int userIndex=-1;
         if(mType){
             for(int i = 0; i < listenerArrayList.size(); i++){
-               if(username.equals(listenerArrayList.get(i).getmEmail()) &&
-                       password.equals(listenerArrayList.get(i).getmPassword())){
-                   userIndex = i;
-                   break;
-               }
+                if(username.equals(listenerArrayList.get(i).getmEmail()) &&
+                        password.equals(listenerArrayList.get(i).getmPassword())){
+                    userIndex = i;
+                    break;
+                }
             }
         }
         else{
@@ -233,28 +276,36 @@ public class MockService implements APIs {
         if(userIndex==-1)
             return false;
 
-        ArrayList<Artist> followed = new ArrayList<>();
-        for (int i = 5; i < 10; i++) {
-            followed.add(artists.get(i));
-        }
 
         if (!mType) {
             Constants.mToken = "token2";
+
+            ArrayList<Artist> followed = new ArrayList<>();
+            for (int i = 5; i < 10; i++) {
+                followed.add(artists.get(i));
+            }
+
             Constants.user = new User(artistArrayList.get(userIndex).getmEmail(), false
                     , Utils.convertToBitmap(R.drawable.download)
                     , "Islam Ahmed", "1998/24/11", "male", true
                     , 65500, 40, new ArrayList<User>()
                     , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
-                    , followed, new ArrayList<Track>());
+                    , followed, albums, new ArrayList<Track>());
         }
         else {
             Constants.mToken = "token1";
+
+            ArrayList<Artist> followed = new ArrayList<>();
+            for (int i = 0; i < 5; i++) {
+                followed.add(artists.get(i));
+            }
+
             Constants.user = new User(listenerArrayList.get(userIndex).getmEmail(), true
                     , Utils.convertToBitmap(R.drawable.download)
                     , "Hossam Alaa", "1999/04/06", "male", true
                     , 65500, 40, new ArrayList<User>()
                     , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
-                    , followed, new ArrayList<Track>());
+                    , followed, albums, new ArrayList<Track>());
         }
         return true;
     }
@@ -268,7 +319,7 @@ public class MockService implements APIs {
              Constants.user = new User(email, mType, Utils.convertToBitmap(R.drawable.download)
                      , name, DOB, gender, false, 0, 0, new ArrayList<User>()
                      , new ArrayList<User>(),new ArrayList<Playlist>(), new ArrayList<Playlist>()
-                     , new ArrayList<Artist>(),new ArrayList<Track>());
+                     , new ArrayList<Artist>(), new ArrayList<Album>(),new ArrayList<Track>());
              Constants.user.setmPassword(password);
              return true;
     }
@@ -525,5 +576,16 @@ public class MockService implements APIs {
         }
 
         return searchResult;
+    }
+
+    @Override
+    public ArrayList<Album> getUserSavedAlbums(Context context, String mToken, int offset, int limit) {
+        ArrayList<Album> savedAlbums = Constants.user.getSavedAlbums();
+        ArrayList<Album> returnedAlbums = new ArrayList<>();
+        for (int i = 0; i < Math.min(limit, savedAlbums.size()); i++) {
+            returnedAlbums.add(savedAlbums.get(i));
+        }
+
+        return returnedAlbums;
     }
 }

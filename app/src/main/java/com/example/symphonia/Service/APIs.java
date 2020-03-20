@@ -2,6 +2,7 @@ package com.example.symphonia.Service;
 
 import android.content.Context;
 
+import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Playlist;
@@ -61,5 +62,7 @@ public interface APIs {
     ArrayList<Artist> getArtistRelatedArtists(Context context, String id);
 
     ArrayList<Artist> searchArtist(Context context, String q, int offset, int limit);
+
+    ArrayList<Album> getUserSavedAlbums(Context context, String mToken, int offset, int limit);
 
 }

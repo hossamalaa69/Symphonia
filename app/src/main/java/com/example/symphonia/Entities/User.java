@@ -38,6 +38,8 @@ public class User {
 
     private ArrayList<Track> mPlayedTracks;
 
+    private ArrayList<Album> mSavedAlbums;
+
     public User(String mName, boolean mType) {
         this.mName = mName;
         this.mType = mType;
@@ -53,7 +55,7 @@ public class User {
             , String mGender, boolean isPremuim, int numOfFollowers, int numOfFollowings
             , ArrayList<User> mFollowings, ArrayList<User> mFollowers
             , ArrayList<Playlist> favPlaylists, ArrayList<Playlist> madePlaylists
-            , ArrayList<Artist> mFollowingArtists, ArrayList<Track> mPlayedTracks) {
+            , ArrayList<Artist> mFollowingArtists, ArrayList<Album> mSavedAlbums , ArrayList<Track> mPlayedTracks) {
 
         this.mEmail = mEmail;
         this.mType = mType;
@@ -70,6 +72,15 @@ public class User {
         this.madePlaylists = madePlaylists;
         this.mFollowingArtists = mFollowingArtists;
         this.mPlayedTracks = mPlayedTracks;
+        this.mSavedAlbums = mSavedAlbums;
+    }
+
+    public ArrayList<Album> getSavedAlbums() {
+        return mSavedAlbums;
+    }
+
+    public void setSavedAlbums(ArrayList<Album> mSavedAlbums) {
+        this.mSavedAlbums = mSavedAlbums;
     }
 
     public String getmPassword() {return mPassword;}
