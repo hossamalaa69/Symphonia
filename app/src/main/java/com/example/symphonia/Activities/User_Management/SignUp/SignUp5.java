@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.symphonia.Activities.UserUI.MainActivity;
 import com.example.symphonia.R;
+import com.example.symphonia.Service.ServiceController;
 
 public class SignUp5 extends AppCompatActivity {
 
@@ -61,8 +62,15 @@ public class SignUp5 extends AppCompatActivity {
     }
 
     public void openNext(View view) {
+        ServiceController serviceController = ServiceController.getInstance();
         mName = name.getText().toString();
+        boolean mType;
+        mType = user.equals("Listener");
 
+        serviceController.signUp(this, mType, email, password, dob, gender, mName);
+
+        Intent i = new Intent(this, SuggestionActivity.class);
+        startActivity(i);
     }
 
     public void enableButton() {

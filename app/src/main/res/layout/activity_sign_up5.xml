@@ -11,12 +11,12 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:text="@string/what_s_your_name"
         android:textColor="@color/colorWhite"
         app:autoSizeTextType="uniform"
-        app:autoSizeMinTextSize="34sp"
-        app:autoSizeMaxTextSize="44sp"
+        app:autoSizeMinTextSize="24sp"
+        app:autoSizeMaxTextSize="34sp"
         app:autoSizeStepGranularity="1sp"
         android:textStyle="bold" />
 

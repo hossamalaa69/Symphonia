@@ -259,6 +259,20 @@ public class MockService implements APIs {
         return true;
     }
 
+
+    @Override
+    public boolean signUp(Context context, boolean mType, String email, String password,
+                       String DOB, String gender, String name) {
+
+             Constants.mToken = "newToken";
+             Constants.user = new User(email, mType, Utils.convertToBitmap(R.drawable.download)
+                     , name, DOB, gender, false, 0, 0, new ArrayList<User>()
+                     , new ArrayList<User>(),new ArrayList<Playlist>(), new ArrayList<Playlist>()
+                     , new ArrayList<Artist>(),new ArrayList<Track>());
+             Constants.user.setmPassword(password);
+             return true;
+    }
+
     @Override
     public boolean checkEmailAvailability(Context context, String email, boolean mType) {
         if(mType){
@@ -273,6 +287,7 @@ public class MockService implements APIs {
         }
         return true;
     }
+
 
     @Override
     public ArrayList<Container> getResentResult(Context context) {

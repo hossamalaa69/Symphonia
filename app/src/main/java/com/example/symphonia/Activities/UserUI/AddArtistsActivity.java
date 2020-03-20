@@ -42,7 +42,9 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
 
         // will be modified
         mRecommendedArtists = new ArrayList<>();
-        ArrayList<Artist> returnedArtists = serviceController.getRecommendedArtists(Constants.user.isListenerType(), Constants.mToken, 20);
+        ArrayList<Artist> returnedArtists = serviceController
+                .getRecommendedArtists(Constants.user.isListenerType(), Constants.mToken, 20);
+
         for (Artist artist : returnedArtists) {
             if(!serviceController.isFollowing(Constants.user.isListenerType(), Constants.mToken
                     , artist.getId()))

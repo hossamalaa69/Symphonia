@@ -10,11 +10,14 @@
     tools:context=".Activities.User_Management.SignUp.SignUp2">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
         android:text="@string/create_a_password"
         android:textColor="@color/colorWhite"
-        android:textSize="35sp"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="24sp"
+        app:autoSizeMaxTextSize="34sp"
+        app:autoSizeStepGranularity="1sp"
         android:textStyle="bold" />
 
     <com.google.android.material.textfield.TextInputLayout

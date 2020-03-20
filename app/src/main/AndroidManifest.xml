@@ -12,13 +12,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".Activities.User_Management.SignUp.SuggestionActivity"></activity>
         <activity
             android:name=".Activities.UserUI.ArtistsSearchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize"></activity>
-
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".Activities.User_Management.ArtistPages.EmailCheckArtistActivity"
             android:label="@string/check_email"
@@ -49,7 +48,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.UserUI.MainActivity" />
         </activity>
-
         <activity
             android:name=".Activities.User_Management.SignUp.SignUp5"
             android:label="@string/create_account"
@@ -60,24 +58,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.User_Management.SignUp.SignUp4" />
         </activity>
-
         <activity
             android:name=".Activities.User_Management.SignUp.SignUp4"
             android:label="@string/create_account"
-            android:parentActivityName=".Activities.User_Management.SignUp.SignUp3"
             android:launchMode="singleTop"
+            android:parentActivityName=".Activities.User_Management.SignUp.SignUp3"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.User_Management.SignUp.SignUp3" />
         </activity>
-
         <activity
             android:name=".Activities.User_Management.SignUp.SignUp3"
             android:label="@string/create_account"
-            android:parentActivityName=".Activities.User_Management.SignUp.SignUp2"
             android:launchMode="singleTop"
+            android:parentActivityName=".Activities.User_Management.SignUp.SignUp2"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
@@ -95,25 +91,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.User_Management.SignUp.SignUp1" />
         </activity>
-
         <activity
             android:name=".Activities.User_Management.SignUp.SignUp1"
             android:label="@string/create_account"
-            android:parentActivityName=".Activities.User_Management.WelcomeActivity"
             android:launchMode="singleTop"
+            android:parentActivityName=".Activities.User_Management.WelcomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.User_Management.WelcomeActivity" />
         </activity>
-
         <activity
             android:name=".Activities.User_Management.WelcomeActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".Activities.UserUI.AddArtistsActivity"
             android:screenOrientation="portrait"
@@ -127,7 +120,6 @@
             android:name=".Activities.UserUI.PlayActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-
         <activity
             android:name=".Activities.User_Management.LoginActivity"
             android:label=""
@@ -138,7 +130,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.UserUI.MainActivity" />
         </activity>
-
         <activity
             android:name=".Activities.UserUI.MainActivity"
             android:label="@string/app_name"
@@ -147,23 +138,23 @@
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".Activities.UserUI.StartActivity"
+        <activity
+            android:name=".Activities.UserUI.StartActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-
-        <activity android:name=".Activities.UserUI.SplashScreenActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".Activities.UserUI.SplashScreenActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

@@ -35,6 +35,10 @@ public class ServiceController {
         return mSupplier.checkEmailAvailability(context, email, mType);
     }
 
+    public boolean signUp(Context context, boolean mType, String email, String password,
+                       String DOB, String gender, String name) {
+        return mSupplier.signUp(context, mType, email, password, DOB, gender, name);
+    }
 
     public ArrayList<Playlist> getRecentPlaylists(Context context, String mToken) {
         return mSupplier.getRecentPlaylists(context, mToken);
