@@ -1,6 +1,8 @@
 package com.example.symphonia.Activities.User_Management.SignUp;
 
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.symphonia.Activities.UserUI.MainActivity;
+import com.example.symphonia.Helpers.Custom_Dialog_Offline;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
 
@@ -63,6 +66,12 @@ public class SignUp5 extends AppCompatActivity {
 
     public void openNext(View view) {
         ServiceController serviceController = ServiceController.getInstance();
+        if(!isOnline()){
+            Custom_Dialog_Offline custom_dialogOffline = new Custom_Dialog_Offline();
+            custom_dialogOffline.showDialog(this);
+            return;
+        }
+
         mName = name.getText().toString();
         boolean mType;
         mType = user.equals("Listener");
@@ -84,4 +93,14 @@ public class SignUp5 extends AppCompatActivity {
         login.setEnabled(false);
         login.setBackgroundResource(R.drawable.btn_curved_gray);
     }
+
+    public boolean isOnline() {
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        if (connMgr != null) {
+            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+            return networkInfo != null && networkInfo.isConnectedOrConnecting();
+        }
+        return false;
+    }
+
 }

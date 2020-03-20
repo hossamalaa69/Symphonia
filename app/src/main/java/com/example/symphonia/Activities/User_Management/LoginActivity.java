@@ -3,13 +3,17 @@ package com.example.symphonia.Activities.User_Management;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,14 +29,18 @@ import java.util.concurrent.ExecutionException;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private TextView errorInput;
     private EditText email;
     private EditText password;
-
     private String type;
+    boolean isValid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        errorInput = (TextView) findViewById(R.id.error_text);
 
         Bundle b = getIntent().getExtras();
         type = b.getString("user");
@@ -51,8 +59,11 @@ public class LoginActivity extends AppCompatActivity {
                 EditText password2 = findViewById(R.id.password);
                 if (password2.getText().length() >= 8 && Utils.isValidEmail(s.toString())) {
                     enableButton();
-                } else
-                    lockButton();
+                    isValid=true;
+                } else{
+                        lockButton();
+                        isValid=false;
+                      }
             }
 
             public void beforeTextChanged(CharSequence s, int start,
@@ -61,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
 
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
+                errorInput.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -70,8 +82,11 @@ public class LoginActivity extends AppCompatActivity {
                 EditText email2 = findViewById(R.id.emailInput);
                 if (Utils.isValidEmail(email2.getText().toString()) && s.length() >= 8) {
                     enableButton();
-                } else
-                    lockButton();
+                    isValid=true;
+                } else{
+                        lockButton();
+                        isValid=false;
+                    }
             }
 
             public void beforeTextChanged(CharSequence s, int start,
@@ -80,6 +95,19 @@ public class LoginActivity extends AppCompatActivity {
 
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
+                errorInput.setVisibility(View.INVISIBLE);
+            }
+        });
+
+
+            password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId== EditorInfo.IME_ACTION_DONE){
+                    if(isValid)
+                        openHome(v);
+                }
+                return false;
             }
         });
     }
@@ -101,7 +129,6 @@ public class LoginActivity extends AppCompatActivity {
         ServiceController serviceController = ServiceController.getInstance();
 
         if(!isOnline()){
-
             Custom_Dialog_Offline custom_dialogOffline = new Custom_Dialog_Offline();
             custom_dialogOffline.showDialog(this);
             return;
@@ -114,7 +141,7 @@ public class LoginActivity extends AppCompatActivity {
                 Intent i = new Intent(this, MainActivity.class);
                 startActivity(i);
             } else {
-                TextView errorInput = (TextView) findViewById(R.id.error_text);
+                errorInput.setVisibility(View.VISIBLE);
                 errorInput.setText(R.string.wrong_password_or_email);
             }
         }
@@ -126,7 +153,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(i);
             }
             else {
-                TextView errorInput = (TextView) findViewById(R.id.error_text);
+                errorInput.setVisibility(View.VISIBLE);
                 errorInput.setText(R.string.wrong_password_or_email);
             }
         }
