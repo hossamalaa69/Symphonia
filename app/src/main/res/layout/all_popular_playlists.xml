@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/popular_playlists_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorDark"
@@ -15,7 +16,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/img_back_search_main"
+            android:id="@+id/img_back_category"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="center_vertical"

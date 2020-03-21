@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,10 +20,19 @@ import java.util.ArrayList;
 
 public class PopularPlaylistsFragment extends Fragment {
     private RecyclerView recyclerView;
+    private ImageView back;
+    private View.OnClickListener listener=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            getFragmentManager().popBackStack();
+        }
+    };
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.all_popular_playlists, container, false);
+        back=root.findViewById(R.id.img_back_category);
+        back.setOnClickListener(listener);
         recyclerView=root.findViewById(R.id.rv_all_popular_playlists);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setHasFixedSize(false);

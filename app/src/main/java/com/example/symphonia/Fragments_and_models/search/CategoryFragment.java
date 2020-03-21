@@ -17,6 +17,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.palette.graphics.Palette;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,13 +44,20 @@ public class CategoryFragment extends Fragment {
     private LinearLayout animatedLayout;
     private View background;
     private Button button;
+    private View.OnClickListener backListener=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            getFragmentManager().popBackStack();
+        }
+    };
     private View.OnClickListener listener=new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.category_layout, new PopularPlaylistsFragment()) // Add this transaction to the back stack (name is an optional name for this back stack state, or null).
-                    .addToBackStack(null)
-                    .commit();
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.category_layout,new PopularPlaylistsFragment());
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
         }
     };
     public CategoryFragment(Container cat){
@@ -59,6 +68,8 @@ public class CategoryFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.category_layout, container, false);
+        back=root.findViewById(R.id.img_back_search_main);
+        back.setOnClickListener(backListener);
         button=root.findViewById(R.id.btn_see_more);
         button.setOnClickListener(listener);
         animatedLayout=root.findViewById(R.id.animated_layout);
