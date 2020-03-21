@@ -1,6 +1,7 @@
 package com.example.symphonia.Service;
 
 import android.content.Context;
+import android.net.Uri;
 
 import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Album;
@@ -17,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
 
 public class MockService implements APIs {
 
@@ -35,15 +35,15 @@ public class MockService implements APIs {
 
     public MockService() {
         listenerArrayList = new ArrayList<>();
-        artistArrayList=new ArrayList<>();
+        artistArrayList = new ArrayList<>();
 
-        listenerArrayList.add(new User("user1@symphonia.com","12345678",true));
-        listenerArrayList.add(new User("user2@symphonia.com","12345678",true));
-        listenerArrayList.add(new User("user3@symphonia.com","12345678",true));
+        listenerArrayList.add(new User("user1@symphonia.com", "12345678", true));
+        listenerArrayList.add(new User("user2@symphonia.com", "12345678", true));
+        listenerArrayList.add(new User("user3@symphonia.com", "12345678", true));
 
-        artistArrayList.add(new User("artist1@symphonia.com","12345678",false));
-        artistArrayList.add(new User("artist2@symphonia.com","12345678",false));
-        artistArrayList.add(new User("artist3@symphonia.com","12345678",false));
+        artistArrayList.add(new User("artist1@symphonia.com", "12345678", false));
+        artistArrayList.add(new User("artist2@symphonia.com", "12345678", false));
+        artistArrayList.add(new User("artist3@symphonia.com", "12345678", false));
 
 
         data = new ArrayList<>();
@@ -206,25 +206,25 @@ public class MockService implements APIs {
 
         popularPlaylists = new ArrayList<>();
         ArrayList<Track> tracks = new ArrayList<Track>();
-        tracks.add(new Track("Rescue Me", "OneRepublic", "mood booster", "Rescue Me", R.drawable.rescue_me));
-        tracks.add(new Track("Freaking Me Out", "Ava Max", "mood booster", null, R.drawable.freaking_me_out));
-        tracks.add(new Track("You Can't Stop The Girl", "Bebe Rexha", "mood booster", null, R.drawable.you_cant_stop_the_girl));
+        tracks.add(new Track("Rescue Me", "OneRepublic", "mood booster", "Rescue Me", R.drawable.rescue_me, Uri.parse("https://www.searchgurbani.com/audio/sggs/73.mp3")));
+        tracks.add(new Track("Freaking Me Out", "Ava Max", "mood booster", null, R.drawable.freaking_me_out, Uri.parse("https://www.android-examples.com/wp-content/uploads/2016/04/Thunder-rumble.mp3")));
+        tracks.add(new Track("You Can't Stop The Girl", "Bebe Rexha", "mood booster", null, R.drawable.you_cant_stop_the_girl, Uri.parse("https://www.searchgurbani.com/audio/sggs/1.mp3")));
         popularPlaylists.add(new Playlist("mood booster", "Get happy with this pick-up playlist full of current feel-good songs",
                 Utils.convertToBitmap(R.drawable.mood_booster), tracks));
 
         recentPlaylists = new ArrayList<>();
         ArrayList<Track> rTracks = new ArrayList<Track>();
-        rTracks.add(new Track("Little Do You Know", "Alex & Sierra", "Rewind-the sound of 2014", null, R.drawable.little_do_you_know));
-        rTracks.add(new Track("Wildest Dreams", "Taylor Swift", "Rewind-the sound of 2014", null, R.drawable.wildest_dreams));
-        rTracks.add(new Track("One Last Time", "Ariana Grande", "Rewind-the sound of 2014", null, R.drawable.one_last_time));
+        rTracks.add(new Track("Little Do You Know", "Alex & Sierra", "Rewind-the sound of 2014", null, R.drawable.little_do_you_know, Uri.parse("https://www.android-examples.com/wp-content/uploads/2016/04/Thunder-rumble.mp3")));
+        rTracks.add(new Track("Wildest Dreams", "Taylor Swift", "Rewind-the sound of 2014", null, R.drawable.wildest_dreams, Uri.parse("https://www.android-examples.com/wp-content/uploads/2016/04/Thunder-rumble.mp3")));
+        rTracks.add(new Track("One Last Time", "Ariana Grande", "Rewind-the sound of 2014", null, R.drawable.one_last_time, Uri.parse("https://www.android-examples.com/wp-content/uploads/2016/04/Thunder-rumble.mp3")));
         recentPlaylists.add(new Playlist("Rewind-the sound of 2014", null,
                 Utils.convertToBitmap(R.drawable.rewind_the_sound), rTracks));
 
         randomPlaylists = new ArrayList<>();
         ArrayList<Track> ranTracks = new ArrayList<Track>();
-        ranTracks.add(new Track("Intentions", "Justing Bieber, Quavo", "Daily Left", null, R.drawable.intentions));
-        ranTracks.add(new Track("Stupid Love", "Lady Gaga", "Daily Left", null, R.drawable.stupid_love));
-        ranTracks.add(new Track("Feel Me", "Selena Gomez", "Daily Left", null, R.drawable.feel_me));
+        ranTracks.add(new Track("Intentions", "Justing Bieber, Quavo", "Daily Left", null, R.drawable.intentions, Uri.parse("https://www.android-examples.com/wp-content/uploads/2016/04/Thunder-rumble.mp3")));
+        ranTracks.add(new Track("Stupid Love", "Lady Gaga", "Daily Left", null, R.drawable.stupid_love, Uri.parse("https://www.android-examples.com/wp-content/uploads/2016/04/Thunder-rumble.mp3")));
+        ranTracks.add(new Track("Feel Me", "Selena Gomez", "Daily Left", null, R.drawable.feel_me, Uri.parse("https://www.android-examples.com/wp-content/uploads/2016/04/Thunder-rumble.mp3")));
         randomPlaylists.add(new Playlist("Daily Left", "Sia, J Balvin, Bad Bunny, Justin Bieber, Drake",
                 Utils.convertToBitmap(R.drawable.daily_left), ranTracks));
 
@@ -253,19 +253,18 @@ public class MockService implements APIs {
 
     @Override
     public boolean logIn(Context context, String username, String password, boolean mType) {
-        int userIndex=-1;
-        if(mType){
-            for(int i = 0; i < listenerArrayList.size(); i++){
-                if(username.equals(listenerArrayList.get(i).getmEmail()) &&
-                        password.equals(listenerArrayList.get(i).getmPassword())){
+        int userIndex = -1;
+        if (mType) {
+            for (int i = 0; i < listenerArrayList.size(); i++) {
+                if (username.equals(listenerArrayList.get(i).getmEmail()) &&
+                        password.equals(listenerArrayList.get(i).getmPassword())) {
                     userIndex = i;
                     break;
                 }
             }
-        }
-        else{
-            for(int i=0; i < artistArrayList.size(); i++){
-                if(username.equals(artistArrayList.get(i).getmEmail()) &&
+        } else {
+            for (int i = 0; i < artistArrayList.size(); i++) {
+                if (username.equals(artistArrayList.get(i).getmEmail()) &&
                         password.equals(artistArrayList.get(i).getmPassword())) {
                     userIndex = i;
                     break;
@@ -273,7 +272,7 @@ public class MockService implements APIs {
             }
         }
 
-        if(userIndex==-1)
+        if (userIndex == -1)
             return false;
 
 
@@ -291,8 +290,7 @@ public class MockService implements APIs {
                     , 65500, 40, new ArrayList<User>()
                     , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
                     , followed, albums, new ArrayList<Track>());
-        }
-        else {
+        } else {
             Constants.mToken = "token1";
 
             ArrayList<Artist> followed = new ArrayList<>();
@@ -313,27 +311,26 @@ public class MockService implements APIs {
 
     @Override
     public boolean signUp(Context context, boolean mType, String email, String password,
-                       String DOB, String gender, String name) {
+                          String DOB, String gender, String name) {
 
-             Constants.mToken = "newToken";
-             Constants.user = new User(email, mType, Utils.convertToBitmap(R.drawable.download)
-                     , name, DOB, gender, false, 0, 0, new ArrayList<User>()
-                     , new ArrayList<User>(),new ArrayList<Playlist>(), new ArrayList<Playlist>()
-                     , new ArrayList<Artist>(), new ArrayList<Album>(),new ArrayList<Track>());
-             Constants.user.setmPassword(password);
-             return true;
+        Constants.mToken = "newToken";
+        Constants.user = new User(email, mType, Utils.convertToBitmap(R.drawable.download)
+                , name, DOB, gender, false, 0, 0, new ArrayList<User>()
+                , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
+                , new ArrayList<Artist>(), new ArrayList<Album>(), new ArrayList<Track>());
+        Constants.user.setmPassword(password);
+        return true;
     }
 
     @Override
     public boolean checkEmailAvailability(Context context, String email, boolean mType) {
-        if(mType){
-            for(int i=0;i<listenerArrayList.size();i++)
-                if(email.equals(listenerArrayList.get(i).getmEmail()))
+        if (mType) {
+            for (int i = 0; i < listenerArrayList.size(); i++)
+                if (email.equals(listenerArrayList.get(i).getmEmail()))
                     return false;
-        }
-        else{
-            for(int i=0;i<artistArrayList.size();i++)
-                if(email.equals(artistArrayList.get(i).getmEmail()))
+        } else {
+            for (int i = 0; i < artistArrayList.size(); i++)
+                if (email.equals(artistArrayList.get(i).getmEmail()))
                     return false;
         }
         return true;
@@ -486,15 +483,15 @@ public class MockService implements APIs {
     @Override
     public ArrayList<Artist> getArtistRelatedArtists(Context context, String id) {
         ArrayList<Artist> related;
-        if(id.equals("1") || id.equals("6"))
+        if (id.equals("1") || id.equals("6"))
             related = new ArrayList<>(artists.subList(10, 16));
-        else if(id.equals("2") || id.equals("7"))
+        else if (id.equals("2") || id.equals("7"))
             related = new ArrayList<>(artists.subList(16, 22));
-        else if(id.equals("3") || id.equals("8"))
+        else if (id.equals("3") || id.equals("8"))
             related = new ArrayList<>(artists.subList(22, 28));
-        else if(id.equals("4") || id.equals("9"))
+        else if (id.equals("4") || id.equals("9"))
             related = new ArrayList<>(artists.subList(28, 34));
-        else if(id.equals("5") || id.equals("10"))
+        else if (id.equals("5") || id.equals("10"))
             related = new ArrayList<>(artists.subList(34, 40));
         else
             related = new ArrayList<>();
