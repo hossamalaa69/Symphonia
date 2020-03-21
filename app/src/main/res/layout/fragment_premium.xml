@@ -8,35 +8,37 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="7"
+        android:layout_weight="9"
         android:orientation="vertical"
         android:background="@drawable/background4">
 
         <TextView
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="55dp"
             android:gravity="center"
             android:fontFamily="sans-serif"
             android:text="@string/try_premium"
             android:textColor="#FFFFFF"
             app:autoSizeTextType="uniform"
-            app:autoSizeMinTextSize="28sp"
+            app:autoSizeMinTextSize="20sp"
             app:autoSizeMaxTextSize="38sp"
             app:autoSizeStepGranularity="2sp"
             android:textStyle="bold">
         </TextView>
         <TextView
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="55dp"
             android:gravity="center"
             android:fontFamily="sans-serif"
             android:text="@string/enjoy_many_features"
             android:textColor="#FFFFFF"
             app:autoSizeTextType="uniform"
-            app:autoSizeMinTextSize="28sp"
-            app:autoSizeMaxTextSize="34sp"
-            app:autoSizeStepGranularity="2sp"
+            app:autoSizeMinTextSize="14sp"
+            app:autoSizeMaxTextSize="30sp"
+            app:autoSizeStepGranularity="1sp"
             android:textStyle="bold"
             android:layout_marginBottom="10dp"
             >
@@ -45,9 +47,13 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_premium"
             android:layout_gravity="center"
-            android:layout_width="300dp"
-            android:layout_height="140dp"
-            android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:orientation="horizontal"
+            android:paddingStart="35dp"
+            android:paddingEnd="35dp"
+            android:clipToPadding="false"
+            >
         </androidx.recyclerview.widget.RecyclerView>
 
         <Button
@@ -55,16 +61,15 @@
             android:layout_width="280dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/btn_curved_white"
             android:text="@string/get_premium"
-            android:textColor="@color/colorGradient2"
-            android:fontFamily="sans-serif"
+            android:textColor="@color/colorDark"
+            android:fontFamily="monospace"
             app:autoSizeTextType="uniform"
             app:autoSizeMinTextSize="14sp"
             app:autoSizeMaxTextSize="20sp"
-            app:autoSizeStepGranularity="1sp"
-            android:textStyle="bold" />
+            app:autoSizeStepGranularity="1sp" />
 
         <TextView
             android:id="@+id/t1"
@@ -74,8 +79,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/premium_terms"
-            android:textColor="@color/light_gray"
-            android:textSize="18sp"
+            android:textColor="@color/light_gray2"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="10sp"
+            app:autoSizeMaxTextSize="20sp"
+            app:autoSizeStepGranularity="1sp"
             android:layout_marginTop="20dp"
             />
     </LinearLayout>
@@ -94,31 +102,38 @@
             android:background="@drawable/background_gray"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="150dp"
+                android:layout_width="180dp"
                 android:layout_height="match_parent"
                 android:text="@string/spotify_free"
                 android:gravity="center_vertical"
                 app:autoSizeTextType="uniform"
-                app:autoSizeMinTextSize="18sp"
-                app:autoSizeMaxTextSize="26sp"
+                app:autoSizeMinTextSize="8sp"
+                app:autoSizeMaxTextSize="20sp"
                 app:autoSizeStepGranularity="1sp"
                 android:textStyle="bold"
                 android:fontFamily="sans-serif"
-                android:layout_marginLeft="40dp"
-                android:textColor="@color/white">
+                android:layout_marginStart="10dp"
+                android:textColor="@color/white"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                >
             </TextView>
 
             <TextView
-                android:layout_width="160dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/current_plan"
                 android:gravity="center_vertical"
                 app:autoSizeTextType="uniform"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeMaxTextSize="20sp"
+                app:autoSizeMinTextSize="6sp"
+                app:autoSizeMaxTextSize="16sp"
                 app:autoSizeStepGranularity="1sp"
                 android:fontFamily="sans-serif"
-                android:textColor="@color/light_gray">
+                android:textColor="@color/light_gray2"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                >
             </TextView>
 
         </LinearLayout>

@@ -120,7 +120,12 @@
     <string name="premium_terms">Only EGP 49.99/month. Cancel anytime.
     <a href="https://www.spotify.com/eg-en/legal/premium-promotional-offer-terms/">Terms and conditions</a>
     apply </string>
-    <string name="spotify_free">Spotify Free</string>
+    <string name="spotify_free">Symphonia Free</string>
     <string name="current_plan">CURRENT PLAN</string>
-
+    <string name="free">FREE</string>
+    <string name="premium2">PREMIUM</string>
+    <string name="ad_break">Ad breaks</string>
+    <string name="ad_free_music">Ad-free \n music</string>
+    <string name="with_locked_songs">With locked \nsongs</string>
+    <string name="play_any_song">Play any \nsong</string>
 </resources>
