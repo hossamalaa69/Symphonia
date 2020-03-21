@@ -10,7 +10,7 @@
     <ImageView
         android:id="@+id/img_search_item"
         android:layout_width="200dp"
-        android:layout_height="100dp"
+        android:layout_height="95dp"
         android:scaleType="centerCrop"
         android:padding="4dp"/>
 

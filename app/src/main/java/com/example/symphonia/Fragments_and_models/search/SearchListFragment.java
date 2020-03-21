@@ -402,7 +402,7 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
     public class SomeDrawable extends GradientDrawable {
 
         public SomeDrawable(int pStartColor, int pEndColor) {
-            super(Orientation.BOTTOM_TOP, new int[]{pEndColor, pStartColor, pStartColor});
+            super(Orientation.BR_TL, new int[]{pEndColor, pStartColor, pStartColor});
             setShape(GradientDrawable.RECTANGLE);
         }
 
@@ -419,6 +419,5 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
         });
         return swatches.size() > 0 ? swatches.get(0).getRgb() : 0;
     }
-
 
 }

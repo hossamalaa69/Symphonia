@@ -22,7 +22,7 @@ import com.example.symphonia.Service.ServiceController;
 import java.util.ArrayList;
 
 
-public class SearchFragment extends Fragment {
+public class SearchFragment extends Fragment implements SearchMainAdapter.CatListItemClickListner {
 
     private ServiceController con;
 
@@ -66,7 +66,7 @@ public class SearchFragment extends Fragment {
         GridLayoutManager LM = new GridLayoutManager(getContext(), 2);
         RV.setLayoutManager(LM);
         RV.setHasFixedSize(true);
-        genresAdapter = new SearchMainAdapter(Genre);
+        genresAdapter = new SearchMainAdapter(Genre,this);
         RV.setAdapter(genresAdapter);
 
         ArrayList<Container> Category = con.getCategories(getContext());
@@ -76,7 +76,7 @@ public class SearchFragment extends Fragment {
         GridLayoutManager LM2 = new GridLayoutManager(getContext(), 2);
         RV2.setLayoutManager(LM2);
         RV2.setHasFixedSize(true);
-        catAdapter = new SearchMainAdapter(Category);
+        catAdapter = new SearchMainAdapter(Category,this);
         RV2.setAdapter(catAdapter);
 
         return root;
@@ -85,5 +85,13 @@ public class SearchFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
+    }
+
+    @Override
+    public void onListItemClickListner(Container c) {
+        getFragmentManager().beginTransaction()
+                .replace(R.id.main_search_view, new CategoryFragment(c)) // Add this transaction to the back stack (name is an optional name for this back stack state, or null).
+                .addToBackStack(null)
+                .commit();
     }
 }

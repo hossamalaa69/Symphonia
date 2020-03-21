@@ -264,35 +264,35 @@ public class MockService implements APIs {
     @Override
     public ArrayList<Container> getCategories(Context context) {
         ArrayList<Container> categories = new ArrayList<>();
-        categories.add(new Container("New Releases", R.drawable.download));
-        categories.add(new Container("Charts", R.drawable.download1));
-        categories.add(new Container("Concerts", R.drawable.images3));
-        categories.add(new Container("Made for you", R.drawable.images));
-        categories.add(new Container("Arabic", R.drawable.images2));
-        categories.add(new Container("Mood", R.drawable.download));
-        categories.add(new Container("Decades", R.drawable.download1));
-        categories.add(new Container("Gaming", R.drawable.images2));
-        categories.add(new Container("Workout", R.drawable.images3));
-        categories.add(new Container("Focus", R.drawable.images));
-        categories.add(new Container("Party", R.drawable.download));
-        categories.add(new Container("Dinner", R.drawable.download1));
-        categories.add(new Container("Jazz", R.drawable.images));
-        categories.add(new Container("Soul", R.drawable.images2));
-        categories.add(new Container("Kids", R.drawable.images3));
-        categories.add(new Container("Blues", R.drawable.download));
-        categories.add(new Container("Punk", R.drawable.download1));
-        categories.add(new Container("Travel", R.drawable.images3));
+        categories.add(new Container("New Releases", R.drawable.solid_image));
+        categories.add(new Container("Charts", R.drawable.solid_image2));
+        categories.add(new Container("Concerts", R.drawable.solid_image3));
+        categories.add(new Container("Made for you", R.drawable.solid_image4));
+        categories.add(new Container("Arabic", R.drawable.solid_image5));
+        categories.add(new Container("Mood", R.drawable.blue_image));
+        categories.add(new Container("Decades", R.drawable.solid_image6));
+        categories.add(new Container("Gaming", R.drawable.solid_image7));
+        categories.add(new Container("Workout", R.drawable.solid_red_image));
+        categories.add(new Container("Focus", R.drawable.skyatnight_image));
+        categories.add(new Container("Party", R.drawable.solidcolor_image));
+        categories.add(new Container("Dinner", R.drawable.purble_image));
+        categories.add(new Container("Jazz", R.drawable.grey_image));
+        categories.add(new Container("Soul", R.drawable.lightpurble_image));
+        categories.add(new Container("Kids", R.drawable.lemongreen_image));
+        categories.add(new Container("Blues", R.drawable.lightgrey_image));
+        categories.add(new Container("Punk", R.drawable.lightbrown_image));
+        categories.add(new Container("Travel", R.drawable.gradientgreen_image));
         return categories;
     }
 
     @Override
     public ArrayList<Container> getGenres(Context context) {
         ArrayList<Container> genres = new ArrayList<>();
-        genres.add(new Container("Pop", R.drawable.download));
-        genres.add(new Container("Hip-Hop", R.drawable.download1));
-        genres.add(new Container("Rock", R.drawable.images2));
-        genres.add(new Container("Sleep", R.drawable.images));
-        genres.add(new Container("Chill", R.drawable.images3));
+        genres.add(new Container("Pop", R.drawable.blue_image2));
+        genres.add(new Container("Hip-Hop", R.drawable.yellow_image));
+        genres.add(new Container("Rock", R.drawable.image_pink));
+        genres.add(new Container("Sleep", R.drawable.skyblue_image));
+        genres.add(new Container("Chill", R.drawable.purble_image));
         return genres;
     }
 
