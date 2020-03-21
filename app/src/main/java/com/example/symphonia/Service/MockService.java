@@ -588,7 +588,6 @@ public class MockService implements APIs {
                 mRecommendedArtists.add(artist);
             }
         }
-
         return mRecommendedArtists;
     }
 

@@ -3,6 +3,7 @@ package com.example.symphonia.Activities.UserUI;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.View;
 import android.widget.Button;
 
@@ -18,6 +19,7 @@ import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Adapters.GridSpacingItemDecorationAdapter;
 import com.example.symphonia.Adapters.RvGridArtistsAdapter;
 import com.example.symphonia.Service.ServiceController;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
 
@@ -31,12 +33,37 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
     GridSpacingItemDecorationAdapter mItemDecoration;
     GridLayoutManager layoutManager;
 
+    private boolean isNewUser = false;
+    private Button doneButton;
+    private int countFollowing = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_artists);
+
+
+        doneButton = (Button) findViewById(R.id.done_button);
+        Bundle b = getIntent().getExtras();
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.toolbar_layout);
+        //collapsingToolbarLayout.setTitleEnabled(true);
+
+        try{
+            String recvData = b.getString("newUser");
+            isNewUser = true;
+            doneButton.setVisibility(View.INVISIBLE);
+           //collapsingToolbarLayout.setTitle(getResources().getString(R.string.choose_3_artists));
+        } catch(Exception e) {
+            isNewUser = false;
+            doneButton.setVisibility(View.VISIBLE);
+           //collapsingToolbarLayout.setTitle(getResources().getString(R.string.title_activity_add_artists));
+        }
+
+
 
         serviceController = ServiceController.getInstance();
 
@@ -61,11 +88,17 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         adapter = new RvGridArtistsAdapter(mRecommendedArtists, this);
         artistList.setAdapter(adapter);
 
-        Button doneButton = findViewById(R.id.done_button);
+        doneButton = findViewById(R.id.done_button);
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                //check if new user is using this page
+                if(isNewUser){
+                    Intent i = new Intent(AddArtistsActivity.this, MainActivity.class);
+                    startActivity(i);
+                }
+                else
+                    finish();
             }
         });
 
@@ -103,6 +136,15 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
             serviceController.followArtistOrUser(Constants.user.isListenerType(), Constants.mToken
                     , mRecommendedArtists.get(clickedItemIndex).getId());
 
+            ////////////////////
+            //increase count
+            if(isNewUser){
+                countFollowing ++;
+                if(countFollowing>=3)
+                    doneButton.setVisibility(View.VISIBLE);
+            }
+            //////////////////////////////////////
+
             boolean isAdded = false;
             ArrayList<Artist> relatedArtists = serviceController.getArtistRelatedArtists(this, mRecommendedArtists.get(clickedItemIndex).getId());
             for(Artist artist : relatedArtists)
@@ -130,6 +172,13 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
             checkImage.setVisibility(View.GONE);
             serviceController.unFollowArtistOrUser(Constants.user.isListenerType(), Constants.mToken
                     , mRecommendedArtists.get(clickedItemIndex).getId());
+
+            ////////////////// if new user //////////////
+            if(isNewUser){
+                countFollowing--;
+                if(countFollowing<3)
+                    doneButton.setVisibility(View.INVISIBLE);
+            }
         }
     }
 }

@@ -14,12 +14,13 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.symphonia.Activities.UserUI.AddArtistsActivity;
 import com.example.symphonia.Activities.UserUI.MainActivity;
 import com.example.symphonia.Helpers.Custom_Dialog_Offline;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
 
-public class SignUp5 extends AppCompatActivity {
+public class SignUp5 extends AppCompatActivity  {
 
     private EditText name;
     private String user;
@@ -78,7 +79,8 @@ public class SignUp5 extends AppCompatActivity {
 
         serviceController.signUp(this, mType, email, password, dob, gender, mName);
 
-        Intent i = new Intent(this, SuggestionActivity.class);
+        Intent i = new Intent(this, AddArtistsActivity.class);
+        i.putExtra("newUser", "true");
         startActivity(i);
     }
 
