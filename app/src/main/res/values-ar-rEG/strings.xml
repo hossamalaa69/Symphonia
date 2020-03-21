@@ -45,8 +45,8 @@
     <string name="get_link">الرابط</string>
     <string name="check_email">تفحص بريدك</string>
     <string name="we_will_send">تم إرسال رابط لتسجيل الدخول من خلاله</string>
-    <string name="service_terms">"من خلال تسجيل, فأنت توافق على <a href="http://www.google.com">بنود الخدمة</a> "</string>
-    <string name="privacy_policy" > " لكي تعلم أكتر عن كيف تقوم سيمفونيا بتجميع واستخدام ومشاركة بياناتك الخاصة, من فضلك قم بقراءة<a href="http://www.google.com">سياسة الخصوصية</a> "  </string>
+    <string name="service_terms">"من خلال تسجيل, فأنت توافق على <a href="https://www.spotify.com/eg-en/legal/end-user-agreement/">بنود الخدمة</a> "</string>
+    <string name="privacy_policy" >"  لكي تعلم أكتر عن كيف تقوم سيمفونيا بتجميع واستخدام ومشاركة بياناتك الخاصة, من فضلك قم بقراءة<a href="https://www.spotify.com/eg-en/legal/privacy-policy/">سياسة الخصوصية</a>   "</string>
     <string name="wrong_password_or_email">تركيبة البريد الإلكتروني مع الرقم السري غير صحيحة</string>
     <string name="Not_connnected">غير متصل</string>
     <string name="check_internet">تفقد اتصالك بالانترنت</string>
@@ -94,6 +94,25 @@
     <string name="Song">اغنية</string>
     <string name="Album">البوم</string>
     <string name="made_for_you_by_spotify">من اسبوتيفاى من اجلك</string>
+    <string name="Genre">نوعية</string>
+    <string name="Profile">صفحة شخصية</string>
+    <string name="not_found_state_1">غير موجود</string>
+    <string name="already_exists_email">هذا البريد مُسجل بالفعل مسبقًا</string>
+    <string name="ok">حسنًا</string>
+    <string name="go_to_login">إذهب لتسجيل الدخول</string>
+    <string name="close">إغلاق</string>
+    <string name="try_premium">جرب الإمتياز</string>
+    <string name="enjoy_many_features">تمتع بخواص عديدة</string>
+    <string name="get_premium">احصل على الإمتياز</string>
+    <string name="premium_terms">"فقط  ٤٩,٩٩ جنيه مصري. يمكن الإلغاء في أيّ وقت. <a href="https://www.spotify.com/eg-en/legal/premium-promotional-offer-terms/">البنود والشروط</a> "</string>
+    <string name="spotify_free">سيمفونيا المجاني</string>
+    <string name="current_plan">الخطة الحالية</string>
+    <string name="free">المجانيّ</string>
+    <string name="premium2">الإمتياز</string>
+    <string name="ad_break">فواصل اعلانية</string>
+    <string name="ad_free_music">بدون فواصل</string>
+    <string name="play_any_song">تشغيل أيّ \n أغنية</string>
+    <string name="with_locked_songs">بدون أغاني \n مغلقة</string>
 
 
 </resources>

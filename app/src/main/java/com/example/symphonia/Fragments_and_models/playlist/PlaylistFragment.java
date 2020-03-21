@@ -93,10 +93,10 @@ public class PlaylistFragment extends Fragment {
                     playlistImage.setScaleX(1 / (alpha));
                     playlistImage.setScaleY(1 / (alpha));
                 }
-                frameLayout.setAlpha((long)1.5*(alpha-1));
+                frameLayout.setAlpha((long)2*(alpha-1));
             }
         });
-        //TODO handle toolbar here 
+        //TODO handle toolbar here
         return view;
     }
 

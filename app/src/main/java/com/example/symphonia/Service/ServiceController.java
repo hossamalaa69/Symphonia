@@ -2,6 +2,7 @@ package com.example.symphonia.Service;
 
 import android.content.Context;
 
+import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Playlist;
@@ -27,6 +28,19 @@ public class ServiceController {
         return restClient;
     }
 
+    public boolean logIn(Context context, String username, String password, boolean mType) {
+        return mSupplier.logIn(context, username, password, mType);
+    }
+
+    public boolean checkEmailAvailability(Context context, String email, boolean mType) {
+        return mSupplier.checkEmailAvailability(context, email, mType);
+    }
+
+    public boolean signUp(Context context, boolean mType, String email, String password,
+                       String DOB, String gender, String name) {
+        return mSupplier.signUp(context, mType, email, password, DOB, gender, name);
+    }
+
     public ArrayList<Playlist> getRecentPlaylists(Context context, String mToken) {
         return mSupplier.getRecentPlaylists(context, mToken);
     }
@@ -43,9 +57,6 @@ public class ServiceController {
         return mSupplier.getPopularPlaylists(context, mToken);
     }
 
-    public boolean logIn(Context context, String username, String password, boolean mType) {
-        return mSupplier.logIn(context, username, password, mType);
-    }
 
     public ArrayList<Container> getResentResult(Context context) {
         return mSupplier.getResentResult(context);
@@ -130,5 +141,10 @@ public class ServiceController {
     public ArrayList<Artist> getArtistRelatedArtists(Context context, String id){
         return mSupplier.getArtistRelatedArtists(context, id);
     }
+
+    public ArrayList<Album> getUserSavedAlbums(Context context, String mToken, int offset, int limit){
+        return mSupplier.getUserSavedAlbums(context, mToken, offset, limit);
+    }
+
 
 }

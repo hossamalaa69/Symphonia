@@ -76,15 +76,15 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     @Override
     public void OnTrackClickedListener(final ArrayList<Track> tracks, final int pos) {
         //TODO set on click listenr for like songs in bar
-        View view = findViewById(R.id.layout_playing_bar);
-        view.setVisibility(View.VISIBLE);
+        View playBar = findViewById(R.id.layout_playing_bar);
+        playBar.setVisibility(View.VISIBLE);
 
 
         // update date of bar
-        ImageView image = view.findViewById(R.id.iv_track_image_bar);
+        ImageView image = playBar.findViewById(R.id.iv_track_image_bar);
         image.setImageResource(tracks.get(pos).getmImageResources());
         rvBar.getLayoutManager().scrollToPosition(pos);
-        image = view.findViewById(R.id.iv_play_track_bar);
+        image = playBar.findViewById(R.id.iv_play_track_bar);
         image.setImageResource(R.drawable.ic_pause_black_24dp);
         playBarButton = image;
         playBarButton.setOnClickListener(new View.OnClickListener() {
@@ -94,14 +94,14 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                 Toast.makeText(MainActivity.this, "play", Toast.LENGTH_SHORT).show();
             }
         });
-        image = view.findViewById(R.id.iv_like_track_bar);
+        image = playBar.findViewById(R.id.iv_like_track_bar);
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, "added to liked playlist", Toast.LENGTH_SHORT).show();
             }
         });
-        view.setOnClickListener(new View.OnClickListener() {
+        playBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, PlayActivity.class);
@@ -110,6 +110,14 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                 startActivity(intent);
             }
         });
+
+        Utils.CurrTrackInfo.currPlayingPos = 0;
+        Utils.CurrTrackInfo.currPlaylistName = tracks.get(pos).getPlaylistName();
+        Utils.CurrTrackInfo.track = tracks.get(pos);
+        Utils.CurrTrackInfo.TrackPosInPlaylist = pos;
+        Utils.CurrTrackInfo.TrackPosInAlbum = -1;
+
+        Utils.MediaPlayerInfo.playTrack(this);
     }
 
     @Override
@@ -266,13 +274,11 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     }
 
     public void checkUserType() {
-     /*   if(Constants.user.isListenerType())
-            Toast.makeText(this, "Listener", Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(this, "Artist", Toast.LENGTH_SHORT).show();*/
+//        if(Constants.user.isListenerType())
+//            Toast.makeText(this, "Listener", Toast.LENGTH_SHORT).show();
+//        else
+//            Toast.makeText(this, "Artist", Toast.LENGTH_SHORT).show();
 
-        ServiceController serviceController = ServiceController.getInstance();
-        serviceController.logIn(this, "user@symphonia.com", "12345678", true);
     }
 
 }

@@ -1,10 +1,13 @@
 package com.example.symphonia.Service;
 
 import android.content.Context;
+import android.net.Uri;
 
 import com.example.symphonia.Constants;
+import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Entities.Container;
+import com.example.symphonia.Entities.Copyright;
 import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Entities.User;
@@ -12,6 +15,8 @@ import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 
 public class MockService implements APIs {
@@ -19,11 +24,28 @@ public class MockService implements APIs {
     private ArrayList<Playlist> randomPlaylists;
     private ArrayList<Playlist> recentPlaylists;
     private ArrayList<Artist> artists;
+    private ArrayList<Album> albums;
     private ArrayList<Container> data;
     private ArrayList<Container> recentSearches;
     private ArrayList<Playlist> popularPlaylists;
 
+    private ArrayList<User> listenerArrayList;
+
+    private ArrayList<User> artistArrayList;
+
     public MockService() {
+        listenerArrayList = new ArrayList<>();
+        artistArrayList = new ArrayList<>();
+
+        listenerArrayList.add(new User("user1@symphonia.com", "12345678", true));
+        listenerArrayList.add(new User("user2@symphonia.com", "12345678", true));
+        listenerArrayList.add(new User("user3@symphonia.com", "12345678", true));
+
+        artistArrayList.add(new User("artist1@symphonia.com", "12345678", false));
+        artistArrayList.add(new User("artist2@symphonia.com", "12345678", false));
+        artistArrayList.add(new User("artist3@symphonia.com", "12345678", false));
+
+
         data = new ArrayList<>();
         data.add(new Container("Quran", "Playlist", R.drawable.selena));
         data.add(new Container("George Wassouf", "Artist", R.drawable.download));
@@ -145,27 +167,64 @@ public class MockService implements APIs {
         artists.add(new Artist("40", Utils.convertToBitmap(R.drawable.loai), "Loai"));
 
 
+        albums = new ArrayList<>();
+
+        albums.add(new Album("6qqNVTkY8uBg9cP3Jd7DAH", "single",
+                new ArrayList<Artist>(Collections.singletonList(artists.get(7))),
+                new ArrayList<Copyright>(Arrays.asList(new Copyright("© 2020 Darkroom/Interscope Records", "C"),
+                        new Copyright("℗ 2020 Darkroom/Interscope Records", "P"))),
+                Utils.convertToBitmap(R.drawable.no_time_to_die), "No Time To Die", "2020-02-13",
+                new ArrayList<Track>()));
+
+        albums.add(new Album("7eFyrxZRPqw8yvZXMUm88A", "album",
+                new ArrayList<Artist>(Collections.singletonList(artists.get(37))),
+                new ArrayList<Copyright>(Arrays.asList(new Copyright("2018 Nay", "C"),
+                        new Copyright("2018 Nay", "P"))),
+                Utils.convertToBitmap(R.drawable.kol_hayaty), "Kol Hayaty", "2018-10-03",
+                new ArrayList<Track>()));
+
+        albums.add(new Album("2D1nEskDzLz38JiUeVK5mh", "single",
+                new ArrayList<Artist>(Collections.singletonList(artists.get(29))),
+                new ArrayList<Copyright>(Arrays.asList(new Copyright("2020 MuzicUp", "C"),
+                        new Copyright("2020 MuzicUp", "P"))),
+                Utils.convertToBitmap(R.drawable.shamekh), "Shamekh", "2020-01-12",
+                new ArrayList<Track>()));
+
+        albums.add(new Album("0hZwt0aSEEiwUByVQuxntK", "album",
+                new ArrayList<Artist>(Collections.singletonList(artists.get(30))),
+                new ArrayList<Copyright>(Collections.singletonList(new Copyright("(C) 2012 Awakening Worldwide", "C"))),
+                Utils.convertToBitmap(R.drawable.fogive_me), "Forgive Me", "2012-04-02",
+                new ArrayList<Track>()));
+
+        albums.add(new Album("3JfSxDfmwS5OeHPwLSkrfr", "album",
+                new ArrayList<Artist>(Collections.singletonList(artists.get(12))),
+                new ArrayList<Copyright>(Arrays.asList(new Copyright("© 2018 KIDinaKORNER/Interscope Records", "C"),
+                        new Copyright("℗ 2018 KIDinaKORNER/Interscope Records", "P"))),
+                Utils.convertToBitmap(R.drawable.origins), "Origins (Deluxe)", "2018-11-09",
+                new ArrayList<Track>()));
+
+
         popularPlaylists = new ArrayList<>();
         ArrayList<Track> tracks = new ArrayList<Track>();
-        tracks.add(new Track("Rescue Me", "OneRepublic", "mood booster", "Rescue Me", R.drawable.rescue_me));
-        tracks.add(new Track("Freaking Me Out", "Ava Max", "mood booster", null, R.drawable.freaking_me_out));
-        tracks.add(new Track("You Can't Stop The Girl", "Bebe Rexha", "mood booster", null, R.drawable.you_cant_stop_the_girl));
+        tracks.add(new Track("Rescue Me", "OneRepublic", "mood booster", "Rescue Me", R.drawable.rescue_me, Uri.parse("https://www.searchgurbani.com/audio/sggs/73.mp3")));
+        tracks.add(new Track("Freaking Me Out", "Ava Max", "mood booster", null, R.drawable.freaking_me_out, Uri.parse("https://www.android-examples.com/wp-content/uploads/2016/04/Thunder-rumble.mp3")));
+        tracks.add(new Track("You Can't Stop The Girl", "Bebe Rexha", "mood booster", null, R.drawable.you_cant_stop_the_girl, Uri.parse("https://www.searchgurbani.com/audio/sggs/1.mp3")));
         popularPlaylists.add(new Playlist("mood booster", "Get happy with this pick-up playlist full of current feel-good songs",
                 Utils.convertToBitmap(R.drawable.mood_booster), tracks));
 
         recentPlaylists = new ArrayList<>();
         ArrayList<Track> rTracks = new ArrayList<Track>();
-        rTracks.add(new Track("Little Do You Know", "Alex & Sierra", "Rewind-the sound of 2014", null, R.drawable.little_do_you_know));
-        rTracks.add(new Track("Wildest Dreams", "Taylor Swift", "Rewind-the sound of 2014", null, R.drawable.wildest_dreams));
-        rTracks.add(new Track("One Last Time", "Ariana Grande", "Rewind-the sound of 2014", null, R.drawable.one_last_time));
+        rTracks.add(new Track("Little Do You Know", "Alex & Sierra", "Rewind-the sound of 2014", null, R.drawable.little_do_you_know, Uri.parse("https://www.android-examples.com/wp-content/uploads/2016/04/Thunder-rumble.mp3")));
+        rTracks.add(new Track("Wildest Dreams", "Taylor Swift", "Rewind-the sound of 2014", null, R.drawable.wildest_dreams, Uri.parse("https://www.android-examples.com/wp-content/uploads/2016/04/Thunder-rumble.mp3")));
+        rTracks.add(new Track("One Last Time", "Ariana Grande", "Rewind-the sound of 2014", null, R.drawable.one_last_time, Uri.parse("https://www.android-examples.com/wp-content/uploads/2016/04/Thunder-rumble.mp3")));
         recentPlaylists.add(new Playlist("Rewind-the sound of 2014", null,
                 Utils.convertToBitmap(R.drawable.rewind_the_sound), rTracks));
 
         randomPlaylists = new ArrayList<>();
         ArrayList<Track> ranTracks = new ArrayList<Track>();
-        ranTracks.add(new Track("Intentions", "Justing Bieber, Quavo", "Daily Left", null, R.drawable.intentions));
-        ranTracks.add(new Track("Stupid Love", "Lady Gaga", "Daily Left", null, R.drawable.stupid_love));
-        ranTracks.add(new Track("Feel Me", "Selena Gomez", "Daily Left", null, R.drawable.feel_me));
+        ranTracks.add(new Track("Intentions", "Justing Bieber, Quavo", "Daily Left", null, R.drawable.intentions, Uri.parse("https://www.android-examples.com/wp-content/uploads/2016/04/Thunder-rumble.mp3")));
+        ranTracks.add(new Track("Stupid Love", "Lady Gaga", "Daily Left", null, R.drawable.stupid_love, Uri.parse("https://www.android-examples.com/wp-content/uploads/2016/04/Thunder-rumble.mp3")));
+        ranTracks.add(new Track("Feel Me", "Selena Gomez", "Daily Left", null, R.drawable.feel_me, Uri.parse("https://www.android-examples.com/wp-content/uploads/2016/04/Thunder-rumble.mp3")));
         randomPlaylists.add(new Playlist("Daily Left", "Sia, J Balvin, Bad Bunny, Justin Bieber, Drake",
                 Utils.convertToBitmap(R.drawable.daily_left), ranTracks));
 
@@ -194,9 +253,30 @@ public class MockService implements APIs {
 
     @Override
     public boolean logIn(Context context, String username, String password, boolean mType) {
+        int userIndex = -1;
+        if (mType) {
+            for (int i = 0; i < listenerArrayList.size(); i++) {
+                if (username.equals(listenerArrayList.get(i).getmEmail()) &&
+                        password.equals(listenerArrayList.get(i).getmPassword())) {
+                    userIndex = i;
+                    break;
+                }
+            }
+        } else {
+            for (int i = 0; i < artistArrayList.size(); i++) {
+                if (username.equals(artistArrayList.get(i).getmEmail()) &&
+                        password.equals(artistArrayList.get(i).getmPassword())) {
+                    userIndex = i;
+                    break;
+                }
+            }
+        }
 
-        if ((username.equals("artist1") || username.equals("artist@symphonia.com"))
-                && password.equals("12345678") && !mType) {
+        if (userIndex == -1)
+            return false;
+
+
+        if (!mType) {
             Constants.mToken = "token2";
 
             ArrayList<Artist> followed = new ArrayList<>();
@@ -204,31 +284,58 @@ public class MockService implements APIs {
                 followed.add(artists.get(i));
             }
 
-            Constants.user = new User(username, mType, Utils.convertToBitmap(R.drawable.download)
+            Constants.user = new User(artistArrayList.get(userIndex).getmEmail(), false
+                    , Utils.convertToBitmap(R.drawable.download)
                     , "Islam Ahmed", "1998/24/11", "male", true
                     , 65500, 40, new ArrayList<User>()
                     , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
-                    , followed, new ArrayList<Track>());
-            return true;
-        } else if ((username.equals("user1") || username.equals("user@symphonia.com"))
-                && password.equals("12345678") && mType) {
+                    , followed, albums, new ArrayList<Track>());
+        } else {
             Constants.mToken = "token1";
 
             ArrayList<Artist> followed = new ArrayList<>();
-
             for (int i = 0; i < 5; i++) {
                 followed.add(artists.get(i));
             }
 
-            Constants.user = new User(username, mType, Utils.convertToBitmap(R.drawable.download)
-                    , "Islam Ahmed", "1998/24/11", "male", true
+            Constants.user = new User(listenerArrayList.get(userIndex).getmEmail(), true
+                    , Utils.convertToBitmap(R.drawable.download)
+                    , "Hossam Alaa", "1999/04/06", "male", true
                     , 65500, 40, new ArrayList<User>()
                     , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
-                    , followed, new ArrayList<Track>());
-            return true;
+                    , followed, albums, new ArrayList<Track>());
         }
-        return false;
+        return true;
     }
+
+
+    @Override
+    public boolean signUp(Context context, boolean mType, String email, String password,
+                          String DOB, String gender, String name) {
+
+        Constants.mToken = "newToken";
+        Constants.user = new User(email, mType, Utils.convertToBitmap(R.drawable.download)
+                , name, DOB, gender, false, 0, 0, new ArrayList<User>()
+                , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
+                , new ArrayList<Artist>(), new ArrayList<Album>(), new ArrayList<Track>());
+        Constants.user.setmPassword(password);
+        return true;
+    }
+
+    @Override
+    public boolean checkEmailAvailability(Context context, String email, boolean mType) {
+        if (mType) {
+            for (int i = 0; i < listenerArrayList.size(); i++)
+                if (email.equals(listenerArrayList.get(i).getmEmail()))
+                    return false;
+        } else {
+            for (int i = 0; i < artistArrayList.size(); i++)
+                if (email.equals(artistArrayList.get(i).getmEmail()))
+                    return false;
+        }
+        return true;
+    }
+
 
     @Override
     public ArrayList<Container> getResentResult(Context context) {
@@ -376,15 +483,15 @@ public class MockService implements APIs {
     @Override
     public ArrayList<Artist> getArtistRelatedArtists(Context context, String id) {
         ArrayList<Artist> related;
-        if(id.equals("1") || id.equals("6"))
+        if (id.equals("1") || id.equals("6"))
             related = new ArrayList<>(artists.subList(10, 16));
-        else if(id.equals("2") || id.equals("7"))
+        else if (id.equals("2") || id.equals("7"))
             related = new ArrayList<>(artists.subList(16, 22));
-        else if(id.equals("3") || id.equals("8"))
+        else if (id.equals("3") || id.equals("8"))
             related = new ArrayList<>(artists.subList(22, 28));
-        else if(id.equals("4") || id.equals("9"))
+        else if (id.equals("4") || id.equals("9"))
             related = new ArrayList<>(artists.subList(28, 34));
-        else if(id.equals("5") || id.equals("10"))
+        else if (id.equals("5") || id.equals("10"))
             related = new ArrayList<>(artists.subList(34, 40));
         else
             related = new ArrayList<>();
@@ -466,5 +573,16 @@ public class MockService implements APIs {
         }
 
         return searchResult;
+    }
+
+    @Override
+    public ArrayList<Album> getUserSavedAlbums(Context context, String mToken, int offset, int limit) {
+        ArrayList<Album> savedAlbums = Constants.user.getSavedAlbums();
+        ArrayList<Album> returnedAlbums = new ArrayList<>();
+        for (int i = 0; i < Math.min(limit, savedAlbums.size()); i++) {
+            returnedAlbums.add(savedAlbums.get(i));
+        }
+
+        return returnedAlbums;
     }
 }

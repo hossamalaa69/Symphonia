@@ -1,5 +1,7 @@
 package com.example.symphonia.Entities;
 
+import android.net.Uri;
+
 import java.io.Serializable;
 
 public class Track implements Serializable {
@@ -10,18 +12,29 @@ public class Track implements Serializable {
     private String mAlbum;
     private String mArtist;
     private String mURL;
+    private Uri uri ;
+
+    public Uri getUri() {
+        return uri;
+    }
+
     private boolean isHidden;
     private boolean isLiked;
     private int mImageResources;
     private int mDuration;
 
+    public void setUri(Uri uri) {
+        this.uri = uri;
+    }
+
     //TODO delete this constructor; made for testing and not real testing
-    public Track(String mTitle, String mArtist, String playlistName, String mAlbum, int mImageResources) {
+    public Track(String mTitle, String mArtist, String playlistName, String mAlbum, int mImageResources,Uri uri) {
         this.mTitle = mTitle;
         this.mArtist = mArtist;
         this.mAlbum = mAlbum;
         this.PlaylistName = playlistName;
         this.mImageResources = mImageResources;
+        this.uri = uri;
     }
 
     public void setmAlbum(String mAlbum) {

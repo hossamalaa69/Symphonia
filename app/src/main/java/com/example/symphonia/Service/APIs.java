@@ -2,6 +2,7 @@ package com.example.symphonia.Service;
 
 import android.content.Context;
 
+import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Playlist;
@@ -10,6 +11,12 @@ import java.util.ArrayList;
 
 public interface APIs {
 
+    boolean logIn(Context context, String username, String password, boolean mType);
+
+    boolean checkEmailAvailability(Context context, String email, boolean mType);
+
+    boolean signUp(Context context, boolean mType, String email, String password, String DOB, String gender, String name);
+
     ArrayList<Playlist> getPopularPlaylists(Context context, String mToken);
 
     ArrayList<Playlist> getMadeForYouPlaylists(Context context, String mToken);
@@ -17,8 +24,6 @@ public interface APIs {
     ArrayList<Playlist> getRecentPlaylists(Context context, String mToken);
 
     ArrayList<Playlist> getRandomPlaylists(Context context, String mToken);
-
-    boolean logIn(Context context, String username, String password, boolean mType);
 
     ArrayList<Artist> getFollowedArtists(Boolean type, String mToken, int limit);
 
@@ -57,5 +62,7 @@ public interface APIs {
     ArrayList<Artist> getArtistRelatedArtists(Context context, String id);
 
     ArrayList<Artist> searchArtist(Context context, String q, int offset, int limit);
+
+    ArrayList<Album> getUserSavedAlbums(Context context, String mToken, int offset, int limit);
 
 }

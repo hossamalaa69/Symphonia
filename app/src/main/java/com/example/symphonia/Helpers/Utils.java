@@ -1,17 +1,20 @@
 package com.example.symphonia.Helpers;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.palette.graphics.Palette;
+
+import com.example.symphonia.Entities.Track;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,6 +24,76 @@ import java.util.List;
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class Utils {
+
+    public static class MediaPlayerInfo {
+        public MediaPlayerInfo() {
+
+        }
+
+        private static MediaPlayer mediaPlayer;
+        private static AudioManager audioManager;
+        private static AudioManager.OnAudioFocusChangeListener onAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
+            @Override
+            public void onAudioFocusChange(int focusChange) {
+                switch (focusChange) {
+                    case AudioManager.AUDIOFOCUS_REQUEST_GRANTED:
+                        mediaPlayer.start();
+                        break;
+                    case AudioManager.AUDIOFOCUS_LOSS:
+                        clearMediaPlayer();
+                        break;
+                    case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                        mediaPlayer.stop();
+                        break;
+                    case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+                        mediaPlayer.pause();
+                        CurrTrackInfo.currPlayingPos = mediaPlayer.getCurrentPosition();
+                        break;
+
+                }
+            }
+
+        };
+
+        public static void createMediaPlayer(Context context) {
+            mediaPlayer = MediaPlayer.create(context, CurrTrackInfo.track.getUri());
+        }
+
+        public static void playTrack(Context context) {
+            clearMediaPlayer();
+            audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+            int status = 0;
+            if (audioManager != null) {
+                status = audioManager.requestAudioFocus(onAudioFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+                createMediaPlayer(context);
+                if (status == AudioManager.AUDIOFOCUS_REQUEST_GRANTED && mediaPlayer != null) {
+                    mediaPlayer.seekTo(CurrTrackInfo.currPlayingPos);
+                    mediaPlayer.start();
+
+                }
+            }
+        }
+
+        public static void clearMediaPlayer() {
+            if (mediaPlayer != null) {
+                mediaPlayer.release();
+                mediaPlayer = null;
+
+            }
+            if (audioManager != null) {
+                audioManager.abandonAudioFocus(onAudioFocusChangeListener);
+
+            }
+        }
+    }
+
+    public static class CurrTrackInfo {
+        public static int TrackPosInPlaylist;
+        public static int TrackPosInAlbum;
+        public static String currPlaylistName;
+        public static Track track;
+        public static int currPlayingPos;
+    }
 
     /**
      * check if string is email form or not
@@ -34,13 +107,11 @@ public class Utils {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 
-    public static Bitmap convertToBitmap(int mImageResourceId)
-    {
+    public static Bitmap convertToBitmap(int mImageResourceId) {
         return BitmapFactory.decodeResource(App.getContext().getResources(), mImageResourceId);
     }
 
-    public static void hideKeyboard(AppCompatActivity activity, Context context)
-    {
+    public static void hideKeyboard(AppCompatActivity activity, Context context) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(INPUT_METHOD_SERVICE);
         //Find the currently focused view, so we can grab the correct window token from it.
         View view = activity.getCurrentFocus();
@@ -52,8 +123,8 @@ public class Utils {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    public int add2(int x, int y){
-        return x+y;
+    public int add2(int x, int y) {
+        return x + y;
     }
 
     /**
@@ -61,21 +132,23 @@ public class Utils {
      *
      * @return
      */
-    public static Drawable createBackground(Context context,int ImageResources) {
+    public static Drawable createBackground(Context context, int ImageResources) {
         int color = getDominantColor(BitmapFactory.decodeResource(context.getResources()
-                ,ImageResources));
+                , ImageResources));
 
         SomeDrawable drawable = new SomeDrawable(color, Color.BLACK);
         return drawable;
 
     }
-    public static Drawable createBackground(Context context,Bitmap ImageResources) {
+
+    public static Drawable createBackground(Context context, Bitmap ImageResources) {
         int color = getDominantColor(ImageResources);
 
         SomeDrawable2 drawable = new SomeDrawable2(color, Color.BLACK);
         return drawable;
 
     }
+
     /**
      * gets the dominant color in a bitmap image
      *
@@ -105,6 +178,7 @@ public class Utils {
         }
 
     }
+
     private static class SomeDrawable2 extends GradientDrawable {
 
         private SomeDrawable2(int pStartColor, int pEndColor) {
