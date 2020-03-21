@@ -47,7 +47,7 @@ public class MockService implements APIs {
 
 
         data = new ArrayList<>();
-        data.add(new Container("Quran", "Playlist", R.drawable.selena));
+        data.add(new Container("Quran", "Playlist", R.drawable.download));
         data.add(new Container("George Wassouf", "Artist", R.drawable.download));
         data.add(new Container("Get Weird", "Album.Little Mix", R.drawable.download1));
         data.add(new Container("Godzilla", "Song.Eminem juice WRLD", R.drawable.images));
