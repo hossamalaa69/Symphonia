@@ -75,7 +75,7 @@ public class SearchForAllFragment extends Fragment {
 
     private void getPlatlistsData(){
         ArrayList<Container> data=cont.getPlaylists(getContext(),searchFor);
-        SeeAllPlaylistsAdapter d=new SeeAllPlaylistsAdapter(data);
+        SeeAllPlaylistsAdapter d=new SeeAllPlaylistsAdapter(data,false);
         searchResult.setAdapter(d);
     }
 

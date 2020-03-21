@@ -270,10 +270,10 @@ public class MockService implements APIs {
         categories.add(new Container("Made for you", R.drawable.solid_image4));
         categories.add(new Container("Arabic", R.drawable.solid_image5));
         categories.add(new Container("Mood", R.drawable.blue_image));
-        categories.add(new Container("Decades", R.drawable.solid_image6));
+        categories.add(new Container("Decades", R.drawable.solid_image8));
         categories.add(new Container("Gaming", R.drawable.solid_image7));
         categories.add(new Container("Workout", R.drawable.solid_red_image));
-        categories.add(new Container("Focus", R.drawable.skyatnight_image));
+        categories.add(new Container("Focus", R.drawable.multicolor_image));
         categories.add(new Container("Party", R.drawable.solidcolor_image));
         categories.add(new Container("Dinner", R.drawable.purble_image));
         categories.add(new Container("Jazz", R.drawable.grey_image));

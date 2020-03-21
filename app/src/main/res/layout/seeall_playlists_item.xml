@@ -3,18 +3,20 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/colorDark">
+    android:background="@color/colorDark"
+    android:paddingBottom="8dp">
 
     <ImageView
         android:scaleType="centerCrop"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:id="@+id/img_search_all_playlists"
-        android:layout_width="170dp"
+        android:layout_width="165dp"
         android:layout_height="160dp" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:paddingTop="8dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="20dp"
         android:orientation="horizontal">
@@ -28,6 +30,7 @@
             android:src="@mipmap/shuffle_black_foreground"/>
 
         <TextView
+            android:textStyle="bold"
             android:id="@+id/tv_search_all_playlists"
             android:gravity="center_vertical"
             android:paddingLeft="8dp"
@@ -36,4 +39,12 @@
             android:textColor="@color/colorWhite"
             android:textSize="18sp" />
     </LinearLayout>
+    <TextView
+        android:id="@+id/tv_followers"
+        android:visibility="gone"
+        android:gravity="center"
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"/>
 </LinearLayout>

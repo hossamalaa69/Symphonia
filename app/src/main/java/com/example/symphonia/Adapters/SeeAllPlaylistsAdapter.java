@@ -16,9 +16,11 @@ import java.util.ArrayList;
 
 public class SeeAllPlaylistsAdapter extends RecyclerView.Adapter<SeeAllPlaylistsAdapter.SeeAllPlaylistsViewHolder> {
     private ArrayList<Container> container;
+    private boolean showText;
+    public SeeAllPlaylistsAdapter(ArrayList<Container> data,boolean b) {
 
-    public SeeAllPlaylistsAdapter(ArrayList<Container> data) {
         container = data;
+        showText=b;
     }
     @NonNull
     @Override
@@ -45,17 +47,22 @@ public class SeeAllPlaylistsAdapter extends RecyclerView.Adapter<SeeAllPlaylists
     class SeeAllPlaylistsViewHolder extends RecyclerView.ViewHolder {
         private TextView textView;
         private ImageView imageView;
+        private TextView textView2;
 
         public SeeAllPlaylistsViewHolder(@NonNull View itemView) {
             super(itemView);
             textView=itemView.findViewById(R.id.tv_search_all_playlists);
             imageView=itemView.findViewById(R.id.img_search_all_playlists);
+            textView2=itemView.findViewById(R.id.tv_followers);
+            if(!showText) textView2.setVisibility(View.GONE);
+            else textView2.setVisibility(View.VISIBLE);
         }
 
         public void makeResult(int pos) {
             Container temp = container.get(pos);
             textView.setText(temp.getCat_Name());
             imageView.setImageResource(temp.getImg_Res());
+            if(showText) textView2.setText(temp.getCat_Name2());
         }
     }
 }
