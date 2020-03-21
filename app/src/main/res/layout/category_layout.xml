@@ -110,7 +110,7 @@
                         android:layout_gravity="center_horizontal"
                         android:gravity="center"
                         android:background="@drawable/btn_showall"
-                        android:text="See More"
+                        android:text="@string/See_More"
                         android:textColor="@color/colorWhite"
                         app:autoSizeTextType="uniform"
                         app:autoSizeMinTextSize="8sp"
