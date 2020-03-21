@@ -25,6 +25,11 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class Utils {
 
+    public static String getNameFromEmail(String email){
+        return email.split("@")[0];
+    }
+
+
     public static class MediaPlayerInfo {
         public MediaPlayerInfo() {
 

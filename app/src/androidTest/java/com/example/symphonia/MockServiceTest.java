@@ -69,13 +69,39 @@ public class MockServiceTest {
 
     @Test
     public void LoginListenerSuccess() {
-        assertTrue(mockService.logIn(appContext, "user@symphonia.com", "12345678", true));
+        assertTrue(mockService.logIn(appContext, "user1@symphonia.com", "12345678", true));
     }
 
     @Test
     public void LoginArtistFail() {
         assertFalse(mockService.logIn(appContext, "anything", "1234", false));
     }
+
+    @Test
+    public void LoginArtistSuccess() {
+        assertTrue(mockService.logIn(appContext, "artist1@symphonia.com", "12345678", false));
+    }
+
+    @Test
+    public void EmailAvailabilityArtistFail(){
+        assertFalse(mockService.checkEmailAvailability(appContext, "artist1@symphonia.com",false));
+    }
+
+    @Test
+    public void EmailAvailabilityArtistSuccess(){
+        assertTrue(mockService.checkEmailAvailability(appContext, "artist14@symphonia.com",false));
+    }
+
+    @Test
+    public void EmailAvailabilityListenerFail(){
+        assertFalse(mockService.checkEmailAvailability(appContext, "user1@symphonia.com",true));
+    }
+
+    @Test
+    public void EmailAvailabilityListenerSuccess(){
+        assertTrue(mockService.checkEmailAvailability(appContext, "user14@symphonia.com",true));
+    }
+
 
     @Test
     public void getFollowedArtistsSuccess() {
@@ -125,11 +151,6 @@ public class MockServiceTest {
     public void getRecommendedArtistsFail() {
         Constants.user = user;
         assertNotEquals(20, mockService.getRecommendedArtists(false, "token1", 20).size());
-    }
-
-    @Test
-    public void LoginArtistSuccess() {
-        assertTrue(mockService.logIn(appContext, "artist@symphonia.com", "12345678", false));
     }
 
     @Test

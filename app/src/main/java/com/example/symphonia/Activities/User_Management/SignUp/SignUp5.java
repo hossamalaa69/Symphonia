@@ -49,7 +49,12 @@ public class SignUp5 extends AppCompatActivity  {
         dob = b.getString("DOB");
         gender = b.getString("gender");
 
+
         name = findViewById(R.id.name_input);
+
+        name.setText(Utils.getNameFromEmail(email));
+        enableButton();
+
         name.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 if (s.length() >= 1)
