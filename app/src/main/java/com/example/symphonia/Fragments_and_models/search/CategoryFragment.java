@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -40,7 +41,16 @@ public class CategoryFragment extends Fragment {
     private AppBarLayout appBarLayout;
     private LinearLayout animatedLayout;
     private View background;
-
+    private Button button;
+    private View.OnClickListener listener=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.category_layout, new PopularPlaylistsFragment()) // Add this transaction to the back stack (name is an optional name for this back stack state, or null).
+                    .addToBackStack(null)
+                    .commit();
+        }
+    };
     public CategoryFragment(Container cat){
         category=cat;
     }
@@ -49,6 +59,8 @@ public class CategoryFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.category_layout, container, false);
+        button=root.findViewById(R.id.btn_see_more);
+        button.setOnClickListener(listener);
         animatedLayout=root.findViewById(R.id.animated_layout);
         textView=root.findViewById(R.id.tv_search_background);
         textView2=root.findViewById(R.id.tv_category_name_animated);
@@ -169,8 +181,6 @@ public class CategoryFragment extends Fragment {
         data.add(new Container("Amr Diab","5,200 followers",R.drawable.amr));
         data.add(new Container("beautiful","3,300 followers",R.drawable.imagine));
         data.add(new Container("simple","800 followers",R.drawable.alan));
-        data.add(new Container("Bahaa Sultan","2,100 followers",R.drawable.bahaa));
-        data.add(new Container("anghami","1,100 followers",R.drawable.angham));
         return data;
     }
 }

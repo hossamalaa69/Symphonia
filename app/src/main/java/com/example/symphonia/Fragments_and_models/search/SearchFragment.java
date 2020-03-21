@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -56,7 +56,7 @@ public class SearchFragment extends Fragment implements SearchMainAdapter.CatLis
 
         con=ServiceController.getInstance();
 
-        RelativeLayout RL = root.findViewById(R.id.send_to_serchlist);
+        LinearLayout RL = root.findViewById(R.id.send_to_serchlist);
         RL.setOnClickListener(listener);
 
         ArrayList<Container> Genre = con.getGenres(getContext());
