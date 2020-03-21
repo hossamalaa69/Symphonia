@@ -11,7 +11,6 @@ public class Track implements Serializable {
     private String PlaylistName;
     private String mAlbum;
     private String mArtist;
-    private String mURL;
     private Uri uri ;
 
     public Uri getUri() {
@@ -57,7 +56,6 @@ public class Track implements Serializable {
         this.mTitle = mTitle;
         this.mDescription = mDescription;
         PlaylistName = playlistName;
-        this.mURL = mURL;
         this.isHidden = isHidden;
         this.isLiked = isLiked;
         this.mImageResources = mImageResources;
@@ -86,14 +84,6 @@ public class Track implements Serializable {
 
     public void setPlaylistName(String playlistName) {
         PlaylistName = playlistName;
-    }
-
-    public String getmURL() {
-        return mURL;
-    }
-
-    public void setmURL(String mURL) {
-        this.mURL = mURL;
     }
 
     public boolean isHidden() {

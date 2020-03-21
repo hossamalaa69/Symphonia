@@ -85,11 +85,30 @@ public class Utils {
 
             }
         }
+
+        public static void pauseTrack() {
+            if(mediaPlayer!=null)
+            {
+                mediaPlayer.pause();
+            }
+        }
+
+        public static void resumeTrack() {
+            if(mediaPlayer!=null)
+            {
+                mediaPlayer.start();
+            }
+        }
+
+        public static boolean isMediaPlayerPlaying() {
+            return mediaPlayer.isPlaying();
+        }
     }
 
     public static class CurrTrackInfo {
         public static int TrackPosInPlaylist;
         public static int TrackPosInAlbum;
+        public static ArrayList<Track> currPlaylistTracks;
         public static String currPlaylistName;
         public static Track track;
         public static int currPlayingPos;

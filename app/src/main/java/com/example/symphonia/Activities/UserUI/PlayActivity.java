@@ -1,10 +1,6 @@
 package com.example.symphonia.Activities.UserUI;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,22 +11,18 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.palette.graphics.Palette;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.symphonia.Adapters.RvTracksPlayActivityAdapter;
+import com.example.symphonia.Entities.Track;
+import com.example.symphonia.Helpers.SnapHelperOneByOne;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
-import com.example.symphonia.Helpers.SnapHelperOneByOne;
-import com.example.symphonia.Entities.Track;
-import com.example.symphonia.Adapters.RvTracksPlayActivityAdapter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 public class PlayActivity extends AppCompatActivity implements Serializable, RvTracksPlayActivityAdapter.OnItemSwitched {
 
@@ -65,7 +57,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         setContentView(R.layout.activity_play);
         attachViews();
         addListeners();
-        readDataSendByIntent();
+        readTrackData();
         trackBackgroun = getResources().getDrawable(R.drawable.background);
         updateScreen();
         layoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
@@ -152,7 +144,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         // change background color according to track image
         ConstraintLayout constraintLayout = findViewById(R.id.background_play_activity);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            Drawable drawable = Utils.createBackground( this, tracks.get(trackPos).getmImageResources());
+            Drawable drawable = Utils.createBackground(this, tracks.get(trackPos).getmImageResources());
 
             // transition drawable controls the animation ov changing background
             TransitionDrawable td = new TransitionDrawable(new Drawable[]{trackBackgroun, drawable});
@@ -164,18 +156,9 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
 
     }
 
-    private void readDataSendByIntent() {
-        Serializable serializable = getIntent()
-                .getSerializableExtra(getString(R.string.playlist_send_to_playActivtiy_intent));
-        trackPos = (Integer) getIntent().
-                getSerializableExtra(getString(R.string.curr_playing_track_play_acitivity_intent));
-        if (serializable != null) {
-            try {
-                tracks = (ArrayList<Track>) serializable;
-            } catch (ClassCastException e) {
-                Toast.makeText(this, getString(R.string.cant_read), Toast.LENGTH_SHORT).show();
-            }
-        }
+    private void readTrackData() {
+        trackPos = Utils.CurrTrackInfo.TrackPosInPlaylist;
+        tracks = Utils.CurrTrackInfo.currPlaylistTracks;
     }
 
     /**
@@ -196,8 +179,6 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
 
 
     }
-
-
 
 
 }
