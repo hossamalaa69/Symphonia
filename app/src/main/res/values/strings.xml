@@ -114,5 +114,13 @@
     <string name="ok">OK</string>
     <string name="go_to_login">GO TO LOGIN</string>
     <string name="close">CLOSE</string>
+    <string name="try_premium">Try Premium</string>
+    <string name="enjoy_many_features">Enjoy Many Features</string>
+    <string name="get_premium">GET PREMIUM</string>
+    <string name="premium_terms">Only EGP 49.99/month. Cancel anytime.
+    <a href="https://www.spotify.com/eg-en/legal/premium-promotional-offer-terms/">Terms and conditions</a>
+    apply </string>
+    <string name="spotify_free">Spotify Free</string>
+    <string name="current_plan">CURRENT PLAN</string>
 
 </resources>
