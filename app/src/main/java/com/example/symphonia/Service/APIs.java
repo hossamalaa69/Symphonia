@@ -59,6 +59,10 @@ public interface APIs {
 
     void removeAllRecentSearches(Context context);
 
+    ArrayList<Container>getAllPopularPlaylists(Context context);
+
+    ArrayList<Container>getFourPlaylists(Context context);
+
     ArrayList<Artist> getArtistRelatedArtists(Context context, String id);
 
     ArrayList<Artist> searchArtist(Context context, String q, int offset, int limit);

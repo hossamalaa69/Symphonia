@@ -146,5 +146,11 @@ public class ServiceController {
         return mSupplier.getUserSavedAlbums(context, mToken, offset, limit);
     }
 
+    public ArrayList<Container>getAllPopularPlaylists(Context context){
+        return mSupplier.getAllPopularPlaylists(context);
+    }
 
+    public ArrayList<Container>getFourPlaylists(Context context){
+        return mSupplier.getFourPlaylists(context);
+    }
 }

@@ -35,7 +35,7 @@
             android:textStyle="bold"
             android:id="@+id/tv_search_all_playlists"
             android:gravity="center_vertical"
-            android:paddingLeft="8dp"
+            android:paddingStart="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorWhite"

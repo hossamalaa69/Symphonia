@@ -481,6 +481,39 @@ public class MockService implements APIs {
     }
 
     @Override
+    public ArrayList<Container> getAllPopularPlaylists(Context context) {
+        ArrayList<Container> playlists=new ArrayList<>();
+        playlists.add(new Container("greate playlist","2,700 followers",R.drawable.adele));
+        playlists.add(new Container("Amr Diab","5,200 followers",R.drawable.amr));
+        playlists.add(new Container("beautiful","3,300 followers",R.drawable.imagine));
+        playlists.add(new Container("simple","800 followers",R.drawable.alan));
+        playlists.add(new Container("nice songs","1200 followers",R.drawable.ed));
+        playlists.add(new Container("araby","3000 followers",R.drawable.assala));
+        playlists.add(new Container("Bahaa Sultan","2,100 followers",R.drawable.bahaa));
+        playlists.add(new Container("anghami","1,100 followers",R.drawable.angham));
+        playlists.add(new Container("Thunder", "2100 followers", R.drawable.halsey));
+        playlists.add(new Container("selena","2800 followers",R.drawable.selena));
+        playlists.add(new Container("Smoke Grenades", "500 followers", R.drawable.jannat));
+        playlists.add(new Container("Playlist", "26 followers", R.drawable.wael));
+        playlists.add(new Container("3 d2at", "773 followers", R.drawable.abu));
+        playlists.add(new Container("Oranges", "470 followers", R.drawable.hamza));
+
+        return playlists;
+    }
+
+    @Override
+    public ArrayList<Container> getFourPlaylists(Context context) {
+        ArrayList<Container>data=new ArrayList<>();
+        ArrayList<Container>playlists=getAllPopularPlaylists(context);
+        int n=4;
+        if(playlists.size()<n) n=playlists.size();
+        for(int i=0 ; i<n ; i++){
+            data.add(playlists.get(i));
+        }
+        return data;
+    }
+
+    @Override
     public ArrayList<Artist> getArtistRelatedArtists(Context context, String id) {
         ArrayList<Artist> related;
         if (id.equals("1") || id.equals("6"))

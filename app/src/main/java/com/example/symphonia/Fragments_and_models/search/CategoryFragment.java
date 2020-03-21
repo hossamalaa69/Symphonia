@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.symphonia.Adapters.SeeAllPlaylistsAdapter;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.R;
+import com.example.symphonia.Service.ServiceController;
 import com.google.android.material.appbar.AppBarLayout;
 
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class CategoryFragment extends Fragment {
+    private ServiceController serviceController;
     private TextView textView;
     private TextView textView2;
     private Container category;
@@ -68,6 +70,7 @@ public class CategoryFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.category_layout, container, false);
+        serviceController=ServiceController.getInstance();
         back=root.findViewById(R.id.img_back_search_main);
         back.setOnClickListener(backListener);
         button=root.findViewById(R.id.btn_see_more);
@@ -187,11 +190,8 @@ public class CategoryFragment extends Fragment {
     }
 
     private ArrayList<Container> getPopularPlaylists(){
-        ArrayList<Container>data=new ArrayList<>();
-        data.add(new Container("greate playlist","2,700 followers",R.drawable.adele));
-        data.add(new Container("Amr Diab","5,200 followers",R.drawable.amr));
-        data.add(new Container("beautiful","3,300 followers",R.drawable.imagine));
-        data.add(new Container("simple","800 followers",R.drawable.alan));
+        ArrayList<Container>data=serviceController.getFourPlaylists(getContext());
+        if(data.size()<4)button.setVisibility(View.GONE);
         return data;
     }
 }
