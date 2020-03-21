@@ -130,4 +130,7 @@
     <string name="play_any_song">Play any \nsong</string>
     <string name="See_More">See More</string>
     <string name="choose_3_artists">Choose 3 or more artists you like.</string>
+    <string name="are_you_sure">Are you sure ?</string>
+    <string name="why_skip">Choosing artists just takes a minute, and will make Symphonia better for you.</string>
+    <string name="skip">SKIP</string>
 </resources>

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.Layout;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Constants;
 import com.example.symphonia.Helpers.Custom_Dialog_Offline;
+import com.example.symphonia.Helpers.Custom_Dialog_SignUp;
+import com.example.symphonia.Helpers.Custom_Dialog_Skip;
 import com.example.symphonia.R;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Adapters.GridSpacingItemDecorationAdapter;
@@ -191,6 +194,20 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
                     doneButton.setVisibility(View.INVISIBLE);
             }
         }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+
+        if(isNewUser){
+            Custom_Dialog_Skip custom_dialog = new Custom_Dialog_Skip();
+            custom_dialog.showDialog(this);
+            return;
+        }
+        else
+            super.onBackPressed();
+
     }
 
     public boolean isOnline() {
