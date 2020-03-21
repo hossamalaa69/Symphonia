@@ -29,6 +29,7 @@
         android:inputType="textEmailAddress"
         android:textColor="@color/colorWhite"
         android:textSize="22sp"
+        android:imeOptions="actionDone"
         />
     <TextView
         android:layout_width="wrap_content"

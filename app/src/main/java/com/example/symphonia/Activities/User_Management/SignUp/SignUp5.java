@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.symphonia.Activities.UserUI.AddArtistsActivity;
 import com.example.symphonia.Activities.UserUI.MainActivity;
 import com.example.symphonia.Helpers.Custom_Dialog_Offline;
+import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
 
@@ -61,6 +64,17 @@ public class SignUp5 extends AppCompatActivity  {
 
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
+            }
+        });
+
+        name.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId== EditorInfo.IME_ACTION_DONE){
+                    if(name.getText().toString().length()>=1)
+                        openNext(v);
+                }
+                return false;
             }
         });
     }

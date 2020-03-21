@@ -2,6 +2,8 @@ package com.example.symphonia.Activities.UserUI;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.Layout;
 import android.view.View;
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Constants;
+import com.example.symphonia.Helpers.Custom_Dialog_Offline;
 import com.example.symphonia.R;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Adapters.GridSpacingItemDecorationAdapter;
@@ -40,6 +43,14 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(!isOnline()) {
+            if(!isOnline()){
+                Custom_Dialog_Offline custom_dialogOffline = new Custom_Dialog_Offline();
+                custom_dialogOffline.showDialog(this);
+                finish();
+            }
+        }
+
         setContentView(R.layout.activity_add_artists);
 
 
@@ -180,5 +191,14 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
                     doneButton.setVisibility(View.INVISIBLE);
             }
         }
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        if (connMgr != null) {
+            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+            return networkInfo != null && networkInfo.isConnectedOrConnecting();
+        }
+        return false;
     }
 }
