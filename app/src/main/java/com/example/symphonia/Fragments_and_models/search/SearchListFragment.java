@@ -347,8 +347,8 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
         textView2.setVisibility(View.VISIBLE);
         imgItem.setVisibility(View.VISIBLE);
         recentSearches.setVisibility(View.GONE);
-        textView1.setText("Find the music you love");
-        textView2.setText("Search for artists, songs, playlists, and more");
+        textView1.setText(getContext().getResources().getString(R.string.Find_the_music_you_love));
+        textView2.setText(getContext().getResources().getString(R.string.Search_for_anything));
         imgItem.setImageResource(R.mipmap.big_search_foreground);
     }
 
@@ -368,8 +368,8 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
         textView2.setVisibility(View.VISIBLE);
         imgItem.setVisibility(View.VISIBLE);
         recentSearches.setVisibility(View.GONE);
-        textView1.setText("No result found for \"" + s + "\"");
-        textView2.setText("Please check you have the right spelling,\n or try differant keywords.");
+        textView1.setText(getContext().getResources().getString(R.string.No_result_found_for)+"\"" + s + "\"");
+        textView2.setText(getContext().getResources().getString(R.string.help_to_search));
         imgItem.setImageResource(R.mipmap.flag_white_foreground);
     }
 

@@ -28,11 +28,9 @@ public class MockService implements APIs {
     private ArrayList<Container> data;
     private ArrayList<Container> recentSearches;
     private ArrayList<Playlist> popularPlaylists;
-
     private ArrayList<User> listenerArrayList;
 
     private ArrayList<User> artistArrayList;
-
     public MockService() {
         listenerArrayList = new ArrayList<>();
         artistArrayList = new ArrayList<>();
@@ -46,83 +44,6 @@ public class MockService implements APIs {
         artistArrayList.add(new User("artist3@symphonia.com", "12345678", false));
 
 
-        data = new ArrayList<>();
-        data.add(new Container("Quran", "Playlist", R.drawable.download));
-        data.add(new Container("George Wassouf", "Artist", R.drawable.download));
-        data.add(new Container("Get Weird", "Album.Little Mix", R.drawable.download1));
-        data.add(new Container("Godzilla", "Song.Eminem juice WRLD", R.drawable.images));
-        data.add(new Container("Believer", "Song.Eminem juice WRLD", R.drawable.images));
-        data.add(new Container("Natural", "Song.Imagine Dragons", R.drawable.abu));
-        data.add(new Container("Love Save Us Once", "Album.Little Mix", R.drawable.download));
-        data.add(new Container("Get Weird", "Album.Little Mix", R.drawable.download1));
-        data.add(new Container("Mozart", "Genre", R.drawable.images3));
-        data.add(new Container("Get Weird", "Album.Little Mix", R.drawable.images3));
-        data.add(new Container("Mine", "Playlist", R.drawable.images));
-        data.add(new Container("ALVXARO", "Playlist", R.drawable.adele));
-
-        data.add(new Container("Amr Diab", "Artist", R.drawable.amr));
-        data.add(new Container("Stop Noise", "Album.Little Mix", R.drawable.download1));
-        data.add(new Container("Beautiful Song", "Song.Eminem juice WRLD", R.drawable.images));
-        data.add(new Container("Lose Yourself", "Song.Eminem juice WRLD", R.drawable.images));
-        data.add(new Container("Whatever It Takes", "Song.Imagine Dragons", R.drawable.tamer_ashour));
-        data.add(new Container("Max Payne", "Album.Little Mix", R.drawable.download));
-        data.add(new Container("Rick And Morty", "Album.Little Mix", R.drawable.download1));
-        data.add(new Container("Rock", "Genre", R.drawable.images3));
-        data.add(new Container("Elephant", "Album.Little Mix", R.drawable.images3));
-        data.add(new Container("End Of World", "Playlist", R.drawable.images));
-        data.add(new Container("Crazy Love", "Playlist", R.drawable.angham));
-
-        data.add(new Container("Van Diesel", "Artist", R.drawable.download));
-        data.add(new Container("Wind", "Album.Little Mix", R.drawable.download1));
-        data.add(new Container("I Will Survive", "Song.Eminem juice WRLD", R.drawable.images));
-        data.add(new Container("Beautiful Mind", "Song.Eminem juice WRLD", R.drawable.images));
-        data.add(new Container("Sucker For Pain", "Song.Imagine Dragons", R.drawable.billie));
-        data.add(new Container("Pain", "Album.Little Mix", R.drawable.download));
-        data.add(new Container("Quite Place", "Album.Little Mix", R.drawable.download1));
-        data.add(new Container("Sleep", "Genre", R.drawable.images3));
-        data.add(new Container("Gamal", "Album.Little Mix", R.drawable.images3));
-        data.add(new Container("Nerds", "Playlist", R.drawable.images));
-        data.add(new Container("Smoke Grenades", "Playlist", R.drawable.jannat));
-
-        data.add(new Container("Samir Abo Elnil", "Artist", R.drawable.download));
-        data.add(new Container("Sun Rises", "Album.Little Mix", R.drawable.download1));
-        data.add(new Container("Cat Sound", "Song.Eminem juice WRLD", R.drawable.images));
-        data.add(new Container("Billie Jean", "Song.Eminem juice WRLD", R.drawable.images));
-        data.add(new Container("Thunder", "Song.Imagine Dragons", R.drawable.loai));
-        data.add(new Container("The Shadows", "Album.Little Mix", R.drawable.download));
-        data.add(new Container("Silence Of Lambs", "Album.Little Mix", R.drawable.download1));
-        data.add(new Container("Afro", "Genre", R.drawable.images3));
-        data.add(new Container("Fancy", "Album.Little Mix", R.drawable.images3));
-        data.add(new Container("Jungles", "Playlist", R.drawable.images));
-        data.add(new Container("Oranges", "Playlist", R.drawable.hamza));
-
-        data.add(new Container("Adele", "Artist", R.drawable.adele));
-        data.add(new Container("Yellow Album", "Album.Little Mix", R.drawable.download1));
-        data.add(new Container("Stressed Out", "Song.Eminem juice WRLD", R.drawable.images));
-        data.add(new Container("ThunderClouds", "Song.Eminem juice WRLD", R.drawable.images));
-        data.add(new Container("Thunder", "Song.Imagine Dragons", R.drawable.halsey));
-        data.add(new Container("High Waves", "Album.Little Mix", R.drawable.download));
-        data.add(new Container("Nice Album", "Album.Little Mix", R.drawable.download1));
-        data.add(new Container("Pop", "Genre", R.drawable.images3));
-        data.add(new Container("Lollipop", "Album.Little Mix", R.drawable.images3));
-        data.add(new Container("Friction", "Playlist", R.drawable.images));
-        data.add(new Container("Playlist", "Playlist", R.drawable.wael));
-        data.add(new Container("Miley Cyrus", "Artist", R.drawable.download));
-
-        data.add((new Container("my profile", "Profile", R.drawable.assala)));
-        data.add((new Container("mohammed ahmed", "Profile", R.drawable.cairokee)));
-        data.add((new Container("ali saad", "Profile", R.drawable.samira)));
-
-
-        recentSearches = new ArrayList<>();
-        recentSearches.add(new Container("Quran", "Playlist", R.drawable.images));
-        recentSearches.add(new Container("George Wassouf", "Artist", R.drawable.download));
-        recentSearches.add(new Container("Get Weird", "Album.Little Mix", R.drawable.download1));
-        recentSearches.add(new Container("Godzilla", "Song.Eminem juice WRLD", R.drawable.images));
-        recentSearches.add(new Container("Lollipop", "Album.Little Mix", R.drawable.images3));
-        recentSearches.add(new Container("Friction", "Playlist", R.drawable.images));
-        recentSearches.add(new Container("Playlist", "Playlist", R.drawable.alan));
-        recentSearches.add(new Container("Miley Cyrus", "Artist", R.drawable.download));
 
         artists = new ArrayList<>();
         artists.add(new Artist("1", Utils.convertToBitmap(R.drawable.ragheb), "Ragheb Alama"));
@@ -339,10 +260,95 @@ public class MockService implements APIs {
 
     @Override
     public ArrayList<Container> getResentResult(Context context) {
+        recentSearches = new ArrayList<>();
+        recentSearches.add(new Container("Quran", context.getResources().getString(R.string.Playlist), R.drawable.images));
+        recentSearches.add(new Container("George Wassouf", "Artist", R.drawable.download));
+        recentSearches.add(new Container("Get Weird", context.getResources().getString(R.string.Album)+".Little Mix", R.drawable.download1));
+        recentSearches.add(new Container("Godzilla",context.getResources().getString(R.string.Song)+ ".Eminem juice WRLD", R.drawable.images));
+        recentSearches.add(new Container("Lollipop", context.getResources().getString(R.string.Album)+".Little Mix", R.drawable.images3));
+        recentSearches.add(new Container("Friction", context.getResources().getString(R.string.Playlist), R.drawable.images));
+        recentSearches.add(new Container("Playlist", context.getResources().getString(R.string.Playlist), R.drawable.alan));
+        recentSearches.add(new Container("Miley Cyrus", context.getResources().getString(R.string.Artist), R.drawable.download));
+
         return recentSearches;
     }
 
     public ArrayList<Container> getAllResultsOfSearch(Context context, String searchWord) {
+        String song=context.getResources().getString(R.string.Song);
+        String artist=context.getResources().getString(R.string.Artist);
+        String album=context.getResources().getString(R.string.Album);
+        String playlist=context.getResources().getString(R.string.Playlist);
+        String profile=context.getResources().getString(R.string.Profile);
+        String genre=context.getResources().getString(R.string.Genre);
+
+        data = new ArrayList<>();
+        data.add(new Container("Quran", playlist, R.drawable.download));
+        data.add(new Container("George Wassouf", artist, R.drawable.download));
+        data.add(new Container("Get Weird", album+".Little Mix", R.drawable.download1));
+        data.add(new Container("Godzilla", song+".Eminem juice WRLD", R.drawable.images));
+        data.add(new Container("Believer", song+".Eminem juice WRLD", R.drawable.images));
+        data.add(new Container("Natural", song+".Imagine Dragons", R.drawable.abu));
+        data.add(new Container("Love Save Us Once", album+".Little Mix", R.drawable.download));
+        data.add(new Container("Get Weird", album+".Little Mix", R.drawable.download1));
+        data.add(new Container("Mozart", genre, R.drawable.images3));
+        data.add(new Container("Get Weird", album+".Little Mix", R.drawable.images3));
+        data.add(new Container("Mine", playlist, R.drawable.images));
+        data.add(new Container("ALVXARO", playlist, R.drawable.adele));
+
+        data.add(new Container("Amr Diab", artist, R.drawable.amr));
+        data.add(new Container("Stop Noise", album+".Little Mix", R.drawable.download1));
+        data.add(new Container("Beautiful Song", song+".Eminem juice WRLD", R.drawable.images));
+        data.add(new Container("Lose Yourself", song+".Eminem juice WRLD", R.drawable.images));
+        data.add(new Container("Whatever It Takes", song+".Imagine Dragons", R.drawable.tamer_ashour));
+        data.add(new Container("Max Payne", album+".Little Mix", R.drawable.download));
+        data.add(new Container("Rick And Morty", album+".Little Mix", R.drawable.download1));
+        data.add(new Container("Rock", genre, R.drawable.images3));
+        data.add(new Container("Elephant", album+".Little Mix", R.drawable.images3));
+        data.add(new Container("End Of World", playlist, R.drawable.images));
+        data.add(new Container("Crazy Love", playlist, R.drawable.angham));
+
+        data.add(new Container("Van Diesel", artist, R.drawable.download));
+        data.add(new Container("Wind", album+".Little Mix", R.drawable.download1));
+        data.add(new Container("I Will Survive", song+".Eminem juice WRLD", R.drawable.images));
+        data.add(new Container("Beautiful Mind", song+".Eminem juice WRLD", R.drawable.images));
+        data.add(new Container("Sucker For Pain", song+".Imagine Dragons", R.drawable.billie));
+        data.add(new Container("Pain", album+".Little Mix", R.drawable.download));
+        data.add(new Container("Quite Place", album+".Little Mix", R.drawable.download1));
+        data.add(new Container("Sleep", genre, R.drawable.images3));
+        data.add(new Container("Gamal", album+".Little Mix", R.drawable.images3));
+        data.add(new Container("Nerds", playlist, R.drawable.images));
+        data.add(new Container("Smoke Grenades", playlist, R.drawable.jannat));
+
+        data.add(new Container("Samir Abo Elnil", artist, R.drawable.download));
+        data.add(new Container("Sun Rises", album+".Little Mix", R.drawable.download1));
+        data.add(new Container("Cat Sound", song+".Eminem juice WRLD", R.drawable.images));
+        data.add(new Container("Billie Jean", song+".Eminem juice WRLD", R.drawable.images));
+        data.add(new Container("Thunder", song+".Imagine Dragons", R.drawable.loai));
+        data.add(new Container("The Shadows", album+".Little Mix", R.drawable.download));
+        data.add(new Container("Silence Of Lambs", album+".Little Mix", R.drawable.download1));
+        data.add(new Container("Afro", genre, R.drawable.images3));
+        data.add(new Container("Fancy", album+".Little Mix", R.drawable.images3));
+        data.add(new Container("Jungles", playlist, R.drawable.images));
+        data.add(new Container("Oranges", playlist, R.drawable.hamza));
+
+        data.add(new Container("Adele", artist, R.drawable.adele));
+        data.add(new Container("Yellow Album", album+".Little Mix", R.drawable.download1));
+        data.add(new Container("Stressed Out", song+".Eminem juice WRLD", R.drawable.images));
+        data.add(new Container("ThunderClouds", song+".Eminem juice WRLD", R.drawable.images));
+        data.add(new Container("Thunder", song+".Imagine Dragons", R.drawable.halsey));
+        data.add(new Container("High Waves", "Album.Little Mix", R.drawable.download));
+        data.add(new Container("Nice Album", album+".Little Mix", R.drawable.download1));
+        data.add(new Container("Pop", genre, R.drawable.images3));
+        data.add(new Container("Lollipop", album+".Little Mix", R.drawable.images3));
+        data.add(new Container("Friction", playlist, R.drawable.images));
+        data.add(new Container("Playlist", playlist, R.drawable.wael));
+        data.add(new Container("Miley Cyrus", artist, R.drawable.download));
+
+        data.add((new Container("my profile", profile, R.drawable.assala)));
+        data.add((new Container("mohammed ahmed", profile, R.drawable.cairokee)));
+        data.add((new Container("ali saad", profile, R.drawable.samira)));
+
+
         LinkedList<Container> resultsLinked = new LinkedList<>();
         ArrayList<Container> results = new ArrayList<>();
         for (int i = 0; i < data.size(); i++) {
@@ -371,35 +377,35 @@ public class MockService implements APIs {
     @Override
     public ArrayList<Container> getCategories(Context context) {
         ArrayList<Container> categories = new ArrayList<>();
-        categories.add(new Container("New Releases", R.drawable.solid_image));
-        categories.add(new Container("Charts", R.drawable.solid_image2));
-        categories.add(new Container("Concerts", R.drawable.solid_image3));
-        categories.add(new Container("Made for you", R.drawable.solid_image4));
-        categories.add(new Container("Arabic", R.drawable.solid_image5));
-        categories.add(new Container("Mood", R.drawable.blue_image));
-        categories.add(new Container("Decades", R.drawable.solid_image8));
-        categories.add(new Container("Gaming", R.drawable.solid_image7));
-        categories.add(new Container("Workout", R.drawable.solid_red_image));
-        categories.add(new Container("Focus", R.drawable.multicolor_image));
-        categories.add(new Container("Party", R.drawable.solidcolor_image));
-        categories.add(new Container("Dinner", R.drawable.purble_image));
-        categories.add(new Container("Jazz", R.drawable.grey_image));
-        categories.add(new Container("Soul", R.drawable.lightpurble_image));
-        categories.add(new Container("Kids", R.drawable.lemongreen_image));
-        categories.add(new Container("Blues", R.drawable.lightgrey_image));
-        categories.add(new Container("Punk", R.drawable.lightbrown_image));
-        categories.add(new Container("Travel", R.drawable.gradientgreen_image));
+        categories.add(new Container(context.getResources().getString(R.string.New_Releases), R.drawable.solid_image));
+        categories.add(new Container(context.getResources().getString(R.string.Charts), R.drawable.solid_image2));
+        categories.add(new Container(context.getResources().getString(R.string.Concerts), R.drawable.solid_image3));
+        categories.add(new Container(context.getResources().getString(R.string.Made_for_you), R.drawable.solid_image4));
+        categories.add(new Container(context.getResources().getString(R.string.Arabic), R.drawable.solid_image5));
+        categories.add(new Container(context.getResources().getString(R.string.Mood), R.drawable.blue_image));
+        categories.add(new Container(context.getResources().getString(R.string.Decades), R.drawable.solid_image8));
+        categories.add(new Container(context.getResources().getString(R.string.Gaming), R.drawable.solid_image7));
+        categories.add(new Container(context.getResources().getString(R.string.Workout), R.drawable.solid_red_image));
+        categories.add(new Container(context.getResources().getString(R.string.Focus), R.drawable.multicolor_image));
+        categories.add(new Container(context.getResources().getString(R.string.Party), R.drawable.solidcolor_image));
+        categories.add(new Container(context.getResources().getString(R.string.Dinner), R.drawable.purble_image));
+        categories.add(new Container(context.getResources().getString(R.string.Jazz), R.drawable.grey_image));
+        categories.add(new Container(context.getResources().getString(R.string.Soul), R.drawable.lightpurble_image));
+        categories.add(new Container(context.getResources().getString(R.string.Kids), R.drawable.lemongreen_image));
+        categories.add(new Container(context.getResources().getString(R.string.Blues), R.drawable.lightgrey_image));
+        categories.add(new Container(context.getResources().getString(R.string.Punk), R.drawable.lightbrown_image));
+        categories.add(new Container(context.getResources().getString(R.string.Travel), R.drawable.gradientgreen_image));
         return categories;
     }
 
     @Override
     public ArrayList<Container> getGenres(Context context) {
         ArrayList<Container> genres = new ArrayList<>();
-        genres.add(new Container("Pop", R.drawable.blue_image2));
-        genres.add(new Container("Hip-Hop", R.drawable.yellow_image));
-        genres.add(new Container("Rock", R.drawable.image_pink));
-        genres.add(new Container("Sleep", R.drawable.skyblue_image));
-        genres.add(new Container("Chill", R.drawable.purble_image));
+        genres.add(new Container(context.getResources().getString(R.string.Pop), R.drawable.blue_image2));
+        genres.add(new Container(context.getResources().getString(R.string.HipHop), R.drawable.yellow_image));
+        genres.add(new Container(context.getResources().getString(R.string.Rock), R.drawable.image_pink));
+        genres.add(new Container(context.getResources().getString(R.string.Sleep), R.drawable.skyblue_image));
+        genres.add(new Container(context.getResources().getString(R.string.Chill), R.drawable.purble_image));
         return genres;
     }
 
@@ -408,7 +414,7 @@ public class MockService implements APIs {
         ArrayList<Container> temp = getAllResultsOfSearch(context, searchWord);
         ArrayList<Container> artists = new ArrayList<>();
         for (int i = 0; i < temp.size(); i++) {
-            if (temp.get(i).getCat_Name2().startsWith("Artist"))
+            if (temp.get(i).getCat_Name2().startsWith(context.getResources().getString(R.string.Artist)))
                 artists.add(temp.get(i));
         }
         return artists;
@@ -419,7 +425,7 @@ public class MockService implements APIs {
         ArrayList<Container> temp = getAllResultsOfSearch(context, searchWord);
         ArrayList<Container> songs = new ArrayList<>();
         for (int i = 0; i < temp.size(); i++) {
-            if (temp.get(i).getCat_Name2().startsWith("Song"))
+            if (temp.get(i).getCat_Name2().startsWith(context.getResources().getString(R.string.Song)))
                 songs.add(temp.get(i));
         }
         return songs;
@@ -430,7 +436,7 @@ public class MockService implements APIs {
         ArrayList<Container> temp = getAllResultsOfSearch(context, searchWord);
         ArrayList<Container> albums = new ArrayList<>();
         for (int i = 0; i < temp.size(); i++) {
-            if (temp.get(i).getCat_Name2().startsWith("Album"))
+            if (temp.get(i).getCat_Name2().startsWith(context.getResources().getString(R.string.Album)))
                 albums.add(temp.get(i));
         }
         return albums;
@@ -441,7 +447,7 @@ public class MockService implements APIs {
         ArrayList<Container> temp = getAllResultsOfSearch(context, searchWord);
         ArrayList<Container> genres = new ArrayList<>();
         for (int i = 0; i < temp.size(); i++) {
-            if (temp.get(i).getCat_Name2().startsWith("Genre"))
+            if (temp.get(i).getCat_Name2().startsWith(context.getResources().getString(R.string.Genre)))
                 genres.add(temp.get(i));
         }
         return genres;
@@ -452,7 +458,7 @@ public class MockService implements APIs {
         ArrayList<Container> temp = getAllResultsOfSearch(context, searchWord);
         ArrayList<Container> playlists = new ArrayList<>();
         for (int i = 0; i < temp.size(); i++) {
-            if (temp.get(i).getCat_Name2().startsWith("Playlist"))
+            if (temp.get(i).getCat_Name2().startsWith(context.getResources().getString(R.string.Playlist)))
                 playlists.add(temp.get(i));
         }
         return playlists;
@@ -463,7 +469,7 @@ public class MockService implements APIs {
         ArrayList<Container> temp = getAllResultsOfSearch(context, searchWord);
         ArrayList<Container> profiles = new ArrayList<>();
         for (int i = 0; i < temp.size(); i++) {
-            if (temp.get(i).getCat_Name2().startsWith("Profile"))
+            if (temp.get(i).getCat_Name2().startsWith(context.getResources().getString(R.string.Profile)))
                 profiles.add(temp.get(i));
         }
         return profiles;
@@ -483,20 +489,20 @@ public class MockService implements APIs {
     @Override
     public ArrayList<Container> getAllPopularPlaylists(Context context) {
         ArrayList<Container> playlists=new ArrayList<>();
-        playlists.add(new Container("greate playlist","2,700 followers",R.drawable.adele));
-        playlists.add(new Container("Amr Diab","5,200 followers",R.drawable.amr));
-        playlists.add(new Container("beautiful","3,300 followers",R.drawable.imagine));
-        playlists.add(new Container("simple","800 followers",R.drawable.alan));
-        playlists.add(new Container("nice songs","1200 followers",R.drawable.ed));
-        playlists.add(new Container("araby","3000 followers",R.drawable.assala));
-        playlists.add(new Container("Bahaa Sultan","2,100 followers",R.drawable.bahaa));
-        playlists.add(new Container("anghami","1,100 followers",R.drawable.angham));
-        playlists.add(new Container("Thunder", "2100 followers", R.drawable.halsey));
-        playlists.add(new Container("selena","2800 followers",R.drawable.selena));
-        playlists.add(new Container("Smoke Grenades", "500 followers", R.drawable.jannat));
-        playlists.add(new Container("Playlist", "26 followers", R.drawable.wael));
-        playlists.add(new Container("3 d2at", "773 followers", R.drawable.abu));
-        playlists.add(new Container("Oranges", "470 followers", R.drawable.hamza));
+        playlists.add(new Container("greate playlist","2,700 "+context.getResources().getString(R.string.Followers),R.drawable.adele));
+        playlists.add(new Container("Amr Diab","5,200 "+context.getResources().getString(R.string.Followers),R.drawable.amr));
+        playlists.add(new Container("beautiful","3,300 "+context.getResources().getString(R.string.Followers),R.drawable.imagine));
+        playlists.add(new Container("simple","800 "+context.getResources().getString(R.string.Followers),R.drawable.alan));
+        playlists.add(new Container("nice songs","1200 "+context.getResources().getString(R.string.Followers),R.drawable.ed));
+        playlists.add(new Container("araby","3000 "+context.getResources().getString(R.string.Followers),R.drawable.assala));
+        playlists.add(new Container("Bahaa Sultan","2,100 "+context.getResources().getString(R.string.Followers),R.drawable.bahaa));
+        playlists.add(new Container("anghami","1,100 "+context.getResources().getString(R.string.Followers),R.drawable.angham));
+        playlists.add(new Container("Thunder", "2100 "+context.getResources().getString(R.string.Followers), R.drawable.halsey));
+        playlists.add(new Container("selena","2800 "+context.getResources().getString(R.string.Followers),R.drawable.selena));
+        playlists.add(new Container("Smoke Grenades", "500 "+context.getResources().getString(R.string.Followers), R.drawable.jannat));
+        playlists.add(new Container("Playlist", "26 "+context.getResources().getString(R.string.Followers), R.drawable.wael));
+        playlists.add(new Container("3 d2at", "773 "+context.getResources().getString(R.string.Followers), R.drawable.abu));
+        playlists.add(new Container("Oranges", "470 "+context.getResources().getString(R.string.Followers), R.drawable.hamza));
 
         return playlists;
     }

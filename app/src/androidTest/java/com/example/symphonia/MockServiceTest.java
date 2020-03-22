@@ -54,7 +54,7 @@ public class MockServiceTest {
         artists.add(new Artist("5", Utils.convertToBitmap(R.drawable.wael_gassar), "Wael Jassar"));
 
         appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        user = new User("eslam1092@hotmail.com", true, Utils.convertToBitmap(R.drawable.amr)
+       user = new User("eslam1092@hotmail.com", true, Utils.convertToBitmap(R.drawable.amr)
                 , "Islam Ahmed", "1998-11-24", "male", true
                 , 65500, 40, new ArrayList<User>()
                 , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
@@ -268,7 +268,7 @@ public class MockServiceTest {
         ArrayList<Container> testedData = new ArrayList<>();
         testedData.add(new Container("quran", "Playlist", R.drawable.images));
         ArrayList<Container> comingData = mockService.getPlaylists(appContext, "Q");
-        assertNotEquals(comingData.size(), testedData.size());
+        assertNotEquals(comingData.get(0).getCat_Name(), testedData.get(0).getCat_Name());
     }
 
     /* @Test

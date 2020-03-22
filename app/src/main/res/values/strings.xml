@@ -129,5 +129,33 @@
     <string name="with_locked_songs">With locked \nsongs</string>
     <string name="play_any_song">Play any \nsong</string>
     <string name="See_More">See More</string>
+
+    <string name="New_Releases">New Releases</string>
+    <string name="Charts">Charts</string>
+    <string name="Made_for_you">Made for you</string>
+    <string name="Concerts">Concerts</string>
+    <string name="Arabic">Arabic</string>
+    <string name="Mood">Mood</string>
+    <string name="Decades">Decades</string>
+    <string name="Gaming">Gaming</string>
+    <string name="Workout">Workout</string>
+    <string name="Focus">Focus</string>
+    <string name="Party">Party</string>
+    <string name="Dinner">Dinner</string>
+    <string name="Jazz">Jazz</string>
+    <string name="Soul">Soul</string>
+    <string name="Kids">Kids</string>
+    <string name="Blues">Blues</string>
+    <string name="Punk">Punk</string>
+    <string name="Travel">Travel</string>
+    <string name="Pop">Pop</string>
+    <string name="HipHop">Hip-Hop</string>
+    <string name="Rock">Rock</string>
+    <string name="Sleep">Sleep</string>
+    <string name="Chill">Chill</string>
+    <string name="Followers">followers</string>
+    <string name="Search_for_anything">Search for artists, songs, playlists, and more</string>
+    <string name="No_result_found_for">No result found for </string>
+    <string name="help_to_search">Please check you have the right spelling,or try differant keywords.</string>
     <string name="choose_3_artists">Choose 3 or more artists you like.</string>
 </resources>

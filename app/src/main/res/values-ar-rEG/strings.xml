@@ -115,5 +115,35 @@
     <string name="with_locked_songs">بدون أغاني \n مغلقة</string>
     <string name="See_More">شاهد المزيد</string>
 
+    <string name="New_Releases">إصدارات جديدة</string>
+    <string name="Charts">رسوم بيانية</string>
+    <string name="Made_for_you">من أجلك</string>
+    <string name="Concerts">حفلات</string>
+    <string name="Arabic">عربي</string>
+    <string name="Mood">مزاج</string>
+    <string name="Decades">عقود</string>
+    <string name="Gaming">موسيقي العاب</string>
+    <string name="Workout">العافية</string>
+    <string name="Focus">تركيز</string>
+    <string name="Party">أحتفال</string>
+    <string name="Dinner">وجبة العشاء</string>
+    <string name="Jazz">الجاز</string>
+    <string name="Soul">موسيقي السول</string>
+    <string name="Kids">أطفال</string>
+    <string name="Blues">البلوز</string>
+    <string name="Punk">متمرد</string>
+    <string name="Travel">سفر</string>
+    <string name="Pop">البوب</string>
+    <string name="HipHop">هيب هوب</string>
+    <string name="Rock">موسيقي الروك</string>
+    <string name="Sleep">نوم</string>
+    <string name="Chill">هادئ</string>
+    <string name="Followers">متابع</string>
+
+    <string name="Search_for_anything">ابحث عن الفنانين والأغاني وقوائم التشغيل والمزيد</string>
+    <string name="No_result_found_for">لم يتم العثور على نتيجة لـ</string>
+    <string name="help_to_search">يرجى التحقق من أن التهجئة الصحيحة ، أو جرب البحث بكلمات مختلفة.</string>
+
+
 
 </resources>
