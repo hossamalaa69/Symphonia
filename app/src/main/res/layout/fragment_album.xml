@@ -212,48 +212,20 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="32dp"
                 tools:text="October 3, 2018"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@android:color/white"
+                android:textSize="15sp"
                 android:textStyle="bold"
+                android:textColor="@android:color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/album_tracks" />
 
-            <LinearLayout
-                android:id="@+id/album_artist"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_artists_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:background="@drawable/custom_ripple"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingTop="8dp"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingBottom="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/release_date">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/artist_image"
-                    android:layout_width="@dimen/artist_search_item_height"
-                    android:layout_height="@dimen/artist_search_item_height"
-                    android:src="@drawable/amr" />
-
-                <TextView
-                    android:id="@+id/artist_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/activity_horizontal_margin"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:gravity="center_vertical"
-                    android:textAppearance="?android:textAppearanceSmall"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold"
-                    tools:text="Amr Diab">
-
-                </TextView>
-
-            </LinearLayout>
+                app:layout_constraintTop_toBottomOf="@+id/release_date"/>
 
             <TextView
                 android:id="@+id/copyrights"
@@ -264,12 +236,12 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="16dp"
                 tools:text="© ℗ 2018 Nay"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@android:color/white"
+                android:textSize="15sp"
                 android:textStyle="bold"
+                android:textColor="@android:color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/album_artist" />
+                app:layout_constraintTop_toBottomOf="@+id/rv_artists_list" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

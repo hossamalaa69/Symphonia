@@ -171,8 +171,8 @@ public class MockService implements APIs {
 
         albums.add(new Album("6qqNVTkY8uBg9cP3Jd7DAH", "single",
                 new ArrayList<Artist>(Collections.singletonList(artists.get(7))),
-                new ArrayList<Copyright>(Arrays.asList(new Copyright("© 2020 Darkroom/Interscope Records", "C"),
-                        new Copyright("℗ 2020 Darkroom/Interscope Records", "P"))),
+                new ArrayList<Copyright>(Arrays.asList(new Copyright("2020 Darkroom/Interscope Records", "C"),
+                        new Copyright("2020 Darkroom/Interscope Records", "P"))),
                 Utils.convertToBitmap(R.drawable.no_time_to_die), "No Time To Die", "2020-02-13",
                 new ArrayList<Track>()));
 
@@ -192,14 +192,14 @@ public class MockService implements APIs {
 
         albums.add(new Album("0hZwt0aSEEiwUByVQuxntK", "album",
                 new ArrayList<Artist>(Collections.singletonList(artists.get(30))),
-                new ArrayList<Copyright>(Collections.singletonList(new Copyright("(C) 2012 Awakening Worldwide", "C"))),
+                new ArrayList<Copyright>(Collections.singletonList(new Copyright("2012 Awakening Worldwide", "C"))),
                 Utils.convertToBitmap(R.drawable.fogive_me), "Forgive Me", "2012-04-02",
                 new ArrayList<Track>()));
 
         albums.add(new Album("3JfSxDfmwS5OeHPwLSkrfr", "album",
                 new ArrayList<Artist>(Collections.singletonList(artists.get(12))),
-                new ArrayList<Copyright>(Arrays.asList(new Copyright("© 2018 KIDinaKORNER/Interscope Records", "C"),
-                        new Copyright("℗ 2018 KIDinaKORNER/Interscope Records", "P"))),
+                new ArrayList<Copyright>(Arrays.asList(new Copyright("2018 KIDinaKORNER/Interscope Records", "C"),
+                        new Copyright("2018 KIDinaKORNER/Interscope Records", "P"))),
                 Utils.convertToBitmap(R.drawable.origins), "Origins (Deluxe)", "2018-11-09",
                 new ArrayList<Track>()));
 
