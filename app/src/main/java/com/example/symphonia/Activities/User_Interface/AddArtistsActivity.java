@@ -1,21 +1,17 @@
-package com.example.symphonia.Activities.UserUI;
+package com.example.symphonia.Activities.User_Interface;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.symphonia.Constants;
 import com.example.symphonia.Helpers.CustomOfflineDialog;
 import com.example.symphonia.Helpers.CustomSkipDialog;
@@ -25,23 +21,22 @@ import com.example.symphonia.Adapters.GridSpacingItemDecorationAdapter;
 import com.example.symphonia.Adapters.RvGridArtistsAdapter;
 import com.example.symphonia.Service.ServiceController;
 import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
-
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class AddArtistsActivity extends AppCompatActivity implements RvGridArtistsAdapter.ListItemClickListener {
 
     private static final int STATIC_INTEGER_VALUE = 1;
-    ServiceController serviceController;
-    ArrayList<Artist> mRecommendedArtists;
-    RvGridArtistsAdapter adapter;
-    RecyclerView artistsList;
-    GridSpacingItemDecorationAdapter mItemDecoration;
-    GridLayoutManager layoutManager;
-
+    private static final String SELECTED_ARTIST_ID = "SelectedArtistId";
+    private ServiceController mServiceController;
+    private ArrayList<Artist> mRecommendedArtists;
+    private RvGridArtistsAdapter mAdapter;
+    private RecyclerView mArtistsList;
+    private GridSpacingItemDecorationAdapter mItemDecoration;
+    private GridLayoutManager mLayoutManager;
     private boolean isNewUser = false;
-    private Button doneButton;
+    private Button mButtonDone;
     private int countFollowing = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +49,7 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         }
 
         setContentView(R.layout.activity_add_artists);
-        doneButton = (Button) findViewById(R.id.done_button);
+        mButtonDone = (Button) findViewById(R.id.button_done);
         Bundle b = getIntent().getExtras();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -62,55 +57,56 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
 
         CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.toolbar_layout);
 
-
         try{
             assert b != null;
             String recvData = b.getString("newUser");
             isNewUser = true;
-            doneButton.setVisibility(View.GONE);
+            mButtonDone.setVisibility(View.GONE);
             collapsingToolbarLayout.setTitle(getResources().getString(R.string.choose_3_artists));
 
         } catch(Exception e) {
             isNewUser = false;
-            doneButton.setVisibility(View.VISIBLE);
+            mButtonDone.setVisibility(View.VISIBLE);
             collapsingToolbarLayout.setTitle(getResources().getString(R.string.title_activity_add_artists));
         }
 
-        serviceController = ServiceController.getInstance();
+        mServiceController = ServiceController.getInstance();
 
-        // will be modified
         mRecommendedArtists = new ArrayList<>();
-        ArrayList<Artist> returnedArtists = serviceController
-                .getRecommendedArtists(Constants.currentUser.isListenerType(), Constants.currentToken, 20);
+        ArrayList<Artist> returnedArtists = mServiceController.getRecommendedArtists
+                (Constants.currentUser.isListenerType(), Constants.currentToken, 20);
 
         for (Artist artist : returnedArtists) {
-            if(!serviceController.isFollowing(Constants.currentUser.isListenerType(), Constants.currentToken
-                    , artist.getId()))
+            if(!mServiceController.isFollowing(Constants.currentUser.isListenerType(),
+                    Constants.currentToken,
+                    artist.getId())){
+
                 mRecommendedArtists.add(artist);
+            }
         }
 
-        artistsList = findViewById(R.id.rv_artists_grid);
-        mItemDecoration = new GridSpacingItemDecorationAdapter(mRecommendedArtists.size()
-                ,3, 50, true);
+        mArtistsList = findViewById(R.id.rv_artists_grid);
+        mItemDecoration = new GridSpacingItemDecorationAdapter(mRecommendedArtists.size(),
+                3,
+                50,
+                true);
 
-        artistsList.addItemDecoration(mItemDecoration);
-        layoutManager = new GridLayoutManager(this, 3);
-        artistsList.setLayoutManager(layoutManager);
-        adapter = new RvGridArtistsAdapter(mRecommendedArtists, this);
-        artistsList.setAdapter(adapter);
-
+        mArtistsList.addItemDecoration(mItemDecoration);
+        mLayoutManager = new GridLayoutManager(this, 3);
+        mArtistsList.setLayoutManager(mLayoutManager);
+        mAdapter = new RvGridArtistsAdapter(mRecommendedArtists, this);
+        mArtistsList.setAdapter(mAdapter);
 
         if(!isOnline()) {
             CustomOfflineDialog custom_dialogOffline = new CustomOfflineDialog();
             custom_dialogOffline.showDialog(AddArtistsActivity.this, true);
         }
 
+        mButtonDone = findViewById(R.id.button_done);
 
-        doneButton = findViewById(R.id.done_button);
-        doneButton.setOnClickListener(new View.OnClickListener() {
+        mButtonDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //check if new user is using this page
                 if(isNewUser){
                     Intent i = new Intent(AddArtistsActivity.this, MainActivity.class);
                     startActivity(i);
@@ -121,14 +117,18 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         });
 
         View searchBar = findViewById(R.id.search_bar);
+
         searchBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent ArtistsSearchActivityIntent = new Intent(AddArtistsActivity.this, ArtistsSearchActivity.class);
+                Intent ArtistsSearchActivityIntent = new Intent(AddArtistsActivity.this,
+                        ArtistsSearchActivity.class);
+
                 startActivityForResult(ArtistsSearchActivityIntent, STATIC_INTEGER_VALUE);
             }
         });
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -136,8 +136,11 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         if (requestCode == STATIC_INTEGER_VALUE) {
             if (resultCode == Activity.RESULT_OK) {
                 assert data != null;
-                String selectedArtistId = data.getStringExtra("SelectedArtistId");
-                Artist selectedArtist = serviceController.getArtist(this, Constants.currentToken, selectedArtistId);
+                String selectedArtistId = data.getStringExtra(SELECTED_ARTIST_ID);
+                Artist selectedArtist = mServiceController.getArtist(this,
+                        Constants.currentToken,
+                        selectedArtistId);
+
                 int position = 0;
                 if(mRecommendedArtists.contains(selectedArtist)){
                     position = mRecommendedArtists.indexOf(selectedArtist);
@@ -146,69 +149,75 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
                     mRecommendedArtists.add(0, selectedArtist);
                 }
 
-                View view = artistsList.findViewHolderForAdapterPosition(position).itemView;
-                View checkImage = view.findViewById(R.id.check_image);
-
+                View view = mArtistsList.findViewHolderForAdapterPosition(position).itemView;
+                View checkImage = view.findViewById(R.id.image_check);
                 checkImage.setVisibility(View.VISIBLE);
 
-
-                if(!serviceController.isFollowing(Constants.currentUser.isListenerType(), Constants.currentToken
+                if(!mServiceController.isFollowing(Constants.currentUser.isListenerType(), Constants.currentToken
                         , selectedArtist.getId())) {
 
                     if(isNewUser){
                         countFollowing ++;
                         if(countFollowing>=3)
-                            doneButton.setVisibility(View.VISIBLE);
+                            mButtonDone.setVisibility(View.VISIBLE);
                     }
-                    serviceController.followArtistOrUser(Constants.currentUser.isListenerType(), Constants.currentToken
+                    mServiceController.followArtistOrUser(Constants.currentUser.isListenerType(), Constants.currentToken
                             , mRecommendedArtists.get(position).getId());
                 }
 
-                ArrayList<Artist> relatedArtists = serviceController.getArtistRelatedArtists(this, mRecommendedArtists.get(position).getId());
+                ArrayList<Artist> relatedArtists = mServiceController.getArtistRelatedArtists(this,
+                        mRecommendedArtists.get(position).getId());
+
                 for(Artist artist : relatedArtists)
                 {
-                    if(!serviceController.isFollowing(Constants.currentUser.isListenerType(), Constants.currentToken
-                            , artist.getId()))
+                    if(!mServiceController.isFollowing(Constants.currentUser.isListenerType(),
+                            Constants.currentToken,
+                            artist.getId()))
                     {
                         if (!mRecommendedArtists.contains(artist)) {
                             mRecommendedArtists.add(position + 1, artist);
                         }
-
                     }
-
                 }
-                adapter.notifyDataSetChanged();
-                layoutManager.scrollToPositionWithOffset(position, 0);
+
+                mAdapter.notifyDataSetChanged();
+                mLayoutManager.scrollToPositionWithOffset(position, 0);
             }
         }
     }
 
     @Override
     public void onListItemClick(View itemView, int clickedItemIndex) {
+        View checkImage = itemView.findViewById(R.id.image_check);
 
-        View checkImage = itemView.findViewById(R.id.check_image);
-        if(!serviceController.isFollowing(Constants.currentUser.isListenerType(), Constants.currentToken
-                , mRecommendedArtists.get(clickedItemIndex).getId())) {
+        if(!mServiceController.isFollowing(Constants.currentUser.isListenerType(),
+                Constants.currentToken,
+                mRecommendedArtists.get(clickedItemIndex).getId())) {
 
             if(isNewUser){
                 countFollowing ++;
                 if(countFollowing>=3)
-                    doneButton.setVisibility(View.VISIBLE);
+                    mButtonDone.setVisibility(View.VISIBLE);
             }
 
             checkImage.setVisibility(View.VISIBLE);
-            serviceController.followArtistOrUser(Constants.currentUser.isListenerType(), Constants.currentToken
-                    , mRecommendedArtists.get(clickedItemIndex).getId());
+            mServiceController.followArtistOrUser(Constants.currentUser.isListenerType(),
+                    Constants.currentToken,
+                    mRecommendedArtists.get(clickedItemIndex).getId());
+
             boolean isAdded = false;
-            ArrayList<Artist> relatedArtists = serviceController.getArtistRelatedArtists(this, mRecommendedArtists.get(clickedItemIndex).getId());
+            ArrayList<Artist> relatedArtists = mServiceController.getArtistRelatedArtists(this,
+                    mRecommendedArtists.get(clickedItemIndex).getId());
+
             for(Artist artist : relatedArtists)
             {
-                if(!serviceController.isFollowing(Constants.currentUser.isListenerType(), Constants.currentToken
-                        , artist.getId()))
+                if(!mServiceController.isFollowing(Constants.currentUser.isListenerType(),
+                        Constants.currentToken,
+                        artist.getId()))
                 {
                     if (!mRecommendedArtists.contains(artist)) {
                         mRecommendedArtists.add(clickedItemIndex + 1, artist);
-                        adapter.notifyItemInserted(clickedItemIndex + 1);
+                        mAdapter.notifyItemInserted(clickedItemIndex + 1);
                         isAdded = true;
                     }
 
@@ -216,19 +225,20 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
 
             }
             if(isAdded) {
-                layoutManager.scrollToPositionWithOffset(clickedItemIndex, 0);
+                mLayoutManager.scrollToPositionWithOffset(clickedItemIndex, 0);
             }
         }
         else {
             checkImage.setVisibility(View.GONE);
-            serviceController.unFollowArtistOrUser(Constants.currentUser.isListenerType(), Constants.currentToken
-                    , mRecommendedArtists.get(clickedItemIndex).getId());
+            mServiceController.unFollowArtistOrUser(Constants.currentUser.isListenerType(),
+                    Constants.currentToken,
+                    mRecommendedArtists.get(clickedItemIndex).getId());
 
             ////////////////// if new user //////////////
             if(isNewUser){
                 countFollowing--;
                 if(countFollowing<3)
-                    doneButton.setVisibility(View.GONE);
+                    mButtonDone.setVisibility(View.GONE);
             }
         }
     }
@@ -240,11 +250,9 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         if(isNewUser){
             CustomSkipDialog custom_dialog = new CustomSkipDialog();
             custom_dialog.showDialog(this);
-            return;
         }
         else
             super.onBackPressed();
-
     }
 
     public boolean isOnline() {
@@ -255,5 +263,4 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         }
         return false;
     }
-
 }

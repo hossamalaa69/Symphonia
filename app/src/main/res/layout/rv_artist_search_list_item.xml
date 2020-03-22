@@ -11,14 +11,14 @@
     tools:background="@color/colorPrimary">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/artist_image"
+        android:id="@+id/image_artist"
         android:layout_width="@dimen/artist_search_item_height"
         android:layout_height="@dimen/artist_search_item_height"
         android:src="@drawable/amr"
         />
 
     <TextView
-        android:id="@+id/artist_name"
+        android:id="@+id/text_artist_name"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"

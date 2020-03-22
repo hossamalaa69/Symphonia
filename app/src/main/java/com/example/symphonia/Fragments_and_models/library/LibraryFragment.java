@@ -18,7 +18,6 @@ import com.google.android.material.tabs.TabLayout;
 
 public class LibraryFragment extends Fragment {
 
-    private LibraryViewModel libraryViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

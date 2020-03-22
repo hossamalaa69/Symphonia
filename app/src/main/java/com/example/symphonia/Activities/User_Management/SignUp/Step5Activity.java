@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.symphonia.Activities.UserUI.AddArtistsActivity;
+import com.example.symphonia.Activities.User_Interface.AddArtistsActivity;
 import com.example.symphonia.Helpers.CustomOfflineDialog;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;

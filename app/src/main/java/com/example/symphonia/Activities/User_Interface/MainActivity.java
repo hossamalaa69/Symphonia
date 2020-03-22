@@ -1,4 +1,4 @@
-package com.example.symphonia.Activities.UserUI;
+package com.example.symphonia.Activities.User_Interface;
 
 import android.content.DialogInterface;
 import android.content.Intent;

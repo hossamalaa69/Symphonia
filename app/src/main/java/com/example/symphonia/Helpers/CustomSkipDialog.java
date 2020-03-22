@@ -10,7 +10,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.symphonia.Activities.UserUI.MainActivity;
+import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.R;
 
 public class CustomSkipDialog {

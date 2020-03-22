@@ -24,7 +24,7 @@
 
 
         <EditText
-            android:id="@+id/search_edit_text"
+            android:id="@+id/text_search_edit"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="50dp"

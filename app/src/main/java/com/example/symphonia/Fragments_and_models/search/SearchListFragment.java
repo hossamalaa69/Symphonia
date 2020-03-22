@@ -262,7 +262,7 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
         genresText.setOnClickListener(getAllGenres);
         profilesText=root.findViewById(R.id.tv_search_profiles);
         profilesText.setOnClickListener(getAllProfiles);
-        editText = (EditText) root.findViewById(R.id.search_edit_text);
+        editText = (EditText) root.findViewById(R.id.text_search_edit);
         eraseText=(ImageView)root.findViewById(R.id.close_search_rectangle);
         eraseText.setOnClickListener(Erase);
         clearRecentSearches=(TextView)root.findViewById(R.id.tv_clear_recent_searches);

@@ -16,16 +16,16 @@ import java.util.ArrayList;
 
 public class RvListAlbumsAdapter extends RecyclerView.Adapter<RvListAlbumsAdapter.AlbumViewHolder> {
 
-    private ArrayList<Album> albums;
+    private ArrayList<Album> mAlbums;
     private ListItemClickListener mOnClickListener;
     public RvListAlbumsAdapter(ArrayList<Album> albums, ListItemClickListener mOnClickListener) {
-        this.albums = albums;
+        this.mAlbums = albums;
         this.mOnClickListener = mOnClickListener;
     }
 
     @Override
     public int getItemCount() {
-        return albums.size();
+        return mAlbums.size();
     }
 
     @NonNull
@@ -49,14 +49,14 @@ public class RvListAlbumsAdapter extends RecyclerView.Adapter<RvListAlbumsAdapte
         AlbumViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            albumImage = itemView.findViewById(R.id.album_image);
-            albumName = itemView.findViewById(R.id.album_name);
-            artistName = itemView.findViewById(R.id.artist_name);
+            albumImage = itemView.findViewById(R.id.image_album);
+            albumName = itemView.findViewById(R.id.text_album_name);
+            artistName = itemView.findViewById(R.id.text_artist_name);
 
         }
 
         void bind(int position) {
-            Album album = albums.get(position);
+            Album album = mAlbums.get(position);
             albumImage.setImageBitmap(album.getAlbumImage());
             albumName.setText(album.getAlbumName());
             artistName.setText(album.getAlbumArtists().get(0).getArtistName());

@@ -1,4 +1,4 @@
-package com.example.symphonia.Activities.UserUI;
+package com.example.symphonia.Activities.User_Interface;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,6 +29,7 @@ import java.util.ArrayList;
 
 public class ArtistsSearchActivity extends AppCompatActivity implements RvListArtistSearchAdapter.ListItemClickListener{
 
+    private static final String SELECTED_ARTIST_ID = "SelectedArtistId";
     private View cardSearchBar;
     private RelativeLayout searchBarFocused;
     private EditText searchEditText;
@@ -47,12 +48,12 @@ public class ArtistsSearchActivity extends AppCompatActivity implements RvListAr
 
         final ServiceController serviceController = ServiceController.getInstance();
 
-        searchEditText = findViewById(R.id.search_edit_text);
+        searchEditText = findViewById(R.id.text_search_edit);
         cardSearchBar = findViewById(R.id.search_bar);
         searchBarFocused = findViewById(R.id.search_bar_focused);
-        emptyState = findViewById(R.id.artist_search_empty_state);
-        notFound1 = findViewById(R.id.not_found_state_1);
-        notFound2 = findViewById(R.id.not_found_state_2);
+        emptyState = findViewById(R.id.text_artist_search_empty_state);
+        notFound1 = findViewById(R.id.text_not_found_state_1);
+        notFound2 = findViewById(R.id.text_not_found_state_2);
 
         searchResult = new ArrayList<>();
         artistsList = findViewById(R.id.rv_artists_list);
@@ -170,12 +171,12 @@ public class ArtistsSearchActivity extends AppCompatActivity implements RvListAr
 
     }
 
-
     @Override
     public void onListItemClick(int clickedItemIndex) {
+
         Intent resultIntent = new Intent();
         Artist artist = searchResult.get(clickedItemIndex);
-        resultIntent.putExtra("SelectedArtistId", artist.getId());
+        resultIntent.putExtra(SELECTED_ARTIST_ID, artist.getId());
         setResult(Activity.RESULT_OK, resultIntent);
         finish();
     }

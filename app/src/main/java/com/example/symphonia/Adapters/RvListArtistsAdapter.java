@@ -2,7 +2,6 @@ package com.example.symphonia.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.symphonia.Activities.UserUI.AddArtistsActivity;
+import com.example.symphonia.Activities.User_Interface.AddArtistsActivity;
 import com.example.symphonia.R;
 import com.example.symphonia.Entities.Artist;
 
@@ -20,17 +19,17 @@ import java.util.ArrayList;
 
 public class RvListArtistsAdapter extends RecyclerView.Adapter<RvListArtistsAdapter.ArtistViewHolder> {
 
-    private ArrayList<Artist> artists;
-    private Context context;
+    private ArrayList<Artist> mArtists;
+    private Context mContext;
 
     public RvListArtistsAdapter(ArrayList<Artist> artists, Context context) {
-        this.artists = artists;
-        this.context = context;
+        this.mArtists = artists;
+        this.mContext = context;
     }
 
     @Override
     public int getItemCount() {
-        return artists.size() + 1;
+        return mArtists.size() + 1;
     }
 
     @NonNull
@@ -46,6 +45,15 @@ public class RvListArtistsAdapter extends RecyclerView.Adapter<RvListArtistsAdap
         holder.bind(position);
     }
 
+    public void clear(){
+        mArtists.clear();
+        mArtists = new ArrayList<>();
+    }
+
+    public void addAll(ArrayList<Artist> artists){
+        this.mArtists.addAll(artists);
+    }
+
     public class ArtistViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView artistImage;
         TextView artistName;
@@ -53,16 +61,16 @@ public class RvListArtistsAdapter extends RecyclerView.Adapter<RvListArtistsAdap
         ArtistViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            artistImage = (ImageView)itemView.findViewById(R.id.artist_image);
-            artistName = (TextView) itemView.findViewById(R.id.artist_name);
+            artistImage = (ImageView)itemView.findViewById(R.id.image_artist);
+            artistName = (TextView) itemView.findViewById(R.id.text_artist_name);
         }
         void bind(int position) {
-            if(position == artists.size()) {
+            if(position == mArtists.size()) {
                 artistImage.setImageResource(R.drawable.add_image);
                 artistName.setText(R.string.add_artists);
             }
             else{
-                Artist artist = artists.get(position);
+                Artist artist = mArtists.get(position);
                 artistImage.setImageBitmap(artist.getImage());
                 artistName.setText(artist.getArtistName());
             }
@@ -72,22 +80,12 @@ public class RvListArtistsAdapter extends RecyclerView.Adapter<RvListArtistsAdap
 
         @Override
         public void onClick(View v) {
-            if(getAdapterPosition() == artists.size())
+            if(getAdapterPosition() == mArtists.size())
             {
-                Intent addArtistsIntent = new Intent(context, AddArtistsActivity.class);
-                context.startActivity(addArtistsIntent);
+                Intent addArtistsIntent = new Intent(mContext, AddArtistsActivity.class);
+                mContext.startActivity(addArtistsIntent);
             }
         }
     }
-
-    public void clear(){
-        artists.clear();
-        artists = new ArrayList<>();
-    }
-
-    public void addAll(ArrayList<Artist> artists){
-        this.artists.addAll(artists);
-    }
-
 
 }

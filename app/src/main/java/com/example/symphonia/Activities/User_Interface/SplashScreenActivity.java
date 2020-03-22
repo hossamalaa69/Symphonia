@@ -1,4 +1,4 @@
-package com.example.symphonia.Activities.UserUI;
+package com.example.symphonia.Activities.User_Interface;
 
 import androidx.appcompat.app.AppCompatActivity;
 

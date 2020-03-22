@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/create_playlist_background"
-    tools:context=".Activities.UserUI.CreatePlaylistActivity">
+    tools:context=".Activities.User_Interface.CreatePlaylistActivity">
 
     <TextView
         android:id="@+id/textView"
@@ -44,7 +44,7 @@
         app:layout_constraintVertical_bias="0.457" />
 
     <Button
-        android:id="@+id/cancel_button"
+        android:id="@+id/button_cancel"
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -53,14 +53,14 @@
         android:background="@null"
         android:textColor="#bcbcbc"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/create_button"
+        app:layout_constraintEnd_toStartOf="@+id/button_create"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/playlist_name_edit_text"
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/create_button"
+        android:id="@+id/button_create"
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

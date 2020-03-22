@@ -16,7 +16,7 @@
 
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/artist_image"
+            android:id="@+id/image_artist"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
@@ -26,7 +26,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/artist_name"
+            android:id="@+id/text_artist_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
@@ -34,17 +34,17 @@
             android:layout_marginBottom="16dp"
             android:gravity="center"
             android:textColor="@android:color/white"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/artist_image"
+            app:layout_constraintTop_toBottomOf="@+id/image_artist"
             app:layout_constraintVertical_bias="0.0"
             tools:text="Mahmoud El Esseily" />
 
         <FrameLayout
-            android:id="@+id/check_image"
+            android:id="@+id/image_check"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
