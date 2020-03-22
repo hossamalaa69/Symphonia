@@ -123,7 +123,7 @@
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="12dp">
+                    android:layout_height="15dp">
 
                     <ImageView
                         android:id="@+id/shuffle"
@@ -151,7 +151,10 @@
                         android:text="@string/shuffle_string"
                         android:textAllCaps="true"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="8sp"
+                        app:autoSizeTextType="uniform"
+                        app:autoSizeMinTextSize="4sp"
+                        app:autoSizeMaxTextSize="8sp"
+                        app:autoSizeStepGranularity="1sp"
                         android:layout_marginEnd="4dp"
                         android:layout_toEndOf="@id/shuffle"
                         tools:ignore="SmallSp" />
