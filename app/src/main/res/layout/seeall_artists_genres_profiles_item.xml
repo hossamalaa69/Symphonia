@@ -18,28 +18,19 @@
         android:layout_height="55dp"
         tools:ignore="RtlCompat" />
 
-    <LinearLayout
-        android:layout_gravity="center_vertical"
-        android:padding="4dp"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_weight="1">
-
         <TextView
-            android:paddingTop="8dp"
+            android:paddingStart="8dp"
             android:id="@+id/tv_search_all_artists"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             app:autoSizeMaxTextSize="24sp"
             app:autoSizeMinTextSize="14sp"
             app:autoSizeStepGranularity="1sp"
             app:autoSizeTextType="uniform"
-            android:textColor="@color/colorWhite" />
-
-    </LinearLayout>
-
+            android:textColor="@color/colorWhite"
+            tools:ignore="RtlCompat" />
     <ImageView
         android:id="@+id/img_show"
         android:paddingStart="4dp"

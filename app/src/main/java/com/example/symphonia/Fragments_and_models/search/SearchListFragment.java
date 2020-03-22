@@ -58,7 +58,6 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
     private TextView clearRecentSearches;
     private EditText editText;
     private Drawable trackBackgroun;
-
     private TextView artistsText;
     private TextView songsText;
     private TextView playlistsText;
@@ -162,12 +161,12 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
             if(hasFocus){
                 searchText.setVisibility(View.INVISIBLE);
                 arrow_Img.setVisibility(View.VISIBLE);
-                eraseText.setVisibility(View.VISIBLE);
+                //eraseText.setVisibility(View.VISIBLE);
             }
             else {
                 searchText.setVisibility(View.INVISIBLE);
                 arrow_Img.setVisibility(View.VISIBLE);
-                eraseText.setVisibility(View.GONE);
+                //eraseText.setVisibility(View.GONE);
             }
         }
     };
@@ -377,7 +376,7 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
     public void onItemEraseListener(int pos, int containerSize) {
         adapter1.notifyItemRemoved(pos);
         adapter1.notifyItemRangeChanged(pos, containerSize);
-
+        controller.removeOneRecentSearch(getContext(),pos);
         if(containerSize==0)
             recentSearchesOff();
     }
@@ -402,7 +401,7 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
     public class SomeDrawable extends GradientDrawable {
 
         public SomeDrawable(int pStartColor, int pEndColor) {
-            super(Orientation.BR_TL, new int[]{pEndColor, pStartColor, pStartColor});
+            super(Orientation.BOTTOM_TOP, new int[]{pEndColor, pEndColor,pEndColor,pStartColor, pStartColor});
             setShape(GradientDrawable.RECTANGLE);
         }
 

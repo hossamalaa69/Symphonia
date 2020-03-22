@@ -18,6 +18,7 @@
       tools:ignore="RtlCompat" />
 
   <LinearLayout
+      android:layout_gravity="center_vertical"
       android:padding="4dp"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
@@ -35,7 +36,7 @@
     <TextView
         android:id="@+id/tv_search_list_item_type"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="30dp"
         android:textColor="#bfbfbf"
         app:autoSizeTextType="uniform"
         app:autoSizeMinTextSize="8sp"
@@ -45,24 +46,22 @@
   </LinearLayout>
 
   <RelativeLayout
+      android:paddingStart="8dp"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_gravity="center_vertical">
+      android:layout_gravity="center_vertical"
+      tools:ignore="RtlCompat">
     <ImageView
         android:id="@+id/img_show"
-        android:paddingStart="4dp"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:src="@mipmap/get_item_searched_foreground"
-        android:visibility="gone"
-        tools:ignore="RtlCompat" />
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/img_close"
-        android:paddingStart="4dp"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:src="@mipmap/close_white_foreground"
-        tools:ignore="RtlCompat" />
+        android:src="@mipmap/close_white_foreground" />
   </RelativeLayout>
 </LinearLayout>

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder> {
     private ArrayList<Container> container;
     private Boolean chooseImg;
+    private Boolean setText;
     private ListItemClickListner listner;
 
     public interface ListItemClickListner{
@@ -26,11 +27,13 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     public SearchResultAdapter(ArrayList<Container> data,Boolean b,ListItemClickListner l) {
         container = data;
         chooseImg = b;
+        setText=false;
         listner=l;
     }
-    public SearchResultAdapter(ArrayList<Container> data,Boolean b) {
+    public SearchResultAdapter(ArrayList<Container> data,Boolean b,Boolean a) {
         container = data;
         chooseImg = b;
+        setText=a;
     }
     @NonNull
     @Override
@@ -78,7 +81,12 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         public void MakeResult(int pos) {
             Container temp = container.get(pos);
             textView.setText(temp.getCat_Name());
-            textView2.setText(temp.getCat_Name2());
+            if(setText){
+                textView2.setText(temp.getCat_Name2().substring(temp.getCat_Name2().indexOf(".") + 1));
+            }
+            else {
+                textView2.setText(temp.getCat_Name2());
+            }
             imageView.setImageResource(temp.getImg_Res());
             if(chooseImg){
                 show.setVisibility(View.VISIBLE);

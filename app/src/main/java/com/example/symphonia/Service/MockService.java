@@ -20,7 +20,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 
 public class MockService implements APIs {
-
     private ArrayList<Playlist> randomPlaylists;
     private ArrayList<Playlist> recentPlaylists;
     private ArrayList<Artist> artists;
@@ -29,11 +28,13 @@ public class MockService implements APIs {
     private ArrayList<Container> recentSearches;
     private ArrayList<Playlist> popularPlaylists;
     private ArrayList<User> listenerArrayList;
-
+    private Boolean firstTimeToGetRecentSearches;
     private ArrayList<User> artistArrayList;
     public MockService() {
+        firstTimeToGetRecentSearches=true;
         listenerArrayList = new ArrayList<>();
         artistArrayList = new ArrayList<>();
+        recentSearches = new ArrayList<>();
 
         listenerArrayList.add(new User("user1@symphonia.com", "12345678", true));
         listenerArrayList.add(new User("user2@symphonia.com", "12345678", true));
@@ -260,16 +261,16 @@ public class MockService implements APIs {
 
     @Override
     public ArrayList<Container> getResentResult(Context context) {
-        recentSearches = new ArrayList<>();
-        recentSearches.add(new Container("Quran", context.getResources().getString(R.string.Playlist), R.drawable.images));
-        recentSearches.add(new Container("George Wassouf", "Artist", R.drawable.download));
-        recentSearches.add(new Container("Get Weird", context.getResources().getString(R.string.Album)+".Little Mix", R.drawable.download1));
-        recentSearches.add(new Container("Godzilla",context.getResources().getString(R.string.Song)+ ".Eminem juice WRLD", R.drawable.images));
-        recentSearches.add(new Container("Lollipop", context.getResources().getString(R.string.Album)+".Little Mix", R.drawable.images3));
-        recentSearches.add(new Container("Friction", context.getResources().getString(R.string.Playlist), R.drawable.images));
-        recentSearches.add(new Container("Playlist", context.getResources().getString(R.string.Playlist), R.drawable.alan));
-        recentSearches.add(new Container("Miley Cyrus", context.getResources().getString(R.string.Artist), R.drawable.download));
-
+        if(firstTimeToGetRecentSearches) {
+            recentSearches.add(new Container("Quran", context.getResources().getString(R.string.Playlist), R.drawable.images));
+            recentSearches.add(new Container("George Wassouf", context.getResources().getString(R.string.Artist), R.drawable.download));
+            recentSearches.add(new Container("Get Weird", context.getResources().getString(R.string.Album) + ".Little Mix", R.drawable.download1));
+            recentSearches.add(new Container("Godzilla", context.getResources().getString(R.string.Song) + ".Eminem juice WRLD", R.drawable.images));
+            recentSearches.add(new Container("Lollipop", context.getResources().getString(R.string.Album) + ".Little Mix", R.drawable.images3));
+            recentSearches.add(new Container("Friction", context.getResources().getString(R.string.Playlist), R.drawable.images));
+            recentSearches.add(new Container("Playlist", context.getResources().getString(R.string.Playlist), R.drawable.alan));
+            recentSearches.add(new Container("Miley Cyrus", context.getResources().getString(R.string.Artist), R.drawable.download));
+        }
         return recentSearches;
     }
 
@@ -477,13 +478,15 @@ public class MockService implements APIs {
 
     @Override
     public void removeOneRecentSearch(Context context, int position) {
-        recentSearches.remove(position);
+        //recentSearches.remove(position);
+        firstTimeToGetRecentSearches=false;
     }
 
     @Override
     public void removeAllRecentSearches(Context context) {
 
         recentSearches = new ArrayList<Container>();
+        firstTimeToGetRecentSearches=false;
     }
 
     @Override

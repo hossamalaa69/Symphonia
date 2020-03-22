@@ -87,25 +87,25 @@ public class SearchForAllFragment extends Fragment {
 
     private void getSongsData(){
         ArrayList<Container> data=cont.getSongs(getContext(),searchFor);
-        SearchResultAdapter d=new SearchResultAdapter(data,true);
+        SearchResultAdapter d=new SearchResultAdapter(data,true,true);
         searchResult.setAdapter(d);
     }
 
     private void getAlbumsData(){
         ArrayList<Container> data=cont.getAlbums(getContext(),searchFor);
-        SearchResultAdapter d=new SearchResultAdapter(data,true);
+        SearchResultAdapter d=new SearchResultAdapter(data,true,true);
         searchResult.setAdapter(d);
     }
 
     private void getProfilesData(){
         ArrayList<Container> data=cont.getProfiles(getContext(),searchFor);
-        SearchResultAdapter d=new SearchResultAdapter(data,true);
+        SeeAllArtistsAdapter d=new SeeAllArtistsAdapter(data);
         searchResult.setAdapter(d);
     }
 
     private void getGenresData(){
         ArrayList<Container> data=cont.getGenresAndMoods(getContext(),searchFor);
-        SearchResultAdapter d=new SearchResultAdapter(data,true);
+        SeeAllArtistsAdapter d=new SeeAllArtistsAdapter(data);
         searchResult.setAdapter(d);
     }
 
