@@ -27,14 +27,11 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class Utils {
 
-    public static String getNameFromEmail(String email) { return email.split("@")[0]; }
+    public static String getNameFromEmail(String email) {
+        return email.split("@")[0];
+    }
 
     public static class MediaPlayerInfo {
-        public MediaPlayerInfo() {
-
-    public static class MediaPlayerInfo {
-        public MediaPlayerInfo() { }
-
         public static MediaPlayer mediaPlayer;
         private static AudioManager audioManager;
         private static AudioManager.OnAudioFocusChangeListener onAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
@@ -71,7 +68,7 @@ public class Utils {
             int status = 0;
             if (audioManager != null) {
                 status = audioManager.requestAudioFocus(onAudioFocusChangeListener, AudioManager.STREAM_MUSIC
-                            , AudioManager.AUDIOFOCUS_GAIN);
+                        , AudioManager.AUDIOFOCUS_GAIN);
 
                 createMediaPlayer(context);
                 if (status == AudioManager.AUDIOFOCUS_REQUEST_GRANTED && mediaPlayer != null) {
@@ -113,6 +110,7 @@ public class Utils {
         }
     }
 
+
     public static class CurrTrackInfo {
         public static int TrackPosInPlaylist;
         public static int TrackPosInAlbum;
@@ -121,6 +119,7 @@ public class Utils {
         public static Track track;
         public static int currPlayingPos;
     }
+
 
     /**
      * check if string is email form or not
@@ -221,8 +220,8 @@ public class Utils {
 
     }
 
-    private static class AlbumDrawable extends  GradientDrawable{
-        private AlbumDrawable(int pStartColor, int pEndColor){
+    private static class AlbumDrawable extends GradientDrawable {
+        private AlbumDrawable(int pStartColor, int pEndColor) {
             super(Orientation.BOTTOM_TOP, new int[]{pEndColor, pStartColor});
             setShape(GradientDrawable.RECTANGLE);
         }
