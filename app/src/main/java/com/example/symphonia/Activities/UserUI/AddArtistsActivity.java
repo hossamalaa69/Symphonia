@@ -2,10 +2,13 @@ package com.example.symphonia.Activities.UserUI;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.Layout;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +17,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Constants;
+import com.example.symphonia.Helpers.Custom_Dialog_Offline;
+import com.example.symphonia.Helpers.Custom_Dialog_SignUp;
+import com.example.symphonia.Helpers.Custom_Dialog_Skip;
 import com.example.symphonia.R;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Adapters.GridSpacingItemDecorationAdapter;
@@ -40,6 +46,14 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(!isOnline()) {
+            if(!isOnline()){
+                Custom_Dialog_Offline custom_dialogOffline = new Custom_Dialog_Offline();
+                custom_dialogOffline.showDialog(this);
+                finish();
+            }
+        }
+
         setContentView(R.layout.activity_add_artists);
 
 
@@ -118,8 +132,8 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         if (requestCode == STATIC_INTEGER_VALUE) {
             if (resultCode == Activity.RESULT_OK) {
                 assert data != null;
-                Artist selectedArtist = (Artist) data.getSerializableExtra("SelectedArtist");
-                assert selectedArtist != null;
+                String selectedArtistId = data.getStringExtra("SelectedArtistId");
+                Artist selectedArtist = serviceController.getArtist(this, Constants.mToken, selectedArtistId);
                 serviceController.followArtistOrUser(Constants.user.isListenerType(), Constants.mToken, selectedArtist.getId());
             }
         }
@@ -180,5 +194,28 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
                     doneButton.setVisibility(View.INVISIBLE);
             }
         }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+
+        if(isNewUser){
+            Custom_Dialog_Skip custom_dialog = new Custom_Dialog_Skip();
+            custom_dialog.showDialog(this);
+            return;
+        }
+        else
+            super.onBackPressed();
+
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        if (connMgr != null) {
+            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+            return networkInfo != null && networkInfo.isConnectedOrConnecting();
+        }
+        return false;
     }
 }

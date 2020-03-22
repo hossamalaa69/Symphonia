@@ -34,7 +34,9 @@
             android:inputType="textPassword"
             android:textColor="@color/colorWhite"
             android:textSize="22sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:imeOptions="actionDone"
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView

@@ -6,9 +6,12 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -62,13 +65,26 @@ public class SignUp1 extends AppCompatActivity {
                                       int before, int count) {
             }
         });
+
+        email.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId== EditorInfo.IME_ACTION_DONE){
+                    if(Utils.isValidEmail(email.getText().toString()))
+                        openNext(v);
+                }
+                return false;
+            }
+        });
     }
+
+
+
 
     public void openNext(View view) {
         ServiceController serviceController = ServiceController.getInstance();
 
         if(!isOnline()){
-
             Custom_Dialog_Offline custom_dialogOffline = new Custom_Dialog_Offline();
             custom_dialogOffline.showDialog(this);
             return;

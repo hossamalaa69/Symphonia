@@ -90,8 +90,17 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         playBarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO handle button clicked
-                Toast.makeText(MainActivity.this, "play", Toast.LENGTH_SHORT).show();
+                if(Utils.MediaPlayerInfo.isMediaPlayerPlaying())
+                {
+                    playBarButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+                   Utils.MediaPlayerInfo.pauseTrack();
+
+                }
+                else
+                {
+                    playBarButton.setImageResource(R.drawable.ic_pause_black_24dp);
+                    Utils.MediaPlayerInfo.resumeTrack();
+                }
             }
         });
         image = playBar.findViewById(R.id.iv_like_track_bar);
@@ -115,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         Utils.CurrTrackInfo.currPlaylistName = tracks.get(pos).getPlaylistName();
         Utils.CurrTrackInfo.track = tracks.get(pos);
         Utils.CurrTrackInfo.TrackPosInPlaylist = pos;
+        Utils.CurrTrackInfo.currPlaylistTracks = tracks;
         Utils.CurrTrackInfo.TrackPosInAlbum = -1;
 
         Utils.MediaPlayerInfo.playTrack(this);
@@ -153,8 +163,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     @Override
     public void OnItemClickedListener(ArrayList<Track> tracks, int pos) {
         Intent intent = new Intent(MainActivity.this, PlayActivity.class);
-        intent.putExtra(getString(R.string.playlist_send_to_playActivtiy_intent), tracks);
-        intent.putExtra(getString(R.string.curr_playing_track_play_acitivity_intent), pos);
         startActivity(intent);
     }
 
@@ -274,10 +282,15 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     }
 
     public void checkUserType() {
-        if(Constants.user.isListenerType())
+        /*if(Constants.user.isListenerType())
             Toast.makeText(this, "Listener", Toast.LENGTH_SHORT).show();
         else
-            Toast.makeText(this, "Artist", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Artist", Toast.LENGTH_SHORT).show();*/
+
+        ServiceController serviceController = ServiceController.getInstance();
+        serviceController.logIn(this, "user1@symphonia.com", "12345678", true);
+
+
     }
 
 }

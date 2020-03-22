@@ -17,9 +17,10 @@ import java.util.ArrayList;
 public class RvListAlbumsAdapter extends RecyclerView.Adapter<RvListAlbumsAdapter.AlbumViewHolder> {
 
     private ArrayList<Album> albums;
-
-    public RvListAlbumsAdapter(ArrayList<Album> albums) {
+    private ListItemClickListener mOnClickListener;
+    public RvListAlbumsAdapter(ArrayList<Album> albums, ListItemClickListener mOnClickListener) {
         this.albums = albums;
+        this.mOnClickListener = mOnClickListener;
     }
 
     @Override
@@ -63,7 +64,12 @@ public class RvListAlbumsAdapter extends RecyclerView.Adapter<RvListAlbumsAdapte
 
         @Override
         public void onClick(View v) {
+            mOnClickListener.onListItemClick(v, getAdapterPosition());
         }
+    }
+
+    public interface ListItemClickListener{
+        void onListItemClick(View v, int clickedItemIndex);
     }
 
 }
