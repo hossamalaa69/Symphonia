@@ -63,6 +63,8 @@ public interface APIs {
 
     ArrayList<Container>getFourPlaylists(Context context);
 
+    Artist getArtist(Context context, String mToken, String id);
+
     ArrayList<Artist> getArtistRelatedArtists(Context context, String id);
 
     ArrayList<Artist> searchArtist(Context context, String q, int offset, int limit);

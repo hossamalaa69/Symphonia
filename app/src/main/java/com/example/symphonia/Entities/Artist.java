@@ -2,28 +2,24 @@ package com.example.symphonia.Entities;
 
 import android.graphics.Bitmap;
 
-import com.example.symphonia.Helpers.SerialBitmap;
 
-import java.io.Serializable;
-
-
-public class Artist implements Serializable {
-    private SerialBitmap mImage;
+public class Artist {
+    private Bitmap mImage;
     private String mArtistName;
     private String id;
 
     public Artist(String id, Bitmap mImage, String mArtistName) {
         this.id = id;
-        this.mImage = new SerialBitmap(mImage);
+        this.mImage = mImage;
         this.mArtistName = mArtistName;
     }
 
     public Bitmap getImage(){
-        return mImage.getBitmap();
+        return mImage;
     }
 
     public void setImage(Bitmap mImage) {
-        this.mImage.setBitmap(mImage);
+        this.mImage = mImage;
     }
 
     public String getArtistName() {

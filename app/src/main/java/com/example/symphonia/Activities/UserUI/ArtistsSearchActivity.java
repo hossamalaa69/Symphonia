@@ -175,7 +175,7 @@ public class ArtistsSearchActivity extends AppCompatActivity implements RvListAr
     public void onListItemClick(int clickedItemIndex) {
         Intent resultIntent = new Intent();
         Artist artist = searchResult.get(clickedItemIndex);
-        resultIntent.putExtra("SelectedArtist", artist);
+        resultIntent.putExtra("SelectedArtistId", artist.getId());
         setResult(Activity.RESULT_OK, resultIntent);
         finish();
     }

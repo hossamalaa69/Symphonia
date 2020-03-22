@@ -132,8 +132,8 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         if (requestCode == STATIC_INTEGER_VALUE) {
             if (resultCode == Activity.RESULT_OK) {
                 assert data != null;
-                Artist selectedArtist = (Artist) data.getSerializableExtra("SelectedArtist");
-                assert selectedArtist != null;
+                String selectedArtistId = data.getStringExtra("SelectedArtistId");
+                Artist selectedArtist = serviceController.getArtist(this, Constants.mToken, selectedArtistId);
                 serviceController.followArtistOrUser(Constants.user.isListenerType(), Constants.mToken, selectedArtist.getId());
             }
         }

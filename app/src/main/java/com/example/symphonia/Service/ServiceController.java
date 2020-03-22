@@ -153,4 +153,9 @@ public class ServiceController {
     public ArrayList<Container>getFourPlaylists(Context context){
         return mSupplier.getFourPlaylists(context);
     }
+
+    public Artist getArtist(Context context, String mToken, String id){
+        return mSupplier.getArtist(context, mToken, id);
+    }
+
 }

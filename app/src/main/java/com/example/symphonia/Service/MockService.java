@@ -514,6 +514,16 @@ public class MockService implements APIs {
     }
 
     @Override
+    public Artist getArtist(Context context, String mToken, String id) {
+        for (Artist artist: artists) {
+            if(artist.getId().equals(id))
+                return artist;
+        }
+
+        return null;
+    }
+
+    @Override
     public ArrayList<Artist> getArtistRelatedArtists(Context context, String id) {
         ArrayList<Artist> related;
         if (id.equals("1") || id.equals("6"))
