@@ -23,6 +23,11 @@ import com.example.symphonia.Service.ServiceController;
 
 import java.util.ArrayList;
 
+/**
+ * @author Mahmoud Amr Nabil
+ * @version 1.0
+ * fragment to show search_forall_layout
+ */
 public class SearchForAllFragment extends Fragment {
     private String searchBy;
     private String searchFor;
@@ -40,6 +45,11 @@ public class SearchForAllFragment extends Fragment {
         }
     };
 
+    /**
+     *
+     * @param s1 the search keyword
+     * @param s2 the item user choosed from the search filter
+     */
     public SearchForAllFragment(String s1,String s2){
         searchBy=s1;
         searchFor=s2;
@@ -49,6 +59,8 @@ public class SearchForAllFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.search_forall_layout, container, false);
+
+        //get instance of ServiceController
         cont=ServiceController.getInstance();
         if(searchBy=="Playlists"){
             layoutMangr=new GridLayoutManager(getContext(),2);
@@ -56,11 +68,18 @@ public class SearchForAllFragment extends Fragment {
         else {
             layoutMangr=new LinearLayoutManager(getContext());
         }
+
+        //attach views
         backArrow=(ImageView)root.findViewById(R.id.img_back_search_forall);
-        backArrow.setOnClickListener(back);
         searchTitle=root.findViewById(R.id.tv_search_all_title);
-        searchTitle.setText("\""+searchFor+"\" in "+searchBy);
         searchResult=(RecyclerView)root.findViewById(R.id.rv_search_result);
+
+        //handle click
+        backArrow.setOnClickListener(back);
+
+        searchTitle.setText("\""+searchFor+"\" in "+searchBy);
+
+        //add data and setup for searchResult depending on searchBy
         searchResult.setLayoutManager(layoutMangr);
         searchResult.setHasFixedSize(true);
         if(searchBy=="Playlists") getPlatlistsData();
@@ -73,36 +92,54 @@ public class SearchForAllFragment extends Fragment {
         return root;
     }
 
+    /**
+     * get platlists Data and attach it to SeeAllPlaylistsAdapter
+     */
     private void getPlatlistsData(){
         ArrayList<Container> data=cont.getPlaylists(getContext(),searchFor);
         SeeAllPlaylistsAdapter d=new SeeAllPlaylistsAdapter(data,false);
         searchResult.setAdapter(d);
     }
 
+    /**
+     * get artists Data and attach it to SeeAllArtistsAdapter
+     */
     private void getArtistsData(){
         ArrayList<Container> data=cont.getArtists(getContext(),searchFor);
         SeeAllArtistsAdapter d=new SeeAllArtistsAdapter(data);
         searchResult.setAdapter(d);
     }
 
+    /**
+     * get songs Data and attach it to SearchResultAdapter
+     */
     private void getSongsData(){
         ArrayList<Container> data=cont.getSongs(getContext(),searchFor);
         SearchResultAdapter d=new SearchResultAdapter(data,true,true);
         searchResult.setAdapter(d);
     }
 
+    /**
+     * get albums Data and attach it to SearchResultAdapter
+     */
     private void getAlbumsData(){
         ArrayList<Container> data=cont.getAlbums(getContext(),searchFor);
         SearchResultAdapter d=new SearchResultAdapter(data,true,true);
         searchResult.setAdapter(d);
     }
 
+    /**
+     * get profiles Data and attach it to SeeAllArtistsAdapter
+     */
     private void getProfilesData(){
         ArrayList<Container> data=cont.getProfiles(getContext(),searchFor);
         SeeAllArtistsAdapter d=new SeeAllArtistsAdapter(data);
         searchResult.setAdapter(d);
     }
 
+    /**
+     * get genres Data and attach it to SeeAllArtistsAdapter
+     */
     private void getGenresData(){
         ArrayList<Container> data=cont.getGenresAndMoods(getContext(),searchFor);
         SeeAllArtistsAdapter d=new SeeAllArtistsAdapter(data);

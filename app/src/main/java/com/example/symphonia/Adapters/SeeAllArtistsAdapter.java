@@ -14,12 +14,27 @@ import com.example.symphonia.Entities.Container;
 
 import java.util.ArrayList;
 
+/**
+ * @author Mahmoud Amr Nabil
+ * @version 1.0
+ */
 public class SeeAllArtistsAdapter extends RecyclerView.Adapter<SeeAllArtistsAdapter.SeeAllArtistsViewHolder> {
     private ArrayList<Container> container;
 
+    /**
+     *
+     * @param data  Arraylist of Container which has the data of the adapter
+     */
     public SeeAllArtistsAdapter(ArrayList<Container> data) {
         container = data;
     }
+
+    /**
+     *
+     * @param parent The ViewGroup into which the new View will be added after it is bound to an adapter position.
+     * @param viewType The view type of the new View.
+     * @return SeeAllArtistsViewHolder
+     */
     @NonNull
     @Override
     public SeeAllArtistsAdapter.SeeAllArtistsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -29,13 +44,20 @@ public class SeeAllArtistsAdapter extends RecyclerView.Adapter<SeeAllArtistsAdap
         SeeAllArtistsAdapter.SeeAllArtistsViewHolder VH = new SeeAllArtistsAdapter.SeeAllArtistsViewHolder(V);
         return VH;
     }
-
+    /**
+     *Called by RecyclerView when it starts observing this Adapter.
+     * @param holder The ViewHolder which should be updated to represent the contents of the item at the given position in the data set
+     * @param position The position of the item within the adapter's data set
+     */
     @Override
     public void onBindViewHolder(@NonNull SeeAllArtistsViewHolder holder, int position) {
         holder.makeResult(position);
     }
 
-
+    /**
+     *
+     * @return return number of items in recyclerview which will be the Arraylist size
+     */
     @Override
     public int getItemCount() {
         return container.size();
@@ -46,12 +68,17 @@ public class SeeAllArtistsAdapter extends RecyclerView.Adapter<SeeAllArtistsAdap
         private TextView textView;
         private ImageView imageView;
 
+
         public SeeAllArtistsViewHolder(@NonNull View itemView) {
             super(itemView);
+            //attach views
             textView=itemView.findViewById(R.id.tv_search_all_artists);
             imageView=itemView.findViewById(R.id.img_search_all_artists);
         }
-
+        /**
+         *
+         * @param pos position of the adapter item
+         */
         public void makeResult(int pos) {
             Container temp = container.get(pos);
             textView.setText(temp.getCat_Name());

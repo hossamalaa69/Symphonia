@@ -21,24 +21,31 @@ import com.example.symphonia.Service.ServiceController;
 
 import java.util.ArrayList;
 
-
+/**
+ * @author Mahmoud Amr Nabil
+ * @version 1.0
+ * SearchFragment to show the fragment_search layout
+ */
 public class SearchFragment extends Fragment implements SearchMainAdapter.CatListItemClickListner {
 
     private ServiceController con;
 
     private View.OnClickListener listener = new View.OnClickListener() {
         @Override
+        /**
+         * move to SearchListFragment
+         */
         public void onClick(View v) {
             getFragmentManager().beginTransaction()
-                    .replace(R.id.main_search_view, new SearchListFragment()) // Add this transaction to the back stack (name is an optional name for this back stack state, or null).
+                    .replace(R.id.main_search_view, new SearchListFragment())
                     .addToBackStack(null)
                     .commit();
         }
     };
 
-
     private SearchMainAdapter catAdapter;
     private SearchMainAdapter genresAdapter;
+
     private SearchViewModel searchViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -53,25 +60,28 @@ public class SearchFragment extends Fragment implements SearchMainAdapter.CatLis
 
             }
         });
-
+        //get instance of the service controller
         con=ServiceController.getInstance();
 
+        //attach views
         LinearLayout RL = root.findViewById(R.id.send_to_serchlist);
+        RecyclerView RV = root.findViewById(R.id.search_top_genres_grid);
+        RecyclerView RV2 = root.findViewById(R.id.search_browse_all_grid);
+
+        //handle click
         RL.setOnClickListener(listener);
 
+        //add data and setup for RV
         ArrayList<Container> Genre = con.getGenres(getContext());
-
-        RecyclerView RV = root.findViewById(R.id.search_top_genres_grid);
-        RV.setNestedScrollingEnabled(false);
+        RV.setNestedScrollingEnabled(false);//disable the scroll of the recycler view
         GridLayoutManager LM = new GridLayoutManager(getContext(), 2);
         RV.setLayoutManager(LM);
         RV.setHasFixedSize(true);
         genresAdapter = new SearchMainAdapter(Genre,this);
         RV.setAdapter(genresAdapter);
 
+        //add data and setup for RV2
         ArrayList<Container> Category = con.getCategories(getContext());
-
-        RecyclerView RV2 = root.findViewById(R.id.search_browse_all_grid);
         RV2.setNestedScrollingEnabled(false);
         GridLayoutManager LM2 = new GridLayoutManager(getContext(), 2);
         RV2.setLayoutManager(LM2);
@@ -82,11 +92,11 @@ public class SearchFragment extends Fragment implements SearchMainAdapter.CatLis
         return root;
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
+    /**
+     *implement SearchMainAdapter.CatListItemClickListner function
+     * go to CategoryFragment when click on any category
+     * @param c cotainer which has the information of the category that will be shown
+     */
     @Override
     public void onListItemClickListner(Container c) {
         getFragmentManager().beginTransaction()

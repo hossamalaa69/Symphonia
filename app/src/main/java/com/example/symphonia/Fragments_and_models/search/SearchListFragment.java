@@ -1,11 +1,7 @@
 package com.example.symphonia.Fragments_and_models.search;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,21 +21,22 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.palette.graphics.Palette;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Adapters.SearchResultAdapter;
 import com.example.symphonia.Entities.Container;
+import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
-
+/**
+ * @author Mahmoud Amr Nabil
+ * @version 1.0
+ * fragment to show searchlist layout
+ */
 public class SearchListFragment extends Fragment implements SearchResultAdapter.ListItemClickListner{
     private ServiceController controller;
     private SearchListFragment context;
@@ -65,7 +62,7 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
     private TextView genresText;
     private TextView profilesText;
     SearchListFragment(){
-        context=this;
+        context=this;//get the context of the fragment
     }
 
     private View.OnClickListener CLearRecentListener=new View.OnClickListener() {
@@ -161,22 +158,26 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
             if(hasFocus){
                 searchText.setVisibility(View.INVISIBLE);
                 arrow_Img.setVisibility(View.VISIBLE);
-                //eraseText.setVisibility(View.VISIBLE);
             }
             else {
                 searchText.setVisibility(View.INVISIBLE);
                 arrow_Img.setVisibility(View.VISIBLE);
-                //eraseText.setVisibility(View.GONE);
             }
         }
     };
 
     private TextWatcher filterTextWatcher = new TextWatcher() {
-
+        /**
+         * if edit text empty then recent searches layout shows
+         * else results of search is shown
+         * @param s the text user typed
+         * @param start
+         * @param before
+         * @param count number of characters
+         */
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if(count==0&&s.length()==0){
-
                 eraseText.setVisibility(View.GONE);
                 adapter1=new SearchResultAdapter(GetResentData(),false,context);
                 recentRecycler.setAdapter(adapter1);
@@ -185,14 +186,13 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     ArrayList<Container>f=GetResultData(s);
                     if(f.size()!=0) {
-                        Drawable drawable = createBackground(f.get(0));
+                        Drawable drawable = Utils.createSearchListBackground(getContext(),f.get(0));
 
                         // transition drawable controls the animation ov changing background
                    TransitionDrawable td = new TransitionDrawable(new Drawable[]{trackBackgroun, drawable});
                     trackBackgroun = drawable;
                     resultRecycler.setBackground(td);
                     td.startTransition(300);
-                        //resultRecycler.setBackground(drawable);
                     }
                 }
                 if(controller.getArtists(getContext(),editText.getText().toString()).size()==0) artistsText.setVisibility(View.GONE);
@@ -224,22 +224,6 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
         }
     };
 
-    /*private ViewTreeObserver.OnGlobalLayoutListener d=new ViewTreeObserver.OnGlobalLayoutListener() {
-        @Override
-        public void onGlobalLayout() {
-            int x=listview.getRootView().getHeight();
-            int y=listview.getHeight();
-            int heightDiff = x-y;
-            if (heightDiff > 100) {
-                t.makeText(getContext(),"yes",Toast.LENGTH_SHORT);
-            }
-            else     //it will work
-            {
-                t.makeText(getContext(),"no",Toast.LENGTH_SHORT);
-            }
-
-        }
-    };*/
 
     @Nullable
     @Override
@@ -247,37 +231,48 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.search_include, container, false);
+
         trackBackgroun=getResources().getDrawable(R.drawable.search_background);
 
         controller=ServiceController.getInstance();
+
+        //attach views
         artistsText=root.findViewById(R.id.tv_search_artists);
-        artistsText.setOnClickListener(getAllArtists);
         songsText=root.findViewById(R.id.tv_search_songs);
-        songsText.setOnClickListener(getAllSongs);
         albumsText=root.findViewById(R.id.tv_search_albums);
-        albumsText.setOnClickListener(getAllAlbums);
         playlistsText=root.findViewById(R.id.tv_search_playlists);
-        playlistsText.setOnClickListener(getAllPlaylists);
         genresText=root.findViewById(R.id.tv_search_genres);
-        genresText.setOnClickListener(getAllGenres);
         profilesText=root.findViewById(R.id.tv_search_profiles);
-        profilesText.setOnClickListener(getAllProfiles);
         editText = (EditText) root.findViewById(R.id.search_edit_text);
         eraseText=(ImageView)root.findViewById(R.id.close_search_rectangle);
-        eraseText.setOnClickListener(Erase);
         clearRecentSearches=(TextView)root.findViewById(R.id.tv_clear_recent_searches);
-        clearRecentSearches.setOnClickListener(CLearRecentListener);
         searchText=root.findViewById(R.id.search_list_text);
         arrow_Img=root.findViewById(R.id.img_arrow_left);
-        arrow_Img.setOnClickListener(Back);
         recentSearches=root.findViewById(R.id.recent_searches_layout);
         filter=root.findViewById(R.id.search_list_filter_layout);
         frameLayout=root.findViewById(R.id.frame_recycler_list_search);
         textView1=(TextView)root.findViewById(R.id.find_music_text);
         textView2=(TextView)root.findViewById(R.id.find_music_text2);
         imgItem=(ImageView)root.findViewById(R.id.img_best_search);
-        editText.addTextChangedListener(filterTextWatcher);
         recentRecycler = root.findViewById(R.id.recycler_recent_searches);
+        resultRecycler = root.findViewById(R.id.recycler_list_search);
+
+
+        //handle clicking
+        artistsText.setOnClickListener(getAllArtists);
+        albumsText.setOnClickListener(getAllAlbums);
+        playlistsText.setOnClickListener(getAllPlaylists);
+        genresText.setOnClickListener(getAllGenres);
+        profilesText.setOnClickListener(getAllProfiles);
+        eraseText.setOnClickListener(Erase);
+        songsText.setOnClickListener(getAllSongs);
+        clearRecentSearches.setOnClickListener(CLearRecentListener);
+        arrow_Img.setOnClickListener(Back);
+
+        //add a text change listener to get the result of search permanently
+        editText.addTextChangedListener(filterTextWatcher);
+
+        //give recentRecycler its configuration
         recentRecycler.setNestedScrollingEnabled(false);
         LinearLayoutManager LM = new LinearLayoutManager(getContext());
         recentRecycler.setLayoutManager(LM);
@@ -285,13 +280,20 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
         adapter1=new SearchResultAdapter(GetResentData(),false,context);
         recentRecycler.setAdapter(adapter1);
 
-        resultRecycler = root.findViewById(R.id.recycler_list_search);
+        //give resultRecycler its configuration
         resultRecycler.setNestedScrollingEnabled(false);
         LinearLayoutManager LM2 = new LinearLayoutManager(getContext());
         resultRecycler.setLayoutManager(LM2);
         resultRecycler.setHasFixedSize(false);
 
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            /**
+             *if user click on action_search that will hide the keyboard
+             * @param v The view that was clicked.
+             * @param actionId id of the action
+             * @param event If triggered by an enter key, this is the event; otherwise, this is null.
+             * @return true if you have consumed the action, else false.
+             */
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -303,11 +305,16 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
             }
         });
 
-        //listview.getViewTreeObserver().addOnGlobalLayoutListener(d);
+        //give editText a FocusChangeListener so when click on it set the viability of the icons
         editText.setOnFocusChangeListener(FocusListener);
         return root;
     }
 
+    /**
+     *
+     * @param s the search word the user searched with
+     * @return ArrayList of Container which has the data of search results
+     */
     private ArrayList<Container> GetResultData(CharSequence s) {
         ArrayList<Container> data=controller.getResultsOfSearch(getContext(),s.toString());
         if (data.size() == 0) {
@@ -318,6 +325,10 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
         return data;
     }
 
+    /**
+     * get the recent data that user searched for
+     * @return ArrayList of Container which has the data of recent searches
+     */
     private ArrayList<Container> GetResentData() {
         ArrayList<Container> data=controller.getResentResult(getContext());
 
@@ -329,6 +340,9 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
         return data;
     }
 
+    /**
+     * is called to show the recent searches layout
+     */
     private void recentSearchesOn() {
         frameLayout.setVisibility(View.GONE);
         filter.setVisibility(View.GONE);
@@ -338,6 +352,9 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
         recentSearches.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * is called to hide the recent searches layout
+     */
     public void recentSearchesOff() {
 
         filter.setVisibility(View.GONE);
@@ -351,6 +368,9 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
         imgItem.setImageResource(R.mipmap.big_search_foreground);
     }
 
+    /**
+     * is called to show the search result layout
+     */
     private void searchResultOn() {
         frameLayout.setVisibility(View.VISIBLE);
         filter.setVisibility(View.VISIBLE);
@@ -360,6 +380,9 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
         recentSearches.setVisibility(View.GONE);
     }
 
+    /**
+     * is called to hide the search result layout
+     */
     private void searchResultOff(CharSequence s) {
         frameLayout.setVisibility(View.GONE);
         filter.setVisibility(View.GONE);
@@ -372,6 +395,13 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
         imgItem.setImageResource(R.mipmap.flag_white_foreground);
     }
 
+    /**
+     *implement SearchResultAdapter.ListItemClickListner.
+     * when click the item is deleted and if the number of items equals zero
+     * then the recent searches layout will hide.
+     * @param pos the position of item to be deleted
+     * @param containerSize the number of items
+     */
     @Override
     public void onItemEraseListener(int pos, int containerSize) {
         adapter1.notifyItemRemoved(pos);
@@ -381,42 +411,5 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
             recentSearchesOff();
     }
 
-    /**
-     * create gradient background for track
-     *
-     * @return
-     */
-    private Drawable createBackground(Container container) {
-        int color = getDominantColor(BitmapFactory.decodeResource(getContext().getResources()
-                , container.getImg_Res()));
-
-        SearchListFragment.SomeDrawable drawable = new SearchListFragment.SomeDrawable(color, Color.BLACK);
-        return drawable;
-
-    }
-
-    /**
-     * create gradient drawable for track image
-     */
-    public class SomeDrawable extends GradientDrawable {
-
-        public SomeDrawable(int pStartColor, int pEndColor) {
-            super(Orientation.BOTTOM_TOP, new int[]{pEndColor, pEndColor,pEndColor,pStartColor, pStartColor});
-            setShape(GradientDrawable.RECTANGLE);
-        }
-
-    }
-
-    public static int getDominantColor(Bitmap bitmap) {
-        List<Palette.Swatch> swatchesTemp = Palette.from(bitmap).generate().getSwatches();
-        List<Palette.Swatch> swatches = new ArrayList<Palette.Swatch>(swatchesTemp);
-        Collections.sort(swatches, new Comparator<Palette.Swatch>() {
-            @Override
-            public int compare(Palette.Swatch swatch1, Palette.Swatch swatch2) {
-                return swatch2.getPopulation() - swatch1.getPopulation();
-            }
-        });
-        return swatches.size() > 0 ? swatches.get(0).getRgb() : 0;
-    }
 
 }

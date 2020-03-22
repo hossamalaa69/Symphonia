@@ -14,14 +14,30 @@ import com.example.symphonia.Entities.Container;
 
 import java.util.ArrayList;
 
+/**
+ * @author Mahmoud Amr Nabil
+ * @version 1.0
+ */
 public class SeeAllPlaylistsAdapter extends RecyclerView.Adapter<SeeAllPlaylistsAdapter.SeeAllPlaylistsViewHolder> {
     private ArrayList<Container> container;
     private boolean showText;
-    public SeeAllPlaylistsAdapter(ArrayList<Container> data,boolean b) {
 
+    /**
+     *
+     * @param data Arraylist of Container which has the data of the adapter
+     * @param b if true textView2 won't be shown
+     */
+    public SeeAllPlaylistsAdapter(ArrayList<Container> data,boolean b) {
         container = data;
         showText=b;
     }
+
+    /**
+     *
+     * @param parent The ViewGroup into which the new View will be added after it is bound to an adapter position.
+     * @param viewType The view type of the new View.
+     * @return SeeAllPlaylistsViewHolder
+     */
     @NonNull
     @Override
     public SeeAllPlaylistsAdapter.SeeAllPlaylistsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -32,12 +48,20 @@ public class SeeAllPlaylistsAdapter extends RecyclerView.Adapter<SeeAllPlaylists
         return VH;
     }
 
+    /**
+     *Called by RecyclerView when it starts observing this Adapter.
+     * @param holder The ViewHolder which should be updated to represent the contents of the item at the given position in the data set
+     * @param position The position of the item within the adapter's data set
+     */
     @Override
     public void onBindViewHolder(@NonNull SeeAllPlaylistsAdapter.SeeAllPlaylistsViewHolder holder, int position) {
         holder.makeResult(position);
     }
 
-
+    /**
+     *
+     * @return return number of items in recyclerview which will be the Arraylist size
+     */
     @Override
     public int getItemCount() {
         return container.size();
@@ -51,13 +75,18 @@ public class SeeAllPlaylistsAdapter extends RecyclerView.Adapter<SeeAllPlaylists
 
         public SeeAllPlaylistsViewHolder(@NonNull View itemView) {
             super(itemView);
+            //attach views
             textView=itemView.findViewById(R.id.tv_search_all_playlists);
             imageView=itemView.findViewById(R.id.img_search_all_playlists);
             textView2=itemView.findViewById(R.id.tv_followers);
-            if(!showText) textView2.setVisibility(View.GONE);
+
+            if(!showText) textView2.setVisibility(View.GONE);//if showText=false textView2 won't be shown
             else textView2.setVisibility(View.VISIBLE);
         }
-
+        /**
+         * set text and recources in the view of the item
+         * @param pos position of the item
+         */
         public void makeResult(int pos) {
             Container temp = container.get(pos);
             textView.setText(temp.getCat_Name());

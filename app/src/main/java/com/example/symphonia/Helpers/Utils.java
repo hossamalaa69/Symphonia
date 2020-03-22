@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.palette.graphics.Palette;
 
+import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.R;
 
@@ -170,6 +171,39 @@ public class Utils {
 
     }
 
+    /**
+     *  create gradient background for SearchList layout
+     * @author Mahmoud Amr Nabil
+     * @param context
+     * @param container container which has the data of the first item in recycler view
+     * @return a drawable to be set as background of search list
+     */
+    public static Drawable createSearchListBackground(Context context, Container container) {
+        int color = getDominantColor(BitmapFactory.decodeResource(context.getResources()
+                , container.getImg_Res()));
+
+        SomeDrawable3 drawable = new SomeDrawable3(color, Color.BLACK);
+        return drawable;
+
+    }
+
+    /**
+     * create gradient background for category layout
+     * @author Mahmoud Amr Nabil
+     *@param context
+     *@param container container which has the data of category
+     * @return a drawable to be set as background of category
+     */
+    public static Drawable createCategoryBackground(Context context,Container container) {
+        int color = getDominantColor(BitmapFactory.decodeResource(context.getResources()
+                , container.getImg_Res()));
+
+        SomeDrawable4 drawable = new SomeDrawable4(color, Color.BLACK);
+        return drawable;
+
+    }
+
+
     public static Drawable createAlbumBackground(Context context, Bitmap ImageResources) {
         int color = getDominantColor(ImageResources);
 
@@ -215,6 +249,31 @@ public class Utils {
         }
 
     }
+
+    /**
+     * create gradient drawable for search result recycler view
+     */
+    private static class SomeDrawable3 extends GradientDrawable {
+
+        public SomeDrawable3(int pStartColor, int pEndColor) {
+            super(Orientation.BOTTOM_TOP, new int[]{pEndColor, pEndColor,pEndColor,pStartColor, pStartColor});
+            setShape(GradientDrawable.RECTANGLE);
+        }
+
+    }
+
+    /**
+     * create gradient drawable for category layout
+     */
+    private static class SomeDrawable4 extends GradientDrawable {
+
+        public SomeDrawable4(int pStartColor, int pEndColor) {
+            super(Orientation.BR_TL, new int[]{pEndColor, pEndColor,pEndColor ,pStartColor});
+            setShape(GradientDrawable.RECTANGLE);
+        }
+
+    }
+
 
     private static class AlbumDrawable extends  GradientDrawable{
         private AlbumDrawable(int pStartColor, int pEndColor){

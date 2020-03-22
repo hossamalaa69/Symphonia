@@ -14,6 +14,10 @@ import com.example.symphonia.R;
 
 import java.util.ArrayList;
 
+/**
+ * @author Mahmoud Amr Nabil
+ * @version 1.0
+ */
 public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder> {
     private ArrayList<Container> container;
     private Boolean chooseImg;
@@ -24,17 +28,37 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         void onItemEraseListener(int pos,int containerSize);
     }
 
+    /**
+     *
+     * @param data Arraylist of Container which has the data of the adapter
+     * @param b if true show enter image else show close image
+     * @param l context
+     */
     public SearchResultAdapter(ArrayList<Container> data,Boolean b,ListItemClickListner l) {
         container = data;
         chooseImg = b;
         setText=false;
         listner=l;
     }
+
+    /**
+     *
+     * @param data Arraylist of Container which has the data of the adapter
+     * @param b if true show enter image else show close image
+     * @param a if true the text in the second textview will be shortened
+     */
     public SearchResultAdapter(ArrayList<Container> data,Boolean b,Boolean a) {
         container = data;
         chooseImg = b;
         setText=a;
     }
+
+    /**
+     *
+     * @param parent The ViewGroup into which the new View will be added after it is bound to an adapter position.
+     * @param viewType The view type of the new View.
+     * @return SearchResultViewHolder
+     */
     @NonNull
     @Override
     public SearchResultViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -45,6 +69,11 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         return VH;
     }
 
+    /**
+     *Called by RecyclerView when it starts observing this Adapter.
+     * @param holder The ViewHolder which should be updated to represent the contents of the item at the given position in the data set
+     * @param position The position of the item within the adapter's data set
+     */
     @Override
     public void onBindViewHolder(@NonNull SearchResultViewHolder holder, final int position) {
         holder.MakeResult(position);
@@ -57,6 +86,10 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         });
     }
 
+    /**
+     *
+     * @return return number of items in recyclerview which will be the Arraylist size
+     */
     @Override
     public int getItemCount() {
         return container.size();
@@ -71,6 +104,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         private ImageView close;
         public SearchResultViewHolder(@NonNull View itemView) {
             super(itemView);
+            //attach views
             textView=(TextView)itemView.findViewById(R.id.tv_search_list_item);
             textView2=(TextView)itemView.findViewById(R.id.tv_search_list_item_type);
             imageView=(ImageView)itemView.findViewById(R.id.img_search_list_item);
@@ -78,6 +112,10 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
             close=(ImageView)itemView.findViewById(R.id.img_close);
         }
 
+        /**
+         *
+         * @param pos position of the adapter item
+         */
         public void MakeResult(int pos) {
             Container temp = container.get(pos);
             textView.setText(temp.getCat_Name());

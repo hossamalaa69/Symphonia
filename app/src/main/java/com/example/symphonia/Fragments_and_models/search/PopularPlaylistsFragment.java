@@ -19,6 +19,11 @@ import com.example.symphonia.Service.ServiceController;
 
 import java.util.ArrayList;
 
+/**
+ * @author Mahmoud Amr Nabil
+ * @version 1.0
+ * fragment to show all_popular_playlists layout
+ */
 public class PopularPlaylistsFragment extends Fragment {
     private ServiceController controller;
     private RecyclerView recyclerView;
@@ -33,18 +38,31 @@ public class PopularPlaylistsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.all_popular_playlists, container, false);
+        //get instance of ServiceController
         controller=ServiceController.getInstance();
+
+        //attach views
         back=root.findViewById(R.id.img_back_category);
-        back.setOnClickListener(listener);
         recyclerView=root.findViewById(R.id.rv_all_popular_playlists);
+
+        //handle click
+        back.setOnClickListener(listener);
+
+        //add data and setup for recyclerView
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setHasFixedSize(false);
         GridLayoutManager layoutManager=new GridLayoutManager(getContext(),2);
         recyclerView.setLayoutManager(layoutManager);
         SeeAllPlaylistsAdapter adapter=new SeeAllPlaylistsAdapter(getAllPopularPlaylists(),true);
         recyclerView.setAdapter(adapter);
+
         return root;
     }
+
+    /**
+     *
+     * @return Container ArrayList which has data of all popular playlists
+     */
     private ArrayList<Container> getAllPopularPlaylists(){
         ArrayList<Container>data=controller.getAllPopularPlaylists(getContext());
         return data;
