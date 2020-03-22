@@ -7,9 +7,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.symphonia.Activities.UserUI.MainActivity;
 import com.example.symphonia.Adapters.RvListAlbumsAdapter;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Album;
@@ -21,7 +23,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LibraryAlbumsFragment extends Fragment {
+public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapter.ListItemClickListener {
 
     private RecyclerView albumsList;
     private RvListAlbumsAdapter adapter;
@@ -51,8 +53,16 @@ public class LibraryAlbumsFragment extends Fragment {
         albumsList = rootView.findViewById(R.id.rv_albums);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         albumsList.setLayoutManager(layoutManager);
-        adapter = new RvListAlbumsAdapter(mLikedAlbums);
+        adapter = new RvListAlbumsAdapter(mLikedAlbums, this);
         albumsList.setAdapter(adapter);
         return rootView;
+    }
+
+    @Override
+    public void onListItemClick(View v, int clickedItemIndex) {
+        ((MainActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(
+                R.id.nav_host_fragment, new albumFragment(mLikedAlbums.get(clickedItemIndex)))
+                .addToBackStack(null)
+                .commit();
     }
 }

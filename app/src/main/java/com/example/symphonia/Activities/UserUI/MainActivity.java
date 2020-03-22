@@ -282,10 +282,15 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     }
 
     public void checkUserType() {
-        if(Constants.user.isListenerType())
+        /*if(Constants.user.isListenerType())
             Toast.makeText(this, "Listener", Toast.LENGTH_SHORT).show();
         else
-            Toast.makeText(this, "Artist", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Artist", Toast.LENGTH_SHORT).show();*/
+
+        ServiceController serviceController = ServiceController.getInstance();
+        serviceController.logIn(this, "user1@symphonia.com", "12345678", true);
+
+
     }
 
 }

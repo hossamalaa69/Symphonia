@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginLeft="4dp"
-            android:textColor="#B3B3B3"
+            android:textColor="@color/light_gray"
             android:textSize="13sp"
             tools:text="Amr Diab" />
 

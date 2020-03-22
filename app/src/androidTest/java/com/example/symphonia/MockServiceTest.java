@@ -9,6 +9,7 @@ import androidx.test.filters.LargeTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.example.symphonia.Activities.UserUI.MainActivity;
+import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Playlist;
@@ -58,7 +59,7 @@ public class MockServiceTest {
                 , "Islam Ahmed", "1998-11-24", "male", true
                 , 65500, 40, new ArrayList<User>()
                 , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
-                , artists, new ArrayList<Track>());
+                , artists, new ArrayList<Album>(), new ArrayList<Track>());
     }
 
 
