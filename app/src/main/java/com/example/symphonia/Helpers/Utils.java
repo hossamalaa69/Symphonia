@@ -57,20 +57,20 @@ public class Utils {
 
         };
 
-        public static void createMediaPlayer(Context context) {
+        public static void createMediaPlayer(Context context, MediaPlayer.OnCompletionListener onCompletionListener) {
             mediaPlayer = MediaPlayer.create(context, CurrTrackInfo.track.getUri());
+            mediaPlayer.setOnCompletionListener(onCompletionListener);
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         }
 
-        public static void playTrack(Context context) {
+        public static void playTrack(Context context, MediaPlayer.OnCompletionListener onCompletionListener) {
             clearMediaPlayer();
             audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
             int status = 0;
             if (audioManager != null) {
                 status = audioManager.requestAudioFocus(onAudioFocusChangeListener, AudioManager.STREAM_MUSIC
                         , AudioManager.AUDIOFOCUS_GAIN);
-
-                createMediaPlayer(context);
+                createMediaPlayer(context,onCompletionListener);
                 if (status == AudioManager.AUDIOFOCUS_REQUEST_GRANTED && mediaPlayer != null) {
                     mediaPlayer.seekTo(CurrTrackInfo.currPlayingPos);
                     mediaPlayer.start();

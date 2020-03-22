@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     @Override
     public void OnItemSwitchedListener(int pos) {
         setTrackInfo(0, pos, Utils.CurrTrackInfo.currPlaylistTracks);
-        Utils.MediaPlayerInfo.playTrack(this);
+        Utils.MediaPlayerInfo.playTrack(this,onCompletionListener);
         updatePlayBar();
     }
 
@@ -153,16 +153,13 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             }
         });
         playTrack();
-
-        //TODO needs to be edited
-        Utils.MediaPlayerInfo.mediaPlayer.setOnCompletionListener(onCompletionListener);
     }
 
     MediaPlayer.OnCompletionListener onCompletionListener = new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mp) {
                 Utils.CurrTrackInfo.prevTrackPos  = Utils.CurrTrackInfo.TrackPosInPlaylist;
-                for (int i = Utils.CurrTrackInfo.TrackPosInPlaylist +1 ; i <= Utils.CurrTrackInfo.currPlaylistTracks.size(); i++) {
+                for (int i = Utils.CurrTrackInfo.TrackPosInPlaylist +1 ; i < Utils.CurrTrackInfo.currPlaylistTracks.size(); i++) {
                     if (!Utils.CurrTrackInfo.currPlaylistTracks.get(i).isHidden()) {
                         Utils.CurrTrackInfo.TrackPosInPlaylist = i;
                         rvBar.scrollToPosition(Utils.CurrTrackInfo.TrackPosInPlaylist);
@@ -174,12 +171,12 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                         }
                         playTrack();
                         playlistFragment.changeSelected(Utils.CurrTrackInfo.prevTrackPos, Utils.CurrTrackInfo.TrackPosInPlaylist);
-                        Utils.MediaPlayerInfo.mediaPlayer.setOnCompletionListener(onCompletionListener);
                         return;
                     }
                 }
                 Utils.MediaPlayerInfo.clearMediaPlayer();
                 playlistFragment.changeSelected(Utils.CurrTrackInfo.TrackPosInPlaylist, -1);
+                updatePlayBar();
         }
     };
 
@@ -196,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
 
     private void playTrack() {
         //TODO convert to background
-        Utils.MediaPlayerInfo.playTrack(this);
+        Utils.MediaPlayerInfo.playTrack(this,onCompletionListener);
     }
 
     private void setTrackInfo(int currPlayingPos, int TrackPosInPlaylist, ArrayList<Track> currPlaylistTracks) {
