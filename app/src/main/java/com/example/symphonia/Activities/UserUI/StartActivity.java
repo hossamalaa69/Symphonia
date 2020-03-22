@@ -25,13 +25,13 @@ public class StartActivity extends AppCompatActivity {
         animationDrawable.start();
     }
 
-    public void openListener(View view) {
+    private void openListener(View view) {
         Intent i = new Intent(this, WelcomeActivity.class);
         i.putExtra("user", "Listener");
         startActivity(i);
     }
 
-    public void openArtist(View view) {
+    private void openArtist(View view) {
         Intent i = new Intent(this, WelcomeActivity.class);
         i.putExtra("user", "Artist");
         startActivity(i);

@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -101,9 +100,9 @@ public class HomeFragment extends Fragment {
 
         // test
         ServiceController SController = ServiceController.getInstance();
-        ArrayList<Playlist> playlists = SController.getRandomPlaylists(getContext(), Constants.mToken);
-        ArrayList<Playlist> popularPlaylists = SController.getPopularPlaylists(getContext(), Constants.mToken);
-        ArrayList<Playlist> recentPlaylists = SController.getRecentPlaylists(getContext(), Constants.mToken);
+        ArrayList<Playlist> playlists = SController.getRandomPlaylists(getContext(), Constants.currentToken);
+        ArrayList<Playlist> popularPlaylists = SController.getPopularPlaylists(getContext(), Constants.currentToken);
+        ArrayList<Playlist> recentPlaylists = SController.getRecentPlaylists(getContext(), Constants.currentToken);
 
         //----------------------
         TextView playlistTitle;

@@ -7,7 +7,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -63,7 +62,7 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         try{
             String recvData = b.getString("newUser");
             isNewUser = true;
-            doneButton.setVisibility(View.INVISIBLE);
+            doneButton.setVisibility(View.GONE);
            //collapsingToolbarLayout.setTitle(getResources().getString(R.string.choose_3_artists));
         } catch(Exception e) {
             isNewUser = false;
@@ -76,10 +75,10 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         // will be modified
         mRecommendedArtists = new ArrayList<>();
         ArrayList<Artist> returnedArtists = serviceController
-                .getRecommendedArtists(Constants.user.isListenerType(), Constants.mToken, 20);
+                .getRecommendedArtists(Constants.currentUser.isListenerType(), Constants.currentToken, 20);
 
         for (Artist artist : returnedArtists) {
-            if(!serviceController.isFollowing(Constants.user.isListenerType(), Constants.mToken
+            if(!serviceController.isFollowing(Constants.currentUser.isListenerType(), Constants.currentToken
                     , artist.getId()))
                 mRecommendedArtists.add(artist);
         }
@@ -132,8 +131,8 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
             if (resultCode == Activity.RESULT_OK) {
                 assert data != null;
                 String selectedArtistId = data.getStringExtra("SelectedArtistId");
-                Artist selectedArtist = serviceController.getArtist(this, Constants.mToken, selectedArtistId);
-                serviceController.followArtistOrUser(Constants.user.isListenerType(), Constants.mToken, selectedArtist.getId());
+                Artist selectedArtist = serviceController.getArtist(this, Constants.currentToken, selectedArtistId);
+                serviceController.followArtistOrUser(Constants.currentUser.isListenerType(), Constants.currentToken, selectedArtist.getId());
             }
         }
     }
@@ -142,11 +141,11 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
     public void onListItemClick(View itemView, int clickedItemIndex) {
 
         View checkImage = itemView.findViewById(R.id.check_image);
-        if(!serviceController.isFollowing(Constants.user.isListenerType(), Constants.mToken
+        if(!serviceController.isFollowing(Constants.currentUser.isListenerType(), Constants.currentToken
                 , mRecommendedArtists.get(clickedItemIndex).getId())) {
 
             checkImage.setVisibility(View.VISIBLE);
-            serviceController.followArtistOrUser(Constants.user.isListenerType(), Constants.mToken
+            serviceController.followArtistOrUser(Constants.currentUser.isListenerType(), Constants.currentToken
                     , mRecommendedArtists.get(clickedItemIndex).getId());
 
             ////////////////////
@@ -162,7 +161,7 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
             ArrayList<Artist> relatedArtists = serviceController.getArtistRelatedArtists(this, mRecommendedArtists.get(clickedItemIndex).getId());
             for(Artist artist : relatedArtists)
             {
-                if(!serviceController.isFollowing(Constants.user.isListenerType(), Constants.mToken
+                if(!serviceController.isFollowing(Constants.currentUser.isListenerType(), Constants.currentToken
                         , artist.getId()))
                 {
                     if (!mRecommendedArtists.contains(artist)) {
@@ -183,14 +182,14 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         }
         else {
             checkImage.setVisibility(View.GONE);
-            serviceController.unFollowArtistOrUser(Constants.user.isListenerType(), Constants.mToken
+            serviceController.unFollowArtistOrUser(Constants.currentUser.isListenerType(), Constants.currentToken
                     , mRecommendedArtists.get(clickedItemIndex).getId());
 
             ////////////////// if new user //////////////
             if(isNewUser){
                 countFollowing--;
                 if(countFollowing<3)
-                    doneButton.setVisibility(View.INVISIBLE);
+                    doneButton.setVisibility(View.GONE);
             }
         }
     }

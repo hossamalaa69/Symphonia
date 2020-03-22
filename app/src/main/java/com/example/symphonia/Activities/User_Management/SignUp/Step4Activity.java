@@ -11,11 +11,11 @@ import com.example.symphonia.R;
 
 public class Step4Activity extends AppCompatActivity {
 
-    private String user;
-    private String password;
-    private String email;
-    private String dob;
-    private String gender;
+    private String mUser;
+    private String mPassword;
+    private String mEmail;
+    private String mDOB;
+    private String mGender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,34 +23,34 @@ public class Step4Activity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up4);
 
         Bundle b = getIntent().getExtras();
-        user = b.getString("user");
-        password = b.getString("password");
-        email = b.getString("email");
-        dob = b.getString("DOB");
+        mUser = b.getString("user");
+        mPassword = b.getString("password");
+        mEmail = b.getString("email");
+        mDOB = b.getString("DOB");
     }
 
-    public void setMale(View view){
+    private void setMale(View view){
         view.setBackgroundResource(R.drawable.btn_curved_border_gray);
-        gender = "male";
-        Button female = (Button) findViewById(R.id.female);
-        female.setBackgroundResource(R.drawable.btn_curved_border);
+        mGender = "male";
+        Button btn_female = (Button) findViewById(R.id.female);
+        btn_female.setBackgroundResource(R.drawable.btn_curved_border);
         openNext();
     }
-    public void setFemale(View view) {
+    private void setFemale(View view) {
         view.setBackgroundResource(R.drawable.btn_curved_border_gray);
-        Button male = (Button) findViewById(R.id.male);
-        male.setBackgroundResource(R.drawable.btn_curved_border);
-        gender = "female";
+        Button btn_male = (Button) findViewById(R.id.male);
+        btn_male.setBackgroundResource(R.drawable.btn_curved_border);
+        mGender = "female";
         openNext();
     }
 
-    public void openNext() {
+    private void openNext() {
         Intent i = new Intent(this, Step5Activity.class);
-        i.putExtra("user", user);
-        i.putExtra("email", email);
-        i.putExtra("password", password);
-        i.putExtra("DOB", dob);
-        i.putExtra("gender", gender);
+        i.putExtra("user", mUser);
+        i.putExtra("email", mEmail);
+        i.putExtra("password", mPassword);
+        i.putExtra("DOB", mDOB);
+        i.putExtra("gender", mGender);
         startActivity(i);
     }
 }

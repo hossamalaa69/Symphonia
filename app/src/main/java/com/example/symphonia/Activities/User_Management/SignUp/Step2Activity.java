@@ -17,9 +17,9 @@ import com.example.symphonia.R;
 
 public class Step2Activity extends AppCompatActivity {
 
-    private EditText password;
-    private String user;
-    private String email;
+    private EditText mPassword;
+    private String mUser;
+    private String mEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,16 +27,14 @@ public class Step2Activity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up2);
 
         Bundle b = getIntent().getExtras();
-        user = b.getString("user");
-        email = b.getString("email");
+        mUser = b.getString("user");
+        mEmail = b.getString("email");
 
-        password = findViewById(R.id.password);
-        password.addTextChangedListener(new TextWatcher() {
+        mPassword = findViewById(R.id.password);
+        mPassword.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
-                if (s.length() >= 8)
-                    enableButton();
-                else
-                    lockButton();
+                if (s.length() >= 8) enableButton();
+                else lockButton();
             }
 
             public void beforeTextChanged(CharSequence s, int start,
@@ -48,33 +46,32 @@ public class Step2Activity extends AppCompatActivity {
             }
         });
 
-        password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        mPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if(actionId== EditorInfo.IME_ACTION_DONE){
-                    if(password.getText().toString().length()>7)
-                        openNext(v);
+                    if(mPassword.getText().toString().length()>7) openNext(v);
                 }
                 return false;
             }
         });
     }
 
-    public void openNext(View view) {
+    private void openNext(View view) {
         Intent i = new Intent(this, Step3Activity.class);
-        i.putExtra("user", user);
-        i.putExtra("email",email);
-        i.putExtra("password",password.getText().toString());
+        i.putExtra("user", mUser);
+        i.putExtra("email", mEmail);
+        i.putExtra("password", mPassword.getText().toString());
         startActivity(i);
     }
 
-    public void enableButton() {
+    private void enableButton() {
         Button login = findViewById(R.id.next);
         login.setEnabled(true);
         login.setBackgroundResource(R.drawable.btn_curved_white);
     }
 
-    public void lockButton() {
+    private void lockButton() {
         Button login = findViewById(R.id.next);
         login.setEnabled(false);
         login.setBackgroundResource(R.drawable.btn_curved_gray);

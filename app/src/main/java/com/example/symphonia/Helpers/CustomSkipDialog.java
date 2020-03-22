@@ -10,9 +10,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.symphonia.Activities.UserUI.AddArtistsActivity;
 import com.example.symphonia.Activities.UserUI.MainActivity;
-import com.example.symphonia.Activities.User_Management.LoginActivity;
 import com.example.symphonia.R;
 
 public class CustomSkipDialog {
@@ -22,27 +20,26 @@ public class CustomSkipDialog {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setContentView(R.layout.custom_dialog_skip);
-        TextView text = (TextView) dialog.findViewById(R.id.text_dialog);
-        TextView text2 = (TextView) dialog.findViewById(R.id.text_dialog2);
-        Button dialogButton1 = (Button) dialog.findViewById(R.id.btn_skip);
-        Button dialogButton2 = (Button) dialog.findViewById(R.id.btn_cont);
+        dialog.setContentView(R.layout.dialog_custom_skip);
+        TextView text_view_header = (TextView) dialog.findViewById(R.id.text_dialog);
+        TextView text_view_paragraph = (TextView) dialog.findViewById(R.id.text_dialog2);
+        Button btn_skip = (Button) dialog.findViewById(R.id.btn_skip);
+        Button btn_continue = (Button) dialog.findViewById(R.id.btn_cont);
 
-        dialogButton2.setOnClickListener(new View.OnClickListener() {
+        btn_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
             }
         });
 
-        dialogButton1.setOnClickListener(new View.OnClickListener() {
+        btn_skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(activity, MainActivity.class);
                 activity.startActivity(i);
             }
         });
-
         dialog.show();
     }
 

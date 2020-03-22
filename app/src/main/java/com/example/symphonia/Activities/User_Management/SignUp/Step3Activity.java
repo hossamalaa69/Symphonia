@@ -17,11 +17,11 @@ import java.util.Date;
 
 public class Step3Activity extends AppCompatActivity {
 
-    private TextView dateValidity;
-    private String user;
-    private String password;
-    private String email;
-    private DatePicker datePicker;
+    private TextView mDateValidity;
+    private String mUser;
+    private String mPassword;
+    private String mEmail;
+    private DatePicker mDatePicker;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -30,49 +30,47 @@ public class Step3Activity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up3);
 
         Bundle b = getIntent().getExtras();
-        user = b.getString("user");
-        email = b.getString("email");
-        password = b.getString("password");
+        mUser = b.getString("user");
+        mEmail = b.getString("email");
+        mPassword = b.getString("password");
 
-        dateValidity = findViewById(R.id.validDate);
+        mDateValidity = findViewById(R.id.validDate);
 
-        datePicker = findViewById(R.id.datePicker1);
-        datePicker.setMaxDate(new Date().getTime());
-        datePicker.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
+        mDatePicker = findViewById(R.id.datePicker1);
+        mDatePicker.setMaxDate(new Date().getTime());
+        mDatePicker.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                if (year <= 1999)
-                    enableButton();
-                else
-                    lockButton();
+                if (year <= 1999) enableButton();
+                else lockButton();
             }
         });
     }
 
-    public void openNext(View view) {
+    private void openNext(View view) {
         Intent i = new Intent(this, Step4Activity.class);
-        i.putExtra("user", user);
-        i.putExtra("email", email);
-        i.putExtra("password", password);
+        i.putExtra("user", mUser);
+        i.putExtra("email", mEmail);
+        i.putExtra("password", mPassword);
         String dob = "";
-        dob +=""+datePicker.getDayOfMonth()+'/';
-        dob +=""+datePicker.getMonth()+1+'/';
-        dob +=""+datePicker.getYear();
+        dob +=""+ mDatePicker.getDayOfMonth()+'/';
+        dob +=""+ mDatePicker.getMonth()+1+'/';
+        dob +=""+ mDatePicker.getYear();
         i.putExtra("DOB", dob);
         startActivity(i);
     }
 
-    public void enableButton() {
-        dateValidity.setVisibility(View.INVISIBLE);
-        Button login = findViewById(R.id.next);
-        login.setEnabled(true);
-        login.setBackgroundResource(R.drawable.btn_curved_white);
+    private void enableButton() {
+        mDateValidity.setVisibility(View.INVISIBLE);
+        Button btn_login = findViewById(R.id.next);
+        btn_login.setEnabled(true);
+        btn_login.setBackgroundResource(R.drawable.btn_curved_white);
     }
 
-    public void lockButton() {
-        dateValidity.setVisibility(View.VISIBLE);
-        Button login = findViewById(R.id.next);
-        login.setEnabled(false);
-        login.setBackgroundResource(R.drawable.btn_curved_gray);
+    private void lockButton() {
+        mDateValidity.setVisibility(View.VISIBLE);
+        Button btn_login = findViewById(R.id.next);
+        btn_login.setEnabled(false);
+        btn_login.setBackgroundResource(R.drawable.btn_curved_gray);
     }
 }

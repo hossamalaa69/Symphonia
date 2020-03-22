@@ -6,11 +6,11 @@ import java.util.ArrayList;
 
 public class Constants {
 
-    public static String mToken = "";
+    public static String currentToken = "";
 
-    public static User user = null;
+    public static User currentUser = null;
 
-    public static final boolean debug = true;
+    public static final boolean DEBUG_STATUS = true;
 
 
 }

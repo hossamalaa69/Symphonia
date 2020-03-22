@@ -8,9 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
@@ -24,36 +22,38 @@ import java.util.ArrayList;
 
 public class PremiumFragment extends Fragment {
 
-    private PremiumViewModel premiumViewModel;
-    private ArrayList<String>featuresFree;
-    private ArrayList<String>featuresPrem;
+    private PremiumViewModel mPremiumViewModel;
+
+    private ArrayList<String> mFeaturesFree;
+    private ArrayList<String> mFeaturesPrem;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        premiumViewModel = ViewModelProviders.of(this).get(PremiumViewModel.class);
+        mPremiumViewModel = ViewModelProviders.of(this).get(PremiumViewModel.class);
         View root = inflater.inflate(R.layout.fragment_premium, container, false);
 
-        TextView t1 = (TextView) root.findViewById(R.id.t1);
-        t1.setMovementMethod(LinkMovementMethod.getInstance());
+        TextView text_view_anchor = (TextView) root.findViewById(R.id.t1);
+        text_view_anchor.setMovementMethod(LinkMovementMethod.getInstance());
 
-        featuresFree = new ArrayList<>();
-        featuresFree.add(getResources().getString(R.string.ad_break));
-        featuresFree.add(getResources().getString(R.string.with_locked_songs));
+        mFeaturesFree = new ArrayList<>();
+        mFeaturesFree.add(getResources().getString(R.string.ad_break));
+        mFeaturesFree.add(getResources().getString(R.string.with_locked_songs));
 
-        featuresPrem = new ArrayList<>();
-        featuresPrem.add(getResources().getString(R.string.ad_free_music));
-        featuresPrem.add(getResources().getString(R.string.play_any_song));
+        mFeaturesPrem = new ArrayList<>();
+        mFeaturesPrem.add(getResources().getString(R.string.ad_free_music));
+        mFeaturesPrem.add(getResources().getString(R.string.play_any_song));
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext()
+                    , LinearLayoutManager.HORIZONTAL, false);
+
         RecyclerView recyclerView = root.findViewById(R.id.rv_premium);
         SnapHelper snapHelper = new PagerSnapHelper();
         layoutManager.findFirstVisibleItemPosition();
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new com.example.symphonia.Adapters.CirclePagerIndicatorDecoration());
         snapHelper.attachToRecyclerView(recyclerView);
-        PremiumAdapter adapter = new PremiumAdapter(featuresFree, featuresPrem, getContext());
+        PremiumAdapter adapter = new PremiumAdapter(mFeaturesFree, mFeaturesPrem, getContext());
         recyclerView.setAdapter(adapter);
         return root;
     }
-
 
 }

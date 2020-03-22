@@ -9,23 +9,22 @@ import com.example.symphonia.Entities.Playlist;
 
 import java.util.ArrayList;
 
-import static com.example.symphonia.Constants.debug;
+import static com.example.symphonia.Constants.DEBUG_STATUS;
 
 public class ServiceController {
 
     private final APIs mSupplier;
 
-    private static final ServiceController restClient = new ServiceController();
+    private static final ServiceController REST_CLIENT = new ServiceController();
 
 
     private ServiceController() {
-        if (debug) {
-            mSupplier = new MockService();
-        }
+        if (DEBUG_STATUS) mSupplier = new MockService();
+
     }
 
     public static ServiceController getInstance() {
-        return restClient;
+        return REST_CLIENT;
     }
 
     public boolean logIn(Context context, String username, String password, boolean mType) {

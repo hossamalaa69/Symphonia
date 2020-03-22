@@ -4,35 +4,34 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.R;
-import com.example.symphonia.Entities.Track;
 
 import java.util.ArrayList;
 
 public class PremiumAdapter extends RecyclerView.Adapter<PremiumAdapter.Holder> {
 
 
-    private ArrayList<String> featuresFree = new ArrayList<>();
-    private ArrayList<String> featuresPrem = new ArrayList<>();
+    private ArrayList<String> mFeaturesFree = new ArrayList<>();
+    private ArrayList<String> mFeaturesPrem = new ArrayList<>();
     private Context mContext;
 
-    public PremiumAdapter(ArrayList<String> featuresFree, ArrayList<String> featuresPrem, Context mContext) {
-        this.featuresFree = featuresFree;
-        this.featuresPrem = featuresPrem;
+    public PremiumAdapter(ArrayList<String> mFeaturesFree, ArrayList<String> mFeaturesPrem, Context mContext) {
+        this.mFeaturesFree = mFeaturesFree;
+        this.mFeaturesPrem = mFeaturesPrem;
         this.mContext = mContext;
     }
 
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_item_premium, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.rv_item_premium, parent, false);
+
         return new Holder(view);
     }
 
@@ -43,28 +42,27 @@ public class PremiumAdapter extends RecyclerView.Adapter<PremiumAdapter.Holder> 
 
     @Override
     public int getItemCount() {
-        return featuresFree.size();
+        return mFeaturesFree.size();
     }
 
 
     public class Holder extends RecyclerView.ViewHolder  {
 
-        TextView t1;
-        TextView t2;
+        TextView text_view_free;
+        TextView text_view_premium;
 
         public Holder(@NonNull View itemView) {
             super(itemView);
-            t1 = (TextView) itemView.findViewById(R.id.text_free);
-            t2 = (TextView) itemView.findViewById(R.id.text_prem);
+            text_view_free = (TextView) itemView.findViewById(R.id.text_free);
+            text_view_premium = (TextView) itemView.findViewById(R.id.text_prem);
         }
 
         public void bind(int position) {
-            String txtFree = featuresFree.get(position);
-            String txtPrem = featuresPrem.get(position);
-            t1.setText(txtFree);
-            t2.setText(txtPrem);
+            String txtFree = mFeaturesFree.get(position);
+            String txtPrem = mFeaturesPrem.get(position);
+            text_view_free.setText(txtFree);
+            text_view_premium.setText(txtPrem);
         }
     }
-
 }
 
