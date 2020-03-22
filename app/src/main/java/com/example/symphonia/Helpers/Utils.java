@@ -113,7 +113,7 @@ public class Utils {
 
     public static class CurrTrackInfo {
         public static int TrackPosInPlaylist;
-        public static int TrackPosInAlbum;
+        public static int prevTrackPos;
         public static ArrayList<Track> currPlaylistTracks;
         public static String currPlaylistName;
         public static Track track;

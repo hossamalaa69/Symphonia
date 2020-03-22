@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     private View playBar;
     private ImageView trackImage;
     private Toast toast;
-    private TextView title;
 
 
     @Override
@@ -95,15 +94,14 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         } else {
             ivPlayButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
         }
-
         trackImage.setImageResource(Utils.CurrTrackInfo.track.getmImageResources());
     }
 
     @Override
     public void OnTrackClickedListener(final ArrayList<Track> tracks, final int pos, int prev) {
         playBar.setVisibility(View.VISIBLE);
-
-        playlistFragment.changeSelected(prev, pos);
+        Utils.CurrTrackInfo.prevTrackPos = Utils.CurrTrackInfo.TrackPosInPlaylist;
+        playlistFragment.changeSelected(Utils.CurrTrackInfo.prevTrackPos, pos);
         // update data of bar
         trackImage.setImageResource(tracks.get(pos).getmImageResources());
         rvBar.getLayoutManager().scrollToPosition(pos);
@@ -122,7 +120,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             }
         });
         setTrackInfo(0, pos, tracks);
-
         if (tracks.get(pos).isLiked()) {
             ivIsFavourite.setImageResource(R.drawable.ic_favorite_black_24dp);
         } else {
@@ -158,33 +155,36 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         playTrack();
 
         //TODO needs to be edited
-        Utils.MediaPlayerInfo.mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                if (Utils.CurrTrackInfo.currPlaylistTracks.size() > Utils.CurrTrackInfo.TrackPosInPlaylist) {
-                    playlistFragment.changeSelected(Utils.CurrTrackInfo.TrackPosInPlaylist, Utils.CurrTrackInfo.TrackPosInPlaylist + 1);
-                    Utils.CurrTrackInfo.TrackPosInPlaylist++;
-                    rvBar.scrollToPosition(Utils.CurrTrackInfo.TrackPosInPlaylist);
-
-                    if (Utils.CurrTrackInfo.currPlaylistTracks.get(Utils.CurrTrackInfo.TrackPosInPlaylist).isLiked()) {
-                        ivIsFavourite.setImageResource(R.drawable.ic_favorite_black_24dp);
-                    } else {
-                        ivIsFavourite.setImageResource(R.drawable.ic_favorite_border_black_24dp);
-
-                    }
-                    playTrack();
-                }
-                else {
-                    Utils.MediaPlayerInfo.clearMediaPlayer();
-                    playlistFragment.changeSelected(Utils.CurrTrackInfo.TrackPosInPlaylist, -1);
-                }
-                updatePlayBar();
-            }
-
-        });
+        Utils.MediaPlayerInfo.mediaPlayer.setOnCompletionListener(onCompletionListener);
     }
+
+    MediaPlayer.OnCompletionListener onCompletionListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+                Utils.CurrTrackInfo.prevTrackPos  = Utils.CurrTrackInfo.TrackPosInPlaylist;
+                for (int i = Utils.CurrTrackInfo.TrackPosInPlaylist +1 ; i <= Utils.CurrTrackInfo.currPlaylistTracks.size(); i++) {
+                    if (!Utils.CurrTrackInfo.currPlaylistTracks.get(i).isHidden()) {
+                        Utils.CurrTrackInfo.TrackPosInPlaylist = i;
+                        rvBar.scrollToPosition(Utils.CurrTrackInfo.TrackPosInPlaylist);
+
+                        if (Utils.CurrTrackInfo.currPlaylistTracks.get(Utils.CurrTrackInfo.TrackPosInPlaylist).isLiked()) {
+                            ivIsFavourite.setImageResource(R.drawable.ic_favorite_black_24dp);
+                        } else {
+                            ivIsFavourite.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+                        }
+                        playTrack();
+                        playlistFragment.changeSelected(Utils.CurrTrackInfo.prevTrackPos, Utils.CurrTrackInfo.TrackPosInPlaylist);
+                        Utils.MediaPlayerInfo.mediaPlayer.setOnCompletionListener(onCompletionListener);
+                        return;
+                    }
+                }
+                Utils.MediaPlayerInfo.clearMediaPlayer();
+                playlistFragment.changeSelected(Utils.CurrTrackInfo.TrackPosInPlaylist, -1);
+        }
+    };
+
     @Override
-    public void OnLikeClickedListener(boolean selected, int pos ) {
+    public void OnLikeClickedListener(boolean selected, int pos) {
 
         if (selected && pos == Utils.CurrTrackInfo.TrackPosInPlaylist) {
             ivIsFavourite.setImageResource(R.drawable.ic_favorite_black_24dp);
