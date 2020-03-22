@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.symphonia.Activities.UserUI.CreatePlaylistActivity;
+import com.example.symphonia.Activities.User_Interface.CreatePlaylistActivity;
 import com.example.symphonia.R;
 
 /**

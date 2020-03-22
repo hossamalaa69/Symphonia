@@ -1,4 +1,4 @@
-package com.example.symphonia.Activities.UserUI;
+package com.example.symphonia.Activities.User_Interface;
 
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
@@ -13,25 +13,36 @@ import com.example.symphonia.R;
 
 public class StartActivity extends AppCompatActivity {
 
+    private int mEnterTime = 2000;
+    private int mExitTime = 2000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
+        //object from RelativeLayout that holds many layouts for animation
+        //which is linked with background of this layout
         RelativeLayout relativeLayout = findViewById(R.id.layout);
+        //get background of main layout(gradient_List)
         AnimationDrawable animationDrawable = (AnimationDrawable) relativeLayout.getBackground();
-        animationDrawable.setEnterFadeDuration(2000);
-        animationDrawable.setExitFadeDuration(2000);
+        //time for appearing one background by ms
+        animationDrawable.setEnterFadeDuration(mEnterTime);
+        //time for disappearing one background by ms
+        animationDrawable.setExitFadeDuration(mExitTime);
+
         animationDrawable.start();
     }
 
-    private void openListener(View view) {
+    public void openListener(View view) {
+        //opens welcome page as listener type
         Intent i = new Intent(this, WelcomeActivity.class);
         i.putExtra("user", "Listener");
         startActivity(i);
     }
 
-    private void openArtist(View view) {
+    public void openArtist(View view) {
+        //opens welcome page as artist type
         Intent i = new Intent(this, WelcomeActivity.class);
         i.putExtra("user", "Artist");
         startActivity(i);

@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.symphonia">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -13,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Activities.UserUI.ArtistsSearchActivity"
+            android:name=".Activities.User_Interface.ArtistsSearchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
@@ -25,7 +27,7 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.UserUI.MainActivity" />
+                android:value=".Activities.User_Interface.MainActivity" />
         </activity>
         <activity
             android:name=".Activities.User_Management.ListenerPages.EmailCheckListenerActivity"
@@ -35,7 +37,7 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.UserUI.MainActivity" />
+                android:value=".Activities.User_Interface.MainActivity" />
         </activity>
         <activity
             android:name=".Activities.User_Management.ListenerPages.ForgetPasswordListenerActivity"
@@ -45,7 +47,7 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.UserUI.MainActivity" />
+                android:value=".Activities.User_Interface.MainActivity" />
         </activity>
         <activity
             android:name=".Activities.User_Management.SignUp.Step5Activity"
@@ -107,16 +109,16 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Activities.UserUI.AddArtistsActivity"
+            android:name=".Activities.User_Interface.AddArtistsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Activities.UserUI.CreatePlaylistActivity"
+            android:name=".Activities.User_Interface.CreatePlaylistActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".Activities.UserUI.PlayActivity"
+            android:name=".Activities.User_Interface.PlayActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -127,10 +129,10 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.UserUI.MainActivity" />
+                android:value=".Activities.User_Interface.MainActivity" />
         </activity>
         <activity
-            android:name=".Activities.UserUI.MainActivity"
+            android:name=".Activities.User_Interface.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
@@ -138,24 +140,22 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name=".Activities.UserUI.StartActivity"
+            android:name=".Activities.User_Interface.StartActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <activity
-            android:name=".Activities.UserUI.SplashScreenActivity"
+            android:name=".Activities.User_Interface.SplashScreenActivity"
             android:theme="@style/AppTheme.NoActionBar">
-            <!--<intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
-
-
+            </intent-filter>
         </activity>
     </application>
 

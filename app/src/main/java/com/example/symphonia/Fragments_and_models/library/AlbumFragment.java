@@ -2,17 +2,14 @@ package com.example.symphonia.Fragments_and_models.library;
 
 import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
 import android.os.Bundle;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +22,6 @@ import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Entities.Copyright;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
-import com.example.symphonia.Service.ServiceController;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,19 +32,19 @@ import java.util.Locale;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class albumFragment extends Fragment implements RvListArtistSearchAdapter.ListItemClickListener {
+public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter.ListItemClickListener {
 
-    private Album album;
-    private RecyclerView artistsList;
-    private RvListArtistSearchAdapter adapter;
-    private ArrayList<Artist> albumArtists;
+    private Album mAlbum;
+    private RecyclerView mArtistsList;
+    private RvListArtistSearchAdapter mAdapter;
+    private ArrayList<Artist> mAlbumArtists;
 
-    public albumFragment() {
+    public AlbumFragment() {
         // Required empty public constructor
     }
 
-    public albumFragment(Album album){
-        this.album = album;
+    public AlbumFragment(Album album){
+        this.mAlbum = album;
     }
 
     @Override
@@ -57,50 +53,64 @@ public class albumFragment extends Fragment implements RvListArtistSearchAdapter
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_album, container, false);
 
-        ImageView albumImage = rootView.findViewById(R.id.album_image);
-        albumImage.setImageBitmap(album.getAlbumImage());
+        ImageView backIcon = rootView.findViewById(R.id.back_icon);
+        backIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
+
+        ImageView albumImage = rootView.findViewById(R.id.image_album);
+        albumImage.setImageBitmap(mAlbum.getAlbumImage());
 
         NestedScrollView viewContainer = rootView.findViewById(R.id.container);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            Drawable drawable = Utils.createAlbumBackground(getContext(), album.getAlbumImage());
+            Drawable drawable = Utils.createAlbumBackground(getContext(), mAlbum.getAlbumImage());
             viewContainer.setBackground(drawable);
         }
 
 
-        TextView albumName = rootView.findViewById(R.id.album_name);
-        TextView toolbarTitle = rootView.findViewById(R.id.toolbar_title);
-        albumName.setText(album.getAlbumName());
-        toolbarTitle.setText(album.getAlbumName());
+        TextView albumName = rootView.findViewById(R.id.text_album_name);
+        TextView toolbarTitle = rootView.findViewById(R.id.title_toolbar);
+        albumName.setText(mAlbum.getAlbumName());
+        toolbarTitle.setText(mAlbum.getAlbumName());
 
-        albumArtists = album.getAlbumArtists();
-        artistsList = rootView.findViewById(R.id.rv_artists_list);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        artistsList.setLayoutManager(layoutManager);
-        adapter = new RvListArtistSearchAdapter(albumArtists, this);
-        artistsList.setAdapter(adapter);
+        mAlbumArtists = mAlbum.getAlbumArtists();
+        mArtistsList = rootView.findViewById(R.id.rv_artists_list);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity()){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
 
-        String albumType = album.getAlbumType();
+        mArtistsList.setLayoutManager(layoutManager);
+        mAdapter = new RvListArtistSearchAdapter(mAlbumArtists, this);
+        mArtistsList.setAdapter(mAdapter);
+
+        String albumType = mAlbum.getAlbumType();
         albumType = albumType.substring(0, 1).toUpperCase() + albumType.substring(1);
         StringBuilder typeArtistYearText = new StringBuilder();
         typeArtistYearText.append(albumType).append(" by ");
 
-        for (int i = 0; i < albumArtists.size(); i++) {
-            typeArtistYearText.append(albumArtists.get(i).getArtistName());
-            if(i != albumArtists.size() - 1)
+        for (int i = 0; i < mAlbumArtists.size(); i++) {
+            typeArtistYearText.append(mAlbumArtists.get(i).getArtistName());
+            if(i != mAlbumArtists.size() - 1)
                 typeArtistYearText.append(", ");
             else
                 typeArtistYearText.append(" • ");
         }
-        typeArtistYearText.append(getYear(album.getReleaseDate()));
+        typeArtistYearText.append(getYear(mAlbum.getReleaseDate()));
 
-        TextView typeArtistYearTextView = rootView.findViewById(R.id.type_artist_year);
+        TextView typeArtistYearTextView = rootView.findViewById(R.id.text_type_artist_year);
         typeArtistYearTextView.setText(typeArtistYearText.toString());
 
-        TextView releaseDate = rootView.findViewById(R.id.release_date);
-        releaseDate.setText(formatDate(album.getReleaseDate()));
+        TextView releaseDate = rootView.findViewById(R.id.text_release_date);
+        releaseDate.setText(formatDate(mAlbum.getReleaseDate()));
 
-        TextView copyrightsTextView = rootView.findViewById(R.id.copyrights);
-        copyrightsTextView.setText(getCopyrightsString(album.getCopyrights()));
+        TextView copyrightsTextView = rootView.findViewById(R.id.text_copyrights);
+        copyrightsTextView.setText(getCopyrightsString(mAlbum.getCopyrights()));
 
         return rootView;
     }

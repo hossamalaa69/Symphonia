@@ -7,7 +7,7 @@
     android:animateLayoutChanges="false"
     android:animationCache="false"
     android:background="@color/colorPrimary"
-    tools:context=".Activities.UserUI.ArtistsSearchActivity">
+    tools:context=".Activities.User_Interface.ArtistsSearchActivity">
 
 
     <androidx.cardview.widget.CardView
@@ -78,7 +78,7 @@
             android:src="@drawable/ic_arrow_back" />
 
         <EditText
-            android:id="@+id/search_edit_text"
+            android:id="@+id/text_search_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -125,7 +125,7 @@
     </androidx.recyclerview.widget.RecyclerView>
 
     <TextView
-        android:id="@+id/artist_search_empty_state"
+        android:id="@+id/text_artist_search_empty_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/artist_search_empty_state"
@@ -139,7 +139,7 @@
         tools:visibility="gone"/>
 
     <TextView
-        android:id="@+id/not_found_state_1"
+        android:id="@+id/text_not_found_state_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -155,7 +155,7 @@
         tools:visibility="visible" />
 
     <TextView
-        android:id="@+id/not_found_state_2"
+        android:id="@+id/text_not_found_state_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -170,7 +170,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@+id/rv_artists_list"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/not_found_state_1"
+        app:layout_constraintTop_toBottomOf="@+id/text_not_found_state_1"
         tools:visibility="visible" />
 
 

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.regex.Pattern;
 
 public class MockService implements APIs {
 
@@ -39,14 +40,15 @@ public class MockService implements APIs {
         mListenerArrayList = new ArrayList<>();
         mArtistArrayList = new ArrayList<>();
 
+        //add 3 users of type listeners
         mListenerArrayList.add(new User("user1@symphonia.com", "12345678", true));
         mListenerArrayList.add(new User("user2@symphonia.com", "12345678", true));
         mListenerArrayList.add(new User("user3@symphonia.com", "12345678", true));
 
+        //add 3 users of type artist
         mArtistArrayList.add(new User("artist1@symphonia.com", "12345678", false));
         mArtistArrayList.add(new User("artist2@symphonia.com", "12345678", false));
         mArtistArrayList.add(new User("artist3@symphonia.com", "12345678", false));
-
 
         mRecentSearches = new ArrayList<>();
 
@@ -95,38 +97,53 @@ public class MockService implements APIs {
 
         mAlbums = new ArrayList<>();
 
-        mAlbums.add(new Album("6qqNVTkY8uBg9cP3Jd7DAH", "single",
+        mAlbums.add(new Album("6qqNVTkY8uBg9cP3Jd7DAH",
+                "single",
                 new ArrayList<Artist>(Collections.singletonList(mArtists.get(7))),
                 new ArrayList<Copyright>(Arrays.asList(new Copyright("2020 Darkroom/Interscope Records", "C"),
                         new Copyright("2020 Darkroom/Interscope Records", "P"))),
-                Utils.convertToBitmap(R.drawable.no_time_to_die), "No Time To Die", "2020-02-13",
+                Utils.convertToBitmap(R.drawable.no_time_to_die),
+                "No Time To Die",
+                "2020-02-13",
                 new ArrayList<Track>()));
 
-        mAlbums.add(new Album("7eFyrxZRPqw8yvZXMUm88A", "album",
+        mAlbums.add(new Album("7eFyrxZRPqw8yvZXMUm88A",
+                "album",
                 new ArrayList<Artist>(Collections.singletonList(mArtists.get(37))),
                 new ArrayList<Copyright>(Arrays.asList(new Copyright("2018 Nay", "C"),
                         new Copyright("2018 Nay", "P"))),
-                Utils.convertToBitmap(R.drawable.kol_hayaty), "Kol Hayaty", "2018-10-03",
+                Utils.convertToBitmap(R.drawable.kol_hayaty),
+                "Kol Hayaty",
+                "2018-10-03",
                 new ArrayList<Track>()));
 
-        mAlbums.add(new Album("2D1nEskDzLz38JiUeVK5mh", "single",
+        mAlbums.add(new Album("2D1nEskDzLz38JiUeVK5mh",
+                "single",
                 new ArrayList<Artist>(Collections.singletonList(mArtists.get(29))),
                 new ArrayList<Copyright>(Arrays.asList(new Copyright("2020 MuzicUp", "C"),
                         new Copyright("2020 MuzicUp", "P"))),
-                Utils.convertToBitmap(R.drawable.shamekh), "Shamekh", "2020-01-12",
+                Utils.convertToBitmap(R.drawable.shamekh),
+                "Shamekh",
+                "2020-01-12",
                 new ArrayList<Track>()));
 
-        mAlbums.add(new Album("0hZwt0aSEEiwUByVQuxntK", "album",
+        mAlbums.add(new Album("0hZwt0aSEEiwUByVQuxntK",
+                "album",
                 new ArrayList<Artist>(Collections.singletonList(mArtists.get(30))),
                 new ArrayList<Copyright>(Collections.singletonList(new Copyright("2012 Awakening Worldwide", "C"))),
-                Utils.convertToBitmap(R.drawable.fogive_me), "Forgive Me", "2012-04-02",
+                Utils.convertToBitmap(R.drawable.fogive_me),
+                "Forgive Me",
+                "2012-04-02",
                 new ArrayList<Track>()));
 
-        mAlbums.add(new Album("3JfSxDfmwS5OeHPwLSkrfr", "album",
+        mAlbums.add(new Album("3JfSxDfmwS5OeHPwLSkrfr",
+                "album",
                 new ArrayList<Artist>(Collections.singletonList(mArtists.get(12))),
                 new ArrayList<Copyright>(Arrays.asList(new Copyright("2018 KIDinaKORNER/Interscope Records", "C"),
                         new Copyright("2018 KIDinaKORNER/Interscope Records", "P"))),
-                Utils.convertToBitmap(R.drawable.origins), "Origins (Deluxe)", "2018-11-09",
+                Utils.convertToBitmap(R.drawable.origins),
+                "Origins (Deluxe)",
+                "2018-11-09",
                 new ArrayList<Track>()));
 
 
@@ -179,17 +196,24 @@ public class MockService implements APIs {
 
     @Override
     public boolean logIn(Context context, String username, String password, boolean mType) {
+        //initial index of user in users list
         int userIndex = -1;
 
+        //checks if user is listener
         if (mType) {
+
+            //search in list of user's email & password
             for (int i = 0; i < mListenerArrayList.size(); i++) {
                 if (username.equals(mListenerArrayList.get(i).getmEmail()) &&
                         password.equals(mListenerArrayList.get(i).getmPassword())) {
+                    //if found, then store index and stop search
                     userIndex = i;
                     break;
                 }
             }
         } else {
+
+            //in list of artist user
             for (int i = 0; i < mArtistArrayList.size(); i++) {
                 if (username.equals(mArtistArrayList.get(i).getmEmail()) &&
                         password.equals(mArtistArrayList.get(i).getmPassword())) {
@@ -199,18 +223,23 @@ public class MockService implements APIs {
             }
         }
 
+        //checks if data isn't in list
         if (userIndex == -1)
             return false;
 
-
+        //if user is artist
         if (!mType) {
+
+            //set token
             Constants.currentToken = "token2";
 
+            //add some artists
             ArrayList<Artist> followed = new ArrayList<>();
             for (int i = 5; i < 10; i++) {
                 followed.add(mArtists.get(i));
             }
 
+            //creates object of user to store logged in user's data
             Constants.currentUser = new User(mArtistArrayList.get(userIndex).getmEmail(), false
                     , Utils.convertToBitmap(R.drawable.download)
                     , "Islam Ahmed", "1998/24/11", "male", true
@@ -218,6 +247,8 @@ public class MockService implements APIs {
                     , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
                     , followed, mAlbums, new ArrayList<Track>());
         } else {
+
+            //for listener type, set different token
             Constants.currentToken = "token1";
 
             ArrayList<Artist> followed = new ArrayList<>();
@@ -240,7 +271,10 @@ public class MockService implements APIs {
     public boolean signUp(Context context, boolean mType, String email, String password,
                           String DOB, String gender, String name) {
 
+        //set new token for current new user
         Constants.currentToken = "newToken";
+
+        //creates new object of user and fill data
         Constants.currentUser = new User(email, mType, Utils.convertToBitmap(R.drawable.download)
                 , name, DOB, gender, false, 0, 0, new ArrayList<User>()
                 , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
@@ -252,9 +286,11 @@ public class MockService implements APIs {
     @Override
     public boolean checkEmailAvailability(Context context, String email, boolean mType) {
         if (mType) {
+            //if user is listener, then check in listeners list
             for (int i = 0; i < mListenerArrayList.size(); i++)
                 if (email.equals(mListenerArrayList.get(i).getmEmail())) return false;
         } else {
+            //if user is artist, then check artists list
             for (int i = 0; i < mArtistArrayList.size(); i++)
                 if (email.equals(mArtistArrayList.get(i).getmEmail())) return false;
         }
@@ -615,8 +651,9 @@ public class MockService implements APIs {
     @Override
     public ArrayList<Artist> searchArtist(Context context, String q, int offset, int limit) {
         ArrayList<Artist> found = new ArrayList<>();
+
         for (Artist artist : mArtists) {
-            if (artist.getArtistName().contains(q))
+            if (Pattern.compile(Pattern.quote(q), Pattern.CASE_INSENSITIVE).matcher(artist.getArtistName()).find())
                 found.add(artist);
         }
 

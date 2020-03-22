@@ -18,19 +18,19 @@ import java.util.ArrayList;
 
 public class RvGridArtistsAdapter extends RecyclerView.Adapter<RvGridArtistsAdapter.ArtistViewHolder> {
 
-    private ArrayList<Artist> artists;
+    private ArrayList<Artist> mArtists;
     private ListItemClickListener mOnClickListener;
-    private ServiceController serviceController;
+    private ServiceController mServiceController;
 
     public RvGridArtistsAdapter(ArrayList<Artist> artists, ListItemClickListener mOnClickListener) {
-        this.artists = artists;
+        this.mArtists = artists;
         this.mOnClickListener = mOnClickListener;
-        serviceController = ServiceController.getInstance();
+        mServiceController = ServiceController.getInstance();
     }
 
     @Override
     public int getItemCount() {
-        return artists.size();
+        return mArtists.size();
     }
 
     @NonNull
@@ -46,6 +46,17 @@ public class RvGridArtistsAdapter extends RecyclerView.Adapter<RvGridArtistsAdap
         holder.bind(position);
     }
 
+
+
+    public void clear(){
+        mArtists.clear();
+        mArtists = new ArrayList<>();
+    }
+
+    public void addAll(ArrayList<Artist> artists){
+        this.mArtists.addAll(artists);
+    }
+
     public interface ListItemClickListener{
         void onListItemClick(View v, int clickedItemIndex);
     }
@@ -58,16 +69,16 @@ public class RvGridArtistsAdapter extends RecyclerView.Adapter<RvGridArtistsAdap
         ArtistViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            artistImage = itemView.findViewById(R.id.artist_image);
-            artistName = itemView.findViewById(R.id.artist_name);
-            checkImage = itemView.findViewById(R.id.check_image);
+            artistImage = itemView.findViewById(R.id.image_artist);
+            artistName = itemView.findViewById(R.id.text_artist_name);
+            checkImage = itemView.findViewById(R.id.image_check);
         }
 
         void bind(int position) {
-            Artist artist = artists.get(position);
+            Artist artist = mArtists.get(position);
             artistImage.setImageBitmap(artist.getImage());
             artistName.setText(artist.getArtistName());
-            if(serviceController.isFollowing(Constants.currentUser.isListenerType(), Constants.currentToken, artists.get(position).getId()))
+            if(mServiceController.isFollowing(Constants.currentUser.isListenerType(), Constants.currentToken, mArtists.get(position).getId()))
                 checkImage.setVisibility(View.VISIBLE);
             else
                 checkImage.setVisibility(View.GONE);
@@ -79,14 +90,4 @@ public class RvGridArtistsAdapter extends RecyclerView.Adapter<RvGridArtistsAdap
             mOnClickListener.onListItemClick(v, getAdapterPosition());
         }
     }
-
-    public void clear(){
-        artists.clear();
-        artists = new ArrayList<>();
-    }
-
-    public void addAll(ArrayList<Artist> artists){
-        this.artists.addAll(artists);
-    }
-
 }

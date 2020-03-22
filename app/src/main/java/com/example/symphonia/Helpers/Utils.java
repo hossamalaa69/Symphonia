@@ -28,12 +28,12 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class Utils {
 
-    public static String getNameFromEmail(String email) { return email.split("@")[0]; }
+    public static String getNameFromEmail(String email) {
+        return email.split("@")[0];
+    }
 
     public static class MediaPlayerInfo {
-        public MediaPlayerInfo() { }
-
-        private static MediaPlayer mediaPlayer;
+        public static MediaPlayer mediaPlayer;
         private static AudioManager audioManager;
         private static AudioManager.OnAudioFocusChangeListener onAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
             @Override
@@ -58,22 +58,24 @@ public class Utils {
 
         };
 
-        public static void createMediaPlayer(Context context) {
+        public static void createMediaPlayer(Context context, MediaPlayer.OnCompletionListener onCompletionListener) {
             mediaPlayer = MediaPlayer.create(context, CurrTrackInfo.track.getUri());
+            mediaPlayer.setOnCompletionListener(onCompletionListener);
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         }
 
-        public static void playTrack(Context context) {
+        public static void playTrack(Context context, MediaPlayer.OnCompletionListener onCompletionListener) {
             clearMediaPlayer();
             audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
             int status = 0;
             if (audioManager != null) {
                 status = audioManager.requestAudioFocus(onAudioFocusChangeListener, AudioManager.STREAM_MUSIC
-                            , AudioManager.AUDIOFOCUS_GAIN);
-
-                createMediaPlayer(context);
+                        , AudioManager.AUDIOFOCUS_GAIN);
+                createMediaPlayer(context,onCompletionListener);
                 if (status == AudioManager.AUDIOFOCUS_REQUEST_GRANTED && mediaPlayer != null) {
                     mediaPlayer.seekTo(CurrTrackInfo.currPlayingPos);
                     mediaPlayer.start();
+
 
                 }
             }
@@ -91,32 +93,34 @@ public class Utils {
         }
 
         public static void pauseTrack() {
-            if(mediaPlayer!=null)
-            {
+            if (mediaPlayer != null) {
                 mediaPlayer.pause();
             }
         }
 
         public static void resumeTrack() {
-            if(mediaPlayer!=null)
-            {
+            if (mediaPlayer != null) {
                 mediaPlayer.start();
             }
         }
 
         public static boolean isMediaPlayerPlaying() {
-            return mediaPlayer.isPlaying();
+            if (mediaPlayer != null)
+                return mediaPlayer.isPlaying();
+            return false;
         }
     }
 
+
     public static class CurrTrackInfo {
         public static int TrackPosInPlaylist;
-        public static int TrackPosInAlbum;
+        public static int prevTrackPos;
         public static ArrayList<Track> currPlaylistTracks;
         public static String currPlaylistName;
         public static Track track;
         public static int currPlayingPos;
     }
+
 
     /**
      * check if string is email form or not
@@ -125,7 +129,9 @@ public class Utils {
      * @return boolean
      */
     public final static boolean isValidEmail(CharSequence target) {
+        //checks if text is empty
         if (target == null) return false;
+        //return validity of text as email matching with email's pattern(built-in library)
         return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 
@@ -145,9 +151,6 @@ public class Utils {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    public int add2(int x, int y) {
-        return x + y;
-    }
 
     /**
      * create gradient background for an image

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_list"
     android:id="@+id/layout"
-    tools:context=".Activities.UserUI.StartActivity">
+    tools:context=".Activities.User_Interface.StartActivity">
 
     <ImageView
         android:layout_width="100dp"

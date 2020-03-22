@@ -15,8 +15,8 @@
         android:text="@string/what_s_your_gender"
         android:textColor="@color/colorWhite"
         app:autoSizeTextType="uniform"
-        app:autoSizeMinTextSize="24sp"
-        app:autoSizeMaxTextSize="34sp"
+        app:autoSizeMinTextSize="16sp"
+        app:autoSizeMaxTextSize="32sp"
         app:autoSizeStepGranularity="1sp"
         android:textStyle="bold" />
 

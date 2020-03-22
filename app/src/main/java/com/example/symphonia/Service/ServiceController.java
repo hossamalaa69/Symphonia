@@ -19,6 +19,7 @@ public class ServiceController {
 
 
     private ServiceController() {
+        //checks if mode is debugging, then use mockService
         if (DEBUG_STATUS) mSupplier = new MockService();
 
     }

@@ -13,7 +13,7 @@
 
 
     <ImageView
-        android:id="@+id/album_image"
+        android:id="@+id/image_album"
         android:layout_width="@dimen/library_item_size"
         android:layout_height="@dimen/library_item_size"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -22,7 +22,7 @@
         app:srcCompat="@drawable/amr" />
 
     <TextView
-        android:id="@+id/album_name"
+        android:id="@+id/text_album_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -31,7 +31,7 @@
         android:textColor="@android:color/white"
         android:textSize="15sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/album_image"
+        app:layout_constraintStart_toEndOf="@+id/image_album"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Kol Hayaty" />
 
@@ -42,8 +42,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="4dp"
         android:orientation="horizontal"
-        app:layout_constraintStart_toEndOf="@+id/album_image"
-        app:layout_constraintTop_toBottomOf="@+id/album_name">
+        app:layout_constraintStart_toEndOf="@+id/image_album"
+        app:layout_constraintTop_toBottomOf="@+id/text_album_name">
 
         <FrameLayout
             android:id="@+id/frameLayout"
@@ -51,8 +51,8 @@
             android:layout_height="12dp"
             android:layout_gravity="center"
             android:background="@drawable/shuffle_background"
-            app:layout_constraintStart_toEndOf="@+id/album_image"
-            app:layout_constraintTop_toBottomOf="@+id/album_name">
+            app:layout_constraintStart_toEndOf="@+id/image_album"
+            app:layout_constraintTop_toBottomOf="@+id/text_album_name">
 
             <ImageView
                 android:layout_width="match_parent"
@@ -63,7 +63,7 @@
         </FrameLayout>
 
         <TextView
-            android:id="@+id/artist_name"
+            android:id="@+id/text_artist_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"

@@ -1,4 +1,4 @@
-package com.example.symphonia.Activities.UserUI;
+package com.example.symphonia.Activities.User_Interface;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -24,8 +24,9 @@ public class CreatePlaylistActivity extends AppCompatActivity {
         final EditText editText = findViewById(R.id.playlist_name_edit_text);
         editText.requestFocus();
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        assert imm != null;
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
-        final Button createButton = findViewById(R.id.create_button);
+        final Button createButton = findViewById(R.id.button_create);
 
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -47,7 +48,7 @@ public class CreatePlaylistActivity extends AppCompatActivity {
             }
         });
 
-        Button cancelButton = findViewById(R.id.cancel_button);
+        Button cancelButton = findViewById(R.id.button_cancel);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -6,10 +6,10 @@ import android.graphics.Bitmap;
 public class Artist {
     private Bitmap mImage;
     private String mArtistName;
-    private String id;
+    private String mArtistId;
 
-    public Artist(String id, Bitmap mImage, String mArtistName) {
-        this.id = id;
+    public Artist(String mArtistId, Bitmap mImage, String mArtistName) {
+        this.mArtistId = mArtistId;
         this.mImage = mImage;
         this.mArtistName = mArtistName;
     }
@@ -31,7 +31,7 @@ public class Artist {
     }
 
     public String getId() {
-        return id;
+        return mArtistId;
     }
 
 

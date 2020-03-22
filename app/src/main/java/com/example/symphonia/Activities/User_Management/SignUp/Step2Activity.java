@@ -26,13 +26,16 @@ public class Step2Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up2);
 
+        //get data from previous activity
         Bundle b = getIntent().getExtras();
         mUser = b.getString("user");
         mEmail = b.getString("email");
 
+        //get password input text by id, then set listeners for changing text
         mPassword = findViewById(R.id.password);
         mPassword.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
+                //checks if text is more then 7 chars, then enable next button
                 if (s.length() >= 8) enableButton();
                 else lockButton();
             }
@@ -46,10 +49,12 @@ public class Step2Activity extends AppCompatActivity {
             }
         });
 
+        //set listeners for done button in keyboard
         mPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if(actionId== EditorInfo.IME_ACTION_DONE){
+                    //checks if text is more then 7 chars, then call next step function
                     if(mPassword.getText().toString().length()>7) openNext(v);
                 }
                 return false;
@@ -57,7 +62,8 @@ public class Step2Activity extends AppCompatActivity {
         });
     }
 
-    private void openNext(View view) {
+    public void openNext(View view) {
+        //got to next step of sign up with user's data
         Intent i = new Intent(this, Step3Activity.class);
         i.putExtra("user", mUser);
         i.putExtra("email", mEmail);
@@ -65,13 +71,15 @@ public class Step2Activity extends AppCompatActivity {
         startActivity(i);
     }
 
-    private void enableButton() {
+    public void enableButton() {
+        //gets (Next button) by id then makes it enabled
         Button login = findViewById(R.id.next);
         login.setEnabled(true);
         login.setBackgroundResource(R.drawable.btn_curved_white);
     }
 
-    private void lockButton() {
+    public void lockButton() {
+        //gets (Next button) by id then makes it disabled
         Button login = findViewById(R.id.next);
         login.setEnabled(false);
         login.setBackgroundResource(R.drawable.btn_curved_gray);

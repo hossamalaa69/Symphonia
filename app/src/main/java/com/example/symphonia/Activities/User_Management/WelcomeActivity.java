@@ -18,18 +18,21 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
+        //receives user types from previous activity
         Bundle b = getIntent().getExtras();
         mType = b.getString("user");
 
     }
 
-    private void openLogin(View view) {
+    public void openLogin(View view) {
+        //open activity login with user type
         Intent i = new Intent(this, LoginActivity.class);
         i.putExtra("user", mType);
         startActivity(i);
     }
 
-    private void openSignUp1(View view) {
+    public void openSignUp1(View view) {
+        //opens sign up with user type
         Intent i = new Intent(this, Step1Activity.class);
         i.putExtra("user", mType);
         startActivity(i);

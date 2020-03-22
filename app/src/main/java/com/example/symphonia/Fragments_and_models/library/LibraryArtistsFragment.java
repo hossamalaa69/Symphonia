@@ -22,10 +22,10 @@ import java.util.ArrayList;
  */
 public class LibraryArtistsFragment extends Fragment {
 
-    private RecyclerView artistList;
-    private RvListArtistsAdapter adapter;
+    private RecyclerView mArtistsList;
+    private RvListArtistsAdapter mAdapter;
     private ArrayList<Artist> mFollowedArtists;
-    private ServiceController serviceController;
+    private ServiceController mServiceController;
 
     public LibraryArtistsFragment() {
         // Required empty public constructor
@@ -38,15 +38,14 @@ public class LibraryArtistsFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_library_artists, container, false);
 
-        serviceController = ServiceController.getInstance();
+        mServiceController = ServiceController.getInstance();
+        mFollowedArtists = mServiceController.getFollowedArtists(Constants.currentUser.isListenerType(), Constants.currentToken, 30);
 
-        mFollowedArtists = serviceController.getFollowedArtists(Constants.currentUser.isListenerType(), Constants.currentToken, 30);
-
-        artistList = rootView.findViewById(R.id.rv_artists);
+        mArtistsList = rootView.findViewById(R.id.rv_artists);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        artistList.setLayoutManager(layoutManager);
-        adapter = new RvListArtistsAdapter(mFollowedArtists, getActivity());
-        artistList.setAdapter(adapter);
+        mArtistsList.setLayoutManager(layoutManager);
+        mAdapter = new RvListArtistsAdapter(mFollowedArtists, getActivity());
+        mArtistsList.setAdapter(mAdapter);
 
         return rootView;
     }
@@ -54,9 +53,11 @@ public class LibraryArtistsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mFollowedArtists = serviceController.getFollowedArtists(Constants.currentUser.isListenerType(), Constants.currentToken, 30);
-        adapter.clear();
-        adapter.addAll(mFollowedArtists);
-        adapter.notifyDataSetChanged();
+        mFollowedArtists = mServiceController.getFollowedArtists
+                (Constants.currentUser.isListenerType(), Constants.currentToken, 30);
+
+        mAdapter.clear();
+        mAdapter.addAll(mFollowedArtists);
+        mAdapter.notifyDataSetChanged();
     }
 }
