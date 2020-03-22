@@ -7,7 +7,7 @@
     android:background="@color/colorDark"
     android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".Activities.User_Management.SignUp.SignUp1">
+    tools:context=".Activities.User_Management.SignUp.Step1Activity">
 
     <TextView
         android:layout_width="match_parent"

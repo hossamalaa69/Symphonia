@@ -67,7 +67,7 @@ public class RvGridArtistsAdapter extends RecyclerView.Adapter<RvGridArtistsAdap
             Artist artist = artists.get(position);
             artistImage.setImageBitmap(artist.getImage());
             artistName.setText(artist.getArtistName());
-            if(serviceController.isFollowing(Constants.user.isListenerType(), Constants.mToken, artists.get(position).getId()))
+            if(serviceController.isFollowing(Constants.currentUser.isListenerType(), Constants.currentToken, artists.get(position).getId()))
                 checkImage.setVisibility(View.VISIBLE);
             else
                 checkImage.setVisibility(View.GONE);

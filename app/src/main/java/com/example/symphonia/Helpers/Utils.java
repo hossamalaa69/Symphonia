@@ -27,15 +27,10 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class Utils {
 
-    public static String getNameFromEmail(String email){
-        return email.split("@")[0];
-    }
-
+    public static String getNameFromEmail(String email) { return email.split("@")[0]; }
 
     public static class MediaPlayerInfo {
-        public MediaPlayerInfo() {
-
-        }
+        public MediaPlayerInfo() { }
 
         private static MediaPlayer mediaPlayer;
         private static AudioManager audioManager;
@@ -71,7 +66,9 @@ public class Utils {
             audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
             int status = 0;
             if (audioManager != null) {
-                status = audioManager.requestAudioFocus(onAudioFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+                status = audioManager.requestAudioFocus(onAudioFocusChangeListener, AudioManager.STREAM_MUSIC
+                            , AudioManager.AUDIOFOCUS_GAIN);
+
                 createMediaPlayer(context);
                 if (status == AudioManager.AUDIOFOCUS_REQUEST_GRANTED && mediaPlayer != null) {
                     mediaPlayer.seekTo(CurrTrackInfo.currPlayingPos);
@@ -85,7 +82,6 @@ public class Utils {
             if (mediaPlayer != null) {
                 mediaPlayer.release();
                 mediaPlayer = null;
-
             }
             if (audioManager != null) {
                 audioManager.abandonAudioFocus(onAudioFocusChangeListener);
@@ -128,8 +124,7 @@ public class Utils {
      * @return boolean
      */
     public final static boolean isValidEmail(CharSequence target) {
-        if (target == null)
-            return false;
+        if (target == null) return false;
         return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 

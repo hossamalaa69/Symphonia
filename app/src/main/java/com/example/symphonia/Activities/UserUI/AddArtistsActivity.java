@@ -5,10 +5,8 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,15 +15,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Constants;
-import com.example.symphonia.Helpers.Custom_Dialog_Offline;
-import com.example.symphonia.Helpers.Custom_Dialog_SignUp;
-import com.example.symphonia.Helpers.Custom_Dialog_Skip;
+import com.example.symphonia.Helpers.CustomOfflineDialog;
+import com.example.symphonia.Helpers.CustomSkipDialog;
 import com.example.symphonia.R;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Adapters.GridSpacingItemDecorationAdapter;
 import com.example.symphonia.Adapters.RvGridArtistsAdapter;
 import com.example.symphonia.Service.ServiceController;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
 
@@ -46,17 +42,14 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if(!isOnline()) {
-            if(!isOnline()){
-                Custom_Dialog_Offline custom_dialogOffline = new Custom_Dialog_Offline();
-                custom_dialogOffline.showDialog(this);
-                finish();
-            }
+            CustomOfflineDialog custom_dialogOffline = new CustomOfflineDialog();
+            custom_dialogOffline.showDialog(AddArtistsActivity.this, true);
+            return;
         }
 
         setContentView(R.layout.activity_add_artists);
-
-
         doneButton = (Button) findViewById(R.id.done_button);
         Bundle b = getIntent().getExtras();
 
@@ -69,7 +62,7 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         try{
             String recvData = b.getString("newUser");
             isNewUser = true;
-            doneButton.setVisibility(View.INVISIBLE);
+            doneButton.setVisibility(View.GONE);
            //collapsingToolbarLayout.setTitle(getResources().getString(R.string.choose_3_artists));
         } catch(Exception e) {
             isNewUser = false;
@@ -77,17 +70,15 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
            //collapsingToolbarLayout.setTitle(getResources().getString(R.string.title_activity_add_artists));
         }
 
-
-
         serviceController = ServiceController.getInstance();
 
         // will be modified
         mRecommendedArtists = new ArrayList<>();
         ArrayList<Artist> returnedArtists = serviceController
-                .getRecommendedArtists(Constants.user.isListenerType(), Constants.mToken, 20);
+                .getRecommendedArtists(Constants.currentUser.isListenerType(), Constants.currentToken, 20);
 
         for (Artist artist : returnedArtists) {
-            if(!serviceController.isFollowing(Constants.user.isListenerType(), Constants.mToken
+            if(!serviceController.isFollowing(Constants.currentUser.isListenerType(), Constants.currentToken
                     , artist.getId()))
                 mRecommendedArtists.add(artist);
         }
@@ -101,6 +92,13 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         artistList.setLayoutManager(layoutManager);
         adapter = new RvGridArtistsAdapter(mRecommendedArtists, this);
         artistList.setAdapter(adapter);
+
+
+        if(!isOnline()) {
+            CustomOfflineDialog custom_dialogOffline = new CustomOfflineDialog();
+            custom_dialogOffline.showDialog(AddArtistsActivity.this, true);
+        }
+
 
         doneButton = findViewById(R.id.done_button);
         doneButton.setOnClickListener(new View.OnClickListener() {
@@ -133,8 +131,8 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
             if (resultCode == Activity.RESULT_OK) {
                 assert data != null;
                 String selectedArtistId = data.getStringExtra("SelectedArtistId");
-                Artist selectedArtist = serviceController.getArtist(this, Constants.mToken, selectedArtistId);
-                serviceController.followArtistOrUser(Constants.user.isListenerType(), Constants.mToken, selectedArtist.getId());
+                Artist selectedArtist = serviceController.getArtist(this, Constants.currentToken, selectedArtistId);
+                serviceController.followArtistOrUser(Constants.currentUser.isListenerType(), Constants.currentToken, selectedArtist.getId());
             }
         }
     }
@@ -143,11 +141,11 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
     public void onListItemClick(View itemView, int clickedItemIndex) {
 
         View checkImage = itemView.findViewById(R.id.check_image);
-        if(!serviceController.isFollowing(Constants.user.isListenerType(), Constants.mToken
+        if(!serviceController.isFollowing(Constants.currentUser.isListenerType(), Constants.currentToken
                 , mRecommendedArtists.get(clickedItemIndex).getId())) {
 
             checkImage.setVisibility(View.VISIBLE);
-            serviceController.followArtistOrUser(Constants.user.isListenerType(), Constants.mToken
+            serviceController.followArtistOrUser(Constants.currentUser.isListenerType(), Constants.currentToken
                     , mRecommendedArtists.get(clickedItemIndex).getId());
 
             ////////////////////
@@ -163,7 +161,7 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
             ArrayList<Artist> relatedArtists = serviceController.getArtistRelatedArtists(this, mRecommendedArtists.get(clickedItemIndex).getId());
             for(Artist artist : relatedArtists)
             {
-                if(!serviceController.isFollowing(Constants.user.isListenerType(), Constants.mToken
+                if(!serviceController.isFollowing(Constants.currentUser.isListenerType(), Constants.currentToken
                         , artist.getId()))
                 {
                     if (!mRecommendedArtists.contains(artist)) {
@@ -184,14 +182,14 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         }
         else {
             checkImage.setVisibility(View.GONE);
-            serviceController.unFollowArtistOrUser(Constants.user.isListenerType(), Constants.mToken
+            serviceController.unFollowArtistOrUser(Constants.currentUser.isListenerType(), Constants.currentToken
                     , mRecommendedArtists.get(clickedItemIndex).getId());
 
             ////////////////// if new user //////////////
             if(isNewUser){
                 countFollowing--;
                 if(countFollowing<3)
-                    doneButton.setVisibility(View.INVISIBLE);
+                    doneButton.setVisibility(View.GONE);
             }
         }
     }
@@ -201,7 +199,7 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
     public void onBackPressed() {
 
         if(isNewUser){
-            Custom_Dialog_Skip custom_dialog = new Custom_Dialog_Skip();
+            CustomSkipDialog custom_dialog = new CustomSkipDialog();
             custom_dialog.showDialog(this);
             return;
         }

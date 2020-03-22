@@ -3,7 +3,6 @@ package com.example.symphonia.Activities.User_Management;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,56 +12,53 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.symphonia.Activities.User_Management.ListenerPages.ForgetPasswordListenerActivity;
 import com.example.symphonia.Activities.UserUI.MainActivity;
-import com.example.symphonia.Helpers.Custom_Dialog_Offline;
+import com.example.symphonia.Helpers.CustomOfflineDialog;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
 
-import java.util.concurrent.ExecutionException;
-
 
 public class LoginActivity extends AppCompatActivity {
 
-    private TextView errorInput;
-    private EditText email;
-    private EditText password;
-    private String type;
-    boolean isValid;
+    private TextView text_view_errorInput;
+    private EditText edit_text_email;
+    private EditText edit_text_password;
+    private String mType;
+    private boolean mIsValid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        errorInput = (TextView) findViewById(R.id.error_text);
+        text_view_errorInput = (TextView) findViewById(R.id.error_text);
 
         Bundle b = getIntent().getExtras();
-        type = b.getString("user");
+        mType = b.getString("user");
 
-        email = findViewById(R.id.emailInput);
+        edit_text_email = findViewById(R.id.emailInput);
 
         try{
             String mEmail = b.getString("email");
-            email.setText(mEmail);
+            edit_text_email.setText(mEmail);
         } catch(Exception e) {
-             email.setText("");
+             edit_text_email.setText("");
         }
 
-        email.addTextChangedListener(new TextWatcher() {
+        edit_text_email.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 EditText password2 = findViewById(R.id.password);
                 if (password2.getText().length() >= 8 && Utils.isValidEmail(s.toString())) {
                     enableButton();
-                    isValid=true;
+                    mIsValid =true;
                 } else{
                         lockButton();
-                        isValid=false;
+                        mIsValid =false;
                       }
             }
 
@@ -72,20 +68,20 @@ public class LoginActivity extends AppCompatActivity {
 
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
-                errorInput.setVisibility(View.INVISIBLE);
+                text_view_errorInput.setVisibility(View.INVISIBLE);
             }
         });
 
-        password = findViewById(R.id.password);
-        password.addTextChangedListener(new TextWatcher() {
+        edit_text_password = findViewById(R.id.password);
+        edit_text_password.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 EditText email2 = findViewById(R.id.emailInput);
                 if (Utils.isValidEmail(email2.getText().toString()) && s.length() >= 8) {
                     enableButton();
-                    isValid=true;
+                    mIsValid =true;
                 } else{
                         lockButton();
-                        isValid=false;
+                        mIsValid =false;
                     }
             }
 
@@ -95,79 +91,72 @@ public class LoginActivity extends AppCompatActivity {
 
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
-                errorInput.setVisibility(View.INVISIBLE);
+                text_view_errorInput.setVisibility(View.INVISIBLE);
             }
         });
 
-
-            password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+         edit_text_password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId== EditorInfo.IME_ACTION_DONE){
-                    if(isValid)
-                        openHome(v);
+             if(actionId== EditorInfo.IME_ACTION_DONE){
+                 if(mIsValid)
+                     openHome(v);
                 }
-                return false;
+             return false;
             }
         });
+
     }
 
-    public void enableButton() {
-        Button login = findViewById(R.id.login);
-        login.setEnabled(true);
-        login.setBackgroundResource(R.drawable.btn_curved_white);
+    private void enableButton() {
+        Button btn_login = findViewById(R.id.login);
+        btn_login.setEnabled(true);
+        btn_login.setBackgroundResource(R.drawable.btn_curved_white);
     }
 
-    public void lockButton() {
-        Button login = findViewById(R.id.login);
-        login.setEnabled(false);
-        login.setBackgroundResource(R.drawable.btn_curved_gray);
+    private void lockButton() {
+        Button btn_login = findViewById(R.id.login);
+        btn_login.setEnabled(false);
+        btn_login.setBackgroundResource(R.drawable.btn_curved_gray);
     }
 
-    public void openHome(View view) {
-
+    private void openHome(View view) {
         ServiceController serviceController = ServiceController.getInstance();
-
         if(!isOnline()){
-            Custom_Dialog_Offline custom_dialogOffline = new Custom_Dialog_Offline();
-            custom_dialogOffline.showDialog(this);
+            CustomOfflineDialog custom_dialogOffline = new CustomOfflineDialog();
+            custom_dialogOffline.showDialog(this, false);
             return;
         }
 
-        if(type.equals("Listener")) {
-            if (serviceController.logIn(this, email.getText().toString(),
-                    password.getText().toString(), true)) {
-
+        if(mType.equals("Listener")) {
+            if (serviceController.logIn(this, edit_text_email.getText().toString(),
+                    edit_text_password.getText().toString(), true)) {
                 Intent i = new Intent(this, MainActivity.class);
                 startActivity(i);
             } else {
-                errorInput.setVisibility(View.VISIBLE);
-                errorInput.setText(R.string.wrong_password_or_email);
+                text_view_errorInput.setVisibility(View.VISIBLE);
+                text_view_errorInput.setText(R.string.wrong_password_or_email);
             }
-        }
-
-        else if(type.equals("Artist")){
-            if(serviceController.logIn(this, email.getText().toString(),
-                    password.getText().toString(), false)) {
+        } else if(mType.equals("Artist")){
+            if(serviceController.logIn(this, edit_text_email.getText().toString(),
+                    edit_text_password.getText().toString(), false)) {
                 Intent i = new Intent(this, MainActivity.class);
                 startActivity(i);
-            }
-            else {
-                errorInput.setVisibility(View.VISIBLE);
-                errorInput.setText(R.string.wrong_password_or_email);
+            } else {
+                text_view_errorInput.setVisibility(View.VISIBLE);
+                text_view_errorInput.setText(R.string.wrong_password_or_email);
             }
         }
     }
 
-    public void openForget(View view) {
-        email = findViewById(R.id.emailInput);
+    private void openForget(View view) {
+        edit_text_email = findViewById(R.id.emailInput);
         Intent i = new Intent(this, ForgetPasswordListenerActivity.class);
-        i.putExtra("user", email.getText().toString());
+        i.putExtra("user", edit_text_email.getText().toString());
         startActivity(i);
     }
 
-
-    public boolean isOnline() {
+    private boolean isOnline() {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         if (connMgr != null) {
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();

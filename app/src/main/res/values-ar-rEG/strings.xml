@@ -114,6 +114,10 @@
     <string name="play_any_song">تشغيل أيّ \n أغنية</string>
     <string name="with_locked_songs">بدون أغاني \n مغلقة</string>
     <string name="See_More">شاهد المزيد</string>
+    <string name="choose_3_artists">اختر ٣ أو أكثر من المغنيين كما تحب.</string>
+    <string name="are_you_sure">متأكد؟</string>
+    <string name="why_skip">اختيار المغنيين يستغرق دقائق, وسوف يجعل سيمفونيا أفضل لك.</string>
+    <string name="skip">تخطي</string>
 
     <string name="New_Releases">إصدارات جديدة</string>
     <string name="Charts">رسوم بيانية</string>

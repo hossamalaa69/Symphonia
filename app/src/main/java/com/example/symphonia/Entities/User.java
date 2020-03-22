@@ -12,7 +12,7 @@ public class User {
     // true for listener, false for artist
     private boolean mType;
 
-    private Bitmap userImage;
+    private Bitmap mUserImage;
 
     private String mName;
 
@@ -20,19 +20,19 @@ public class User {
 
     private String mGender;
 
-    private boolean isPremuim;
+    private boolean mIsPremuim;
 
-    private int numOfFollowers;
+    private int mNumOfFollowers;
 
-    private int numOfFollowings;
+    private int mNumOfFollowings;
 
     private ArrayList<User> mFollowings;
 
     private ArrayList<User> mFollowers;
 
-    private ArrayList<Playlist> favPlaylists;
+    private ArrayList<Playlist> mFavPlaylists;
 
-    private ArrayList<Playlist> madePlaylists;
+    private ArrayList<Playlist> mMadePlaylists;
 
     private ArrayList<Artist> mFollowingArtists;
 
@@ -51,25 +51,25 @@ public class User {
         this.mType=mType;
     }
 
-    public User(String mEmail, boolean mType, Bitmap userImage, String mName, String mDOB
-            , String mGender, boolean isPremuim, int numOfFollowers, int numOfFollowings
+    public User(String mEmail, boolean mType, Bitmap mUserImage, String mName, String mDOB
+            , String mGender, boolean mIsPremuim, int mNumOfFollowers, int mNumOfFollowings
             , ArrayList<User> mFollowings, ArrayList<User> mFollowers
-            , ArrayList<Playlist> favPlaylists, ArrayList<Playlist> madePlaylists
+            , ArrayList<Playlist> mFavPlaylists, ArrayList<Playlist> mMadePlaylists
             , ArrayList<Artist> mFollowingArtists, ArrayList<Album> mSavedAlbums , ArrayList<Track> mPlayedTracks) {
 
         this.mEmail = mEmail;
         this.mType = mType;
-        this.userImage = userImage;
+        this.mUserImage = mUserImage;
         this.mName = mName;
         this.mDOB = mDOB;
         this.mGender = mGender;
-        this.isPremuim = isPremuim;
-        this.numOfFollowers = numOfFollowers;
-        this.numOfFollowings = numOfFollowings;
+        this.mIsPremuim = mIsPremuim;
+        this.mNumOfFollowers = mNumOfFollowers;
+        this.mNumOfFollowings = mNumOfFollowings;
         this.mFollowings = mFollowings;
         this.mFollowers = mFollowers;
-        this.favPlaylists = favPlaylists;
-        this.madePlaylists = madePlaylists;
+        this.mFavPlaylists = mFavPlaylists;
+        this.mMadePlaylists = mMadePlaylists;
         this.mFollowingArtists = mFollowingArtists;
         this.mPlayedTracks = mPlayedTracks;
         this.mSavedAlbums = mSavedAlbums;
@@ -98,11 +98,11 @@ public class User {
     }
 
     public Bitmap getUserImage() {
-        return userImage;
+        return mUserImage;
     }
 
     public void setUserImage(Bitmap userImage) {
-        this.userImage = userImage;
+        this.mUserImage = userImage;
     }
 
     public String getmName() {
@@ -130,27 +130,27 @@ public class User {
     }
 
     public boolean isPremuim() {
-        return isPremuim;
+        return mIsPremuim;
     }
 
     public void setPremuim(boolean premuim) {
-        isPremuim = premuim;
+        mIsPremuim = premuim;
     }
 
     public int getNumOfFollowers() {
-        return numOfFollowers;
+        return mNumOfFollowers;
     }
 
     public void setNumOfFollowers(int numOfFollowers) {
-        this.numOfFollowers = numOfFollowers;
+        this.mNumOfFollowers = numOfFollowers;
     }
 
     public int getNumOfFollowings() {
-        return numOfFollowings;
+        return mNumOfFollowings;
     }
 
     public void setNumOfFollowings(int numOfFollowings) {
-        this.numOfFollowings = numOfFollowings;
+        this.mNumOfFollowings = numOfFollowings;
     }
 
     public ArrayList<User> getmFollowings() {
@@ -170,19 +170,19 @@ public class User {
     }
 
     public ArrayList<Playlist> getFavPlaylists() {
-        return favPlaylists;
+        return mFavPlaylists;
     }
 
     public void setFavPlaylists(ArrayList<Playlist> favPlaylists) {
-        this.favPlaylists = favPlaylists;
+        this.mFavPlaylists = favPlaylists;
     }
 
     public ArrayList<Playlist> getMadePlaylists() {
-        return madePlaylists;
+        return mMadePlaylists;
     }
 
     public void setMadePlaylists(ArrayList<Playlist> madePlaylists) {
-        this.madePlaylists = madePlaylists;
+        this.mMadePlaylists = madePlaylists;
     }
 
     public ArrayList<Artist> getFollowingArtists() {

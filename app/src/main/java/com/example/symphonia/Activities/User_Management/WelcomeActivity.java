@@ -6,12 +6,12 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.symphonia.Activities.User_Management.SignUp.SignUp1;
+import com.example.symphonia.Activities.User_Management.SignUp.Step1Activity;
 import com.example.symphonia.R;
 
 public class WelcomeActivity extends AppCompatActivity {
 
-    private String type;
+    private String mType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,19 +19,19 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_welcome);
 
         Bundle b = getIntent().getExtras();
-        type = b.getString("user");
+        mType = b.getString("user");
 
     }
 
-    public void openLogin(View view) {
+    private void openLogin(View view) {
         Intent i = new Intent(this, LoginActivity.class);
-        i.putExtra("user", type);
+        i.putExtra("user", mType);
         startActivity(i);
     }
 
-    public void openSignUp1(View view) {
-        Intent i = new Intent(this, SignUp1.class);
-        i.putExtra("user", type);
+    private void openSignUp1(View view) {
+        Intent i = new Intent(this, Step1Activity.class);
+        i.putExtra("user", mType);
         startActivity(i);
     }
 }

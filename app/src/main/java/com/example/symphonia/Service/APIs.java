@@ -15,7 +15,8 @@ public interface APIs {
 
     boolean checkEmailAvailability(Context context, String email, boolean mType);
 
-    boolean signUp(Context context, boolean mType, String email, String password, String DOB, String gender, String name);
+    boolean signUp(Context context, boolean mType, String email, String password
+                , String DOB, String gender, String name);
 
     ArrayList<Playlist> getPopularPlaylists(Context context, String mToken);
 

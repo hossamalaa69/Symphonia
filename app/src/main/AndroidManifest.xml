@@ -48,50 +48,50 @@
                 android:value=".Activities.UserUI.MainActivity" />
         </activity>
         <activity
-            android:name=".Activities.User_Management.SignUp.SignUp5"
+            android:name=".Activities.User_Management.SignUp.Step5Activity"
             android:label="@string/create_account"
-            android:parentActivityName=".Activities.User_Management.SignUp.SignUp4"
+            android:parentActivityName=".Activities.User_Management.SignUp.Step4Activity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.User_Management.SignUp.SignUp4" />
+                android:value=".Activities.User_Management.SignUp.Step4Activity" />
         </activity>
         <activity
-            android:name=".Activities.User_Management.SignUp.SignUp4"
-            android:label="@string/create_account"
-            android:launchMode="singleTop"
-            android:parentActivityName=".Activities.User_Management.SignUp.SignUp3"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.User_Management.SignUp.SignUp3" />
-        </activity>
-        <activity
-            android:name=".Activities.User_Management.SignUp.SignUp3"
+            android:name=".Activities.User_Management.SignUp.Step4Activity"
             android:label="@string/create_account"
             android:launchMode="singleTop"
-            android:parentActivityName=".Activities.User_Management.SignUp.SignUp2"
+            android:parentActivityName=".Activities.User_Management.SignUp.Step3Activity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.User_Management.SignUp.SignUp2" />
+                android:value=".Activities.User_Management.SignUp.Step3Activity" />
         </activity>
         <activity
-            android:name=".Activities.User_Management.SignUp.SignUp2"
+            android:name=".Activities.User_Management.SignUp.Step3Activity"
             android:label="@string/create_account"
             android:launchMode="singleTop"
-            android:parentActivityName=".Activities.User_Management.SignUp.SignUp1"
+            android:parentActivityName=".Activities.User_Management.SignUp.Step2Activity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.User_Management.SignUp.SignUp1" />
+                android:value=".Activities.User_Management.SignUp.Step2Activity" />
         </activity>
         <activity
-            android:name=".Activities.User_Management.SignUp.SignUp1"
+            android:name=".Activities.User_Management.SignUp.Step2Activity"
+            android:label="@string/create_account"
+            android:launchMode="singleTop"
+            android:parentActivityName=".Activities.User_Management.SignUp.Step1Activity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.User_Management.SignUp.Step1Activity" />
+        </activity>
+        <activity
+            android:name=".Activities.User_Management.SignUp.Step1Activity"
             android:label="@string/create_account"
             android:launchMode="singleTop"
             android:parentActivityName=".Activities.User_Management.WelcomeActivity"

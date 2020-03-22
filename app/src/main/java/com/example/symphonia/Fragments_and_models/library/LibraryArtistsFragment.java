@@ -2,17 +2,14 @@ package com.example.symphonia.Fragments_and_models.library;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Constants;
-import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Adapters.RvListArtistsAdapter;
@@ -43,7 +40,7 @@ public class LibraryArtistsFragment extends Fragment {
 
         serviceController = ServiceController.getInstance();
 
-        mFollowedArtists = serviceController.getFollowedArtists(Constants.user.isListenerType(), Constants.mToken, 30);
+        mFollowedArtists = serviceController.getFollowedArtists(Constants.currentUser.isListenerType(), Constants.currentToken, 30);
 
         artistList = rootView.findViewById(R.id.rv_artists);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -57,7 +54,7 @@ public class LibraryArtistsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mFollowedArtists = serviceController.getFollowedArtists(Constants.user.isListenerType(), Constants.mToken, 30);
+        mFollowedArtists = serviceController.getFollowedArtists(Constants.currentUser.isListenerType(), Constants.currentToken, 30);
         adapter.clear();
         adapter.addAll(mFollowedArtists);
         adapter.notifyDataSetChanged();
