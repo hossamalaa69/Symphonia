@@ -10,40 +10,35 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.symphonia.Activities.UserUI.AddArtistsActivity;
-import com.example.symphonia.Activities.UserUI.MainActivity;
 import com.example.symphonia.Activities.User_Management.LoginActivity;
+import com.example.symphonia.Fragments_and_models.library.LibraryArtistsFragment;
 import com.example.symphonia.R;
 
-public class Custom_Dialog_Skip {
-    public void showDialog(final Activity activity) {
+public class CustomOfflineDialog {
 
+    private  boolean isAddArtist = false;
+
+    public void showDialog(final Activity activity, boolean isArtist){
+        isAddArtist = isArtist;
         final Dialog dialog = new Dialog(activity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setContentView(R.layout.custom_dialog_skip);
+        dialog.setContentView(R.layout.custom_dialog_offline);
         TextView text = (TextView) dialog.findViewById(R.id.text_dialog);
         TextView text2 = (TextView) dialog.findViewById(R.id.text_dialog2);
-        Button dialogButton1 = (Button) dialog.findViewById(R.id.btn_skip);
-        Button dialogButton2 = (Button) dialog.findViewById(R.id.btn_cont);
-
-        dialogButton2.setOnClickListener(new View.OnClickListener() {
+        Button dialogButton = (Button) dialog.findViewById(R.id.btn_dialog);
+        dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                if(isAddArtist){
+                    dialog.dismiss();
+                    activity.finish();
+                }
+                else
+                    dialog.dismiss();
             }
         });
-
-        dialogButton1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(activity, MainActivity.class);
-                activity.startActivity(i);
-            }
-        });
-
         dialog.show();
     }
-
 }

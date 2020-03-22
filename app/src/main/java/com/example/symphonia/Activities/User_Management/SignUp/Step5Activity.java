@@ -17,13 +17,12 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.symphonia.Activities.UserUI.AddArtistsActivity;
-import com.example.symphonia.Activities.UserUI.MainActivity;
-import com.example.symphonia.Helpers.Custom_Dialog_Offline;
+import com.example.symphonia.Helpers.CustomOfflineDialog;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
 
-public class SignUp5 extends AppCompatActivity  {
+public class Step5Activity extends AppCompatActivity  {
 
     private EditText name;
     private String user;
@@ -87,8 +86,8 @@ public class SignUp5 extends AppCompatActivity  {
     public void openNext(View view) {
         ServiceController serviceController = ServiceController.getInstance();
         if(!isOnline()){
-            Custom_Dialog_Offline custom_dialogOffline = new Custom_Dialog_Offline();
-            custom_dialogOffline.showDialog(this);
+            CustomOfflineDialog custom_dialogOffline = new CustomOfflineDialog();
+            custom_dialogOffline.showDialog(this, false);
             return;
         }
 

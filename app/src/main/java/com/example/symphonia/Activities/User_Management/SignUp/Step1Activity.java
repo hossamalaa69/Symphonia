@@ -15,16 +15,13 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.symphonia.Constants;
-import com.example.symphonia.Helpers.Custom_Dialog_Offline;
-import com.example.symphonia.Helpers.Custom_Dialog_SignUp;
+import com.example.symphonia.Helpers.CustomOfflineDialog;
+import com.example.symphonia.Helpers.CustomSignUpDialog;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
 
-import java.util.ArrayList;
-
-public class SignUp1 extends AppCompatActivity {
+public class Step1Activity extends AppCompatActivity {
 
     private EditText email;
     private String user;
@@ -85,8 +82,8 @@ public class SignUp1 extends AppCompatActivity {
         ServiceController serviceController = ServiceController.getInstance();
 
         if(!isOnline()){
-            Custom_Dialog_Offline custom_dialogOffline = new Custom_Dialog_Offline();
-            custom_dialogOffline.showDialog(this);
+            CustomOfflineDialog custom_dialogOffline = new CustomOfflineDialog();
+            custom_dialogOffline.showDialog(this, false);
             return;
         }
 
@@ -94,12 +91,12 @@ public class SignUp1 extends AppCompatActivity {
 
         if(isAvailable)
         {
-            Intent i = new Intent(this, SignUp2.class);
+            Intent i = new Intent(this, Step2Activity.class);
             i.putExtra("user", user);
             i.putExtra("email",email.getText().toString());
             startActivity(i);
         } else {
-            Custom_Dialog_SignUp custom_dialog = new Custom_Dialog_SignUp();
+            CustomSignUpDialog custom_dialog = new CustomSignUpDialog();
             custom_dialog.showDialog(this, email.getText().toString(), user);
         }
     }

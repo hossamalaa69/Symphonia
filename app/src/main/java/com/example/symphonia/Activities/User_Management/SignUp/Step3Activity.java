@@ -15,7 +15,7 @@ import com.example.symphonia.R;
 
 import java.util.Date;
 
-public class SignUp3 extends AppCompatActivity {
+public class Step3Activity extends AppCompatActivity {
 
     private TextView dateValidity;
     private String user;
@@ -50,7 +50,7 @@ public class SignUp3 extends AppCompatActivity {
     }
 
     public void openNext(View view) {
-        Intent i = new Intent(this, SignUp4.class);
+        Intent i = new Intent(this, Step4Activity.class);
         i.putExtra("user", user);
         i.putExtra("email", email);
         i.putExtra("password", password);

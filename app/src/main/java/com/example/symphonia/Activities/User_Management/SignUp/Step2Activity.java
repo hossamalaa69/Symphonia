@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.symphonia.R;
 
-public class SignUp2 extends AppCompatActivity {
+public class Step2Activity extends AppCompatActivity {
 
     private EditText password;
     private String user;
@@ -61,7 +61,7 @@ public class SignUp2 extends AppCompatActivity {
     }
 
     public void openNext(View view) {
-        Intent i = new Intent(this, SignUp3.class);
+        Intent i = new Intent(this, Step3Activity.class);
         i.putExtra("user", user);
         i.putExtra("email",email);
         i.putExtra("password",password.getText().toString());

@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.example.symphonia.Activities.User_Management.LoginActivity;
 import com.example.symphonia.R;
 
-public class Custom_Dialog_SignUp {
+public class CustomSignUpDialog {
 
     public void showDialog(final Activity activity, final String email, final String type) {
         final Dialog dialog = new Dialog(activity);

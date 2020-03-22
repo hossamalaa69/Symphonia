@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -17,15 +16,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Constants;
-import com.example.symphonia.Helpers.Custom_Dialog_Offline;
-import com.example.symphonia.Helpers.Custom_Dialog_SignUp;
-import com.example.symphonia.Helpers.Custom_Dialog_Skip;
+import com.example.symphonia.Helpers.CustomOfflineDialog;
+import com.example.symphonia.Helpers.CustomSkipDialog;
 import com.example.symphonia.R;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Adapters.GridSpacingItemDecorationAdapter;
 import com.example.symphonia.Adapters.RvGridArtistsAdapter;
 import com.example.symphonia.Service.ServiceController;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
 
@@ -46,17 +43,14 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if(!isOnline()) {
-            if(!isOnline()){
-                Custom_Dialog_Offline custom_dialogOffline = new Custom_Dialog_Offline();
-                custom_dialogOffline.showDialog(this);
-                finish();
-            }
+            CustomOfflineDialog custom_dialogOffline = new CustomOfflineDialog();
+            custom_dialogOffline.showDialog(AddArtistsActivity.this, true);
+            return;
         }
 
         setContentView(R.layout.activity_add_artists);
-
-
         doneButton = (Button) findViewById(R.id.done_button);
         Bundle b = getIntent().getExtras();
 
@@ -76,8 +70,6 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
             doneButton.setVisibility(View.VISIBLE);
            //collapsingToolbarLayout.setTitle(getResources().getString(R.string.title_activity_add_artists));
         }
-
-
 
         serviceController = ServiceController.getInstance();
 
@@ -101,6 +93,13 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         artistList.setLayoutManager(layoutManager);
         adapter = new RvGridArtistsAdapter(mRecommendedArtists, this);
         artistList.setAdapter(adapter);
+
+
+        if(!isOnline()) {
+            CustomOfflineDialog custom_dialogOffline = new CustomOfflineDialog();
+            custom_dialogOffline.showDialog(AddArtistsActivity.this, true);
+        }
+
 
         doneButton = findViewById(R.id.done_button);
         doneButton.setOnClickListener(new View.OnClickListener() {
@@ -201,7 +200,7 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
     public void onBackPressed() {
 
         if(isNewUser){
-            Custom_Dialog_Skip custom_dialog = new Custom_Dialog_Skip();
+            CustomSkipDialog custom_dialog = new CustomSkipDialog();
             custom_dialog.showDialog(this);
             return;
         }

@@ -3,7 +3,6 @@ package com.example.symphonia.Activities.User_Management;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,18 +12,15 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.symphonia.Activities.User_Management.ListenerPages.ForgetPasswordListenerActivity;
 import com.example.symphonia.Activities.UserUI.MainActivity;
-import com.example.symphonia.Helpers.Custom_Dialog_Offline;
+import com.example.symphonia.Helpers.CustomOfflineDialog;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
-
-import java.util.concurrent.ExecutionException;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -129,8 +125,8 @@ public class LoginActivity extends AppCompatActivity {
         ServiceController serviceController = ServiceController.getInstance();
 
         if(!isOnline()){
-            Custom_Dialog_Offline custom_dialogOffline = new Custom_Dialog_Offline();
-            custom_dialogOffline.showDialog(this);
+            CustomOfflineDialog custom_dialogOffline = new CustomOfflineDialog();
+            custom_dialogOffline.showDialog(this, false);
             return;
         }
 
