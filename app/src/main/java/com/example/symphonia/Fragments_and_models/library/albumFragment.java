@@ -1,8 +1,13 @@
 package com.example.symphonia.Fragments_and_models.library;
 
 import android.annotation.SuppressLint;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +23,7 @@ import com.example.symphonia.Adapters.RvListArtistSearchAdapter;
 import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Entities.Copyright;
+import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
 
@@ -53,6 +59,13 @@ public class albumFragment extends Fragment implements RvListArtistSearchAdapter
 
         ImageView albumImage = rootView.findViewById(R.id.album_image);
         albumImage.setImageBitmap(album.getAlbumImage());
+
+        NestedScrollView viewContainer = rootView.findViewById(R.id.container);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            Drawable drawable = Utils.createAlbumBackground(getContext(), album.getAlbumImage());
+            viewContainer.setBackground(drawable);
+        }
+
 
         TextView albumName = rootView.findViewById(R.id.album_name);
         TextView toolbarTitle = rootView.findViewById(R.id.toolbar_title);

@@ -12,9 +12,11 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.palette.graphics.Palette;
 
 import com.example.symphonia.Entities.Track;
+import com.example.symphonia.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -173,6 +175,13 @@ public class Utils {
 
     }
 
+    public static Drawable createAlbumBackground(Context context, Bitmap ImageResources) {
+        int color = getDominantColor(ImageResources);
+
+        return new AlbumDrawable(color, ContextCompat.getColor(context, R.color.colorPrimary));
+
+    }
+
     /**
      * gets the dominant color in a bitmap image
      *
@@ -210,5 +219,12 @@ public class Utils {
             setShape(GradientDrawable.RECTANGLE);
         }
 
+    }
+
+    private static class AlbumDrawable extends  GradientDrawable{
+        private AlbumDrawable(int pStartColor, int pEndColor){
+            super(Orientation.BOTTOM_TOP, new int[]{pEndColor, pStartColor});
+            setShape(GradientDrawable.RECTANGLE);
+        }
     }
 }
