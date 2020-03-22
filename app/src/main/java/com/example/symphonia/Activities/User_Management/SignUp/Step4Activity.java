@@ -36,6 +36,7 @@ public class Step4Activity extends AppCompatActivity {
         btn_female.setBackgroundResource(R.drawable.btn_curved_border);
         openNext();
     }
+
     private void setFemale(View view) {
         view.setBackgroundResource(R.drawable.btn_curved_border_gray);
         Button btn_male = (Button) findViewById(R.id.male);

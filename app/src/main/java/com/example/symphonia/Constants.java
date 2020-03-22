@@ -12,5 +12,4 @@ public class Constants {
 
     public static final boolean DEBUG_STATUS = true;
 
-
 }
