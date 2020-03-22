@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,6 +37,7 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
     private boolean isNewUser = false;
     private Button mButtonDone;
     private int countFollowing = 0;
+    private int mSelectedArtistPosition = 0;
 
 
     @Override
@@ -129,7 +131,6 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         });
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -141,17 +142,24 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
                         Constants.currentToken,
                         selectedArtistId);
 
-                int position = 0;
+
                 if(mRecommendedArtists.contains(selectedArtist)){
-                    position = mRecommendedArtists.indexOf(selectedArtist);
+                    mSelectedArtistPosition = mRecommendedArtists.indexOf(selectedArtist);
                 }
                 else {
                     mRecommendedArtists.add(0, selectedArtist);
                 }
 
-                View view = mArtistsList.findViewHolderForAdapterPosition(position).itemView;
-                View checkImage = view.findViewById(R.id.image_check);
-                checkImage.setVisibility(View.VISIBLE);
+                mArtistsList.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        View view = mArtistsList.findViewHolderForAdapterPosition(mSelectedArtistPosition).itemView;
+                        View checkImage = view.findViewById(R.id.image_check);
+                        checkImage.setVisibility(View.VISIBLE);
+                    }
+                });
+
+
 
                 if(!mServiceController.isFollowing(Constants.currentUser.isListenerType(), Constants.currentToken
                         , selectedArtist.getId())) {
@@ -162,11 +170,11 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
                             mButtonDone.setVisibility(View.VISIBLE);
                     }
                     mServiceController.followArtistOrUser(Constants.currentUser.isListenerType(), Constants.currentToken
-                            , mRecommendedArtists.get(position).getId());
+                            , mRecommendedArtists.get(mSelectedArtistPosition).getId());
                 }
 
                 ArrayList<Artist> relatedArtists = mServiceController.getArtistRelatedArtists(this,
-                        mRecommendedArtists.get(position).getId());
+                        mRecommendedArtists.get(mSelectedArtistPosition).getId());
 
                 for(Artist artist : relatedArtists)
                 {
@@ -175,13 +183,13 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
                             artist.getId()))
                     {
                         if (!mRecommendedArtists.contains(artist)) {
-                            mRecommendedArtists.add(position + 1, artist);
+                            mRecommendedArtists.add(mSelectedArtistPosition + 1, artist);
                         }
                     }
                 }
 
                 mAdapter.notifyDataSetChanged();
-                mLayoutManager.scrollToPositionWithOffset(position, 0);
+                mLayoutManager.scrollToPositionWithOffset(mSelectedArtistPosition, 0);
             }
         }
     }
