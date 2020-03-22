@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.regex.Pattern;
 
 public class MockService implements APIs {
 
@@ -615,8 +616,9 @@ public class MockService implements APIs {
     @Override
     public ArrayList<Artist> searchArtist(Context context, String q, int offset, int limit) {
         ArrayList<Artist> found = new ArrayList<>();
+
         for (Artist artist : mArtists) {
-            if (artist.getArtistName().contains(q))
+            if (Pattern.compile(Pattern.quote(q), Pattern.CASE_INSENSITIVE).matcher(artist.getArtistName()).find())
                 found.add(artist);
         }
 

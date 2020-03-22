@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -22,8 +24,10 @@ import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Adapters.GridSpacingItemDecorationAdapter;
 import com.example.symphonia.Adapters.RvGridArtistsAdapter;
 import com.example.symphonia.Service.ServiceController;
+import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class AddArtistsActivity extends AppCompatActivity implements RvGridArtistsAdapter.ListItemClickListener {
 
@@ -31,7 +35,7 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
     ServiceController serviceController;
     ArrayList<Artist> mRecommendedArtists;
     RvGridArtistsAdapter adapter;
-    RecyclerView artistList;
+    RecyclerView artistsList;
     GridSpacingItemDecorationAdapter mItemDecoration;
     GridLayoutManager layoutManager;
 
@@ -56,18 +60,20 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.toolbar_layout);
-        //collapsingToolbarLayout.setTitleEnabled(true);
+        CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.toolbar_layout);
+
 
         try{
+            assert b != null;
             String recvData = b.getString("newUser");
             isNewUser = true;
             doneButton.setVisibility(View.GONE);
-           //collapsingToolbarLayout.setTitle(getResources().getString(R.string.choose_3_artists));
+            collapsingToolbarLayout.setTitle(getResources().getString(R.string.choose_3_artists));
+
         } catch(Exception e) {
             isNewUser = false;
             doneButton.setVisibility(View.VISIBLE);
-           //collapsingToolbarLayout.setTitle(getResources().getString(R.string.title_activity_add_artists));
+            collapsingToolbarLayout.setTitle(getResources().getString(R.string.title_activity_add_artists));
         }
 
         serviceController = ServiceController.getInstance();
@@ -83,15 +89,15 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
                 mRecommendedArtists.add(artist);
         }
 
-        artistList = findViewById(R.id.rv_artists_grid);
+        artistsList = findViewById(R.id.rv_artists_grid);
         mItemDecoration = new GridSpacingItemDecorationAdapter(mRecommendedArtists.size()
                 ,3, 50, true);
 
-        artistList.addItemDecoration(mItemDecoration);
+        artistsList.addItemDecoration(mItemDecoration);
         layoutManager = new GridLayoutManager(this, 3);
-        artistList.setLayoutManager(layoutManager);
+        artistsList.setLayoutManager(layoutManager);
         adapter = new RvGridArtistsAdapter(mRecommendedArtists, this);
-        artistList.setAdapter(adapter);
+        artistsList.setAdapter(adapter);
 
 
         if(!isOnline()) {
@@ -132,7 +138,47 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
                 assert data != null;
                 String selectedArtistId = data.getStringExtra("SelectedArtistId");
                 Artist selectedArtist = serviceController.getArtist(this, Constants.currentToken, selectedArtistId);
-                serviceController.followArtistOrUser(Constants.currentUser.isListenerType(), Constants.currentToken, selectedArtist.getId());
+                int position = 0;
+                if(mRecommendedArtists.contains(selectedArtist)){
+                    position = mRecommendedArtists.indexOf(selectedArtist);
+                }
+                else {
+                    mRecommendedArtists.add(0, selectedArtist);
+                }
+
+                View view = artistsList.findViewHolderForAdapterPosition(position).itemView;
+                View checkImage = view.findViewById(R.id.check_image);
+
+                checkImage.setVisibility(View.VISIBLE);
+
+
+                if(!serviceController.isFollowing(Constants.currentUser.isListenerType(), Constants.currentToken
+                        , selectedArtist.getId())) {
+
+                    if(isNewUser){
+                        countFollowing ++;
+                        if(countFollowing>=3)
+                            doneButton.setVisibility(View.VISIBLE);
+                    }
+                    serviceController.followArtistOrUser(Constants.currentUser.isListenerType(), Constants.currentToken
+                            , mRecommendedArtists.get(position).getId());
+                }
+
+                ArrayList<Artist> relatedArtists = serviceController.getArtistRelatedArtists(this, mRecommendedArtists.get(position).getId());
+                for(Artist artist : relatedArtists)
+                {
+                    if(!serviceController.isFollowing(Constants.currentUser.isListenerType(), Constants.currentToken
+                            , artist.getId()))
+                    {
+                        if (!mRecommendedArtists.contains(artist)) {
+                            mRecommendedArtists.add(position + 1, artist);
+                        }
+
+                    }
+
+                }
+                adapter.notifyDataSetChanged();
+                layoutManager.scrollToPositionWithOffset(position, 0);
             }
         }
     }
@@ -144,19 +190,15 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         if(!serviceController.isFollowing(Constants.currentUser.isListenerType(), Constants.currentToken
                 , mRecommendedArtists.get(clickedItemIndex).getId())) {
 
-            checkImage.setVisibility(View.VISIBLE);
-            serviceController.followArtistOrUser(Constants.currentUser.isListenerType(), Constants.currentToken
-                    , mRecommendedArtists.get(clickedItemIndex).getId());
-
-            ////////////////////
-            //increase count
             if(isNewUser){
                 countFollowing ++;
                 if(countFollowing>=3)
                     doneButton.setVisibility(View.VISIBLE);
             }
-            //////////////////////////////////////
 
+            checkImage.setVisibility(View.VISIBLE);
+            serviceController.followArtistOrUser(Constants.currentUser.isListenerType(), Constants.currentToken
+                    , mRecommendedArtists.get(clickedItemIndex).getId());
             boolean isAdded = false;
             ArrayList<Artist> relatedArtists = serviceController.getArtistRelatedArtists(this, mRecommendedArtists.get(clickedItemIndex).getId());
             for(Artist artist : relatedArtists)
@@ -167,9 +209,6 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
                     if (!mRecommendedArtists.contains(artist)) {
                         mRecommendedArtists.add(clickedItemIndex + 1, artist);
                         adapter.notifyItemInserted(clickedItemIndex + 1);
-                        artistList.removeItemDecoration(mItemDecoration);
-                        mItemDecoration.setDataSize(mRecommendedArtists.size());
-                        artistList.addItemDecoration(mItemDecoration);
                         isAdded = true;
                     }
 
@@ -216,4 +255,5 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         }
         return false;
     }
+
 }

@@ -3,5 +3,5 @@
     android:color="@color/rippleEffectColor">
 
     <item
-        android:drawable="@android:color/transparent" />
+        android:drawable="@color/colorPrimary" />
 </ripple>

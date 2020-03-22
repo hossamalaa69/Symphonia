@@ -57,6 +57,14 @@ public class albumFragment extends Fragment implements RvListArtistSearchAdapter
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_album, container, false);
 
+        ImageView backIcon = rootView.findViewById(R.id.back_icon);
+        backIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
+
         ImageView albumImage = rootView.findViewById(R.id.album_image);
         albumImage.setImageBitmap(album.getAlbumImage());
 
@@ -74,7 +82,13 @@ public class albumFragment extends Fragment implements RvListArtistSearchAdapter
 
         albumArtists = album.getAlbumArtists();
         artistsList = rootView.findViewById(R.id.rv_artists_list);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity()){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+
         artistsList.setLayoutManager(layoutManager);
         adapter = new RvListArtistSearchAdapter(albumArtists, this);
         artistsList.setAdapter(adapter);
