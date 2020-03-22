@@ -36,6 +36,14 @@ public class Track implements Serializable {
         this.uri = uri;
     }
 
+    public Track(String mTitle, String mArtist, String playlistName, String mAlbum, int mImageResources ){
+        this.mTitle = mTitle;
+        this.mArtist = mArtist;
+        this.mAlbum = mAlbum;
+        this.PlaylistName = playlistName;
+        this.mImageResources = mImageResources;
+    }
+
     public void setmAlbum(String mAlbum) {
         this.mAlbum = mAlbum;
     }

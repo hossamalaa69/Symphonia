@@ -167,4 +167,8 @@
     <string name="shuffle_string">Listen in shuffle</string>
     <string name="shuffle_button">Shuffle Play</string>
 
+    <string name="add_to_like_playlist">added to liked playlist</string>
+    <string name="remove_from_liked_playlist">removed from liked playlist</string>
+    <string name="remove_from_playing_list">removed from playing playlist</string>
+    <string name="return_to_playing_playlist">return to playing playlist</string>
 </resources>

@@ -30,9 +30,12 @@ public class Utils {
     public static String getNameFromEmail(String email) { return email.split("@")[0]; }
 
     public static class MediaPlayerInfo {
+        public MediaPlayerInfo() {
+
+    public static class MediaPlayerInfo {
         public MediaPlayerInfo() { }
 
-        private static MediaPlayer mediaPlayer;
+        public static MediaPlayer mediaPlayer;
         private static AudioManager audioManager;
         private static AudioManager.OnAudioFocusChangeListener onAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
             @Override
@@ -59,6 +62,7 @@ public class Utils {
 
         public static void createMediaPlayer(Context context) {
             mediaPlayer = MediaPlayer.create(context, CurrTrackInfo.track.getUri());
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         }
 
         public static void playTrack(Context context) {
@@ -73,6 +77,7 @@ public class Utils {
                 if (status == AudioManager.AUDIOFOCUS_REQUEST_GRANTED && mediaPlayer != null) {
                     mediaPlayer.seekTo(CurrTrackInfo.currPlayingPos);
                     mediaPlayer.start();
+
 
                 }
             }
@@ -90,21 +95,21 @@ public class Utils {
         }
 
         public static void pauseTrack() {
-            if(mediaPlayer!=null)
-            {
+            if (mediaPlayer != null) {
                 mediaPlayer.pause();
             }
         }
 
         public static void resumeTrack() {
-            if(mediaPlayer!=null)
-            {
+            if (mediaPlayer != null) {
                 mediaPlayer.start();
             }
         }
 
         public static boolean isMediaPlayerPlaying() {
-            return mediaPlayer.isPlaying();
+            if (mediaPlayer != null)
+                return mediaPlayer.isPlaying();
+            return false;
         }
     }
 

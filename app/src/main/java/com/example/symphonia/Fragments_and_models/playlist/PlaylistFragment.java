@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -65,7 +64,6 @@ public class PlaylistFragment extends Fragment {
         appBarLayout = view.findViewById(R.id.appBarLayout2);
         appBarLayout.setScrollbarFadingEnabled(true);
 
-
         playlistImage.setImageBitmap(mPlaylist.getmPlaylistImage());
         playlistTitle.setText(mPlaylist.getmPlaylistTitle());
         madeForUser.setText(R.string.made_for_you_by_spotify);
@@ -75,14 +73,14 @@ public class PlaylistFragment extends Fragment {
         rvTracksHomeAdapter = new RvTracksHomeAdapter(getContext(), mPlaylist.getTracks());
         // transition drawable controls the animation ov changing background
 
-        Drawable background= Utils.createBackground(getContext(),mPlaylist.getmPlaylistImage());
+        Drawable background = Utils.createBackground(getContext(), mPlaylist.getmPlaylistImage());
         TransitionDrawable td = new TransitionDrawable(new Drawable[]{getResources().getDrawable(R.drawable.background), background});
-        RelativeLayout backgroundLayout= view.findViewById(R.id.rl_background_frag_playlist);
+        RelativeLayout backgroundLayout = view.findViewById(R.id.rl_background_frag_playlist);
 
         backgroundLayout.setBackground(td);
         td.startTransition(500);
         rvTracks.setAdapter(rvTracksHomeAdapter);
-           final FrameLayout frameLayout= view.findViewById(R.id.frame_playlist_fragment);
+        final FrameLayout frameLayout = view.findViewById(R.id.frame_playlist_fragment);
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -93,11 +91,34 @@ public class PlaylistFragment extends Fragment {
                     playlistImage.setScaleX(1 / (alpha));
                     playlistImage.setScaleY(1 / (alpha));
                 }
-                frameLayout.setAlpha((long)2*(alpha-1));
+                frameLayout.setAlpha((long) 2 * (alpha - 1));
             }
         });
         //TODO handle toolbar here
         return view;
     }
 
+    public void changeLikedItemAtPos(int pos, boolean isLiked) {
+        View view = rvTracks.getLayoutManager().getChildAt(pos);
+        ImageView ivLike = view.findViewById(R.id.iv_like_track_item);
+        if (isLiked) {
+            ivLike.setImageResource(R.drawable.ic_favorite_black_24dp);
+        } else
+            ivLike.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+
+    }
+
+    public void changeSelected(int prev, int pos) {
+        if (pos != -1) {
+            View view = rvTracks.getLayoutManager().getChildAt(pos);
+            TextView tvTitle = view.findViewById(R.id.tv_track_title_item);
+            tvTitle.setTextColor(getContext().getResources().getColor(R.color.colorGreen));
+        }
+        if (prev > -1) {
+            View prevView = rvTracks.getLayoutManager().getChildAt(prev);
+            TextView tvPrevTitle = prevView.findViewById(R.id.tv_track_title_item);
+            tvPrevTitle.setTextColor(getContext().getResources().getColor(R.color.white));
+        }
+
+    }
 }
