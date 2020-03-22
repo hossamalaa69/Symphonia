@@ -128,7 +128,9 @@ public class Utils {
      * @return boolean
      */
     public final static boolean isValidEmail(CharSequence target) {
+        //checks if text is empty
         if (target == null) return false;
+        //return validity of text as email matching with email's pattern(built-in library)
         return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 
@@ -148,9 +150,6 @@ public class Utils {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    public int add2(int x, int y) {
-        return x + y;
-    }
 
     /**
      * create gradient background for an image

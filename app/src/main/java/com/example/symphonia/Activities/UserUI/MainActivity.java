@@ -360,7 +360,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     }
 
     public void checkUserType() {
-        /*if(Constants.user.isListenerType())
+        /*if(Constants.currentUser.isListenerType())
             Toast.makeText(this, "Listener", Toast.LENGTH_SHORT).show();
         else
             Toast.makeText(this, "Artist", Toast.LENGTH_SHORT).show();*/

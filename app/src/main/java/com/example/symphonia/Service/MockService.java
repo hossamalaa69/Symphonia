@@ -40,14 +40,15 @@ public class MockService implements APIs {
         mListenerArrayList = new ArrayList<>();
         mArtistArrayList = new ArrayList<>();
 
+        //add 3 users of type listeners
         mListenerArrayList.add(new User("user1@symphonia.com", "12345678", true));
         mListenerArrayList.add(new User("user2@symphonia.com", "12345678", true));
         mListenerArrayList.add(new User("user3@symphonia.com", "12345678", true));
 
+        //add 3 users of type artist
         mArtistArrayList.add(new User("artist1@symphonia.com", "12345678", false));
         mArtistArrayList.add(new User("artist2@symphonia.com", "12345678", false));
         mArtistArrayList.add(new User("artist3@symphonia.com", "12345678", false));
-
 
         mRecentSearches = new ArrayList<>();
 
@@ -180,17 +181,24 @@ public class MockService implements APIs {
 
     @Override
     public boolean logIn(Context context, String username, String password, boolean mType) {
+        //initial index of user in users list
         int userIndex = -1;
 
+        //checks if user is listener
         if (mType) {
+
+            //search in list of user's email & password
             for (int i = 0; i < mListenerArrayList.size(); i++) {
                 if (username.equals(mListenerArrayList.get(i).getmEmail()) &&
                         password.equals(mListenerArrayList.get(i).getmPassword())) {
+                    //if found, then store index and stop search
                     userIndex = i;
                     break;
                 }
             }
         } else {
+
+            //in list of artist user
             for (int i = 0; i < mArtistArrayList.size(); i++) {
                 if (username.equals(mArtistArrayList.get(i).getmEmail()) &&
                         password.equals(mArtistArrayList.get(i).getmPassword())) {
@@ -200,18 +208,23 @@ public class MockService implements APIs {
             }
         }
 
+        //checks if data isn't in list
         if (userIndex == -1)
             return false;
 
-
+        //if user is artist
         if (!mType) {
+
+            //set token
             Constants.currentToken = "token2";
 
+            //add some artists
             ArrayList<Artist> followed = new ArrayList<>();
             for (int i = 5; i < 10; i++) {
                 followed.add(mArtists.get(i));
             }
 
+            //creates object of user to store logged in user's data
             Constants.currentUser = new User(mArtistArrayList.get(userIndex).getmEmail(), false
                     , Utils.convertToBitmap(R.drawable.download)
                     , "Islam Ahmed", "1998/24/11", "male", true
@@ -219,6 +232,8 @@ public class MockService implements APIs {
                     , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
                     , followed, mAlbums, new ArrayList<Track>());
         } else {
+
+            //for listener type, set different token
             Constants.currentToken = "token1";
 
             ArrayList<Artist> followed = new ArrayList<>();
@@ -241,7 +256,10 @@ public class MockService implements APIs {
     public boolean signUp(Context context, boolean mType, String email, String password,
                           String DOB, String gender, String name) {
 
+        //set new token for current new user
         Constants.currentToken = "newToken";
+
+        //creates new object of user and fill data
         Constants.currentUser = new User(email, mType, Utils.convertToBitmap(R.drawable.download)
                 , name, DOB, gender, false, 0, 0, new ArrayList<User>()
                 , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
@@ -253,9 +271,11 @@ public class MockService implements APIs {
     @Override
     public boolean checkEmailAvailability(Context context, String email, boolean mType) {
         if (mType) {
+            //if user is listener, then check in listeners list
             for (int i = 0; i < mListenerArrayList.size(); i++)
                 if (email.equals(mListenerArrayList.get(i).getmEmail())) return false;
         } else {
+            //if user is artist, then check artists list
             for (int i = 0; i < mArtistArrayList.size(); i++)
                 if (email.equals(mArtistArrayList.get(i).getmEmail())) return false;
         }

@@ -29,6 +29,7 @@ public class PremiumAdapter extends RecyclerView.Adapter<PremiumAdapter.Holder> 
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        //sets layout for each item in recycler
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.rv_item_premium, parent, false);
 
@@ -53,11 +54,13 @@ public class PremiumAdapter extends RecyclerView.Adapter<PremiumAdapter.Holder> 
 
         public Holder(@NonNull View itemView) {
             super(itemView);
+            //gets text views that holds strings
             text_view_free = (TextView) itemView.findViewById(R.id.text_free);
             text_view_premium = (TextView) itemView.findViewById(R.id.text_prem);
         }
 
         public void bind(int position) {
+            //gets each feature from array, then sets it in text views
             String txtFree = mFeaturesFree.get(position);
             String txtPrem = mFeaturesPrem.get(position);
             text_view_free.setText(txtFree);
