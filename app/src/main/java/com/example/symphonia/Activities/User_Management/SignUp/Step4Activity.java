@@ -9,14 +9,40 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.symphonia.R;
 
+/**
+ * Activity that handles sign up for step4 when user enters his gender
+ *
+ * @author: Hossam Alaa
+ * @since: 22-3-2020
+ * @version: 1.0
+ */
 public class Step4Activity extends AppCompatActivity {
 
+    /**
+     * Holds user type
+     */
     private String mUser;
+    /**
+     * holds user password
+     */
     private String mPassword;
+    /**
+     * holds user email
+     */
     private String mEmail;
+    /**
+     * Holds user Date of birth
+     */
     private String mDOB;
+    /**
+     * holds gender of user
+     */
     private String mGender;
 
+    /**
+     * Represents the initialization of activity
+     @param savedInstanceState represents received data from other activities
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +56,10 @@ public class Step4Activity extends AppCompatActivity {
         mDOB = b.getString("DOB");
     }
 
+    /**
+     * Makes male button marked as chosen, sends to next step
+     * @param view holds button clicked(male)
+     */
     public void setMale(View view){
         //makes male button marked as pressed, then go for next activity
         view.setBackgroundResource(R.drawable.btn_curved_border_gray);
@@ -41,6 +71,10 @@ public class Step4Activity extends AppCompatActivity {
         openNext();
     }
 
+    /**
+     * Makes female button marked as chosen, sends to next step
+     * @param view holds button clicked(female)
+     */
     public void setFemale(View view) {
         //makes female button marked as pressed, then go for next activity
         view.setBackgroundResource(R.drawable.btn_curved_border_gray);
@@ -52,6 +86,9 @@ public class Step4Activity extends AppCompatActivity {
         openNext();
     }
 
+    /**
+     * opens next page of sign up
+     */
     public void openNext() {
         //goes for next step with all user's data
         Intent i = new Intent(this, Step5Activity.class);

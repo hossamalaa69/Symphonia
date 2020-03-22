@@ -13,8 +13,23 @@ import android.widget.TextView;
 import com.example.symphonia.Activities.User_Management.LoginActivity;
 import com.example.symphonia.R;
 
+/**
+ * Class that handles showing custom dialog if user is signing up
+ * with existing account in database
+ *
+ * @author: Hossam Alaa
+ * @since: 22-3-2020
+ * @version: 1.0
+ */
 public class CustomSignUpDialog {
 
+    /**
+     * function that shows and initializes dialog
+     *
+     * @param activity activity that calls this dialog
+     * @param email holds user input email
+     * @param type holds user type
+     */
     public void showDialog(final Activity activity, final String email, final String type) {
 
         //sets dialog activity to be shown in

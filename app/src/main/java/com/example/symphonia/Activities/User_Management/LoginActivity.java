@@ -22,15 +22,40 @@ import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
 
-
+/**
+ * Activity that handles login for any type of users with some validations
+ *
+ * @author: Hossam Alaa
+ * @since: 22-3-2020
+ * @version: 1.0
+ */
 public class LoginActivity extends AppCompatActivity {
 
+    /**
+     * Holds textView that shows user that combination of input is wrong
+     */
     private TextView text_view_errorInput;
+    /**
+     * Holds editText that contains email input
+     */
     private EditText edit_text_email;
+    /**
+     * Holds editText that contains password input
+     */
     private EditText edit_text_password;
+    /**
+     * holds type of user (Listener of artist)
+     */
     private String mType;
+    /**
+     * holds if data is valid or not
+     */
     private boolean mIsValid;
 
+    /**
+     * Represents the initialization of activity
+     @param savedInstanceState represents received data from other activities
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,6 +149,9 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * enables (Login button) to go for home page
+     */
     public void enableButton() {
         //gets button by id, then makes it enabled
         Button btn_login = findViewById(R.id.login);
@@ -131,6 +159,9 @@ public class LoginActivity extends AppCompatActivity {
         btn_login.setBackgroundResource(R.drawable.btn_curved_white);
     }
 
+    /**
+     * disables (Login button) to prevent user to go login
+     */
     public void lockButton() {
         //gets button by id, then makes it locked
         Button btn_login = findViewById(R.id.login);
@@ -138,6 +169,10 @@ public class LoginActivity extends AppCompatActivity {
         btn_login.setBackgroundResource(R.drawable.btn_curved_gray);
     }
 
+    /**
+     * opens home page if pressed with some validations
+     * @param view holds pressed button(Login)
+     */
     public void openHome(View view) {
         //creates object of service controller class
         ServiceController serviceController = ServiceController.getInstance();
@@ -166,6 +201,10 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Opens to user page of forget password, sends his entered email to it
+     * @param view holds pressed button(forget password button)
+     */
     public void openForget(View view) {
         //gets email from input text, then send it forget password activity
         edit_text_email = findViewById(R.id.emailInput);
@@ -174,6 +213,10 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    /**
+     * Checks if internet is connected
+     * @return returns true if internet is connected
+     */
     public boolean isOnline() {
         //accesses connection service of mobile
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);

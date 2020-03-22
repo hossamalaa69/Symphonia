@@ -21,12 +21,32 @@ import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
 
+/**
+ * Activity that handles sign up for step1 when user enters his email with some validations
+ *
+ * @author: Hossam Alaa
+ * @since: 22-3-2020
+ * @version: 1.0
+ */
 public class Step1Activity extends AppCompatActivity {
 
+    /**
+     * represents Edit text that holds email input
+     */
     private EditText mEmail;
+    /**
+     * represents string that contains email of user
+     */
     private String mUser;
+    /**
+     * represents user type
+     */
     private boolean mType;
 
+    /**
+     * Represents the initialization of activity
+     * @param savedInstanceState represents received data from other activities
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +90,10 @@ public class Step1Activity extends AppCompatActivity {
         });
     }
 
+    /**
+     * opens next page of sign up
+     * @param view holds clicked button
+     */
     public void openNext(View view) {
         //creates object of serviceController
         ServiceController serviceController = ServiceController.getInstance();
@@ -99,6 +123,9 @@ public class Step1Activity extends AppCompatActivity {
         }
     }
 
+    /**
+     * enables (Next button) to go for next step of sign up
+     */
     public void enableButton() {
         //gets button by id, then makes it enabled
         Button login = findViewById(R.id.next);
@@ -106,6 +133,9 @@ public class Step1Activity extends AppCompatActivity {
         login.setBackgroundResource(R.drawable.btn_curved_white);
     }
 
+    /**
+     * disables (Next button) to prevent user to go next step
+     */
     public void lockButton() {
         //gets button by id, then makes it disabled
         Button login = findViewById(R.id.next);
@@ -113,6 +143,10 @@ public class Step1Activity extends AppCompatActivity {
         login.setBackgroundResource(R.drawable.btn_curved_gray);
     }
 
+    /**
+     * Checks if internet is connected
+     * @return returns true if internet is connected
+     */
     public boolean isOnline() {
         //accesses connection service of mobile
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);

@@ -15,14 +15,43 @@ import com.example.symphonia.R;
 
 import java.util.Date;
 
+
+/**
+ * Activity that handles sign up for step3 when user enters his
+ * Birth date with some validations
+ *
+ * @author: Hossam Alaa
+ * @since: 22-3-2020
+ * @version: 1.0
+ */
 public class Step3Activity extends AppCompatActivity {
 
+    /**
+     * Holds textView that shows that user is under-age
+     */
     private TextView mDateValidity;
+    /**
+     * Holds user type
+     */
     private String mUser;
+    /**
+     * holds user password
+     */
     private String mPassword;
+    /**
+     * holds user email
+     */
     private String mEmail;
+    /**
+     * holds datePicker that's shown to user
+     */
     private DatePicker mDatePicker;
 
+
+    /**
+     * Represents the initialization of activity
+      @param savedInstanceState represents received data from other activities
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +80,10 @@ public class Step3Activity extends AppCompatActivity {
         });
     }
 
+    /**
+     * opens next page of sign up
+     * @param view holds clicked button
+     */
     public void openNext(View view) {
         //goes to next step activity with data
         Intent i = new Intent(this, Step4Activity.class);
@@ -66,6 +99,9 @@ public class Step3Activity extends AppCompatActivity {
         startActivity(i);
     }
 
+    /**
+     * enables (Next button) to go for next step of sign up
+     */
     public void enableButton() {
         //gets (Next button) by id then makes it enabled
         mDateValidity.setVisibility(View.INVISIBLE);
@@ -74,6 +110,9 @@ public class Step3Activity extends AppCompatActivity {
         btn_login.setBackgroundResource(R.drawable.btn_curved_white);
     }
 
+    /**
+     * disables (Next button) to prevent user to go next step
+     */
     public void lockButton() {
         //gets (Next button) by id then makes it disabled
         mDateValidity.setVisibility(View.VISIBLE);

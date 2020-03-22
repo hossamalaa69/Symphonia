@@ -22,16 +22,48 @@ import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
 
+/**
+ * Activity that handles sign up for last step when user enters his name with some validations
+ *
+ * @author: Hossam Alaa
+ * @since: 22-3-2020
+ * @version: 1.0
+ */
 public class Step5Activity extends AppCompatActivity  {
 
+    /**
+     * Holds EditText for user's name input
+     */
     private EditText edit_text_name;
+    /**
+     * holds type of user
+     */
     private String mUser;
+    /**
+     * holds user's password
+     */
     private String mPassword;
+    /**
+     * holds user's email
+     */
     private String mEmail;
+    /**
+     * holds user's date of birth
+     */
     private String mDOB;
+    /**
+     * holds user's gender
+     */
     private String mGender;
+    /**
+     * holds user's name
+     */
     private String mName;
 
+    /**
+     * Represents the initialization of activity
+     @param savedInstanceState represents received data from other activities
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +120,9 @@ public class Step5Activity extends AppCompatActivity  {
         });
     }
 
+    /**
+     * opens next page of sign up
+     */
     public void openNext(View view) {
         //creates object of service controller class
         ServiceController serviceController = ServiceController.getInstance();
@@ -114,6 +149,9 @@ public class Step5Activity extends AppCompatActivity  {
         startActivity(i);
     }
 
+    /**
+     * enables (Next button) to go for next step of sign up
+     */
     public void enableButton() {
         //gets button by id, then makes it enabled
         Button btn_login = findViewById(R.id.next);
@@ -121,6 +159,9 @@ public class Step5Activity extends AppCompatActivity  {
         btn_login.setBackgroundResource(R.drawable.btn_curved_white);
     }
 
+    /**
+     * disables (Next button) to prevent user to go next step
+     */
     public void lockButton() {
         //gets button by id, then makes it disabled
         Button btn_login = findViewById(R.id.next);
@@ -128,6 +169,10 @@ public class Step5Activity extends AppCompatActivity  {
         btn_login.setBackgroundResource(R.drawable.btn_curved_gray);
     }
 
+    /**
+     * Checks if internet is connected
+     * @return returns true if internet is connected
+     */
     public boolean isOnline() {
         //accesses connection service of mobile
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);

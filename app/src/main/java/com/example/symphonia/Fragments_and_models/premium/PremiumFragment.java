@@ -20,15 +20,35 @@ import com.example.symphonia.R;
 
 import java.util.ArrayList;
 
+/**
+ * Fragment that handles user interaction with premium page
+ * handles all requests to be premium account
+ *
+ * @author: Hossam Alaa
+ * @since: 22-3-2020
+ * @version: 1.0
+ */
 public class PremiumFragment extends Fragment {
 
-    private PremiumViewModel mPremiumViewModel;
-
+    /**
+     * array of free features to be displayed
+     */
     private ArrayList<String> mFeaturesFree;
+    /**
+     * array of premium features to be displayed
+     */
     private ArrayList<String> mFeaturesPrem;
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     * @param inflater object that can be used to inflate any views in the fragment
+     * @param container parent view that the fragment's UI should be attached to.
+     * @param savedInstanceState this fragment is being re-constructed from a previous saved state as given here.
+     * @return returns the View for the fragment's UI
+     */
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mPremiumViewModel = ViewModelProviders.of(this).get(PremiumViewModel.class);
+
+        //sets layout for this fragment
         View root = inflater.inflate(R.layout.fragment_premium, container, false);
 
         //makes text view with anchor to be clickable

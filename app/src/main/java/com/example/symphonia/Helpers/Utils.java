@@ -26,8 +26,25 @@ import java.util.List;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
+/**
+ * Class that holds many functions to be used in all classes
+ *
+ * @author: All team members
+ * @since: 22-3-2020
+ * @version: 1.0
+ */
 public class Utils {
 
+    /**
+     *
+     * extracts name from email
+     * @param email email input from user
+     * @return returns extracted name from this email
+     *
+     * @author: Hossam Alaa
+     * @since: 22-3-2020
+     * @version: 1.0
+     */
     public static String getNameFromEmail(String email) {
         return email.split("@")[0];
     }
@@ -123,10 +140,13 @@ public class Utils {
 
 
     /**
-     * check if string is email form or not
+     * checks if string is in email form or not
      *
-     * @param target: input string
-     * @return boolean
+     * @param target input string to be checked
+     * @return returns true if it's valid
+     * @author: Hossam Alaa
+     * @since: 22-3-2020
+     * @version: 1.0
      */
     public final static boolean isValidEmail(CharSequence target) {
         //checks if text is empty

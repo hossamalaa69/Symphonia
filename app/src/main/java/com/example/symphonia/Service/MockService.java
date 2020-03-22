@@ -20,6 +20,15 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.regex.Pattern;
 
+/**
+ * Class that holds all functions to be used to fill metadata of application
+ * using dependency injection, which implements APIs interface
+ *
+ * @author Hossam Alaa
+ * @since 23-3-2020
+ * @version: 1.0
+ */
+
 public class MockService implements APIs {
 
     private Boolean firstTimeToGetRecentSearches;
@@ -31,10 +40,20 @@ public class MockService implements APIs {
     private ArrayList<Container> mRecentSearches;
     private ArrayList<Playlist> mPopularPlaylists;
 
+    /**
+     * Array that holds some users of type listener to be mimic
+     */
     private ArrayList<User> mListenerArrayList;
+    /**
+     * Array that holds some users of type artist to be mimic
+     */
     private ArrayList<User> mArtistArrayList;
 
+    /**
+     * constructor of mockService class that initializes all mimic data
+     */
     public MockService() {
+
         firstTimeToGetRecentSearches=true;
         mRecentSearches = new ArrayList<>();
         mListenerArrayList = new ArrayList<>();
@@ -194,6 +213,14 @@ public class MockService implements APIs {
         return mPopularPlaylists;
     }
 
+    /**
+     * holds logging user in, creation of user object and sets token
+     * @param context holds context of activity that called this method
+     * @param username email or username of user
+     * @param password password of user
+     * @param mType type of user, true for listener and false for artist
+     * @return return true if data is matched
+     */
     @Override
     public boolean logIn(Context context, String username, String password, boolean mType) {
         //initial index of user in users list
@@ -266,7 +293,18 @@ public class MockService implements APIs {
         return true;
     }
 
-
+    /**
+     * handles that user is signing up, initializes new user object
+     * fill database with new user
+     * @param context holds context of activity that called this method
+     * @param mType type of user, true for listener and false for artist
+     * @param email email of user
+     * @param password password of user
+     * @param DOB date of birth of user
+     * @param gender gender of user
+     * @param name name of user
+     * @return returns true if sign up is done
+     */
     @Override
     public boolean signUp(Context context, boolean mType, String email, String password,
                           String DOB, String gender, String name) {
@@ -283,6 +321,14 @@ public class MockService implements APIs {
         return true;
     }
 
+
+    /**
+     * checks if email is already signed in database or not
+     * @param context holds context of activity that called this method
+     * @param email email of user
+     * @param mType type of user, true for listener and false for artist
+     * @return returns true if email is new, false if it's signed before
+     */
     @Override
     public boolean checkEmailAvailability(Context context, String email, boolean mType) {
         if (mType) {

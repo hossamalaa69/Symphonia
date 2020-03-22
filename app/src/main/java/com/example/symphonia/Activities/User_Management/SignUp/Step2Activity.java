@@ -15,12 +15,32 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.symphonia.R;
 
+/**
+ * Activity that handles sign up for step2 when user enters his password with some validations
+ *
+ * @author: Hossam Alaa
+ * @since: 22-3-2020
+ * @version: 1.0
+ */
 public class Step2Activity extends AppCompatActivity {
 
+    /**
+     * represents Edit text that holds password input
+     */
     private EditText mPassword;
+    /**
+     * represents string that holds user type
+     */
     private String mUser;
+    /**
+     * represents string that holds email
+     */
     private String mEmail;
 
+    /**
+     * Represents the initialization of activity
+     * @param savedInstanceState represents received data from other activities
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +82,10 @@ public class Step2Activity extends AppCompatActivity {
         });
     }
 
+    /**
+     * opens next page of sign up
+     * @param view holds clicked button
+     */
     public void openNext(View view) {
         //got to next step of sign up with user's data
         Intent i = new Intent(this, Step3Activity.class);
@@ -71,6 +95,9 @@ public class Step2Activity extends AppCompatActivity {
         startActivity(i);
     }
 
+    /**
+     * enables (Next button) to go for next step of sign up
+     */
     public void enableButton() {
         //gets (Next button) by id then makes it enabled
         Button login = findViewById(R.id.next);
@@ -78,6 +105,9 @@ public class Step2Activity extends AppCompatActivity {
         login.setBackgroundResource(R.drawable.btn_curved_white);
     }
 
+    /**
+     * disables (Next button) to prevent user to go next step
+     */
     public void lockButton() {
         //gets (Next button) by id then makes it disabled
         Button login = findViewById(R.id.next);
