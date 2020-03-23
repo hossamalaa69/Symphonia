@@ -48,7 +48,7 @@
     </style>
 
     <style name="TextAppearance.MyApp.Title.Expanded" parent="android:TextAppearance">
-        <item name="android:textSize">26sp</item>
+        <item name="android:textSize">22sp</item>
     </style>
 
 </resources>

@@ -171,4 +171,6 @@
     <string name="remove_from_liked_playlist">removed from liked playlist</string>
     <string name="remove_from_playing_list">removed from playing playlist</string>
     <string name="return_to_playing_playlist">return to playing playlist</string>
+    <string name="do_you_want_to_log_in_instead">Do you want to log in instead?</string>
+    <string name="choose_artists">CHOOSE ARTISTS</string>
 </resources>

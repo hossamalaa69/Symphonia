@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_below="@id/text_dialog"
-        android:text="Do you want to log in instead?"
+        android:text="@string/do_you_want_to_log_in_instead"
         android:id="@+id/text_dialog2"
         app:autoSizeTextType="uniform"
         app:autoSizeMinTextSize="8sp"

@@ -76,7 +76,7 @@
     <string name="cancel_button">إلغاء</string>
     <string name="create_playlist_button">إنشاء</string>
     <string name="skip_playlist_name">تخطي</string>
-    <string name="title_activity_add_artists">اختر المغنيين المفضلين لك</string>
+    <string name="title_activity_add_artists">اختر مغنيينك المفضلين</string>
     <string name="done_button">تم</string>
     <string name="settings">الإعدادات</string>
     <string name="todo">مطلوب</string>
@@ -114,7 +114,7 @@
     <string name="play_any_song">تشغيل أيّ \n أغنية</string>
     <string name="with_locked_songs">بدون أغاني \n مغلقة</string>
     <string name="See_More">شاهد المزيد</string>
-    <string name="choose_3_artists">اختر ٣ أو أكثر من المغنيين كما تحب.</string>
+    <string name="choose_3_artists">اختر ٣ مغنيين أو أكثر.</string>
     <string name="are_you_sure">متأكد؟</string>
     <string name="why_skip">اختيار المغنيين يستغرق دقائق, وسوف يجعل سيمفونيا أفضل لك.</string>
     <string name="skip">تخطي</string>
@@ -154,6 +154,7 @@
     <string name="shuffle_string">استمع عشوائيًا</string>
     <string name="shuffle_button">تشغيل عشوائي</string>
     <string name="not_found_state_2">حاول البحث مرة اخرى او استخدام كلمات أخرى</string>
-
-
+    <string name="do_you_want_to_log_in_instead">هل تريد تسجيل الدخول؟</string>
+    <string name="choose_artists">اختر مغنيين</string>
+    س
 </resources>
