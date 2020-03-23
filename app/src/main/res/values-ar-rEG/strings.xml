@@ -64,7 +64,7 @@
     <string name="See_all_profiles">مشاهدة جميع ملفات التعريف</string>
     <string name="Clear_recent_searches">مسح عمليات البحث الأخيرة</string>
     <string name="Recent_searches">عمليات البحث الأخيرة</string>
-    <string name="artist_search_empty_state">ابحث عن فنانيك المفضلين</string>
+    <string name="artist_search_empty_state">ابحث عن الفنانين المفضلين لك</string>
     <string name="library_toolbar_title">الموسيقى</string>
     <string name="library_tab_playlists">قوائم التشغيل</string>
     <string name="library_tab_artists">الفنانين</string>
@@ -72,11 +72,11 @@
     <string name="create_playlist">انشئ قائمة تشغيل</string>
     <string name="add_artists">أضف فنانين</string>
     <string name="albums_empty_state">ألبوماتك سوف تظهر هنا</string>
-    <string name="create_playlist_description">أعطِ قائمة تشغيلك اسمًا</string>
+    <string name="create_playlist_description">قم بتسمية قائمة التشغيل</string>
     <string name="cancel_button">إلغاء</string>
     <string name="create_playlist_button">إنشاء</string>
     <string name="skip_playlist_name">تخطي</string>
-    <string name="title_activity_add_artists">اختر فنانيك المفضلون</string>
+    <string name="title_activity_add_artists">اختر المغنيين المفضلين لك</string>
     <string name="done_button">تم</string>
     <string name="settings">الإعدادات</string>
     <string name="todo">مطلوب</string>
@@ -153,7 +153,7 @@
     <string name="return_to_playing_playlist">اضافة الى القائمة الحاليه</string>
     <string name="shuffle_string">استمع عشوائيًا</string>
     <string name="shuffle_button">تشغيل عشوائي</string>
-    <string name="not_found_state_2">حاول البحث مرة اخرى او استخدام كلمات بحث أخرى</string>
+    <string name="not_found_state_2">حاول البحث مرة اخرى او استخدام كلمات أخرى</string>
 
 
 </resources>
