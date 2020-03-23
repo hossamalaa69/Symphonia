@@ -25,11 +25,11 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     private ListItemClickListner listner;
 
     public interface ListItemClickListner{
-        void onItemEraseListener(int pos,int containerSize);
+        void onItemEraseListener(int pos,int containerSize);//handle clicking on close image
     }
 
     /**
-     *
+     *constructor of the adapter
      * @param data Arraylist of Container which has the data of the adapter
      * @param b if true show enter image else show close image
      * @param l context
@@ -42,7 +42,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     }
 
     /**
-     *
+     *constructor of adapter
      * @param data Arraylist of Container which has the data of the adapter
      * @param b if true show enter image else show close image
      * @param a if true the text in the second textview will be shortened
@@ -54,7 +54,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     }
 
     /**
-     *
+     *Called when RecyclerView needs a new RecyclerView.ViewHolder
      * @param parent The ViewGroup into which the new View will be added after it is bound to an adapter position.
      * @param viewType The view type of the new View.
      * @return SearchResultViewHolder
@@ -87,7 +87,6 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     }
 
     /**
-     *
      * @return return number of items in recyclerview which will be the Arraylist size
      */
     @Override
@@ -113,7 +112,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         }
 
         /**
-         *
+         *set text and recources in the views of the adapter's item
          * @param pos position of the adapter item
          */
         public void MakeResult(int pos) {

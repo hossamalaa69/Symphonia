@@ -24,9 +24,9 @@ import com.example.symphonia.Service.ServiceController;
 import java.util.ArrayList;
 
 /**
+ * fragment to show search_forall_layout
  * @author Mahmoud Amr Nabil
  * @version 1.0
- * fragment to show search_forall_layout
  */
 public class SearchForAllFragment extends Fragment {
     private String searchBy;
@@ -54,7 +54,13 @@ public class SearchForAllFragment extends Fragment {
         searchBy=s1;
         searchFor=s2;
     }
-
+    /**
+     *attach views and add data to the layout
+     * @param inflater inflate fragment layout
+     * @param container fragment viewgroup
+     * @param savedInstanceState saved data from previous calls
+     * @return fragment view
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

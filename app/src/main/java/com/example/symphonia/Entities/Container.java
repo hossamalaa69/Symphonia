@@ -1,5 +1,9 @@
 package com.example.symphonia.Entities;
 
+/**
+ * @author Mahmoud Amr Nabil
+ * @version 1.0
+ */
 public class Container {
     private String catName;
     private String catName2;

@@ -20,9 +20,9 @@ import com.example.symphonia.Service.ServiceController;
 import java.util.ArrayList;
 
 /**
+ * fragment to show all_popular_playlists layout
  * @author Mahmoud Amr Nabil
  * @version 1.0
- * fragment to show all_popular_playlists layout
  */
 public class PopularPlaylistsFragment extends Fragment {
     private ServiceController controller;
@@ -34,6 +34,13 @@ public class PopularPlaylistsFragment extends Fragment {
             getFragmentManager().popBackStack();
         }
     };
+    /**
+     *attach views and add data to the layout
+     * @param inflater inflate fragment layout
+     * @param container fragment viewgroup
+     * @param savedInstanceState saved data from previous calls
+     * @return fragment view
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

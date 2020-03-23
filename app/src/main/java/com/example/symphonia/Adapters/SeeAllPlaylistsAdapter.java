@@ -23,7 +23,7 @@ public class SeeAllPlaylistsAdapter extends RecyclerView.Adapter<SeeAllPlaylists
     private boolean showText;
 
     /**
-     *
+     *constructor of the adapter
      * @param data Arraylist of Container which has the data of the adapter
      * @param b if true textView2 won't be shown
      */
@@ -33,7 +33,7 @@ public class SeeAllPlaylistsAdapter extends RecyclerView.Adapter<SeeAllPlaylists
     }
 
     /**
-     *
+     *Called when RecyclerView needs a new RecyclerView.ViewHolder
      * @param parent The ViewGroup into which the new View will be added after it is bound to an adapter position.
      * @param viewType The view type of the new View.
      * @return SeeAllPlaylistsViewHolder

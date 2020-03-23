@@ -29,9 +29,9 @@ import com.google.android.material.appbar.AppBarLayout;
 import java.util.ArrayList;
 
 /**
+ * fragment to show category_layout
  * @author Mahmoud Amr Nabil
  * @version 1.0
- * fragment to show category_layout
  */
 public class CategoryFragment extends Fragment {
     private ServiceController serviceController;
@@ -64,7 +64,13 @@ public class CategoryFragment extends Fragment {
     public CategoryFragment(Container cat){
         category=cat;
     }
-
+    /**
+     *attach views and add data to the layout
+     * @param inflater inflate fragment layout
+     * @param container fragment viewgroup
+     * @param savedInstanceState saved data from previous calls
+     * @return fragment view
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -170,6 +176,7 @@ public class CategoryFragment extends Fragment {
     }
 
     /**
+     * get the data of the popular playlists
      * @return ArrayList of Container of Popular Playlists data
      */
     private ArrayList<Container> getPopularPlaylists(){

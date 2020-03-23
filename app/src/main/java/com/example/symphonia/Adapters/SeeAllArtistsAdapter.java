@@ -22,7 +22,7 @@ public class SeeAllArtistsAdapter extends RecyclerView.Adapter<SeeAllArtistsAdap
     private ArrayList<Container> container;
 
     /**
-     *
+     *costrucor of adapter
      * @param data  Arraylist of Container which has the data of the adapter
      */
     public SeeAllArtistsAdapter(ArrayList<Container> data) {
@@ -30,7 +30,7 @@ public class SeeAllArtistsAdapter extends RecyclerView.Adapter<SeeAllArtistsAdap
     }
 
     /**
-     *
+     *Called when RecyclerView needs a new RecyclerView.ViewHolder
      * @param parent The ViewGroup into which the new View will be added after it is bound to an adapter position.
      * @param viewType The view type of the new View.
      * @return SeeAllArtistsViewHolder
@@ -76,7 +76,7 @@ public class SeeAllArtistsAdapter extends RecyclerView.Adapter<SeeAllArtistsAdap
             imageView=itemView.findViewById(R.id.img_search_all_artists);
         }
         /**
-         *
+         *set text and recources in the views of the adapter's item
          * @param pos position of the adapter item
          */
         public void makeResult(int pos) {

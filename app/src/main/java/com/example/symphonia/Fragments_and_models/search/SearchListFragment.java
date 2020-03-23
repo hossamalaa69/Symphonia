@@ -33,9 +33,9 @@ import com.example.symphonia.Service.ServiceController;
 import java.util.ArrayList;
 
 /**
+ * fragment to show searchlist layout
  * @author Mahmoud Amr Nabil
  * @version 1.0
- * fragment to show searchlist layout
  */
 public class SearchListFragment extends Fragment implements SearchResultAdapter.ListItemClickListner{
     private ServiceController controller;
@@ -224,7 +224,13 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
         }
     };
 
-
+    /**
+     *attach views and add data to the layout
+     * @param inflater inflate fragment layout
+     * @param container fragment viewgroup
+     * @param savedInstanceState saved data from previous calls
+     * @return fragment view
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,

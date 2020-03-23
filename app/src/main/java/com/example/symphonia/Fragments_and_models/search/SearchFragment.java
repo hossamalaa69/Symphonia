@@ -22,9 +22,9 @@ import com.example.symphonia.Service.ServiceController;
 import java.util.ArrayList;
 
 /**
+ * SearchFragment to show the fragment_search layout
  * @author Mahmoud Amr Nabil
  * @version 1.0
- * SearchFragment to show the fragment_search layout
  */
 public class SearchFragment extends Fragment implements SearchMainAdapter.CatListItemClickListner {
 
@@ -47,7 +47,13 @@ public class SearchFragment extends Fragment implements SearchMainAdapter.CatLis
     private SearchMainAdapter genresAdapter;
 
     private SearchViewModel searchViewModel;
-
+    /**
+     *attach views and add data to the layout
+     * @param inflater inflate fragment layout
+     * @param container fragment viewgroup
+     * @param savedInstanceState saved data from previous calls
+     * @return fragment view
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         searchViewModel =

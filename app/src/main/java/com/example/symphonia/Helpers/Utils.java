@@ -255,6 +255,7 @@ public class Utils {
 
     /**
      * create gradient drawable for search result recycler view
+     * @author Mahmoud Amr Nabil
      */
     private static class SomeDrawable3 extends GradientDrawable {
 
@@ -267,6 +268,7 @@ public class Utils {
 
     /**
      * create gradient drawable for category layout
+     * @author Mahmoud Amr Nabil
      */
     private static class SomeDrawable4 extends GradientDrawable {
 
