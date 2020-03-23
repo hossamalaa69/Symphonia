@@ -147,7 +147,10 @@
     <string name="Search_for_anything">ابحث عن الفنانين والأغاني وقوائم التشغيل والمزيد</string>
     <string name="No_result_found_for">لم يتم العثور على نتيجة لـ</string>
     <string name="help_to_search">يرجى التحقق من أن التهجئة الصحيحة ، أو جرب البحث بكلمات مختلفة.</string>
-
+    <string name="add_to_like_playlist">اضافة الى المفضل</string>
+    <string name="remove_from_liked_playlist">ازاله من المفضل</string>
+    <string name="remove_from_playing_list">ازاله من القائمة الحالية</string>
+    <string name="return_to_playing_playlist">اضافة الى القائمة الحاليه</string>
 
 
 </resources>

@@ -57,17 +57,22 @@ public class Utils {
             public void onAudioFocusChange(int focusChange) {
                 switch (focusChange) {
                     case AudioManager.AUDIOFOCUS_REQUEST_GRANTED:
-                        mediaPlayer.start();
+                        if (mediaPlayer != null)
+                            mediaPlayer.start();
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS:
                         clearMediaPlayer();
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-                        mediaPlayer.stop();
+                        if (mediaPlayer != null) {
+                            mediaPlayer.stop();
+                        }
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                        mediaPlayer.pause();
-                        CurrTrackInfo.currPlayingPos = mediaPlayer.getCurrentPosition();
+                        if (mediaPlayer != null) {
+                            mediaPlayer.pause();
+                            CurrTrackInfo.currPlayingPos = mediaPlayer.getCurrentPosition();
+                        }
                         break;
 
                 }
@@ -75,20 +80,22 @@ public class Utils {
 
         };
 
-        public static void createMediaPlayer(Context context, MediaPlayer.OnCompletionListener onCompletionListener) {
+        public static void createMediaPlayer(Context context) {
             mediaPlayer = MediaPlayer.create(context, CurrTrackInfo.track.getUri());
             mediaPlayer.setOnCompletionListener(onCompletionListener);
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         }
 
-        public static void playTrack(Context context, MediaPlayer.OnCompletionListener onCompletionListener) {
+        public static MediaPlayer.OnCompletionListener onCompletionListener;
+
+        public static void playTrack(Context context) {
             clearMediaPlayer();
             audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
             int status = 0;
             if (audioManager != null) {
                 status = audioManager.requestAudioFocus(onAudioFocusChangeListener, AudioManager.STREAM_MUSIC
                         , AudioManager.AUDIOFOCUS_GAIN);
-                createMediaPlayer(context,onCompletionListener);
+                createMediaPlayer(context);
                 if (status == AudioManager.AUDIOFOCUS_REQUEST_GRANTED && mediaPlayer != null) {
                     mediaPlayer.seekTo(CurrTrackInfo.currPlayingPos);
                     mediaPlayer.start();
@@ -100,7 +107,7 @@ public class Utils {
 
         public static void clearMediaPlayer() {
             if (mediaPlayer != null) {
-                mediaPlayer.release();
+                mediaPlayer.reset();
                 mediaPlayer = null;
             }
             if (audioManager != null) {
@@ -130,8 +137,8 @@ public class Utils {
 
 
     public static class CurrTrackInfo {
-        public static int TrackPosInPlaylist;
-        public static int prevTrackPos;
+        public static int TrackPosInPlaylist = -1;
+        public static int prevTrackPos = -1;
         public static ArrayList<Track> currPlaylistTracks;
         public static String currPlaylistName;
         public static Track track;

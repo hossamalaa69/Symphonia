@@ -55,7 +55,7 @@ public class MockServiceTest {
         artists.add(new Artist("5", Utils.convertToBitmap(R.drawable.wael_gassar), "Wael Jassar"));
 
         appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-       user = new User("eslam1092@hotmail.com", true, Utils.convertToBitmap(R.drawable.amr)
+        user = new User("eslam1092@hotmail.com", true, Utils.convertToBitmap(R.drawable.amr)
                 , "Islam Ahmed", "1998-11-24", "male", true
                 , 65500, 40, new ArrayList<User>()
                 , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
@@ -84,23 +84,23 @@ public class MockServiceTest {
     }
 
     @Test
-    public void EmailAvailabilityArtistFail(){
-        assertFalse(mockService.checkEmailAvailability(appContext, "artist1@symphonia.com",false));
+    public void EmailAvailabilityArtistFail() {
+        assertFalse(mockService.checkEmailAvailability(appContext, "artist1@symphonia.com", false));
     }
 
     @Test
-    public void EmailAvailabilityArtistSuccess(){
-        assertTrue(mockService.checkEmailAvailability(appContext, "artist14@symphonia.com",false));
+    public void EmailAvailabilityArtistSuccess() {
+        assertTrue(mockService.checkEmailAvailability(appContext, "artist14@symphonia.com", false));
     }
 
     @Test
-    public void EmailAvailabilityListenerFail(){
-        assertFalse(mockService.checkEmailAvailability(appContext, "user1@symphonia.com",true));
+    public void EmailAvailabilityListenerFail() {
+        assertFalse(mockService.checkEmailAvailability(appContext, "user1@symphonia.com", true));
     }
 
     @Test
-    public void EmailAvailabilityListenerSuccess(){
-        assertTrue(mockService.checkEmailAvailability(appContext, "user14@symphonia.com",true));
+    public void EmailAvailabilityListenerSuccess() {
+        assertTrue(mockService.checkEmailAvailability(appContext, "user14@symphonia.com", true));
     }
 
 
@@ -188,7 +188,7 @@ public class MockServiceTest {
 
     @Test
     public void getArtistsSuccess() {
-        String artist=appContext.getResources().getString(R.string.Artist);
+        String artist = appContext.getResources().getString(R.string.Artist);
         ArrayList<Container> testedData = new ArrayList<>();
         testedData.add(new Container("Adele", artist, R.drawable.adele));
         testedData.add(new Container("Amr Diab", artist, R.drawable.amr));
@@ -205,17 +205,17 @@ public class MockServiceTest {
     @Test
     public void getSongsFails() {
         ArrayList<Container> testedData = new ArrayList<>();
-        testedData.add(new Container("Cat Sound", appContext.getResources().getString(R.string.Song)+".Eminem juice WRLD", R.drawable.images));
+        testedData.add(new Container("Cat Sound", appContext.getResources().getString(R.string.Song) + ".Eminem juice WRLD", R.drawable.images));
         ArrayList<Container> comingData = mockService.getSongs(appContext, "Th");
         assertNotEquals(comingData.get(0).getCat_Name(), testedData.get(0).getCat_Name());
     }
 
     @Test
     public void getSongsSuccess() {
-        String song=appContext.getResources().getString(R.string.Song);
+        String song = appContext.getResources().getString(R.string.Song);
         ArrayList<Container> testedData = new ArrayList<>();
-        testedData.add(new Container("Cat Sound", song+".Eminem juice WRLD", R.drawable.images));
-        testedData.add(new Container("ThunderClouds", song+".Eminem juice WRLD", R.drawable.images));
+        testedData.add(new Container("Cat Sound", song + ".Eminem juice WRLD", R.drawable.images));
+        testedData.add(new Container("ThunderClouds", song + ".Eminem juice WRLD", R.drawable.images));
         ArrayList<Container> comingData = mockService.getSongs(appContext, "C");
         assertEquals(comingData.size(), testedData.size());
         for (int i = 0; i < comingData.size(); i++) {
@@ -228,7 +228,7 @@ public class MockServiceTest {
     @Test
     public void getAlbumsFails() {
         ArrayList<Container> testedData = new ArrayList<>();
-        testedData.add(new Container("Gamal", appContext.getResources().getString(R.string.Album)+".Little Mix", R.drawable.images3));
+        testedData.add(new Container("Gamal", appContext.getResources().getString(R.string.Album) + ".Little Mix", R.drawable.images3));
         ArrayList<Container> comingData = mockService.getAlbums(appContext, "G");
         assertNotEquals(comingData.size(), testedData.size());
     }
@@ -236,7 +236,7 @@ public class MockServiceTest {
     @Test
     public void getAlbumsSuccess() {
         ArrayList<Container> testedData = new ArrayList<>();
-        testedData.add(new Container("The Shadows", appContext.getResources().getString(R.string.Album)+".Little Mix", R.drawable.download));
+        testedData.add(new Container("The Shadows", appContext.getResources().getString(R.string.Album) + ".Little Mix", R.drawable.download));
         ArrayList<Container> comingData = mockService.getAlbums(appContext, "T");
         assertEquals(comingData.size(), testedData.size());
         for (int i = 0; i < comingData.size(); i++) {
@@ -249,7 +249,7 @@ public class MockServiceTest {
     @Test
     public void getProfilesFails() {
         ArrayList<Container> testedData = new ArrayList<>();
-        testedData.add(new Container("Gamal", appContext.getResources().getString(R.string.Profile)+".Little Mix", R.drawable.images3));
+        testedData.add(new Container("Gamal", appContext.getResources().getString(R.string.Profile) + ".Little Mix", R.drawable.images3));
         ArrayList<Container> comingData = mockService.getProfiles(appContext, "G");
         assertNotEquals(comingData.size(), testedData.size());
     }
@@ -290,7 +290,7 @@ public class MockServiceTest {
     @Test
     public void getPlaylistsFails() {
         ArrayList<Container> testedData = new ArrayList<>();
-        testedData.add(new Container("quran",appContext.getResources().getString(R.string.Playlist), R.drawable.images));
+        testedData.add(new Container("quran", appContext.getResources().getString(R.string.Playlist), R.drawable.images));
         ArrayList<Container> comingData = mockService.getPlaylists(appContext, "Q");
         assertNotEquals(comingData.get(0).getCat_Name(), testedData.get(0).getCat_Name());
     }
@@ -336,14 +336,14 @@ public class MockServiceTest {
     @Test
     public void getAllPopularPlaylistsFails() {
         ArrayList<Container> testedData = new ArrayList<>();
-        String followers=appContext.getResources().getString(R.string.Followers);
-        testedData.add(new Container("Bahaa Sultan", "2,100 "+followers, R.drawable.bahaa));
-        testedData.add(new Container("anghami", "1,100 "+followers, R.drawable.angham));
-        testedData.add(new Container("Thunder", "2100 "+followers, R.drawable.halsey));
-        testedData.add(new Container("selena", "2800 "+followers, R.drawable.selena));
-        testedData.add(new Container("Smoke Grenades", "500 "+followers, R.drawable.jannat));
-        testedData.add(new Container("Playlist", "26 "+followers, R.drawable.wael));
-        testedData.add(new Container("3 d2at", "773 "+followers, R.drawable.abu));
+        String followers = appContext.getResources().getString(R.string.Followers);
+        testedData.add(new Container("Bahaa Sultan", "2,100 " + followers, R.drawable.bahaa));
+        testedData.add(new Container("anghami", "1,100 " + followers, R.drawable.angham));
+        testedData.add(new Container("Thunder", "2100 " + followers, R.drawable.halsey));
+        testedData.add(new Container("selena", "2800 " + followers, R.drawable.selena));
+        testedData.add(new Container("Smoke Grenades", "500 " + followers, R.drawable.jannat));
+        testedData.add(new Container("Playlist", "26 " + followers, R.drawable.wael));
+        testedData.add(new Container("3 d2at", "773 " + followers, R.drawable.abu));
         ArrayList<Container> comingData = mockService.getAllPopularPlaylists(appContext);
         assertNotEquals(testedData.size(), comingData.size());
     }
@@ -351,21 +351,21 @@ public class MockServiceTest {
     @Test
     public void getAllPopularPlaylistsSuccess() {
         ArrayList<Container> testedData = new ArrayList<>();
-        String followers=appContext.getResources().getString(R.string.Followers);
-        testedData.add(new Container("greate playlist", "2,700 "+followers, R.drawable.adele));
-        testedData.add(new Container("Amr Diab", "5,200 "+followers, R.drawable.amr));
-        testedData.add(new Container("beautiful", "3,300 "+followers, R.drawable.imagine));
-        testedData.add(new Container("simple", "800 "+followers, R.drawable.alan));
-        testedData.add(new Container("nice songs", "1200 "+followers, R.drawable.ed));
-        testedData.add(new Container("araby", "3000 "+followers, R.drawable.assala));
-        testedData.add(new Container("Bahaa Sultan", "2,100 "+followers, R.drawable.bahaa));
-        testedData.add(new Container("anghami", "1,100 "+followers, R.drawable.angham));
-        testedData.add(new Container("Thunder", "2100 "+followers, R.drawable.halsey));
-        testedData.add(new Container("selena", "2800 "+followers, R.drawable.selena));
-        testedData.add(new Container("Smoke Grenades", "500 "+followers, R.drawable.jannat));
-        testedData.add(new Container("Playlist", "26 "+followers, R.drawable.wael));
-        testedData.add(new Container("3 d2at", "773 "+followers, R.drawable.abu));
-        testedData.add(new Container("Oranges", "470 "+followers, R.drawable.hamza));
+        String followers = appContext.getResources().getString(R.string.Followers);
+        testedData.add(new Container("greate playlist", "2,700 " + followers, R.drawable.adele));
+        testedData.add(new Container("Amr Diab", "5,200 " + followers, R.drawable.amr));
+        testedData.add(new Container("beautiful", "3,300 " + followers, R.drawable.imagine));
+        testedData.add(new Container("simple", "800 " + followers, R.drawable.alan));
+        testedData.add(new Container("nice songs", "1200 " + followers, R.drawable.ed));
+        testedData.add(new Container("araby", "3000 " + followers, R.drawable.assala));
+        testedData.add(new Container("Bahaa Sultan", "2,100 " + followers, R.drawable.bahaa));
+        testedData.add(new Container("anghami", "1,100 " + followers, R.drawable.angham));
+        testedData.add(new Container("Thunder", "2100 " + followers, R.drawable.halsey));
+        testedData.add(new Container("selena", "2800 " + followers, R.drawable.selena));
+        testedData.add(new Container("Smoke Grenades", "500 " + followers, R.drawable.jannat));
+        testedData.add(new Container("Playlist", "26 " + followers, R.drawable.wael));
+        testedData.add(new Container("3 d2at", "773 " + followers, R.drawable.abu));
+        testedData.add(new Container("Oranges", "470 " + followers, R.drawable.hamza));
         ArrayList<Container> comingData = mockService.getAllPopularPlaylists(appContext);
         assertEquals(comingData.size(), testedData.size());
         for (int i = 0; i < comingData.size(); i++) {
@@ -378,11 +378,11 @@ public class MockServiceTest {
     @Test
     public void getFourPlaylistsFails() {
         ArrayList<Container> testedData = new ArrayList<>();
-        String followers=appContext.getResources().getString(R.string.Followers);
-        testedData.add(new Container("greate playlist", "2,700 "+followers, R.drawable.adele));
-        testedData.add(new Container("Amr Diab", "5,200 "+followers, R.drawable.amr));
-        testedData.add(new Container("beutiful", "3,300 "+followers, R.drawable.imagine));
-        testedData.add(new Container("simple", "800 "+followers, R.drawable.alan));
+        String followers = appContext.getResources().getString(R.string.Followers);
+        testedData.add(new Container("greate playlist", "2,700 " + followers, R.drawable.adele));
+        testedData.add(new Container("Amr Diab", "5,200 " + followers, R.drawable.amr));
+        testedData.add(new Container("beutiful", "3,300 " + followers, R.drawable.imagine));
+        testedData.add(new Container("simple", "800 " + followers, R.drawable.alan));
         ArrayList<Container> comingData = mockService.getFourPlaylists(appContext);
         assertNotEquals(testedData.get(2).getCat_Name(), comingData.get(2).getCat_Name());
     }
@@ -390,11 +390,11 @@ public class MockServiceTest {
     @Test
     public void getFourPlaylistsSuccess() {
         ArrayList<Container> testedData = new ArrayList<>();
-        String followers=appContext.getResources().getString(R.string.Followers);
-        testedData.add(new Container("greate playlist", "2,700 "+followers, R.drawable.adele));
-        testedData.add(new Container("Amr Diab", "5,200 "+followers, R.drawable.amr));
-        testedData.add(new Container("beautiful", "3,300 "+followers, R.drawable.imagine));
-        testedData.add(new Container("simple", "800 "+followers, R.drawable.alan));
+        String followers = appContext.getResources().getString(R.string.Followers);
+        testedData.add(new Container("greate playlist", "2,700 " + followers, R.drawable.adele));
+        testedData.add(new Container("Amr Diab", "5,200 " + followers, R.drawable.amr));
+        testedData.add(new Container("beautiful", "3,300 " + followers, R.drawable.imagine));
+        testedData.add(new Container("simple", "800 " + followers, R.drawable.alan));
         ArrayList<Container> comingData = mockService.getFourPlaylists(appContext);
         assertEquals(comingData.size(), testedData.size());
         for (int i = 0; i < comingData.size(); i++) {

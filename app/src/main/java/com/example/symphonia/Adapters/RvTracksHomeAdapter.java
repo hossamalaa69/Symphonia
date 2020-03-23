@@ -151,7 +151,6 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
 
             } else {
                 ivHide.setImageResource(R.drawable.ic_do_not_disturb_on_black_24dp);
-
                 tvTrackTitle.setTextColor(context.getResources().getColor(R.color.white));
                 tvTrackDescription.setTextColor(context.getResources().getColor(R.color.white));
 
