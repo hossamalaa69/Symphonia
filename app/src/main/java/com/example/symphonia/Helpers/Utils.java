@@ -26,8 +26,25 @@ import java.util.List;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
+/**
+ * Class that holds many functions to be used in all classes
+ *
+ * @author All team members
+ * @since 22-3-2020
+ * @version 1.0
+ */
 public class Utils {
 
+    /**
+     *
+     * extracts name from email
+     * @param email email input from user
+     * @return returns extracted name from this email
+     *
+     * @author Hossam Alaa
+     * @since 22-3-2020
+     * @version 1.0
+     */
     public static String getNameFromEmail(String email) {
         return email.split("@")[0];
     }
@@ -40,17 +57,22 @@ public class Utils {
             public void onAudioFocusChange(int focusChange) {
                 switch (focusChange) {
                     case AudioManager.AUDIOFOCUS_REQUEST_GRANTED:
-                        mediaPlayer.start();
+                        if (mediaPlayer != null)
+                            mediaPlayer.start();
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS:
                         clearMediaPlayer();
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-                        mediaPlayer.stop();
+                        if (mediaPlayer != null) {
+                            mediaPlayer.stop();
+                        }
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                        mediaPlayer.pause();
-                        CurrTrackInfo.currPlayingPos = mediaPlayer.getCurrentPosition();
+                        if (mediaPlayer != null) {
+                            mediaPlayer.pause();
+                            CurrTrackInfo.currPlayingPos = mediaPlayer.getCurrentPosition();
+                        }
                         break;
 
                 }
@@ -58,20 +80,22 @@ public class Utils {
 
         };
 
-        public static void createMediaPlayer(Context context, MediaPlayer.OnCompletionListener onCompletionListener) {
+        public static void createMediaPlayer(Context context) {
             mediaPlayer = MediaPlayer.create(context, CurrTrackInfo.track.getUri());
             mediaPlayer.setOnCompletionListener(onCompletionListener);
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         }
 
-        public static void playTrack(Context context, MediaPlayer.OnCompletionListener onCompletionListener) {
+        public static MediaPlayer.OnCompletionListener onCompletionListener;
+
+        public static void playTrack(Context context) {
             clearMediaPlayer();
             audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
             int status = 0;
             if (audioManager != null) {
                 status = audioManager.requestAudioFocus(onAudioFocusChangeListener, AudioManager.STREAM_MUSIC
                         , AudioManager.AUDIOFOCUS_GAIN);
-                createMediaPlayer(context,onCompletionListener);
+                createMediaPlayer(context);
                 if (status == AudioManager.AUDIOFOCUS_REQUEST_GRANTED && mediaPlayer != null) {
                     mediaPlayer.seekTo(CurrTrackInfo.currPlayingPos);
                     mediaPlayer.start();
@@ -83,7 +107,7 @@ public class Utils {
 
         public static void clearMediaPlayer() {
             if (mediaPlayer != null) {
-                mediaPlayer.release();
+                mediaPlayer.reset();
                 mediaPlayer = null;
             }
             if (audioManager != null) {
@@ -113,8 +137,8 @@ public class Utils {
 
 
     public static class CurrTrackInfo {
-        public static int TrackPosInPlaylist;
-        public static int prevTrackPos;
+        public static int TrackPosInPlaylist = -1;
+        public static int prevTrackPos = -1;
         public static ArrayList<Track> currPlaylistTracks;
         public static String currPlaylistName;
         public static Track track;
@@ -123,10 +147,13 @@ public class Utils {
 
 
     /**
-     * check if string is email form or not
+     * checks if string is in email form or not
      *
-     * @param target: input string
-     * @return boolean
+     * @param target input string to be checked
+     * @return returns true if it's valid
+     * @author Hossam Alaa
+     * @since 22-3-2020
+     * @version 1.0
      */
     public final static boolean isValidEmail(CharSequence target) {
         //checks if text is empty

@@ -11,11 +11,28 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.symphonia.Activities.User_Management.WelcomeActivity;
 import com.example.symphonia.R;
 
+/**
+ * Activity that handles Start page with animations
+ *
+ * @author Hossam Alaa
+ * @since 22-3-2020
+ * @version 1.0
+ */
 public class StartActivity extends AppCompatActivity {
 
+    /**
+     * time to enter fade of animation
+     */
     private int mEnterTime = 2000;
+    /**
+     * time to exit fade of animation
+     */
     private int mExitTime = 2000;
 
+    /**
+     * Represents the initialization of activity
+     @param savedInstanceState represents received data from other activities
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +51,10 @@ public class StartActivity extends AppCompatActivity {
         animationDrawable.start();
     }
 
+    /**
+     * opens welcome page as user
+     * @param view holds clicked button
+     */
     public void openListener(View view) {
         //opens welcome page as listener type
         Intent i = new Intent(this, WelcomeActivity.class);
@@ -41,6 +62,10 @@ public class StartActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    /**
+     * opens welcome page as artist
+     * @param view holds clicked button
+     */
     public void openArtist(View view) {
         //opens welcome page as artist type
         Intent i = new Intent(this, WelcomeActivity.class);

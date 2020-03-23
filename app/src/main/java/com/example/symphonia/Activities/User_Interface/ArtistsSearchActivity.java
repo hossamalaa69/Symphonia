@@ -27,20 +27,29 @@ import com.example.symphonia.Service.ServiceController;
 
 import java.util.ArrayList;
 
+/**
+ * A sub activity of ِAddArtistsActivity
+ * for searching for an artist
+ * and returning the id to AddArtistsActivity
+ *
+ * @author islamahmed1092
+ * @version 1.0
+ */
 public class ArtistsSearchActivity extends AppCompatActivity implements RvListArtistSearchAdapter.ListItemClickListener{
 
+    /**
+     * the id to send the artist to the previous activity
+     */
     private static final String SELECTED_ARTIST_ID = "SelectedArtistId";
-    private View cardSearchBar;
-    private RelativeLayout searchBarFocused;
-    private EditText searchEditText;
-    private RecyclerView artistsList;
-    private TextView emptyState;
-    private TextView notFound1;
-    private TextView notFound2;
-
-    private RvListArtistSearchAdapter adapter;
+    /**
+     * hold the results of the search query
+     */
     private ArrayList<Artist> searchResult;
 
+    /**
+     * initialize the ui and handle transitions between the views
+     * @param savedInstanceState saved data
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,18 +57,18 @@ public class ArtistsSearchActivity extends AppCompatActivity implements RvListAr
 
         final ServiceController serviceController = ServiceController.getInstance();
 
-        searchEditText = findViewById(R.id.text_search_edit);
-        cardSearchBar = findViewById(R.id.search_bar);
-        searchBarFocused = findViewById(R.id.search_bar_focused);
-        emptyState = findViewById(R.id.text_artist_search_empty_state);
-        notFound1 = findViewById(R.id.text_not_found_state_1);
-        notFound2 = findViewById(R.id.text_not_found_state_2);
+        final EditText searchEditText = findViewById(R.id.text_search_edit);
+        final View cardSearchBar = findViewById(R.id.search_bar);
+        final RelativeLayout searchBarFocused = findViewById(R.id.search_bar_focused);
+        final TextView emptyState = findViewById(R.id.text_artist_search_empty_state);
+        final TextView notFound1 = findViewById(R.id.text_not_found_state_1);
+        final TextView notFound2 = findViewById(R.id.text_not_found_state_2);
 
         searchResult = new ArrayList<>();
-        artistsList = findViewById(R.id.rv_artists_list);
+        final RecyclerView artistsList = findViewById(R.id.rv_artists_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         artistsList.setLayoutManager(layoutManager);
-        adapter = new RvListArtistSearchAdapter(searchResult, this);
+        final RvListArtistSearchAdapter adapter = new RvListArtistSearchAdapter(searchResult, this);
         artistsList.setAdapter(adapter);
 
         searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -171,6 +180,10 @@ public class ArtistsSearchActivity extends AppCompatActivity implements RvListAr
 
     }
 
+    /**
+     * return the value of the clicked id to the previous activity
+     * @param clickedItemIndex the index of the clicked item
+     */
     @Override
     public void onListItemClick(int clickedItemIndex) {
 

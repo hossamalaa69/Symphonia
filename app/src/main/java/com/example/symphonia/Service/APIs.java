@@ -9,14 +9,50 @@ import com.example.symphonia.Entities.Playlist;
 
 import java.util.ArrayList;
 
+/**
+ * Interface that holds all functions to be used to fill
+ * metadata of application, will be implemented in several ways
+ *
+ * @author Hossam Alaa
+ * @since 23-3-2020
+ * @version 1.0
+ */
 public interface APIs {
 
+    /**
+     * holds logging user in, creation of user object and sets token
+     * @param context holds context of activity that called this method
+     * @param username email or username of user
+     * @param password password of user
+     * @param mType type of user, true for listener and false for artist
+     * @return return true if data is matched
+     */
     boolean logIn(Context context, String username, String password, boolean mType);
 
+    /**
+     * checks if email is already signed in database or not
+     * @param context holds context of activity that called this method
+     * @param email email of user
+     * @param mType type of user, true for listener and false for artist
+     * @return returns true if email is new, false if it's signed before
+     */
     boolean checkEmailAvailability(Context context, String email, boolean mType);
 
+    /**
+     * handles that user is signing up, initializes new user object
+     * fill database with new user
+     * @param context holds context of activity that called this method
+     * @param mType type of user, true for listener and false for artist
+     * @param email email of user
+     * @param password password of user
+     * @param DOB date of birth of user
+     * @param gender gender of user
+     * @param name name of user
+     * @return returns true if sign up is done
+     */
     boolean signUp(Context context, boolean mType, String email, String password
                 , String DOB, String gender, String name);
+
 
     ArrayList<Playlist> getPopularPlaylists(Context context, String mToken);
 

@@ -13,7 +13,11 @@ import com.example.symphonia.Activities.User_Interface.CreatePlaylistActivity;
 import com.example.symphonia.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * responsible for all the interaction with the playlists
+ * including creating, deleting and showing
+ *
+ * @author islamahmed1092
+ * @version 1.0
  */
 public class LibraryPlaylistsFragment extends Fragment {
 
@@ -22,6 +26,15 @@ public class LibraryPlaylistsFragment extends Fragment {
     }
 
 
+    /**
+     * Till now it just showing create playlist
+     * and handle clicking on it
+     *
+     * @param inflater inflate fragment layout
+     * @param container viewgroup of the fragment
+     * @param savedInstanceState saved data from previous calls
+     * @return fragment layout
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

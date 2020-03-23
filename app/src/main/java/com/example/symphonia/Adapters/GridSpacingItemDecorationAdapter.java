@@ -5,26 +5,50 @@ import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * Item decoration adapter attached to recyclerview
+ * to control the spacing between the items of the grid
+ * @author islamahmed1092
+ * @version 1.0
+ */
 public class GridSpacingItemDecorationAdapter extends RecyclerView.ItemDecoration {
 
+    /**
+     * no of items in each row
+     */
     private int spanCount;
+    /**
+     * spacing in pixels
+     */
     private int spacing;
+    /**
+     * determine whether or not to include the edges of the recyclerview
+     */
     private boolean includeEdge;
-    private int dataSize;
-    private final int mBottomOffset = 200;
 
 
-    public GridSpacingItemDecorationAdapter(int dataSize, int spanCount, int spacing, boolean includeEdge) {
+    /**
+     * constructor for the decorator
+     *
+     * @param spanCount no of items in each row
+     * @param spacing spacing in pixels
+     * @param includeEdge include edge or not
+     */
+    public GridSpacingItemDecorationAdapter(int spanCount, int spacing, boolean includeEdge) {
         this.spanCount = spanCount;
         this.spacing = spacing;
         this.includeEdge = includeEdge;
-        this.dataSize = dataSize;
     }
 
-    public void setDataSize(int dataSize) {
-        this.dataSize = dataSize;
-    }
 
+    /**
+     * set the spacing between items and each others
+     *
+     * @param outRect controls the spacing around each item
+     * @param view the item of the recyclerview
+     * @param parent the recyclerview
+     * @param state the state of the recyclerview
+     */
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         int position = parent.getChildAdapterPosition(view); // item position

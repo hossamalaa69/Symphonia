@@ -9,10 +9,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.symphonia.Activities.User_Management.SignUp.Step1Activity;
 import com.example.symphonia.R;
 
+/**
+ * Activity that Welcome page that user chooses
+ * his action(login, sign up and connect with facebook)
+ *
+ * @author Hossam Alaa
+ * @since 22-3-2020
+ * @version 1.0
+ */
 public class WelcomeActivity extends AppCompatActivity {
 
+    /**
+     * Holds user type(listener or artist)
+     */
     private String mType;
 
+    /**
+     * Represents the initialization of activity
+     @param savedInstanceState represents received data from other activities
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +39,10 @@ public class WelcomeActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Opens login page
+     * @param view holds pressed button(Login button)
+     */
     public void openLogin(View view) {
         //open activity login with user type
         Intent i = new Intent(this, LoginActivity.class);
@@ -31,6 +50,10 @@ public class WelcomeActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    /**
+     * Opens sign up with first step
+     * @param view holds pressed button(sign up button)
+     */
     public void openSignUp1(View view) {
         //opens sign up with user type
         Intent i = new Intent(this, Step1Activity.class);

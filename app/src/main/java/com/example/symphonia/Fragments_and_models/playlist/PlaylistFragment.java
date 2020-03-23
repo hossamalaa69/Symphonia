@@ -13,6 +13,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,6 +30,13 @@ import com.google.android.material.appbar.AppBarLayout;
  */
 public class PlaylistFragment extends Fragment {
 
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+    }
+
     RecyclerView.LayoutManager layoutManager;
     RvTracksHomeAdapter rvTracksHomeAdapter;
     AppBarLayout appBarLayout;
@@ -41,6 +50,18 @@ public class PlaylistFragment extends Fragment {
     public PlaylistFragment() {
         // Required empty public constructor
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (Utils.CurrTrackInfo.currPlaylistTracks != null) {
+            for (int i = 0; i < Utils.CurrTrackInfo.currPlaylistTracks.size(); i++) {
+                if (Utils.CurrTrackInfo.currPlaylistTracks.get(i) == Utils.CurrTrackInfo.track) {
+                    changeSelected(Utils.CurrTrackInfo.prevTrackPos, Utils.CurrTrackInfo.TrackPosInPlaylist);
+                }
+            }
+        }
     }
 
     public PlaylistFragment(Playlist mPlaylist) {
@@ -95,7 +116,13 @@ public class PlaylistFragment extends Fragment {
             }
         });
         //TODO handle toolbar here
+
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     public void changeLikedItemAtPos(int pos, boolean isLiked) {
@@ -108,16 +135,27 @@ public class PlaylistFragment extends Fragment {
 
     }
 
+
     public void changeSelected(int prev, int pos) {
-        if (pos != -1) {
-            View view = rvTracks.getLayoutManager().getChildAt(pos);
-            TextView tvTitle = view.findViewById(R.id.tv_track_title_item);
-            tvTitle.setTextColor(getContext().getResources().getColor(R.color.colorGreen));
-        }
         if (prev > -1) {
             View prevView = rvTracks.getLayoutManager().getChildAt(prev);
-            TextView tvPrevTitle = prevView.findViewById(R.id.tv_track_title_item);
-            tvPrevTitle.setTextColor(getContext().getResources().getColor(R.color.white));
+            TextView tvPrevTitle = null;
+            if (prevView != null) {
+                tvPrevTitle = prevView.findViewById(R.id.tv_track_title_item);
+            }
+            if (tvPrevTitle != null) {
+                tvPrevTitle.setTextColor(getContext().getResources().getColor(R.color.white));
+            }
+        }
+        if (pos != -1) {
+            View view = rvTracks.getLayoutManager().getChildAt(pos);
+            TextView tvTitle = null;
+            if (null != view) {
+                tvTitle = view.findViewById(R.id.tv_track_title_item);
+            }
+            if (tvTitle != null) {
+                tvTitle.setTextColor(getContext().getResources().getColor(R.color.colorGreen));
+            }
         }
 
     }

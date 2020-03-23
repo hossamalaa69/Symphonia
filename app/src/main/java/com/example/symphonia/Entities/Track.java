@@ -11,7 +11,16 @@ public class Track implements Serializable {
     private String PlaylistName;
     private String mAlbum;
     private String mArtist;
-    private Uri uri ;
+    private Uri uri;
+    private boolean isPlaying = false;
+
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    public void setPlaying(boolean playing) {
+        isPlaying = playing;
+    }
 
     public Uri getUri() {
         return uri;
@@ -27,7 +36,7 @@ public class Track implements Serializable {
     }
 
     //TODO delete this constructor; made for testing and not real testing
-    public Track(String mTitle, String mArtist, String playlistName, String mAlbum, int mImageResources,Uri uri) {
+    public Track(String mTitle, String mArtist, String playlistName, String mAlbum, int mImageResources, Uri uri) {
         this.mTitle = mTitle;
         this.mArtist = mArtist;
         this.mAlbum = mAlbum;
@@ -36,7 +45,7 @@ public class Track implements Serializable {
         this.uri = uri;
     }
 
-    public Track(String mTitle, String mArtist, String playlistName, String mAlbum, int mImageResources ){
+    public Track(String mTitle, String mArtist, String playlistName, String mAlbum, int mImageResources) {
         this.mTitle = mTitle;
         this.mArtist = mArtist;
         this.mAlbum = mAlbum;

@@ -11,35 +11,82 @@ import java.util.ArrayList;
 
 import static com.example.symphonia.Constants.DEBUG_STATUS;
 
+/**
+ * Class that Controls which service type will be used(REST APIs or MockService)
+ *
+ * @author Hossam Alaa
+ * @since 23-3-2020
+ * @version 1.0
+ */
+
 public class ServiceController {
 
+    /**
+     * object of parent(abstract class) for supplying app with data
+     */
     private final APIs mSupplier;
-
+    /**
+     * new object of controller class to decide which service to be used
+     */
     private static final ServiceController REST_CLIENT = new ServiceController();
 
-
+    /**
+     * constructor of ServiceController that decides which type service to be used
+     */
     private ServiceController() {
         //checks if mode is debugging, then use mockService
         if (DEBUG_STATUS) mSupplier = new MockService();
 
     }
 
+    /**
+     * getter for instance of class object
+     * @return return instance of class object
+     */
     public static ServiceController getInstance() {
         return REST_CLIENT;
     }
 
+    /**
+     * holds logging user in, creation of user object and sets token
+     * @param context holds context of activity that called this method
+     * @param username email or username of user
+     * @param password password of user
+     * @param mType type of user, true for listener and false for artist
+     * @return return true if data is matched
+     */
     public boolean logIn(Context context, String username, String password, boolean mType) {
         return mSupplier.logIn(context, username, password, mType);
     }
 
+    /**
+     * checks if email is already signed in database or not
+     * @param context holds context of activity that called this method
+     * @param email email of user
+     * @param mType type of user, true for listener and false for artist
+     * @return returns true if email is new, false if it's signed before
+     */
     public boolean checkEmailAvailability(Context context, String email, boolean mType) {
         return mSupplier.checkEmailAvailability(context, email, mType);
     }
 
+    /**
+     * handles that user is signing up, initializes new user object
+     * fill database with new user
+     * @param context holds context of activity that called this method
+     * @param mType type of user, true for listener and false for artist
+     * @param email email of user
+     * @param password password of user
+     * @param DOB date of birth of user
+     * @param gender gender of user
+     * @param name name of user
+     * @return returns true if sign up is done
+     */
     public boolean signUp(Context context, boolean mType, String email, String password,
                        String DOB, String gender, String name) {
         return mSupplier.signUp(context, mType, email, password, DOB, gender, name);
     }
+
 
     public ArrayList<Playlist> getRecentPlaylists(Context context, String mToken) {
         return mSupplier.getRecentPlaylists(context, mToken);

@@ -19,20 +19,44 @@ import com.example.symphonia.Service.ServiceController;
 import java.util.ArrayList;
 
 /**
- * A simple {@link Fragment} subclass.
+ * responsible for all the interaction with albums
+ * including deleting, searching and showing
+ *
+ * @author islamahmed1092
+ * @version 1.0
  */
 public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapter.ListItemClickListener {
 
-    private RecyclerView mAlbumsList;
+    /**
+     * adapter to control the items in recyclerview
+     */
     private RvListAlbumsAdapter mAdapter;
+    /**
+     * user's saved albums
+     */
     private ArrayList<Album> mLikedAlbums;
+    /**
+     * instance to request data from mock services and API
+     */
     private ServiceController mServiceController;
 
+    /**
+     * empty constructor
+     */
     public LibraryAlbumsFragment() {
         // Required empty public constructor
     }
 
 
+    /**
+     * create the albums recyclerview to show
+     * the list of saved albums
+     *
+     * @param inflater inflate fragment layout
+     * @param container fragment viewgroup
+     * @param savedInstanceState saved data from previous calls
+     * @return fragment view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,7 +72,7 @@ public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapt
         else
             albumsEmptyState.setVisibility(View.VISIBLE);
 
-        mAlbumsList = rootView.findViewById(R.id.rv_albums);
+        RecyclerView mAlbumsList = rootView.findViewById(R.id.rv_albums);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mAlbumsList.setLayoutManager(layoutManager);
         mAdapter = new RvListAlbumsAdapter(mLikedAlbums, this);
@@ -56,6 +80,13 @@ public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapt
         return rootView;
     }
 
+    /**
+     * handles the clicking on the recyclerview item
+     * replaces the current fragment with clicked album framgnet
+     *
+     * @param v clicked view
+     * @param clickedItemIndex index of the clicked view
+     */
     @Override
     public void onListItemClick(View v, int clickedItemIndex) {
         ((MainActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(

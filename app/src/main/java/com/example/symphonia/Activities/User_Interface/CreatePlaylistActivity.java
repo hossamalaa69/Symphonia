@@ -14,8 +14,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 
+/**
+ * Starts the first step of creating new playlist
+ * by taking the name of the playlist from the user
+ *
+ * @author islamahmed1092
+ * @version 1.0
+ */
 public class CreatePlaylistActivity extends AppCompatActivity {
 
+    /**
+     * initialize the ui and the edit text for the user
+     * to start typing the name of the playlist
+     * @param savedInstanceState saved data
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +35,8 @@ public class CreatePlaylistActivity extends AppCompatActivity {
 
         final EditText editText = findViewById(R.id.playlist_name_edit_text);
         editText.requestFocus();
+
+        // open the keyboard
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         assert imm != null;
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
@@ -57,6 +71,11 @@ public class CreatePlaylistActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * calls when the user go to another activity
+     * it simply hides the keyboard from the screen
+     * in case if the user didn't close it
+     */
     @Override
     protected void onPause() {
         Utils.hideKeyboard(this, this);

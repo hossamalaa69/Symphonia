@@ -13,7 +13,20 @@ import android.widget.TextView;
 import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.R;
 
+/**
+ * Class that handles showing custom dialog if user is signing up
+ * and tried to skip from choosing suggested artists
+ *
+ * @author Hossam Alaa
+ * @since 22-3-2020
+ * @version 1.0
+ */
 public class CustomSkipDialog {
+    /**
+     * function that shows and initializes dialog
+     *
+     * @param activity activity that calls this dialog
+     */
     public void showDialog(final Activity activity) {
 
         //sets dialog activity to be shown in
