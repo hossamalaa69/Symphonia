@@ -18,9 +18,9 @@ import com.example.symphonia.R;
 /**
  * Activity that handles sign up for step2 when user enters his password with some validations
  *
- * @author: Hossam Alaa
- * @since: 22-3-2020
- * @version: 1.0
+ * @author Hossam Alaa
+ * @since 22-3-2020
+ * @version 1.0
  */
 public class Step2Activity extends AppCompatActivity {
 

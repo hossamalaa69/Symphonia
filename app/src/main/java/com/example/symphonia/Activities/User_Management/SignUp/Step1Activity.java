@@ -24,9 +24,9 @@ import com.example.symphonia.Service.ServiceController;
 /**
  * Activity that handles sign up for step1 when user enters his email with some validations
  *
- * @author: Hossam Alaa
- * @since: 22-3-2020
- * @version: 1.0
+ * @author Hossam Alaa
+ * @since 22-3-2020
+ * @version 1.0
  */
 public class Step1Activity extends AppCompatActivity {
 

@@ -1,7 +1,6 @@
 package com.example.symphonia.Fragments_and_models.library;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +15,25 @@ import com.example.symphonia.Adapters.LibraryPagerAdapter;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
 
+/**
+ * root fragment for the library
+ * that has many subfragment for each object in the user library
+ * it controls all these fragments using pagers
+ *
+ * @author islamahmed1092
+ * @version 1.0
+ */
 public class LibraryFragment extends Fragment {
 
 
+    /**
+     * controls the showing and transitions between tab fragments
+     *
+     * @param inflater to inflate the layout of the fragment
+     * @param container the ViewGroup that the fragment attached to
+     * @param savedInstanceState saved data from previous calls
+     * @return fragment view to be shown
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 

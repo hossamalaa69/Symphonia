@@ -12,9 +12,9 @@ import com.example.symphonia.R;
 /**
  * Activity that handles sign up for step4 when user enters his gender
  *
- * @author: Hossam Alaa
- * @since: 22-3-2020
- * @version: 1.0
+ * @author Hossam Alaa
+ * @since 22-3-2020
+ * @version 1.0
  */
 public class Step4Activity extends AppCompatActivity {
 

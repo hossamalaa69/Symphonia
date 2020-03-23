@@ -25,9 +25,9 @@ import com.example.symphonia.Service.ServiceController;
 /**
  * Activity that handles login for any type of users with some validations
  *
- * @author: Hossam Alaa
- * @since: 22-3-2020
- * @version: 1.0
+ * @author Hossam Alaa
+ * @since 22-3-2020
+ * @version 1.0
  */
 public class LoginActivity extends AppCompatActivity {
 

@@ -30,23 +30,40 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment to show all the data of a specific album
+ *
+ * @author islamahmed1092
+ * @version 1.0
  */
 public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter.ListItemClickListener {
 
+
+    /**
+     * object from album contains all the data
+     */
     private Album mAlbum;
-    private RecyclerView mArtistsList;
-    private RvListArtistSearchAdapter mAdapter;
-    private ArrayList<Artist> mAlbumArtists;
 
     public AlbumFragment() {
         // Required empty public constructor
     }
 
+    /**
+     * constructor takes clicked album as an input
+     *
+     * @param album album object
+     */
     public AlbumFragment(Album album){
         this.mAlbum = album;
     }
 
+    /**
+     * fill all the view with album data
+     *
+     * @param inflater inflate the fragment
+     * @param container viewgroup of the fragment
+     * @param savedInstanceState saved data
+     * @return fragment view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -76,8 +93,8 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
         albumName.setText(mAlbum.getAlbumName());
         toolbarTitle.setText(mAlbum.getAlbumName());
 
-        mAlbumArtists = mAlbum.getAlbumArtists();
-        mArtistsList = rootView.findViewById(R.id.rv_artists_list);
+        ArrayList<Artist> mAlbumArtists = mAlbum.getAlbumArtists();
+        RecyclerView mArtistsList = rootView.findViewById(R.id.rv_artists_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity()){
             @Override
             public boolean canScrollVertically() {
@@ -86,7 +103,7 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
         };
 
         mArtistsList.setLayoutManager(layoutManager);
-        mAdapter = new RvListArtistSearchAdapter(mAlbumArtists, this);
+        RvListArtistSearchAdapter mAdapter = new RvListArtistSearchAdapter(mAlbumArtists, this);
         mArtistsList.setAdapter(mAdapter);
 
         String albumType = mAlbum.getAlbumType();
@@ -115,16 +132,36 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
         return rootView;
     }
 
+    /**
+     * TODO in the next phase
+     * handles the click of the recyclerview items
+     * the artists of the album
+     * @param clickedItemIndex index of the clicked item
+     */
     @Override
     public void onListItemClick(int clickedItemIndex) {
 
     }
 
+    /**
+     * takes the date string in format yyyy-MM-dd (e.g. 2020-03-22)
+     * and returns the year in a string (2020 in this example)
+     *
+     * @param date string date in format yyyy-MM-dd
+     * @return year string
+     */
     private String getYear(String date) {
         String[] dateComponents = date.split("-");
         return dateComponents[0];
     }
 
+    /**
+     * takes a string of date in format yyyy-MM-dd (e.g. 2020-03-22)
+     * and return the string in format MMMM dd, yyyy (e.g. March 22, 2020)
+     *
+     * @param date string date in format yyyy-MM-dd
+     * @return date string in format MMMM dd, yyyy
+     */
     @SuppressLint("SimpleDateFormat")
     private String formatDate(String date) {
         Date dateObject = null;
@@ -138,6 +175,13 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
         return dateFormat.format(dateObject);
     }
 
+    /**
+     * takes the copyrights array and convert it
+     * to a simple string to show in the view
+     *
+     * @param copyrights array of copyright object
+     * @return string copyrights
+     */
     private String getCopyrightsString(ArrayList<Copyright> copyrights){
         StringBuilder copyrightsText = new StringBuilder();
         boolean c = false;

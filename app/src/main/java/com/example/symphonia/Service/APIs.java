@@ -15,7 +15,7 @@ import java.util.ArrayList;
  *
  * @author Hossam Alaa
  * @since 23-3-2020
- * @version: 1.0
+ * @version 1.0
  */
 public interface APIs {
 

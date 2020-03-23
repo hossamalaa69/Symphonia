@@ -16,7 +16,7 @@ import static com.example.symphonia.Constants.DEBUG_STATUS;
  *
  * @author Hossam Alaa
  * @since 23-3-2020
- * @version: 1.0
+ * @version 1.0
  */
 
 public class ServiceController {

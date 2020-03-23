@@ -16,9 +16,9 @@ import java.util.ArrayList;
 /**
  * Activity that handles Adapter of Premium page
  *
- * @author: Hossam Alaa
- * @since: 22-3-2020
- * @version: 1.0
+ * @author Hossam Alaa
+ * @since 22-3-2020
+ * @version 1.0
  */
 public class PremiumAdapter extends RecyclerView.Adapter<PremiumAdapter.Holder> {
 

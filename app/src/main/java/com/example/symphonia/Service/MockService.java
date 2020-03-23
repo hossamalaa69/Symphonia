@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
  *
  * @author Hossam Alaa
  * @since 23-3-2020
- * @version: 1.0
+ * @version 1.0
  */
 
 public class MockService implements APIs {

@@ -25,9 +25,9 @@ import com.example.symphonia.Service.ServiceController;
 /**
  * Activity that handles sign up for last step when user enters his name with some validations
  *
- * @author: Hossam Alaa
- * @since: 22-3-2020
- * @version: 1.0
+ * @author Hossam Alaa
+ * @since 22-3-2020
+ * @version 1.0
  */
 public class Step5Activity extends AppCompatActivity  {
 

@@ -7,9 +7,9 @@ import java.util.ArrayList;
 /**
  * Class that contain user's information
  *
- * @author: Hossam Alaa
- * @since: 22-3-2020
- * @version: 1.0
+ * @author Hossam Alaa
+ * @since 22-3-2020
+ * @version 1.0
  */
 public class User {
 

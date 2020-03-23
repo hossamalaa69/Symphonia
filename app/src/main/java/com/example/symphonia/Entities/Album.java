@@ -7,9 +7,9 @@ import java.util.ArrayList;
 /**
  * Class that contain albums' information
  *
- * @author: islamahmed1092
- * @since: 22-3-2020
- * @version: 1.0
+ * @author islamahmed1092
+ * @since 22-3-2020
+ * @version 1.0
  */
 public class Album {
     /**

@@ -20,9 +20,9 @@ import java.util.Date;
  * Activity that handles sign up for step3 when user enters his
  * Birth date with some validations
  *
- * @author: Hossam Alaa
- * @since: 22-3-2020
- * @version: 1.0
+ * @author Hossam Alaa
+ * @since 22-3-2020
+ * @version 1.0
  */
 public class Step3Activity extends AppCompatActivity {
 

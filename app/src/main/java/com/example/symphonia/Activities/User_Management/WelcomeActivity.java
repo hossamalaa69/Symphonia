@@ -13,9 +13,9 @@ import com.example.symphonia.R;
  * Activity that Welcome page that user chooses
  * his action(login, sign up and connect with facebook)
  *
- * @author: Hossam Alaa
- * @since: 22-3-2020
- * @version: 1.0
+ * @author Hossam Alaa
+ * @since 22-3-2020
+ * @version 1.0
  */
 public class WelcomeActivity extends AppCompatActivity {
 
