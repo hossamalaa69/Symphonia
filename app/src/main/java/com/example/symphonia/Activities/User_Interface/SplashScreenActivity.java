@@ -9,10 +9,24 @@ import com.example.symphonia.R;
 
 import gr.net.maroulis.library.EasySplashScreen;
 
+/**
+ * Activity that handles Splash screen animation
+ *
+ * @author Hossam Alaa
+ * @since 22-3-2020
+ * @version 1.0
+ */
 public class SplashScreenActivity extends AppCompatActivity {
 
+    /**
+     * splash screen time to appear
+     */
     private int mSplashTime =1500;
 
+    /**
+     * Represents the initialization of activity
+     @param savedInstanceState represents received data from other activities
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
