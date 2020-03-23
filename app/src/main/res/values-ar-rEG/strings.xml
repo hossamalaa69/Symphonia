@@ -96,7 +96,7 @@
     <string name="made_for_you_by_spotify">من اسبوتيفاى من اجلك</string>
     <string name="Genre">نوعية</string>
     <string name="Profile">صفحة شخصية</string>
-    <string name="not_found_state_1">غير موجود</string>
+    <string name="not_found_state_1">لم نستطع إيجاد</string>
     <string name="already_exists_email">هذا البريد مُسجل بالفعل مسبقًا</string>
     <string name="ok">حسنًا</string>
     <string name="go_to_login">إذهب لتسجيل الدخول</string>
@@ -151,6 +151,9 @@
     <string name="remove_from_liked_playlist">ازاله من المفضل</string>
     <string name="remove_from_playing_list">ازاله من القائمة الحالية</string>
     <string name="return_to_playing_playlist">اضافة الى القائمة الحاليه</string>
+    <string name="shuffle_string">استمع عشوائيًا</string>
+    <string name="shuffle_button">تشغيل عشوائي</string>
+    <string name="not_found_state_2">حاول البحث مرة اخرى او استخدام كلمات بحث أخرى</string>
 
 
 </resources>

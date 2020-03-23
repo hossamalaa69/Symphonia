@@ -163,7 +163,7 @@
     <string name="why_skip">Choosing artists just takes a minute, and will make Symphonia better for you.</string>
     <string name="skip">SKIP</string>
 
-    <string name="album_tracks_placeholder">A\'alk Nedem • Enta Maghroor • Yetalemo • Kont Fe Baly • Kol Hayaty • Taali • Hadded • Ya Agmal Eyoun (Remix) • العالم الله • Ana Gheir</string>
+    <string name="album_tracks_placeholder" translatable="false">A\'alk Nedem • Enta Maghroor • Yetalemo • Kont Fe Baly • Kol Hayaty • Taali • Hadded • Ya Agmal Eyoun (Remix) • العالم الله • Ana Gheir</string>
     <string name="shuffle_string">Listen in shuffle</string>
     <string name="shuffle_button">Shuffle Play</string>
 
