@@ -42,7 +42,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 .withTargetActivity(StartActivity.class)
                 .withSplashTimeOut(mSplashTime)
                 .withBackgroundResource(R.drawable.gradient)
-                .withLogo(R.drawable.ic_s11_splash);
+                .withLogo(R.drawable.ic_splash);
 
         //creates view of splash screen
         View easySplashScreen = config.create();

@@ -10,8 +10,8 @@
     <application
         android:name=".Helpers.App"
         android:allowBackup="true"
-        android:icon="@drawable/ic_symphonia"
-        android:roundIcon="@drawable/ic_symphonia"
+        android:icon="@mipmap/ic_app"
+        android:roundIcon="@mipmap/ic_app_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity

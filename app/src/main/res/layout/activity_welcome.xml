@@ -8,11 +8,11 @@
     tools:context=".Activities.User_Management.WelcomeActivity">
 
     <ImageView
-        android:layout_width="180dp"
+        android:layout_width="240dp"
         android:layout_height="180dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="120dp"
-        android:src="@drawable/ic_s11" />
+        android:layout_marginTop="100dp"
+        android:src="@drawable/ic_symphonia2" />
 
     <TextView
         android:id="@+id/t1"
