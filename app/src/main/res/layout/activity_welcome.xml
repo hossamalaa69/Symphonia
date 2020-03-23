@@ -8,11 +8,11 @@
     tools:context=".Activities.User_Management.WelcomeActivity">
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="250dp"
+        android:layout_height="120dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="150dp"
-        android:src="@drawable/ic_spotify_white" />
+        android:layout_marginTop="160dp"
+        android:src="@drawable/s11" />
 
     <TextView
         android:id="@+id/t1"
