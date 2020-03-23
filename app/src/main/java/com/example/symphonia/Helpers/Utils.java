@@ -162,10 +162,26 @@ public class Utils {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 
+    /**
+     * takes the image resource id and convert it
+     * to a bitmap image
+     *
+     * @author islamahmed1092
+     * @param mImageResourceId image resource id
+     * @return the converted bitmap image
+     */
     public static Bitmap convertToBitmap(int mImageResourceId) {
         return BitmapFactory.decodeResource(App.getContext().getResources(), mImageResourceId);
     }
 
+    /**
+     * hides the soft keyboard from the screen
+     * if it's opened
+     *
+     * @author islamahmed1092
+     * @param activity the current opened activity
+     * @param context the context of the keyboard
+     */
     public static void hideKeyboard(AppCompatActivity activity, Context context) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(INPUT_METHOD_SERVICE);
         //Find the currently focused view, so we can grab the correct window token from it.
@@ -234,6 +250,15 @@ public class Utils {
     }
 
 
+    /**
+     * create a gradient background for the albums
+     * based on the album photo dominant color
+     *
+     * @author islamahmed1092
+     * @param context background context
+     * @param ImageResources bitmap image
+     * @return drawable gradient background
+     */
     public static Drawable createAlbumBackground(Context context, Bitmap ImageResources) {
         int color = getDominantColor(ImageResources);
 
@@ -244,7 +269,7 @@ public class Utils {
     /**
      * gets the dominant color in a bitmap image
      *
-     * @param bitmap
+     * @param bitmap bitmap resource of the image
      * @return integer refers to the dominant color
      */
     private static int getDominantColor(Bitmap bitmap) {
@@ -307,6 +332,10 @@ public class Utils {
     }
 
 
+    /**
+     * create gradient drawable for album fragment
+     * @author islamahmed1092
+     */
     private static class AlbumDrawable extends  GradientDrawable{
         private AlbumDrawable(int pStartColor, int pEndColor){
             super(Orientation.BOTTOM_TOP, new int[]{pEndColor, pStartColor});

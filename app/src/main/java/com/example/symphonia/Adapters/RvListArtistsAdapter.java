@@ -17,21 +17,49 @@ import com.example.symphonia.Entities.Artist;
 
 import java.util.ArrayList;
 
+/**
+ * Control the items of the Artists list in fragment library
+ *
+ * @author islamahmed1092
+ * @version 1.0
+ */
 public class RvListArtistsAdapter extends RecyclerView.Adapter<RvListArtistsAdapter.ArtistViewHolder> {
 
+    /**
+     * list of the user's following artists
+     */
     private ArrayList<Artist> mArtists;
+    /**
+     * context of the recyclerview adapter
+     */
     private Context mContext;
 
+    /**
+     * constructor to get the data
+     *
+     * @param artists user's following artists
+     * @param context context of the recyclerview
+     */
     public RvListArtistsAdapter(ArrayList<Artist> artists, Context context) {
         this.mArtists = artists;
         this.mContext = context;
     }
 
+    /**
+     * @return the number of items in the recyclerview
+     */
     @Override
     public int getItemCount() {
         return mArtists.size() + 1;
     }
 
+    /**
+     * returns the right view holder for each item in recyclerview
+     *
+     * @param parent the root view
+     * @param viewType useful if there is more than one view holder
+     * @return view holder for the artist item
+     */
     @NonNull
     @Override
     public ArtistViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -40,30 +68,59 @@ public class RvListArtistsAdapter extends RecyclerView.Adapter<RvListArtistsAdap
         return new ArtistViewHolder(view);
     }
 
+    /**
+     * bind the view holder which has the turn to be shown
+     *
+     * @param holder item view holder
+     * @param position its position in recyclerview
+     */
     @Override
     public void onBindViewHolder(ArtistViewHolder holder, int position) {
         holder.bind(position);
     }
 
+    /**
+     * clear all the data in artists array
+     * and create a new one
+     */
     public void clear(){
         mArtists.clear();
         mArtists = new ArrayList<>();
     }
 
+    /**
+     * adding an arraylist to the existing one
+     *
+     * @param artists array to be added
+     */
     public void addAll(ArrayList<Artist> artists){
         this.mArtists.addAll(artists);
     }
 
+    /**
+     * holding the data of each item and showing them
+     */
     public class ArtistViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView artistImage;
         TextView artistName;
 
+        /**
+         * prepare the views of the item
+         *
+         * @param itemView view of the recyclerview item
+         */
         ArtistViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
             artistImage = (ImageView)itemView.findViewById(R.id.image_artist);
             artistName = (TextView) itemView.findViewById(R.id.text_artist_name);
         }
+
+        /**
+         * called when the viewholder of an item is binded
+         *
+         * @param position item position
+         */
         void bind(int position) {
             if(position == mArtists.size()) {
                 artistImage.setImageResource(R.drawable.add_image);
@@ -78,6 +135,11 @@ public class RvListArtistsAdapter extends RecyclerView.Adapter<RvListArtistsAdap
 
         }
 
+        /**
+         * separate the click of the last item
+         *
+         * @param v clicked item
+         */
         @Override
         public void onClick(View v) {
             if(getAdapterPosition() == mArtists.size())

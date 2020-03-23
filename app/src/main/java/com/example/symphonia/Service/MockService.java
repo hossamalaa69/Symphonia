@@ -609,6 +609,15 @@ public class MockService implements APIs {
         return data;
     }
 
+    /**
+     * Get information for a single artist identified by their unique ID
+     *
+     * @param context activity context
+     * @param mToken user's access token
+     * @param id artist id
+     * @return artist object
+     */
+
     @Override
     public Artist getArtist(Context context, String mToken, String id) {
         for (Artist artist : mArtists) {
@@ -619,6 +628,13 @@ public class MockService implements APIs {
         return null;
     }
 
+    /**
+     * Get information about artists similar to a given artist.
+     *
+     * @param context activity context
+     * @param id artist id
+     * @return Arraylist of similar artists
+     */
     @Override
     public ArrayList<Artist> getArtistRelatedArtists(Context context, String id) {
         ArrayList<Artist> related;
@@ -637,6 +653,14 @@ public class MockService implements APIs {
         return related;
     }
 
+    /**
+     * Get the current user’s followed artists
+     *
+     * @param type true for user and false for artist
+     * @param mToken user's access token
+     * @param limit he maximum number of items to return
+     * @return list of followed artists
+     */
     @Override
     public ArrayList<Artist> getFollowedArtists(Boolean type, String mToken, int limit) {
         ArrayList<Artist> followedArtists = Constants.currentUser.getFollowingArtists();
@@ -648,6 +672,13 @@ public class MockService implements APIs {
         return returnedArtists;
     }
 
+    /**
+     * Add the current user as a follower of one artist or other users
+     *
+     * @param type true for user and false for artist
+     * @param mToken user's access token
+     * @param id user or artist id
+     */
     @Override
     public void followArtistOrUser(Boolean type, String mToken, String id) {
         for (Artist artist : mArtists) {
@@ -659,6 +690,13 @@ public class MockService implements APIs {
         }
     }
 
+    /**
+     * Remove the current user as a follower of one artist or other users
+     *
+     * @param type true for user and false for artist
+     * @param mToken user's access token
+     * @param id user or artist id
+     */
     @Override
     public void unFollowArtistOrUser(Boolean type, String mToken, String id) {
         for (Artist artist : mArtists) {
@@ -670,6 +708,14 @@ public class MockService implements APIs {
         }
     }
 
+    /**
+     * Check to see if the current user is following an artist or other users
+     *
+     * @param type true for user and false for artist
+     * @param mToken user's access token
+     * @param id user or artist id
+     * @return true if following and false if not
+     */
     @Override
     public Boolean isFollowing(Boolean type, String mToken, String id) {
         ArrayList<Artist> mFollowingArtists = Constants.currentUser.getFollowingArtists();
@@ -680,6 +726,14 @@ public class MockService implements APIs {
         return false;
     }
 
+    /**
+     * Get a list of recommended artist for the current user
+     *
+     * @param type true for user and false for artist
+     * @param mToken user's access token
+     * @param limit he maximum number of items to return
+     * @return list of recommended artists
+     */
     @Override
     public ArrayList<Artist> getRecommendedArtists(Boolean type, String mToken, int limit) {
         ArrayList<Artist> mRecommendedArtists = new ArrayList<>();
@@ -697,6 +751,15 @@ public class MockService implements APIs {
         return mRecommendedArtists;
     }
 
+    /**
+     * Search for a specific artist
+     *
+     * @param context Activity context
+     * @param q Query to search for
+     * @param offset The index of the first result to return
+     * @param limit Maximum number of results to return
+     * @return List of search result artists
+     */
     @Override
     public ArrayList<Artist> searchArtist(Context context, String q, int offset, int limit) {
         ArrayList<Artist> found = new ArrayList<>();
@@ -714,6 +777,15 @@ public class MockService implements APIs {
         return searchResult;
     }
 
+    /**
+     * Get a list of the albums saved in the current user’s ‘Your Music’ library
+     *
+     * @param context Activity context
+     * @param mToken User's access token
+     * @param offset The index of the first object to return
+     * @param limit The maximum number of objects to return
+     * @return List of saved albums
+     */
     @Override
     public ArrayList<Album> getUserSavedAlbums(Context context, String mToken, int offset, int limit) {
         ArrayList<Album> savedAlbums = Constants.currentUser.getSavedAlbums();
