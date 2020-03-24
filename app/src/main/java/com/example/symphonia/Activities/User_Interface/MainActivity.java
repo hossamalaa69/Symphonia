@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.symphonia.Adapters.RvBarAdapter;
 import com.example.symphonia.Adapters.RvPlaylistsHomeAdapter;
 import com.example.symphonia.Adapters.RvTracksHomeAdapter;
+import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Fragments_and_models.home.HomeFragment;
@@ -451,11 +452,11 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     }
 
     public void checkUserType() {
-       /* if(Constants.currentUser.isListenerType())
+        if(Constants.currentUser.isListenerType())
             Toast.makeText(this, "Listener", Toast.LENGTH_SHORT).show();
         else
             Toast.makeText(this, "Artist", Toast.LENGTH_SHORT).show();
-*/
+
         //ServiceController serviceController = ServiceController.getInstance();
         //serviceController.logIn(this, "user1@symphonia.com", "12345678", true);
     }
