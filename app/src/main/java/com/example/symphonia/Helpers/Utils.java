@@ -369,7 +369,7 @@ public class Utils {
      * @return integer refers to the dominant color
      * @author Khaled Ali
      */
-    private static int getDominantColor(Bitmap bitmap) {
+    public static int getDominantColor(Bitmap bitmap) {
         List<Palette.Swatch> swatchesTemp = Palette.from(bitmap).generate().getSwatches();
         List<Palette.Swatch> swatches = new ArrayList<Palette.Swatch>(swatchesTemp);
         Collections.sort(swatches, new Comparator<Palette.Swatch>() {
@@ -447,6 +447,15 @@ public class Utils {
         private AlbumDrawable(int pStartColor, int pEndColor){
             super(Orientation.BOTTOM_TOP, new int[]{pEndColor, pStartColor});
             setShape(GradientDrawable.RECTANGLE);
+        }
+    }
+
+    public static boolean isColorDark(int color){
+        double darkness = 1-(0.299*Color.red(color) + 0.587*Color.green(color) + 0.114*Color.blue(color))/255;
+        if(darkness<0.5){
+            return false; // It's a light color
+        }else{
+            return true; // It's a dark color
         }
     }
 }

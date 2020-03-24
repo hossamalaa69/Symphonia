@@ -155,7 +155,12 @@ public class RvListArtistsAdapter extends RecyclerView.Adapter<RvListArtistsAdap
 
         @Override
         public boolean onLongClick(View v) {
-            mOnLongClickListener.onListItemLongClick(getAdapterPosition());
+            if(getAdapterPosition() == mArtists.size()){
+
+            }
+            else{
+                mOnLongClickListener.onListItemLongClick(getAdapterPosition());
+            }
             return true;
         }
     }

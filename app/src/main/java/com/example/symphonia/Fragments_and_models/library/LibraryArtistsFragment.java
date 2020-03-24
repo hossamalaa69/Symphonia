@@ -90,7 +90,7 @@ public class LibraryArtistsFragment extends Fragment implements RvListArtistsAda
 
     @Override
     public void onListItemLongClick(int clickedItemIndex) {
-        BottomSheetDialogArtist bottomSheet = new BottomSheetDialogArtist();
+        BottomSheetDialogArtist bottomSheet = new BottomSheetDialogArtist(mFollowedArtists.get(clickedItemIndex));
         assert getFragmentManager() != null;
         bottomSheet.show(getFragmentManager(),bottomSheet.getTag());
     }

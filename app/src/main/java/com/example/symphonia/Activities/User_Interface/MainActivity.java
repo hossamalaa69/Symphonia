@@ -34,6 +34,7 @@ import com.example.symphonia.Fragments_and_models.search.SearchFragment;
 import com.example.symphonia.Helpers.SnapHelperOneByOne;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
+import com.example.symphonia.Service.ServiceController;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.Serializable;
@@ -460,8 +461,8 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         else
             Toast.makeText(this, "Artist", Toast.LENGTH_SHORT).show();
 */
-        //ServiceController serviceController = ServiceController.getInstance();
-        //serviceController.logIn(this, "user1@symphonia.com", "12345678", true);
+        ServiceController serviceController = ServiceController.getInstance();
+        serviceController.logIn(this, "user1@symphonia.com", "12345678", true);
     }
 
 
