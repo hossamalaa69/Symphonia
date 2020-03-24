@@ -18,16 +18,19 @@
     <TextView
         android:id="@+id/tv_track_title_item"
         style="@style/TitleStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sub_title_height"
         android:layout_toStartOf="@id/iv_like_track_item"
         android:layout_toLeftOf="@id/iv_like_track_item"
         android:layout_toEndOf="@id/iv_track_image_item"
         android:layout_toRightOf="@id/iv_track_image_item"
+        android:autoSizePresetSizes="@array/autosize_text_sizes"
+        android:autoSizeTextType="uniform"
         android:ellipsize="end"
         android:maxLines="1"
         android:padding="@dimen/small_dimen"
         android:textSize="@dimen/title_size"
+        tools:targetApi="o"
         tools:text="Start Again" />
 
     <TextView
@@ -39,11 +42,14 @@
         android:layout_toLeftOf="@+id/iv_like_track_item"
         android:layout_toEndOf="@id/iv_track_image_item"
         android:layout_toRightOf="@id/iv_track_image_item"
+        android:autoSizePresetSizes="@array/autosize_text_sizes"
+        android:autoSizeTextType="uniform"
         android:paddingStart="@dimen/small_dimen"
         android:paddingLeft="@dimen/small_dimen"
         android:paddingEnd="@dimen/small_dimen"
         android:textColor="@color/light_gray"
         android:textSize="@dimen/body_size"
+        tools:targetApi="o"
         tools:text="khaled, mohamed, ali, youssef" />
 
     <ImageView
@@ -67,7 +73,8 @@
         android:contentDescription="@string/track_image"
         android:padding="@dimen/medium_dimen"
         android:scaleType="fitXY"
-        android:src="@drawable/ic_favorite_border_black_24dp" />
+        android:src="@drawable/ic_favorite_border_black_24dp"
+        android:layout_toStartOf="@id/iv_hide_track_item" />
 
     <ImageView
         android:id="@+id/iv_track_settings_item"

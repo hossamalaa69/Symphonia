@@ -16,20 +16,52 @@ import com.example.symphonia.R;
 
 import java.util.ArrayList;
 
+/**
+ * class tha adapt recycler view of tracks
+ *
+ * @author Khaled Ali
+ * @since 22-3-2020
+ * @version 1.0
+ */
 public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapter.Holder> {
 
+    /**
+     * position of previous clicked item
+     */
+    private int prev = -1;
+    /**
+     *  tracks that would be represented
+     */
     private ArrayList<Track> mTracks;
+
+    /**
+     * context of hosting activity
+     */
     private Context context;
 
-
+    /**
+     * this listener is called when user click on an item
+     */
     private OnTrackClicked onTrackClicked;
 
+
+    /**
+     * non empty constructor
+     * @param context context of hosting activity
+     * @param mTracks tracks that should be represented in recycler view
+     */
     public RvTracksHomeAdapter(Context context, ArrayList<Track> mTracks) {
         this.mTracks = mTracks;
         this.context = context;
         onTrackClicked = (OnTrackClicked) context;
     }
 
+    /**
+     * this function inflates the view the will hold each track information
+     * @param parent viewGroup that hold each viewItem
+     * @param viewType  type of view
+     * @return Holder that holds each view
+     */
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -37,27 +69,37 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
         return new Holder(view);
     }
 
+    /**
+     * this function is called for binding holders
+     * @param holder holder that would bind with data
+     * @param position position of holder in recycler view
+     */
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         holder.bind(position);
     }
 
+    /**
+     *
+     * @return number of items in recycler view
+     */
     @Override
     public int getItemCount() {
         return mTracks.size();
     }
 
-
+    /**
+     * this interface for listeners of recycler view
+     */
     public interface OnTrackClicked {
         void OnTrackClickedListener(ArrayList<Track> tracks, int pos, int prev);
-
         void OnLikeClickedListener(boolean selected, int pos);
-        //TODO add functions for listeners
+
     }
 
-    private int prev = -1;
-    private View prevView = null;
-
+    /**
+     * this class create holder for views
+     */
     public class Holder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private ImageView ivLike;
@@ -67,7 +109,10 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
         private TextView tvTrackTitle;
         private TextView tvTrackDescription;
 
-
+        /**
+         * non empty constructor
+         * @param itemView view that holds item
+         */
         public Holder(@NonNull View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
@@ -82,6 +127,9 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
 
         }
 
+        /**
+         * sets listener to views in Holder
+         */
         private void setListeners() {
             ivHide.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -134,6 +182,9 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
 
         }
 
+        /**
+         * bind data to views
+         */
         public void bind(int pos) {
             ivTrackImage.setImageResource(mTracks.get(pos).getmImageResources());
             tvTrackTitle.setText(mTracks.get(pos).getmTitle());
@@ -157,12 +208,15 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
             }
         }
 
+        /**
+         * this function is called when user click on item
+         * @param view takes view that is clicked
+         */
         @Override
         public void onClick(View view) {
             onTrackClicked.OnTrackClickedListener(mTracks,
                     getAdapterPosition(), prev);
             prev = getAdapterPosition();
-            prevView = view;
             tvTrackTitle.setTextColor(context.getResources().getColor(R.color.colorGreen));
         }
     }

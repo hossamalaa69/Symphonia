@@ -173,4 +173,5 @@
     <string name="return_to_playing_playlist">return to playing playlist</string>
     <string name="do_you_want_to_log_in_instead">Do you want to log in instead?</string>
     <string name="choose_artists">CHOOSE ARTISTS</string>
+    <string name="track_image_for_playbar">track image for playBar</string>
 </resources>

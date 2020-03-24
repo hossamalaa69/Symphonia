@@ -27,6 +27,12 @@ import com.example.symphonia.Service.ServiceController;
 
 import java.util.ArrayList;
 
+/**
+ * fragment that represent playlist to user
+ *
+ * @author Khaled Ali
+ * @version 1.0
+ */
 public class HomeFragment extends Fragment {
 
 
@@ -39,13 +45,20 @@ public class HomeFragment extends Fragment {
     private RecyclerView rvPopularPlaylist;
     private RecyclerView rvBasedOnYourRecentlyPlayed;
 
+    /**
+     * inflate view of fragment
+     *
+     * @param inflater           inflate the fragment
+     * @param container          viewgroup of the fragment
+     * @param savedInstanceState saved data
+     * @return fragment view
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
                 ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         initViews(root);
-        loadDate();
         homeViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
@@ -60,7 +73,7 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getContext(), "settings", Toast.LENGTH_SHORT).show();
             }
         });
-        final FrameLayout frameLayout= root.findViewById(R.id.frame_home_fragment);
+        final FrameLayout frameLayout = root.findViewById(R.id.frame_home_fragment);
         final ScrollView scrollView = root.findViewById(R.id.sv_home);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
@@ -69,9 +82,9 @@ public class HomeFragment extends Fragment {
 
                     // get distance from padding and normalize it
                     float alpha = (float) ((scrollView.getPaddingTop() - scrollY) / (scrollView.getPaddingTop() * 1.0));
-                    frameLayout.setAlpha(1-alpha);
-                    if(scrollView.getPaddingTop()>scrollY)
-                    ivSettings.setAlpha(alpha);
+                    frameLayout.setAlpha(1 - alpha);
+                    if (scrollView.getPaddingTop() > scrollY)
+                        ivSettings.setAlpha(alpha);
                     if (alpha <= 0) {
                         ivSettings.setVisibility(View.GONE);
                     } else
@@ -84,21 +97,15 @@ public class HomeFragment extends Fragment {
 
     }
 
-
-    private void loadDate() {
-        //TODO load data from internet and add it to views
-        updateUI();
-    }
-
-    private void updateUI() {
-
-        //TODO update ui with data
-    }
-
-
+    /**
+     * this function initialize views for fragment
+     *
+     * @param root this is the view that is inflated for this fragment
+     */
     void initViews(View root) {
 
         // test
+
         ServiceController SController = ServiceController.getInstance();
         ArrayList<Playlist> playlists = SController.getRandomPlaylists(getContext(), Constants.currentToken);
         ArrayList<Playlist> popularPlaylists = SController.getPopularPlaylists(getContext(), Constants.currentToken);

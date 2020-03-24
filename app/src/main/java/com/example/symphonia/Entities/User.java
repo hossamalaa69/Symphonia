@@ -8,8 +8,8 @@ import java.util.ArrayList;
  * Class that contain user's information
  *
  * @author Hossam Alaa
- * @since 22-3-2020
  * @version 1.0
+ * @since 22-3-2020
  */
 public class User {
 
@@ -50,7 +50,7 @@ public class User {
      */
     private int mNumOfFollowers;
     /**
-     *holds number of following
+     * holds number of following
      */
     private int mNumOfFollowings;
     /**
@@ -84,6 +84,7 @@ public class User {
 
     /**
      * constructor of user, initializes parameters
+     *
      * @param mName name of user
      * @param mType type of user
      */
@@ -94,40 +95,42 @@ public class User {
 
     /**
      * override constructor for user
-     * @param email email of user
+     *
+     * @param email    email of user
      * @param password password of user
-     * @param mType type of user
+     * @param mType    type of user
      */
-    public User(String email, String password, boolean mType){
-        this.mEmail=email;
-        this.mPassword=password;
-        this.mType=mType;
+    public User(String email, String password, boolean mType) {
+        this.mEmail = email;
+        this.mPassword = password;
+        this.mType = mType;
     }
 
     /**
      * override constructor for user
-     * @param mEmail email of user
-     * @param mType type of user
-     * @param mUserImage image of user
-     * @param mName name of user
-     * @param mDOB date of birth of user
-     * @param mGender gender of user
-     * @param mIsPremuim if user is premium
-     * @param mNumOfFollowers number of followers of user
-     * @param mNumOfFollowings number of following of user
-     * @param mFollowings array of following users
-     * @param mFollowers array of followers users
-     * @param mFavPlaylists array of favourite playlists
-     * @param mMadePlaylists array of playlist that made for user
+     *
+     * @param mEmail            email of user
+     * @param mType             type of user
+     * @param mUserImage        image of user
+     * @param mName             name of user
+     * @param mDOB              date of birth of user
+     * @param mGender           gender of user
+     * @param mIsPremuim        if user is premium
+     * @param mNumOfFollowers   number of followers of user
+     * @param mNumOfFollowings  number of following of user
+     * @param mFollowings       array of following users
+     * @param mFollowers        array of followers users
+     * @param mFavPlaylists     array of favourite playlists
+     * @param mMadePlaylists    array of playlist that made for user
      * @param mFollowingArtists array of following artists
-     * @param mSavedAlbums array of saved albums
-     * @param mPlayedTracks array of played tracks
+     * @param mSavedAlbums      array of saved albums
+     * @param mPlayedTracks     array of played tracks
      */
     public User(String mEmail, boolean mType, Bitmap mUserImage, String mName, String mDOB
             , String mGender, boolean mIsPremuim, int mNumOfFollowers, int mNumOfFollowings
             , ArrayList<User> mFollowings, ArrayList<User> mFollowers
             , ArrayList<Playlist> mFavPlaylists, ArrayList<Playlist> mMadePlaylists
-            , ArrayList<Artist> mFollowingArtists, ArrayList<Album> mSavedAlbums , ArrayList<Track> mPlayedTracks) {
+            , ArrayList<Artist> mFollowingArtists, ArrayList<Album> mSavedAlbums, ArrayList<Track> mPlayedTracks) {
 
         this.mEmail = mEmail;
         this.mType = mType;
@@ -146,8 +149,10 @@ public class User {
         this.mPlayedTracks = mPlayedTracks;
         this.mSavedAlbums = mSavedAlbums;
     }
+
     /**
      * getter for saved albums
+     *
      * @return return saved albums
      */
     public ArrayList<Album> getSavedAlbums() {
@@ -156,6 +161,7 @@ public class User {
 
     /**
      * setter of saved albums
+     *
      * @param mSavedAlbums saved albums of user
      */
     public void setSavedAlbums(ArrayList<Album> mSavedAlbums) {
@@ -164,12 +170,16 @@ public class User {
 
     /**
      * getter of password
+     *
      * @return returns password
      */
-    public String getmPassword() {return mPassword;}
+    public String getmPassword() {
+        return mPassword;
+    }
 
     /**
      * setter of password
+     *
      * @param mPassword password of user
      */
     public void setmPassword(String mPassword) {
@@ -178,6 +188,7 @@ public class User {
 
     /**
      * getter for email
+     *
      * @return returns email of user
      */
     public String getmEmail() {
@@ -186,6 +197,7 @@ public class User {
 
     /**
      * setter for email
+     *
      * @param mEmail email of user
      */
     public void setmEmail(String mEmail) {
@@ -194,6 +206,7 @@ public class User {
 
     /**
      * getter of user image
+     *
      * @return image of user
      */
     public Bitmap getUserImage() {
@@ -202,6 +215,7 @@ public class User {
 
     /**
      * setter for user image
+     *
      * @param userImage user image
      */
     public void setUserImage(Bitmap userImage) {
@@ -210,6 +224,7 @@ public class User {
 
     /**
      * getter for user's name
+     *
      * @return returns user's name
      */
     public String getmName() {
@@ -218,6 +233,7 @@ public class User {
 
     /**
      * setter for user's name
+     *
      * @param mName user's name
      */
     public void setmName(String mName) {
@@ -226,6 +242,7 @@ public class User {
 
     /**
      * getter for birth date
+     *
      * @return return date of birth
      */
     public String getmDOB() {
@@ -234,6 +251,7 @@ public class User {
 
     /**
      * setter for birth date
+     *
      * @param mDOB birth date
      */
     public void setmDOB(String mDOB) {
@@ -242,6 +260,7 @@ public class User {
 
     /**
      * getter for gender
+     *
      * @return returns gender
      */
     public String getmGender() {
@@ -250,6 +269,7 @@ public class User {
 
     /**
      * setter for gender
+     *
      * @param mGender gender
      */
     public void setmGender(String mGender) {
@@ -258,6 +278,7 @@ public class User {
 
     /**
      * getter for if user is premium
+     *
      * @return return true if user is premium
      */
     public boolean isPremuim() {
@@ -266,6 +287,7 @@ public class User {
 
     /**
      * setter for premium
+     *
      * @param premuim if user is premium
      */
     public void setPremuim(boolean premuim) {
@@ -274,6 +296,7 @@ public class User {
 
     /**
      * getter for number of followers
+     *
      * @return return number of followers
      */
     public int getNumOfFollowers() {
@@ -282,6 +305,7 @@ public class User {
 
     /**
      * setter for number of followers
+     *
      * @param numOfFollowers number of followers
      */
     public void setNumOfFollowers(int numOfFollowers) {
@@ -290,6 +314,7 @@ public class User {
 
     /**
      * getter for number of followings
+     *
      * @return return number of followings
      */
     public int getNumOfFollowings() {
@@ -298,6 +323,7 @@ public class User {
 
     /**
      * setter for number of followings
+     *
      * @param numOfFollowings number of followings
      */
     public void setNumOfFollowings(int numOfFollowings) {
@@ -306,6 +332,7 @@ public class User {
 
     /**
      * getter for number of followings
+     *
      * @return return number of followings
      */
     public ArrayList<User> getmFollowings() {
@@ -314,6 +341,7 @@ public class User {
 
     /**
      * setter for array of followings
+     *
      * @param mFollowings array of followings
      */
     public void setmFollowings(ArrayList<User> mFollowings) {
@@ -322,6 +350,7 @@ public class User {
 
     /**
      * getter for array of followers
+     *
      * @return return array of followers
      */
     public ArrayList<User> getmFollowers() {
@@ -330,6 +359,7 @@ public class User {
 
     /**
      * setter for array of followers
+     *
      * @param mFollowers array of followers
      */
     public void setmFollowers(ArrayList<User> mFollowers) {
@@ -338,6 +368,7 @@ public class User {
 
     /**
      * getter for array of favourite playlists
+     *
      * @return return array of favourite playlists
      */
     public ArrayList<Playlist> getFavPlaylists() {
@@ -346,6 +377,7 @@ public class User {
 
     /**
      * setter for array of favourite playlists
+     *
      * @param favPlaylists array of favourite playlists
      */
     public void setFavPlaylists(ArrayList<Playlist> favPlaylists) {
@@ -354,6 +386,7 @@ public class User {
 
     /**
      * getter for array of playlists made for user
+     *
      * @return returns array of playlists made for user
      */
     public ArrayList<Playlist> getMadePlaylists() {
@@ -362,6 +395,7 @@ public class User {
 
     /**
      * setter for array of playlists made for user
+     *
      * @param madePlaylists array of playlists made for user
      */
     public void setMadePlaylists(ArrayList<Playlist> madePlaylists) {
@@ -370,6 +404,7 @@ public class User {
 
     /**
      * getter for array of following artists
+     *
      * @return return array of following artists
      */
     public ArrayList<Artist> getFollowingArtists() {
@@ -378,6 +413,7 @@ public class User {
 
     /**
      * setter for array of following artists
+     *
      * @param mFollowingArtists array of following artists
      */
     public void setmFollowingArtists(ArrayList<Artist> mFollowingArtists) {
@@ -386,24 +422,25 @@ public class User {
 
     /**
      * handles following an artist
+     *
      * @param artist artist to be followed
      */
-    public void followArtist(Artist artist)
-    {
+    public void followArtist(Artist artist) {
         mFollowingArtists.add(artist);
     }
 
     /**
      * handles unfollowing for artist
+     *
      * @param artist artist to be unfollowed
      */
-    public void unFollowArtist(Artist artist)
-    {
+    public void unFollowArtist(Artist artist) {
         mFollowingArtists.remove(artist);
     }
 
     /**
      * getter for array of played tracks
+     *
      * @return returns array of played tracks
      */
     public ArrayList<Track> getmPlayedTracks() {
@@ -412,6 +449,7 @@ public class User {
 
     /**
      * setter for array of played tracks
+     *
      * @param mPlayedTracks array of played tracks
      */
     public void setmPlayedTracks(ArrayList<Track> mPlayedTracks) {
@@ -420,6 +458,7 @@ public class User {
 
     /**
      * getter for type of user
+     *
      * @return return true if user is listener, false for artist
      */
     public boolean isListenerType() {
@@ -428,6 +467,7 @@ public class User {
 
     /**
      * setter for user type
+     *
      * @param mType type of user, true for listener, false for artist
      */
     public void setType(boolean mType) {

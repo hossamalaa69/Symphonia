@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat;
 import androidx.palette.graphics.Palette;
 
 import com.example.symphonia.Entities.Container;
+import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.R;
 
@@ -49,9 +50,23 @@ public class Utils {
         return email.split("@")[0];
     }
 
+    /**
+     * this class for media player
+     * @author Khaled Ali
+     */
     public static class MediaPlayerInfo {
+        /**
+         * media player
+         */
         public static MediaPlayer mediaPlayer;
+        /**
+         * audio manager
+         */
         private static AudioManager audioManager;
+
+        /**
+         * audio manager listener for changing focus
+         */
         private static AudioManager.OnAudioFocusChangeListener onAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
             @Override
             public void onAudioFocusChange(int focusChange) {
@@ -80,14 +95,26 @@ public class Utils {
 
         };
 
+
+        /**
+         * create media player
+         * @param context context of hosting activity
+         */
         public static void createMediaPlayer(Context context) {
             mediaPlayer = MediaPlayer.create(context, CurrTrackInfo.track.getUri());
             mediaPlayer.setOnCompletionListener(onCompletionListener);
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         }
 
+        /**
+         * listener of media player called when media is finished
+         */
         public static MediaPlayer.OnCompletionListener onCompletionListener;
 
+        /**
+         * play track with info stored
+         * @param context context of hosting activity
+         */
         public static void playTrack(Context context) {
             clearMediaPlayer();
             audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
@@ -105,6 +132,9 @@ public class Utils {
             }
         }
 
+        /**
+         * release media player
+         */
         public static void clearMediaPlayer() {
             if (mediaPlayer != null) {
                 mediaPlayer.reset();
@@ -116,18 +146,28 @@ public class Utils {
             }
         }
 
+        /**
+         * pause media player
+         */
         public static void pauseTrack() {
             if (mediaPlayer != null) {
                 mediaPlayer.pause();
             }
         }
 
+        /**
+         * resume media player
+         */
         public static void resumeTrack() {
             if (mediaPlayer != null) {
                 mediaPlayer.start();
             }
         }
 
+        /**
+         * check if media player is playing
+         * @return if media player is playing
+         */
         public static boolean isMediaPlayerPlaying() {
             if (mediaPlayer != null)
                 return mediaPlayer.isPlaying();
@@ -136,12 +176,63 @@ public class Utils {
     }
 
 
+    /**
+     * this function takes info on track and set it to Utils.CurrTrackInfo
+     *
+     * @param currPlayingPos
+     * @param TrackPosInPlaylist
+     * @param currPlaylistTracks
+     * @author Khaled Ali
+     */
+    public static void setTrackInfo(int currPlayingPos, int TrackPosInPlaylist, ArrayList<Track> currPlaylistTracks) {
+        CurrTrackInfo.currPlayingPos = currPlayingPos;
+        CurrTrackInfo.currPlaylistName = currPlaylistTracks.get(TrackPosInPlaylist).getPlaylistName();
+        CurrTrackInfo.track = currPlaylistTracks.get(TrackPosInPlaylist);
+        CurrTrackInfo.TrackPosInPlaylist = TrackPosInPlaylist;
+        CurrTrackInfo.currPlaylistTracks = currPlaylistTracks;
+    }
+
+    /**
+     * this static class required to store current clicked playlist's data
+     * @author Khaled Ali
+     */
+    public static class CurrPlaylist
+    {
+        /**
+         * current clicked playlist
+         */
+        public static Playlist playlist;
+    }
+
+    /**
+     * this static class required to store current clicked track in certain playlist
+     * @author Khaled Ali
+     */
     public static class CurrTrackInfo {
+
+        /**
+         * indicates to position of clicked track in playlist
+         */
         public static int TrackPosInPlaylist = -1;
+        /**
+         * indicates to  position of previous clicked track in playlist
+         */
         public static int prevTrackPos = -1;
+        /**
+         *  all tracks in playlist of clicked track
+         */
         public static ArrayList<Track> currPlaylistTracks;
+        /**
+         *  playlist name
+         */
         public static String currPlaylistName;
+        /**
+         *  clicked track
+         */
         public static Track track;
+        /**
+         *  current second of playing track
+         */
         public static int currPlayingPos;
     }
 
@@ -198,7 +289,7 @@ public class Utils {
     /**
      * create gradient background for an image
      *
-     * @return
+     * @return drawable of created background
      */
     public static Drawable createBackground(Context context, int ImageResources) {
         int color = getDominantColor(BitmapFactory.decodeResource(context.getResources()
@@ -209,6 +300,11 @@ public class Utils {
 
     }
 
+    /**
+     * create gradient background for an image
+     *
+     * @return drawable of created background
+     */
     public static Drawable createBackground(Context context, Bitmap ImageResources) {
         int color = getDominantColor(ImageResources);
 
@@ -271,6 +367,7 @@ public class Utils {
      *
      * @param bitmap bitmap resource of the image
      * @return integer refers to the dominant color
+     * @author Khaled Ali
      */
     private static int getDominantColor(Bitmap bitmap) {
         List<Palette.Swatch> swatchesTemp = Palette.from(bitmap).generate().getSwatches();
@@ -285,7 +382,8 @@ public class Utils {
     }
 
     /**
-     * create gradient drawable for track image
+     * this class creates drawable for track with gradient below middle
+     * * @author Khaled Ali
      */
     private static class SomeDrawable extends GradientDrawable {
 
@@ -296,6 +394,10 @@ public class Utils {
 
     }
 
+    /**
+     * this class creates drawable for track with gradient above middle
+     * @author Khaled Ali
+     */
     private static class SomeDrawable2 extends GradientDrawable {
 
         private SomeDrawable2(int pStartColor, int pEndColor) {
@@ -324,6 +426,11 @@ public class Utils {
      */
     private static class SomeDrawable4 extends GradientDrawable {
 
+        /**
+         * a non empty constructor
+         * @param pStartColor color to be in top
+         * @param pEndColor   color to be in middle and bottom
+         */
         public SomeDrawable4(int pStartColor, int pEndColor) {
             super(Orientation.BR_TL, new int[]{pEndColor, pEndColor,pEndColor ,pStartColor});
             setShape(GradientDrawable.RECTANGLE);

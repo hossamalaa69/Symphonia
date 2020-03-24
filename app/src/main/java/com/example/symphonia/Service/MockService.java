@@ -196,16 +196,33 @@ public class MockService implements APIs {
 
     }
 
+    /**
+     * getter for made-for-you playlist
+     * @param context context of hosting activity
+     * @param mToken token of user
+     * @return  made-for-you  playlist
+     */
     @Override
     public ArrayList<Playlist> getMadeForYouPlaylists(Context context, String mToken) {
         return mRandomPlaylists;
     }
-
+    /**
+     * getter for recently-player playlist
+     * @param context context of hosting activity
+     * @param mToken token of user
+     * @return  recently-player  playlist
+     */
     @Override
     public ArrayList<Playlist> getRecentPlaylists(Context context, String mToken) {
         return mRecentPlaylists;
     }
 
+    /**
+     * getter for Random playlist
+     * @param context context of hosting activity
+     * @param mToken token of user
+     * @return  Random  playlist
+     */
     @Override
     public ArrayList<Playlist> getRandomPlaylists(Context context, String mToken) {
         return mRandomPlaylists;

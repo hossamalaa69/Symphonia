@@ -19,6 +19,9 @@
     <TextView
         android:id="@+id/tv_play_from_play_activity"
         android:layout_width="wrap_content"
+        android:autoSizeTextType="uniform"
+        android:autoSizePresetSizes="@array/autosize_text_sizes"
+        tools:targetApi="o"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_toStartOf="@+id/iv_track_settings_play_activity"
@@ -37,9 +40,13 @@
         android:id="@+id/tv_playlist_title_play_activity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         android:layout_below="@id/tv_play_from_play_activity"
         android:layout_alignParentBottom="true"
         android:layout_gravity="center_horizontal"
+        android:autoSizeTextType="uniform"
+        android:autoSizePresetSizes="@array/autosize_text_sizes"
+        tools:targetApi="o"
         android:layout_marginBottom="1dp"
         android:layout_toStartOf="@+id/iv_track_settings_play_activity"
         android:layout_toLeftOf="@+id/iv_track_settings_play_activity"

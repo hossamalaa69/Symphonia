@@ -14,19 +14,45 @@ import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.R;
 
 import java.util.ArrayList;
-
+/**
+ * class tha adapt recycler view of tracks
+ *
+ * @author Khaled Ali
+ * @since 22-3-2020
+ * @version 1.0
+ */
 public class RvPlaylistsHomeAdapter extends RecyclerView.Adapter<RvPlaylistsHomeAdapter.Holder> {
 
-    public OnPlaylistClicked onPlaylistClicked;
+    /**
+     * this instance of interface is called when user click on an item
+     */
+    private OnPlaylistClicked onPlaylistClicked;
+    /**
+     * playlist that would be represented
+     */
     private ArrayList<Playlist> mPlaylists;
+    /**
+     * context of hosting activity
+     */
     private Context context;
 
+    /**
+     * non empty constructor
+     * @param context context of hosting activity
+     * @param list arrayList of playlists that would be represented
+     */
     public RvPlaylistsHomeAdapter(Context context, ArrayList<Playlist> list) {
         this.mPlaylists = list;
         this.context = context;
         onPlaylistClicked = (OnPlaylistClicked) context;
     }
 
+    /**
+     * this function inflates the view the will hold each track information
+     * @param parent viewGroup that hold each viewItem
+     * @param viewType  type of view
+     * @return Holder that holds each view
+     */
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -34,29 +60,44 @@ public class RvPlaylistsHomeAdapter extends RecyclerView.Adapter<RvPlaylistsHome
         return new Holder(view);
     }
 
+    /**
+     * this function is called for binding holders
+     * @param holder holder that would bind with data
+     * @param position position of holder in recycler view
+     */
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         holder.bind(position);
     }
 
+    /**
+     * @return number of items in recycler view
+     */
     @Override
     public int getItemCount() {
         return mPlaylists.size();
     }
 
+    /**
+     * this interface for listeners of recycler view
+     */
     public interface OnPlaylistClicked {
         void OnPlaylistClickedListener(Playlist playlist);
     }
 
+    /**
+     * this class create holder for views
+     */
     public class Holder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-
-        // TODO delete this hard coded data
-        int[] images = {R.drawable.download, R.drawable.download1, R.drawable.images, R.drawable.images2, R.drawable.images3};
         private ImageView ivPlaylistImage;
         private TextView tvPlaylistTitle;
         private TextView tvPlaylistDescription;
 
+        /**
+         * non empty constructor
+         * @param itemView view that holds item
+         */
         public Holder(@NonNull View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
@@ -67,7 +108,10 @@ public class RvPlaylistsHomeAdapter extends RecyclerView.Adapter<RvPlaylistsHome
 
         }
 
-        public void bind(int pos) {
+        /**
+         * bind data to views
+         */
+        private void bind(int pos) {
             if (mPlaylists.get(pos).getmPlaylistImage() == null) {
                 ivPlaylistImage.setImageResource(R.drawable.no_image);
             }
@@ -85,6 +129,10 @@ public class RvPlaylistsHomeAdapter extends RecyclerView.Adapter<RvPlaylistsHome
             }
         }
 
+        /**
+         * this function is called when user click on item
+         * @param view takes view that is clicked
+         */
         @Override
         public void onClick(View view) {
             onPlaylistClicked.OnPlaylistClickedListener(

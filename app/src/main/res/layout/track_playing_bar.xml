@@ -13,13 +13,16 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:scaleType="fitXY"
-        tools:src="@drawable/images2" />
+        tools:src="@drawable/images2"
+        android:contentDescription="@string/track_image_for_playbar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_bar_main_activity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_toStartOf="@id/iv_like_track_bar"
         android:layout_toLeftOf="@id/iv_like_track_bar"
+        android:layout_toEndOf="@id/iv_track_image_bar"
         android:layout_toRightOf="@id/iv_track_image_bar" />
 
     <ImageView
@@ -31,6 +34,8 @@
         android:paddingStart="@dimen/large_dimen"
         android:paddingLeft="@dimen/large_dimen"
         android:paddingTop="@dimen/large_dimen"
+        android:paddingEnd="0dp"
+        android:paddingRight="0dp"
         android:paddingBottom="@dimen/large_dimen"
         android:src="@drawable/ic_favorite_border_black_24dp" />
 
@@ -40,6 +45,8 @@
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:paddingStart="0dp"
+        android:paddingLeft="0dp"
         android:paddingTop="@dimen/large_dimen"
         android:paddingEnd="@dimen/large_dimen"
         android:paddingRight="@dimen/large_dimen"

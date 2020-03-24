@@ -8,8 +8,8 @@ import java.util.ArrayList;
  * Class that contain albums' information
  *
  * @author islamahmed1092
- * @since 22-3-2020
  * @version 1.0
+ * @since 22-3-2020
  */
 public class Album {
     /**
@@ -33,7 +33,7 @@ public class Album {
      */
     private Bitmap mAlbumImage;
     /**
-     *holds album name
+     * holds album name
      */
     private String mAlbumName;
     /**
@@ -47,14 +47,15 @@ public class Album {
 
     /**
      * Constructor for album to initialize attributes
-     * @param mAlbumId album id
-     * @param mAlbumType album type
+     *
+     * @param mAlbumId      album id
+     * @param mAlbumType    album type
      * @param mAlbumArtists array of album's artists
-     * @param mCopyrights array of copyrights of album
-     * @param mAlbumImage image of album
-     * @param mAlbumName name of album
-     * @param mReleaseDate release date
-     * @param mAlbumTracks array of tracks in album
+     * @param mCopyrights   array of copyrights of album
+     * @param mAlbumImage   image of album
+     * @param mAlbumName    name of album
+     * @param mReleaseDate  release date
+     * @param mAlbumTracks  array of tracks in album
      */
     public Album(String mAlbumId, String mAlbumType, ArrayList<Artist> mAlbumArtists,
                  ArrayList<Copyright> mCopyrights, Bitmap mAlbumImage, String mAlbumName,
@@ -72,6 +73,7 @@ public class Album {
 
     /**
      * getter for album id
+     *
      * @return returns album id
      */
     public String getAlbumId() {
@@ -80,6 +82,7 @@ public class Album {
 
     /**
      * setter for album id
+     *
      * @param mAlbumId album id
      */
     public void setAlbumId(String mAlbumId) {
@@ -88,6 +91,7 @@ public class Album {
 
     /**
      * getter for album type
+     *
      * @return returns album type
      */
     public String getAlbumType() {
@@ -96,7 +100,8 @@ public class Album {
 
     /**
      * setter for album type
-     * @param mAlbumType  album type
+     *
+     * @param mAlbumType album type
      */
     public void setAlbumType(String mAlbumType) {
         this.mAlbumType = mAlbumType;
@@ -104,13 +109,16 @@ public class Album {
 
     /**
      * getter for array of album's artists
+     *
      * @return returns array of album's artists
      */
     public ArrayList<Artist> getAlbumArtists() {
         return mAlbumArtists;
     }
+
     /**
      * setter for array of album's artists
+     *
      * @param mAlbumArtists array of album's artists
      */
     public void setAlbumArtists(ArrayList<Artist> mAlbumArtists) {
@@ -119,6 +127,7 @@ public class Album {
 
     /**
      * getter for array of copyrights of album
+     *
      * @return return array of copyrights of album
      */
     public ArrayList<Copyright> getCopyrights() {
@@ -127,6 +136,7 @@ public class Album {
 
     /**
      * setter for array of copyrights of album
+     *
      * @param mCopyrights array of copyrights of album
      */
     public void setCopyrights(ArrayList<Copyright> mCopyrights) {
@@ -135,6 +145,7 @@ public class Album {
 
     /**
      * getter for album image
+     *
      * @return return album image
      */
     public Bitmap getAlbumImage() {
@@ -143,6 +154,7 @@ public class Album {
 
     /**
      * setter for album image
+     *
      * @param mAlbumImage album image
      */
     public void setAlbumImage(Bitmap mAlbumImage) {
@@ -151,6 +163,7 @@ public class Album {
 
     /**
      * getter for album name
+     *
      * @return returns album name
      */
     public String getAlbumName() {
@@ -159,6 +172,7 @@ public class Album {
 
     /**
      * setter for album name
+     *
      * @param mAlbumName album name
      */
     public void setAlbumName(String mAlbumName) {
@@ -167,6 +181,7 @@ public class Album {
 
     /**
      * getter for album release date
+     *
      * @return return album release date
      */
     public String getReleaseDate() {
@@ -175,6 +190,7 @@ public class Album {
 
     /**
      * setter for album release date
+     *
      * @param mReleaseDate album release date
      */
     public void setReleaseDate(String mReleaseDate) {
@@ -183,6 +199,7 @@ public class Album {
 
     /**
      * getter for album's array of tracks
+     *
      * @return returns album's array of tracks
      */
     public ArrayList<Track> getAlbumTracks() {
@@ -191,6 +208,7 @@ public class Album {
 
     /**
      * setter for album's array of tracks
+     *
      * @param mAlbumTracks album's array of tracks
      */
     public void setAlbumTracks(ArrayList<Track> mAlbumTracks) {

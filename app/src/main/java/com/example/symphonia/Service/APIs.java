@@ -14,26 +14,28 @@ import java.util.ArrayList;
  * metadata of application, will be implemented in several ways
  *
  * @author Hossam Alaa
- * @since 23-3-2020
  * @version 1.0
+ * @since 23-3-2020
  */
 public interface APIs {
 
     /**
      * holds logging user in, creation of user object and sets token
-     * @param context holds context of activity that called this method
+     *
+     * @param context  holds context of activity that called this method
      * @param username email or username of user
      * @param password password of user
-     * @param mType type of user, true for listener and false for artist
+     * @param mType    type of user, true for listener and false for artist
      * @return return true if data is matched
      */
     boolean logIn(Context context, String username, String password, boolean mType);
 
     /**
      * checks if email is already signed in database or not
+     *
      * @param context holds context of activity that called this method
-     * @param email email of user
-     * @param mType type of user, true for listener and false for artist
+     * @param email   email of user
+     * @param mType   type of user, true for listener and false for artist
      * @return returns true if email is new, false if it's signed before
      */
     boolean checkEmailAvailability(Context context, String email, boolean mType);
@@ -41,25 +43,56 @@ public interface APIs {
     /**
      * handles that user is signing up, initializes new user object
      * fill database with new user
-     * @param context holds context of activity that called this method
-     * @param mType type of user, true for listener and false for artist
-     * @param email email of user
+     *
+     * @param context  holds context of activity that called this method
+     * @param mType    type of user, true for listener and false for artist
+     * @param email    email of user
      * @param password password of user
-     * @param DOB date of birth of user
-     * @param gender gender of user
-     * @param name name of user
+     * @param DOB      date of birth of user
+     * @param gender   gender of user
+     * @param name     name of user
      * @return returns true if sign up is done
      */
     boolean signUp(Context context, boolean mType, String email, String password
-                , String DOB, String gender, String name);
+            , String DOB, String gender, String name);
 
 
+    /**
+     * getter for popular playlist
+     *
+     * @param context context of hosting activity
+     * @param mToken  token of user
+     * @return popular  playlist
+     */
     ArrayList<Playlist> getPopularPlaylists(Context context, String mToken);
 
+    /**
+     * getter for made-for-you playlist
+     *
+     * @param context context of hosting activity
+     * @param mToken  token of user
+     * @return made-for-you  playlist
+     */
     ArrayList<Playlist> getMadeForYouPlaylists(Context context, String mToken);
 
+
+    /**
+     * getter for recently-player playlist
+     *
+     * @param context context of hosting activity
+     * @param mToken  token of user
+     * @return recently-player  playlist
+     */
     ArrayList<Playlist> getRecentPlaylists(Context context, String mToken);
 
+
+    /**
+     * getter for random playlist
+     *
+     * @param context context of hosting activity
+     * @param mToken  token of user
+     * @return random  playlist
+     */
     ArrayList<Playlist> getRandomPlaylists(Context context, String mToken);
 
     ArrayList<Container> getResentResult(Context context);
@@ -86,9 +119,9 @@ public interface APIs {
 
     void removeAllRecentSearches(Context context);
 
-    ArrayList<Container>getAllPopularPlaylists(Context context);
+    ArrayList<Container> getAllPopularPlaylists(Context context);
 
-    ArrayList<Container>getFourPlaylists(Context context);
+    ArrayList<Container> getFourPlaylists(Context context);
 
     /**
      * Get information for a single artist identified by their unique ID
