@@ -92,6 +92,10 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         toast = null;
 
     }
+    public void  showPlayBar()
+    {
+        playBar.setVisibility(View.VISIBLE);
+    }
 
     /**
      * this function creates toast to show a message to user
@@ -125,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
      * this function updates playBar with current playing track's info..
      */
     public void updatePlayBar() {
+
         if (rvBar != null) {
             rvBar.scrollToPosition(Utils.CurrTrackInfo.TrackPosInPlaylist);
             if (Utils.MediaPlayerInfo.isMediaPlayerPlaying()) {
