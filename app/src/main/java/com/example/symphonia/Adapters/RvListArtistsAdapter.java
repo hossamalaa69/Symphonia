@@ -34,15 +34,18 @@ public class RvListArtistsAdapter extends RecyclerView.Adapter<RvListArtistsAdap
      */
     private Context mContext;
 
+    private ListItemLongClickListener mOnLongClickListener;
+
     /**
      * constructor to get the data
      *
      * @param artists user's following artists
      * @param context context of the recyclerview
      */
-    public RvListArtistsAdapter(ArrayList<Artist> artists, Context context) {
+    public RvListArtistsAdapter(ArrayList<Artist> artists, Context context, ListItemLongClickListener mOnLongClickListener) {
         this.mArtists = artists;
         this.mContext = context;
+        this.mOnLongClickListener = mOnLongClickListener;
     }
 
     /**
@@ -100,7 +103,7 @@ public class RvListArtistsAdapter extends RecyclerView.Adapter<RvListArtistsAdap
     /**
      * holding the data of each item and showing them
      */
-    public class ArtistViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ArtistViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         ImageView artistImage;
         TextView artistName;
 
@@ -112,6 +115,7 @@ public class RvListArtistsAdapter extends RecyclerView.Adapter<RvListArtistsAdap
         ArtistViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
             artistImage = (ImageView)itemView.findViewById(R.id.image_artist);
             artistName = (TextView) itemView.findViewById(R.id.text_artist_name);
         }
@@ -148,6 +152,16 @@ public class RvListArtistsAdapter extends RecyclerView.Adapter<RvListArtistsAdap
                 mContext.startActivity(addArtistsIntent);
             }
         }
+
+        @Override
+        public boolean onLongClick(View v) {
+            mOnLongClickListener.onListItemLongClick(getAdapterPosition());
+            return true;
+        }
+    }
+
+    public interface ListItemLongClickListener{
+        void onListItemLongClick(int clickedItemIndex);
     }
 
 }

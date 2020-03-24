@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * @author islamahmed1092
  * @version 1.0
  */
-public class LibraryArtistsFragment extends Fragment {
+public class LibraryArtistsFragment extends Fragment implements RvListArtistsAdapter.ListItemLongClickListener {
 
     /**
      * holds the user's following artists
@@ -67,7 +67,7 @@ public class LibraryArtistsFragment extends Fragment {
         RecyclerView mArtistsList = rootView.findViewById(R.id.rv_artists);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mArtistsList.setLayoutManager(layoutManager);
-        mAdapter = new RvListArtistsAdapter(mFollowedArtists, getActivity());
+        mAdapter = new RvListArtistsAdapter(mFollowedArtists, getActivity(), this);
         mArtistsList.setAdapter(mAdapter);
 
         return rootView;
@@ -86,5 +86,12 @@ public class LibraryArtistsFragment extends Fragment {
         mAdapter.clear();
         mAdapter.addAll(mFollowedArtists);
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onListItemLongClick(int clickedItemIndex) {
+        BottomSheetDialogArtist bottomSheet = new BottomSheetDialogArtist();
+        assert getFragmentManager() != null;
+        bottomSheet.show(getFragmentManager(),bottomSheet.getTag());
     }
 }

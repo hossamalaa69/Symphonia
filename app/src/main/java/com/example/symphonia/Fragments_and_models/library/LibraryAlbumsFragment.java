@@ -1,6 +1,9 @@
 package com.example.symphonia.Fragments_and_models.library;
 
+import android.app.Activity;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +18,9 @@ import com.example.symphonia.Adapters.RvListAlbumsAdapter;
 import com.example.symphonia.Entities.Album;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.ArrayList;
 
@@ -89,9 +95,12 @@ public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapt
      */
     @Override
     public void onListItemClick(View v, int clickedItemIndex) {
+
         ((MainActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(
                 R.id.nav_host_fragment, new AlbumFragment(mLikedAlbums.get(clickedItemIndex)))
                 .addToBackStack(null)
                 .commit();
+
     }
+
 }
