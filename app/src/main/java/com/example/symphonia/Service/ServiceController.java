@@ -247,52 +247,19 @@ public class ServiceController {
         return mSupplier.getRecommendedArtists(type, mToken, limit);
     }
 
-    /**
-     * another version for searchArtist function
-     * with default parameters
-     *
-     * @param context Activity context
-     * @param q Query to search for
-     * @return list of search result artists
-     */
-    public ArrayList<Artist> searchArtist(Context context, String q){
+    public ArrayList<Artist> searchArtist(Context context, String q) {
         return mSupplier.searchArtist(context, q, 0, 20);
     }
 
-    /**
-     * Search for a specific artist
-     *
-     * @param context Activity context
-     * @param q Query to search for
-     * @param offset The index of the first result to return
-     * @param limit Maximum number of results to return
-     * @return List of search result artists
-     */
-    public ArrayList<Artist> searchArtist(Context context, String q, int offset, int limit){
+    public ArrayList<Artist> searchArtist(Context context, String q, int offset, int limit) {
         return mSupplier.searchArtist(context, q, offset, limit);
     }
 
-    /**
-     * Get information about artists similar to a given artist.
-     *
-     * @param context activity context
-     * @param id artist id
-     * @return Arraylist of similar artists
-     */
-    public ArrayList<Artist> getArtistRelatedArtists(Context context, String id){
+    public ArrayList<Artist> getArtistRelatedArtists(Context context, String id) {
         return mSupplier.getArtistRelatedArtists(context, id);
     }
 
-    /**
-     * Get a list of the albums saved in the current user’s ‘Your Music’ library
-     *
-     * @param context Activity context
-     * @param mToken User's access token
-     * @param offset The index of the first object to return
-     * @param limit The maximum number of objects to return
-     * @return List of saved albums
-     */
-    public ArrayList<Album> getUserSavedAlbums(Context context, String mToken, int offset, int limit){
+    public ArrayList<Album> getUserSavedAlbums(Context context, String mToken, int offset, int limit) {
         return mSupplier.getUserSavedAlbums(context, mToken, offset, limit);
     }
 

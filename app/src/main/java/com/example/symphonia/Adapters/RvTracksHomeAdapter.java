@@ -160,14 +160,12 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
                         ivLike.setImageResource(R.drawable.ic_favorite_border_black_24dp);
                         Toast.makeText(context, R.string.remove_from_liked_playlist, Toast.LENGTH_SHORT).show();
                         mTracks.get(getAdapterPosition()).setLiked(false);
-                        ivHide.setSelected(false);
+                        ivLike.setSelected(false);
                     } else {
                         mTracks.get(getAdapterPosition()).setLiked(true);
                         ivLike.setImageResource(R.drawable.ic_favorite_black_24dp);
                         Toast.makeText(context, R.string.add_to_like_playlist, Toast.LENGTH_SHORT).show();
                         ivLike.setSelected(true);
-
-
                     }
                 }
             });
@@ -192,18 +190,25 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
             Track track = mTracks.get(getAdapterPosition());
             if (track.isLiked()) {
                 ivLike.setImageResource(R.drawable.ic_favorite_black_24dp);
+                ivLike.setSelected(true);
+
             } else {
                 ivLike.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+                ivLike.setSelected(false);
+
             }
             if (track.isHidden()) {
                 tvTrackTitle.setTextColor(context.getResources().getColor(R.color.light_gray));
                 ivHide.setImageResource(R.drawable.ic_do_not_disturb_on_red_24dp);
                 tvTrackDescription.setTextColor(context.getResources().getColor(R.color.light_gray));
+                ivHide.setSelected(true);
+
 
             } else {
                 ivHide.setImageResource(R.drawable.ic_do_not_disturb_on_black_24dp);
                 tvTrackTitle.setTextColor(context.getResources().getColor(R.color.white));
                 tvTrackDescription.setTextColor(context.getResources().getColor(R.color.white));
+                ivHide.setSelected(false);
 
             }
         }

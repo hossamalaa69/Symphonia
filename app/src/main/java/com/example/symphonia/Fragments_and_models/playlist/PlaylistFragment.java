@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -17,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Adapters.RvTracksHomeAdapter;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
@@ -38,6 +40,7 @@ public class PlaylistFragment extends Fragment {
     private TextView playlistTitle;
     private TextView madeForUser;
     private RecyclerView rvTracks;
+    Button playBtn;
 
     /**
      * this is required empty constructor
@@ -66,6 +69,7 @@ public class PlaylistFragment extends Fragment {
         playlistTitle = view.findViewById(R.id.tv_playlist_title_tracks);
         playlistImage = view.findViewById(R.id.tv_playlist_image_tracks);
         appBarLayout = view.findViewById(R.id.appBarLayout2);
+        playBtn = view.findViewById(R.id.btn_play);
         appBarLayout.setScrollbarFadingEnabled(true);
 
         playlistImage.setImageBitmap(Utils.CurrPlaylist.playlist.getmPlaylistImage());
@@ -98,7 +102,6 @@ public class PlaylistFragment extends Fragment {
                 frameLayout.setAlpha((long) 2 * (alpha - 1));
             }
         });
-        //TODO handle toolbar here
         rvTracks.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -111,6 +114,17 @@ public class PlaylistFragment extends Fragment {
                 rvTracks.getViewTreeObserver().removeGlobalOnLayoutListener(this);
             }
         });
+        playBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeSelected(Utils.CurrTrackInfo.TrackPosInPlaylist, 0);
+                Utils.setTrackInfo(0, 0, Utils.CurrPlaylist.playlist.getTracks());
+                Utils.CurrTrackInfo.prevTrackPos = 0;
+                Utils.MediaPlayerInfo.playTrack(getContext());
+                ((MainActivity) getActivity()).updatePlayBar();
+            }
+        });
+
         return view;
     }
 
@@ -125,8 +139,11 @@ public class PlaylistFragment extends Fragment {
         ImageView ivLike = view.findViewById(R.id.iv_like_track_item);
         if (isLiked) {
             ivLike.setImageResource(R.drawable.ic_favorite_black_24dp);
-        } else
+            ivLike.setSelected(true);
+        } else {
             ivLike.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+            ivLike.setSelected(false);
+        }
 
     }
 
@@ -173,9 +190,11 @@ public class PlaylistFragment extends Fragment {
             if (tvTitle != null) {
                 if (isHidden) {
                     ivHide.setImageResource(R.drawable.ic_do_not_disturb_on_red_24dp);
+                    ivHide.setSelected(true);
                     tvTitle.setTextColor(getContext().getResources().getColor(R.color.light_gray));
                 } else {
                     ivHide.setImageResource(R.drawable.ic_do_not_disturb_on_black_24dp);
+                    ivHide.setSelected(false);
 
                 }
             }
