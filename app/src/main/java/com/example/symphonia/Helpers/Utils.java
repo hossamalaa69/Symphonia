@@ -186,10 +186,10 @@ public class Utils {
      */
     public static void setTrackInfo(int currPlayingPos, int TrackPosInPlaylist, ArrayList<Track> currPlaylistTracks) {
         CurrTrackInfo.currPlayingPos = currPlayingPos;
+        CurrTrackInfo.currPlaylistTracks = currPlaylistTracks;
         CurrTrackInfo.currPlaylistName = currPlaylistTracks.get(TrackPosInPlaylist).getPlaylistName();
         CurrTrackInfo.track = currPlaylistTracks.get(TrackPosInPlaylist);
         CurrTrackInfo.TrackPosInPlaylist = TrackPosInPlaylist;
-        CurrTrackInfo.currPlaylistTracks = currPlaylistTracks;
     }
 
     /**

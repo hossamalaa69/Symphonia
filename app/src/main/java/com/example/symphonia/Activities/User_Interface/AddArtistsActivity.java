@@ -218,17 +218,6 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
                     mRecommendedArtists.add(0, selectedArtist);
                 }
 
-                // to make sure that the function don't return null
-                mArtistsList.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        View view = mArtistsList.findViewHolderForAdapterPosition(mSelectedArtistPosition).itemView;
-                        View checkImage = view.findViewById(R.id.image_check);
-                        checkImage.setVisibility(View.VISIBLE);
-                    }
-                });
-
-
                 // follow the selected artist if it's not already followed
                 if(!mServiceController.isFollowing(Constants.currentUser.isListenerType(), Constants.currentToken
                         , selectedArtist.getId())) {
