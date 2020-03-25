@@ -1,15 +1,20 @@
 package com.example.symphonia.Fragments_and_models.library;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Constants;
+import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Adapters.RvListArtistsAdapter;
@@ -39,13 +44,17 @@ public class LibraryArtistsFragment extends Fragment implements RvListArtistsAda
      */
     private RvListArtistsAdapter mAdapter;
 
+    private View touchedView = null;
+    private float firstX = 0;
+    private float firstY = 0;
+
+
     /**
      * empty constructor
      */
     public LibraryArtistsFragment() {
         // Required empty public constructor
     }
-
 
     /**
      * create the artists recyclerview to show the list of artists
@@ -55,6 +64,7 @@ public class LibraryArtistsFragment extends Fragment implements RvListArtistsAda
      * @param savedInstanceState saved data from previous calls
      * @return fragment view
      */
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,11 +74,55 @@ public class LibraryArtistsFragment extends Fragment implements RvListArtistsAda
         mServiceController = ServiceController.getInstance();
         mFollowedArtists = mServiceController.getFollowedArtists(Constants.currentUser.isListenerType(), Constants.currentToken, 30);
 
-        RecyclerView mArtistsList = rootView.findViewById(R.id.rv_artists);
+        final RecyclerView mArtistsList = rootView.findViewById(R.id.rv_artists);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mArtistsList.setLayoutManager(layoutManager);
         mAdapter = new RvListArtistsAdapter(mFollowedArtists, getActivity(), this);
         mArtistsList.setAdapter(mAdapter);
+
+        mArtistsList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+                float currentX = e.getX();
+                float currentY = e.getY();
+
+                View newTouchedView = mArtistsList.findChildViewUnder(currentX, currentY);
+                if(touchedView != null && touchedView != newTouchedView){
+                    Utils.cancelTouchAnimation(touchedView);
+                }
+
+                touchedView = newTouchedView;
+                switch (e.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        Utils.startTouchAnimation(touchedView, 0.98f, 0.5f);
+                        firstX = currentX;
+                        firstY = currentY;
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        Utils.cancelTouchAnimation(touchedView);
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        if((currentX != firstX) || (Math.abs(currentY - firstY) > 3)){
+                            Utils.cancelTouchAnimation(touchedView);
+                        }
+                }
+
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
+
 
         return rootView;
     }
@@ -88,10 +142,12 @@ public class LibraryArtistsFragment extends Fragment implements RvListArtistsAda
         mAdapter.notifyDataSetChanged();
     }
 
+
     @Override
     public void onListItemLongClick(int clickedItemIndex) {
         BottomSheetDialogArtist bottomSheet = new BottomSheetDialogArtist(mFollowedArtists.get(clickedItemIndex));
         assert getFragmentManager() != null;
         bottomSheet.show(getFragmentManager(),bottomSheet.getTag());
     }
+
 }

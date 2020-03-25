@@ -1,5 +1,6 @@
 package com.example.symphonia.Helpers;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -458,4 +459,17 @@ public class Utils {
             return true; // It's a dark color
         }
     }
+
+    public static void startTouchAnimation(View view, float scale, float transparency) {
+        view.setScaleX(scale);
+        view.setScaleY(scale);
+        view.setAlpha(transparency);
+    }
+
+    public static void cancelTouchAnimation(View view) {
+        view.setScaleX(1.0f);
+        view.setScaleY(1.0f);
+        view.setAlpha(1.0f);
+    }
+
 }

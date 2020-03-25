@@ -1,6 +1,7 @@
 package com.example.symphonia.Adapters;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Entities.Album;
+import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 
 import java.util.ArrayList;
@@ -90,6 +92,7 @@ public class RvListAlbumsAdapter extends RecyclerView.Adapter<RvListAlbumsAdapte
         AlbumViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
+            Utils.cancelTouchAnimation(itemView);
             albumImage = itemView.findViewById(R.id.image_album);
             albumName = itemView.findViewById(R.id.text_album_name);
             artistName = itemView.findViewById(R.id.text_artist_name);
