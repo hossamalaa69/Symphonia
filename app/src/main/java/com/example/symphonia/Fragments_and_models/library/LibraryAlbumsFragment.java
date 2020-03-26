@@ -117,6 +117,7 @@ public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapt
                         if((currentX != firstX) || (Math.abs(currentY - firstY) > 3)){
                             Utils.cancelTouchAnimation(touchedView);
                         }
+                        break;
                 }
 
                 return false;

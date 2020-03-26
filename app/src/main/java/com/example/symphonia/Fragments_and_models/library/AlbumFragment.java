@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -49,7 +50,8 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
      */
     private Album mAlbum;
     private int mScrollY = 0;
-    private float firstY;
+    private float firstY = 0;
+    private View touchedView = null;
 
     public AlbumFragment() {
         // Required empty public constructor
@@ -104,11 +106,11 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
             public boolean onTouch(final View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        Utils.startTouchAnimation(albumTracks, 0.98f, 0.8f);
-                        break;
+                        Utils.startTouchAnimation(v, 0.98f, 0.8f);
+                        return true;
                     case MotionEvent.ACTION_UP:
-                        Utils.cancelTouchAnimation(albumTracks);
-                        break;
+                        Utils.cancelTouchAnimation(v);
+                        return true;
                 }
 
                 return false;
@@ -123,10 +125,10 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
                     case MotionEvent.ACTION_DOWN:
                         Utils.startTouchAnimation(v, 0.95f, 0.5f);
                         firstY = currentY;
-                        break;
+                        return true;
                     case MotionEvent.ACTION_UP:
                         Utils.cancelTouchAnimation(v);
-                        break;
+                        return true;
                 }
                 return false;
             }
@@ -157,7 +159,7 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
         toolbarTitle.setText(mAlbum.getAlbumName());
 
         ArrayList<Artist> mAlbumArtists = mAlbum.getAlbumArtists();
-        RecyclerView mArtistsList = rootView.findViewById(R.id.rv_artists_list);
+        final RecyclerView mArtistsList = rootView.findViewById(R.id.rv_artists_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity()){
             @Override
             public boolean canScrollVertically() {
@@ -168,6 +170,49 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
         mArtistsList.setLayoutManager(layoutManager);
         RvListArtistSearchAdapter mAdapter = new RvListArtistSearchAdapter(mAlbumArtists, this);
         mArtistsList.setAdapter(mAdapter);
+
+        mArtistsList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+                float currentX = e.getX();
+                float currentY = e.getY();
+
+                View newTouchedView = mArtistsList.findChildViewUnder(currentX, currentY);
+                if(touchedView != null && touchedView != newTouchedView){
+                    Utils.cancelTouchAnimation(touchedView);
+                }
+
+                touchedView = newTouchedView;
+                switch (e.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        Utils.startTouchAnimation(touchedView, 0.98f, 0.5f);
+                        firstY = currentY;
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        Utils.cancelTouchAnimation(touchedView);
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        if(Math.abs(currentY - firstY) > 3){
+                            Utils.cancelTouchAnimation(touchedView);
+                        }
+                        break;
+                }
+
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
 
         String albumType = mAlbum.getAlbumType();
         albumType = albumType.substring(0, 1).toUpperCase() + albumType.substring(1);

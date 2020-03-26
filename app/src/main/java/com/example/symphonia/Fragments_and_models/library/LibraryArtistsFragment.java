@@ -107,6 +107,7 @@ public class LibraryArtistsFragment extends Fragment implements RvListArtistsAda
                         if((currentX != firstX) || (Math.abs(currentY - firstY) > 3)){
                             Utils.cancelTouchAnimation(touchedView);
                         }
+                        break;
                 }
 
                 return false;

@@ -26,8 +26,6 @@
     <string name="popular_playlist">Popular playlists</string>
     <string name="based_on_your_recently_played">based on your recentlry played</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="playlist_fragment" translatable="false">playlist fragment</string>
     <string name="play">Play</string>
     <string name="track_image">Track Image</string>
