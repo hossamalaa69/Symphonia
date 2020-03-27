@@ -121,9 +121,9 @@ public class PlaylistFragment extends Fragment {
                 Utils.setTrackInfo(0, 0, Utils.CurrPlaylist.playlist.getTracks());
                 changeSelected(prev, 0);
                 Utils.CurrTrackInfo.prevTrackPos = 0;
-                Utils.MediaPlayerInfo.playTrack(getContext());
-                ((MainActivity) getActivity()).showPlayBar();
                 ((MainActivity) getActivity()).updatePlayBar();
+                ((MainActivity) getActivity()).playTrack();
+                ((MainActivity) getActivity()).showPlayBar();
 
             }
         });
