@@ -157,5 +157,11 @@
     <string name="do_you_want_to_log_in_instead">هل تريد تسجيل الدخول؟</string>
     <string name="choose_artists">اختر مغنيين</string>
     <string name="cant_play">can\'t play</string>
+    <string name="symphonia_premuim">SymphoniaPremuim</string>
+    <string name="locked_songs">Locked Songs?</string>
+    <string name="no_worries">No Worries.</string>
+    <string name="listen_ad_free">Listen to your locked music freely,\nand listen ad-free</string>
+    <string name="monthly_subscription">Monthly subscription fee applies after. Terms and conditions apply.\nOpen only to users who haven\'t already tried Premium</string>
+    <string name="dismiss">Dismiss</string>
     س
 </resources>

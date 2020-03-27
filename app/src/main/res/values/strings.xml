@@ -177,5 +177,11 @@
 
     <string name="promoted_premium">Promoted Premium</string>
     <string name="symphonia_premium">Symphonia Premium</string>
+    <string name="symphonia_premuim">Symphonia Premium</string>
+    <string name="locked_songs">Locked Songs?</string>
+    <string name="no_worries">No Worries.</string>
+    <string name="listen_ad_free">Listen to your locked music,\nand listen ad-free.</string>
+    <string name="monthly_subscription">Monthly subscription fee applies after. Terms and conditions apply.\nOpen only to users who haven\'t already tried Premium</string>
+    <string name="dismiss">Dismiss</string>
 
 </resources>

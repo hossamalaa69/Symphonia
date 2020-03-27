@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Adapters.RvTracksPlayActivityAdapter;
 import com.example.symphonia.Entities.Track;
+import com.example.symphonia.Helpers.AdDialog;
 import com.example.symphonia.Helpers.SnapHelperOneByOne;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.MediaController;
@@ -114,6 +115,11 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
+
+        //shows offline dialog to prevent user from continuing sign up
+        AdDialog custom_ad = new AdDialog();
+        custom_ad.showDialog(this);
+
         mediaController = MediaController.getController();
         attachViews();
         addListeners();
