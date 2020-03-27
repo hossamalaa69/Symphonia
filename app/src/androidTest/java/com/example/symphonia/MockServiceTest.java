@@ -145,7 +145,7 @@ public class MockServiceTest {
     @Test
     public void getRecommendedArtistsSuccess() {
         Constants.currentUser = user;
-        assertEquals(20, mockService.getRecommendedArtists(true, "token2", 20).size());
+        assertEquals(5, mockService.getRecommendedArtists(true, "token2", 20).size());
     }
 
     @Test

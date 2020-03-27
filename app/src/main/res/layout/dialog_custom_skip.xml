@@ -60,7 +60,7 @@
     <Button
         android:layout_width="220dp"
         android:layout_height="50dp"
-        android:text="CHOOSE ARTISTS"
+        android:text="@string/choose_artists"
         android:layout_marginTop="20dp"
         android:id="@+id/btn_cont"
         android:layout_below="@+id/btn_skip"

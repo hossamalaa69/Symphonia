@@ -1,5 +1,6 @@
 package com.example.symphonia.Activities.User_Interface;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -45,6 +47,8 @@ public class ArtistsSearchActivity extends AppCompatActivity implements RvListAr
      * hold the results of the search query
      */
     private ArrayList<Artist> searchResult;
+    private View touchedView = null;
+    private float firstY = 0;
 
     /**
      * initialize the ui and handle transitions between the views
@@ -70,6 +74,49 @@ public class ArtistsSearchActivity extends AppCompatActivity implements RvListAr
         artistsList.setLayoutManager(layoutManager);
         final RvListArtistSearchAdapter adapter = new RvListArtistSearchAdapter(searchResult, this);
         artistsList.setAdapter(adapter);
+
+        artistsList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+                float currentX = e.getX();
+                float currentY = e.getY();
+
+                View newTouchedView = artistsList.findChildViewUnder(currentX, currentY);
+                if(touchedView != null && touchedView != newTouchedView){
+                    Utils.cancelTouchAnimation(touchedView);
+                }
+
+                touchedView = newTouchedView;
+                switch (e.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        Utils.startTouchAnimation(touchedView, 0.98f, 0.5f);
+                        firstY = currentY;
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        Utils.cancelTouchAnimation(touchedView);
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        if(Math.abs(currentY - firstY) > 3){
+                            Utils.cancelTouchAnimation(touchedView);
+                        }
+                        break;
+                }
+
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
 
         searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override

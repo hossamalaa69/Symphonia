@@ -2,19 +2,16 @@ package com.example.symphonia;
 
 import com.example.symphonia.Entities.User;
 
-import java.util.ArrayList;
-
 /**
  * Class that holds all static variables to be used all application activities
  *
  * @author Hossam Alaa
- * @since 23-3-2020
  * @version 1.0
+ * @since 23-3-2020
  */
 
 public class Constants {
 
-    public static int TRACK_LOADER = 0;
     /**
      * Token that would be used for current user
      */

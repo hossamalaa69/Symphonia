@@ -26,8 +26,8 @@ public class Artist {
     /**
      * constructor for the artist object
      *
-     * @param mArtistId artist id
-     * @param mImage artist image
+     * @param mArtistId   artist id
+     * @param mImage      artist image
      * @param mArtistName artist name
      */
     public Artist(String mArtistId, Bitmap mImage, String mArtistName) {
@@ -39,7 +39,7 @@ public class Artist {
     /**
      * @return artist image
      */
-    public Bitmap getImage(){
+    public Bitmap getImage() {
         return mArtistImage;
     }
 
@@ -70,7 +70,6 @@ public class Artist {
     public String getId() {
         return mArtistId;
     }
-
 
 
 }

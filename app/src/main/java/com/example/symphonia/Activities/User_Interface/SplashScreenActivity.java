@@ -41,8 +41,8 @@ public class SplashScreenActivity extends AppCompatActivity {
                 .withFullScreen()
                 .withTargetActivity(StartActivity.class)
                 .withSplashTimeOut(mSplashTime)
-                .withBackgroundResource(R.drawable.gradient3)
-                .withLogo(R.mipmap.ic_splash_3);
+                .withBackgroundResource(R.drawable.gradient)
+                .withLogo(R.drawable.ic_splash);
 
         //creates view of splash screen
         View easySplashScreen = config.create();

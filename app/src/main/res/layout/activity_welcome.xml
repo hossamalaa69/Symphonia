@@ -8,11 +8,11 @@
     tools:context=".Activities.User_Management.WelcomeActivity">
 
     <ImageView
-        android:layout_width="250dp"
-        android:layout_height="120dp"
+        android:layout_width="240dp"
+        android:layout_height="180dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="160dp"
-        android:src="@drawable/s11" />
+        android:layout_marginTop="100dp"
+        android:src="@drawable/ic_symphonia2" />
 
     <TextView
         android:id="@+id/t1"
@@ -55,7 +55,7 @@
         android:layout_height="55dp"
         android:layout_below="@+id/t2"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="25dp"
         android:background="@drawable/btn_curved_green"
         android:fontFamily="sans-serif"
         android:text="@string/sign_up_free"
@@ -72,14 +72,14 @@
         android:layout_height="55dp"
         android:layout_below="@+id/signup"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/btn_curved_border"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/btn_curved_border_transparent"
         android:fontFamily="sans-serif"
         android:text="@string/connect_with_facebook"
         android:textColor="#FFFFFF"
         app:autoSizeTextType="uniform"
-        app:autoSizeMinTextSize="10sp"
-        app:autoSizeMaxTextSize="16sp"
+        app:autoSizeMinTextSize="8sp"
+        app:autoSizeMaxTextSize="14sp"
         app:autoSizeStepGranularity="1sp"
         android:textStyle="bold" />
 
@@ -89,7 +89,7 @@
         android:layout_height="55dp"
         android:layout_below="@+id/connectfacebook"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:background="@drawable/btn_transparent"
         android:fontFamily="sans-serif"
         android:onClick="openLogin"

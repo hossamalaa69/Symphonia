@@ -1,19 +1,26 @@
 package com.example.symphonia.Fragments_and_models.library;
 
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.symphonia.Adapters.RvListArtistSearchAdapter;
@@ -42,6 +49,9 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
      * object from album contains all the data
      */
     private Album mAlbum;
+    private int mScrollY = 0;
+    private float firstY = 0;
+    private View touchedView = null;
 
     public AlbumFragment() {
         // Required empty public constructor
@@ -64,6 +74,7 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
      * @param savedInstanceState saved data
      * @return fragment view
      */
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -87,6 +98,60 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
             viewContainer.setBackground(drawable);
         }
 
+        final TextView albumTracks = rootView.findViewById(R.id.album_tracks);
+        final Button shuffleButton = rootView.findViewById(R.id.button_shuffle);
+
+        albumTracks.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(final View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        Utils.startTouchAnimation(v, 0.98f, 0.8f);
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        Utils.cancelTouchAnimation(v);
+                        return true;
+                }
+
+                return false;
+            }
+        });
+
+        shuffleButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(final View v, MotionEvent event) {
+                float currentY = event.getY();
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        Utils.startTouchAnimation(v, 0.95f, 0.5f);
+                        firstY = currentY;
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        Utils.cancelTouchAnimation(v);
+                        return true;
+                }
+                return false;
+            }
+
+        });
+
+        viewContainer.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                float currentY = event.getY();
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        firstY = currentY;
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        if(Math.abs(currentY - firstY) > 3){
+                            Utils.cancelTouchAnimation(albumTracks);
+                            Utils.cancelTouchAnimation(shuffleButton);
+                        }
+                }
+                return false;
+            }
+        });
 
         TextView albumName = rootView.findViewById(R.id.text_album_name);
         TextView toolbarTitle = rootView.findViewById(R.id.title_toolbar);
@@ -94,7 +159,7 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
         toolbarTitle.setText(mAlbum.getAlbumName());
 
         ArrayList<Artist> mAlbumArtists = mAlbum.getAlbumArtists();
-        RecyclerView mArtistsList = rootView.findViewById(R.id.rv_artists_list);
+        final RecyclerView mArtistsList = rootView.findViewById(R.id.rv_artists_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity()){
             @Override
             public boolean canScrollVertically() {
@@ -105,6 +170,49 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
         mArtistsList.setLayoutManager(layoutManager);
         RvListArtistSearchAdapter mAdapter = new RvListArtistSearchAdapter(mAlbumArtists, this);
         mArtistsList.setAdapter(mAdapter);
+
+        mArtistsList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+                float currentX = e.getX();
+                float currentY = e.getY();
+
+                View newTouchedView = mArtistsList.findChildViewUnder(currentX, currentY);
+                if(touchedView != null && touchedView != newTouchedView){
+                    Utils.cancelTouchAnimation(touchedView);
+                }
+
+                touchedView = newTouchedView;
+                switch (e.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        Utils.startTouchAnimation(touchedView, 0.98f, 0.5f);
+                        firstY = currentY;
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        Utils.cancelTouchAnimation(touchedView);
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        if(Math.abs(currentY - firstY) > 3){
+                            Utils.cancelTouchAnimation(touchedView);
+                        }
+                        break;
+                }
+
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
 
         String albumType = mAlbum.getAlbumType();
         albumType = albumType.substring(0, 1).toUpperCase() + albumType.substring(1);
@@ -202,5 +310,9 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
         copyrightsText.append(text);
 
         return copyrightsText.toString();
+    }
+
+    private double calculateDistance(float x1, float y1, float x2, float y2){
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2) * 1.0);
     }
 }

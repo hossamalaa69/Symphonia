@@ -14,20 +14,59 @@ import com.example.symphonia.R;
 
 import java.util.ArrayList;
 
+/**
+ * class tha adapt recycler view of tracks
+ *
+ * @author Khaled Ali
+ * @version 1.0
+ * @since 22-3-2020
+ */
 public class RvTracksPlayActivityAdapter extends RecyclerView.Adapter<RvTracksPlayActivityAdapter.Holder> {
 
+    /**
+     * context of hosting activity
+     */
     private Context context;
+
+    /**
+     * tracks that would be represented
+     */
     private ArrayList<Track> tracks;
-    private int prevPos = -1;       //hold pos of view that is recycled
-    private int nextPos = -1;      //hold pos of view that is visible  now
+
+    /**
+     * hold position of view that has been recycled
+     */
+    private int prevPos = -1;
+
+    /**
+     * hold position of view that is visible  now
+     */
+    private int nextPos = -1;
+
+    /**
+     * this listener is called when user switch to another item
+     */
     private OnItemSwitched onItemSwitched;
 
+    /**
+     * non empty constructor
+     *
+     * @param context context of hosting activity
+     * @param tracks  tracks that should be represented in recycler view
+     */
     public RvTracksPlayActivityAdapter(Context context, ArrayList<Track> tracks) {
         this.context = context;
         onItemSwitched = (OnItemSwitched) context;
         this.tracks = tracks;
     }
 
+    /**
+     * this function inflates the view the will hold each track information
+     *
+     * @param parent   viewGroup that hold each viewItem
+     * @param viewType type of view
+     * @return Holder that holds each view
+     */
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -36,11 +75,22 @@ public class RvTracksPlayActivityAdapter extends RecyclerView.Adapter<RvTracksPl
         return new Holder(view);
     }
 
+    /**
+     * this function is called for binding holders
+     *
+     * @param holder   holder that would bind with data
+     * @param position position of holder in recycler view
+     */
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         holder.bind();
     }
 
+    /**
+     * this function is called when a view is detached from window
+     *
+     * @param holder holder
+     */
     @Override
     public void onViewDetachedFromWindow(@NonNull Holder holder) {
         super.onViewDetachedFromWindow(holder);
@@ -55,6 +105,11 @@ public class RvTracksPlayActivityAdapter extends RecyclerView.Adapter<RvTracksPl
 
     }
 
+    /**
+     * this function is called when a view is attached to window
+     *
+     * @param holder holder
+     */
     @Override
     public void onViewAttachedToWindow(@NonNull Holder holder) {
         super.onViewAttachedToWindow(holder);
@@ -64,31 +119,45 @@ public class RvTracksPlayActivityAdapter extends RecyclerView.Adapter<RvTracksPl
 
     }
 
-    @Override
-    public void onViewRecycled(@NonNull Holder holder) {
-        super.onViewRecycled(holder);
-        //   Toast.makeText(context,""+holder.getAdapterPosition(),Toast.LENGTH_SHORT).show();
-    }
-
+    /**
+     * @return number of items in recycler view
+     */
     @Override
     public int getItemCount() {
         return tracks.size();
     }
 
+    /**
+     * this interface for listeners of recycler view
+     */
     public interface OnItemSwitched {
         void OnItemSwitchedListener(int pos);
     }
 
+    /**
+     * this class create holder for views
+     */
     public class Holder extends RecyclerView.ViewHolder {
 
+        /**
+         * track image
+         */
         ImageView trackImage;
 
 
+        /**
+         * non empty constructor
+         *
+         * @param itemView view that holds item
+         */
         public Holder(@NonNull View itemView) {
             super(itemView);
             trackImage = itemView.findViewById(R.id.iv_track_image_item_play_activity);
         }
 
+        /**
+         * bind data to views
+         */
         private void bind() {
             Track track = tracks.get(getAdapterPosition());
             trackImage.setImageResource(track.getmImageResources());

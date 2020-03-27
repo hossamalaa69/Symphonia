@@ -32,8 +32,10 @@
     <TextView
         android:id="@+id/tv_track_title_play_activity"
         style="@style/TitleStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:autoSizePresetSizes="@array/autosize_text_sizes"
+        android:autoSizeTextType="uniform"
         android:background="@android:color/transparent"
         android:ellipsize="end"
         android:maxLines="1"
@@ -41,12 +43,15 @@
         app:layout_constraintBottom_toTopOf="@+id/tv_track_artist"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rv_playlist_play_activity"
+        tools:targetApi="o"
         tools:text="Song title" />
 
     <TextView
         android:id="@+id/tv_track_artist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/body_height"
+        android:autoSizePresetSizes="@array/autosize_text_sizes"
+        android:autoSizeTextType="uniform"
         android:background="@android:color/transparent"
         android:ellipsize="end"
         android:maxLines="1"
@@ -58,6 +63,7 @@
         app:layout_constraintBottom_toTopOf="@+id/playlist_controller_play_activity"
         app:layout_constraintStart_toStartOf="@+id/tv_track_title_play_activity"
         app:layout_constraintTop_toBottomOf="@+id/tv_track_title_play_activity"
+        tools:targetApi="o"
         tools:text="Song title" />
 
     <include

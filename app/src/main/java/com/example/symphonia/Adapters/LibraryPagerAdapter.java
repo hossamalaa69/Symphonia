@@ -40,7 +40,7 @@ public class LibraryPagerAdapter extends FragmentPagerAdapter {
      * @param fm fragment manager
      */
     public LibraryPagerAdapter(Context context, FragmentManager fm) {
-        super(fm);
+        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mContext = context;
     }
 

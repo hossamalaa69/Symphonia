@@ -6,6 +6,7 @@ import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,6 +35,7 @@ import com.example.symphonia.Fragments_and_models.premium.PremiumFragment;
 import com.example.symphonia.Fragments_and_models.search.SearchFragment;
 import com.example.symphonia.Helpers.SnapHelperOneByOne;
 import com.example.symphonia.Helpers.Utils;
+import com.example.symphonia.MediaController;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -41,25 +43,52 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Activity that accessing tracks and playing them
+ *
+ * @author Khaled Ali
+ * @version 1.0
+ * @since 22-3-2020
+ */
 public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAdapter.OnPlaylistClicked
         , RvTracksHomeAdapter.OnTrackClicked
         , RvBarAdapter.ItemInterface, Serializable {
+
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView rvBar;
     private RvBarAdapter barAdapter;
     private ImageView ivIsFavourite;
+    /**
+     * holds position of item which its color needs to be reset
+     */
+    int prevPos;
     private ImageView ivPlayButton;
     private View playBar;
     private ImageView trackImage;
     private Toast toast;
     private PlaylistFragment playlistFragment;
+    /**
+     * this handler is responsible for delay of update playBar
+     */
+    Handler mHandler = new Handler();
+
+    /**
+     * instance of Media Controller
+     */
+    private MediaController mediaController;
 
 
+    /**
+     * Represents the initialization of activity
+     *
+     * @param savedInstanceState represents received data from other activities
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mediaController = MediaController.getController();
         checkUserType();
 
         // initialize bottom navigation view
@@ -68,14 +97,20 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         // attach views
         attachViews();
 
-        if (Utils.MediaPlayerInfo.isMediaPlayerPlaying()) {
+        if (mediaController.isMediaPlayerPlaying()) {
             playBar.setVisibility(View.VISIBLE);
             rvBar.scrollToPosition(Utils.CurrTrackInfo.TrackPosInPlaylist);
             updatePlayBar();
         }
-        Utils.MediaPlayerInfo.onCompletionListener = onCompletionListener;
+
         toast = null;
 
+    }
+    /**
+     * this function shows playBar
+     */
+    public void showPlayBar() {
+        playBar.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -93,62 +128,98 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
 
     }
 
+    /**
+     * this function is called when playBar is recycled
+     *
+     * @param pos
+     */
     @Override
     public void OnItemSwitchedListener(int pos) {
-        setTrackInfo(0, pos, Utils.CurrTrackInfo.currPlaylistTracks);
+        playlistFragment.changeSelected(Utils.CurrTrackInfo.TrackPosInPlaylist, pos);
+        Utils.setTrackInfo(0, pos, Utils.CurrTrackInfo.currPlaylistTracks);
         playTrack();
         updatePlayBar();
     }
 
-
     /**
      * this function updates playBar with current playing track's info..
      */
-    private void updatePlayBar() {
-        rvBar.scrollToPosition(Utils.CurrTrackInfo.TrackPosInPlaylist);
-        if (Utils.MediaPlayerInfo.isMediaPlayerPlaying()) {
-            ivPlayButton.setImageResource(R.drawable.ic_pause_black_24dp);
+    public void updatePlayBar() {
 
-        } else {
-            ivPlayButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+        if (rvBar != null) {
+            rvBar.scrollToPosition(Utils.CurrTrackInfo.TrackPosInPlaylist);
+            if (mediaController.isMediaPlayerPlaying()) {
+                ivPlayButton.setImageResource(R.drawable.ic_pause_black_24dp);
+            } else {
+                ivPlayButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+            }
         }
-        trackImage.setImageResource(Utils.CurrTrackInfo.track.getmImageResources());
+        if (ivIsFavourite != null && Utils.CurrTrackInfo.track != null) {
+            if (Utils.CurrTrackInfo.track.isLiked()) {
+                ivIsFavourite.setImageResource(R.drawable.ic_favorite_black_24dp);
+            } else {
+                ivIsFavourite.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+
+            }
+        }
+        if (trackImage != null && Utils.CurrTrackInfo.track != null) {
+            trackImage.setImageResource(Utils.CurrTrackInfo.track.getmImageResources());
+        }
     }
+
 
     /**
      * this function play media player with track stored in Current Playing
      */
-    private void playTrack() {
-        Utils.MediaPlayerInfo.playTrack(this);
+    public void playTrack() {
+        Intent intent = new Intent(this, MediaController.class);
+        intent.setAction(MediaController.ACTION_PLAY);
+        startService(intent);
+        updatePlayBtn();
+        MediaController.setOnCompletionListener(onCompletionListener);
     }
 
     @Override
     public void OnTrackClickedListener(final ArrayList<Track> tracks, final int pos, int prev) {
-        playBar.setVisibility(View.VISIBLE);
-        if (Utils.CurrTrackInfo.TrackPosInPlaylist != -1)
-            Utils.CurrTrackInfo.prevTrackPos = Utils.CurrTrackInfo.TrackPosInPlaylist;
 
-        if (playlistFragment.isVisible()) {
-            playlistFragment.changeSelected(Utils.CurrTrackInfo.prevTrackPos, pos);
+        playBar.setVisibility(View.VISIBLE);
+        if (Utils.CurrTrackInfo.TrackPosInPlaylist != -1) {
+            Utils.CurrTrackInfo.prevTrackPos = Utils.CurrTrackInfo.TrackPosInPlaylist;
+            prevPos = Utils.CurrTrackInfo.prevTrackPos;
         }
         // update data of bar
         trackImage.setImageResource(tracks.get(pos).getmImageResources());
         rvBar.getLayoutManager().scrollToPosition(pos);
         ivPlayButton.setImageResource(R.drawable.ic_pause_black_24dp);
+        paused =false;
         ivPlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Utils.MediaPlayerInfo.isMediaPlayerPlaying()) {
+                if (mediaController.isMediaPlayerPlaying()) {
                     ivPlayButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
-                    Utils.MediaPlayerInfo.pauseTrack();
-
+                    paused = true;
+                    mediaController.pauseMedia();
                 } else {
                     ivPlayButton.setImageResource(R.drawable.ic_pause_black_24dp);
-                    Utils.MediaPlayerInfo.resumeTrack();
+                    paused = false;
+                    if (mediaController.isMediaNotNull())
+                        mediaController.resumeMedia();
+                    else {
+                        playTrack();
+                        if (playlistFragment.isVisible()) {
+                            playlistFragment.changeSelected(-1, Utils.CurrTrackInfo.TrackPosInPlaylist);
+                        }
+                    }
+
                 }
             }
         });
-        setTrackInfo(0, pos, tracks);
+
+        Utils.setTrackInfo(0, pos, tracks);
+        if (playlistFragment.isVisible()) {
+            playlistFragment.changeSelected(prevPos, pos);
+        }
+
         if (tracks.get(pos).isLiked()) {
             ivIsFavourite.setImageResource(R.drawable.ic_favorite_black_24dp);
         } else {
@@ -176,12 +247,16 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, PlayActivity.class);
-                intent.putExtra(getString(R.string.playlist_send_to_playActivtiy_intent), tracks);
-                intent.putExtra(getString(R.string.curr_playing_track_play_acitivity_intent), pos);
                 startActivity(intent);
             }
         });
         playTrack();
+
+    }
+
+    private void updatePlayBtn() {
+        ivPlayButton.setImageResource(R.drawable.ic_pause_black_24dp);
+        paused = false;
     }
 
     /**
@@ -191,24 +266,21 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         @Override
         public void onCompletion(MediaPlayer mp) {
             Utils.CurrTrackInfo.prevTrackPos = Utils.CurrTrackInfo.TrackPosInPlaylist;
+            prevPos = Utils.CurrTrackInfo.prevTrackPos;
             for (int i = Utils.CurrTrackInfo.TrackPosInPlaylist + 1; i < Utils.CurrTrackInfo.currPlaylistTracks.size(); i++) {
                 if (!Utils.CurrTrackInfo.currPlaylistTracks.get(i).isHidden()) {
                     Utils.CurrTrackInfo.TrackPosInPlaylist = i;
+                    Utils.setTrackInfo(0, Utils.CurrTrackInfo.TrackPosInPlaylist, Utils.CurrTrackInfo.currPlaylistTracks);
                     rvBar.scrollToPosition(Utils.CurrTrackInfo.TrackPosInPlaylist);
-
-                    if (Utils.CurrTrackInfo.currPlaylistTracks.get(Utils.CurrTrackInfo.TrackPosInPlaylist).isLiked()) {
-                        ivIsFavourite.setImageResource(R.drawable.ic_favorite_black_24dp);
-                    } else {
-                        ivIsFavourite.setImageResource(R.drawable.ic_favorite_border_black_24dp);
-                    }
                     playTrack();
                     if (playlistFragment.isVisible()) {
-                        playlistFragment.changeSelected(Utils.CurrTrackInfo.prevTrackPos, Utils.CurrTrackInfo.TrackPosInPlaylist);
+                        playlistFragment.changeSelected(prevPos, Utils.CurrTrackInfo.TrackPosInPlaylist);
                     }
+                    updatePlayBar();
                     return;
                 }
             }
-            Utils.MediaPlayerInfo.clearMediaPlayer();
+            mediaController.releaseMedia();
             if (playlistFragment.isVisible()) {
                 playlistFragment.changeSelected(Utils.CurrTrackInfo.TrackPosInPlaylist, -1);
             }
@@ -216,36 +288,33 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         }
     };
 
+
+    /**
+     * listener called when track is selected to be favourite
+     *
+     * @param selected is track selected
+     * @param pos      position of track
+     */
     @Override
     public void OnLikeClickedListener(boolean selected, int pos) {
-
-        if (selected && pos == Utils.CurrTrackInfo.TrackPosInPlaylist) {
-            ivIsFavourite.setImageResource(R.drawable.ic_favorite_black_24dp);
-        } else {
-            ivIsFavourite.setImageResource(R.drawable.ic_favorite_border_black_24dp);
-
+        if (Utils.CurrTrackInfo.currPlaylistTracks.get(pos) == Utils.CurrTrackInfo.track) {
+            if (selected && pos == Utils.CurrTrackInfo.TrackPosInPlaylist) {
+                ivIsFavourite.setImageResource(R.drawable.ic_favorite_black_24dp);
+            } else {
+                ivIsFavourite.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+            }
         }
     }
 
     /**
-     * this function takes info on track and set it to Utils.CurrTrackInfo
+     * listener called when playlist is clicked
      *
-     * @param currPlayingPos
-     * @param TrackPosInPlaylist
-     * @param currPlaylistTracks
+     * @param playlist playlist that is clicked
      */
-    private void setTrackInfo(int currPlayingPos, int TrackPosInPlaylist, ArrayList<Track> currPlaylistTracks) {
-        Utils.CurrTrackInfo.currPlayingPos = currPlayingPos;
-        Utils.CurrTrackInfo.currPlaylistName = currPlaylistTracks.get(TrackPosInPlaylist).getPlaylistName();
-        Utils.CurrTrackInfo.track = currPlaylistTracks.get(TrackPosInPlaylist);
-        Utils.CurrTrackInfo.TrackPosInPlaylist = TrackPosInPlaylist;
-        Utils.CurrTrackInfo.currPlaylistTracks = currPlaylistTracks;
-    }
-
-
     @Override
     public void OnPlaylistClickedListener(Playlist playlist) {
-        playlistFragment = new PlaylistFragment(playlist);
+        Utils.CurrPlaylist.playlist = playlist;
+        playlistFragment = new PlaylistFragment();
         getSupportFragmentManager().beginTransaction().replace(
                 R.id.nav_host_fragment, playlistFragment
                 , this.getString(R.string.playlist_fragment))
@@ -278,8 +347,15 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         ivIsFavourite = playBar.findViewById(R.id.iv_like_track_bar);
     }
 
+    /**
+     * onClickListener called when user click on playBar
+     *
+     * @param tracks tracks in current playlist
+     * @param pos    position of current playing track
+     */
     @Override
     public void OnItemClickedListener(ArrayList<Track> tracks, int pos) {
+        prevPos = Utils.CurrTrackInfo.TrackPosInPlaylist;
         Intent intent = new Intent(MainActivity.this, PlayActivity.class);
         startActivity(intent);
     }
@@ -328,11 +404,40 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
 
     }
 
-
+    /**
+     * on start is called when activity was hidden and is shown again
+     */
     @Override
     protected void onStart() {
         super.onStart();
+        if (playlistFragment != null && playlistFragment.isVisible() && mediaController.isMediaNotNull()) {
+            playlistFragment.changeSelected(prevPos, Utils.CurrTrackInfo.TrackPosInPlaylist);
+        } else if (playlistFragment != null && playlistFragment.isVisible() && !mediaController.isMediaNotNull()) {
+            playlistFragment.changeSelected(prevPos, -1);
+        }
+        if (playlistFragment != null && playlistFragment.isVisible()) {
+            for (int i = 0; i < Utils.CurrTrackInfo.currPlaylistTracks.size(); i++) {
+                playlistFragment.changeHidden(i, Utils.CurrTrackInfo.currPlaylistTracks.get(i).isHidden());
+                playlistFragment.changeLikedItemAtPos(i, Utils.CurrTrackInfo.currPlaylistTracks.get(i).isLiked());
+            }
+        }
+        MediaController.setOnCompletionListener(onCompletionListener);
+        mediaController.setMediaPlayCompletionService();
+        prevPos = Utils.CurrTrackInfo.prevTrackPos;
+        updatePlayBar();
 
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                updatePlayBar();
+                if(mediaController.isMediaNotNull()&& !paused)
+                {
+                    updatePlayBtn();
+                }
+
+                mHandler.postDelayed(this, 500);
+            }
+        });
         //check if user online
         if (!isOnline()) {
             connectToInternet();
@@ -340,12 +445,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             //TODO load data from internet here and send it to fragments
         }
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
+    private  boolean paused;
     /**
      * shows an AlertDialog to go to WIFI settings
      */
@@ -408,13 +508,19 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     }
 
     public void checkUserType() {
+
+        ServiceController serviceController = ServiceController.getInstance();
+        serviceController.logIn(this, "user1@symphonia.com", "12345678", true);
+
         if(Constants.currentUser.isListenerType())
             Toast.makeText(this, "Listener", Toast.LENGTH_SHORT).show();
         else
             Toast.makeText(this, "Artist", Toast.LENGTH_SHORT).show();
 
-        //ServiceController serviceController = ServiceController.getInstance();
-        //serviceController.logIn(this, "user1@symphonia.com", "12345678", true);
+        if(Constants.currentUser.isPremuim())
+            Toast.makeText(this, "Premium",Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(this, "Not Premium", Toast.LENGTH_SHORT).show();
     }
 
 

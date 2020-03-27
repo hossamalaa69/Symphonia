@@ -14,20 +14,57 @@ import com.example.symphonia.R;
 
 import java.util.ArrayList;
 
+/**
+ * class tha adapt recycler view of tracks
+ *
+ * @author Khaled Ali
+ * @since 22-3-2020
+ * @version 1.0
+ */
 public class RvBarAdapter extends RecyclerView.Adapter<RvBarAdapter.BarHolder> {
+
+    /**
+     * context of hosting activity
+     */
     private Context context;
+
+    /**
+     *  tracks that would be represented
+     */
     private ArrayList<Track> tracks;
+
+    /**
+     * hold position of view that has been recycled
+     */
     private int prevPos;
+
+    /**
+     * hold position of view that is visible  now
+     */
     private int nextPos;
 
+    /**
+     * instance of interface is called when user switch to another item
+     */
     private ItemInterface itemInterface;
 
+    /**
+     * non empty constructor
+     * @param context context of hosting activity
+     * @param tracks tracks that should be represented in recycler view
+     */
     public RvBarAdapter(Context context, ArrayList<Track> tracks) {
         this.context = context;
         this.tracks = tracks;
         itemInterface = (ItemInterface) context;
     }
 
+    /**
+     * this function inflates the view the will hold each track information
+     * @param parent viewGroup that hold each viewItem
+     * @param viewType  type of view
+     * @return Holder that holds each view
+     */
     @NonNull
     @Override
     public BarHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -35,16 +72,29 @@ public class RvBarAdapter extends RecyclerView.Adapter<RvBarAdapter.BarHolder> {
         return new BarHolder(view);
     }
 
+    /**
+     * this function is called for binding holders
+     * @param holder holder that would bind with data
+     * @param position position of holder in recycler view
+     */
     @Override
     public void onBindViewHolder(@NonNull BarHolder holder, int position) {
         holder.bind();
     }
 
+    /**
+     *
+     * @return number of items in recycler view
+     */
     @Override
     public int getItemCount() {
         return tracks.size();
     }
 
+    /**
+     * this function is called when a view is detached from window
+     * @param holder holder
+     */
     @Override
     public void onViewDetachedFromWindow(@NonNull BarHolder holder) {
         super.onViewDetachedFromWindow(holder);
@@ -58,6 +108,10 @@ public class RvBarAdapter extends RecyclerView.Adapter<RvBarAdapter.BarHolder> {
         }
     }
 
+    /**
+     *  this function is called when a view is attached to window
+     * @param holder holder
+     */
     @Override
     public void onViewAttachedToWindow(@NonNull BarHolder holder) {
         super.onViewAttachedToWindow(holder);
@@ -67,26 +121,42 @@ public class RvBarAdapter extends RecyclerView.Adapter<RvBarAdapter.BarHolder> {
 
     }
 
+    /**
+     * this interface for listeners of recycler view
+     */
     public interface ItemInterface {
         void OnItemSwitchedListener(int pos);
-
         void OnItemClickedListener(ArrayList<Track> tracks, int adapterPosition);
     }
 
+
+    /**
+     * this class create holder for views
+     */
     public class BarHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView trackDetails;
 
+        /**
+         * non empty constructor
+         * @param itemView view that holds item
+         */
         public BarHolder(@NonNull View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
             trackDetails = itemView.findViewById(R.id.tv_track_details_bar);
         }
 
+        /**
+         * this function is called when a user click on an item
+         * @param view view that is clicked
+         */
         @Override
         public void onClick(View view) {
             itemInterface.OnItemClickedListener(tracks, getAdapterPosition());
         }
-
+        /**
+         * bind data to views
+         */
         public void bind() {
             trackDetails.setText(tracks.get(getAdapterPosition()).getmTitle()
                     .concat(" ")

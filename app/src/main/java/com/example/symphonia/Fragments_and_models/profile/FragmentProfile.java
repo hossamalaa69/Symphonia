@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,6 +41,8 @@ public class FragmentProfile extends Fragment {
     private AppBarLayout appBarLayout;
     private ImageView profileImage;
     private RecyclerView recyclerView;
+    private Button seeAll;
+
     public FragmentProfile(Container c){
         profile=c;
     }
@@ -55,7 +60,18 @@ public class FragmentProfile extends Fragment {
         animatedLayout=root.findViewById(R.id.profile_animated_layout);
         profileImage=root.findViewById(R.id.profile_image);
         recyclerView=root.findViewById(R.id.rv_profile_playlists);
+        seeAll=root.findViewById(R.id.btn_see_all_profile_playlists);
 
+        seeAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.profile_main_layout,new ProfilePlaylistsFragment());
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
         profileName.setText(profile.getCat_Name());
         backgroundProfileName.setText(profile.getCat_Name());
         Drawable drawable=Utils.createSearchListBackground(getContext(),profile);
@@ -113,4 +129,5 @@ public class FragmentProfile extends Fragment {
         newColor = Color.argb(alpha, r, g, b);
         return newColor;
     }
+
 }

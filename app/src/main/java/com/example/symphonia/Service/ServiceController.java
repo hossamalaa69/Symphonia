@@ -15,8 +15,8 @@ import static com.example.symphonia.Constants.DEBUG_STATUS;
  * Class that Controls which service type will be used(REST APIs or MockService)
  *
  * @author Hossam Alaa
- * @since 23-3-2020
  * @version 1.0
+ * @since 23-3-2020
  */
 
 public class ServiceController {
@@ -41,6 +41,7 @@ public class ServiceController {
 
     /**
      * getter for instance of class object
+     *
      * @return return instance of class object
      */
     public static ServiceController getInstance() {
@@ -49,10 +50,11 @@ public class ServiceController {
 
     /**
      * holds logging user in, creation of user object and sets token
-     * @param context holds context of activity that called this method
+     *
+     * @param context  holds context of activity that called this method
      * @param username email or username of user
      * @param password password of user
-     * @param mType type of user, true for listener and false for artist
+     * @param mType    type of user, true for listener and false for artist
      * @return return true if data is matched
      */
     public boolean logIn(Context context, String username, String password, boolean mType) {
@@ -61,9 +63,10 @@ public class ServiceController {
 
     /**
      * checks if email is already signed in database or not
+     *
      * @param context holds context of activity that called this method
-     * @param email email of user
-     * @param mType type of user, true for listener and false for artist
+     * @param email   email of user
+     * @param mType   type of user, true for listener and false for artist
      * @return returns true if email is new, false if it's signed before
      */
     public boolean checkEmailAvailability(Context context, String email, boolean mType) {
@@ -73,33 +76,62 @@ public class ServiceController {
     /**
      * handles that user is signing up, initializes new user object
      * fill database with new user
-     * @param context holds context of activity that called this method
-     * @param mType type of user, true for listener and false for artist
-     * @param email email of user
+     *
+     * @param context  holds context of activity that called this method
+     * @param mType    type of user, true for listener and false for artist
+     * @param email    email of user
      * @param password password of user
-     * @param DOB date of birth of user
-     * @param gender gender of user
-     * @param name name of user
+     * @param DOB      date of birth of user
+     * @param gender   gender of user
+     * @param name     name of user
      * @return returns true if sign up is done
      */
     public boolean signUp(Context context, boolean mType, String email, String password,
-                       String DOB, String gender, String name) {
+                          String DOB, String gender, String name) {
         return mSupplier.signUp(context, mType, email, password, DOB, gender, name);
     }
 
 
+    /**
+     * getter for recently-player playlist
+     *
+     * @param context context of hosting activity
+     * @param mToken  token of user
+     * @return recently-player  playlist
+     */
     public ArrayList<Playlist> getRecentPlaylists(Context context, String mToken) {
         return mSupplier.getRecentPlaylists(context, mToken);
     }
 
+    /**
+     * getter for random playlist
+     *
+     * @param context context of hosting activity
+     * @param mToken  token of user
+     * @return random  playlist
+     */
     public ArrayList<Playlist> getRandomPlaylists(Context context, String mToken) {
         return mSupplier.getRandomPlaylists(context, mToken);
     }
 
+    /**
+     * getter for made-for-you playlist
+     *
+     * @param context context of hosting activity
+     * @param mToken  token of user
+     * @return made-for-you  playlist
+     */
     public ArrayList<Playlist> getMadeForYoutPlaylists(Context context, String mToken) {
         return mSupplier.getMadeForYouPlaylists(context, mToken);
     }
 
+    /**
+     * getter for popular playlist
+     *
+     * @param context context of hosting activity
+     * @param mToken  token of user
+     * @return popular  playlist
+     */
     public ArrayList<Playlist> getPopularPlaylists(Context context, String mToken) {
         return mSupplier.getPopularPlaylists(context, mToken);
     }
@@ -157,52 +189,102 @@ public class ServiceController {
         mSupplier.removeAllRecentSearches(context);
     }
 
+    /**
+     * Get the current user’s followed artists
+     *
+     * @param type true for user and false for artist
+     * @param mToken user's access token
+     * @param limit he maximum number of items to return
+     * @return list of followed artists
+     */
     public ArrayList<Artist> getFollowedArtists(Boolean type, String mToken, int limit) {
         return mSupplier.getFollowedArtists(type, mToken, limit);
     }
 
+    /**
+     * Add the current user as a follower of one artist or other users
+     *
+     * @param type true for user and false for artist
+     * @param mToken user's access token
+     * @param id user or artist id
+     */
     public void followArtistOrUser(Boolean type, String mToken, String id) {
         mSupplier.followArtistOrUser(type, mToken, id);
     }
 
+    /**
+     * Remove the current user as a follower of one artist or other users
+     *
+     * @param type true for user and false for artist
+     * @param mToken user's access token
+     * @param id user or artist id
+     */
     public void unFollowArtistOrUser(Boolean type, String mToken, String id){
         mSupplier.unFollowArtistOrUser(type, mToken, id);
     }
 
+    /**
+     * Check to see if the current user is following an artist or other users
+     *
+     * @param type true for user and false for artist
+     * @param mToken user's access token
+     * @param id user or artist id
+     * @return true if following and false if not
+     */
     public Boolean isFollowing(Boolean type, String mToken, String id) {
         return mSupplier.isFollowing(type, mToken, id);
     }
 
+    /**
+     * Get a list of recommended artist for the current user
+     *
+     * @param type true for user and false for artist
+     * @param mToken user's access token
+     * @param limit he maximum number of items to return
+     * @return list of recommended artists
+     */
     public ArrayList<Artist> getRecommendedArtists(Boolean type, String mToken, int limit) {
         return mSupplier.getRecommendedArtists(type, mToken, limit);
     }
 
-    public ArrayList<Artist> searchArtist(Context context, String q){
+    public ArrayList<Artist> searchArtist(Context context, String q) {
         return mSupplier.searchArtist(context, q, 0, 20);
     }
 
-    public ArrayList<Artist> searchArtist(Context context, String q, int offset, int limit){
+    public ArrayList<Artist> searchArtist(Context context, String q, int offset, int limit) {
         return mSupplier.searchArtist(context, q, offset, limit);
     }
 
-    public ArrayList<Artist> getArtistRelatedArtists(Context context, String id){
+    public ArrayList<Artist> getArtistRelatedArtists(Context context, String id) {
         return mSupplier.getArtistRelatedArtists(context, id);
     }
 
-    public ArrayList<Album> getUserSavedAlbums(Context context, String mToken, int offset, int limit){
+    public ArrayList<Album> getUserSavedAlbums(Context context, String mToken, int offset, int limit) {
         return mSupplier.getUserSavedAlbums(context, mToken, offset, limit);
     }
 
-    public ArrayList<Container>getAllPopularPlaylists(Context context){
+    public ArrayList<Container> getAllPopularPlaylists(Context context) {
         return mSupplier.getAllPopularPlaylists(context);
     }
 
-    public ArrayList<Container>getFourPlaylists(Context context){
+    public ArrayList<Container> getFourPlaylists(Context context) {
         return mSupplier.getFourPlaylists(context);
     }
 
+    /**
+     * Get information for a single artist identified by their unique ID
+     *
+     * @param context activity context
+     * @param mToken user's access token
+     * @param id artist id
+     * @return artist object
+     */
     public Artist getArtist(Context context, String mToken, String id){
         return mSupplier.getArtist(context, mToken, id);
+    }
+
+    public boolean promotePremium(Context context, String token){
+        return mSupplier.promotePremium(context, token);
     }
 
 }

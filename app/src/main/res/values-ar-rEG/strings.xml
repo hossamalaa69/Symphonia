@@ -64,7 +64,7 @@
     <string name="See_all_profiles">مشاهدة جميع ملفات التعريف</string>
     <string name="Clear_recent_searches">مسح عمليات البحث الأخيرة</string>
     <string name="Recent_searches">عمليات البحث الأخيرة</string>
-    <string name="artist_search_empty_state">ابحث عن فنانيك المفضلين</string>
+    <string name="artist_search_empty_state">ابحث عن الفنانين المفضلين لك</string>
     <string name="library_toolbar_title">الموسيقى</string>
     <string name="library_tab_playlists">قوائم التشغيل</string>
     <string name="library_tab_artists">الفنانين</string>
@@ -72,11 +72,11 @@
     <string name="create_playlist">انشئ قائمة تشغيل</string>
     <string name="add_artists">أضف فنانين</string>
     <string name="albums_empty_state">ألبوماتك سوف تظهر هنا</string>
-    <string name="create_playlist_description">أعطِ قائمة تشغيلك اسمًا</string>
+    <string name="create_playlist_description">قم بتسمية قائمة التشغيل</string>
     <string name="cancel_button">إلغاء</string>
     <string name="create_playlist_button">إنشاء</string>
     <string name="skip_playlist_name">تخطي</string>
-    <string name="title_activity_add_artists">اختر فنانيك المفضلون</string>
+    <string name="title_activity_add_artists">اختر مغنيينك المفضلين</string>
     <string name="done_button">تم</string>
     <string name="settings">الإعدادات</string>
     <string name="todo">مطلوب</string>
@@ -96,7 +96,7 @@
     <string name="made_for_you_by_spotify">من اسبوتيفاى من اجلك</string>
     <string name="Genre">نوعية</string>
     <string name="Profile">صفحة شخصية</string>
-    <string name="not_found_state_1">غير موجود</string>
+    <string name="not_found_state_1">لم نستطع إيجاد</string>
     <string name="already_exists_email">هذا البريد مُسجل بالفعل مسبقًا</string>
     <string name="ok">حسنًا</string>
     <string name="go_to_login">إذهب لتسجيل الدخول</string>
@@ -114,7 +114,7 @@
     <string name="play_any_song">تشغيل أيّ \n أغنية</string>
     <string name="with_locked_songs">بدون أغاني \n مغلقة</string>
     <string name="See_More">شاهد المزيد</string>
-    <string name="choose_3_artists">اختر ٣ أو أكثر من المغنيين كما تحب.</string>
+    <string name="choose_3_artists">اختر ٣ مغنيين أو أكثر.</string>
     <string name="are_you_sure">متأكد؟</string>
     <string name="why_skip">اختيار المغنيين يستغرق دقائق, وسوف يجعل سيمفونيا أفضل لك.</string>
     <string name="skip">تخطي</string>
@@ -151,6 +151,17 @@
     <string name="remove_from_liked_playlist">ازاله من المفضل</string>
     <string name="remove_from_playing_list">ازاله من القائمة الحالية</string>
     <string name="return_to_playing_playlist">اضافة الى القائمة الحاليه</string>
-
-
+    <string name="shuffle_string">استمع عشوائيًا</string>
+    <string name="shuffle_button">تشغيل عشوائي</string>
+    <string name="not_found_state_2">حاول البحث مرة اخرى او استخدام كلمات أخرى</string>
+    <string name="do_you_want_to_log_in_instead">هل تريد تسجيل الدخول؟</string>
+    <string name="choose_artists">اختر مغنيين</string>
+    <string name="cant_play">can\'t play</string>
+    <string name="symphonia_premuim">SymphoniaPremuim</string>
+    <string name="locked_songs">Locked Songs?</string>
+    <string name="no_worries">No Worries.</string>
+    <string name="listen_ad_free">Listen to your locked music freely,\nand listen ad-free</string>
+    <string name="monthly_subscription">Monthly subscription fee applies after. Terms and conditions apply.\nOpen only to users who haven\'t already tried Premium</string>
+    <string name="dismiss">Dismiss</string>
+    س
 </resources>
