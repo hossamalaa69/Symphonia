@@ -26,8 +26,6 @@
     <string name="popular_playlist">Popular playlists</string>
     <string name="based_on_your_recently_played">based on your recentlry played</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="playlist_fragment" translatable="false">playlist fragment</string>
     <string name="play">Play</string>
     <string name="track_image">Track Image</string>
@@ -174,4 +172,6 @@
     <string name="do_you_want_to_log_in_instead">Do you want to log in instead?</string>
     <string name="choose_artists">CHOOSE ARTISTS</string>
     <string name="track_image_for_playbar">track image for playBar</string>
+    <string name="cant_play">can\'t play</string>
+    <string name="error">Error</string>
 </resources>

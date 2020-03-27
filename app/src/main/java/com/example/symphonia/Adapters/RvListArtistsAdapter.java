@@ -3,6 +3,7 @@ package com.example.symphonia.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Activities.User_Interface.AddArtistsActivity;
+import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Entities.Artist;
 
@@ -116,6 +118,7 @@ public class RvListArtistsAdapter extends RecyclerView.Adapter<RvListArtistsAdap
             super(itemView);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
+            Utils.cancelTouchAnimation(itemView);
             artistImage = (ImageView)itemView.findViewById(R.id.image_artist);
             artistName = (TextView) itemView.findViewById(R.id.text_artist_name);
         }
@@ -155,7 +158,12 @@ public class RvListArtistsAdapter extends RecyclerView.Adapter<RvListArtistsAdap
 
         @Override
         public boolean onLongClick(View v) {
-            mOnLongClickListener.onListItemLongClick(getAdapterPosition());
+            if(getAdapterPosition() == mArtists.size()){
+
+            }
+            else{
+                mOnLongClickListener.onListItemLongClick(getAdapterPosition());
+            }
             return true;
         }
     }

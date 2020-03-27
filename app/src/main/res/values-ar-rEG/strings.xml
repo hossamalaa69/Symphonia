@@ -156,5 +156,6 @@
     <string name="not_found_state_2">حاول البحث مرة اخرى او استخدام كلمات أخرى</string>
     <string name="do_you_want_to_log_in_instead">هل تريد تسجيل الدخول؟</string>
     <string name="choose_artists">اختر مغنيين</string>
+    <string name="cant_play">can\'t play</string>
     س
 </resources>

@@ -117,11 +117,14 @@ public class PlaylistFragment extends Fragment {
         playBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeSelected(Utils.CurrTrackInfo.TrackPosInPlaylist, 0);
+                int prev = Utils.CurrTrackInfo.TrackPosInPlaylist;
                 Utils.setTrackInfo(0, 0, Utils.CurrPlaylist.playlist.getTracks());
+                changeSelected(prev, 0);
                 Utils.CurrTrackInfo.prevTrackPos = 0;
-                Utils.MediaPlayerInfo.playTrack(getContext());
                 ((MainActivity) getActivity()).updatePlayBar();
+                ((MainActivity) getActivity()).playTrack();
+                ((MainActivity) getActivity()).showPlayBar();
+
             }
         });
 
