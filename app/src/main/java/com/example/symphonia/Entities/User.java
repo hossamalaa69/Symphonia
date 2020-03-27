@@ -151,6 +151,21 @@ public class User {
     }
 
     /**
+     * override constructor for user
+     *
+     * @param email    email of user
+     * @param password password of user
+     * @param mType    type of user
+     * @param mIsPremium if user is premium
+     */
+    public User(String email, String password, boolean mType, boolean mIsPremium) {
+        this.mEmail = email;
+        this.mPassword = password;
+        this.mType = mType;
+        this.mIsPremuim=mIsPremium;
+    }
+
+    /**
      * getter for saved albums
      *
      * @return return saved albums

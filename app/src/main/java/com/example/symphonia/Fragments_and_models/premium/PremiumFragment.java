@@ -5,7 +5,9 @@ import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,7 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
 import com.example.symphonia.Adapters.PremiumAdapter;
+import com.example.symphonia.Constants;
 import com.example.symphonia.R;
+import com.example.symphonia.Service.ServiceController;
 
 import java.util.ArrayList;
 
@@ -46,10 +50,17 @@ public class PremiumFragment extends Fragment {
      * @param savedInstanceState this fragment is being re-constructed from a previous saved state as given here.
      * @return returns the View for the fragment's UI
      */
+
+    private TextView text_view_try_premium;
+    private TextView text_view_current_plan;
+    private Button btn_promote;
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         //sets layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_premium, container, false);
+        final View root = inflater.inflate(R.layout.fragment_premium, container, false);
+
+        checkPremium(root);
 
         //makes text view with anchor to be clickable
         TextView text_view_anchor = (TextView) root.findViewById(R.id.t1);
@@ -89,6 +100,37 @@ public class PremiumFragment extends Fragment {
         PremiumAdapter adapter = new PremiumAdapter(mFeaturesFree, mFeaturesPrem, getContext());
         recyclerView.setAdapter(adapter);
 
+        btn_promote = (Button) root.findViewById(R.id.promote_premium);
+        btn_promote.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                ServiceController serviceController = ServiceController.getInstance();
+
+                serviceController.promotePremium(getContext(), Constants.currentToken);
+                checkPremium(root);
+            }
+        });
+
         return root;
+    }
+
+    private void checkPremium(View root){
+        btn_promote = (Button) root.findViewById(R.id.promote_premium);
+        text_view_current_plan = (TextView) root.findViewById(R.id.symphonia_free);
+        text_view_try_premium = (TextView) root.findViewById(R.id.try_premium);
+
+        if(Constants.currentUser.isPremuim()){
+            btn_promote.setEnabled(false);
+            btn_promote.setBackgroundResource(R.drawable.btn_curved_gray);
+            text_view_current_plan.setText(getResources().getString(R.string.symphonia_premium));
+            text_view_try_premium.setText(getResources().getString(R.string.promoted_premium));
+        } else{
+            btn_promote.setEnabled(true);
+            btn_promote.setBackgroundResource(R.drawable.btn_curved_white);
+            text_view_current_plan.setText(getResources().getString(R.string.try_premium));
+            text_view_try_premium.setText(getResources().getString(R.string.spotify_free));
+        }
     }
 }

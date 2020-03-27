@@ -60,14 +60,14 @@ public class MockService implements APIs {
         mArtistArrayList = new ArrayList<>();
 
         //add 3 users of type listeners
-        mListenerArrayList.add(new User("user1@symphonia.com", "12345678", true));
-        mListenerArrayList.add(new User("user2@symphonia.com", "12345678", true));
-        mListenerArrayList.add(new User("user3@symphonia.com", "12345678", true));
+        mListenerArrayList.add(new User("user1@symphonia.com", "12345678", true, false));
+        mListenerArrayList.add(new User("user2@symphonia.com", "12345678", true, true));
+        mListenerArrayList.add(new User("user3@symphonia.com", "12345678", true, true));
 
         //add 3 users of type artist
-        mArtistArrayList.add(new User("artist1@symphonia.com", "12345678", false));
-        mArtistArrayList.add(new User("artist2@symphonia.com", "12345678", false));
-        mArtistArrayList.add(new User("artist3@symphonia.com", "12345678", false));
+        mArtistArrayList.add(new User("artist1@symphonia.com", "12345678", false, false));
+        mArtistArrayList.add(new User("artist2@symphonia.com", "12345678", false, true));
+        mArtistArrayList.add(new User("artist3@symphonia.com", "12345678", false, true));
 
         mRecentSearches = new ArrayList<>();
 
@@ -295,7 +295,8 @@ public class MockService implements APIs {
             //creates object of user to store logged in user's data
             Constants.currentUser = new User(mArtistArrayList.get(userIndex).getmEmail(), false
                     , Utils.convertToBitmap(R.drawable.download)
-                    , "Islam Ahmed", "1998/24/11", "male", true
+                    , "Islam Ahmed", "1998/24/11", "male"
+                    , mArtistArrayList.get(userIndex).isPremuim()
                     , 65500, 40, new ArrayList<User>()
                     , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
                     , followed, mAlbums, new ArrayList<Track>());
@@ -311,7 +312,8 @@ public class MockService implements APIs {
 
             Constants.currentUser = new User(mListenerArrayList.get(userIndex).getmEmail(), true
                     , Utils.convertToBitmap(R.drawable.download)
-                    , "Hossam Alaa", "1999/04/06", "male", true
+                    , "Hossam Alaa", "1999/04/06", "male"
+                    , mListenerArrayList.get(userIndex).isPremuim()
                     , 65500, 40, new ArrayList<User>()
                     , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
                     , followed, mAlbums, new ArrayList<Track>());
@@ -820,5 +822,11 @@ public class MockService implements APIs {
         }
 
         return returnedAlbums;
+    }
+
+    @Override
+    public boolean promotePremium(Context context, String token){
+        Constants.currentUser.setPremuim(true);
+        return true;
     }
 }

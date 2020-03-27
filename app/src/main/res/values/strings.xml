@@ -174,4 +174,8 @@
     <string name="track_image_for_playbar">track image for playBar</string>
     <string name="cant_play">can\'t play</string>
     <string name="error">Error</string>
+
+    <string name="promoted_premium">Promoted Premium</string>
+    <string name="symphonia_premium">Symphonia Premium</string>
+
 </resources>

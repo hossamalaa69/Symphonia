@@ -212,4 +212,5 @@ public interface APIs {
      */
     ArrayList<Artist> getRecommendedArtists(Boolean type, String mToken, int limit);
 
+    boolean promotePremium(Context context, String token);
 }
