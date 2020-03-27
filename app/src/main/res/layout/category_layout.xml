@@ -34,6 +34,7 @@
 
 
         <TextView
+            android:textStyle="bold"
             android:id="@+id/tv_category_name_animated"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

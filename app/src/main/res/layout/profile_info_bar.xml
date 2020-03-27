@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:background="@color/colorDark">
+    <LinearLayout
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:paddingRight="8dp"
+        android:paddingLeft="8dp"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_weight="1">
+        <TextView
+            android:text="83"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:autoSizeMaxTextSize="12sp"
+            app:autoSizeMinTextSize="8sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
+            android:textStyle="bold"
+            android:textColor="@color/colorWhite"
+            android:gravity="bottom|center_horizontal" />
+
+        <TextView
+            android:text="playlists"
+            android:textAllCaps="true"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:autoSizeMaxTextSize="12sp"
+            app:autoSizeMinTextSize="8sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
+            android:textColor="@color/colorWhite"
+            android:gravity="bottom|center_horizontal"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:paddingRight="8dp"
+        android:paddingLeft="8dp"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_weight="1">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:autoSizeMaxTextSize="12sp"
+            app:autoSizeMinTextSize="8sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
+            android:textStyle="bold"
+            android:textColor="@color/colorWhite"
+            android:gravity="bottom|center_horizontal"
+            android:textAllCaps="true"
+            android:text="23708"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:autoSizeMaxTextSize="12sp"
+            app:autoSizeMinTextSize="8sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
+            android:textColor="@color/colorWhite"
+            android:gravity="bottom|center_horizontal"
+            android:textAllCaps="true"
+            android:text="@string/Followers"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:paddingRight="8dp"
+        android:paddingLeft="8dp"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_weight="1">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:autoSizeMaxTextSize="12sp"
+            app:autoSizeMinTextSize="8sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
+            android:textStyle="bold"
+            android:textColor="@color/colorWhite"
+            android:gravity="bottom|center_horizontal"
+            android:text="510"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:autoSizeMaxTextSize="12sp"
+            app:autoSizeMinTextSize="8sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
+            android:textColor="@color/colorWhite"
+            android:gravity="bottom|center_horizontal"
+            android:textAllCaps="true"
+            android:text="@string/Followers"/>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -68,8 +68,6 @@ public class MockService implements APIs {
         mArtistArrayList.add(new User("artist2@symphonia.com", "12345678", false));
         mArtistArrayList.add(new User("artist3@symphonia.com", "12345678", false));
 
-        mRecentSearches = new ArrayList<>();
-
         mArtists = new ArrayList<>();
         mArtists.add(new Artist("1", Utils.convertToBitmap(R.drawable.ragheb), "Ragheb Alama"));
         mArtists.add(new Artist("2", Utils.convertToBitmap(R.drawable.elissa), "Elissa"));
@@ -348,7 +346,9 @@ public class MockService implements APIs {
 
     @Override
     public ArrayList<Container> getResentResult(Context context) {
+
         if (firstTimeToGetRecentSearches) {
+            mRecentSearches = new ArrayList<>();
             mRecentSearches.add(new Container("Quran", context.getResources().getString(R.string.Playlist), R.drawable.images));
             mRecentSearches.add(new Container("George Wassouf", context.getResources().getString(R.string.Artist), R.drawable.download));
             mRecentSearches.add(new Container("Get Weird", context.getResources().getString(R.string.Album) + ".Little Mix", R.drawable.download1));

@@ -39,4 +39,6 @@ dependencies {
     implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.1.0'
     implementation 'com.github.mancj:MaterialSearchBar:0.8.5'
     implementation 'gr.pantrif:easy-android-splash-screen:0.0.1'
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+
 }

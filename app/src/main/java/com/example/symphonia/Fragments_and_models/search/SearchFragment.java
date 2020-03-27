@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Adapters.SearchMainAdapter;
 import com.example.symphonia.Entities.Container;
+import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
 
@@ -106,7 +107,7 @@ public class SearchFragment extends Fragment implements SearchMainAdapter.CatLis
     @Override
     public void onListItemClickListner(Container c) {
         getFragmentManager().beginTransaction()
-                .replace(R.id.main_search_view, new CategoryFragment(c)) // Add this transaction to the back stack (name is an optional name for this back stack state, or null).
+                .replace(R.id.main_search_view, new FragmentProfile(c)) // Add this transaction to the back stack (name is an optional name for this back stack state, or null).
                 .addToBackStack(null)
                 .commit();
     }

@@ -287,7 +287,7 @@ public class Utils {
     private static class SomeDrawable3 extends GradientDrawable {
 
         public SomeDrawable3(int pStartColor, int pEndColor) {
-            super(Orientation.BOTTOM_TOP, new int[]{pEndColor, pEndColor,pEndColor,pStartColor, pStartColor});
+            super(Orientation.BOTTOM_TOP, new int[]{pEndColor, pEndColor,pStartColor});
             setShape(GradientDrawable.RECTANGLE);
         }
 
