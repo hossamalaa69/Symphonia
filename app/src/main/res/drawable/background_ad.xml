@@ -4,10 +4,10 @@
 
     <solid android:color="@color/colorWhite" />
 
-    <corners android:radius="20dp" />
+    <corners android:radius="15dp" />
     <gradient
         android:angle="45"
-        android:startColor="#FFC300"
+        android:startColor="#FFC55F"
         android:endColor="#DAF7A6" />
 
     <padding

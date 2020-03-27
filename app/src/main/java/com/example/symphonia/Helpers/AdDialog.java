@@ -5,8 +5,10 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -34,13 +36,24 @@ public class AdDialog {
         //sets background with layout file
         dialog.setContentView(R.layout.dialog_custom_ad);
 
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.gravity = Gravity.CENTER;
+        dialog.getWindow().setAttributes(lp);
+
         Button btn_promote = (Button) dialog.findViewById(R.id.promote_premium);
         Button btn_dismiss = (Button) dialog.findViewById(R.id.dismiss_ad);
+
 
         //sets listener for button promote
         btn_promote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent i = new Intent(activity, MainActivity.class);
+                i.putExtra("go_to","premium" );
+                activity.startActivity(i);
             }
         });
 
@@ -52,6 +65,9 @@ public class AdDialog {
             }
         });
 
+
         dialog.show();
     }
+
+
 }
