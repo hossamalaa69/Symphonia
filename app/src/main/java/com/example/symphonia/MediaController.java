@@ -158,7 +158,7 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
             mediaPlayer.setOnErrorListener(this);
             mediaPlayer.setLooping(false);
             mediaPlayer.prepareAsync(); // prepare async to not block main thread
-            makeToast(getApplicationContext().getResources().getString(R.string.preparing));
+          //  makeToast(getApplicationContext().getResources().getString(R.string.preparing));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -295,7 +295,7 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
      */
     public void onPrepared(MediaPlayer player) {
         player.start();
-        makeToast(getApplicationContext().getResources().getString(R.string.started));
+     //   makeToast(getApplicationContext().getResources().getString(R.string.started));
     }
 
     /**

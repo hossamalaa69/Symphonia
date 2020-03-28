@@ -57,7 +57,6 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
     ImageButton prevBtn;
     ImageButton hideBtn;
     ImageButton likeBtn;
-    private boolean paused;
     private Drawable trackBackgroun;
     private Handler mHandler = new Handler();
     private MediaController mediaController;
@@ -99,7 +98,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         Intent intent = new Intent(this, MediaController.class);
         intent.setAction(MediaController.ACTION_PLAY);
         Log.e("PlayActivity", "play track     " + i++);
-        paused = false;
+        Utils.CurrTrackInfo.paused = false;
         startService(intent);
     }
 
@@ -108,7 +107,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
      */
     private void updatePlayBtn() {
         playBtn.setImageResource(R.drawable.ic_pause_circle_filled_black_24dp);
-        paused = false;
+        Utils.CurrTrackInfo.paused = false;
     }
 
     /**
@@ -123,7 +122,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
 
         checkAds();
 
-        paused = getIntent().getBooleanExtra(IS_PAUSED,false);
+        Utils.CurrTrackInfo.paused = getIntent().getBooleanExtra(IS_PAUSED, false);
         mediaController = MediaController.getController();
         attachViews();
         addListeners();
@@ -167,7 +166,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
 
             if (trackPos > Utils.CurrTrackInfo.currPlaylistTracks.size() - 1) {
                 playBtn.setImageResource(R.drawable.ic_play_circle_filled_black_24dp);
-                paused = true;
+                Utils.CurrTrackInfo.paused = true;
                 seekBar.setProgress(0);
                 seekBarCurr.setText(String.valueOf(0));
                 seeKBarRemain.setText(String.valueOf(mediaController.getDuration() / 1000));
@@ -183,7 +182,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
             return;
         } else {
             playBtn.setImageResource(R.drawable.ic_play_circle_filled_black_24dp);
-            paused = true;
+            Utils.CurrTrackInfo.paused = true;
             seekBar.setProgress(0);
             seekBarCurr.setText(String.valueOf(0));
             seeKBarRemain.setText(String.valueOf(mediaController.getDuration() / 1000));
@@ -202,16 +201,16 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
                 if (!mediaController.isMediaNotNull()) {
                     playTrack();
                     playBtn.setImageResource(R.drawable.ic_pause_circle_filled_black_24dp);
-                    paused = false;
+                    Utils.CurrTrackInfo.paused = false;
 
-                } else if (!paused) {
-                    paused = true;
+                } else if (!Utils.CurrTrackInfo.paused) {
+                    Utils.CurrTrackInfo.paused = true;
                     mediaController.pauseMedia();
                     playBtn.setImageResource(R.drawable.ic_play_circle_filled_black_24dp);
                 } else {
                     mediaController.resumeMedia();
                     playBtn.setImageResource(R.drawable.ic_pause_circle_filled_black_24dp);
-                    paused = false;
+                    Utils.CurrTrackInfo.paused = false;
                 }
 
             }
@@ -223,7 +222,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
                     Utils.CurrTrackInfo.TrackPosInPlaylist++;
                 }
                 playBtn.setImageResource(R.drawable.ic_pause_circle_filled_black_24dp);
-                paused = false;
+                Utils.CurrTrackInfo.paused = false;
                 trackPos = Utils.CurrTrackInfo.TrackPosInPlaylist;
                 layoutManager.scrollToPosition(Utils.CurrTrackInfo.TrackPosInPlaylist);
                 Utils.setTrackInfo(0, Utils.CurrTrackInfo.TrackPosInPlaylist, tracks);
@@ -241,7 +240,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
                     Utils.CurrTrackInfo.TrackPosInPlaylist--;
                 }
                 playBtn.setImageResource(R.drawable.ic_pause_circle_filled_black_24dp);
-                paused = false;
+                Utils.CurrTrackInfo.paused = false;
                 trackPos = Utils.CurrTrackInfo.TrackPosInPlaylist;
                 layoutManager.scrollToPosition(Utils.CurrTrackInfo.TrackPosInPlaylist);
                 Utils.setTrackInfo(0, Utils.CurrTrackInfo.TrackPosInPlaylist, tracks);
@@ -370,7 +369,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
                         seeKBarRemain.setText(String.valueOf(0));
                     }
 
-                    if (! paused) {
+                    if (!Utils.CurrTrackInfo.paused) {
                         updatePlayBtn();
                     } else {
                         playBtn.setImageResource(R.drawable.ic_play_circle_filled_black_24dp);

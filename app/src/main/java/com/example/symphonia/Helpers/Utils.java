@@ -83,6 +83,10 @@ public class Utils {
     public static class CurrTrackInfo {
 
         /**
+         * indicates that track is Utils.CurrTrackInfo.paused
+         */
+        public static boolean paused = true;
+        /**
          * indicates to position of clicked track in playlist
          */
         public static int TrackPosInPlaylist = -1;
