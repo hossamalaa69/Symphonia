@@ -123,8 +123,6 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
 
         checkAds();
 
-        AdDialog custom_ad = new AdDialog();
-        custom_ad.showDialog(this);
         paused = getIntent().getBooleanExtra(IS_PAUSED,false);
         mediaController = MediaController.getController();
         attachViews();

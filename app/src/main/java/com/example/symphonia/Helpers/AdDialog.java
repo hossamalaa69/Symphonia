@@ -46,32 +46,33 @@ public class AdDialog extends AppCompatActivity {
         InitX = view.getX();
         InitY = view.getY();
 
-        view.setOnTouchListener(new View.OnTouchListener() {
+        final Button btn_promote = (Button) findViewById(R.id.promote_premium);
+        final Button btn_dismiss = (Button) findViewById(R.id.dismiss_ad);
 
+        view.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view,MotionEvent event) {
                 switch (event.getAction()) {
 
                     case MotionEvent.ACTION_DOWN:
-
                         dX = view.getX() - event.getRawX();
                         dY = view.getY() - event.getRawY();
                         break;
 
                     case MotionEvent.ACTION_MOVE:
-
                         view.animate()
                                 .x(event.getRawX() + dX)
                                 .y(event.getRawY() + dY)
                                 .setDuration(0)
                                 .start();
-                        Log.d("position now:","("+view.getX()+","+view.getY()+")");
+                        btn_dismiss.setVisibility(View.INVISIBLE);
                         break;
                     case MotionEvent.ACTION_UP:
                         view.animate()
-                        .translationX(0)
-                        .translationY(0)
-                        .setDuration(200);
+                            .translationX(0)
+                            .translationY(0)
+                            .setDuration(200);
+                        btn_dismiss.setVisibility(View.VISIBLE);
                         break;
                     default:
                         return false;
@@ -80,8 +81,6 @@ public class AdDialog extends AppCompatActivity {
             }
         });
 
-        Button btn_promote = (Button) findViewById(R.id.promote_premium);
-        final Button btn_dismiss = (Button) findViewById(R.id.dismiss_ad);
 
 
         //sets listener for button promote

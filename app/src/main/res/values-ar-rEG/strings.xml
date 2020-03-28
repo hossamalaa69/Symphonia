@@ -93,7 +93,7 @@
     <string name="Playlist">قائمة الاغانى</string>
     <string name="Song">اغنية</string>
     <string name="Album">البوم</string>
-    <string name="made_for_you_by_spotify">من اسبوتيفاى من اجلك</string>
+    <string name="made_for_you_by_spotify">من سيمفونيا من اجلك</string>
     <string name="Genre">نوعية</string>
     <string name="Profile">صفحة شخصية</string>
     <string name="not_found_state_1">لم نستطع إيجاد</string>
@@ -157,11 +157,12 @@
     <string name="do_you_want_to_log_in_instead">هل تريد تسجيل الدخول؟</string>
     <string name="choose_artists">اختر مغنيين</string>
     <string name="cant_play">can\'t play</string>
-    <string name="symphonia_premuim">SymphoniaPremuim</string>
-    <string name="locked_songs">Locked Songs?</string>
-    <string name="no_worries">No Worries.</string>
-    <string name="listen_ad_free">Listen to your locked music freely,\nand listen ad-free</string>
-    <string name="monthly_subscription">Monthly subscription fee applies after. Terms and conditions apply.\nOpen only to users who haven\'t already tried Premium</string>
-    <string name="dismiss">Dismiss</string>
-    س
+    <string name="locked_songs">أغاني مغلقة؟</string>
+    <string name="no_worries">لا يوجد مشاكل.</string>
+    <string name="listen_ad_free">استمع للأغاني المغلقة, \n واستمع بدون إعلانات.</string>
+    <string name="monthly_subscription">تُطبق شروط الإشتراك شهري. تُطبق الشروط والأحكام. \n يتم ظهور هذا الإعلان للغير مشترك في الإمتياز.</string>
+    <string name="dismiss">إلغاء</string>
+    <string name="promoted_premium">تم الترقية لإمتياز</string>
+    <string name="symphonia_premium">سيمفونيا الإمتياز</string>
+
 </resources>
