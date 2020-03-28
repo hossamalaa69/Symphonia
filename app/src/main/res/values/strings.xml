@@ -182,5 +182,10 @@
     <string name="listen_ad_free">Listen to your locked music,\nand listen ad-free.</string>
     <string name="monthly_subscription">Monthly subscription fee applies after. Terms and conditions apply.\nOpen only to users who haven\'t already tried Premium</string>
     <string name="dismiss">Dismiss</string>
-
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="liked">Liked</string>
+    <string name="hidden">Hidden</string>
+    <string name="track_is_locked">this song is locked \n to unlock get premium</string>
+    <string name="started">Started</string>
+    <string name="preparing">Preparing</string>
 </resources>

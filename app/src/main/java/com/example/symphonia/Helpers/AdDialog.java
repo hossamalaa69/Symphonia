@@ -1,59 +1,96 @@
 package com.example.symphonia.Helpers;
 
-import android.app.Activity;
-import android.app.Dialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.TextView;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import com.example.symphonia.Activities.User_Interface.MainActivity;
-import com.example.symphonia.Fragments_and_models.premium.PremiumFragment;
 import com.example.symphonia.R;
 
-public class AdDialog {
+public class AdDialog extends AppCompatActivity {
 
-    /**
-     * function that shows and initializes dialog
-     * @param activity activity that calls this dialog
-     */
-    public void showDialog(final Activity activity){
+    private float dX;
+    private float dY;
 
-        //sets dialog activity to be shown in
-        final Dialog dialog = new Dialog(activity);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(false);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+    private float InitX;
+    private float InitY;
 
-        //sets background with layout file
-        dialog.setContentView(R.layout.dialog_custom_ad);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        setContentView(R.layout.dialog_custom_ad);
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.copyFrom(getWindow().getAttributes());
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
         lp.gravity = Gravity.CENTER;
-        dialog.getWindow().setAttributes(lp);
+        getWindow().setAttributes(lp);
 
-        Button btn_promote = (Button) dialog.findViewById(R.id.promote_premium);
-        Button btn_dismiss = (Button) dialog.findViewById(R.id.dismiss_ad);
+        setFinishOnTouchOutside(false);
+
+        View view = findViewById(R.id.main_view);
+        InitX = view.getX();
+        InitY = view.getY();
+
+        view.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View view,MotionEvent event) {
+                switch (event.getAction()) {
+
+                    case MotionEvent.ACTION_DOWN:
+
+                        dX = view.getX() - event.getRawX();
+                        dY = view.getY() - event.getRawY();
+                        break;
+
+                    case MotionEvent.ACTION_MOVE:
+
+                        view.animate()
+                                .x(event.getRawX() + dX)
+                                .y(event.getRawY() + dY)
+                                .setDuration(0)
+                                .start();
+                        Log.d("position now:","("+view.getX()+","+view.getY()+")");
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        view.animate()
+                        .translationX(0)
+                        .translationY(0)
+                        .setDuration(200);
+                        break;
+                    default:
+                        return false;
+                }
+                return true;
+            }
+        });
+
+        Button btn_promote = (Button) findViewById(R.id.promote_premium);
+        final Button btn_dismiss = (Button) findViewById(R.id.dismiss_ad);
 
 
         //sets listener for button promote
         btn_promote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(activity, MainActivity.class);
+                Intent i = new Intent(AdDialog.this, MainActivity.class);
                 i.putExtra("go_to","premium" );
-                activity.startActivity(i);
+                startActivity(i);
             }
         });
 
@@ -61,13 +98,27 @@ public class AdDialog {
         btn_dismiss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                finish();
             }
         });
 
+        new CountDownTimer(10000, 1000) {
+            @Override
+            public void onTick(long l) {
+                btn_dismiss.setText(getResources().getString(R.string.dismiss)
+                        +"("+ l/1000 + ")");
+            }
+            @Override
+            public void onFinish() {
+                btn_dismiss.setText(getResources().getString(R.string.dismiss));
+                btn_dismiss.setEnabled(true);
+                btn_dismiss.setBackgroundResource(R.drawable.btn_transparent);
+            }
+        }.start();
 
-        dialog.show();
     }
 
+    @Override
+    public void onBackPressed(){ }
 
 }

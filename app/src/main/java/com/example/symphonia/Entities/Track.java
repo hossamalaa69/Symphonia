@@ -65,6 +65,12 @@ public class Track implements Serializable {
     private int mDuration;
 
     /**
+     * indicates whether track is locked or not
+     */
+    private boolean locked;
+
+
+    /**
      * non empty constructor
      *
      * @param mTitle          title of track
@@ -74,13 +80,14 @@ public class Track implements Serializable {
      * @param mAlbum          album name
      * @param uri             Uri of track
      */
-    public Track(String mTitle, String mArtist, String playlistName, String mAlbum, int mImageResources, Uri uri) {
+    public Track(String mTitle, String mArtist, String playlistName, String mAlbum, int mImageResources, Uri uri,boolean locked) {
         this.mTitle = mTitle;
         this.mArtist = mArtist;
         this.mAlbum = mAlbum;
         this.PlaylistName = playlistName;
         this.mImageResources = mImageResources;
         this.uri = uri;
+        this.locked = locked;
     }
 
     /**
@@ -150,7 +157,28 @@ public class Track implements Serializable {
     }
 
     /**
-     * getter for if track is hidden
+     * setter for locked
+     *
+     * @param mLocked if locked
+     */
+    public void setLocked(boolean mLocked) {
+        this.locked = mLocked;
+    }
+
+    public boolean isLocked() {
+        return locked;
+    }
+
+    /**
+     * getter for artist name
+     * @return artist name
+     */
+    public String getmArtist() {
+        return mArtist;
+    }
+
+    /**
+     * getter for if locked
      *
      * @return is hidden
      */

@@ -1,6 +1,5 @@
 package com.example.symphonia.Helpers;
 
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -73,7 +72,7 @@ public class Utils {
         /**
          * current clicked playlist
          */
-        public static Playlist playlist;
+        public static Playlist playlist = null;
     }
 
     /**
@@ -330,17 +329,17 @@ public class Utils {
         }
     }
 
-    public static boolean isColorDark(int color){
-        double darkness = 1-(0.299*Color.red(color) + 0.587*Color.green(color) + 0.114*Color.blue(color))/255;
-        if(darkness<0.5){
+    public static boolean isColorDark(int color) {
+        double darkness = 1 - (0.299 * Color.red(color) + 0.587 * Color.green(color) + 0.114 * Color.blue(color)) / 255;
+        if (darkness < 0.5) {
             return false; // It's a light color
-        }else{
+        } else {
             return true; // It's a dark color
         }
     }
 
     public static void startTouchAnimation(View view, float scale, float transparency) {
-        if(view != null){
+        if (view != null) {
             view.setScaleX(scale);
             view.setScaleY(scale);
             view.setAlpha(transparency);
@@ -348,7 +347,7 @@ public class Utils {
     }
 
     public static void cancelTouchAnimation(View view) {
-        if(view != null){
+        if (view != null) {
             view.setScaleX(1.0f);
             view.setScaleY(1.0f);
             view.setAlpha(1.0f);

@@ -158,11 +158,12 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
             mediaPlayer.setOnErrorListener(this);
             mediaPlayer.setLooping(false);
             mediaPlayer.prepareAsync(); // prepare async to not block main thread
-            Toast.makeText(getApplicationContext(),"preparing",Toast.LENGTH_SHORT).show();
+            makeToast(getApplicationContext().getResources().getString(R.string.preparing));
 
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(getApplicationContext(), getString(R.string.cant_play), Toast.LENGTH_SHORT).show();
+            makeToast(getApplicationContext().getResources().getString(R.string.cant_play));
+
             mediaPlayer.reset();
         }
 
@@ -213,6 +214,17 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
         return 0;
     }
 
+    private Toast toast;
+
+    private void makeToast(String message) {
+        if (toast != null) {
+            toast.cancel();
+            toast = null;
+        }
+        toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
     /**
      * this function change current position of media player to ( @param pos)
      *
@@ -228,9 +240,13 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
      * this function stop media player
      */
     public void stop() {
-        if (mediaPlayer != null) {
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
             audioManager.abandonAudioFocus(onAudioFocusChangeListener);
+            releaseMedia();
+        } else if (mediaPlayer != null) {
+            mediaPlayer.reset();
+            releaseMedia();
         }
         if (wifiLock != null)
             try {
@@ -279,7 +295,7 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
      */
     public void onPrepared(MediaPlayer player) {
         player.start();
-        Toast.makeText(getApplicationContext(),"started",Toast.LENGTH_SHORT).show();
+        makeToast(getApplicationContext().getResources().getString(R.string.started));
     }
 
     /**
