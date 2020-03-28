@@ -468,6 +468,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     @Override
     public void showTrackSettingFragment(int pos) {
         navView.setVisibility(View.GONE);
+        playBar.setVisibility(View.GONE);
         settingLayout = findViewById(R.id.setting_track_container);
         linearLayout = findViewById(R.id.linear_layout_track_settings);
         settingLayout.setVisibility(View.VISIBLE);
@@ -536,6 +537,8 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             settingLayout.animate().alpha(0).setDuration(300);
             settingLayout.setVisibility(View.GONE);
             navView.setVisibility(View.VISIBLE);
+            playBar.setVisibility(View.VISIBLE);
+
             return;
         }
         if (playlistFragment != null && playlistFragment.isVisible()) {

@@ -185,5 +185,9 @@
     <string name="add_to_home_screen">إضافة للصفحة الرئيسية</string>
     <string name="don_t_play_this_artist">لا تُشغل هذا المغني</string>
     <string name="view_artist">عرض المغني</string>
+    <string name="report_explicit_content">ابلغ عن المحتوى</string>
+    <string name="show_credits">اظهر الحقوق</string>
+    <string name="hide_this_song">اخفاء</string>
+    <string name="like">اعجاب</string>
 
 </resources>
