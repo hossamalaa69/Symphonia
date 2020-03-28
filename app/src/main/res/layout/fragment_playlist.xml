@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_background_frag_playlist"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/rl_background_frag_playlist"
     android:background="@android:color/transparent">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_playlist_frag"
-        android:layout_width="match_parent"
-        android:background="@android:color/transparent"
-        android:layout_height="?android:actionBarSize">
-    </androidx.appcompat.widget.Toolbar>
 
 
     <include
@@ -39,12 +32,19 @@
             android:background="@android:color/transparent"
             android:orientation="vertical">
 
-            <FrameLayout
+            <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/fram_padding_scrolling"
                 android:background="@android:color/transparent"
-                app:layout_collapseMode="pin"
-                app:layout_scrollFlags="scroll" />
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/playList_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:actionBarSize"
+                    app:layout_collapseMode="pin" />
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
         </com.google.android.material.appbar.AppBarLayout>
 
         <RelativeLayout
@@ -63,17 +63,17 @@
                 android:clipToPadding="false"
                 android:paddingTop="?android:actionBarSize" />
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/btn_curved_green"
-                    android:paddingLeft="@dimen/xlarge_dimen"
-                    android:paddingRight="@dimen/xlarge_dimen"
-                    android:id="@+id/btn_play"
-                    android:text="@string/play"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/title_size" />
+            <Button
+                android:id="@+id/btn_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/btn_curved_green"
+                android:paddingLeft="@dimen/xlarge_dimen"
+                android:paddingRight="@dimen/xlarge_dimen"
+                android:text="@string/play"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/title_size" />
 
         </RelativeLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

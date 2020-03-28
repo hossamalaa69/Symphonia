@@ -7,6 +7,7 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Adapters.RvTracksPlayActivityAdapter;
+import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Helpers.AdDialog;
 import com.example.symphonia.Helpers.SnapHelperOneByOne;
@@ -93,7 +95,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
     private void playTrack() {
         Intent intent = new Intent(this, MediaController.class);
         intent.setAction(MediaController.ACTION_PLAY);
-        updatePlayBtn();
+        Log.e("PlayActivity", "play track     " + i++);
         paused = false;
         startService(intent);
     }
@@ -130,7 +132,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         adapterPlayActivity = new RvTracksPlayActivityAdapter(this, tracks);
         rvTracks.setAdapter(adapterPlayActivity);
         rvTracks.setHasFixedSize(true);
-        rvTracks.scrollToPosition(trackPos);
+        layoutManager.scrollToPosition(trackPos);
         // add the recycler view to the snapHelper
         LinearSnapHelper linearSnapHelper = new SnapHelperOneByOne();
         linearSnapHelper.attachToRecyclerView(rvTracks);
@@ -146,16 +148,27 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
             }
         });
 
+        MediaController.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                playNextTrack();
+            }
+        });
+        mediaController.setMediaPlayCompletionService();
+
     }
 
     /**
      * this function gets the next not hidden track
      */
     private void playNextTrack() {
+        Log.e("PlayActivity", "play next track     " + i++);
+
         if (Utils.CurrTrackInfo.TrackPosInPlaylist < Utils.CurrTrackInfo.currPlaylistTracks.size() - 1) {
             for (int i = Utils.CurrTrackInfo.TrackPosInPlaylist + 1; i < Utils.CurrTrackInfo.currPlaylistTracks.size(); i++) {
                 trackPos = i;
-                if (!Utils.CurrTrackInfo.currPlaylistTracks.get(i).isHidden()) {
+                if (!Utils.CurrTrackInfo.currPlaylistTracks.get(i).isHidden()&&!Utils.CurrTrackInfo.currPlaylistTracks.get(i).isLocked()
+                &&!Constants.currentUser.isPremuim()) {
                     break;
                 }
             }
@@ -283,15 +296,20 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
 
     }
 
+    int i = 0;
+
     /**
      * this function updates views with incoming data
      */
     private void updateScreen() {
 
+        Log.e("PlayActivity", "update screen     " + i++);
+
         trackTitle.setText(tracks.get(trackPos).getmTitle());
         trackArtist.setText(tracks.get(trackPos).getmDescription());
         playlistTitle.setText(tracks.get(trackPos).getPlaylistName());
-        rvTracks.scrollToPosition(Utils.CurrTrackInfo.TrackPosInPlaylist);
+        if (layoutManager != null)
+            layoutManager.scrollToPosition(Utils.CurrTrackInfo.TrackPosInPlaylist);
         // change background color according to track image
         ConstraintLayout constraintLayout = findViewById(R.id.background_play_activity);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -364,13 +382,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
                     mHandler.postDelayed(this, 500);
                 }
             });
-            MediaController.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    playNextTrack();
-                }
-            });
-            mediaController.setMediaPlayCompletionService();
+
         }
 
     }

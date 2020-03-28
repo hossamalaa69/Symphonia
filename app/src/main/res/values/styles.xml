@@ -60,6 +60,21 @@
     <style name="TextAppearance.MyApp.Title.Expanded" parent="android:TextAppearance">
         <item name="android:textSize">22sp</item>
     </style>
+    <style name="SettingItem" parent="@style/TitleStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/title_height</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizePresetSizes">@array/autosize_text_sizes</item>
+        <item name="android:drawablePadding">@dimen/semi_large_dimen</item>
+        <item name="android:paddingLeft">@dimen/large_dimen</item>
+        <item name="android:paddingStart">@dimen/large_dimen</item>
+        <item name="android:paddingRight">@dimen/large_dimen</item>
+        <item name="android:paddingEnd">@dimen/large_dimen</item>
+
+
+
+    </style>
 
     <style name="AppDialogTheme" parent="Theme.AppCompat.Light.Dialog">
         <!-- Customize your theme here. -->
