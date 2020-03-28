@@ -7,7 +7,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PersistableBundle;
 import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.View;
@@ -81,10 +80,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
      */
     private MediaController mediaController;
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-    }
 
     /**
      * Represents the initialization of activity
@@ -107,9 +102,10 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         addListeners();
 
         // add tracks of playlist to play bar recycler view
-        if (Utils.CurrPlaylist.playlist != null)
+        if (Utils.CurrPlaylist.playlist != null) {
             barAdapter = new RvBarAdapter(this, Utils.CurrPlaylist.playlist.getTracks());
-        else
+            playBar.setVisibility(View.VISIBLE);
+        } else
             barAdapter = new RvBarAdapter(this, null);
 
         rvBar.setAdapter(barAdapter);
@@ -218,9 +214,9 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             }
         }
         if (ivIsFavourite != null && Utils.CurrTrackInfo.track != null) {
-            if (Utils.CurrTrackInfo.track.isLiked()) {
+            if (Utils.CurrTrackInfo.track.isLiked() && Utils.CurrPlaylist.playlist.getmPlaylistTitle().matches(Utils.CurrTrackInfo.currPlaylistName)) {
                 ivIsFavourite.setImageResource(R.drawable.ic_favorite_black_24dp);
-            } else {
+            } else if (Utils.CurrPlaylist.playlist.getmPlaylistTitle().matches(Utils.CurrTrackInfo.currPlaylistName)) {
                 ivIsFavourite.setImageResource(R.drawable.ic_favorite_border_black_24dp);
 
             }
@@ -301,8 +297,9 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                     tracks.get(pos).setLiked(true);
 
                 }
-                playlistFragment.changeLikedItemAtPos(Utils.CurrTrackInfo.TrackPosInPlaylist
-                        , tracks.get(Utils.CurrTrackInfo.TrackPosInPlaylist).isLiked());
+                if (Utils.CurrPlaylist.playlist.getmPlaylistTitle().matches(Utils.CurrTrackInfo.currPlaylistName))
+                    playlistFragment.changeLikedItemAtPos(Utils.CurrTrackInfo.TrackPosInPlaylist
+                            , tracks.get(Utils.CurrTrackInfo.TrackPosInPlaylist).isLiked());
             }
         });
 
@@ -392,6 +389,9 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
      */
     @Override
     public void OnLikeClickedListener(boolean selected, int pos) {
+        if (Utils.CurrTrackInfo.currPlaylistTracks == null) {
+            return;
+        }
         if (Utils.CurrTrackInfo.currPlaylistTracks.get(pos) == Utils.CurrTrackInfo.track) {
             if (selected && pos == Utils.CurrTrackInfo.TrackPosInPlaylist) {
                 ivIsFavourite.setImageResource(R.drawable.ic_favorite_black_24dp);
