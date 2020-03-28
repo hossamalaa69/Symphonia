@@ -184,6 +184,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
      * this function shows playBar
      */
     public void showPlayBar() {
+        barAdapter.setTracks(Utils.CurrTrackInfo.currPlaylistTracks);
         playBar.setVisibility(View.VISIBLE);
     }
 

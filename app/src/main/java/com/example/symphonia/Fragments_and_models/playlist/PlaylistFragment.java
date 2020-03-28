@@ -117,18 +117,20 @@ public class PlaylistFragment extends Fragment {
         playBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utils.setTrackInfo(0, 0, Utils.CurrPlaylist.playlist.getTracks());
                 int prev = Utils.CurrTrackInfo.TrackPosInPlaylist;
+                Utils.setTrackInfo(0, 0, Utils.CurrPlaylist.playlist.getTracks());
                 for (int i = 0; i < Utils.CurrTrackInfo.currPlaylistTracks.size() - 1; i++) {
                     if (!Utils.CurrTrackInfo.currPlaylistTracks.get(i).isHidden() && !Utils.CurrTrackInfo.currPlaylistTracks.get(i).isLocked()) {
                         Utils.CurrTrackInfo.TrackPosInPlaylist = i;
                     }
                 }
                 Utils.setTrackInfo(0, Utils.CurrTrackInfo.TrackPosInPlaylist, Utils.CurrPlaylist.playlist.getTracks());
-                changeSelected(prev, Utils.CurrTrackInfo.TrackPosInPlaylist );
+                changeSelected(prev, Utils.CurrTrackInfo.TrackPosInPlaylist);
                 Utils.CurrTrackInfo.prevTrackPos = 0;
+                ((MainActivity) getActivity()).showPlayBar();
                 ((MainActivity) getActivity()).updatePlayBar();
                 ((MainActivity) getActivity()).playTrack();
-                ((MainActivity) getActivity()).showPlayBar();
 
             }
         });
@@ -167,14 +169,17 @@ public class PlaylistFragment extends Fragment {
                 !Utils.CurrPlaylist.playlist.getmPlaylistTitle().matches(Utils.CurrTrackInfo.currPlaylistName)) {
             return;
         }
-        if (prev > -1 && pos < Utils.CurrTrackInfo.currPlaylistTracks.size()) {
-            View prevView = rvTracks.getLayoutManager().getChildAt(prev);
-            TextView tvPrevTitle = null;
-            if (prevView != null) {
-                tvPrevTitle = prevView.findViewById(R.id.tv_track_title_item);
-            }
-            if (tvPrevTitle != null) {
-                tvPrevTitle.setTextColor(getContext().getResources().getColor(R.color.white));
+        if (Utils.CurrTrackInfo.currPlaylistTracks != null && !Utils.CurrTrackInfo.currPlaylistTracks.get(prev).isLocked()
+                && !Utils.CurrTrackInfo.currPlaylistTracks.get(prev).isHidden()) {
+            if (prev > -1 && pos < Utils.CurrTrackInfo.currPlaylistTracks.size()) {
+                View prevView = rvTracks.getLayoutManager().getChildAt(prev);
+                TextView tvPrevTitle = null;
+                if (prevView != null) {
+                    tvPrevTitle = prevView.findViewById(R.id.tv_track_title_item);
+                }
+                if (tvPrevTitle != null) {
+                    tvPrevTitle.setTextColor(getContext().getResources().getColor(R.color.white));
+                }
             }
         }
         if (pos != -1 && pos < Utils.CurrTrackInfo.currPlaylistTracks.size()) {
