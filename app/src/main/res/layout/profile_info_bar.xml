@@ -31,7 +31,7 @@
             android:gravity="bottom|center_horizontal" />
 
         <TextView
-            android:text="playlists"
+            android:text="@string/playlists"
             android:textAllCaps="true"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -80,7 +80,7 @@
             android:textColor="@color/colorWhite"
             android:gravity="bottom|center_horizontal"
             android:textAllCaps="true"
-            android:text="@string/Followers"/>
+            android:text="@string/followers"/>
 
     </LinearLayout>
 
@@ -118,7 +118,7 @@
             android:textColor="@color/colorWhite"
             android:gravity="bottom|center_horizontal"
             android:textAllCaps="true"
-            android:text="following"/>
+            android:text="@string/following"/>
 
     </LinearLayout>
 

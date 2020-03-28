@@ -32,7 +32,7 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="32dp"
             android:gravity="center"
-            android:text="Public playlists"
+            android:text="@string/Public_playlists"
             android:textColor="@color/colorWhite"
             app:autoSizeMaxTextSize="18sp"
             app:autoSizeMinTextSize="12sp"

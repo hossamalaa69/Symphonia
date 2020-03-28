@@ -107,7 +107,7 @@
                         app:autoSizeMinTextSize="14sp"
                         app:autoSizeStepGranularity="1sp"
                         app:autoSizeTextType="uniform"
-                        android:text="Public playlists"/>
+                        android:text="@string/Public_playlists"/>
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_profile_playlists"
                         android:layout_width="match_parent"
@@ -117,7 +117,7 @@
                         android:id="@+id/btn_see_all_profile_playlists"
                         android:background="@color/colorDark"
                         android:textColor="@color/colorWhite"
-                        android:text="See all"
+                        android:text="@string/See_all"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:paddingLeft="16dp"

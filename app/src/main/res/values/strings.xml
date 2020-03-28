@@ -188,4 +188,13 @@
     <string name="track_is_locked">this song is locked \n to unlock get premium</string>
     <string name="started">Started</string>
     <string name="preparing">Preparing</string>
+
+    <string name="See_all">See all</string>
+    <string name="Public_playlists">Public playlists</string>
+    <string name="follow">FOLLOW</string>
+    <string name="following">Following</string>
+    <string name="followers">Followers</string>
+    <string name="Following">Following</string>
+    <string name="playlists">playlists</string>
+
 </resources>

@@ -43,11 +43,11 @@ public class ProfileFollowersFragment extends Fragment {
         data=new ArrayList<>();
 
         if(getRightData) {
-            textView.setText("Followers");
+            textView.setText(getResources().getString(R.string.followers));
             data=controller.getProfileFollowers(getContext());
                     }
         else {
-            textView.setText("Following");
+            textView.setText(getResources().getString(R.string.Following));
             data=controller.getProfileFollowing(getContext());
         }
         FollowersAdapter adapter=new FollowersAdapter(data);

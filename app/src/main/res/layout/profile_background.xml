@@ -37,7 +37,7 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:background="@drawable/btn_showall"
-        android:text="follow"
+        android:text="@string/follow"
         android:textAllCaps="true"
         android:textColor="@color/colorWhite"
         app:autoSizeTextType="uniform"

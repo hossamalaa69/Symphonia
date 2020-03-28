@@ -105,9 +105,9 @@ public class FragmentProfile extends Fragment {
             int j= (int) (loc[1]/density);
             if (y <=j+30&&y>=j && x >=i&&x<=i+110) {
                 String s=(String) followButton.getText();
-                if(s.equals("follow")||s.equals("FOLLOW"))
-                    followButton.setText("FOLLOWING");
-                if(s.equals("FOLLOWING")||s.equals("following")) followButton.setText("FOLLOW");
+                if(s.equals(getResources().getString(R.string.follow)))
+                    followButton.setText(getResources().getString(R.string.Following));
+                if(s.equals(getResources().getString(R.string.Following))) followButton.setText(getResources().getString(R.string.follow));
             }
         }
     };
