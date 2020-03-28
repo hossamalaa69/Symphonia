@@ -28,6 +28,9 @@
         android:textSize="28sp"
         android:textColor="@color/colorWhite" />
     <Button
+        android:clickable="true"
+        android:focusable="true"
+        android:id="@+id/btn_profile_follow"
         android:layout_marginTop="8dp"
         android:layout_width="110dp"
         android:layout_height="30dp"

@@ -8,6 +8,7 @@
     android:paddingRight="8dp"
     android:background="@color/colorDark">
     <LinearLayout
+        android:id="@+id/playlists_count"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:paddingRight="8dp"
@@ -45,6 +46,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/followers_count"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:paddingRight="8dp"
@@ -83,6 +85,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/following_count"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:paddingRight="8dp"
@@ -115,7 +118,7 @@
             android:textColor="@color/colorWhite"
             android:gravity="bottom|center_horizontal"
             android:textAllCaps="true"
-            android:text="@string/Followers"/>
+            android:text="following"/>
 
     </LinearLayout>
 

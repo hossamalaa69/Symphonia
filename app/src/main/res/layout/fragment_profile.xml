@@ -10,6 +10,7 @@
     android:focusable="true">
 
     <include
+
         android:id="@+id/profile_background"
         layout="@layout/profile_background"
         />

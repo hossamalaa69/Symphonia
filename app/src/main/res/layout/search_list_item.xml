@@ -71,6 +71,24 @@
         android:id="@+id/img_close"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:src="@mipmap/close_white_foreground" />
+        android:src="@mipmap/close_white_foreground"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:layout_centerVertical="true"
+        android:id="@+id/img_follow"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@mipmap/person_add_white_foreground"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:layout_centerVertical="true"
+        android:id="@+id/img_you_are_following"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@mipmap/done_white_foreground"
+        android:visibility="gone"/>
+
   </RelativeLayout>
 </LinearLayout>

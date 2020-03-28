@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -42,7 +43,88 @@ public class FragmentProfile extends Fragment {
     private ImageView profileImage;
     private RecyclerView recyclerView;
     private Button seeAll;
+    private LinearLayout playlistsLayout;
+    private LinearLayout followingLayout;
+    private LinearLayout followersLayout;
+    private Button followButton;
+    private ImageView backImg;
+    private double x;
+    private double y;
 
+    private View.OnClickListener toPlaylists=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.profile_main_layout,new ProfilePlaylistsFragment());
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+
+        }
+    };
+
+    private View.OnClickListener toFollowers=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.profile_main_layout,new ProfileFollowersFragment(true));
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+
+        }
+    };
+
+    private View.OnClickListener toFollowing=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.profile_main_layout,new ProfileFollowersFragment(false));
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+
+        }
+    };
+
+    private final View.OnClickListener back = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            getParentFragmentManager().popBackStack();
+        }
+    };
+
+    private View.OnClickListener follow=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            float density = getResources().getDisplayMetrics().density;
+            int[] loc={0,0};
+            followButton.getLocationOnScreen(loc);
+            int i= (int) (loc[0]/density);
+            int j= (int) (loc[1]/density);
+            if (y <=j+30&&y>=j && x >=i&&x<=i+110) {
+                String s=(String) followButton.getText();
+                if(s.equals("follow")||s.equals("FOLLOW"))
+                    followButton.setText("FOLLOWING");
+                if(s.equals("FOLLOWING")||s.equals("following")) followButton.setText("FOLLOW");
+            }
+        }
+    };
+
+    private View.OnTouchListener t=new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                float density = getResources().getDisplayMetrics().density;
+                x = event.getRawX();
+                x/=density;
+                y = event.getRawY();
+                y/=density;
+            }
+            return false;
+        }
+    };
     public FragmentProfile(Container c){
         profile=c;
     }
@@ -61,17 +143,22 @@ public class FragmentProfile extends Fragment {
         profileImage=root.findViewById(R.id.profile_image);
         recyclerView=root.findViewById(R.id.rv_profile_playlists);
         seeAll=root.findViewById(R.id.btn_see_all_profile_playlists);
+        playlistsLayout=root.findViewById(R.id.playlists_count);
+        followersLayout=root.findViewById(R.id.followers_count);
+        followingLayout=root.findViewById(R.id.following_count);
+        backImg=root.findViewById(R.id.img_back_profile);
+        followButton=root.findViewById(R.id.btn_profile_follow);
 
-        seeAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.profile_main_layout,new ProfilePlaylistsFragment());
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-            }
-        });
+
+        appBarLayout.setOnClickListener(follow);
+        appBarLayout.setOnTouchListener(t);
+
+        //followButton.setOnClickListener(follow);
+        backImg.setOnClickListener(back);
+        playlistsLayout.setOnClickListener(toPlaylists);
+        seeAll.setOnClickListener(toPlaylists);
+        followersLayout.setOnClickListener(toFollowers);
+        followingLayout.setOnClickListener(toFollowing);
         profileName.setText(profile.getCat_Name());
         backgroundProfileName.setText(profile.getCat_Name());
         Drawable drawable=Utils.createSearchListBackground(getContext(),profile);
