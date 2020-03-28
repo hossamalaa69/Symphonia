@@ -175,6 +175,9 @@
     <string name="error">حدث خطا</string>
     <string name="liked">اعجبنى</string>
     <string name="hidden">مخفى</string>
+    <string name="track_is_locked">الاغنية مغلقة, احصل على البرميوم</string>
+    <string name="started">بدات</string>
+    <string name="preparing">اعداد\\</string>
     <string name="add_to_playlist">إضافة إلى قائمة التشغيل</string>
     <string name="like_all_songs">إعجاب بكل الأغاني</string>
     <string name="go_to_full_album">فتح الألبوم كاملًا</string>
