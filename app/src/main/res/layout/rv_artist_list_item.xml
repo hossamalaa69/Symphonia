@@ -8,7 +8,8 @@
     android:paddingBottom="8dp"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
-    android:background="@color/colorPrimary">
+    tools:background="@color/colorPrimary"
+    android:background="@null">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/image_artist"

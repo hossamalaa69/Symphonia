@@ -13,9 +13,7 @@
     <application
         android:name=".Helpers.App"
         android:allowBackup="true"
-        android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_app"
-        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_app_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
