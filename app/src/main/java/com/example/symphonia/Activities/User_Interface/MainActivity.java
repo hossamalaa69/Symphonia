@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
      * instance of Media Controller
      */
     private MediaController mediaController;
+    private final String IS_PAUSED = "isPaused";
 
 
     /**
@@ -283,25 +285,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         } else {
             ivIsFavourite.setImageResource(R.drawable.ic_favorite_border_black_24dp);
         }
-        ivIsFavourite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (tracks.get(pos).isLiked()) {
-                    tracks.get(pos).setLiked(false);
-                    ivIsFavourite.setImageResource(R.drawable.ic_favorite_border_black_24dp);
-                    makeToast(getString(R.string.remove_from_liked_playlist));
-                } else {
-                    makeToast(getString(R.string.add_to_like_playlist));
 
-                    ivIsFavourite.setImageResource(R.drawable.ic_favorite_black_24dp);
-                    tracks.get(pos).setLiked(true);
-
-                }
-                if (Utils.CurrPlaylist.playlist.getmPlaylistTitle().matches(Utils.CurrTrackInfo.currPlaylistName))
-                    playlistFragment.changeLikedItemAtPos(Utils.CurrTrackInfo.TrackPosInPlaylist
-                            , tracks.get(Utils.CurrTrackInfo.TrackPosInPlaylist).isLiked());
-            }
-        });
 
         playTrack();
         paused = false;
@@ -309,12 +293,39 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     }
 
     private void addListeners() {
-        playBar.setOnClickListener(new View.OnClickListener() {
+
+        ivIsFavourite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, PlayActivity.class);
-                startActivity(intent);
+                if (Utils.CurrTrackInfo.currPlaylistTracks.get(Utils.CurrTrackInfo.TrackPosInPlaylist).isLiked()) {
+                    Utils.CurrTrackInfo.currPlaylistTracks.get(Utils.CurrTrackInfo.TrackPosInPlaylist).setLiked(false);
+                    ivIsFavourite.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+
+                    makeToast(getString(R.string.remove_from_liked_playlist));
+                } else {
+                    makeToast(getString(R.string.add_to_like_playlist));
+
+                    ivIsFavourite.setImageResource(R.drawable.ic_favorite_black_24dp);
+                    Utils.CurrTrackInfo.currPlaylistTracks.get(Utils.CurrTrackInfo.TrackPosInPlaylist).setLiked(true);
+
+                }
+                if (Utils.CurrPlaylist.playlist.getmPlaylistTitle().matches(Utils.CurrTrackInfo.currPlaylistName) && playlistFragment != null)
+                    playlistFragment.changeLikedItemAtPos(Utils.CurrTrackInfo.TrackPosInPlaylist
+                            , Utils.CurrTrackInfo.currPlaylistTracks.get(Utils.CurrTrackInfo.TrackPosInPlaylist).isLiked());
             }
+        });
+
+
+        playBar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Intent intent = new Intent(MainActivity.this, PlayActivity.class);
+                intent.putExtra(IS_PAUSED, paused);
+                prevPos = Utils.CurrTrackInfo.TrackPosInPlaylist;
+                startActivity(intent);
+                return false;
+            }
+
         });
         ivPlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -373,7 +384,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                 }
             }
             mediaController.releaseMedia();
-            if (playlistFragment.isVisible()) {
+            if (playlistFragment != null && playlistFragment.isVisible()) {
                 playlistFragment.changeSelected(Utils.CurrTrackInfo.TrackPosInPlaylist, -1);
             }
             updatePlayBar();
@@ -507,6 +518,9 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             settingLayout.setVisibility(View.GONE);
             navView.setVisibility(View.VISIBLE);
 
+        }
+        if (playlistFragment != null && playlistFragment.isVisible()) {
+            getSupportFragmentManager().popBackStack();
         }
     }
 

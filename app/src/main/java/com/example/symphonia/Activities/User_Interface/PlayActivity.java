@@ -61,10 +61,13 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
     private Drawable trackBackgroun;
     private Handler mHandler = new Handler();
     private MediaController mediaController;
+
+    private final String IS_PAUSED = "isPaused";
     /**
      * holds position of current track
      */
     int trackPos;
+
 
     /**
      * this function is called when track is switched
@@ -120,6 +123,9 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
 
         checkAds();
 
+        AdDialog custom_ad = new AdDialog();
+        custom_ad.showDialog(this);
+        paused = getIntent().getBooleanExtra(IS_PAUSED,false);
         mediaController = MediaController.getController();
         attachViews();
         addListeners();
@@ -135,17 +141,6 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         // add the recycler view to the snapHelper
         LinearSnapHelper linearSnapHelper = new SnapHelperOneByOne();
         linearSnapHelper.attachToRecyclerView(rvTracks);
-        this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (mediaController.isMediaNotNull() && !paused) {
-                    updatePlayBtn();
-                } else {
-                    playBtn.setImageResource(R.drawable.ic_play_circle_filled_black_24dp);
-                }
-                mHandler.postDelayed(this, 500);
-            }
-        });
 
         MediaController.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
@@ -166,8 +161,8 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         if (Utils.CurrTrackInfo.TrackPosInPlaylist < Utils.CurrTrackInfo.currPlaylistTracks.size() - 1) {
             for (int i = Utils.CurrTrackInfo.TrackPosInPlaylist + 1; i < Utils.CurrTrackInfo.currPlaylistTracks.size(); i++) {
                 trackPos = i;
-                if (!Utils.CurrTrackInfo.currPlaylistTracks.get(i).isHidden()&&!Utils.CurrTrackInfo.currPlaylistTracks.get(i).isLocked()
-                &&!Constants.currentUser.isPremuim()) {
+                if (!Utils.CurrTrackInfo.currPlaylistTracks.get(i).isHidden() && !Utils.CurrTrackInfo.currPlaylistTracks.get(i).isLocked()
+                        && !Constants.currentUser.isPremuim()) {
                     break;
                 }
             }
@@ -323,10 +318,8 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         if (mediaController.isMediaNotNull()) {
             if (mediaController.isMediaPlayerPlaying()) {
                 playBtn.setImageResource(R.drawable.ic_pause_circle_filled_black_24dp);
-                paused = false;
             } else {
                 playBtn.setImageResource(R.drawable.ic_play_circle_filled_black_24dp);
-                paused = true;
             }
             if (Utils.CurrTrackInfo.track.isLiked()) {
                 likeBtn.setImageResource(R.drawable.ic_favorite_black_24dp);
@@ -377,6 +370,12 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
                         seekBar.setProgress(0);
                         seekBarCurr.setText(String.valueOf(0));
                         seeKBarRemain.setText(String.valueOf(0));
+                    }
+
+                    if (! paused) {
+                        updatePlayBtn();
+                    } else {
+                        playBtn.setImageResource(R.drawable.ic_play_circle_filled_black_24dp);
                     }
                     mHandler.postDelayed(this, 500);
                 }
