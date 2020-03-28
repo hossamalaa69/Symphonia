@@ -123,6 +123,7 @@ public class PlaylistFragment extends Fragment {
                 for (int i = 0; i < Utils.CurrTrackInfo.currPlaylistTracks.size() - 1; i++) {
                     if (!Utils.CurrTrackInfo.currPlaylistTracks.get(i).isHidden() && !Utils.CurrTrackInfo.currPlaylistTracks.get(i).isLocked()) {
                         Utils.CurrTrackInfo.TrackPosInPlaylist = i;
+                        break;
                     }
                 }
                 Utils.setTrackInfo(0, Utils.CurrTrackInfo.TrackPosInPlaylist, Utils.CurrPlaylist.playlist.getTracks());
