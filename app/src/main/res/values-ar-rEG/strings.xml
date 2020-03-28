@@ -46,7 +46,7 @@
     <string name="check_email">تفحص بريدك</string>
     <string name="we_will_send">تم إرسال رابط لتسجيل الدخول من خلاله</string>
     <string name="service_terms">"من خلال تسجيل, فأنت توافق على <a href="https://www.spotify.com/eg-en/legal/end-user-agreement/">بنود الخدمة</a> "</string>
-    <string name="privacy_policy" >"  لكي تعلم أكتر عن كيف تقوم سيمفونيا بتجميع واستخدام ومشاركة بياناتك الخاصة, من فضلك قم بقراءة<a href="https://www.spotify.com/eg-en/legal/privacy-policy/">سياسة الخصوصية</a>   "</string>
+    <string name="privacy_policy">"  لكي تعلم أكتر عن كيف تقوم سيمفونيا بتجميع واستخدام ومشاركة بياناتك الخاصة, من فضلك قم بقراءة<a href="https://www.spotify.com/eg-en/legal/privacy-policy/">سياسة الخصوصية</a>   "</string>
     <string name="wrong_password_or_email">تركيبة البريد الإلكتروني مع الرقم السري غير صحيحة</string>
     <string name="Not_connnected">غير متصل</string>
     <string name="check_internet">تفقد اتصالك بالانترنت</string>
@@ -93,7 +93,7 @@
     <string name="Playlist">قائمة الاغانى</string>
     <string name="Song">اغنية</string>
     <string name="Album">البوم</string>
-    <string name="made_for_you_by_spotify">من اسبوتيفاى من اجلك</string>
+    <string name="made_for_you_by_spotify">من سيمفونيا من اجلك</string>
     <string name="Genre">نوعية</string>
     <string name="Profile">صفحة شخصية</string>
     <string name="not_found_state_1">لم نستطع إيجاد</string>
@@ -156,5 +156,31 @@
     <string name="not_found_state_2">حاول البحث مرة اخرى او استخدام كلمات أخرى</string>
     <string name="do_you_want_to_log_in_instead">هل تريد تسجيل الدخول؟</string>
     <string name="choose_artists">اختر مغنيين</string>
-    س
+  <string name="See_all">اظهار الكل</string>
+    <string name="Public_playlists">قوائم التشغيل العامة</string>
+    <string name="follow">تابع</string>
+    <string name="following">متابع</string>
+    <string name="followers">متابعين</string>
+    <string name="Following">متابع</string>
+    <string name="playlists">قوائم التشغيل</string>
+
+    <string name="locked_songs">أغاني مغلقة؟</string>
+    <string name="no_worries">لا يوجد مشاكل.</string>
+    <string name="listen_ad_free">استمع للأغاني المغلقة, \n واستمع بدون إعلانات.</string>
+    <string name="monthly_subscription">تُطبق شروط الإشتراك شهري. تُطبق الشروط والأحكام. \n يتم ظهور هذا الإعلان للغير مشترك في الإمتياز.</string>
+    <string name="dismiss">إلغاء</string>
+    <string name="promoted_premium">تم الترقية لإمتياز</string>
+    <string name="symphonia_premium">سيمفونيا الإمتياز</string>
+    <string name="cant_play">فشل التشغيل</string>
+    <string name="error">حدث خطا</string>
+    <string name="liked">اعجبنى</string>
+    <string name="hidden">مخفى</string>
+    <string name="add_to_playlist">إضافة إلى قائمة التشغيل</string>
+    <string name="like_all_songs">إعجاب بكل الأغاني</string>
+    <string name="go_to_full_album">فتح الألبوم كاملًا</string>
+    <string name="share">مشاركة</string>
+    <string name="add_to_home_screen">إضافة للصفحة الرئيسية</string>
+    <string name="don_t_play_this_artist">لا تُشغل هذا المغني</string>
+    <string name="view_artist">عرض المغني</string>
+
 </resources>

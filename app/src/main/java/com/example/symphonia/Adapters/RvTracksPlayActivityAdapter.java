@@ -13,12 +13,13 @@ import com.example.symphonia.Entities.Track;
 import com.example.symphonia.R;
 
 import java.util.ArrayList;
+
 /**
  * class tha adapt recycler view of tracks
  *
  * @author Khaled Ali
- * @since 22-3-2020
  * @version 1.0
+ * @since 22-3-2020
  */
 public class RvTracksPlayActivityAdapter extends RecyclerView.Adapter<RvTracksPlayActivityAdapter.Holder> {
 
@@ -28,7 +29,7 @@ public class RvTracksPlayActivityAdapter extends RecyclerView.Adapter<RvTracksPl
     private Context context;
 
     /**
-     *  tracks that would be represented
+     * tracks that would be represented
      */
     private ArrayList<Track> tracks;
 
@@ -49,8 +50,9 @@ public class RvTracksPlayActivityAdapter extends RecyclerView.Adapter<RvTracksPl
 
     /**
      * non empty constructor
+     *
      * @param context context of hosting activity
-     * @param tracks tracks that should be represented in recycler view
+     * @param tracks  tracks that should be represented in recycler view
      */
     public RvTracksPlayActivityAdapter(Context context, ArrayList<Track> tracks) {
         this.context = context;
@@ -60,8 +62,9 @@ public class RvTracksPlayActivityAdapter extends RecyclerView.Adapter<RvTracksPl
 
     /**
      * this function inflates the view the will hold each track information
-     * @param parent viewGroup that hold each viewItem
-     * @param viewType  type of view
+     *
+     * @param parent   viewGroup that hold each viewItem
+     * @param viewType type of view
      * @return Holder that holds each view
      */
     @NonNull
@@ -74,7 +77,8 @@ public class RvTracksPlayActivityAdapter extends RecyclerView.Adapter<RvTracksPl
 
     /**
      * this function is called for binding holders
-     * @param holder holder that would bind with data
+     *
+     * @param holder   holder that would bind with data
      * @param position position of holder in recycler view
      */
     @Override
@@ -84,6 +88,7 @@ public class RvTracksPlayActivityAdapter extends RecyclerView.Adapter<RvTracksPl
 
     /**
      * this function is called when a view is detached from window
+     *
      * @param holder holder
      */
     @Override
@@ -101,7 +106,8 @@ public class RvTracksPlayActivityAdapter extends RecyclerView.Adapter<RvTracksPl
     }
 
     /**
-     *  this function is called when a view is attached to window
+     * this function is called when a view is attached to window
+     *
      * @param holder holder
      */
     @Override
@@ -114,7 +120,6 @@ public class RvTracksPlayActivityAdapter extends RecyclerView.Adapter<RvTracksPl
     }
 
     /**
-     *
      * @return number of items in recycler view
      */
     @Override
@@ -142,6 +147,7 @@ public class RvTracksPlayActivityAdapter extends RecyclerView.Adapter<RvTracksPl
 
         /**
          * non empty constructor
+         *
          * @param itemView view that holds item
          */
         public Holder(@NonNull View itemView) {

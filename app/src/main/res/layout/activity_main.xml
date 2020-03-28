@@ -4,6 +4,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="false"
     android:background="@drawable/background">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -31,4 +32,9 @@
         android:layout_above="@id/nav_view"
         android:visibility="gone" />
 
+    <include layout="@layout/setting_track"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:id="@+id/setting_track_container"
+        android:layout_height="match_parent"/>
 </RelativeLayout>

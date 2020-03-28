@@ -26,8 +26,6 @@
     <string name="popular_playlist">Popular playlists</string>
     <string name="based_on_your_recently_played">based on your recentlry played</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="playlist_fragment" translatable="false">playlist fragment</string>
     <string name="play">Play</string>
     <string name="track_image">Track Image</string>
@@ -91,7 +89,7 @@
     <string name="See_all_songs">See all songs</string>
     <string name="See_all_playlists">See all playlists</string>
     <string name="See_all_albums">See all albums</string>
-    <string name="See_all_genres_and_modes">See all genres &#38; modes</string>
+    <string name="See_all_genres_and_modes">See all genres and modes</string>
     <string name="See_all_profiles">See all profiles</string>
     <string name="Clear_recent_searches">Clear recent searches</string>
     <string name="Recent_searches">Recent searches</string>
@@ -173,5 +171,37 @@
     <string name="return_to_playing_playlist">return to playing playlist</string>
     <string name="do_you_want_to_log_in_instead">Do you want to log in instead?</string>
     <string name="choose_artists">CHOOSE ARTISTS</string>
-    <string name="track_image_for_playbar">track image for playBar</string>
+    <string name="track_image_for_playbar" translatable="false">track image for playBar</string>
+    <string name="cant_play">can\'t play</string>
+    <string name="error">Error</string>
+
+    <string name="promoted_premium">Promoted Premium</string>
+    <string name="symphonia_premium">Symphonia Premium</string>
+    <string name="locked_songs">Locked Songs?</string>
+    <string name="no_worries">No Worries.</string>
+    <string name="listen_ad_free">Listen to your locked music,\nand listen ad-free.</string>
+    <string name="monthly_subscription">Monthly subscription fee applies after. Terms and conditions apply.\nOpen only to users who haven\'t already tried Premium</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="liked">Liked</string>
+    <string name="hidden">Hidden</string>
+    <string name="track_is_locked">this song is locked \n to unlock get premium</string>
+    <string name="started">Started</string>
+    <string name="preparing">Preparing</string>
+
+    <string name="See_all">See all</string>
+    <string name="Public_playlists">Public playlists</string>
+    <string name="follow">FOLLOW</string>
+    <string name="following">Following</string>
+    <string name="followers">Followers</string>
+    <string name="Following">Following</string>
+    <string name="playlists">playlists</string>
+    <string name="add_to_playlist">Add to Playlist</string>
+    <string name="like_all_songs">Like all songs</string>
+    <string name="go_to_full_album">Go to full Album</string>
+    <string name="share">Share</string>
+    <string name="don_t_play_this_artist">Don\'t play this artist</string>
+    <string name="view_artist">View Artist</string>
+    <string name="add_to_home_screen">Add to Home Screen</string>
+
 </resources>

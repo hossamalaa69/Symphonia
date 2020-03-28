@@ -1,6 +1,7 @@
 package com.example.symphonia.Service;
 
 import android.content.Context;
+import android.net.Uri;
 import android.provider.Settings;
 
 import com.example.symphonia.Constants;
@@ -25,8 +26,8 @@ import java.util.regex.Pattern;
  * using dependency injection, which implements APIs interface
  *
  * @author Hossam Alaa
- * @since 23-3-2020
  * @version 1.0
+ * @since 23-3-2020
  */
 
 public class MockService implements APIs {
@@ -59,16 +60,14 @@ public class MockService implements APIs {
         mArtistArrayList = new ArrayList<>();
 
         //add 3 users of type listeners
-        mListenerArrayList.add(new User("user1@symphonia.com", "12345678", true));
-        mListenerArrayList.add(new User("user2@symphonia.com", "12345678", true));
-        mListenerArrayList.add(new User("user3@symphonia.com", "12345678", true));
+        mListenerArrayList.add(new User("user1@symphonia.com", "12345678", true, false));
+        mListenerArrayList.add(new User("user2@symphonia.com", "12345678", true, true));
+        mListenerArrayList.add(new User("user3@symphonia.com", "12345678", true, true));
 
         //add 3 users of type artist
-        mArtistArrayList.add(new User("artist1@symphonia.com", "12345678", false));
-        mArtistArrayList.add(new User("artist2@symphonia.com", "12345678", false));
-        mArtistArrayList.add(new User("artist3@symphonia.com", "12345678", false));
-
-        mRecentSearches = new ArrayList<>();
+        mArtistArrayList.add(new User("artist1@symphonia.com", "12345678", false, false));
+        mArtistArrayList.add(new User("artist2@symphonia.com", "12345678", false, true));
+        mArtistArrayList.add(new User("artist3@symphonia.com", "12345678", false, true));
 
         mArtists = new ArrayList<>();
         mArtists.add(new Artist("1", Utils.convertToBitmap(R.drawable.ragheb), "Ragheb Alama"));
@@ -168,28 +167,28 @@ public class MockService implements APIs {
         mPopularPlaylists = new ArrayList<>();
         ArrayList<Track> tracks = new ArrayList<Track>();
         tracks.add(new Track("Rescue Me", "OneRepublic", "mood booster",
-                "Rescue Me", R.drawable.rescue_me, Settings.System.DEFAULT_ALARM_ALERT_URI));
+                "Rescue Me", R.drawable.rescue_me, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"),false));
         tracks.add(new Track("Freaking Me Out", "Ava Max",
-                "mood booster", null, R.drawable.freaking_me_out, Settings.System.DEFAULT_RINGTONE_URI));
+                "mood booster", null, R.drawable.freaking_me_out, Settings.System.DEFAULT_RINGTONE_URI,true));
         tracks.add(new Track("You Can't Stop The Girl",
-                "Bebe Rexha", "mood booster", null, R.drawable.you_cant_stop_the_girl, Settings.System.DEFAULT_NOTIFICATION_URI));
+                "Bebe Rexha", "mood booster", null, R.drawable.you_cant_stop_the_girl, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"),false));
         mPopularPlaylists.add(new Playlist("mood booster",
                 "Get happy with this pick-up playlist full of current feel-good songs",
                 Utils.convertToBitmap(R.drawable.mood_booster), tracks));
 
         mRecentPlaylists = new ArrayList<>();
         ArrayList<Track> rTracks = new ArrayList<Track>();
-        rTracks.add(new Track("Little Do You Know", "Alex & Sierra", "Rewind-the sound of 2014", null, R.drawable.little_do_you_know, Settings.System.DEFAULT_RINGTONE_URI));
-        rTracks.add(new Track("Wildest Dreams", "Taylor Swift", "Rewind-the sound of 2014", null, R.drawable.wildest_dreams, Settings.System.DEFAULT_ALARM_ALERT_URI));
-        rTracks.add(new Track("One Last Time", "Ariana Grande", "Rewind-the sound of 2014", null, R.drawable.one_last_time, Settings.System.DEFAULT_NOTIFICATION_URI));
+        rTracks.add(new Track("Little Do You Know", "Alex & Sierra", "Rewind-the sound of 2014", null, R.drawable.little_do_you_know, Settings.System.DEFAULT_RINGTONE_URI,true));
+        rTracks.add(new Track("Wildest Dreams", "Taylor Swift", "Rewind-the sound of 2014", null, R.drawable.wildest_dreams, Uri.parse("http://stream.radiosai.net:8002/"),false));
+        rTracks.add(new Track("One Last Time", "Ariana Grande", "Rewind-the sound of 2014", null, R.drawable.one_last_time, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"),false));
         mRecentPlaylists.add(new Playlist("Rewind-the sound of 2014", null,
                 Utils.convertToBitmap(R.drawable.rewind_the_sound), rTracks));
 
         mRandomPlaylists = new ArrayList<>();
         ArrayList<Track> ranTracks = new ArrayList<Track>();
-        ranTracks.add(new Track("Intentions", "Justing Bieber, Quavo", "Daily Left", null, R.drawable.intentions, Settings.System.DEFAULT_RINGTONE_URI));
-        ranTracks.add(new Track("Stupid Love", "Lady Gaga", "Daily Left", null, R.drawable.stupid_love, Settings.System.DEFAULT_ALARM_ALERT_URI));
-        ranTracks.add(new Track("Feel Me", "Selena Gomez", "Daily Left", null, R.drawable.feel_me, Settings.System.DEFAULT_NOTIFICATION_URI));
+        ranTracks.add(new Track("Intentions", "Justing Bieber, Quavo", "Daily Left", null, R.drawable.intentions, Settings.System.DEFAULT_RINGTONE_URI,false));
+        ranTracks.add(new Track("Stupid Love", "Lady Gaga", "Daily Left", null, R.drawable.stupid_love, Uri.parse("http://stream.radiosai.net:8002/"),false));
+        ranTracks.add(new Track("Feel Me", "Selena Gomez", "Daily Left", null, R.drawable.feel_me, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"),true));
         mRandomPlaylists.add(new Playlist("Daily Left", "Sia, J Balvin, Bad Bunny, Justin Bieber, Drake",
                 Utils.convertToBitmap(R.drawable.daily_left), ranTracks));
 
@@ -198,19 +197,22 @@ public class MockService implements APIs {
 
     /**
      * getter for made-for-you playlist
+     *
      * @param context context of hosting activity
-     * @param mToken token of user
-     * @return  made-for-you  playlist
+     * @param mToken  token of user
+     * @return made-for-you  playlist
      */
     @Override
     public ArrayList<Playlist> getMadeForYouPlaylists(Context context, String mToken) {
         return mRandomPlaylists;
     }
+
     /**
      * getter for recently-player playlist
+     *
      * @param context context of hosting activity
-     * @param mToken token of user
-     * @return  recently-player  playlist
+     * @param mToken  token of user
+     * @return recently-player  playlist
      */
     @Override
     public ArrayList<Playlist> getRecentPlaylists(Context context, String mToken) {
@@ -219,9 +221,10 @@ public class MockService implements APIs {
 
     /**
      * getter for Random playlist
+     *
      * @param context context of hosting activity
-     * @param mToken token of user
-     * @return  Random  playlist
+     * @param mToken  token of user
+     * @return Random  playlist
      */
     @Override
     public ArrayList<Playlist> getRandomPlaylists(Context context, String mToken) {
@@ -235,10 +238,11 @@ public class MockService implements APIs {
 
     /**
      * holds logging user in, creation of user object and sets token
-     * @param context holds context of activity that called this method
+     *
+     * @param context  holds context of activity that called this method
      * @param username email or username of user
      * @param password password of user
-     * @param mType type of user, true for listener and false for artist
+     * @param mType    type of user, true for listener and false for artist
      * @return return true if data is matched
      */
     @Override
@@ -289,7 +293,8 @@ public class MockService implements APIs {
             //creates object of user to store logged in user's data
             Constants.currentUser = new User(mArtistArrayList.get(userIndex).getmEmail(), false
                     , Utils.convertToBitmap(R.drawable.download)
-                    , "Islam Ahmed", "1998/24/11", "male", true
+                    , "Islam Ahmed", "1998/24/11", "male"
+                    , mArtistArrayList.get(userIndex).isPremuim()
                     , 65500, 40, new ArrayList<User>()
                     , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
                     , followed, mAlbums, new ArrayList<Track>());
@@ -305,7 +310,8 @@ public class MockService implements APIs {
 
             Constants.currentUser = new User(mListenerArrayList.get(userIndex).getmEmail(), true
                     , Utils.convertToBitmap(R.drawable.download)
-                    , "Hossam Alaa", "1999/04/06", "male", true
+                    , "Hossam Alaa", "1999/04/06", "male"
+                    , mListenerArrayList.get(userIndex).isPremuim()
                     , 65500, 40, new ArrayList<User>()
                     , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
                     , followed, mAlbums, new ArrayList<Track>());
@@ -316,13 +322,14 @@ public class MockService implements APIs {
     /**
      * handles that user is signing up, initializes new user object
      * fill database with new user
-     * @param context holds context of activity that called this method
-     * @param mType type of user, true for listener and false for artist
-     * @param email email of user
+     *
+     * @param context  holds context of activity that called this method
+     * @param mType    type of user, true for listener and false for artist
+     * @param email    email of user
      * @param password password of user
-     * @param DOB date of birth of user
-     * @param gender gender of user
-     * @param name name of user
+     * @param DOB      date of birth of user
+     * @param gender   gender of user
+     * @param name     name of user
      * @return returns true if sign up is done
      */
     @Override
@@ -344,9 +351,10 @@ public class MockService implements APIs {
 
     /**
      * checks if email is already signed in database or not
+     *
      * @param context holds context of activity that called this method
-     * @param email email of user
-     * @param mType type of user, true for listener and false for artist
+     * @param email   email of user
+     * @param mType   type of user, true for listener and false for artist
      * @return returns true if email is new, false if it's signed before
      */
     @Override
@@ -365,7 +373,9 @@ public class MockService implements APIs {
 
     @Override
     public ArrayList<Container> getResentResult(Context context) {
+
         if (firstTimeToGetRecentSearches) {
+            mRecentSearches = new ArrayList<>();
             mRecentSearches.add(new Container("Quran", context.getResources().getString(R.string.Playlist), R.drawable.images));
             mRecentSearches.add(new Container("George Wassouf", context.getResources().getString(R.string.Artist), R.drawable.download));
             mRecentSearches.add(new Container("Get Weird", context.getResources().getString(R.string.Album) + ".Little Mix", R.drawable.download1));
@@ -630,8 +640,8 @@ public class MockService implements APIs {
      * Get information for a single artist identified by their unique ID
      *
      * @param context activity context
-     * @param mToken user's access token
-     * @param id artist id
+     * @param mToken  user's access token
+     * @param id      artist id
      * @return artist object
      */
 
@@ -649,7 +659,7 @@ public class MockService implements APIs {
      * Get information about artists similar to a given artist.
      *
      * @param context activity context
-     * @param id artist id
+     * @param id      artist id
      * @return Arraylist of similar artists
      */
     @Override
@@ -673,9 +683,9 @@ public class MockService implements APIs {
     /**
      * Get the current user’s followed artists
      *
-     * @param type true for user and false for artist
+     * @param type   true for user and false for artist
      * @param mToken user's access token
-     * @param limit he maximum number of items to return
+     * @param limit  he maximum number of items to return
      * @return list of followed artists
      */
     @Override
@@ -692,9 +702,9 @@ public class MockService implements APIs {
     /**
      * Add the current user as a follower of one artist or other users
      *
-     * @param type true for user and false for artist
+     * @param type   true for user and false for artist
      * @param mToken user's access token
-     * @param id user or artist id
+     * @param id     user or artist id
      */
     @Override
     public void followArtistOrUser(Boolean type, String mToken, String id) {
@@ -710,9 +720,9 @@ public class MockService implements APIs {
     /**
      * Remove the current user as a follower of one artist or other users
      *
-     * @param type true for user and false for artist
+     * @param type   true for user and false for artist
      * @param mToken user's access token
-     * @param id user or artist id
+     * @param id     user or artist id
      */
     @Override
     public void unFollowArtistOrUser(Boolean type, String mToken, String id) {
@@ -728,9 +738,9 @@ public class MockService implements APIs {
     /**
      * Check to see if the current user is following an artist or other users
      *
-     * @param type true for user and false for artist
+     * @param type   true for user and false for artist
      * @param mToken user's access token
-     * @param id user or artist id
+     * @param id     user or artist id
      * @return true if following and false if not
      */
     @Override
@@ -746,9 +756,9 @@ public class MockService implements APIs {
     /**
      * Get a list of recommended artist for the current user
      *
-     * @param type true for user and false for artist
+     * @param type   true for user and false for artist
      * @param mToken user's access token
-     * @param limit he maximum number of items to return
+     * @param limit  he maximum number of items to return
      * @return list of recommended artists
      */
     @Override
@@ -772,9 +782,9 @@ public class MockService implements APIs {
      * Search for a specific artist
      *
      * @param context Activity context
-     * @param q Query to search for
-     * @param offset The index of the first result to return
-     * @param limit Maximum number of results to return
+     * @param q       Query to search for
+     * @param offset  The index of the first result to return
+     * @param limit   Maximum number of results to return
      * @return List of search result artists
      */
     @Override
@@ -798,9 +808,9 @@ public class MockService implements APIs {
      * Get a list of the albums saved in the current user’s ‘Your Music’ library
      *
      * @param context Activity context
-     * @param mToken User's access token
-     * @param offset The index of the first object to return
-     * @param limit The maximum number of objects to return
+     * @param mToken  User's access token
+     * @param offset  The index of the first object to return
+     * @param limit   The maximum number of objects to return
      * @return List of saved albums
      */
     @Override
@@ -812,5 +822,66 @@ public class MockService implements APIs {
         }
 
         return returnedAlbums;
+    }
+
+    @Override
+    public boolean promotePremium(Context context, String token){
+        Constants.currentUser.setPremuim(true);
+        return true;
+    }
+
+    @Override
+    public ArrayList<Container> getProfileFollowers(Context context) {
+        ArrayList<Container> followers=new ArrayList<>();
+        followers.add(new Container("HuffPost", "2,700 " + context.getResources().getString(R.string.Followers), R.drawable.images));
+        followers.add(new Container("Majeestic Casual", "5,200 " + context.getResources().getString(R.string.Followers), R.drawable.images3));
+        followers.add(new Container("beautiful", "3,300 " + context.getResources().getString(R.string.Followers), R.drawable.download));
+        followers.add(new Container("Anders Stab Nielson", "800 " + context.getResources().getString(R.string.Followers), R.drawable.download1));
+        followers.add(new Container("Simon Hoffman", "1200 " + context.getResources().getString(R.string.Followers), R.drawable.images2));
+        followers.add(new Container("HouseNation", "3000 " + context.getResources().getString(R.string.Followers), R.drawable.abu));
+        followers.add(new Container("Chan Jun Jie", "2,100 " + context.getResources().getString(R.string.Followers), R.drawable.halsey));
+        followers.add(new Container("Efal Sayed", "1,100 " + context.getResources().getString(R.string.Followers), R.drawable.bahaa));
+        followers.add(new Container("Michelle Choi", "2100 " + context.getResources().getString(R.string.Followers), R.drawable.halsey));
+        followers.add(new Container("Brandon Bay", "2800 " + context.getResources().getString(R.string.Followers), R.drawable.selena));
+        followers.add(new Container("Ryan Jones", "500 " + context.getResources().getString(R.string.Followers), R.drawable.hamza));
+        followers.add(new Container("MTV Brasil", "26 " + context.getResources().getString(R.string.Followers), R.drawable.jannat));
+        followers.add(new Container("Sonny Lind", "773 " + context.getResources().getString(R.string.Followers), R.drawable.wael));
+        followers.add(new Container("Oranges", "470 " + context.getResources().getString(R.string.Followers), R.drawable.angham));
+        followers.add(new Container("greate Artist", "1,200 " + context.getResources().getString(R.string.Followers), R.drawable.images));
+        followers.add(new Container("Kevin Cross", "1,523 " + context.getResources().getString(R.string.Followers), R.drawable.images3));
+        followers.add(new Container("Craige Dewart", "4,444 " + context.getResources().getString(R.string.Followers), R.drawable.download));
+        followers.add(new Container("Wes Ley", "832 " + context.getResources().getString(R.string.Followers), R.drawable.download1));
+        followers.add(new Container("Jasper Oh", "1328 " + context.getResources().getString(R.string.Followers), R.drawable.images2));
+        followers.add(new Container("Kevin Enhorn", "3034 " + context.getResources().getString(R.string.Followers), R.drawable.abu));
+        followers.add(new Container("Mark Springer", "6,100 " + context.getResources().getString(R.string.Followers), R.drawable.halsey));
+        followers.add(new Container("anghami", "11,000 " + context.getResources().getString(R.string.Followers), R.drawable.bahaa));
+        followers.add(new Container("Ahmed Ali Sheikh", "110 " + context.getResources().getString(R.string.Followers), R.drawable.halsey));
+        followers.add(new Container("selena", "28,000 " + context.getResources().getString(R.string.Followers), R.drawable.selena));
+        followers.add(new Container("Martin kepic", "0 " + context.getResources().getString(R.string.Followers), R.drawable.hamza));
+        followers.add(new Container("An ther", "26,000 " + context.getResources().getString(R.string.Followers), R.drawable.jannat));
+        followers.add(new Container("Ketan Patel", "773 " + context.getResources().getString(R.string.Followers), R.drawable.wael));
+        followers.add(new Container("Dani Hecht", "470 " + context.getResources().getString(R.string.Followers), R.drawable.angham));
+
+        return followers;
+    }
+
+    @Override
+    public ArrayList<Container> getProfileFollowing(Context context) {
+        ArrayList<Container> followers=new ArrayList<>();
+        followers.add(new Container("Adele", "200,700 " + context.getResources().getString(R.string.Followers), R.drawable.adele));
+        followers.add(new Container("Amr Diab", "500,200 " + context.getResources().getString(R.string.Followers), R.drawable.amr));
+        followers.add(new Container("Imagine dragons", "300,300 " + context.getResources().getString(R.string.Followers), R.drawable.imagine));
+        followers.add(new Container("Alan Walker", "80,000 " + context.getResources().getString(R.string.Followers), R.drawable.alan));
+        followers.add(new Container("ED Sheeran", "12,000 " + context.getResources().getString(R.string.Followers), R.drawable.ed));
+        followers.add(new Container("Asala ", "30,000 " + context.getResources().getString(R.string.Followers), R.drawable.assala));
+        followers.add(new Container("Bahaa Sultan", "21,000 " + context.getResources().getString(R.string.Followers), R.drawable.bahaa));
+        followers.add(new Container("angham", "11,000 " + context.getResources().getString(R.string.Followers), R.drawable.angham));
+        followers.add(new Container("Thunder and Tomorrow", "2100 " + context.getResources().getString(R.string.Followers), R.drawable.halsey));
+        followers.add(new Container("Selena", "28,000 " + context.getResources().getString(R.string.Followers), R.drawable.selena));
+        followers.add(new Container("Smoke Grenades", "5,000 " + context.getResources().getString(R.string.Followers), R.drawable.jannat));
+        followers.add(new Container("Wael Jassar", "260 " + context.getResources().getString(R.string.Followers), R.drawable.wael));
+        followers.add(new Container("Abo", "7,730 " + context.getResources().getString(R.string.Followers), R.drawable.abu));
+        followers.add(new Container("Hamza Nemra", "4,700 " + context.getResources().getString(R.string.Followers), R.drawable.hamza));
+        return followers;
     }
 }

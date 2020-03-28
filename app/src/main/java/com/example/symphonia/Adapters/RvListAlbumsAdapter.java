@@ -1,6 +1,7 @@
 package com.example.symphonia.Adapters;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Entities.Album;
+import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 
 import java.util.ArrayList;
@@ -30,14 +32,16 @@ public class RvListAlbumsAdapter extends RecyclerView.Adapter<RvListAlbumsAdapte
      * an object from the interface to handle the click on list items
      */
     private ListItemClickListener mOnClickListener;
+    private ListItemLongClickListener mOnLongClickListener;
 
     /**
      * @param albums  user's saved albums
      * @param mOnClickListener click listener for the list items
      */
-    public RvListAlbumsAdapter(ArrayList<Album> albums, ListItemClickListener mOnClickListener) {
+    public RvListAlbumsAdapter(ArrayList<Album> albums, ListItemClickListener mOnClickListener, ListItemLongClickListener mOnLongClickListener) {
         this.mAlbums = albums;
         this.mOnClickListener = mOnClickListener;
+        this.mOnLongClickListener = mOnLongClickListener;
     }
 
     /**
@@ -77,7 +81,7 @@ public class RvListAlbumsAdapter extends RecyclerView.Adapter<RvListAlbumsAdapte
     /**
      * holding the data of each item and showing them
      */
-    public class AlbumViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class AlbumViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         ImageView albumImage;
         TextView albumName;
         TextView artistName;
@@ -90,6 +94,8 @@ public class RvListAlbumsAdapter extends RecyclerView.Adapter<RvListAlbumsAdapte
         AlbumViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
+            Utils.cancelTouchAnimation(itemView);
             albumImage = itemView.findViewById(R.id.image_album);
             albumName = itemView.findViewById(R.id.text_album_name);
             artistName = itemView.findViewById(R.id.text_artist_name);
@@ -117,6 +123,13 @@ public class RvListAlbumsAdapter extends RecyclerView.Adapter<RvListAlbumsAdapte
         public void onClick(View v) {
             mOnClickListener.onListItemClick(v, getAdapterPosition());
         }
+
+        @Override
+        public boolean onLongClick(View v) {
+            mOnLongClickListener.onListItemLongClick(getAdapterPosition());
+            return true;
+        }
+
     }
 
     /**
@@ -124,6 +137,10 @@ public class RvListAlbumsAdapter extends RecyclerView.Adapter<RvListAlbumsAdapte
      */
     public interface ListItemClickListener{
         void onListItemClick(View v, int clickedItemIndex);
+    }
+
+    public interface ListItemLongClickListener{
+        void onListItemLongClick(int clickedItemIndex);
     }
 
 }

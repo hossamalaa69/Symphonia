@@ -11,7 +11,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Track;
+import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 
 import java.util.ArrayList;
@@ -20,8 +22,8 @@ import java.util.ArrayList;
  * class tha adapt recycler view of tracks
  *
  * @author Khaled Ali
- * @since 22-3-2020
  * @version 1.0
+ * @since 22-3-2020
  */
 public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapter.Holder> {
 
@@ -30,7 +32,7 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
      */
     private int prev = -1;
     /**
-     *  tracks that would be represented
+     * tracks that would be represented
      */
     private ArrayList<Track> mTracks;
 
@@ -47,6 +49,7 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
 
     /**
      * non empty constructor
+     *
      * @param context context of hosting activity
      * @param mTracks tracks that should be represented in recycler view
      */
@@ -58,8 +61,9 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
 
     /**
      * this function inflates the view the will hold each track information
-     * @param parent viewGroup that hold each viewItem
-     * @param viewType  type of view
+     *
+     * @param parent   viewGroup that hold each viewItem
+     * @param viewType type of view
      * @return Holder that holds each view
      */
     @NonNull
@@ -71,7 +75,8 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
 
     /**
      * this function is called for binding holders
-     * @param holder holder that would bind with data
+     *
+     * @param holder   holder that would bind with data
      * @param position position of holder in recycler view
      */
     @Override
@@ -80,7 +85,6 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
     }
 
     /**
-     *
      * @return number of items in recycler view
      */
     @Override
@@ -93,6 +97,9 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
      */
     public interface OnTrackClicked {
         void OnTrackClickedListener(ArrayList<Track> tracks, int pos, int prev);
+
+        void showTrackSettingFragment(int pos);
+
         void OnLikeClickedListener(boolean selected, int pos);
 
     }
@@ -111,6 +118,7 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
 
         /**
          * non empty constructor
+         *
          * @param itemView view that holds item
          */
         public Holder(@NonNull View itemView) {
@@ -137,12 +145,12 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
                     if (ivHide.isSelected()) {
                         ivHide.setImageResource(R.drawable.ic_do_not_disturb_on_black_24dp);
                         Toast.makeText(context, R.string.return_to_playing_playlist, Toast.LENGTH_SHORT).show();
-                        mTracks.get(getAdapterPosition()).setHidden(false);
+                        Utils.CurrTrackInfo.currPlaylistTracks.get(getAdapterPosition()).setHidden(false);
                         tvTrackTitle.setTextColor(context.getResources().getColor(R.color.white));
                         tvTrackDescription.setTextColor(context.getResources().getColor(R.color.white));
                         ivHide.setSelected(false);
                     } else {
-                        mTracks.get(getAdapterPosition()).setHidden(true);
+                        Utils.CurrTrackInfo.currPlaylistTracks.get(getAdapterPosition()).setHidden(true);
                         tvTrackTitle.setTextColor(context.getResources().getColor(R.color.light_gray));
                         tvTrackDescription.setTextColor(context.getResources().getColor(R.color.light_gray));
                         ivHide.setImageResource(R.drawable.ic_do_not_disturb_on_red_24dp);
@@ -174,6 +182,7 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
                 public void onClick(View view) {
                     //TODO handle open settings track, call func of interface
                     Toast.makeText(context, "open settings ", Toast.LENGTH_SHORT).show();
+                    onTrackClicked.showTrackSettingFragment(getAdapterPosition());
 
                 }
             });
@@ -186,7 +195,7 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
         public void bind(int pos) {
             ivTrackImage.setImageResource(mTracks.get(pos).getmImageResources());
             tvTrackTitle.setText(mTracks.get(pos).getmTitle());
-            tvTrackDescription.setText(mTracks.get(pos).getmDescription());
+            tvTrackDescription.setText(mTracks.get(pos).getmArtist());
             Track track = mTracks.get(getAdapterPosition());
             if (track.isLiked()) {
                 ivLike.setImageResource(R.drawable.ic_favorite_black_24dp);
@@ -203,7 +212,6 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
                 tvTrackDescription.setTextColor(context.getResources().getColor(R.color.light_gray));
                 ivHide.setSelected(true);
 
-
             } else {
                 ivHide.setImageResource(R.drawable.ic_do_not_disturb_on_black_24dp);
                 tvTrackTitle.setTextColor(context.getResources().getColor(R.color.white));
@@ -211,10 +219,15 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
                 ivHide.setSelected(false);
 
             }
+            if (track.isLocked() && !Constants.currentUser.isPremuim()) {
+                tvTrackTitle.setTextColor(context.getResources().getColor(R.color.light_gray));
+                tvTrackDescription.setTextColor(context.getResources().getColor(R.color.light_gray));
+            }
         }
 
         /**
          * this function is called when user click on item
+         *
          * @param view takes view that is clicked
          */
         @Override
@@ -222,7 +235,7 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
             onTrackClicked.OnTrackClickedListener(mTracks,
                     getAdapterPosition(), prev);
             prev = getAdapterPosition();
-            tvTrackTitle.setTextColor(context.getResources().getColor(R.color.colorGreen));
+
         }
     }
 }

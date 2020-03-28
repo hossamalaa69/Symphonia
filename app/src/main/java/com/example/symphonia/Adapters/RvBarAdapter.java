@@ -18,8 +18,8 @@ import java.util.ArrayList;
  * class tha adapt recycler view of tracks
  *
  * @author Khaled Ali
- * @since 22-3-2020
  * @version 1.0
+ * @since 22-3-2020
  */
 public class RvBarAdapter extends RecyclerView.Adapter<RvBarAdapter.BarHolder> {
 
@@ -29,7 +29,7 @@ public class RvBarAdapter extends RecyclerView.Adapter<RvBarAdapter.BarHolder> {
     private Context context;
 
     /**
-     *  tracks that would be represented
+     * tracks that would be represented
      */
     private ArrayList<Track> tracks;
 
@@ -50,8 +50,9 @@ public class RvBarAdapter extends RecyclerView.Adapter<RvBarAdapter.BarHolder> {
 
     /**
      * non empty constructor
+     *
      * @param context context of hosting activity
-     * @param tracks tracks that should be represented in recycler view
+     * @param tracks  tracks that should be represented in recycler view
      */
     public RvBarAdapter(Context context, ArrayList<Track> tracks) {
         this.context = context;
@@ -60,9 +61,28 @@ public class RvBarAdapter extends RecyclerView.Adapter<RvBarAdapter.BarHolder> {
     }
 
     /**
+     * getter for tracks
+     *
+     * @return tracks in adapter
+     */
+    public ArrayList<Track> getTracks() {
+        return tracks;
+    }
+
+    /**
+     * setter for tracks
+     *
+     * @param tracks tracks should be presented
+     */
+    public void setTracks(ArrayList<Track> tracks) {
+        this.tracks = tracks;
+    }
+
+    /**
      * this function inflates the view the will hold each track information
-     * @param parent viewGroup that hold each viewItem
-     * @param viewType  type of view
+     *
+     * @param parent   viewGroup that hold each viewItem
+     * @param viewType type of view
      * @return Holder that holds each view
      */
     @NonNull
@@ -74,7 +94,8 @@ public class RvBarAdapter extends RecyclerView.Adapter<RvBarAdapter.BarHolder> {
 
     /**
      * this function is called for binding holders
-     * @param holder holder that would bind with data
+     *
+     * @param holder   holder that would bind with data
      * @param position position of holder in recycler view
      */
     @Override
@@ -83,7 +104,6 @@ public class RvBarAdapter extends RecyclerView.Adapter<RvBarAdapter.BarHolder> {
     }
 
     /**
-     *
      * @return number of items in recycler view
      */
     @Override
@@ -93,6 +113,7 @@ public class RvBarAdapter extends RecyclerView.Adapter<RvBarAdapter.BarHolder> {
 
     /**
      * this function is called when a view is detached from window
+     *
      * @param holder holder
      */
     @Override
@@ -109,7 +130,8 @@ public class RvBarAdapter extends RecyclerView.Adapter<RvBarAdapter.BarHolder> {
     }
 
     /**
-     *  this function is called when a view is attached to window
+     * this function is called when a view is attached to window
+     *
      * @param holder holder
      */
     @Override
@@ -126,6 +148,7 @@ public class RvBarAdapter extends RecyclerView.Adapter<RvBarAdapter.BarHolder> {
      */
     public interface ItemInterface {
         void OnItemSwitchedListener(int pos);
+
         void OnItemClickedListener(ArrayList<Track> tracks, int adapterPosition);
     }
 
@@ -138,6 +161,7 @@ public class RvBarAdapter extends RecyclerView.Adapter<RvBarAdapter.BarHolder> {
 
         /**
          * non empty constructor
+         *
          * @param itemView view that holds item
          */
         public BarHolder(@NonNull View itemView) {
@@ -148,19 +172,22 @@ public class RvBarAdapter extends RecyclerView.Adapter<RvBarAdapter.BarHolder> {
 
         /**
          * this function is called when a user click on an item
+         *
          * @param view view that is clicked
          */
         @Override
         public void onClick(View view) {
             itemInterface.OnItemClickedListener(tracks, getAdapterPosition());
         }
+
         /**
          * bind data to views
          */
         public void bind() {
+            trackDetails.setSelected(true);
             trackDetails.setText(tracks.get(getAdapterPosition()).getmTitle()
-                    .concat(" ")
-                    .concat((tracks.get(getAdapterPosition()).getmDescription() != null) ? tracks.get(getAdapterPosition()).getmDescription() : ""));
+                    .concat(" * ")
+                    .concat((tracks.get(getAdapterPosition()).getmArtist() != null) ? tracks.get(getAdapterPosition()).getmArtist() : ""));
         }
     }
 }

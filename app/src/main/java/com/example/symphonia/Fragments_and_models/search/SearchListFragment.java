@@ -139,6 +139,7 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
         public void onClick(View v) {
             getFragmentManager().beginTransaction()
                     .replace(R.id.search_include, new SearchForAllFragment("Profiles",editText.getText().toString()))
+                    //.replace(R.id.search_include, new FragmentProfile(new Container("new profile",R.drawable.amr)))
                     .addToBackStack(null)
                     .commit();
         }

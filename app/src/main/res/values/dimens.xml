@@ -25,4 +25,5 @@
     <dimen name="title_height">50dp</dimen>
     <dimen name="body_height">20dp</dimen>
     <dimen name="sub_title_height">30dp</dimen>
+    <dimen name="body_2_height">40dp</dimen>
 </resources>
