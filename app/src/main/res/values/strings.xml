@@ -196,5 +196,12 @@
     <string name="followers">Followers</string>
     <string name="Following">Following</string>
     <string name="playlists">playlists</string>
+    <string name="add_to_playlist">Add to Playlist</string>
+    <string name="like_all_songs">Like all songs</string>
+    <string name="go_to_full_album">Go to full Album</string>
+    <string name="share">Share</string>
+    <string name="don_t_play_this_artist">Don\'t play this artist</string>
+    <string name="view_artist">View Artist</string>
+    <string name="add_to_home_screen">Add to Home Screen</string>
 
 </resources>

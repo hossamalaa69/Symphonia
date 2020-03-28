@@ -121,7 +121,7 @@
                 android:textAppearance="?android:textAppearanceMedium"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
-                android:text="Following"/>
+                android:text="@string/Following"/>
 
         </LinearLayout>
 
@@ -151,7 +151,7 @@
                 android:textAppearance="?android:textAppearanceMedium"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
-                android:text="Don't play this artist"/>
+                android:text="@string/don_t_play_this_artist"/>
 
         </LinearLayout>
 
@@ -188,7 +188,7 @@
                 android:textAppearance="?android:textAppearanceMedium"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
-                android:text="View Artist"/>
+                android:text="@string/view_artist"/>
 
         </LinearLayout>
 
@@ -218,7 +218,7 @@
                 android:textAppearance="?android:textAppearanceMedium"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
-                android:text="Share"/>
+                android:text="@string/share"/>
 
         </LinearLayout>
 
@@ -248,7 +248,7 @@
                 android:textAppearance="?android:textAppearanceMedium"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
-                android:text="Add to Home Screen"/>
+                android:text="@string/add_to_home_screen"/>
 
         </LinearLayout>
 
