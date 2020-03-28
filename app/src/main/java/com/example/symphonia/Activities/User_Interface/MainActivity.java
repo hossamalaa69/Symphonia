@@ -9,11 +9,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,12 +75,27 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
      * this handler is responsible for delay of update playBar
      */
     Handler mHandler = new Handler();
-
     /**
      * instance of Media Controller
      */
     private MediaController mediaController;
+    /**
+     * constant indicates that track is Utils.CurrTrackInfo.paused
+     */
     private final String IS_PAUSED = "isPaused";
+    /**
+     * navigation view of main activity
+     */
+    private BottomNavigationView navView;
+    /**
+     * layout of settings
+     */
+    View linearLayout;
+
+    /**
+     * this is used for click listener
+     */
+    RelativeLayout playBarLayout;
 
 
     /**
@@ -150,9 +165,9 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             @Override
             public void run() {
                 updatePlayBar();
-                if (mediaController.isMediaNotNull() && !paused) {
+                if (mediaController.isMediaNotNull() && !Utils.CurrTrackInfo.paused) {
                     updatePlayBtn();
-                }
+                } else
 
                 mHandler.postDelayed(this, 500);
             }
@@ -169,6 +184,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
      * this function shows playBar
      */
     public void showPlayBar() {
+        barAdapter.setTracks(Utils.CurrTrackInfo.currPlaylistTracks);
         playBar.setVisibility(View.VISIBLE);
     }
 
@@ -272,7 +288,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         trackImage.setImageResource(tracks.get(pos).getmImageResources());
         rvBar.getLayoutManager().scrollToPosition(pos);
         ivPlayButton.setImageResource(R.drawable.ic_pause_black_24dp);
-        paused = false;
+        Utils.CurrTrackInfo.paused = false;
 
 
         Utils.setTrackInfo(0, pos, tracks);
@@ -285,13 +301,14 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         } else {
             ivIsFavourite.setImageResource(R.drawable.ic_favorite_border_black_24dp);
         }
-
-
         playTrack();
-        paused = false;
+        Utils.CurrTrackInfo.paused = false;
 
     }
 
+    /**
+     * this function adds listener to views in main activity
+     */
     private void addListeners() {
 
         ivIsFavourite.setOnClickListener(new View.OnClickListener() {
@@ -316,27 +333,25 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         });
 
 
-        playBar.setOnTouchListener(new View.OnTouchListener() {
+        playBar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, PlayActivity.class);
-                intent.putExtra(IS_PAUSED, paused);
+                intent.putExtra(IS_PAUSED, Utils.CurrTrackInfo.paused);
                 prevPos = Utils.CurrTrackInfo.TrackPosInPlaylist;
                 startActivity(intent);
-                return false;
             }
-
         });
         ivPlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mediaController.isMediaPlayerPlaying()) {
                     ivPlayButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
-                    paused = true;
+                    Utils.CurrTrackInfo.paused = true;
                     mediaController.pauseMedia();
                 } else {
                     ivPlayButton.setImageResource(R.drawable.ic_pause_black_24dp);
-                    paused = false;
+                    Utils.CurrTrackInfo.paused = false;
                     if (mediaController.isMediaNotNull())
                         mediaController.resumeMedia();
                     else {
@@ -357,7 +372,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
      */
     private void updatePlayBtn() {
         ivPlayButton.setImageResource(R.drawable.ic_pause_black_24dp);
-        paused = false;
+        Utils.CurrTrackInfo.paused = false;
     }
 
     /**
@@ -447,8 +462,12 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         ivIsFavourite = playBar.findViewById(R.id.iv_like_track_bar);
     }
 
-    View linearLayout;
 
+    /**
+     * this function is called when setting is clicked
+     *
+     * @param pos position of track
+     */
     @Override
     public void showTrackSettingFragment(int pos) {
         navView.setVisibility(View.GONE);
@@ -507,6 +526,9 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     }
 
 
+    /**
+     * this function is called when back arrow button is clicked
+     */
     @Override
     public void onBackPressed() {
         if (settingLayout != null && settingLayout.getVisibility() == View.VISIBLE) {
@@ -537,8 +559,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
-
-    private BottomNavigationView navView;
 
     /**
      * this function initialize BottomNavigationView
@@ -583,8 +603,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         });
 
     }
-
-    private boolean paused;
 
     /**
      * shows an AlertDialog to go to WIFI settings

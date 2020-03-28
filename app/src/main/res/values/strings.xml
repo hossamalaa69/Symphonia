@@ -89,7 +89,7 @@
     <string name="See_all_songs">See all songs</string>
     <string name="See_all_playlists">See all playlists</string>
     <string name="See_all_albums">See all albums</string>
-    <string name="See_all_genres_and_modes">See all genres &#38; modes</string>
+    <string name="See_all_genres_and_modes">See all genres and modes</string>
     <string name="See_all_profiles">See all profiles</string>
     <string name="Clear_recent_searches">Clear recent searches</string>
     <string name="Recent_searches">Recent searches</string>
@@ -171,7 +171,7 @@
     <string name="return_to_playing_playlist">return to playing playlist</string>
     <string name="do_you_want_to_log_in_instead">Do you want to log in instead?</string>
     <string name="choose_artists">CHOOSE ARTISTS</string>
-    <string name="track_image_for_playbar">track image for playBar</string>
+    <string name="track_image_for_playbar" translatable="false">track image for playBar</string>
     <string name="cant_play">can\'t play</string>
     <string name="error">Error</string>
 
