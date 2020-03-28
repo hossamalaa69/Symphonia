@@ -34,7 +34,8 @@ import java.util.ArrayList;
  * @author islamahmed1092
  * @version 1.0
  */
-public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapter.ListItemClickListener {
+public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapter.ListItemClickListener,
+        RvListAlbumsAdapter.ListItemLongClickListener{
 
     /**
      * adapter to control the items in recyclerview
@@ -87,7 +88,7 @@ public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapt
         final RecyclerView mAlbumsList = rootView.findViewById(R.id.rv_albums);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mAlbumsList.setLayoutManager(layoutManager);
-        mAdapter = new RvListAlbumsAdapter(mLikedAlbums, this);
+        mAdapter = new RvListAlbumsAdapter(mLikedAlbums, this, this);
         mAlbumsList.setAdapter(mAdapter);
 
         mAlbumsList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
@@ -154,4 +155,10 @@ public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapt
 
     }
 
+    @Override
+    public void onListItemLongClick(int clickedItemIndex) {
+        BottomSheetDialogAlbum bottomSheet = new BottomSheetDialogAlbum(mLikedAlbums.get(clickedItemIndex));
+        assert getFragmentManager() != null;
+        bottomSheet.show(getFragmentManager(),bottomSheet.getTag());
+    }
 }

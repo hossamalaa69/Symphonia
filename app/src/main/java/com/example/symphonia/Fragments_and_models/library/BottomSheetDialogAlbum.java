@@ -1,16 +1,14 @@
-
 package com.example.symphonia.Fragments_and_models.library;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-
 import android.graphics.Color;
-
 import android.os.Bundle;
-
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,9 +16,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.palette.graphics.Palette;
 
-
-import com.example.symphonia.Entities.Artist;
+import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -31,13 +29,12 @@ import java.util.ArrayList;
 
 import static java.util.Arrays.asList;
 
-public class BottomSheetDialogArtist extends BottomSheetDialogFragment {
-
-    private Artist artist;
+public class BottomSheetDialogAlbum extends BottomSheetDialogFragment {
+    private Album album;
     private float firstY = 0;
 
-    public BottomSheetDialogArtist(Artist artist) {
-        this.artist = artist;
+    public BottomSheetDialogAlbum(Album album) {
+        this.album = album;
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -47,7 +44,7 @@ public class BottomSheetDialogArtist extends BottomSheetDialogFragment {
         BottomSheetDialog bottomSheet = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
 
         //inflating layout
-        View view = View.inflate(getContext(), R.layout.bottom_sheet_artist_properties, null);
+        View view = View.inflate(getContext(), R.layout.bottom_sheet_album_properties, null);
         bottomSheet.setContentView(view);
 
         view.setOnClickListener(new View.OnClickListener() {
@@ -81,16 +78,17 @@ public class BottomSheetDialogArtist extends BottomSheetDialogFragment {
             }
         });
 
-        TextView artistName = view.findViewById(R.id.text_artist_name);
-        artistName.setText(artist.getArtistName());
-        ImageView artistImage = view.findViewById(R.id.image_artist);
-        artistImage.setImageBitmap(artist.getImage());
+        TextView albumName = view.findViewById(R.id.text_album_name);
+        albumName.setText(album.getAlbumName());
+        ImageView albumImage = view.findViewById(R.id.image_album);
+        albumImage.setImageBitmap(album.getAlbumImage());
 
         ConstraintLayout imageFrame = view.findViewById(R.id.image_frame);
+        FrameLayout imageColor = view.findViewById(R.id.image_color);
         ImageView symphoniaImage = view.findViewById(R.id.image_symphonia);
         ImageView soundWave = view.findViewById(R.id.image_sound_wave);
 
-        int dominantColor = Utils.getDominantColor(artist.getImage());
+        int dominantColor = Utils.getDominantColor(album.getAlbumImage());
         imageFrame.setBackgroundColor(dominantColor);
         if(!Utils.isColorDark(dominantColor)){
             symphoniaImage.setColorFilter(Color.rgb(0, 0, 0));
@@ -101,13 +99,20 @@ public class BottomSheetDialogArtist extends BottomSheetDialogFragment {
             soundWave.setColorFilter(Color.rgb(255, 255, 255));
         }
 
-        final LinearLayout following = view.findViewById(R.id.layout_following);
-        final LinearLayout removeArtist = view.findViewById(R.id.layout_remove_artist);
+        Palette palette = Palette.from(album.getAlbumImage()).generate();
+        imageColor.setBackgroundColor(palette.getVibrantColor(0));
+
+
+        final LinearLayout liked = view.findViewById(R.id.layout_liked);
+        final LinearLayout addToPlaylist = view.findViewById(R.id.layout_add_to_playlist);
+        final LinearLayout likeAllSongs = view.findViewById(R.id.layout_like_all_songs);
+        final LinearLayout goToAlbum = view.findViewById(R.id.layout_go_album);
         final LinearLayout viewArtist = view.findViewById(R.id.layout_view_artist);
         final LinearLayout share = view.findViewById(R.id.layout_share);
         final LinearLayout homeScreen = view.findViewById(R.id.layout_home_screen);
 
-        ArrayList<LinearLayout> layouts = new ArrayList<>(asList(following, removeArtist, viewArtist, share, homeScreen));
+        ArrayList<LinearLayout> layouts = new ArrayList<>(asList(liked, addToPlaylist, likeAllSongs,
+                goToAlbum, viewArtist, share, homeScreen));
 
         for (LinearLayout layout: layouts) {
             layout.setOnTouchListener(new View.OnTouchListener() {
@@ -137,8 +142,6 @@ public class BottomSheetDialogArtist extends BottomSheetDialogFragment {
                 }
             });
         }
-
-
 
 
 

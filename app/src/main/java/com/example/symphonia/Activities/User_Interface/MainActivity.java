@@ -105,6 +105,9 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
 
         toast = null;
 
+
+        checkIntent(getIntent().getExtras());
+
     }
     /**
      * this function shows playBar
@@ -364,6 +367,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
      * this function initialize BottomNavigationView
      */
     private void initBottomNavView() {
+
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
         // menu should be considered as top level destinations.
@@ -523,5 +527,15 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             Toast.makeText(this, "Not Premium", Toast.LENGTH_SHORT).show();
     }
 
-
+    public void checkIntent(Bundle b){
+        try{
+            String received = b.getString("go_to");
+            if(received.equals("premium")){
+                BottomNavigationView navView = findViewById(R.id.nav_view);
+                navView.setSelectedItemId(R.id.navigation_premium);
+            }
+        } catch(Exception e) {
+            return;
+        }
+    }
 }

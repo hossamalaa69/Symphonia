@@ -118,8 +118,8 @@ public class PremiumFragment extends Fragment {
 
     private void checkPremium(View root){
         btn_promote = (Button) root.findViewById(R.id.promote_premium);
-        text_view_current_plan = (TextView) root.findViewById(R.id.symphonia_free);
-        text_view_try_premium = (TextView) root.findViewById(R.id.try_premium);
+        text_view_current_plan = (TextView) root.findViewById(R.id.try_premium);
+        text_view_try_premium = (TextView) root.findViewById(R.id.symphonia_free);
 
         if(Constants.currentUser.isPremuim()){
             btn_promote.setEnabled(false);

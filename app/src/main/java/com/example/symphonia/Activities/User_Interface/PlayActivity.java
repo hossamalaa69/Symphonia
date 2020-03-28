@@ -116,7 +116,6 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
 
-        //shows offline dialog to prevent user from continuing sign up
         AdDialog custom_ad = new AdDialog();
         custom_ad.showDialog(this);
 

@@ -14,6 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.symphonia.Constants;
+import com.example.symphonia.Helpers.AdDialog;
 import com.example.symphonia.Helpers.CustomOfflineDialog;
 import com.example.symphonia.Helpers.CustomSkipDialog;
 import com.example.symphonia.R;
