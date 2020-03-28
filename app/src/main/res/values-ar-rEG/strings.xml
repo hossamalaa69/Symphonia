@@ -178,5 +178,12 @@
     <string name="track_is_locked">الاغنية مغلقة, احصل على البرميوم</string>
     <string name="started">بدات</string>
     <string name="preparing">اعداد\\</string>
+    <string name="add_to_playlist">إضافة إلى قائمة التشغيل</string>
+    <string name="like_all_songs">إعجاب بكل الأغاني</string>
+    <string name="go_to_full_album">فتح الألبوم كاملًا</string>
+    <string name="share">مشاركة</string>
+    <string name="add_to_home_screen">إضافة للصفحة الرئيسية</string>
+    <string name="don_t_play_this_artist">لا تُشغل هذا المغني</string>
+    <string name="view_artist">عرض المغني</string>
 
 </resources>

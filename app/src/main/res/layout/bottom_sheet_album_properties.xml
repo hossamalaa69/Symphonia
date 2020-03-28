@@ -128,7 +128,7 @@
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@android:color/white"
                     android:textStyle="bold"
-                    android:text="Liked"/>
+                    android:text="@string/liked"/>
 
             </LinearLayout>
 
@@ -158,7 +158,7 @@
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@android:color/white"
                     android:textStyle="bold"
-                    android:text="Add to Playlist"/>
+                    android:text="@string/add_to_playlist"/>
 
             </LinearLayout>
 
@@ -190,7 +190,7 @@
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@android:color/white"
                     android:textStyle="bold"
-                    android:text="Like all songs"/>
+                    android:text="@string/like_all_songs"/>
 
             </LinearLayout>
 
@@ -220,7 +220,7 @@
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@android:color/white"
                     android:textStyle="bold"
-                    android:text="Go to full Album"/>
+                    android:text="@string/go_to_full_album"/>
 
             </LinearLayout>
 
@@ -250,7 +250,7 @@
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@android:color/white"
                     android:textStyle="bold"
-                    android:text="View Artist"/>
+                    android:text="@string/view_artist"/>
 
             </LinearLayout>
 
@@ -280,7 +280,7 @@
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@android:color/white"
                     android:textStyle="bold"
-                    android:text="Share"/>
+                    android:text="@string/share"/>
 
             </LinearLayout>
 
@@ -311,7 +311,7 @@
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@android:color/white"
                     android:textStyle="bold"
-                    android:text="Add to Home Screen"/>
+                    android:text="@string/add_to_home_screen"/>
 
             </LinearLayout>
 
