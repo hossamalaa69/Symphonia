@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Adapters.SearchResultAdapter;
 import com.example.symphonia.Entities.Container;
+import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
@@ -138,7 +139,8 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
         @Override
         public void onClick(View v) {
             getFragmentManager().beginTransaction()
-                    .replace(R.id.search_include, new SearchForAllFragment("Profiles",editText.getText().toString()))
+                    //.replace(R.id.search_include, new SearchForAllFragment("Profiles",editText.getText().toString()))
+                    .replace(R.id.search_include, new FragmentProfile(new Container("new profile",R.drawable.amr)))
                     .addToBackStack(null)
                     .commit();
         }

@@ -106,8 +106,8 @@ public class SearchFragment extends Fragment implements SearchMainAdapter.CatLis
      */
     @Override
     public void onListItemClickListner(Container c) {
-        getFragmentManager().beginTransaction()
-                .replace(R.id.main_search_view, new FragmentProfile(c)) // Add this transaction to the back stack (name is an optional name for this back stack state, or null).
+        getParentFragmentManager().beginTransaction()
+                .replace(R.id.main_search_view, new CategoryFragment(c))
                 .addToBackStack(null)
                 .commit();
     }

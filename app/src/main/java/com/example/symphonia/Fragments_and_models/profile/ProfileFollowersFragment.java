@@ -13,10 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Adapters.FollowersAdapter;
+import com.example.symphonia.Entities.Container;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
 
+import java.util.ArrayList;
+
 public class ProfileFollowersFragment extends Fragment {
+    private ArrayList<Container>data;
     private ServiceController controller;
     private RecyclerView recyclerView;
     private TextView textView;
@@ -36,11 +40,18 @@ public class ProfileFollowersFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        FollowersAdapter adapter=new FollowersAdapter(controller.getAllPopularPlaylists(getContext()));
-        recyclerView.setAdapter(adapter);
+        data=new ArrayList<>();
 
-        if(getRightData) textView.setText("Followers");
-        else textView.setText("Following");
+        if(getRightData) {
+            textView.setText("Followers");
+            data=controller.getProfileFollowers(getContext());
+                    }
+        else {
+            textView.setText("Following");
+            data=controller.getProfileFollowing(getContext());
+        }
+        FollowersAdapter adapter=new FollowersAdapter(data);
+        recyclerView.setAdapter(adapter);
         return root;
     }
 }

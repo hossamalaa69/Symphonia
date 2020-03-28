@@ -829,4 +829,59 @@ public class MockService implements APIs {
         Constants.currentUser.setPremuim(true);
         return true;
     }
+
+    @Override
+    public ArrayList<Container> getProfileFollowers(Context context) {
+        ArrayList<Container> followers=new ArrayList<>();
+        followers.add(new Container("HuffPost", "2,700 " + context.getResources().getString(R.string.Followers), R.drawable.images));
+        followers.add(new Container("Majeestic Casual", "5,200 " + context.getResources().getString(R.string.Followers), R.drawable.images3));
+        followers.add(new Container("beautiful", "3,300 " + context.getResources().getString(R.string.Followers), R.drawable.download));
+        followers.add(new Container("Anders Stab Nielson", "800 " + context.getResources().getString(R.string.Followers), R.drawable.download1));
+        followers.add(new Container("Simon Hoffman", "1200 " + context.getResources().getString(R.string.Followers), R.drawable.images2));
+        followers.add(new Container("HouseNation", "3000 " + context.getResources().getString(R.string.Followers), R.drawable.abu));
+        followers.add(new Container("Chan Jun Jie", "2,100 " + context.getResources().getString(R.string.Followers), R.drawable.halsey));
+        followers.add(new Container("Efal Sayed", "1,100 " + context.getResources().getString(R.string.Followers), R.drawable.bahaa));
+        followers.add(new Container("Michelle Choi", "2100 " + context.getResources().getString(R.string.Followers), R.drawable.halsey));
+        followers.add(new Container("Brandon Bay", "2800 " + context.getResources().getString(R.string.Followers), R.drawable.selena));
+        followers.add(new Container("Ryan Jones", "500 " + context.getResources().getString(R.string.Followers), R.drawable.hamza));
+        followers.add(new Container("MTV Brasil", "26 " + context.getResources().getString(R.string.Followers), R.drawable.jannat));
+        followers.add(new Container("Sonny Lind", "773 " + context.getResources().getString(R.string.Followers), R.drawable.wael));
+        followers.add(new Container("Oranges", "470 " + context.getResources().getString(R.string.Followers), R.drawable.angham));
+        followers.add(new Container("greate Artist", "1,200 " + context.getResources().getString(R.string.Followers), R.drawable.images));
+        followers.add(new Container("Kevin Cross", "1,523 " + context.getResources().getString(R.string.Followers), R.drawable.images3));
+        followers.add(new Container("Craige Dewart", "4,444 " + context.getResources().getString(R.string.Followers), R.drawable.download));
+        followers.add(new Container("Wes Ley", "832 " + context.getResources().getString(R.string.Followers), R.drawable.download1));
+        followers.add(new Container("Jasper Oh", "1328 " + context.getResources().getString(R.string.Followers), R.drawable.images2));
+        followers.add(new Container("Kevin Enhorn", "3034 " + context.getResources().getString(R.string.Followers), R.drawable.abu));
+        followers.add(new Container("Mark Springer", "6,100 " + context.getResources().getString(R.string.Followers), R.drawable.halsey));
+        followers.add(new Container("anghami", "11,000 " + context.getResources().getString(R.string.Followers), R.drawable.bahaa));
+        followers.add(new Container("Ahmed Ali Sheikh", "110 " + context.getResources().getString(R.string.Followers), R.drawable.halsey));
+        followers.add(new Container("selena", "28,000 " + context.getResources().getString(R.string.Followers), R.drawable.selena));
+        followers.add(new Container("Martin kepic", "0 " + context.getResources().getString(R.string.Followers), R.drawable.hamza));
+        followers.add(new Container("An ther", "26,000 " + context.getResources().getString(R.string.Followers), R.drawable.jannat));
+        followers.add(new Container("Ketan Patel", "773 " + context.getResources().getString(R.string.Followers), R.drawable.wael));
+        followers.add(new Container("Dani Hecht", "470 " + context.getResources().getString(R.string.Followers), R.drawable.angham));
+
+        return followers;
+    }
+
+    @Override
+    public ArrayList<Container> getProfileFollowing(Context context) {
+        ArrayList<Container> followers=new ArrayList<>();
+        followers.add(new Container("Adele", "200,700 " + context.getResources().getString(R.string.Followers), R.drawable.adele));
+        followers.add(new Container("Amr Diab", "500,200 " + context.getResources().getString(R.string.Followers), R.drawable.amr));
+        followers.add(new Container("Imagine dragons", "300,300 " + context.getResources().getString(R.string.Followers), R.drawable.imagine));
+        followers.add(new Container("Alan Walker", "80,000 " + context.getResources().getString(R.string.Followers), R.drawable.alan));
+        followers.add(new Container("ED Sheeran", "12,000 " + context.getResources().getString(R.string.Followers), R.drawable.ed));
+        followers.add(new Container("Asala ", "30,000 " + context.getResources().getString(R.string.Followers), R.drawable.assala));
+        followers.add(new Container("Bahaa Sultan", "21,000 " + context.getResources().getString(R.string.Followers), R.drawable.bahaa));
+        followers.add(new Container("angham", "11,000 " + context.getResources().getString(R.string.Followers), R.drawable.angham));
+        followers.add(new Container("Thunder and Tomorrow", "2100 " + context.getResources().getString(R.string.Followers), R.drawable.halsey));
+        followers.add(new Container("Selena", "28,000 " + context.getResources().getString(R.string.Followers), R.drawable.selena));
+        followers.add(new Container("Smoke Grenades", "5,000 " + context.getResources().getString(R.string.Followers), R.drawable.jannat));
+        followers.add(new Container("Wael Jassar", "260 " + context.getResources().getString(R.string.Followers), R.drawable.wael));
+        followers.add(new Container("Abo", "7,730 " + context.getResources().getString(R.string.Followers), R.drawable.abu));
+        followers.add(new Container("Hamza Nemra", "4,700 " + context.getResources().getString(R.string.Followers), R.drawable.hamza));
+        return followers;
+    }
 }

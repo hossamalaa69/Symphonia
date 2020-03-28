@@ -287,4 +287,13 @@ public class ServiceController {
         return mSupplier.promotePremium(context, token);
     }
 
+    public ArrayList<Container>getProfileFollowers(Context context){
+        return mSupplier.getProfileFollowers(context);
+    }
+
+    public ArrayList<Container>getProfileFollowing(Context context){
+        return mSupplier.getProfileFollowing(context);
+    }
+
+
 }

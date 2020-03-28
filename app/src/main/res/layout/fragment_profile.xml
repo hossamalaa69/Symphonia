@@ -10,9 +10,10 @@
     android:focusable="true">
 
     <include
-
         android:id="@+id/profile_background"
         layout="@layout/profile_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         />
     <LinearLayout
         android:orientation="vertical"
