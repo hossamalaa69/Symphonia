@@ -10,8 +10,6 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.symphonia.Helpers.AdDialog;
-import com.example.symphonia.Helpers.CustomOfflineDialog;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 

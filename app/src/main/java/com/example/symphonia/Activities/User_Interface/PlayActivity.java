@@ -118,8 +118,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
 
-        AdDialog custom_ad = new AdDialog();
-        custom_ad.showDialog(this);
+        checkAds();
 
         mediaController = MediaController.getController();
         attachViews();
@@ -417,5 +416,11 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
 
     }
 
+    public void checkAds() {
+        if (!Constants.currentUser.isPremuim()) {
+            Intent i = new Intent(this, AdDialog.class);
+            startActivity(i);
+        }
+    }
 
 }

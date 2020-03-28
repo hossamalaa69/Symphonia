@@ -19,6 +19,7 @@
         android:roundIcon="@mipmap/ic_app_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Helpers.AdDialog" android:theme="@style/AppDialogTheme" />
 
         <service android:name=".MediaController" />
 
