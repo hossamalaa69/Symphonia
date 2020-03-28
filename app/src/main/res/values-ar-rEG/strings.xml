@@ -175,5 +175,8 @@
     <string name="error">حدث خطا</string>
     <string name="liked">اعجبنى</string>
     <string name="hidden">مخفى</string>
+    <string name="track_is_locked">الاغنية مغلقة, احصل على البرميوم</string>
+    <string name="started">بدات</string>
+    <string name="preparing">اعداد\\</string>
 
 </resources>
