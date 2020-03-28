@@ -70,12 +70,12 @@
         app:autoSizeStepGranularity="2sp"/>
 
     <ImageView
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
         android:layout_gravity="top"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:src="@drawable/img_ads"/>
+        android:src="@drawable/img_ad2"/>
 
     <TextView
         android:layout_marginTop="5dp"
@@ -98,8 +98,8 @@
         android:textColor="@color/colorDark"
         android:fontFamily="sans-serif"
         app:autoSizeTextType="uniform"
-        app:autoSizeMinTextSize="8sp"
-        app:autoSizeMaxTextSize="14sp"
+        app:autoSizeMinTextSize="10sp"
+        app:autoSizeMaxTextSize="15sp"
         app:autoSizeStepGranularity="1sp"/>
 
     <Button
@@ -109,7 +109,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/btn_curved_border_transparent"
+        android:background="@drawable/btn_cruved_border_semitransparent"
         android:text="@string/get_premium"
         android:textColor="@color/colorWhite"
         android:textStyle="bold"
