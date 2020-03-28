@@ -167,8 +167,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                 updatePlayBar();
                 if (mediaController.isMediaNotNull() && !Utils.CurrTrackInfo.paused) {
                     updatePlayBtn();
-                } else
-
+                }
                 mHandler.postDelayed(this, 500);
             }
         });
@@ -249,6 +248,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
      * this function play media player with track stored in Current Playing
      */
     public void playTrack() {
+        Utils.CurrTrackInfo.paused = false;
         Intent intent = new Intent(this, MediaController.class);
         intent.setAction(MediaController.ACTION_PLAY);
         startService(intent);
@@ -288,7 +288,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         trackImage.setImageResource(tracks.get(pos).getmImageResources());
         rvBar.getLayoutManager().scrollToPosition(pos);
         ivPlayButton.setImageResource(R.drawable.ic_pause_black_24dp);
-        Utils.CurrTrackInfo.paused = false;
 
 
         Utils.setTrackInfo(0, pos, tracks);
@@ -302,7 +301,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             ivIsFavourite.setImageResource(R.drawable.ic_favorite_border_black_24dp);
         }
         playTrack();
-        Utils.CurrTrackInfo.paused = false;
 
     }
 
@@ -372,7 +370,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
      */
     private void updatePlayBtn() {
         ivPlayButton.setImageResource(R.drawable.ic_pause_black_24dp);
-        Utils.CurrTrackInfo.paused = false;
     }
 
     /**
@@ -539,11 +536,14 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             settingLayout.animate().alpha(0).setDuration(300);
             settingLayout.setVisibility(View.GONE);
             navView.setVisibility(View.VISIBLE);
-
+            return;
         }
         if (playlistFragment != null && playlistFragment.isVisible()) {
             getSupportFragmentManager().popBackStack();
+            return;
         }
+        super.onBackPressed();
+
     }
 
     /**

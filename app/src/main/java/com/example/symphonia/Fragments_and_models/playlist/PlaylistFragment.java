@@ -117,7 +117,6 @@ public class PlaylistFragment extends Fragment {
         playBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utils.setTrackInfo(0, 0, Utils.CurrPlaylist.playlist.getTracks());
                 int prev = Utils.CurrTrackInfo.TrackPosInPlaylist;
                 Utils.setTrackInfo(0, 0, Utils.CurrPlaylist.playlist.getTracks());
                 for (int i = 0; i < Utils.CurrTrackInfo.currPlaylistTracks.size() - 1; i++) {
@@ -128,7 +127,6 @@ public class PlaylistFragment extends Fragment {
                 }
                 Utils.setTrackInfo(0, Utils.CurrTrackInfo.TrackPosInPlaylist, Utils.CurrPlaylist.playlist.getTracks());
                 changeSelected(prev, Utils.CurrTrackInfo.TrackPosInPlaylist);
-                Utils.CurrTrackInfo.prevTrackPos = 0;
                 ((MainActivity) getActivity()).showPlayBar();
                 ((MainActivity) getActivity()).updatePlayBar();
                 ((MainActivity) getActivity()).playTrack();
@@ -170,7 +168,7 @@ public class PlaylistFragment extends Fragment {
                 !Utils.CurrPlaylist.playlist.getmPlaylistTitle().matches(Utils.CurrTrackInfo.currPlaylistName)) {
             return;
         }
-        if (Utils.CurrTrackInfo.currPlaylistTracks != null && !Utils.CurrTrackInfo.currPlaylistTracks.get(prev).isLocked()
+        if (prev!=-1&&Utils.CurrTrackInfo.currPlaylistTracks != null && !Utils.CurrTrackInfo.currPlaylistTracks.get(prev).isLocked()
                 && !Utils.CurrTrackInfo.currPlaylistTracks.get(prev).isHidden()) {
             if (prev > -1 && pos < Utils.CurrTrackInfo.currPlaylistTracks.size()) {
                 View prevView = rvTracks.getLayoutManager().getChildAt(prev);
