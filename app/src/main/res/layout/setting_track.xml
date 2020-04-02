@@ -56,7 +56,7 @@
             android:drawableStart="@drawable/ic_favorite_border_black_24dp"
             android:drawableLeft="@drawable/ic_favorite_border_black_24dp"
 
-            android:text="Like"
+            android:text="@string/like"
             tools:targetApi="o" />
 
         <TextView
@@ -64,7 +64,7 @@
             style="@style/SettingItem"
             android:drawableStart="@drawable/ic_do_not_disturb_on_black_24dp"
             android:drawableLeft="@drawable/ic_do_not_disturb_on_black_24dp"
-            android:text="Hide this  Song"
+            android:text="@string/hide_this_song"
             tools:targetApi="o" />
 
         <View
@@ -78,7 +78,7 @@
             style="@style/SettingItem"
             android:drawableStart="@drawable/ic_add_circle_outline_black_24dp"
             android:drawableLeft="@drawable/ic_add_circle_outline_black_24dp"
-            android:text="Add to Playlist"
+            android:text="@string/add_to_playlist"
             tools:targetApi="o" />
 
         <TextView
@@ -86,7 +86,7 @@
             style="@style/SettingItem"
             android:drawableStart="@drawable/ic_person_outline_black_24dp"
             android:drawableLeft="@drawable/ic_person_outline_black_24dp"
-            android:text="View Artist"
+            android:text="@string/view_artist"
             tools:targetApi="o" />
 
         <TextView
@@ -94,7 +94,7 @@
             style="@style/SettingItem"
             android:drawableStart="@drawable/ic_share_black_24dp"
             android:drawableLeft="@drawable/ic_share_black_24dp"
-            android:text="Share"
+            android:text="@string/share"
             tools:targetApi="o" />
 
         <TextView
@@ -102,7 +102,7 @@
             style="@style/SettingItem"
             android:drawableStart="@drawable/ic_flag_black_24dp"
             android:drawableLeft="@drawable/ic_flag_black_24dp"
-            android:text="Report Explicit Content"
+            android:text="@string/report_explicit_content"
             tools:targetApi="o" />
 
         <TextView
@@ -110,7 +110,7 @@
             style="@style/SettingItem"
             android:drawableStart="@drawable/ic_people_outline_black_24dp"
             android:drawableLeft="@drawable/ic_people_outline_black_24dp"
-            android:text="Show Credits"
+            android:text="@string/show_credits"
             android:layout_marginBottom="@dimen/large_dimen"
             tools:targetApi="o" />
 

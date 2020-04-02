@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/colorPrimary"
+    tools:background="@color/colorPrimary"
+    android:background="@null"
     tools:context=".Fragments_and_models.library.LibraryAlbumsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
