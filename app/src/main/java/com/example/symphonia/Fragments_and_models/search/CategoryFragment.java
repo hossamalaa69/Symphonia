@@ -56,7 +56,7 @@ public class CategoryFragment extends Fragment {
         public void onClick(View v) {
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.category_layout,new PopularPlaylistsFragment());
+            fragmentTransaction.replace(R.id.nav_host_fragment,new PopularPlaylistsFragment());
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         }

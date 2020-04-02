@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,14 @@ public class ProfileFollowersFragment extends Fragment {
     private ServiceController controller;
     private RecyclerView recyclerView;
     private TextView textView;
+    private ImageView backImg;
+    private View.OnClickListener back=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            getParentFragmentManager().popBackStack();
+        }
+    };
+
     private boolean getRightData;//to choose if we get the data of followers or following by artist
 
     public ProfileFollowersFragment(boolean b){
@@ -36,6 +45,9 @@ public class ProfileFollowersFragment extends Fragment {
 
         recyclerView=root.findViewById(R.id.rv_followers_profile);
         textView=root.findViewById(R.id.tv_followers_following);
+        backImg=root.findViewById(R.id.img_back_profile_main);
+
+        backImg.setOnClickListener(back);
 
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());

@@ -56,7 +56,7 @@ public class FragmentProfile extends Fragment {
         public void onClick(View v) {
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.profile_main_layout,new ProfilePlaylistsFragment());
+            fragmentTransaction.replace(R.id.nav_host_fragment,new ProfilePlaylistsFragment());
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
 
@@ -68,7 +68,7 @@ public class FragmentProfile extends Fragment {
         public void onClick(View v) {
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.profile_main_layout,new ProfileFollowersFragment(true));
+            fragmentTransaction.replace(R.id.nav_host_fragment,new ProfileFollowersFragment(true));
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
 
@@ -80,7 +80,7 @@ public class FragmentProfile extends Fragment {
         public void onClick(View v) {
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.profile_main_layout,new ProfileFollowersFragment(false));
+            fragmentTransaction.replace(R.id.nav_host_fragment,new ProfileFollowersFragment(false));
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
 

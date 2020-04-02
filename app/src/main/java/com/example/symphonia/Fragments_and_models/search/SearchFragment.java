@@ -38,7 +38,7 @@ public class SearchFragment extends Fragment implements SearchMainAdapter.CatLis
          */
         public void onClick(View v) {
             getFragmentManager().beginTransaction()
-                    .replace(R.id.main_search_view, new SearchListFragment())
+                    .replace(R.id.nav_host_fragment, new SearchListFragment())
                     .addToBackStack(null)
                     .commit();
         }
@@ -107,7 +107,7 @@ public class SearchFragment extends Fragment implements SearchMainAdapter.CatLis
     @Override
     public void onListItemClickListner(Container c) {
         getParentFragmentManager().beginTransaction()
-                .replace(R.id.main_search_view, new CategoryFragment(c))
+                .replace(R.id.nav_host_fragment, new CategoryFragment(c))
                 .addToBackStack(null)
                 .commit();
     }
