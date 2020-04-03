@@ -108,7 +108,7 @@ public class PremiumFragment extends Fragment {
             {
                 ServiceController serviceController = ServiceController.getInstance();
 
-                serviceController.promotePremium(getContext(), Constants.currentToken);
+                serviceController.promotePremium(getContext(), root, Constants.currentToken);
                 checkPremium(root);
             }
         });
@@ -116,7 +116,7 @@ public class PremiumFragment extends Fragment {
         return root;
     }
 
-    private void checkPremium(View root){
+    public void checkPremium(View root){
         btn_promote = (Button) root.findViewById(R.id.promote_premium);
         text_view_current_plan = (TextView) root.findViewById(R.id.try_premium);
         text_view_try_premium = (TextView) root.findViewById(R.id.symphonia_free);

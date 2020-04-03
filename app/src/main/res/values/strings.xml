@@ -17,6 +17,7 @@
     <string name="sign_up_free">SIGN UP FREE</string>
     <string name="connect_with_facebook">CONTINUE WITH FACEBOOK</string>
     <string name="log_in">LOG IN</string>
+    <string name="logging_in">Logging in..</string>
     <string name="email_or_username">Email or Username</string>
     <string name="password">Password</string>
     <string name="forget_your_paswword">Forget Your Paswword ?</string>

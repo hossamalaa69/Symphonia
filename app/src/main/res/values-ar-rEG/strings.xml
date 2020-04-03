@@ -189,5 +189,6 @@
     <string name="show_credits">اظهر الحقوق</string>
     <string name="hide_this_song">اخفاء</string>
     <string name="like">اعجاب</string>
+    <string name="logging_in">يتم التسجيل..</string>
 
 </resources>

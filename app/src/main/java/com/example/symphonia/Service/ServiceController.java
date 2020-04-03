@@ -1,6 +1,7 @@
 package com.example.symphonia.Service;
 
 import android.content.Context;
+import android.view.View;
 
 import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
@@ -283,8 +284,8 @@ public class ServiceController {
         return mSupplier.getArtist(context, mToken, id);
     }
 
-    public boolean promotePremium(Context context, String token){
-        return mSupplier.promotePremium(context, token);
+    public boolean promotePremium(Context context, View root, String token){
+        return mSupplier.promotePremium(context, root, token);
     }
 
     public ArrayList<Container>getProfileFollowers(Context context){

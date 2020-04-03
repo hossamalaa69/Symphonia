@@ -168,4 +168,6 @@ public class HomeFragment extends Fragment {
         rvBasedOnYourRecentlyPlayed.setAdapter(rvPlaylistsHomeAdapter);
 
     }
+
+
 }
