@@ -20,7 +20,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.symphonia.Activities.User_Interface.MainActivity;
+import com.example.symphonia.Fragments_and_models.library.AlbumFragment;
+import com.example.symphonia.Fragments_and_models.premium.PremiumFragment;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.google.android.material.appbar.AppBarLayout;
@@ -88,15 +92,18 @@ public class SettingsFragment extends Fragment {
             @SuppressLint("ClickableViewAccessibility")
             @Override
             public boolean onTouch(final View v, MotionEvent event) {
+                float currentY = event.getY();
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         Utils.startTouchAnimation(v, 0.95f, 0.5f);
                         return true;
                     case MotionEvent.ACTION_UP:
                         Utils.cancelTouchAnimation(v);
+                        if((currentY >= 0) && (currentY <= v.getHeight())){
+                            v.performClick();
+                        }
                         return true;
                 }
-
                 return false;
             }
         });
@@ -104,14 +111,19 @@ public class SettingsFragment extends Fragment {
         profileLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(final View v, MotionEvent event) {
+                float currentY = event.getY();
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
+                        firstY = currentY;
                         Utils.startTouchAnimation(userName, 1f, 0.5f);
                         Utils.startTouchAnimation(viewProfile, 1f, 0.5f);
                         return true;
                     case MotionEvent.ACTION_UP:
                         Utils.cancelTouchAnimation(userName);
                         Utils.cancelTouchAnimation(viewProfile);
+                        if((currentY >= 0) && (currentY <= v.getHeight())){
+                            v.performClick();
+                        }
                         return true;
                 }
                 return false;
@@ -137,7 +149,25 @@ public class SettingsFragment extends Fragment {
                 return false;
             }
         });
-        
+
+
+        premiumButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(
+                        R.id.nav_host_fragment, new PremiumFragment())
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        profileLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "profile clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         
         ImageView backIcon = rootView.findViewById(R.id.back_icon);
         backIcon.setOnClickListener(new View.OnClickListener() {

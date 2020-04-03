@@ -110,15 +110,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-/*
-        ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null){
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.dark_gray)));
-            actionBar.hide();
-        }
-*/
-
         mediaController = MediaController.getController();
         checkUserType();
 
@@ -682,8 +673,8 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
 
     public void checkUserType() {
 
-//        ServiceController serviceController = ServiceController.getInstance();
-//        serviceController.logIn(this, "user1@symphonia.com", "12345678", true);
+        ServiceController serviceController = ServiceController.getInstance();
+        serviceController.logIn(this, "user1@symphonia.com", "12345678", true);
 
         if (Constants.currentUser.isListenerType())
             Toast.makeText(this, "Listener", Toast.LENGTH_SHORT).show();
