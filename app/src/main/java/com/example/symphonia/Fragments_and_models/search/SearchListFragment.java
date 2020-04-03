@@ -1,6 +1,7 @@
 package com.example.symphonia.Fragments_and_models.search;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
@@ -16,10 +17,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -61,6 +64,9 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
     private TextView albumsText;
     private TextView genresText;
     private TextView profilesText;
+    private LinearLayout searchBar;
+    private FrameLayout searchFrameLayout;
+    private NestedScrollView nestedScrollView;
     SearchListFragment(){
         context=this;//get the context of the fragment
     }
@@ -80,7 +86,10 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
         public void onClick(View v) {
             InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-            getFragmentManager().popBackStack();
+            editText.setText("");
+            editText.clearFocus();
+            searchBar.setVisibility(View.GONE);
+            searchFrameLayout.setVisibility(View.VISIBLE);
         }
     };
 
@@ -152,7 +161,19 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
         }
     };
 
-    private View.OnFocusChangeListener FocusListener=new View.OnFocusChangeListener(){
+    private View.OnClickListener showSearchBar=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            searchFrameLayout.setVisibility(View.GONE);
+            searchBar.setVisibility(View.VISIBLE);
+            editText.clearFocus();
+            InputMethodManager mgr = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            editText.requestFocus();
+            mgr.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+        }
+    };
+
+    /*private View.OnFocusChangeListener FocusListener=new View.OnFocusChangeListener(){
 
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
@@ -165,7 +186,7 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
                 arrow_Img.setVisibility(View.VISIBLE);
             }
         }
-    };
+    };*/
 
     private TextWatcher filterTextWatcher = new TextWatcher() {
         /**
@@ -244,6 +265,9 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
         controller=ServiceController.getInstance();
 
         //attach views
+        nestedScrollView=root.findViewById(R.id.nestedscroll_search);
+        searchFrameLayout=root.findViewById(R.id.search_frame_layout);
+        searchBar=root.findViewById(R.id.search_bar_layout);
         artistsText=root.findViewById(R.id.tv_search_artists);
         songsText=root.findViewById(R.id.tv_search_songs);
         albumsText=root.findViewById(R.id.tv_search_albums);
@@ -312,8 +336,9 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
             }
         });
 
+        searchText.setOnClickListener(showSearchBar);
         //give editText a FocusChangeListener so when click on it set the viability of the icons
-        editText.setOnFocusChangeListener(FocusListener);
+        //editText.setOnFocusChangeListener(FocusListener);
         return root;
     }
 
@@ -351,6 +376,7 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
      * is called to show the recent searches layout
      */
     private void recentSearchesOn() {
+        nestedScrollView.scrollTo(0, 0);
         frameLayout.setVisibility(View.GONE);
         filter.setVisibility(View.GONE);
         textView1.setVisibility(View.GONE);
@@ -379,6 +405,7 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
      * is called to show the search result layout
      */
     private void searchResultOn() {
+        nestedScrollView.scrollTo(0, 0);
         frameLayout.setVisibility(View.VISIBLE);
         filter.setVisibility(View.VISIBLE);
         textView1.setVisibility(View.GONE);
