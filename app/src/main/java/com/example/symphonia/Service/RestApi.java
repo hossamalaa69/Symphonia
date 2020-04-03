@@ -5,18 +5,24 @@ import android.net.Uri;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Playlist;
+import com.example.symphonia.Entities.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RestApi implements APIs {
     final String baseUrl = "https://jsonplaceholder.typicode.com";
@@ -36,8 +42,51 @@ public class RestApi implements APIs {
      * @return return true if data is matched
      */
     @Override
-    public boolean logIn(final Context context, String username, String password, boolean mType) {
-        return false;
+    public boolean logIn(final Context context, final String username,final String password,final boolean mType) {
+        final updateUiLogin updateLogin = (updateUiLogin) context;
+        StringRequest stringrequest = new StringRequest(Request.Method.POST, (Constants.LOG_IN_URL),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try{
+                            JSONObject root = new JSONObject(response);
+                            Constants.currentToken=root.getString("token");
+                            JSONObject user = root.getJSONObject("user");
+                            String id = user.getString("_id");
+                            String name = user.getString("name");
+                            String type = user.getString("type");
+                            Constants.currentUser = new User(username,id,name,type.equals("user"),false);
+                            updateLogin.updateUiLoginSuccess();
+                        }catch (JSONException e){
+                            e.printStackTrace();
+                            Toast.makeText(context,"Wrong data",Toast.LENGTH_SHORT).show();
+                            updateLogin.updateUiLoginFail();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        String errorCode ="Error: "+ error.networkResponse.statusCode;
+                        Toast.makeText(context,errorCode,Toast.LENGTH_SHORT).show();
+                    }
+        }){
+        @Override
+        protected Map<String, String> getParams() {
+            Map<String, String> params = new HashMap<>();
+            params.put("email", username);
+            params.put("password", password);
+            return params;
+        }
+        @Override
+        public Map<String, String> getHeaders() {
+           Map<String, String> headers = new HashMap<>();
+           headers.put("Content-Type", "application/json");
+           return headers;
+        }};
+
+        VolleySingleton.getInstance(context).getRequestQueue().add(stringrequest);
+        return true;
     }
 
 
