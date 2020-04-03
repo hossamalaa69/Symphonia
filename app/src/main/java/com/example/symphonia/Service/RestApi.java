@@ -40,6 +40,13 @@ public class RestApi implements APIs {
         return false;
     }
 
+
+    public interface updateUiLogin {
+        void updateUiLoginSuccess();
+
+        void updateUiLoginFail();
+    }
+
     /**
      * checks if email is already signed in database or not
      *
@@ -53,6 +60,11 @@ public class RestApi implements APIs {
         return false;
     }
 
+    public interface updateUiEmailValidity {
+        void updateUiEmailValiditySuccess();
+
+        void updateUiEmailValidityFail();
+    }
     /**
      * handles that user is signing up, initializes new user object
      * fill database with new user
@@ -70,6 +82,12 @@ public class RestApi implements APIs {
     public boolean signUp(Context context, boolean mType, String email, String password, String DOB, String gender, String name) {
         return false;
     }
+
+    public interface updateUiSignUp {
+        void updateUiSignUpSuccess();
+    }
+
+
 
     public interface updateUiPlaylists {
         void updateUiGetPopularPlaylistsSuccess();
