@@ -26,4 +26,11 @@ public class Constants {
      */
     public static final boolean DEBUG_STATUS = true;
 
+    //Base URL
+    public final static  String BASE_URL="http://ec2-52-21-160-186.compute-1.amazonaws.com/";
+
+    public final static  String LOG_IN_URL  = BASE_URL+"api/v1/users/login?";
+
+    public final static  String SIGN_UP_URL = BASE_URL+"api/v1/users/signUp?";
+
 }

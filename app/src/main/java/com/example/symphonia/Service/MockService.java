@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.provider.Settings;
 import android.view.View;
 
+import com.example.symphonia.Activities.User_Management.LoginActivity;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;

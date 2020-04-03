@@ -237,7 +237,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void failedLogin(){
-
         Button btn_login = findViewById(R.id.login);
         btn_login.setText(getResources().getString(R.string.log_in));
         //visible to inform that user's input are invalid
