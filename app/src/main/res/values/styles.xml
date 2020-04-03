@@ -6,17 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="preferenceTheme">@style/MyPreferenceTheme</item>
-
-    </style>
-
-    <style name="MyPreferenceTheme" parent="PreferenceThemeOverlay">
-        <!--<item name="android:background">@color/colorPrimary</item>
-        <item name="preferenceCategoryStyle">@style/PreferenceCategoryStyle</item>-->
-    </style>
-
-    <style name="PreferenceCategoryStyle">
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/light_gray</item>
     </style>
 
     <style name="WelcomeTheme" parent="Theme.AppCompat.NoActionBar">
