@@ -42,6 +42,7 @@ import com.example.symphonia.Helpers.SnapHelperOneByOne;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.MediaController;
 import com.example.symphonia.R;
+import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -57,6 +58,7 @@ import java.util.ArrayList;
  */
 public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAdapter.OnPlaylistClicked
         , RvTracksHomeAdapter.OnTrackClicked
+        ,RestApi.updateUiPlaylists
         , RvBarAdapter.ItemInterface, Serializable {
 
     private RecyclerView.LayoutManager layoutManager;
@@ -427,6 +429,16 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         }
     }
 
+    @Override
+    public void updateUiGetPopularPlaylistsSuccess() {
+            Toast.makeText(this,"loaded successfully",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void updateUiGetPopularPlaylistsFail() {
+        Toast.makeText(this,"failed successfully",Toast.LENGTH_SHORT).show();
+
+    }
     /**
      * listener called when playlist is clicked
      *

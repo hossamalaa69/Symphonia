@@ -24,6 +24,7 @@ import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Fragments_and_models.settings.SettingsFragment;
 import com.example.symphonia.R;
+import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
 
 import java.util.ArrayList;
@@ -60,12 +61,7 @@ public class HomeFragment extends Fragment {
                 ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         initViews(root);
-        homeViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
 
-            }
-        });
 
         final ImageView ivSettings = root.findViewById(R.id.iv_setting_home);
         ivSettings.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +103,9 @@ public class HomeFragment extends Fragment {
      * @param root this is the view that is inflated for this fragment
      */
     void initViews(View root) {
+
+        // load from internet
+        RestApi.getInstance().getPopularPlaylists(getContext(),Constants.currentToken);
 
         // test
 

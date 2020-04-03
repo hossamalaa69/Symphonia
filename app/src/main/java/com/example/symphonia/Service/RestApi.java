@@ -1,16 +1,31 @@
 package com.example.symphonia.Service;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.View;
+import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Playlist;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 
 public class RestApi implements APIs {
+    final String baseUrl = "https://jsonplaceholder.typicode.com";
+    private static final RestApi mInstance = new RestApi();
+
+    public static RestApi getInstance() {
+        return mInstance;
+    }
+
     /**
      * holds logging user in, creation of user object and sets token
      *
@@ -56,6 +71,12 @@ public class RestApi implements APIs {
         return false;
     }
 
+    public interface updateUiPlaylists {
+        void updateUiGetPopularPlaylistsSuccess();
+
+        void updateUiGetPopularPlaylistsFail();
+    }
+
     /**
      * getter for popular playlist
      *
@@ -64,7 +85,31 @@ public class RestApi implements APIs {
      * @return popular  playlist
      */
     @Override
-    public ArrayList<Playlist> getPopularPlaylists(Context context, String mToken) {
+    public ArrayList<Playlist> getPopularPlaylists(final Context context, String mToken) {
+        final updateUiPlaylists updatePopularPlaylist = (updateUiPlaylists) context;
+        String connectionString = baseUrl;
+        if (mToken != null) connectionString += "/posts";
+        Uri.Builder builder = Uri.parse(connectionString).buildUpon();
+        StringRequest request = new StringRequest(builder.toString(), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray root = new JSONArray(response);
+                    String title = root.getJSONObject(0).getString("title");
+                    Toast.makeText(context, title, Toast.LENGTH_SHORT).show();
+                    // update UI
+                    updatePopularPlaylist.updateUiGetPopularPlaylistsSuccess();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                updatePopularPlaylist.updateUiGetPopularPlaylistsFail();
+            }
+        });
+        VolleySingleton.getInstance(context).getRequestQueue().add(request);
         return null;
     }
 
