@@ -3,6 +3,7 @@ package com.example.symphonia.Service;
 import android.content.Context;
 import android.net.Uri;
 import android.provider.Settings;
+import android.view.View;
 
 import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Album;
@@ -825,7 +826,7 @@ public class MockService implements APIs {
     }
 
     @Override
-    public boolean promotePremium(Context context, String token){
+    public boolean promotePremium(Context context, View root, String token){
         Constants.currentUser.setPremuim(true);
         return true;
     }

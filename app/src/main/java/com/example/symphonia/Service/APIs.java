@@ -1,6 +1,7 @@
 package com.example.symphonia.Service;
 
 import android.content.Context;
+import android.view.View;
 
 import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
@@ -212,7 +213,7 @@ public interface APIs {
      */
     ArrayList<Artist> getRecommendedArtists(Boolean type, String mToken, int limit);
 
-    boolean promotePremium(Context context, String token);
+    boolean promotePremium(Context context, View root, String token);
 
     ArrayList<Container>getProfileFollowers(Context context);
 

@@ -9,7 +9,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,9 +18,11 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Adapters.RvPlaylistsHomeAdapter;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Playlist;
+import com.example.symphonia.Fragments_and_models.settings.SettingsFragment;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
 
@@ -70,7 +71,10 @@ public class HomeFragment extends Fragment {
         ivSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "settings", Toast.LENGTH_SHORT).show();
+                ((MainActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(
+                        R.id.nav_host_fragment, new SettingsFragment())
+                        .addToBackStack(null)
+                        .commit();
             }
         });
         final FrameLayout frameLayout = root.findViewById(R.id.frame_home_fragment);
@@ -164,4 +168,6 @@ public class HomeFragment extends Fragment {
         rvBasedOnYourRecentlyPlayed.setAdapter(rvPlaylistsHomeAdapter);
 
     }
+
+
 }

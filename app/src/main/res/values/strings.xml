@@ -17,6 +17,7 @@
     <string name="sign_up_free">SIGN UP FREE</string>
     <string name="connect_with_facebook">CONTINUE WITH FACEBOOK</string>
     <string name="log_in">LOG IN</string>
+    <string name="logging_in">Logging in..</string>
     <string name="email_or_username">Email or Username</string>
     <string name="password">Password</string>
     <string name="forget_your_paswword">Forget Your Paswword ?</string>
@@ -182,7 +183,7 @@
     <string name="listen_ad_free">Listen to your locked music,\nand listen ad-free.</string>
     <string name="monthly_subscription">Monthly subscription fee applies after. Terms and conditions apply.\nOpen only to users who haven\'t already tried Premium</string>
     <string name="dismiss">Dismiss</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="liked">Liked</string>
     <string name="hidden">Hidden</string>
     <string name="track_is_locked">this song is locked \n to unlock get premium</string>
@@ -196,5 +197,16 @@
     <string name="followers">Followers</string>
     <string name="Following">Following</string>
     <string name="playlists">playlists</string>
+    <string name="like_all_songs">Like all songs</string>
+    <string name="go_to_full_album">Go to full Album</string>
+    <string name="don_t_play_this_artist">Don\'t play this artist</string>
+    <string name="add_to_home_screen">Add to Home Screen</string>
+    <string name="like">Like</string>
+    <string name="hide_this_song">Hide this Song</string>
+    <string name="add_to_playlist">Add to Playlist</string>
+    <string name="view_artist">View Artist</string>
+    <string name="share">Share</string>
+    <string name="report_explicit_content">Report Explicit Content</string>
+    <string name="show_credits">Show Credits</string>
 
 </resources>

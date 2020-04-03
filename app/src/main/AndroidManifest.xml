@@ -13,9 +13,7 @@
     <application
         android:name=".Helpers.App"
         android:allowBackup="true"
-        android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_app"
-        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_app_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -149,7 +147,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
@@ -162,7 +160,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>

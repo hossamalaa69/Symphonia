@@ -143,10 +143,7 @@ public class Step5Activity extends AppCompatActivity  {
         //calls sign up function to make a new account
         serviceController.signUp(this, userType, mEmail, mPassword, mDOB, mGender, mName);
 
-        //then goes to AddArtist activity to suggest artists for user
-        Intent i = new Intent(this, AddArtistsActivity.class);
-        i.putExtra("newUser", "true");
-        startActivity(i);
+        createMail();
     }
 
     /**
@@ -182,5 +179,12 @@ public class Step5Activity extends AppCompatActivity  {
             return networkInfo != null && networkInfo.isConnectedOrConnecting();
         }
         return false;
+    }
+
+    public void createMail(){
+        //then goes to AddArtist activity to suggest artists for user
+        Intent i = new Intent(this, AddArtistsActivity.class);
+        i.putExtra("newUser", "true");
+        startActivity(i);
     }
 }

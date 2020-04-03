@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
     android:fitsSystemWindows="true"
     tools:context=".Activities.User_Interface.AddArtistsActivity">
 
@@ -86,6 +85,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:background="@color/colorPrimary"
         android:id="@+id/rv_artists_grid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -120,11 +120,9 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
         shuffleButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(final View v, MotionEvent event) {
-                float currentY = event.getY();
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         Utils.startTouchAnimation(v, 0.95f, 0.5f);
-                        firstY = currentY;
                         return true;
                     case MotionEvent.ACTION_UP:
                         Utils.cancelTouchAnimation(v);

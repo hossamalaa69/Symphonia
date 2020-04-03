@@ -175,5 +175,20 @@
     <string name="error">حدث خطا</string>
     <string name="liked">اعجبنى</string>
     <string name="hidden">مخفى</string>
+    <string name="track_is_locked">الاغنية مغلقة, احصل على البرميوم</string>
+    <string name="started">بدات</string>
+    <string name="preparing">اعداد\\</string>
+    <string name="add_to_playlist">إضافة إلى قائمة التشغيل</string>
+    <string name="like_all_songs">إعجاب بكل الأغاني</string>
+    <string name="go_to_full_album">فتح الألبوم كاملًا</string>
+    <string name="share">مشاركة</string>
+    <string name="add_to_home_screen">إضافة للصفحة الرئيسية</string>
+    <string name="don_t_play_this_artist">لا تُشغل هذا المغني</string>
+    <string name="view_artist">عرض المغني</string>
+    <string name="report_explicit_content">ابلغ عن المحتوى</string>
+    <string name="show_credits">اظهر الحقوق</string>
+    <string name="hide_this_song">اخفاء</string>
+    <string name="like">اعجاب</string>
+    <string name="logging_in">يتم التسجيل..</string>
 
 </resources>

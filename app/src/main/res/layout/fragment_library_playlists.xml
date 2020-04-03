@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:background="@color/colorPrimary"
+    android:background="@null"
+    tools:background="@color/colorPrimary"
     tools:context=".Fragments_and_models.library.LibraryPlaylistsFragment">
 
     <LinearLayout

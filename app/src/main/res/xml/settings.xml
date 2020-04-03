@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:title="Other"
+        app:iconSpaceReserved="false"
+        android:layout="@layout/preferences_category"
+        >
+        <Preference
+            app:iconSpaceReserved="false"
+            android:key="log_out"
+            android:title="Log out"
+            android:summary="You are Logged in as Islam Ahmed" >
+        </Preference>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

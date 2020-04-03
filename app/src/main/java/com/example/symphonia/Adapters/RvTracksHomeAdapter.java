@@ -145,13 +145,17 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
                     if (ivHide.isSelected()) {
                         ivHide.setImageResource(R.drawable.ic_do_not_disturb_on_black_24dp);
                         Toast.makeText(context, R.string.return_to_playing_playlist, Toast.LENGTH_SHORT).show();
-                        Utils.CurrTrackInfo.currPlaylistTracks.get(getAdapterPosition()).setHidden(false);
-                        tvTrackTitle.setTextColor(context.getResources().getColor(R.color.white));
+                        Utils.CurrPlaylist.playlist.getTracks().get(getAdapterPosition()).setHidden(false);
+                        if (getAdapterPosition() != Utils.CurrTrackInfo.TrackPosInPlaylist)
+                            tvTrackTitle.setTextColor(context.getResources().getColor(R.color.white));
+
                         tvTrackDescription.setTextColor(context.getResources().getColor(R.color.white));
                         ivHide.setSelected(false);
                     } else {
-                        Utils.CurrTrackInfo.currPlaylistTracks.get(getAdapterPosition()).setHidden(true);
-                        tvTrackTitle.setTextColor(context.getResources().getColor(R.color.light_gray));
+                        Utils.CurrPlaylist.playlist.getTracks().get(getAdapterPosition()).setHidden(true);
+                        if (getAdapterPosition() != Utils.CurrTrackInfo.TrackPosInPlaylist)
+                            tvTrackTitle.setTextColor(context.getResources().getColor(R.color.light_gray));
+
                         tvTrackDescription.setTextColor(context.getResources().getColor(R.color.light_gray));
                         ivHide.setImageResource(R.drawable.ic_do_not_disturb_on_red_24dp);
                         Toast.makeText(context, R.string.remove_from_playing_list, Toast.LENGTH_SHORT).show();
@@ -167,10 +171,10 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
                     if (ivLike.isSelected()) {
                         ivLike.setImageResource(R.drawable.ic_favorite_border_black_24dp);
                         Toast.makeText(context, R.string.remove_from_liked_playlist, Toast.LENGTH_SHORT).show();
-                        mTracks.get(getAdapterPosition()).setLiked(false);
+                        Utils.CurrPlaylist.playlist.getTracks().get(getAdapterPosition()).setLiked(false);
                         ivLike.setSelected(false);
                     } else {
-                        mTracks.get(getAdapterPosition()).setLiked(true);
+                        Utils.CurrPlaylist.playlist.getTracks().get(getAdapterPosition()).setLiked(true);
                         ivLike.setImageResource(R.drawable.ic_favorite_black_24dp);
                         Toast.makeText(context, R.string.add_to_like_playlist, Toast.LENGTH_SHORT).show();
                         ivLike.setSelected(true);

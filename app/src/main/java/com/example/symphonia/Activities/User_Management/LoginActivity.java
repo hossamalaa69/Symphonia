@@ -61,6 +61,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
+        Button btn_login = findViewById(R.id.login);
+        btn_login.setText(getResources().getString(R.string.log_in));
         //get text view by id, which shows if password or email or both are wrong
         text_view_errorInput = (TextView) findViewById(R.id.error_text);
 
@@ -185,19 +188,18 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        Button btn_login = findViewById(R.id.login);
+        btn_login.setText(getResources().getString(R.string.logging_in));
         //boolean variable to get user type
         boolean userType = mType.equals("Listener");
         //calls function login with the valid data from inputs
         if (serviceController.logIn(this, edit_text_email.getText().toString(),
                     edit_text_password.getText().toString(), userType)) {
             //if email and password are right, then go to home page
-            Intent i = new Intent(this, MainActivity.class);
-            startActivity(i);
+            successLogin();
         } else {
             //if email and password are wrong, then make error textView
-            //visible to inform that user's input are invalid
-            text_view_errorInput.setVisibility(View.VISIBLE);
-            text_view_errorInput.setText(R.string.wrong_password_or_email);
+            failedLogin();
         }
     }
 
@@ -226,5 +228,20 @@ public class LoginActivity extends AppCompatActivity {
             return networkInfo != null && networkInfo.isConnectedOrConnecting();
         }
         return false;
+    }
+
+    public void successLogin(){
+
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+    }
+
+    public void failedLogin(){
+
+        Button btn_login = findViewById(R.id.login);
+        btn_login.setText(getResources().getString(R.string.log_in));
+        //visible to inform that user's input are invalid
+        text_view_errorInput.setVisibility(View.VISIBLE);
+        text_view_errorInput.setText(R.string.wrong_password_or_email);
     }
 }

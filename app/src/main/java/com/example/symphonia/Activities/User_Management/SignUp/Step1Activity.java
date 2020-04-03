@@ -112,14 +112,10 @@ public class Step1Activity extends AppCompatActivity {
         //if email is not signed before, then go to next step with user data
         if(isAvailable)
         {
-            Intent i = new Intent(this, Step2Activity.class);
-            i.putExtra("user", mUser);
-            i.putExtra("email", mEmail.getText().toString());
-            startActivity(i);
+            availableMail();
         } else {
             //shows dialog that informs that email is signed before
-            CustomSignUpDialog custom_dialog = new CustomSignUpDialog();
-            custom_dialog.showDialog(this, mEmail.getText().toString(), mUser);
+            notAvailable();
         }
     }
 
@@ -156,5 +152,17 @@ public class Step1Activity extends AppCompatActivity {
             return networkInfo != null && networkInfo.isConnectedOrConnecting();
         }
         return false;
+    }
+
+    public void availableMail(){
+        Intent i = new Intent(this, Step2Activity.class);
+        i.putExtra("user", mUser);
+        i.putExtra("email", mEmail.getText().toString());
+        startActivity(i);
+    }
+
+    public void notAvailable(){
+        CustomSignUpDialog custom_dialog = new CustomSignUpDialog();
+        custom_dialog.showDialog(this, mEmail.getText().toString(), mUser);
     }
 }
