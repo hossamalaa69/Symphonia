@@ -33,4 +33,6 @@ public class Constants {
 
     public final static  String SIGN_UP_URL = BASE_URL+"api/v1/users/signUp?";
 
+    public final static String EMAIL_EXISTS_URL = BASE_URL+"api/v1/users/email-exist?";
+
 }

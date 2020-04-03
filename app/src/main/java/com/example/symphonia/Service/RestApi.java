@@ -36,7 +36,7 @@ public class RestApi implements APIs {
      * @return return true if data is matched
      */
     @Override
-    public boolean logIn(Context context, String username, String password, boolean mType) {
+    public boolean logIn(final Context context, String username, String password, boolean mType) {
         return false;
     }
 
@@ -56,7 +56,7 @@ public class RestApi implements APIs {
      * @return returns true if email is new, false if it's signed before
      */
     @Override
-    public boolean checkEmailAvailability(Context context, String email, boolean mType) {
+    public boolean checkEmailAvailability(final Context context, String email, boolean mType) {
         return false;
     }
 
@@ -79,7 +79,7 @@ public class RestApi implements APIs {
      * @return returns true if sign up is done
      */
     @Override
-    public boolean signUp(Context context, boolean mType, String email, String password, String DOB, String gender, String name) {
+    public boolean signUp(final Context context, boolean mType, String email, String password, String DOB, String gender, String name) {
         return false;
     }
 
@@ -354,7 +354,7 @@ public class RestApi implements APIs {
     }
 
     @Override
-    public boolean promotePremium(Context context, View root, String token) {
+    public boolean promotePremium(final Context context, View root, String token) {
         return false;
     }
 

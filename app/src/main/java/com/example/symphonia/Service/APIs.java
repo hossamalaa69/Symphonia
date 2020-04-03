@@ -29,7 +29,7 @@ public interface APIs {
      * @param mType    type of user, true for listener and false for artist
      * @return return true if data is matched
      */
-    boolean logIn(Context context, String username, String password, boolean mType);
+    boolean logIn(final Context context, String username, String password, boolean mType);
 
     /**
      * checks if email is already signed in database or not
@@ -39,7 +39,7 @@ public interface APIs {
      * @param mType   type of user, true for listener and false for artist
      * @return returns true if email is new, false if it's signed before
      */
-    boolean checkEmailAvailability(Context context, String email, boolean mType);
+    boolean checkEmailAvailability(final Context context, String email, boolean mType);
 
     /**
      * handles that user is signing up, initializes new user object
@@ -54,7 +54,7 @@ public interface APIs {
      * @param name     name of user
      * @return returns true if sign up is done
      */
-    boolean signUp(Context context, boolean mType, String email, String password
+    boolean signUp(final Context context, boolean mType, String email, String password
             , String DOB, String gender, String name);
 
 
@@ -213,7 +213,7 @@ public interface APIs {
      */
     ArrayList<Artist> getRecommendedArtists(Boolean type, String mToken, int limit);
 
-    boolean promotePremium(Context context, View root, String token);
+    boolean promotePremium(final Context context, View root, String token);
 
     ArrayList<Container>getProfileFollowers(Context context);
 

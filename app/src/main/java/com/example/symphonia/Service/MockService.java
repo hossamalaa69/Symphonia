@@ -248,7 +248,7 @@ public class MockService implements APIs {
      * @return return true if data is matched
      */
     @Override
-    public boolean logIn(Context context, String username, String password, boolean mType) {
+    public boolean logIn(final Context context, String username, String password, boolean mType) {
         //initial index of user in users list
         int userIndex = -1;
 
@@ -335,7 +335,7 @@ public class MockService implements APIs {
      * @return returns true if sign up is done
      */
     @Override
-    public boolean signUp(Context context, boolean mType, String email, String password,
+    public boolean signUp(final Context context, boolean mType, String email, String password,
                           String DOB, String gender, String name) {
 
         //set new token for current new user
@@ -360,7 +360,7 @@ public class MockService implements APIs {
      * @return returns true if email is new, false if it's signed before
      */
     @Override
-    public boolean checkEmailAvailability(Context context, String email, boolean mType) {
+    public boolean checkEmailAvailability(final Context context, String email, boolean mType) {
         if (mType) {
             //if user is listener, then check in listeners list
             for (int i = 0; i < mListenerArrayList.size(); i++)
@@ -827,7 +827,7 @@ public class MockService implements APIs {
     }
 
     @Override
-    public boolean promotePremium(Context context, View root, String token){
+    public boolean promotePremium(final Context context, View root, String token){
         Constants.currentUser.setPremuim(true);
         return true;
     }
