@@ -59,23 +59,28 @@ public class RestApi implements APIs {
                             if(type.equals("premium-user")){
                                 premium = true;
                                 type = "user";
-                            }
-                            else if(type.equals("artist")){
+                            } else if(type.equals("artist")){
                                 premium = true;
                             }
 
-                            Constants.currentUser = new User(username,id, name, type.equals("user"), premium);
-                            updateLogin.updateUiLoginSuccess();
+                            if((type.equals("user")&&!mType) || (type.equals("artist")&&mType) )
+                                updateLogin.updateUiLoginFail("type");
+                            else{
+                                Constants.currentUser = new User(username,id, name, type.equals("user"), premium);
+                                updateLogin.updateUiLoginSuccess();
+                            }
+
                         }catch (JSONException e){
                             e.printStackTrace();
+                            Toast.makeText(context,"Check your internet connection",Toast.LENGTH_SHORT).show();
+                            updateLogin.updateUiLoginFail("exception");
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(context,error.toString(),Toast.LENGTH_LONG).show();
-                        updateLogin.updateUiLoginFail();
+                        updateLogin.updateUiLoginFail("input");
                     }
         }){
         @Override
@@ -94,7 +99,7 @@ public class RestApi implements APIs {
     public interface updateUiLogin {
         void updateUiLoginSuccess();
 
-        void updateUiLoginFail();
+        void updateUiLoginFail(String reason);
     }
 
     /**

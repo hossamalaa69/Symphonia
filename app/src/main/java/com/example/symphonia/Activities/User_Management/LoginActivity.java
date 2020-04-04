@@ -40,8 +40,8 @@ public class LoginActivity extends AppCompatActivity implements RestApi.updateUi
     }
 
     @Override
-    public void updateUiLoginFail() {
-        failedLogin();
+    public void updateUiLoginFail(String reason) {
+        failedLogin(reason);
     }
 
     /**
@@ -203,6 +203,7 @@ public class LoginActivity extends AppCompatActivity implements RestApi.updateUi
 
         Button btn_login = findViewById(R.id.login);
         btn_login.setText(getResources().getString(R.string.logging_in));
+        lockButton();
         //boolean variable to get user type
         boolean userType = mType.equals("Listener");
         //calls function login with the valid data from inputs
@@ -213,10 +214,9 @@ public class LoginActivity extends AppCompatActivity implements RestApi.updateUi
                 successLogin();
             } else {
                 //if email and password are wrong, then make error textView
-                failedLogin();
+                failedLogin("input");
             }
-        }
-        else
+        } else
             serviceController.logIn(this,edit_text_email.getText().toString()
                     ,edit_text_password.getText().toString(),userType);
     }
@@ -250,16 +250,21 @@ public class LoginActivity extends AppCompatActivity implements RestApi.updateUi
 
     public void successLogin(){
 
-        Intent i = new Intent(this, MainActivity.class);
+        Intent i = new Intent(this, StartActivity.class);
         startActivity(i);
     }
 
-    public void failedLogin(){
+    public void failedLogin(String reason){
         Button btn_login = findViewById(R.id.login);
         btn_login.setText(getResources().getString(R.string.log_in));
+        enableButton();
         //visible to inform that user's input are invalid
         text_view_errorInput.setVisibility(View.VISIBLE);
-        text_view_errorInput.setText(R.string.wrong_password_or_email);
+        if(reason.equals("input"))
+            text_view_errorInput.setText(R.string.wrong_password_or_email);
+        else if(reason.equals("type"))
+            text_view_errorInput.setText(R.string.belongs_to_different_user);
+        else
+            text_view_errorInput.setVisibility(View.INVISIBLE);
     }
-
 }
