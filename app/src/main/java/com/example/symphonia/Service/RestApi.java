@@ -55,20 +55,27 @@ public class RestApi implements APIs {
                             String id = user.getString("_id");
                             String name = user.getString("name");
                             String type = user.getString("type");
-                            Constants.currentUser = new User(username,id,name,type.equals("user"),false);
+                            boolean premium = false;
+                            if(type.equals("premium-user")){
+                                premium = true;
+                                type = "user";
+                            }
+                            else if(type.equals("artist")){
+                                premium = true;
+                            }
+
+                            Constants.currentUser = new User(username,id, name, type.equals("user"), premium);
                             updateLogin.updateUiLoginSuccess();
                         }catch (JSONException e){
                             e.printStackTrace();
-                            Toast.makeText(context,"Wrong data",Toast.LENGTH_SHORT).show();
-                            updateLogin.updateUiLoginFail();
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        String errorCode ="Error: "+ error.networkResponse.statusCode;
-                        Toast.makeText(context,errorCode,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,error.toString(),Toast.LENGTH_LONG).show();
+                        updateLogin.updateUiLoginFail();
                     }
         }){
         @Override
@@ -77,12 +84,6 @@ public class RestApi implements APIs {
             params.put("email", username);
             params.put("password", password);
             return params;
-        }
-        @Override
-        public Map<String, String> getHeaders() {
-           Map<String, String> headers = new HashMap<>();
-           headers.put("Content-Type", "application/json");
-           return headers;
         }};
 
         VolleySingleton.getInstance(context).getRequestQueue().add(stringrequest);

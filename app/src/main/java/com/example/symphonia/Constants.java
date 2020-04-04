@@ -24,7 +24,7 @@ public class Constants {
      * debug status for app to decide which service mode will be used
      * true for MockService, false for REST APIs mode
      */
-    public static final boolean DEBUG_STATUS = true;
+    public static final boolean DEBUG_STATUS = false;
 
     //Base URL
     public final static  String BASE_URL="http://ec2-52-21-160-186.compute-1.amazonaws.com/";
