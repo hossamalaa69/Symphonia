@@ -48,8 +48,18 @@ public class FragmentProfile extends Fragment {
     private LinearLayout followersLayout;
     private Button followButton;
     private ImageView backImg;
+    private ImageView options;
     private double x;
     private double y;
+
+    private View.OnClickListener showOptions=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            BottomSheetDialogProfile bottomSheet = new BottomSheetDialogProfile(profile,1);
+            assert getParentFragmentManager() != null;
+            bottomSheet.show(getParentFragmentManager(),bottomSheet.getTag());
+        }
+    };
 
     private View.OnClickListener toPlaylists=new View.OnClickListener() {
         @Override
@@ -148,8 +158,9 @@ public class FragmentProfile extends Fragment {
         followingLayout=root.findViewById(R.id.following_count);
         backImg=root.findViewById(R.id.img_back_profile);
         followButton=root.findViewById(R.id.btn_profile_follow);
+        options=root.findViewById(R.id.profile_options_menu);
 
-
+        options.setOnClickListener(showOptions);
         appBarLayout.setOnClickListener(follow);
         appBarLayout.setOnTouchListener(t);
 
