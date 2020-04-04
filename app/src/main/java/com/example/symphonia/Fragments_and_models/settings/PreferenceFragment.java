@@ -1,6 +1,7 @@
 package com.example.symphonia.Fragments_and_models.settings;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -41,6 +42,12 @@ public class PreferenceFragment extends PreferenceFragmentCompat {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 getActivity().finish();
+
+                SharedPreferences sharedPref= getContext().getSharedPreferences("LoginPref",0);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.clear();
+                editor.apply();
+
                 Intent startActivityIntent = new Intent(getContext(), StartActivity.class);
                 startActivity(startActivityIntent);
                 return true;
