@@ -29,6 +29,11 @@ public class Playlist {
     private ArrayList<Track> tracks;
 
     /**
+     * link of playlist tracks
+     */
+    private String tracksURL;
+
+    /**
      * non empty constructor
      *
      * @param mPlaylistTitle       playlist title
@@ -41,6 +46,33 @@ public class Playlist {
         this.mPlaylistDescription = mPlaylistDescription;
         this.mPlaylistImage = mPlaylistImage;
         this.tracks = tracks;
+    }
+
+    /**
+     * non empty constructor
+     *
+     * @param mPlaylistTitle       playlist title
+     * @param mPlaylistDescription playlist description
+     * @param mPlaylistImage       playlist image
+     * @param tracks               playlist tracks
+     * @param tracksURL            tracks url
+     */
+    public Playlist(String mPlaylistTitle, String mPlaylistDescription, Bitmap mPlaylistImage, ArrayList<Track> tracks, String tracksURL) {
+        this.mPlaylistTitle = mPlaylistTitle;
+        this.mPlaylistDescription = mPlaylistDescription;
+        this.mPlaylistImage = mPlaylistImage;
+        this.tracks = tracks;
+        this.tracksURL = tracksURL;
+    }
+
+    /**
+     * getter for tracks url
+     *
+     * @return tracks url
+     */
+
+    public String getTracksURL() {
+        return tracksURL;
     }
 
     /**

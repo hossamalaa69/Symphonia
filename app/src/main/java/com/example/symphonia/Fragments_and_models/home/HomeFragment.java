@@ -11,9 +11,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,7 +22,6 @@ import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Fragments_and_models.settings.SettingsFragment;
 import com.example.symphonia.R;
-import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
 
 import java.util.ArrayList;
@@ -47,6 +44,8 @@ public class HomeFragment extends Fragment {
     private RecyclerView rvPopularPlaylist;
     private RecyclerView rvBasedOnYourRecentlyPlayed;
 
+    View root;
+
     /**
      * inflate view of fragment
      *
@@ -59,15 +58,20 @@ public class HomeFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
                 ViewModelProviders.of(this).get(HomeViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
-        initViews(root);
+        root = inflater.inflate(R.layout.fragment_home, container, false);
 
+
+        if (Constants.DEBUG_STATUS)
+            initViews();
+
+        ServiceController SController = ServiceController.getInstance();
+        SController.getCategories(getContext());
 
         final ImageView ivSettings = root.findViewById(R.id.iv_setting_home);
         ivSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(
+                ((MainActivity) getActivity()).getSupportFragmentManager().beginTransaction().replace(
                         R.id.nav_host_fragment, new SettingsFragment())
                         .addToBackStack(null)
                         .commit();
@@ -97,27 +101,40 @@ public class HomeFragment extends Fragment {
 
     }
 
+    public void loadAllPlaylists()
+    {
+        ServiceController SController = ServiceController.getInstance();
+        playlists = SController.getRandomPlaylists(getContext(), Constants.currentToken);
+        popularPlaylists = SController.getPopularPlaylists(getContext(), Constants.currentToken);
+        recentPlaylists = SController.getRecentPlaylists(getContext(), Constants.currentToken);
+        madeForYouPlaylists = SController.getMadeForYoutPlaylists(getContext(), Constants.currentToken);
+
+    }
+    /**
+     * random playlists
+     */
+    private ArrayList<Playlist> playlists;
+    private ArrayList<Playlist> popularPlaylists;
+    private ArrayList<Playlist> recentPlaylists;
+    private ArrayList<Playlist> madeForYouPlaylists;
+    private TextView playlistTitle;
+
     /**
      * this function initialize views for fragment
-     *
-     * @param root this is the view that is inflated for this fragment
      */
-    void initViews(View root) {
-
-        // load from internet
-        RestApi.getInstance().getPopularPlaylists(getContext(),Constants.currentToken);
-
-        // test
-
-        ServiceController SController = ServiceController.getInstance();
-        ArrayList<Playlist> playlists = SController.getRandomPlaylists(getContext(), Constants.currentToken);
-        ArrayList<Playlist> popularPlaylists = SController.getPopularPlaylists(getContext(), Constants.currentToken);
-        ArrayList<Playlist> recentPlaylists = SController.getRecentPlaylists(getContext(), Constants.currentToken);
+    private void initViews() {
 
         //----------------------
-        TextView playlistTitle;
-        layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
+        updateRecentPlaylists();
+        updateMadeForYouPlaylists();
+        updatePopularPlaylists();
+        updateRandomPlaylists();
 
+    }
+
+
+    public void updateRecentPlaylists() {
+        layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
         View view = root.findViewById(R.id.recently_played_playlist);
         rvRecentlyPlayed = view.findViewById(R.id.rv_sample_home);
         playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
@@ -126,19 +143,39 @@ public class HomeFragment extends Fragment {
         rvPlaylistsHomeAdapter = new RvPlaylistsHomeAdapter(getContext(), recentPlaylists);
         rvRecentlyPlayed.setAdapter(rvPlaylistsHomeAdapter);
 
+    }
+
+    public void updatePopularPlaylists() {
+        //popular playlist
+        layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
+        View view = root.findViewById(R.id.popular_playlist_playlist);
+        rvPopularPlaylist = view.findViewById(R.id.rv_sample_home);
+        playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
+        playlistTitle.setText(R.string.popular_playlist);
+        rvPopularPlaylist.setLayoutManager(layoutManager);
+        rvPlaylistsHomeAdapter = new RvPlaylistsHomeAdapter(getContext(), popularPlaylists);
+        rvPopularPlaylist.setAdapter(rvPlaylistsHomeAdapter);
+
+    }
+
+    public void updateMadeForYouPlaylists() {
         // made for you playlist;
         layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
-        view = root.findViewById(R.id.made_for_you_playlist);
+        View view = root.findViewById(R.id.made_for_you_playlist);
         rvMadeForYou = view.findViewById(R.id.rv_sample_home);
         playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
         playlistTitle.setText(R.string.made_for_you);
         rvMadeForYou.setLayoutManager(layoutManager);
-        rvPlaylistsHomeAdapter = new RvPlaylistsHomeAdapter(getContext(), playlists);
+        rvPlaylistsHomeAdapter = new RvPlaylistsHomeAdapter(getContext(), madeForYouPlaylists);
         rvMadeForYou.setAdapter(rvPlaylistsHomeAdapter);
+
+    }
+
+    public void updateRandomPlaylists() {
 
         //heavy playlist
         layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
-        view = root.findViewById(R.id.your_heavy_rotation_playlist);
+        View view = root.findViewById(R.id.your_heavy_rotation_playlist);
         rvHeavyPlaylist = view.findViewById(R.id.rv_sample_home);
         playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
         playlistTitle.setText(R.string.heavy_playlist);
@@ -146,15 +183,6 @@ public class HomeFragment extends Fragment {
         rvPlaylistsHomeAdapter = new RvPlaylistsHomeAdapter(getContext(), playlists);
         rvHeavyPlaylist.setAdapter(rvPlaylistsHomeAdapter);
 
-        //popular playlist
-        layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
-        view = root.findViewById(R.id.popular_playlist_playlist);
-        rvPopularPlaylist = view.findViewById(R.id.rv_sample_home);
-        playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
-        playlistTitle.setText(R.string.popular_playlist);
-        rvPopularPlaylist.setLayoutManager(layoutManager);
-        rvPlaylistsHomeAdapter = new RvPlaylistsHomeAdapter(getContext(), popularPlaylists);
-        rvPopularPlaylist.setAdapter(rvPlaylistsHomeAdapter);
 
         // based on your recently played
         layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
@@ -167,6 +195,5 @@ public class HomeFragment extends Fragment {
         rvBasedOnYourRecentlyPlayed.setAdapter(rvPlaylistsHomeAdapter);
 
     }
-
 
 }

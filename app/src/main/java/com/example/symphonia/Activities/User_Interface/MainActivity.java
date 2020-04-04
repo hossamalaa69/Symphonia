@@ -41,7 +41,6 @@ import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.MediaController;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.RestApi;
-import com.example.symphonia.Service.ServiceController;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.Serializable;
@@ -56,7 +55,7 @@ import java.util.ArrayList;
  */
 public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAdapter.OnPlaylistClicked
         , RvTracksHomeAdapter.OnTrackClicked
-        ,RestApi.updateUiPlaylists
+        , RestApi.updateUiPlaylists
         , RvBarAdapter.ItemInterface, Serializable {
 
     private RecyclerView.LayoutManager layoutManager;
@@ -99,6 +98,55 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
      */
     RelativeLayout playBarLayout;
 
+    @Override
+    public void getCategoriesSuccess() {
+        if (navView.getSelectedItemId() == R.id.navigation_home)
+            homeFragment.loadAllPlaylists();
+    }
+
+    @Override
+    public void updateUiGetPopularPlaylistsSuccess() {
+        if (navView.getSelectedItemId() == R.id.navigation_home)
+            homeFragment.updatePopularPlaylists();
+    }
+
+    @Override
+    public void updateUiGetRandomPlaylistsSuccess() {
+        if (navView.getSelectedItemId() == R.id.navigation_home)
+            homeFragment.updateRandomPlaylists();
+    }
+
+    @Override
+    public void updateUiGetRecentPlaylistsSuccess() {
+        if (navView.getSelectedItemId() == R.id.navigation_home)
+            homeFragment.updateRecentPlaylists();
+    }
+
+    @Override
+    public void updateUiGetMadeForYouPlaylistsSuccess() {
+        if (navView.getSelectedItemId() == R.id.navigation_home)
+            homeFragment.updateMadeForYouPlaylists();
+    }
+
+    @Override
+    public void updateUiGetPopularPlaylistsFail() {
+
+    }
+
+    @Override
+    public void updateUiGetRandomPlaylistsFail() {
+
+    }
+
+    @Override
+    public void updateUiGetRecentPlaylistsFail() {
+
+    }
+
+    @Override
+    public void updateUiGetMadeForYouPlaylistsFail() {
+
+    }
 
     /**
      * Represents the initialization of activity
@@ -109,7 +157,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         mediaController = MediaController.getController();
         checkUserType();
 
@@ -427,16 +474,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         }
     }
 
-    @Override
-    public void updateUiGetPopularPlaylistsSuccess() {
-            Toast.makeText(this,"loaded successfully",Toast.LENGTH_SHORT).show();
-    }
 
-    @Override
-    public void updateUiGetPopularPlaylistsFail() {
-        Toast.makeText(this,"failed successfully",Toast.LENGTH_SHORT).show();
-
-    }
     /**
      * listener called when playlist is clicked
      *
@@ -558,6 +596,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             getSupportFragmentManager().popBackStack();
             return;
         }
+        if (homeFragment.isVisible()) finish();
         super.onBackPressed();
 
     }
@@ -576,6 +615,8 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         startActivity(intent);
     }
 
+    private HomeFragment homeFragment;
+
     /**
      * this function initialize BottomNavigationView
      */
@@ -588,14 +629,14 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                 .add(R.id.nav_host_fragment, navHostFragment)
                 .setPrimaryNavigationFragment(navHostFragment)
                 .commit();
-
+        homeFragment = new HomeFragment();
         navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.navigation_home:
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.nav_host_fragment, new HomeFragment())
+                                .replace(R.id.nav_host_fragment, homeFragment)
                                 .commit();
                         return true;
                     case R.id.navigation_library:
@@ -617,6 +658,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                 return false;
             }
         });
+
 
     }
 

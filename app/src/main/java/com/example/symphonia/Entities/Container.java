@@ -20,6 +20,9 @@ public class Container {
         imgRes = i;
         catName2 = s2;
     }
+    public Container(String s) {
+        catName = s;
+    }
 
     public String getCat_Name2() {
         return catName2;

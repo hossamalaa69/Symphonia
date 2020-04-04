@@ -35,6 +35,7 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
  */
 public class Utils {
 
+    public static ArrayList<Container> categories ;
     /**
      * extracts name from email
      *
