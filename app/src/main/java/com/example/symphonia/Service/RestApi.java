@@ -232,10 +232,23 @@ public class RestApi implements APIs {
         return null;
     }
 
+
+    /**
+     * get genres for the current user
+     * @param context activity context
+     * @return arraylist of container which has the genres
+     */
     @Override
     public ArrayList<Container> getGenres(Context context) {
         return null;
     }
+
+    public interface updateUigetGenres{
+        void updateUigetGenresSuccess();
+
+        void updateUigetGenresFail();
+    }
+
 
     @Override
     public ArrayList<Container> getArtists(Context context, String searchWord) {

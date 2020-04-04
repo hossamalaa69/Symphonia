@@ -37,11 +37,11 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:background="@drawable/btn_showall"
-        android:text="@string/follow"
+        android:text="Edit Profile"
         android:textAllCaps="true"
         android:textColor="@color/colorWhite"
         app:autoSizeTextType="uniform"
-        app:autoSizeMinTextSize="8sp"
-        app:autoSizeMaxTextSize="18sp"
+        app:autoSizeMinTextSize="6sp"
+        app:autoSizeMaxTextSize="16sp"
         app:autoSizeStepGranularity="1sp"/>
 </LinearLayout>

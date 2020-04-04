@@ -2,7 +2,6 @@ package com.example.symphonia.Activities.User_Interface;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -19,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.fragment.NavHostFragment;
@@ -685,8 +683,8 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
 
     public void checkUserType() {
 
-        //ServiceController serviceController = ServiceController.getInstance();
-        //serviceController.logIn(this, "user1@symphonia.com", "12345678", true);
+        ServiceController serviceController = ServiceController.getInstance();
+        serviceController.logIn(this, "user1@symphonia.com", "12345678", true);
 
         if (Constants.currentUser.isListenerType())
             Toast.makeText(this, "Listener", Toast.LENGTH_SHORT).show();

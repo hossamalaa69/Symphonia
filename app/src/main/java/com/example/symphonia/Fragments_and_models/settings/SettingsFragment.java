@@ -2,6 +2,14 @@ package com.example.symphonia.Fragments_and_models.settings;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,19 +20,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 
-import android.os.Handler;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.symphonia.Activities.User_Interface.MainActivity;
-import com.example.symphonia.Fragments_and_models.library.AlbumFragment;
+import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Fragments_and_models.premium.PremiumFragment;
+import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.google.android.material.appbar.AppBarLayout;
@@ -164,8 +163,10 @@ public class SettingsFragment extends Fragment {
         profileLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "profile clicked", Toast.LENGTH_SHORT).show();
-            }
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment, new FragmentProfile(new Container("Islam Ahmed",R.drawable.islam_ahmed)))
+                        .addToBackStack(null)
+                        .commit();            }
         });
 
         

@@ -18,6 +18,7 @@ import com.example.symphonia.Adapters.SearchMainAdapter;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
 import com.example.symphonia.R;
+import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
 
 import java.util.ArrayList;
@@ -27,7 +28,8 @@ import java.util.ArrayList;
  * @author Mahmoud Amr Nabil
  * @version 1.0
  */
-public class SearchFragment extends Fragment implements SearchMainAdapter.CatListItemClickListner {
+public class SearchFragment extends Fragment implements SearchMainAdapter.CatListItemClickListner
+, RestApi.updateUigetGenres {
 
     private ServiceController con;
 
@@ -110,5 +112,15 @@ public class SearchFragment extends Fragment implements SearchMainAdapter.CatLis
                 .replace(R.id.nav_host_fragment, new CategoryFragment(c))
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public void updateUigetGenresSuccess() {
+
+    }
+
+    @Override
+    public void updateUigetGenresFail() {
+
     }
 }
