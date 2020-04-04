@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.symphonia.Constants;
 import com.example.symphonia.Helpers.CustomOfflineDialog;
 import com.example.symphonia.Helpers.CustomSignUpDialog;
 import com.example.symphonia.Helpers.Utils;
@@ -37,8 +38,8 @@ public class Step1Activity extends AppCompatActivity implements RestApi.updateUi
     }
 
     @Override
-    public void updateUiEmailValidityFail() {
-        notAvailable();
+    public void updateUiEmailValidityFail(String type) {
+        notAvailable(type);
     }
 
 
@@ -117,17 +118,26 @@ public class Step1Activity extends AppCompatActivity implements RestApi.updateUi
             return;
         }
 
+        Button next = findViewById(R.id.next);
+        next.setText(R.string.checking);
+        lockButton();
+
         //stores if email is signed before
         boolean isAvailable =
                 serviceController.checkEmailAvailability(this, mEmail.getText().toString(), mType);
 
-        //if email is not signed before, then go to next step with user data
-        if(isAvailable)
-        {
-            availableMail();
-        } else {
-            //shows dialog that informs that email is signed before
-            notAvailable();
+        if(Constants.DEBUG_STATUS){
+            //if email is not signed before, then go to next step with user data
+            if(isAvailable)
+            {
+                availableMail();
+            } else {
+                //shows dialog that informs that email is signed before
+                if(mUser.equals("Listener"))
+                    notAvailable("user");
+                else
+                    notAvailable("artist");
+            }
         }
     }
 
@@ -167,15 +177,27 @@ public class Step1Activity extends AppCompatActivity implements RestApi.updateUi
     }
 
     public void availableMail(){
+
+        Button next = findViewById(R.id.next);
+        next.setText(R.string.next);
+        enableButton();
         Intent i = new Intent(this, Step2Activity.class);
         i.putExtra("user", mUser);
         i.putExtra("email", mEmail.getText().toString());
         startActivity(i);
     }
 
-    public void notAvailable(){
+    public void notAvailable(String type){
+
+        Button next = findViewById(R.id.next);
+        next.setText(R.string.next);
+        enableButton();
+
         CustomSignUpDialog custom_dialog = new CustomSignUpDialog();
-        custom_dialog.showDialog(this, mEmail.getText().toString(), mUser);
+        if(type.equals("artist"))
+            custom_dialog.showDialog(this, mEmail.getText().toString(), "Artist");
+        else
+            custom_dialog.showDialog(this, mEmail.getText().toString(), "Listener");
     }
 
 }

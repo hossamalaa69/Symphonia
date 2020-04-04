@@ -209,5 +209,6 @@
     <string name="report_explicit_content">Report Explicit Content</string>
     <string name="show_credits">Show Credits</string>
     <string name="belongs_to_different_user">This account belongs to different user type</string>
+    <string name="checking">Checking..</string>
 
 </resources>

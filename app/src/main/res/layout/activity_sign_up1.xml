@@ -42,7 +42,7 @@
     <Button
         android:id="@+id/next"
         android:onClick="openNext"
-        android:layout_width="150dp"
+        android:layout_width="170dp"
         android:layout_height="55dp"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"

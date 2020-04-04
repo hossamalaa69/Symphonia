@@ -111,14 +111,48 @@ public class RestApi implements APIs {
      * @return returns true if email is new, false if it's signed before
      */
     @Override
-    public boolean checkEmailAvailability(final Context context, String email, boolean mType) {
-        return false;
+    public boolean checkEmailAvailability(final Context context, final String email, final boolean mType) {
+        final updateUiEmailValidity updateUiEmailValidity = (updateUiEmailValidity) context;
+        StringRequest stringrequest = new StringRequest(Request.Method.POST, (Constants.EMAIL_EXISTS_URL),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try{
+                            JSONObject root = new JSONObject(response);
+                            boolean exists= root.getBoolean("exists");
+                            if(!exists){
+                                updateUiEmailValidity.updateUiEmailValiditySuccess();
+                                return;
+                            }
+                            String type = root.getString("type");
+                            updateUiEmailValidity.updateUiEmailValidityFail(type);
+                        }catch (JSONException e){
+                            e.printStackTrace();
+                            Toast.makeText(context,"Error",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(context, error.toString(),Toast.LENGTH_SHORT).show();
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("email", email);
+                return params;
+            }};
+
+        VolleySingleton.getInstance(context).getRequestQueue().add(stringrequest);
+        return true;
     }
 
     public interface updateUiEmailValidity {
         void updateUiEmailValiditySuccess();
 
-        void updateUiEmailValidityFail();
+        void updateUiEmailValidityFail(String type);
     }
     /**
      * handles that user is signing up, initializes new user object
