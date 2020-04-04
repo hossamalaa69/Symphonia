@@ -2,6 +2,10 @@ package com.example.symphonia.Fragments_and_models.profile;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -48,7 +53,7 @@ public class BottomSheetDialogProfile extends BottomSheetDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        BottomSheetDialog bottomSheet = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
+        final BottomSheetDialog bottomSheet = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
 
         //inflating layout
         View view = View.inflate(getContext(), R.layout.bottom_sheet_dialog_profile, null);
@@ -130,6 +135,102 @@ public class BottomSheetDialogProfile extends BottomSheetDialogFragment {
             homeScreen.setVisibility(View.GONE);
             options2.setVisibility(View.GONE);
         }
+        else if(chooseLayout==2) {
+            options1.setVisibility(View.GONE);
+            options2.setVisibility(View.VISIBLE);
+        }
+
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheet.dismiss();
+                BottomSheetDialogProfile bottomSheet = new BottomSheetDialogProfile(profile,2);
+                assert getParentFragmentManager() != null;
+                bottomSheet.show(getParentFragmentManager(),bottomSheet.getTag());
+
+            }
+        });
+
+        whatsAppShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
+                whatsappIntent.setType("text/plain");
+                whatsappIntent.setPackage("com.whatsapp");
+                whatsappIntent.putExtra(Intent.EXTRA_TEXT, "https://www.google.com/search?q=spotify+api+documentation&oq=spotif&aqs=chrome.0.69i59j69i57j35i39j69i60l5.3902j0j7&sourceid=chrome&ie=UTF-8");
+                try {
+                    startActivity(whatsappIntent);
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast toast=Toast.makeText(getContext(),"no whatsapp",Toast.LENGTH_SHORT);
+                }
+            }
+        });
+        messengerShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent massengerIntent = new Intent(Intent.ACTION_SEND);
+                massengerIntent.setType("text/plain");
+                massengerIntent.setPackage("com.facebook.orca");
+                massengerIntent.putExtra(Intent.EXTRA_TEXT, "https://www.google.com/search?q=spotify+api+documentation&oq=spotif&aqs=chrome.0.69i59j69i57j35i39j69i60l5.3902j0j7&sourceid=chrome&ie=UTF-8");
+                try {
+                    startActivity(massengerIntent);
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast toast=Toast.makeText(getContext(),"no massenger",Toast.LENGTH_SHORT);
+                }
+            }
+        });
+        facebookShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent1 = new Intent();
+                    intent1.setPackage("com.facebook.katana");
+                    intent1.setAction("android.intent.action.SEND");
+                    intent1.setType("text/plain");
+                    intent1.putExtra(Intent.EXTRA_TEXT, "https://www.google.com/search?q=spotify+api+documentation&oq=spotif&aqs=chrome.0.69i59j69i57j35i39j69i60l5.3902j0j7&sourceid=chrome&ie=UTF-8");
+                    startActivity(intent1);
+                } catch (Exception e) {
+                    Toast toast=Toast.makeText(getContext(),"no facebook app",Toast.LENGTH_SHORT);
+                }
+            }
+        });
+        smsShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent smsIntent = new Intent(android.content.Intent.ACTION_VIEW);
+                smsIntent.setType("vnd.android-dir/mms-sms");
+                smsIntent.putExtra("sms_body","https://www.google.com/search?q=spotify+api+documentation&oq=spotif&aqs=chrome.0.69i59j69i57j35i39j69i60l5.3902j0j7&sourceid=chrome&ie=UTF-8");
+                smsIntent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
+                try {
+                    startActivity(smsIntent);
+                }catch (Exception e){
+                    Toast toast=Toast.makeText(getContext(),"no sms app",Toast.LENGTH_SHORT);
+                }
+            }
+        });
+        linkShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("label", "https://www.google.com/search?q=spotify+api+documentation&oq=spotif&aqs=chrome.0.69i59j69i57j35i39j69i60l5.3902j0j7&sourceid=chrome&ie=UTF-8");
+                clipboard.setPrimaryClip(clip);
+            }
+        });
+        moreShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "https://www.google.com/search?q=spotify+api+documentation&oq=spotif&aqs=chrome.0.69i59j69i57j35i39j69i60l5.3902j0j7&sourceid=chrome&ie=UTF-8");
+                sendIntent.setType("text/plain");
+                Intent shareIntent = Intent.createChooser(sendIntent, null);
+                try {
+                    startActivity(shareIntent);
+                }catch (Exception e){
+                    Toast toast=Toast.makeText(getContext(),"no sharing app",Toast.LENGTH_SHORT);
+                }
+            }
+        });
 
         return bottomSheet;
     }

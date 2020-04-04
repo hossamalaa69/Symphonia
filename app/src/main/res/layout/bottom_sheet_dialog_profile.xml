@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="@color/colorPrimary">
+    tools:background="@color/colorPrimary"
+    tools:ignore="RtlCompat">
 
     <LinearLayout
         android:layout_above="@+id/profile_or_playlist_info"
@@ -115,7 +116,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:paddingEnd="32dp"
-                    android:paddingRight="32dp"
                     android:src="@drawable/ic_following"
                     android:tint="#1db954" />
 
@@ -145,7 +145,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:paddingEnd="32dp"
-                    android:paddingRight="32dp"
                     android:src="@drawable/ic_add"
                     android:tint="#80FFFFFF" />
 
@@ -176,9 +175,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:paddingEnd="32dp"
-                    android:paddingRight="32dp"
                     android:src="@drawable/ic_remove_circle_outline"
-                    android:tint="#80FFFFFF" />
+                    android:tint="#80FFFFFF"
+                     />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -214,7 +213,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:paddingEnd="32dp"
-                    android:paddingRight="32dp"
                     android:src="@drawable/ic_share_outlined"
                     android:tint="#80FFFFFF" />
 
@@ -244,7 +242,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:paddingEnd="32dp"
-                    android:paddingRight="32dp"
                     android:src="@drawable/ic_phone_24dp"
                     android:tint="#80FFFFFF" />
 
@@ -284,8 +281,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="32dp"
-                    android:layout_marginRight="32dp"
+                    android:layout_marginEnd="32dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/whatsapp" />
 
@@ -313,8 +309,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="32dp"
-                    android:layout_marginRight="32dp"
+                    android:layout_marginEnd="32dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/facebook" />
 
@@ -342,8 +337,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="32dp"
-                    android:layout_marginRight="32dp"
+                    android:layout_marginEnd="32dp"
                     android:src="@drawable/messenger"
                     android:scaleType="centerCrop"/>
 
@@ -371,8 +365,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="32dp"
-                    android:layout_marginRight="32dp"
+                    android:layout_marginEnd="32dp"
                     android:src="@mipmap/sms_white_foreground"
                     android:scaleType="centerCrop"/>
 
@@ -400,8 +393,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="32dp"
-                    android:layout_marginRight="32dp"
+                    android:layout_marginEnd="32dp"
                     android:src="@mipmap/link_white_foreground"
                     android:scaleType="centerCrop"/>
 
@@ -429,8 +421,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="32dp"
-                    android:layout_marginRight="32dp"
+                    android:layout_marginEnd="32dp"
                     android:src="@mipmap/more_horizontal_white_foreground"
                     android:scaleType="centerCrop"/>
 
