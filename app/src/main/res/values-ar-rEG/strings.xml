@@ -192,5 +192,7 @@
     <string name="logging_in">يتم التسجيل..</string>
     <string name="belongs_to_different_user">هذا الحساب مُسجل من قِبل نوع مستخدم آخر</string>
     <string name="checking">يُفحص..</string>
+    <string name="remove_album_snackbar_text">تم حذفها من مكتبتك</string>
+    <string name="add_album_snackbar_text">تمت إضافتها إلى مكتبتك</string>
 
 </resources>

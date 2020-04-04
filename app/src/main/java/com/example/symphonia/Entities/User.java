@@ -458,6 +458,14 @@ public class User {
         mFollowingArtists.remove(artist);
     }
 
+    public void saveAlbum(Album album){mSavedAlbums.add(album);};
+
+    public void removeAlbum(Album album){mSavedAlbums.remove(album);};
+
+    public Boolean checkSavedAlbum(Album checkedAlbum){
+        return mSavedAlbums.contains(checkedAlbum);
+    }
+
     /**
      * getter for array of played tracks
      *

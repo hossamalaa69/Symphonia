@@ -7,6 +7,7 @@ import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Playlist;
+import com.example.symphonia.Entities.Track;
 
 import java.util.ArrayList;
 
@@ -201,7 +202,7 @@ public interface APIs {
      * @param id user or artist id
      * @return true if following and false if not
      */
-    Boolean isFollowing(Boolean type, String mToken, String id);
+    boolean isFollowing(Boolean type, String mToken, String id);
 
     /**
      * Get a list of recommended artist for the current user
@@ -212,6 +213,16 @@ public interface APIs {
      * @return list of recommended artists
      */
     ArrayList<Artist> getRecommendedArtists(Boolean type, String mToken, int limit);
+
+    Album getAlbum(Context context, String id);
+
+    ArrayList<Track> getAlbumTracks(Context context, String id, int offset, int limit);
+
+    void saveAlbumsForUser(Context context, ArrayList<String> ids);
+
+    void removeAlbumsForUser(Context context, ArrayList<String> ids);
+
+    ArrayList<Boolean> checkUserSavedAlbums(Context context, ArrayList<String> ids);
 
     boolean promotePremium(final Context context, View root, String token);
 

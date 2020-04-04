@@ -7,6 +7,7 @@ import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Playlist;
+import com.example.symphonia.Entities.Track;
 
 import java.util.ArrayList;
 
@@ -282,6 +283,26 @@ public class ServiceController {
      */
     public Artist getArtist(Context context, String mToken, String id){
         return mSupplier.getArtist(context, mToken, id);
+    }
+
+    public Album getAlbum(Context context, String id) {
+        return mSupplier.getAlbum(context, id);
+    }
+
+    public ArrayList<Track> getAlbumTracks(Context context, String id, int offset, int limit) {
+        return mSupplier.getAlbumTracks(context, id, offset, limit);
+    }
+
+    public void saveAlbumsForUser(Context context, ArrayList<String> ids) {
+        mSupplier.saveAlbumsForUser(context, ids);
+    }
+
+    public void removeAlbumsForUser(Context context, ArrayList<String> ids) {
+        mSupplier.removeAlbumsForUser(context, ids);
+    }
+
+    public ArrayList<Boolean> checkUserSavedAlbums(Context context, ArrayList<String> ids) {
+        return mSupplier.checkUserSavedAlbums(context, ids);
     }
 
     public boolean promotePremium(final Context context, View root, String token){

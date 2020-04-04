@@ -299,7 +299,7 @@ public class MockService implements APIs {
                     , mArtistArrayList.get(userIndex).isPremuim()
                     , 65500, 40, new ArrayList<User>()
                     , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
-                    , followed, mAlbums, new ArrayList<Track>());
+                    , followed, new ArrayList<Album>(mAlbums), new ArrayList<Track>());
         } else {
 
             //for listener type, set different token
@@ -316,7 +316,7 @@ public class MockService implements APIs {
                     , mListenerArrayList.get(userIndex).isPremuim()
                     , 65500, 40, new ArrayList<User>()
                     , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
-                    , followed, mAlbums, new ArrayList<Track>());
+                    , followed, new ArrayList<Album>(mAlbums), new ArrayList<Track>());
         }
         return true;
     }
@@ -746,7 +746,7 @@ public class MockService implements APIs {
      * @return true if following and false if not
      */
     @Override
-    public Boolean isFollowing(Boolean type, String mToken, String id) {
+    public boolean isFollowing(Boolean type, String mToken, String id) {
         ArrayList<Artist> mFollowingArtists = Constants.currentUser.getFollowingArtists();
         for (Artist artist : mFollowingArtists) {
             if (artist.getId().equals(id))
@@ -778,6 +778,49 @@ public class MockService implements APIs {
             }
         }
         return mRecommendedArtists;
+    }
+
+    @Override
+    public Album getAlbum(Context context, String id) {
+        for (Album album : mAlbums) {
+            if (album.getAlbumId().equals(id))
+                return album;
+        }
+
+        return null;
+    }
+
+    @Override
+    public ArrayList<Track> getAlbumTracks(Context context, String id, int offset, int limit) {
+        Album album = getAlbum(context, id);
+        if(album != null) return album.getAlbumTracks();
+        return null;
+    }
+
+    @Override
+    public void saveAlbumsForUser(Context context, ArrayList<String> ids) {
+        for (String id : ids){
+            Album album = getAlbum(context, id);
+            if(album != null) Constants.currentUser.saveAlbum(album);
+        }
+    }
+
+    @Override
+    public void removeAlbumsForUser(Context context, ArrayList<String> ids) {
+        for (String id : ids){
+            Album album = getAlbum(context, id);
+            if(album != null) Constants.currentUser.removeAlbum(album);
+        }
+    }
+
+    @Override
+    public ArrayList<Boolean> checkUserSavedAlbums(Context context, ArrayList<String> ids) {
+        ArrayList<Boolean> checkArray = new ArrayList<>();
+        for (String id : ids){
+            Album album = getAlbum(context, id);
+            if(album != null) checkArray.add(Constants.currentUser.checkSavedAlbum(album));
+        }
+        return checkArray;
     }
 
     /**

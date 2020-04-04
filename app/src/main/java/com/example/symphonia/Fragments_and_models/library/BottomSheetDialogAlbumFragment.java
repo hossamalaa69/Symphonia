@@ -1,27 +1,22 @@
-
 package com.example.symphonia.Fragments_and_models.library;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-
+import android.content.Context;
 import android.graphics.Color;
-
 import android.os.Bundle;
-
 import android.view.MotionEvent;
 import android.view.View;
-
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.palette.graphics.Palette;
 
-
-import com.example.symphonia.Constants;
-import com.example.symphonia.Entities.Artist;
+import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
@@ -30,32 +25,36 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static java.util.Arrays.asList;
 
-public class BottomSheetDialogArtist extends BottomSheetDialogFragment {
-
-    private static final String ARTIST_ID = "ARTIST_ID";
-
+public class BottomSheetDialogAlbumFragment extends BottomSheetDialogFragment {
+    private static final String ALBUM_ID = "ALBUM_ID";
     private float firstY = 0;
+    private BottomSheetListener mListener;
+
+    public BottomSheetDialogAlbumFragment(BottomSheetListener mListener) {
+        this.mListener = mListener;
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        BottomSheetDialog bottomSheet = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
+        final BottomSheetDialog bottomSheet = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
 
         //inflating layout
-        View view = View.inflate(getContext(), R.layout.bottom_sheet_artist_properties, null);
+        View view = View.inflate(getContext(), R.layout.bottom_sheet_album_fragment_properties, null);
         bottomSheet.setContentView(view);
 
-        ServiceController serviceController = ServiceController.getInstance();
+        final ServiceController serviceController = ServiceController.getInstance();
 
         Bundle arguments = getArguments();
         assert arguments != null;
-        String artistId = arguments.getString(ARTIST_ID);
+        String albumId = arguments.getString(ALBUM_ID);
 
-        Artist mArtist = serviceController.getArtist(getContext(), Constants.currentToken,  artistId);
+        final Album mAlbum = serviceController.getAlbum(getContext(), albumId);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,16 +87,17 @@ public class BottomSheetDialogArtist extends BottomSheetDialogFragment {
             }
         });
 
-        TextView artistName = view.findViewById(R.id.text_artist_name);
-        artistName.setText(mArtist.getArtistName());
-        ImageView artistImage = view.findViewById(R.id.image_artist);
-        artistImage.setImageBitmap(mArtist.getImage());
+        TextView albumName = view.findViewById(R.id.text_album_name);
+        albumName.setText(mAlbum.getAlbumName());
+        ImageView albumImage = view.findViewById(R.id.image_album);
+        albumImage.setImageBitmap(mAlbum.getAlbumImage());
 
         ConstraintLayout imageFrame = view.findViewById(R.id.image_frame);
+        FrameLayout imageColor = view.findViewById(R.id.image_color);
         ImageView symphoniaImage = view.findViewById(R.id.image_symphonia);
         ImageView soundWave = view.findViewById(R.id.image_sound_wave);
 
-        int dominantColor = Utils.getDominantColor(mArtist.getImage());
+        int dominantColor = Utils.getDominantColor(mAlbum.getAlbumImage());
         imageFrame.setBackgroundColor(dominantColor);
         if(!Utils.isColorDark(dominantColor)){
             symphoniaImage.setColorFilter(Color.rgb(0, 0, 0));
@@ -108,13 +108,16 @@ public class BottomSheetDialogArtist extends BottomSheetDialogFragment {
             soundWave.setColorFilter(Color.rgb(255, 255, 255));
         }
 
-        final LinearLayout following = view.findViewById(R.id.layout_following);
-        final LinearLayout removeArtist = view.findViewById(R.id.layout_remove_artist);
-        final LinearLayout viewArtist = view.findViewById(R.id.layout_view_artist);
-        final LinearLayout share = view.findViewById(R.id.layout_share);
-        final LinearLayout homeScreen = view.findViewById(R.id.layout_home_screen);
+        Palette palette = Palette.from(mAlbum.getAlbumImage()).generate();
+        imageColor.setBackgroundColor(palette.getVibrantColor(0));
 
-        ArrayList<LinearLayout> layouts = new ArrayList<>(asList(following, removeArtist, viewArtist, share, homeScreen));
+
+        final LinearLayout liked = view.findViewById(R.id.layout_liked);
+        final LinearLayout viewArtist = view.findViewById(R.id.layout_view_artist);
+        final LinearLayout likeAllSongs = view.findViewById(R.id.layout_like_all_songs);
+        final LinearLayout share = view.findViewById(R.id.layout_share);
+
+        ArrayList<LinearLayout> layouts = new ArrayList<>(asList(liked, viewArtist, likeAllSongs, share));
 
         for (LinearLayout layout: layouts) {
             layout.setOnTouchListener(new View.OnTouchListener() {
@@ -145,10 +148,41 @@ public class BottomSheetDialogArtist extends BottomSheetDialogFragment {
             });
         }
 
+        final TextView likeText = view.findViewById(R.id.text_like);
+        final ImageView likeIcon = view.findViewById(R.id.like_icon);
 
+        if(serviceController.checkUserSavedAlbums(getContext(),
+                new ArrayList<String>(Collections.singletonList(mAlbum.getAlbumId()))).get(0)) {
+            likeIcon.setImageResource(R.drawable.ic_favorite_green_24dp);
+            likeText.setText(R.string.liked);
+        }
 
+        else {
+            likeIcon.setImageResource(R.drawable.ic_favorite_border_transparent_white_24dp);
+            likeText.setText(R.string.like);
+        }
 
+        liked.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(likeText.getText().equals(getString(R.string.liked))){
+                    serviceController.removeAlbumsForUser(getContext(),
+                            new ArrayList<String>(Collections.singletonList(mAlbum.getAlbumId())));
+                    dismiss();
+                } else {
+                    serviceController.saveAlbumsForUser(getContext(),
+                            new ArrayList<String>(Collections.singletonList(mAlbum.getAlbumId())));
+                    dismiss();
+                }
+                mListener.onLikedLayoutClicked();
+            }
+        });
 
         return bottomSheet;
     }
+
+    public interface BottomSheetListener{
+        void onLikedLayoutClicked();
+    }
+
 }

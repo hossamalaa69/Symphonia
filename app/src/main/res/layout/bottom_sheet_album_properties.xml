@@ -113,15 +113,16 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/like_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:paddingRight="32dp"
-                    android:tint="#1db954"
-                    android:src="@drawable/ic_favorite_black_24dp"
+                    android:src="@drawable/ic_favorite_green_24dp"
                     android:paddingEnd="32dp" />
 
                 <TextView
+                    android:id="@+id/text_like"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"

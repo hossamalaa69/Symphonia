@@ -1,7 +1,7 @@
 package com.example.symphonia.Fragments_and_models.library;
 
-import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,27 +12,29 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Adapters.RvListArtistSearchAdapter;
 import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Entities.Copyright;
+import com.example.symphonia.Helpers.SnackbarHelper;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
+import com.example.symphonia.Service.ServiceController;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 
@@ -42,9 +44,13 @@ import java.util.Locale;
  * @author islamahmed1092
  * @version 1.0
  */
-public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter.ListItemClickListener {
+public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter.ListItemClickListener
+, BottomSheetDialogAlbumFragment.BottomSheetListener {
 
-
+    private static final String ALBUM_ID = "ALBUM_ID";
+    private ServiceController serviceController;
+    private ImageView saveIcon;
+    private NestedScrollView viewContainer;
     /**
      * object from album contains all the data
      */
@@ -58,15 +64,6 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
     }
 
     /**
-     * constructor takes clicked album as an input
-     *
-     * @param album album object
-     */
-    public AlbumFragment(Album album){
-        this.mAlbum = album;
-    }
-
-    /**
      * fill all the view with album data
      *
      * @param inflater inflate the fragment
@@ -76,10 +73,18 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
      */
     @SuppressLint("ClickableViewAccessibility")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_album, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_album, container, false);
+
+        serviceController = ServiceController.getInstance();
+
+        final Bundle arguments = getArguments();
+        assert arguments != null;
+        String albumId = arguments.getString(ALBUM_ID);
+
+        mAlbum = serviceController.getAlbum(getContext(), albumId);
 
         ImageView backIcon = rootView.findViewById(R.id.back_icon);
         backIcon.setOnClickListener(new View.OnClickListener() {
@@ -89,10 +94,56 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
             }
         });
 
+
+        saveIcon = rootView.findViewById(R.id.save_icon);
+        if(serviceController.checkUserSavedAlbums(getContext(),
+                new ArrayList<String>(Collections.singletonList(mAlbum.getAlbumId()))).get(0))
+            saveIcon.setImageResource(R.drawable.ic_favorite_green_24dp);
+        else
+            saveIcon.setImageResource(R.drawable.ic_favorite_border_white_24dp);
+
+        saveIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(serviceController.checkUserSavedAlbums(getContext(),
+                        new ArrayList<String>(Collections.singletonList(mAlbum.getAlbumId()))).get(0)){
+                    saveIcon.setImageResource(R.drawable.ic_favorite_border_white_24dp);
+                    serviceController.removeAlbumsForUser(getContext(),
+                            new ArrayList<String>(Collections.singletonList(mAlbum.getAlbumId())));
+
+                    Snackbar snack = Snackbar.make(viewContainer, R.string.remove_album_snackbar_text, Snackbar.LENGTH_LONG);
+                    SnackbarHelper.configSnackbar(getContext(), snack, R.drawable.custom_snackbar, Color.BLACK);
+                    snack.show();
+
+                }
+                else{
+                    saveIcon.setImageResource(R.drawable.ic_favorite_green_24dp);
+                    serviceController.saveAlbumsForUser(getContext(),
+                            new ArrayList<String>(Collections.singletonList(mAlbum.getAlbumId())));
+
+                    Snackbar snack = Snackbar.make(viewContainer, R.string.add_album_snackbar_text, Snackbar.LENGTH_LONG);
+                    SnackbarHelper.configSnackbar(getContext(), snack, R.drawable.custom_snackbar, Color.BLACK);
+                    snack.show();
+                }
+            }
+        });
+
+        ImageView settingsIcon = rootView.findViewById(R.id.settings_icon);
+        settingsIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BottomSheetDialogAlbumFragment bottomSheet = new BottomSheetDialogAlbumFragment(AlbumFragment.this);
+                Bundle arguments = new Bundle();
+                arguments.putString( ALBUM_ID , mAlbum.getAlbumId());
+                bottomSheet.setArguments(arguments);
+                bottomSheet.show(((MainActivity)getActivity()).getSupportFragmentManager(), bottomSheet.getTag());
+            }
+        });
+
         ImageView albumImage = rootView.findViewById(R.id.image_album);
         albumImage.setImageBitmap(mAlbum.getAlbumImage());
 
-        NestedScrollView viewContainer = rootView.findViewById(R.id.container);
+        viewContainer = rootView.findViewById(R.id.container);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             Drawable drawable = Utils.createAlbumBackground(getContext(), mAlbum.getAlbumImage());
             viewContainer.setBackground(drawable);
@@ -235,6 +286,9 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
         TextView copyrightsTextView = rootView.findViewById(R.id.text_copyrights);
         copyrightsTextView.setText(getCopyrightsString(mAlbum.getCopyrights()));
 
+
+
+
         return rootView;
     }
 
@@ -312,5 +366,22 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
 
     private double calculateDistance(float x1, float y1, float x2, float y2){
         return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2) * 1.0);
+    }
+
+
+    @Override
+    public void onLikedLayoutClicked() {
+        if(serviceController.checkUserSavedAlbums(getContext(),
+                new ArrayList<String>(Collections.singletonList(mAlbum.getAlbumId()))).get(0)) {
+            saveIcon.setImageResource(R.drawable.ic_favorite_green_24dp);
+            Snackbar snack = Snackbar.make(viewContainer, R.string.add_album_snackbar_text, Snackbar.LENGTH_LONG);
+            SnackbarHelper.configSnackbar(getContext(), snack, R.drawable.custom_snackbar, Color.BLACK);
+            snack.show();
+        } else {
+            saveIcon.setImageResource(R.drawable.ic_favorite_border_white_24dp);
+            Snackbar snack = Snackbar.make(viewContainer, R.string.remove_album_snackbar_text, Snackbar.LENGTH_LONG);
+            SnackbarHelper.configSnackbar(getContext(), snack, R.drawable.custom_snackbar, Color.BLACK);
+            snack.show();
+        }
     }
 }

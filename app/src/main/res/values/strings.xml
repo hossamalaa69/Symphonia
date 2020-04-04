@@ -185,6 +185,7 @@
     <string name="dismiss">Dismiss</string>
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="liked">Liked</string>
+    <string name="like">Like</string>
     <string name="hidden">Hidden</string>
     <string name="track_is_locked">this song is locked \n to unlock get premium</string>
     <string name="started">Started</string>
@@ -201,7 +202,6 @@
     <string name="go_to_full_album">Go to full Album</string>
     <string name="don_t_play_this_artist">Don\'t play this artist</string>
     <string name="add_to_home_screen">Add to Home Screen</string>
-    <string name="like">Like</string>
     <string name="hide_this_song">Hide this Song</string>
     <string name="add_to_playlist">Add to Playlist</string>
     <string name="view_artist">View Artist</string>
@@ -210,5 +210,7 @@
     <string name="show_credits">Show Credits</string>
     <string name="belongs_to_different_user">This account belongs to different user type</string>
     <string name="checking">Checking..</string>
+    <string name="remove_album_snackbar_text">Removed from Your Library.</string>
+    <string name="add_album_snackbar_text">Added to Your Library.</string>
 
 </resources>

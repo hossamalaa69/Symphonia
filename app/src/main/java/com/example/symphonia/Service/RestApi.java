@@ -14,6 +14,7 @@ import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Playlist;
+import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Entities.User;
 
 import org.json.JSONArray;
@@ -438,8 +439,8 @@ public class RestApi implements APIs {
      * @return true if following and false if not
      */
     @Override
-    public Boolean isFollowing(Boolean type, String mToken, String id) {
-        return null;
+    public boolean isFollowing(Boolean type, String mToken, String id) {
+        return false;
     }
 
     /**
@@ -452,6 +453,31 @@ public class RestApi implements APIs {
      */
     @Override
     public ArrayList<Artist> getRecommendedArtists(Boolean type, String mToken, int limit) {
+        return null;
+    }
+
+    @Override
+    public Album getAlbum(Context context, String id) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Track> getAlbumTracks(Context context, String id, int offset, int limit) {
+        return null;
+    }
+
+    @Override
+    public void saveAlbumsForUser(Context context, ArrayList<String> ids) {
+
+    }
+
+    @Override
+    public void removeAlbumsForUser(Context context, ArrayList<String> ids) {
+
+    }
+
+    @Override
+    public ArrayList<Boolean> checkUserSavedAlbums(Context context, ArrayList<String> ids) {
         return null;
     }
 

@@ -2,6 +2,7 @@ package com.example.symphonia.Fragments_and_models.library;
 
 import android.app.Activity;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -17,13 +18,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Adapters.RvListAlbumsAdapter;
+import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Album;
+import com.example.symphonia.Helpers.SnackbarHelper;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -35,8 +39,13 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapter.ListItemClickListener,
-        RvListAlbumsAdapter.ListItemLongClickListener{
+        RvListAlbumsAdapter.ListItemLongClickListener, BottomSheetDialogAlbum.BottomSheetListener {
 
+    private static final String ALBUM_ID = "ALBUM_ID";
+
+    private RecyclerView mAlbumsList;
+
+    private TextView albumsEmptyState;
     /**
      * adapter to control the items in recyclerview
      */
@@ -76,7 +85,7 @@ public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapt
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_library_albums, container, false);
         mServiceController = ServiceController.getInstance();
-        TextView albumsEmptyState = rootView.findViewById(R.id.text_albums_empty_state);
+        albumsEmptyState = rootView.findViewById(R.id.text_albums_empty_state);
 
         mLikedAlbums = mServiceController.getUserSavedAlbums(getContext(), "token1", 0, 20);
 
@@ -85,7 +94,8 @@ public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapt
         else
             albumsEmptyState.setVisibility(View.VISIBLE);
 
-        final RecyclerView mAlbumsList = rootView.findViewById(R.id.rv_albums);
+
+        mAlbumsList = rootView.findViewById(R.id.rv_albums);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mAlbumsList.setLayoutManager(layoutManager);
         mAdapter = new RvListAlbumsAdapter(mLikedAlbums, this, this);
@@ -148,8 +158,14 @@ public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapt
     @Override
     public void onListItemClick(View v, int clickedItemIndex) {
 
+        AlbumFragment fragment = new AlbumFragment();
+        Bundle arguments = new Bundle();
+        arguments.putString( ALBUM_ID , mLikedAlbums.get(clickedItemIndex).getAlbumId());
+        fragment.setArguments(arguments);
+
+
         ((MainActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(
-                R.id.nav_host_fragment, new AlbumFragment(mLikedAlbums.get(clickedItemIndex)))
+                R.id.nav_host_fragment, fragment)
                 .addToBackStack(null)
                 .commit();
 
@@ -157,8 +173,39 @@ public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapt
 
     @Override
     public void onListItemLongClick(int clickedItemIndex) {
-        BottomSheetDialogAlbum bottomSheet = new BottomSheetDialogAlbum(mLikedAlbums.get(clickedItemIndex));
-        assert getFragmentManager() != null;
-        bottomSheet.show(getFragmentManager(),bottomSheet.getTag());
+        BottomSheetDialogAlbum bottomSheet = new BottomSheetDialogAlbum(this);
+        Bundle arguments = new Bundle();
+        arguments.putString( ALBUM_ID , mLikedAlbums.get(clickedItemIndex).getAlbumId());
+        bottomSheet.setArguments(arguments);
+        bottomSheet.show(((MainActivity)getActivity()).getSupportFragmentManager(), bottomSheet.getTag());
     }
+
+    @Override
+    public void onLikedLayoutClicked() {
+
+        mLikedAlbums = mServiceController.getUserSavedAlbums(getContext(), "token1", 0, 20);
+        if(mLikedAlbums.size() == 0) albumsEmptyState.setVisibility(View.VISIBLE);
+        mAdapter.clear();
+        mAdapter.addAll(mLikedAlbums);
+        mAdapter.notifyDataSetChanged();
+
+        Snackbar snack = Snackbar.make(mAlbumsList, R.string.remove_album_snackbar_text, Snackbar.LENGTH_LONG);
+        SnackbarHelper.configSnackbar(getContext(), snack, R.drawable.custom_snackbar, Color.BLACK);
+        snack.show();
+    }
+
+    @Override
+    public void onGoFullAlbumLayoutClicked(String mAlbumId) {
+        AlbumFragment fragment = new AlbumFragment();
+        Bundle arguments = new Bundle();
+        arguments.putString( ALBUM_ID , mAlbumId);
+        fragment.setArguments(arguments);
+
+
+        ((MainActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(
+                R.id.nav_host_fragment, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
 }

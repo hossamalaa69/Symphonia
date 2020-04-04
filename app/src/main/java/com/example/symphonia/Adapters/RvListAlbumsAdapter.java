@@ -53,6 +53,25 @@ public class RvListAlbumsAdapter extends RecyclerView.Adapter<RvListAlbumsAdapte
     }
 
     /**
+     * clear all the data in artists array
+     * and create a new one
+     */
+    public void clear(){
+        mAlbums.clear();
+        mAlbums = new ArrayList<>();
+    }
+
+    /**
+     * adding an arraylist to the existing one
+     *
+     * @param artists array to be added
+     */
+    public void addAll(ArrayList<Album> artists){
+        this.mAlbums.addAll(artists);
+    }
+
+
+    /**
      * returns the right view holder for each item in recyclerview
      *
      * @param parent the root view

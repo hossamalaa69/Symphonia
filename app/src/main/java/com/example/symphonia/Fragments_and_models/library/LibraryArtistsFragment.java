@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
  */
 public class LibraryArtistsFragment extends Fragment implements RvListArtistsAdapter.ListItemLongClickListener {
 
+    private static final String ARTIST_ID = "ARTIST_ID";
     /**
      * holds the user's following artists
      */
@@ -146,9 +148,11 @@ public class LibraryArtistsFragment extends Fragment implements RvListArtistsAda
 
     @Override
     public void onListItemLongClick(int clickedItemIndex) {
-        BottomSheetDialogArtist bottomSheet = new BottomSheetDialogArtist(mFollowedArtists.get(clickedItemIndex));
-        assert getFragmentManager() != null;
-        bottomSheet.show(getFragmentManager(),bottomSheet.getTag());
+        BottomSheetDialogArtist bottomSheet = new BottomSheetDialogArtist();
+        Bundle arguments = new Bundle();
+        arguments.putString(ARTIST_ID , mFollowedArtists.get(clickedItemIndex).getId());
+        bottomSheet.setArguments(arguments);
+        bottomSheet.show(((MainActivity)getActivity()).getSupportFragmentManager(), bottomSheet.getTag());
     }
 
 }
