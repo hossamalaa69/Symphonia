@@ -190,5 +190,6 @@
     <string name="hide_this_song">اخفاء</string>
     <string name="like">اعجاب</string>
     <string name="logging_in">يتم التسجيل..</string>
+    <string name="belongs_to_different_user">This account belongs to different user type</string>
 
 </resources>
