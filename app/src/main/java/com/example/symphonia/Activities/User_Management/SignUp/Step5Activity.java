@@ -20,6 +20,7 @@ import com.example.symphonia.Activities.User_Interface.AddArtistsActivity;
 import com.example.symphonia.Helpers.CustomOfflineDialog;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
+import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
 
 /**
@@ -29,7 +30,7 @@ import com.example.symphonia.Service.ServiceController;
  * @since 22-3-2020
  * @version 1.0
  */
-public class Step5Activity extends AppCompatActivity  {
+public class Step5Activity extends AppCompatActivity implements RestApi.updateUiSignUp {
 
     /**
      * Holds EditText for user's name input
@@ -186,5 +187,10 @@ public class Step5Activity extends AppCompatActivity  {
         Intent i = new Intent(this, AddArtistsActivity.class);
         i.putExtra("newUser", "true");
         startActivity(i);
+    }
+
+    @Override
+    public void updateUiSignUpSuccess() {
+        createMail();
     }
 }

@@ -14,6 +14,10 @@ import java.util.ArrayList;
 public class User {
 
     /**
+     * holds user id
+     */
+    private String _id;
+    /**
      * holds email
      */
     private String mEmail;
@@ -487,5 +491,13 @@ public class User {
      */
     public void setType(boolean mType) {
         this.mType = mType;
+    }
+
+    public User(String email,String id,String name,boolean type,boolean premium){
+        this.mEmail = email;
+        this._id = id;
+        this.mName = name;
+        this.mType = type;
+        this.mIsPremuim = premium;
     }
 }

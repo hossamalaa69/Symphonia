@@ -14,7 +14,8 @@
         android:icon="@mipmap/ic_app"
         android:roundIcon="@mipmap/ic_app_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
         <activity android:name=".Helpers.AdDialog" android:theme="@style/Theme.UserDialog" />
 
         <service android:name=".MediaController" />

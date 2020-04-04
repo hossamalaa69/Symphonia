@@ -19,6 +19,7 @@ import com.example.symphonia.Helpers.CustomOfflineDialog;
 import com.example.symphonia.Helpers.CustomSignUpDialog;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
+import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
 
 /**
@@ -28,7 +29,18 @@ import com.example.symphonia.Service.ServiceController;
  * @since 22-3-2020
  * @version 1.0
  */
-public class Step1Activity extends AppCompatActivity {
+public class Step1Activity extends AppCompatActivity implements RestApi.updateUiEmailValidity {
+
+    @Override
+    public void updateUiEmailValiditySuccess() {
+        availableMail();
+    }
+
+    @Override
+    public void updateUiEmailValidityFail() {
+        notAvailable();
+    }
+
 
     /**
      * represents Edit text that holds email input
@@ -165,4 +177,5 @@ public class Step1Activity extends AppCompatActivity {
         CustomSignUpDialog custom_dialog = new CustomSignUpDialog();
         custom_dialog.showDialog(this, mEmail.getText().toString(), mUser);
     }
+
 }

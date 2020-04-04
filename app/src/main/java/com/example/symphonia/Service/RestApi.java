@@ -1,16 +1,37 @@
 package com.example.symphonia.Service;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.View;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Playlist;
+import com.example.symphonia.Entities.User;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RestApi implements APIs {
+    final String baseUrl = "https://jsonplaceholder.typicode.com";
+    private static final RestApi mInstance = new RestApi();
+
+    public static RestApi getInstance() {
+        return mInstance;
+    }
+
     /**
      * holds logging user in, creation of user object and sets token
      *
@@ -21,8 +42,59 @@ public class RestApi implements APIs {
      * @return return true if data is matched
      */
     @Override
-    public boolean logIn(Context context, String username, String password, boolean mType) {
-        return false;
+    public boolean logIn(final Context context, final String username,final String password,final boolean mType) {
+        final updateUiLogin updateLogin = (updateUiLogin) context;
+        StringRequest stringrequest = new StringRequest(Request.Method.POST, (Constants.LOG_IN_URL),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try{
+                            JSONObject root = new JSONObject(response);
+                            Constants.currentToken=root.getString("token");
+                            JSONObject user = root.getJSONObject("user");
+                            String id = user.getString("_id");
+                            String name = user.getString("name");
+                            String type = user.getString("type");
+                            boolean premium = false;
+                            if(type.equals("premium-user")){
+                                premium = true;
+                                type = "user";
+                            }
+                            else if(type.equals("artist")){
+                                premium = true;
+                            }
+
+                            Constants.currentUser = new User(username,id, name, type.equals("user"), premium);
+                            updateLogin.updateUiLoginSuccess();
+                        }catch (JSONException e){
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(context,error.toString(),Toast.LENGTH_LONG).show();
+                        updateLogin.updateUiLoginFail();
+                    }
+        }){
+        @Override
+        protected Map<String, String> getParams() {
+            Map<String, String> params = new HashMap<>();
+            params.put("email", username);
+            params.put("password", password);
+            return params;
+        }};
+
+        VolleySingleton.getInstance(context).getRequestQueue().add(stringrequest);
+        return true;
+    }
+
+
+    public interface updateUiLogin {
+        void updateUiLoginSuccess();
+
+        void updateUiLoginFail();
     }
 
     /**
@@ -34,10 +106,15 @@ public class RestApi implements APIs {
      * @return returns true if email is new, false if it's signed before
      */
     @Override
-    public boolean checkEmailAvailability(Context context, String email, boolean mType) {
+    public boolean checkEmailAvailability(final Context context, String email, boolean mType) {
         return false;
     }
 
+    public interface updateUiEmailValidity {
+        void updateUiEmailValiditySuccess();
+
+        void updateUiEmailValidityFail();
+    }
     /**
      * handles that user is signing up, initializes new user object
      * fill database with new user
@@ -52,8 +129,20 @@ public class RestApi implements APIs {
      * @return returns true if sign up is done
      */
     @Override
-    public boolean signUp(Context context, boolean mType, String email, String password, String DOB, String gender, String name) {
+    public boolean signUp(final Context context, boolean mType, String email, String password, String DOB, String gender, String name) {
         return false;
+    }
+
+    public interface updateUiSignUp {
+        void updateUiSignUpSuccess();
+    }
+
+
+
+    public interface updateUiPlaylists {
+        void updateUiGetPopularPlaylistsSuccess();
+
+        void updateUiGetPopularPlaylistsFail();
     }
 
     /**
@@ -64,7 +153,31 @@ public class RestApi implements APIs {
      * @return popular  playlist
      */
     @Override
-    public ArrayList<Playlist> getPopularPlaylists(Context context, String mToken) {
+    public ArrayList<Playlist> getPopularPlaylists(final Context context, String mToken) {
+        final updateUiPlaylists updatePopularPlaylist = (updateUiPlaylists) context;
+        String connectionString = baseUrl;
+        if (mToken != null) connectionString += "/posts";
+        Uri.Builder builder = Uri.parse(connectionString).buildUpon();
+        StringRequest request = new StringRequest(builder.toString(), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray root = new JSONArray(response);
+                    String title = root.getJSONObject(0).getString("title");
+                    Toast.makeText(context, title, Toast.LENGTH_SHORT).show();
+                    // update UI
+                    updatePopularPlaylist.updateUiGetPopularPlaylistsSuccess();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                updatePopularPlaylist.updateUiGetPopularPlaylistsFail();
+            }
+        });
+        VolleySingleton.getInstance(context).getRequestQueue().add(request);
         return null;
     }
 
@@ -291,7 +404,7 @@ public class RestApi implements APIs {
     }
 
     @Override
-    public boolean promotePremium(Context context, View root, String token) {
+    public boolean promotePremium(final Context context, View root, String token) {
         return false;
     }
 

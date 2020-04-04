@@ -58,7 +58,7 @@ public class ServiceController {
      * @param mType    type of user, true for listener and false for artist
      * @return return true if data is matched
      */
-    public boolean logIn(Context context, String username, String password, boolean mType) {
+    public boolean logIn(final Context context, String username, String password, boolean mType) {
         return mSupplier.logIn(context, username, password, mType);
     }
 
@@ -70,7 +70,7 @@ public class ServiceController {
      * @param mType   type of user, true for listener and false for artist
      * @return returns true if email is new, false if it's signed before
      */
-    public boolean checkEmailAvailability(Context context, String email, boolean mType) {
+    public boolean checkEmailAvailability(final Context context, String email, boolean mType) {
         return mSupplier.checkEmailAvailability(context, email, mType);
     }
 
@@ -87,7 +87,7 @@ public class ServiceController {
      * @param name     name of user
      * @return returns true if sign up is done
      */
-    public boolean signUp(Context context, boolean mType, String email, String password,
+    public boolean signUp(final Context context, boolean mType, String email, String password,
                           String DOB, String gender, String name) {
         return mSupplier.signUp(context, mType, email, password, DOB, gender, name);
     }
@@ -284,7 +284,7 @@ public class ServiceController {
         return mSupplier.getArtist(context, mToken, id);
     }
 
-    public boolean promotePremium(Context context, View root, String token){
+    public boolean promotePremium(final Context context, View root, String token){
         return mSupplier.promotePremium(context, root, token);
     }
 

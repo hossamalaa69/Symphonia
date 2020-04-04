@@ -15,11 +15,14 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.symphonia.Activities.User_Interface.StartActivity;
 import com.example.symphonia.Activities.User_Management.ListenerPages.ForgetPasswordListenerActivity;
 import com.example.symphonia.Activities.User_Interface.MainActivity;
+import com.example.symphonia.Constants;
 import com.example.symphonia.Helpers.CustomOfflineDialog;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
+import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
 
 /**
@@ -29,7 +32,17 @@ import com.example.symphonia.Service.ServiceController;
  * @since 22-3-2020
  * @version 1.0
  */
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements RestApi.updateUiLogin {
+
+    @Override
+    public void updateUiLoginSuccess() {
+        successLogin();
+    }
+
+    @Override
+    public void updateUiLoginFail() {
+        failedLogin();
+    }
 
     /**
      * Holds textView that shows user that combination of input is wrong
@@ -193,14 +206,19 @@ public class LoginActivity extends AppCompatActivity {
         //boolean variable to get user type
         boolean userType = mType.equals("Listener");
         //calls function login with the valid data from inputs
-        if (serviceController.logIn(this, edit_text_email.getText().toString(),
-                    edit_text_password.getText().toString(), userType)) {
-            //if email and password are right, then go to home page
-            successLogin();
-        } else {
-            //if email and password are wrong, then make error textView
-            failedLogin();
+        if(Constants.DEBUG_STATUS){
+            if (serviceController.logIn(this, edit_text_email.getText().toString(),
+                        edit_text_password.getText().toString(), userType)) {
+                //if email and password are right, then go to home page
+                successLogin();
+            } else {
+                //if email and password are wrong, then make error textView
+                failedLogin();
+            }
         }
+        else
+            serviceController.logIn(this,edit_text_email.getText().toString()
+                    ,edit_text_password.getText().toString(),userType);
     }
 
     /**
@@ -237,11 +255,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void failedLogin(){
-
         Button btn_login = findViewById(R.id.login);
         btn_login.setText(getResources().getString(R.string.log_in));
         //visible to inform that user's input are invalid
         text_view_errorInput.setVisibility(View.VISIBLE);
         text_view_errorInput.setText(R.string.wrong_password_or_email);
     }
+
 }
