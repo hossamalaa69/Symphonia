@@ -1,6 +1,7 @@
 package com.example.symphonia.Activities.User_Management;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -249,6 +250,20 @@ public class LoginActivity extends AppCompatActivity implements RestApi.updateUi
     }
 
     public void successLogin(){
+
+        // Creates object of SharedPreferences.
+        SharedPreferences sharedPref= getSharedPreferences("LoginPref", 0);
+        //new Editor
+        SharedPreferences.Editor editor= sharedPref.edit();
+        //put values
+        editor.putString("token", Constants.currentToken);
+        editor.putString("name", Constants.currentUser.getmName());
+        editor.putString("email", Constants.currentUser.getmEmail());
+        editor.putString("id",Constants.currentUser.get_id());
+        editor.putBoolean("type", Constants.currentUser.isListenerType());
+        editor.putBoolean("premium", Constants.currentUser.isPremuim());
+        //commits edits
+        editor.apply();
 
         Intent i = new Intent(this, StartActivity.class);
         startActivity(i);

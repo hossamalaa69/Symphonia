@@ -293,7 +293,7 @@ public class MockService implements APIs {
             }
 
             //creates object of user to store logged in user's data
-            Constants.currentUser = new User(mArtistArrayList.get(userIndex).getmEmail(), false
+            Constants.currentUser = new User(mArtistArrayList.get(userIndex).getmEmail(),"2030k", false
                     , Utils.convertToBitmap(R.drawable.download)
                     , "Islam Ahmed", "1998/24/11", "male"
                     , mArtistArrayList.get(userIndex).isPremuim()
@@ -310,7 +310,7 @@ public class MockService implements APIs {
                 followed.add(mArtists.get(i));
             }
 
-            Constants.currentUser = new User(mListenerArrayList.get(userIndex).getmEmail(), true
+            Constants.currentUser = new User(mListenerArrayList.get(userIndex).getmEmail(), "2030k",true
                     , Utils.convertToBitmap(R.drawable.download)
                     , "Hossam Alaa", "1999/04/06", "male"
                     , mListenerArrayList.get(userIndex).isPremuim()
@@ -342,7 +342,7 @@ public class MockService implements APIs {
         Constants.currentToken = "newToken";
 
         //creates new object of user and fill data
-        Constants.currentUser = new User(email, mType, Utils.convertToBitmap(R.drawable.download)
+        Constants.currentUser = new User(email, "2030k", mType, Utils.convertToBitmap(R.drawable.download)
                 , name, DOB, gender, false, 0, 0, new ArrayList<User>()
                 , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
                 , new ArrayList<Artist>(), new ArrayList<Album>(), new ArrayList<Track>());

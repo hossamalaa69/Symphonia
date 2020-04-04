@@ -130,13 +130,14 @@ public class User {
      * @param mSavedAlbums      array of saved albums
      * @param mPlayedTracks     array of played tracks
      */
-    public User(String mEmail, boolean mType, Bitmap mUserImage, String mName, String mDOB
+    public User(String mEmail,String id, boolean mType, Bitmap mUserImage, String mName, String mDOB
             , String mGender, boolean mIsPremuim, int mNumOfFollowers, int mNumOfFollowings
             , ArrayList<User> mFollowings, ArrayList<User> mFollowers
             , ArrayList<Playlist> mFavPlaylists, ArrayList<Playlist> mMadePlaylists
             , ArrayList<Artist> mFollowingArtists, ArrayList<Album> mSavedAlbums, ArrayList<Track> mPlayedTracks) {
 
         this.mEmail = mEmail;
+        this._id = id;
         this.mType = mType;
         this.mUserImage = mUserImage;
         this.mName = mName;
@@ -500,4 +501,13 @@ public class User {
         this.mType = type;
         this.mIsPremuim = premium;
     }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
 }

@@ -1,14 +1,19 @@
 package com.example.symphonia.Activities.User_Interface;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.symphonia.Activities.User_Management.WelcomeActivity;
+import com.example.symphonia.Constants;
+import com.example.symphonia.Entities.User;
 import com.example.symphonia.R;
 
 /**
@@ -37,6 +42,30 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+
+        SharedPreferences sharedPref= getSharedPreferences("LoginPref", 0);
+        String token = sharedPref.getString("token","");
+        String id = sharedPref.getString("id","");
+        String name = sharedPref.getString("name", "");
+        String email = sharedPref.getString("email", "");
+
+        boolean type = sharedPref.getBoolean("type",true);
+        boolean premium = sharedPref.getBoolean("premium",true);
+
+        if(!(token.equals("")))
+        {
+            Constants.currentToken = token;
+            Constants.currentUser = new User(email,id,name,type,premium);
+
+            Toast.makeText(this,"All variables are assigned",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,Constants.currentToken,Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,Constants.currentUser.getmEmail(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,Constants.currentUser.getmName(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,Constants.currentUser.get_id(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,""+Constants.currentUser.isPremuim(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,""+Constants.currentUser.isListenerType(),Toast.LENGTH_SHORT).show();
+
+        }
 
         //object from RelativeLayout that holds many layouts for animation
         //which is linked with background of this layout
