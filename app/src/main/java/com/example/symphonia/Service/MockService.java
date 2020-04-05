@@ -317,6 +317,11 @@ public class MockService implements APIs {
                     , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
                     , followed, new ArrayList<Album>(mAlbums), new ArrayList<Track>());
         }
+        if(mType)
+            Constants.currentUser.setUserType("user");
+        else
+            Constants.currentUser.setUserType("artist");
+
         return true;
     }
 
@@ -345,6 +350,11 @@ public class MockService implements APIs {
                 , name, DOB, gender, false, 0, 0, new ArrayList<User>()
                 , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
                 , new ArrayList<Artist>(), new ArrayList<Album>(), new ArrayList<Track>());
+        if(mType)
+            Constants.currentUser.setUserType("user");
+        else
+            Constants.currentUser.setUserType("artist");
+
         Constants.currentUser.setmPassword(password);
         return true;
     }

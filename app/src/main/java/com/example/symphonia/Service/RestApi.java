@@ -65,6 +65,7 @@ public class RestApi implements APIs {
                                 updateLogin.updateUiLoginFail("type");
                             else{
                                 Constants.currentUser = new User(username,id, name, type.equals("user"), premium);
+                                Constants.currentUser.setUserType(type);
                                 updateLogin.updateUiLoginSuccess();
                             }
 
