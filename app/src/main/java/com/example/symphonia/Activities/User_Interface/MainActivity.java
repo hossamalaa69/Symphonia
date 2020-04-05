@@ -41,6 +41,7 @@ import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.MediaController;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.RestApi;
+import com.example.symphonia.Service.ServiceController;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.Serializable;
