@@ -8,8 +8,11 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -550,6 +553,20 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         final TextView like = settingLayout.findViewById(R.id.tv_track_liked_settings);
         final TextView hide = settingLayout.findViewById(R.id.tv_track_hide_settings);
         final TextView share = settingLayout.findViewById(R.id.tv_track_share_settings);
+        final TextView report = settingLayout.findViewById(R.id.tv_track_report_settings);
+        report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater = getLayoutInflater();
+                View layout = inflater.inflate(R.layout.custom_toast,
+                        (ViewGroup) findViewById(R.id.custom_toast_container));
+                Toast toast = new Toast(MainActivity.this);
+                toast.setView(layout);
+                toast.setDuration(Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+            }
+        });
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
