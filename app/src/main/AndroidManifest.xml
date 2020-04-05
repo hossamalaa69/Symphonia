@@ -16,7 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Helpers.AdDialog" android:theme="@style/Theme.UserDialog" />
+        <activity
+            android:name=".Helpers.AdDialog"
+            android:theme="@style/Theme.UserDialog" />
 
         <service android:name=".MediaController" />
 
@@ -148,6 +150,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SENDTO" />
+                <data android:scheme="mailto" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".Activities.User_Interface.StartActivity"
@@ -156,11 +163,11 @@
         <activity
             android:name=".Activities.User_Interface.SplashScreenActivity"
             android:theme="@style/AppTheme.NoActionBar">
-<!--            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--            <intent-filter>
+                            <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+                            <category android:name="android.intent.category.LAUNCHER" />
+                        </intent-filter>-->
         </activity>
     </application>
 

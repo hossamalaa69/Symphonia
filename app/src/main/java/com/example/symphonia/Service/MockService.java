@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.provider.Settings;
 import android.view.View;
 
-import com.example.symphonia.Activities.User_Management.LoginActivity;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
@@ -169,28 +168,28 @@ public class MockService implements APIs {
         mPopularPlaylists = new ArrayList<>();
         ArrayList<Track> tracks = new ArrayList<Track>();
         tracks.add(new Track("Rescue Me", "OneRepublic", "mood booster",
-                "Rescue Me", R.drawable.rescue_me, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"),false));
+                "Rescue Me", R.drawable.rescue_me, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), false));
         tracks.add(new Track("Freaking Me Out", "Ava Max",
-                "mood booster", null, R.drawable.freaking_me_out, Settings.System.DEFAULT_RINGTONE_URI,true));
+                "mood booster", null, R.drawable.freaking_me_out, Settings.System.DEFAULT_RINGTONE_URI, true));
         tracks.add(new Track("You Can't Stop The Girl",
-                "Bebe Rexha", "mood booster", null, R.drawable.you_cant_stop_the_girl, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"),false));
+                "Bebe Rexha", "mood booster", null, R.drawable.you_cant_stop_the_girl, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), false));
         mPopularPlaylists.add(new Playlist("mood booster",
                 "Get happy with this pick-up playlist full of current feel-good songs",
                 Utils.convertToBitmap(R.drawable.mood_booster), tracks));
 
         mRecentPlaylists = new ArrayList<>();
         ArrayList<Track> rTracks = new ArrayList<Track>();
-        rTracks.add(new Track("Little Do You Know", "Alex & Sierra", "Rewind-the sound of 2014", null, R.drawable.little_do_you_know, Settings.System.DEFAULT_RINGTONE_URI,true));
-        rTracks.add(new Track("Wildest Dreams", "Taylor Swift", "Rewind-the sound of 2014", null, R.drawable.wildest_dreams, Uri.parse("http://stream.radiosai.net:8002/"),false));
-        rTracks.add(new Track("One Last Time", "Ariana Grande", "Rewind-the sound of 2014", null, R.drawable.one_last_time, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"),false));
+        rTracks.add(new Track("Little Do You Know", "Alex & Sierra", "Rewind-the sound of 2014", null, R.drawable.little_do_you_know, Settings.System.DEFAULT_RINGTONE_URI, true));
+        rTracks.add(new Track("Wildest Dreams", "Taylor Swift", "Rewind-the sound of 2014", null, R.drawable.wildest_dreams, Uri.parse("http://stream.radiosai.net:8002/"), false));
+        rTracks.add(new Track("One Last Time", "Ariana Grande", "Rewind-the sound of 2014", null, R.drawable.one_last_time, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), false));
         mRecentPlaylists.add(new Playlist("Rewind-the sound of 2014", null,
                 Utils.convertToBitmap(R.drawable.rewind_the_sound), rTracks));
 
         mRandomPlaylists = new ArrayList<>();
         ArrayList<Track> ranTracks = new ArrayList<Track>();
-        ranTracks.add(new Track("Intentions", "Justing Bieber, Quavo", "Daily Left", null, R.drawable.intentions, Settings.System.DEFAULT_RINGTONE_URI,false));
-        ranTracks.add(new Track("Stupid Love", "Lady Gaga", "Daily Left", null, R.drawable.stupid_love, Uri.parse("http://stream.radiosai.net:8002/"),false));
-        ranTracks.add(new Track("Feel Me", "Selena Gomez", "Daily Left", null, R.drawable.feel_me, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"),true));
+        ranTracks.add(new Track("Intentions", "Justing Bieber, Quavo", "Daily Left", null, R.drawable.intentions, Settings.System.DEFAULT_RINGTONE_URI, false));
+        ranTracks.add(new Track("Stupid Love", "Lady Gaga", "Daily Left", null, R.drawable.stupid_love, Uri.parse("http://stream.radiosai.net:8002/"), false));
+        ranTracks.add(new Track("Feel Me", "Selena Gomez", "Daily Left", null, R.drawable.feel_me, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), true));
         mRandomPlaylists.add(new Playlist("Daily Left", "Sia, J Balvin, Bad Bunny, Justin Bieber, Drake",
                 Utils.convertToBitmap(R.drawable.daily_left), ranTracks));
 
@@ -293,7 +292,7 @@ public class MockService implements APIs {
             }
 
             //creates object of user to store logged in user's data
-            Constants.currentUser = new User(mArtistArrayList.get(userIndex).getmEmail(),"2030k", false
+            Constants.currentUser = new User(mArtistArrayList.get(userIndex).getmEmail(), "2030k", false
                     , Utils.convertToBitmap(R.drawable.download)
                     , "Islam Ahmed", "1998/24/11", "male"
                     , mArtistArrayList.get(userIndex).isPremuim()
@@ -310,7 +309,7 @@ public class MockService implements APIs {
                 followed.add(mArtists.get(i));
             }
 
-            Constants.currentUser = new User(mListenerArrayList.get(userIndex).getmEmail(), "2030k",true
+            Constants.currentUser = new User(mListenerArrayList.get(userIndex).getmEmail(), "2030k", true
                     , Utils.convertToBitmap(R.drawable.download)
                     , "Hossam Alaa", "1999/04/06", "male"
                     , mListenerArrayList.get(userIndex).isPremuim()
@@ -793,32 +792,32 @@ public class MockService implements APIs {
     @Override
     public ArrayList<Track> getAlbumTracks(Context context, String id, int offset, int limit) {
         Album album = getAlbum(context, id);
-        if(album != null) return album.getAlbumTracks();
+        if (album != null) return album.getAlbumTracks();
         return null;
     }
 
     @Override
     public void saveAlbumsForUser(Context context, ArrayList<String> ids) {
-        for (String id : ids){
+        for (String id : ids) {
             Album album = getAlbum(context, id);
-            if(album != null) Constants.currentUser.saveAlbum(album);
+            if (album != null) Constants.currentUser.saveAlbum(album);
         }
     }
 
     @Override
     public void removeAlbumsForUser(Context context, ArrayList<String> ids) {
-        for (String id : ids){
+        for (String id : ids) {
             Album album = getAlbum(context, id);
-            if(album != null) Constants.currentUser.removeAlbum(album);
+            if (album != null) Constants.currentUser.removeAlbum(album);
         }
     }
 
     @Override
     public ArrayList<Boolean> checkUserSavedAlbums(Context context, ArrayList<String> ids) {
         ArrayList<Boolean> checkArray = new ArrayList<>();
-        for (String id : ids){
+        for (String id : ids) {
             Album album = getAlbum(context, id);
-            if(album != null) checkArray.add(Constants.currentUser.checkSavedAlbum(album));
+            if (album != null) checkArray.add(Constants.currentUser.checkSavedAlbum(album));
         }
         return checkArray;
     }
@@ -870,14 +869,14 @@ public class MockService implements APIs {
     }
 
     @Override
-    public boolean promotePremium(final Context context, View root, String token){
+    public boolean promotePremium(final Context context, View root, String token) {
         Constants.currentUser.setPremuim(true);
         return true;
     }
 
     @Override
     public ArrayList<Container> getProfileFollowers(Context context) {
-        ArrayList<Container> followers=new ArrayList<>();
+        ArrayList<Container> followers = new ArrayList<>();
         followers.add(new Container("HuffPost", "2,700 " + context.getResources().getString(R.string.Followers), R.drawable.images));
         followers.add(new Container("Majeestic Casual", "5,200 " + context.getResources().getString(R.string.Followers), R.drawable.images3));
         followers.add(new Container("beautiful", "3,300 " + context.getResources().getString(R.string.Followers), R.drawable.download));
@@ -912,7 +911,7 @@ public class MockService implements APIs {
 
     @Override
     public ArrayList<Container> getProfileFollowing(Context context) {
-        ArrayList<Container> followers=new ArrayList<>();
+        ArrayList<Container> followers = new ArrayList<>();
         followers.add(new Container("Adele", "200,700 " + context.getResources().getString(R.string.Followers), R.drawable.adele));
         followers.add(new Container("Amr Diab", "500,200 " + context.getResources().getString(R.string.Followers), R.drawable.amr));
         followers.add(new Container("Imagine dragons", "300,300 " + context.getResources().getString(R.string.Followers), R.drawable.imagine));

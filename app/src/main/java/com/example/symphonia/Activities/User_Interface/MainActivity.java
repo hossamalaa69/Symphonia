@@ -200,28 +200,20 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         } else if (playlistFragment != null && playlistFragment.isVisible() && !mediaController.isMediaNotNull()) {
             playlistFragment.changeSelected(prevPos, -1);
         }
-        if (playlistFragment != null && playlistFragment.isVisible()) {
+        if (playlistFragment != null && playlistFragment.isVisible() && Utils.CurrTrackInfo.currPlaylistName != null) {
             for (int i = 0; i < Utils.CurrTrackInfo.currPlaylistTracks.size(); i++) {
                 playlistFragment.changeHidden(i, Utils.CurrTrackInfo.currPlaylistTracks.get(i).isHidden());
                 playlistFragment.changeLikedItemAtPos(i, Utils.CurrTrackInfo.currPlaylistTracks.get(i).isLiked());
             }
         }
+        mHandler.post(runnable);
 
         MediaController.setOnCompletionListener(onCompletionListener);
         mediaController.setMediaPlayCompletionService();
         prevPos = Utils.CurrTrackInfo.prevTrackPos;
         updatePlayBar();
 
-        this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                updatePlayBar();
-                if (mediaController.isMediaNotNull() && !Utils.CurrTrackInfo.paused) {
-                    updatePlayBtn();
-                }
-                mHandler.postDelayed(this, 500);
-            }
-        });
+        this.runOnUiThread(runnable);
         //check if user online
         if (!isOnline()) {
             connectToInternet();
@@ -229,6 +221,17 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             //TODO load data from internet here and send it to fragments
         }
     }
+
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            updatePlayBar();
+            if (mediaController.isMediaNotNull() && !Utils.CurrTrackInfo.paused) {
+                updatePlayBtn();
+            }
+            mHandler.postDelayed(this, 500);
+        }
+    };
 
     /**
      * this function shows playBar
@@ -305,6 +308,12 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         startService(intent);
         updatePlayBtn();
         MediaController.setOnCompletionListener(onCompletionListener);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 
     /**
@@ -540,6 +549,20 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     private void setSettingListeners(final int pos) {
         final TextView like = settingLayout.findViewById(R.id.tv_track_liked_settings);
         final TextView hide = settingLayout.findViewById(R.id.tv_track_hide_settings);
+        final TextView share = settingLayout.findViewById(R.id.tv_track_share_settings);
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TEXT, "" + Utils.CurrPlaylist.playlist.getTracks().get(pos).getUri());
+                mHandler.removeCallbacks(runnable);
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+            }
+        });
+
         hide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -163,7 +163,7 @@ public class PlaylistFragment extends Fragment {
      * @param pos  position of current item
      */
     public void changeSelected(int prev, int pos) {
-        if (Utils.CurrPlaylist.playlist == null ||
+        if (Utils.CurrPlaylist.playlist == null || Utils.CurrTrackInfo.currPlaylistName == null ||
                 !Utils.CurrPlaylist.playlist.getmPlaylistTitle().matches(Utils.CurrTrackInfo.currPlaylistName)) {
             return;
         }
