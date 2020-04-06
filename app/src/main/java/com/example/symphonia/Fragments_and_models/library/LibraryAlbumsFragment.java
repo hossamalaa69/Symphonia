@@ -87,7 +87,7 @@ public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapt
         mServiceController = ServiceController.getInstance();
         albumsEmptyState = rootView.findViewById(R.id.text_albums_empty_state);
 
-        mLikedAlbums = mServiceController.getUserSavedAlbums(getContext(), "token1", 0, 20);
+        mLikedAlbums = mServiceController.getUserSavedAlbums(getContext(),0, 20);
 
         if(mLikedAlbums.size() != 0)
             albumsEmptyState.setVisibility(View.GONE);
@@ -183,7 +183,7 @@ public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapt
     @Override
     public void onLikedLayoutClicked() {
 
-        mLikedAlbums = mServiceController.getUserSavedAlbums(getContext(), "token1", 0, 20);
+        mLikedAlbums = mServiceController.getUserSavedAlbums(getContext(), 0, 20);
         if(mLikedAlbums.size() == 0) albumsEmptyState.setVisibility(View.VISIBLE);
         mAdapter.clear();
         mAdapter.addAll(mLikedAlbums);

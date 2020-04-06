@@ -213,5 +213,6 @@
     <string name="remove_album_snackbar_text">Removed from Your Library.</string>
     <string name="add_album_snackbar_text">Added to Your Library.</string>
     <string name="thanks_for_reporting">thanks for reporting.</string>
+    <string name="more_for_you">More\nFor You</string>
 
 </resources>

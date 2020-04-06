@@ -13,7 +13,9 @@ public class Artist {
     /**
      * image of the artist
      */
-    private Bitmap mArtistImage;
+    private Bitmap mArtistImage = null;
+
+    private String mImageUrl = null;
     /**
      * name of the artist
      */
@@ -36,6 +38,20 @@ public class Artist {
         this.mArtistName = mArtistName;
     }
 
+    public Artist(String mArtistId, String mImageUrl, String mArtistName) {
+        this.mArtistId = mArtistId;
+        this.mImageUrl = mImageUrl;
+        this.mArtistName = mArtistName;
+    }
+
+    public void setImageUrl(String mImageUrl) {
+        this.mImageUrl = mImageUrl;
+    }
+
+    public String getImageUrl() {
+        return mImageUrl;
+    }
+
     /**
      * @return artist image
      */
@@ -49,6 +65,8 @@ public class Artist {
     public void setImage(Bitmap mImage) {
         this.mArtistImage = mImage;
     }
+
+
 
     /**
      * @return artist name

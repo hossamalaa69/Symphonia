@@ -132,11 +132,10 @@ public interface APIs {
      * Get information for a single artist identified by their unique ID
      *
      * @param context activity context
-     * @param mToken user's access token
      * @param id artist id
      * @return artist object
      */
-    Artist getArtist(Context context, String mToken, String id);
+    Artist getArtist(Context context, String id);
 
     /**
      * Get information about artists similar to a given artist.
@@ -162,60 +161,61 @@ public interface APIs {
      * Get a list of the albums saved in the current user’s ‘Your Music’ library
      *
      * @param context Activity context
-     * @param mToken User's access token
      * @param offset The index of the first object to return
      * @param limit The maximum number of objects to return
      * @return List of saved albums
      */
-    ArrayList<Album> getUserSavedAlbums(Context context, String mToken, int offset, int limit);
+    ArrayList<Album> getUserSavedAlbums(Context context, int offset, int limit);
 
+
+    ////////////////////////////////////// To Be Edited ////////////////////////////////////////////
     /**
      * Get the current user’s followed artists
      *
      * @param type true for user and false for artist
-     * @param mToken user's access token
      * @param limit he maximum number of items to return
      * @return list of followed artists
      */
-    ArrayList<Artist> getFollowedArtists(Boolean type, String mToken, int limit);
+    ArrayList<Artist> getFollowedArtists(Context context, String type, int limit, String after);
+
 
     /**
      * Add the current user as a follower of one artist or other users
      *
      * @param type true for user and false for artist
-     * @param mToken user's access token
-     * @param id user or artist id
+     * @param ids user or artist id
      */
-    void followArtistOrUser(Boolean type, String mToken, String id);
+    void followArtistsOrUsers(Context context, String type, ArrayList<String> ids);
 
     /**
      * Remove the current user as a follower of one artist or other users
      *
      * @param type true for user and false for artist
-     * @param mToken user's access token
-     * @param id user or artist id
+     * @param ids user or artist id
      */
-    void unFollowArtistOrUser(Boolean type, String mToken, String id);
+    void unFollowArtistsOrUsers(Context context, String type, ArrayList<String> ids);
 
     /**
      * Check to see if the current user is following an artist or other users
      *
      * @param type true for user and false for artist
-     * @param mToken user's access token
-     * @param id user or artist id
+     * @param ids user or artist id
      * @return true if following and false if not
      */
-    boolean isFollowing(Boolean type, String mToken, String id);
+    ArrayList<Boolean> isFollowing(Context context, String type, ArrayList<String> ids);
 
     /**
      * Get a list of recommended artist for the current user
      *
-     * @param type true for user and false for artist
-     * @param mToken user's access token
+     * @param context activity context
+     * @param type artist or user
+     * @param offset the beginning of the items
      * @param limit he maximum number of items to return
      * @return list of recommended artists
      */
-    ArrayList<Artist> getRecommendedArtists(Boolean type, String mToken, int limit);
+    ArrayList<Artist> getRecommendedArtists(Context context, String type, int offset, int limit);
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
 
     Album getAlbum(Context context, String id);
 

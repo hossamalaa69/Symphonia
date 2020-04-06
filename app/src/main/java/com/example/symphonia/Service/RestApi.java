@@ -638,16 +638,39 @@ public class RestApi implements APIs {
         return null;
     }
 
-    /**
-     * Get information for a single artist identified by their unique ID
-     *
-     * @param context activity context
-     * @param mToken  user's access token
-     * @param id      artist id
-     * @return artist object
-     */
+
     @Override
-    public Artist getArtist(Context context, String mToken, String id) {
+    public Artist getArtist(Context context, String id) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Album> getUserSavedAlbums(Context context, int offset, int limit) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Artist> getFollowedArtists(Context context, String type, int limit, String after) {
+        return null;
+    }
+
+    @Override
+    public void followArtistsOrUsers(Context context, String type, ArrayList<String> ids) {
+
+    }
+
+    @Override
+    public void unFollowArtistsOrUsers(Context context, String type, ArrayList<String> ids) {
+
+    }
+
+    @Override
+    public ArrayList<Boolean> isFollowing(Context context, String type, ArrayList<String> ids) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Artist> getRecommendedArtists(Context context, String type, int offset, int limit) {
         return null;
     }
 
@@ -674,83 +697,6 @@ public class RestApi implements APIs {
      */
     @Override
     public ArrayList<Artist> searchArtist(Context context, String q, int offset, int limit) {
-        return null;
-    }
-
-    /**
-     * Get a list of the albums saved in the current user’s ‘Your Music’ library
-     *
-     * @param context Activity context
-     * @param mToken  User's access token
-     * @param offset  The index of the first object to return
-     * @param limit   The maximum number of objects to return
-     * @return List of saved albums
-     */
-    @Override
-    public ArrayList<Album> getUserSavedAlbums(Context context, String mToken, int offset, int limit) {
-        return null;
-    }
-
-    /**
-     * Get the current user’s followed artists
-     *
-     * @param type   true for user and false for artist
-     * @param mToken user's access token
-     * @param limit  he maximum number of items to return
-     * @return list of followed artists
-     */
-    @Override
-    public ArrayList<Artist> getFollowedArtists(Boolean type, String mToken, int limit) {
-        return null;
-    }
-
-    /**
-     * Add the current user as a follower of one artist or other users
-     *
-     * @param type   true for user and false for artist
-     * @param mToken user's access token
-     * @param id     user or artist id
-     */
-    @Override
-    public void followArtistOrUser(Boolean type, String mToken, String id) {
-
-    }
-
-    /**
-     * Remove the current user as a follower of one artist or other users
-     *
-     * @param type   true for user and false for artist
-     * @param mToken user's access token
-     * @param id     user or artist id
-     */
-    @Override
-    public void unFollowArtistOrUser(Boolean type, String mToken, String id) {
-
-    }
-
-    /**
-     * Check to see if the current user is following an artist or other users
-     *
-     * @param type   true for user and false for artist
-     * @param mToken user's access token
-     * @param id     user or artist id
-     * @return true if following and false if not
-     */
-    @Override
-    public boolean isFollowing(Boolean type, String mToken, String id) {
-        return false;
-    }
-
-    /**
-     * Get a list of recommended artist for the current user
-     *
-     * @param type   true for user and false for artist
-     * @param mToken user's access token
-     * @param limit  he maximum number of items to return
-     * @return list of recommended artists
-     */
-    @Override
-    public ArrayList<Artist> getRecommendedArtists(Boolean type, String mToken, int limit) {
         return null;
     }
 

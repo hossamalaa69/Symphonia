@@ -654,13 +654,12 @@ public class MockService implements APIs {
      * Get information for a single artist identified by their unique ID
      *
      * @param context activity context
-     * @param mToken  user's access token
      * @param id      artist id
      * @return artist object
      */
 
     @Override
-    public Artist getArtist(Context context, String mToken, String id) {
+    public Artist getArtist(Context context, String id) {
         for (Artist artist : mArtists) {
             if (artist.getId().equals(id))
                 return artist;
@@ -698,12 +697,11 @@ public class MockService implements APIs {
      * Get the current user’s followed artists
      *
      * @param type   true for user and false for artist
-     * @param mToken user's access token
      * @param limit  he maximum number of items to return
      * @return list of followed artists
      */
     @Override
-    public ArrayList<Artist> getFollowedArtists(Boolean type, String mToken, int limit) {
+    public ArrayList<Artist> getFollowedArtists(Context context, String type, int limit, String after) {
         ArrayList<Artist> followedArtists = Constants.currentUser.getFollowingArtists();
         ArrayList<Artist> returnedArtists = new ArrayList<>();
         for (int i = 0; i < Math.min(limit, followedArtists.size()); i++) {
@@ -717,17 +715,13 @@ public class MockService implements APIs {
      * Add the current user as a follower of one artist or other users
      *
      * @param type   true for user and false for artist
-     * @param mToken user's access token
-     * @param id     user or artist id
+     * @param ids     user or artist id
      */
     @Override
-    public void followArtistOrUser(Boolean type, String mToken, String id) {
-        for (Artist artist : mArtists) {
-            if (artist.getId().equals(id)) {
-                if (!isFollowing(type, mToken, id))
-                    Constants.currentUser.followArtist(artist);
-                return;
-            }
+    public void followArtistsOrUsers(Context context, String type, ArrayList<String> ids) {
+        for (String id : ids){
+            Artist artist = getArtist(context, id);
+            if(artist != null) Constants.currentUser.followArtist(artist);
         }
     }
 
@@ -735,17 +729,13 @@ public class MockService implements APIs {
      * Remove the current user as a follower of one artist or other users
      *
      * @param type   true for user and false for artist
-     * @param mToken user's access token
-     * @param id     user or artist id
+     * @param ids     user or artist id
      */
     @Override
-    public void unFollowArtistOrUser(Boolean type, String mToken, String id) {
-        for (Artist artist : mArtists) {
-            if (artist.getId().equals(id)) {
-                if (isFollowing(type, mToken, id))
-                    Constants.currentUser.unFollowArtist(artist);
-                return;
-            }
+    public void unFollowArtistsOrUsers(Context context, String type, ArrayList<String> ids) {
+        for (String id : ids){
+            Artist artist = getArtist(context, id);
+            if(artist != null) Constants.currentUser.unFollowArtist(artist);
         }
     }
 
@@ -753,43 +743,40 @@ public class MockService implements APIs {
      * Check to see if the current user is following an artist or other users
      *
      * @param type   true for user and false for artist
-     * @param mToken user's access token
-     * @param id     user or artist id
+     * @param ids     user or artist id
      * @return true if following and false if not
      */
     @Override
-    public boolean isFollowing(Boolean type, String mToken, String id) {
-        ArrayList<Artist> mFollowingArtists = Constants.currentUser.getFollowingArtists();
-        for (Artist artist : mFollowingArtists) {
-            if (artist.getId().equals(id))
-                return true;
+    public ArrayList<Boolean> isFollowing(Context context, String type, ArrayList<String> ids) {
+        ArrayList<Boolean> checkArray = new ArrayList<>();
+        for (String id : ids){
+            Artist artist = getArtist(context, id);
+            if(artist != null) checkArray.add(Constants.currentUser.checkFollowing(artist));
         }
-        return false;
+        return checkArray;
     }
 
     /**
      * Get a list of recommended artist for the current user
      *
-     * @param type   true for user and false for artist
-     * @param mToken user's access token
+     * @param type   artist or user
      * @param limit  he maximum number of items to return
      * @return list of recommended artists
      */
     @Override
-    public ArrayList<Artist> getRecommendedArtists(Boolean type, String mToken, int limit) {
-        ArrayList<Artist> mRecommendedArtists = new ArrayList<>();
-        if (type) {
-            for (int i = 5; i < Math.min(10, limit + 5); i++) {
-                Artist artist = mArtists.get(i);
-                mRecommendedArtists.add(artist);
-            }
-        } else {
-            for (int i = 0; i < Math.min(5, limit); i++) {
-                Artist artist = mArtists.get(i);
-                mRecommendedArtists.add(artist);
-            }
+    public ArrayList<Artist> getRecommendedArtists(Context context, String type, int offset, int limit) {
+        ArrayList<Artist> recommendedArtists = new ArrayList<>();
+        ArrayList<Artist> currentArtists = new ArrayList<>();
+        for (Artist artist: mArtists) {
+            if (!Constants.currentUser.checkFollowing(artist)) currentArtists.add(artist);
         }
-        return mRecommendedArtists;
+
+        for (int i = offset; i < Math.min(offset + limit, currentArtists.size()); i++) {
+            recommendedArtists.add(currentArtists.get(i));
+        }
+
+        return recommendedArtists;
+
     }
 
     @Override
@@ -865,13 +852,12 @@ public class MockService implements APIs {
      * Get a list of the albums saved in the current user’s ‘Your Music’ library
      *
      * @param context Activity context
-     * @param mToken  User's access token
      * @param offset  The index of the first object to return
      * @param limit   The maximum number of objects to return
      * @return List of saved albums
      */
     @Override
-    public ArrayList<Album> getUserSavedAlbums(Context context, String mToken, int offset, int limit) {
+    public ArrayList<Album> getUserSavedAlbums(Context context, int offset, int limit) {
         ArrayList<Album> savedAlbums = Constants.currentUser.getSavedAlbums();
         ArrayList<Album> returnedAlbums = new ArrayList<>();
         for (int i = 0; i < Math.min(limit, savedAlbums.size()); i++) {

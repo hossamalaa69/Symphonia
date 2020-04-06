@@ -194,62 +194,31 @@ public class ServiceController {
         mSupplier.removeAllRecentSearches(context);
     }
 
-    /**
-     * Get the current user’s followed artists
-     *
-     * @param type true for user and false for artist
-     * @param mToken user's access token
-     * @param limit he maximum number of items to return
-     * @return list of followed artists
-     */
-    public ArrayList<Artist> getFollowedArtists(Boolean type, String mToken, int limit) {
-        return mSupplier.getFollowedArtists(type, mToken, limit);
+    public ArrayList<Artist> getFollowedArtists(Context context, String type, int limit, String after) {
+        return mSupplier.getFollowedArtists(context, type, limit, after);
     }
 
-    /**
-     * Add the current user as a follower of one artist or other users
-     *
-     * @param type true for user and false for artist
-     * @param mToken user's access token
-     * @param id user or artist id
-     */
-    public void followArtistOrUser(Boolean type, String mToken, String id) {
-        mSupplier.followArtistOrUser(type, mToken, id);
+    public void followArtistsOrUsers(Context context, String type, ArrayList<String> ids) {
+        mSupplier.followArtistsOrUsers(context, type, ids);
     }
 
-    /**
-     * Remove the current user as a follower of one artist or other users
-     *
-     * @param type true for user and false for artist
-     * @param mToken user's access token
-     * @param id user or artist id
-     */
-    public void unFollowArtistOrUser(Boolean type, String mToken, String id){
-        mSupplier.unFollowArtistOrUser(type, mToken, id);
+    public void unFollowArtistsOrUsers(Context context, String type, ArrayList<String> ids) {
+        mSupplier.unFollowArtistsOrUsers(context, type, ids);
     }
 
-    /**
-     * Check to see if the current user is following an artist or other users
-     *
-     * @param type true for user and false for artist
-     * @param mToken user's access token
-     * @param id user or artist id
-     * @return true if following and false if not
-     */
-    public Boolean isFollowing(Boolean type, String mToken, String id) {
-        return mSupplier.isFollowing(type, mToken, id);
+    public ArrayList<Boolean> isFollowing(Context context, String type, ArrayList<String> ids) {
+        return mSupplier.isFollowing(context, type, ids);
     }
 
     /**
      * Get a list of recommended artist for the current user
      *
      * @param type true for user and false for artist
-     * @param mToken user's access token
      * @param limit he maximum number of items to return
      * @return list of recommended artists
      */
-    public ArrayList<Artist> getRecommendedArtists(Boolean type, String mToken, int limit) {
-        return mSupplier.getRecommendedArtists(type, mToken, limit);
+    public ArrayList<Artist> getRecommendedArtists(Context context, String type, int offset, int limit) {
+        return mSupplier.getRecommendedArtists(context, type, offset, limit);
     }
 
     public ArrayList<Artist> searchArtist(Context context, String q) {
@@ -264,8 +233,8 @@ public class ServiceController {
         return mSupplier.getArtistRelatedArtists(context, id);
     }
 
-    public ArrayList<Album> getUserSavedAlbums(Context context, String mToken, int offset, int limit) {
-        return mSupplier.getUserSavedAlbums(context, mToken, offset, limit);
+    public ArrayList<Album> getUserSavedAlbums(Context context, int offset, int limit) {
+        return mSupplier.getUserSavedAlbums(context, offset, limit);
     }
 
     public ArrayList<Container> getAllPopularPlaylists(Context context) {
@@ -280,12 +249,11 @@ public class ServiceController {
      * Get information for a single artist identified by their unique ID
      *
      * @param context activity context
-     * @param mToken user's access token
      * @param id artist id
      * @return artist object
      */
-    public Artist getArtist(Context context, String mToken, String id){
-        return mSupplier.getArtist(context, mToken, id);
+    public Artist getArtist(Context context, String id){
+        return mSupplier.getArtist(context, id);
     }
 
     public Album getAlbum(Context context, String id) {
