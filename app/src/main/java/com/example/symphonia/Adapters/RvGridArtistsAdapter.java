@@ -106,7 +106,7 @@ public class RvGridArtistsAdapter extends RecyclerView.Adapter<RecyclerView.View
                 Picasso.get()
                         .load(artist.getImageUrl())
                         .fit()
-                        .centerInside()
+                        .centerCrop()
                         .into(viewHolder.artistImage);
 
             viewHolder.artistName.setText(artist.getArtistName());

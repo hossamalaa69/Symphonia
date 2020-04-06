@@ -15,7 +15,8 @@
         android:id="@+id/image_artist"
         android:layout_width="@dimen/artist_search_item_height"
         android:layout_height="@dimen/artist_search_item_height"
-        android:src="@drawable/amr"
+        android:background="@drawable/circle"
+        android:src="@drawable/placeholder_artist"
         />
 
     <TextView

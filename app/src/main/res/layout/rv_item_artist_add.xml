@@ -13,8 +13,10 @@
         android:id="@+id/image_artist"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        android:background="@drawable/circle"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/download1"
+        android:src="@drawable/placeholder_artist"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
