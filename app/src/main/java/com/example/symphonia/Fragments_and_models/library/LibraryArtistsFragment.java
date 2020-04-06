@@ -1,12 +1,14 @@
 package com.example.symphonia.Fragments_and_models.library;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -15,13 +17,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Constants;
+import com.example.symphonia.Helpers.SnackbarHelper;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Adapters.RvListArtistsAdapter;
 import com.example.symphonia.Service.ServiceController;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * responsible for all the interaction with artists
@@ -30,9 +36,12 @@ import java.util.ArrayList;
  * @author islamahmed1092
  * @version 1.0
  */
-public class LibraryArtistsFragment extends Fragment implements RvListArtistsAdapter.ListItemLongClickListener {
+public class LibraryArtistsFragment extends Fragment implements RvListArtistsAdapter.ListItemLongClickListener, BottomSheetDialogArtist.BottomSheetListener {
 
     private static final String ARTIST_ID = "ARTIST_ID";
+    private static final String CLICKED_INDEX = "CLICKED_INDEX";
+    LinearLayoutManager layoutManager;
+
     /**
      * holds the user's following artists
      */
@@ -45,6 +54,8 @@ public class LibraryArtistsFragment extends Fragment implements RvListArtistsAda
      * adapter to control the items in artists recyclerview
      */
     private RvListArtistsAdapter mAdapter;
+
+    RecyclerView mArtistsList;
 
     private View touchedView = null;
     private float firstX = 0;
@@ -77,8 +88,8 @@ public class LibraryArtistsFragment extends Fragment implements RvListArtistsAda
         mFollowedArtists = mServiceController.getFollowedArtists(getContext(), Constants.currentUser.getUserType(), 65535, null);
 
 
-        final RecyclerView mArtistsList = rootView.findViewById(R.id.rv_artists);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mArtistsList = rootView.findViewById(R.id.rv_artists);
+        layoutManager = new LinearLayoutManager(getActivity());
         mArtistsList.setLayoutManager(layoutManager);
         mAdapter = new RvListArtistsAdapter(mFollowedArtists, getActivity(), this);
         mArtistsList.setAdapter(mAdapter);
@@ -148,11 +159,42 @@ public class LibraryArtistsFragment extends Fragment implements RvListArtistsAda
 
     @Override
     public void onListItemLongClick(int clickedItemIndex) {
-        BottomSheetDialogArtist bottomSheet = new BottomSheetDialogArtist();
+        BottomSheetDialogArtist bottomSheet = new BottomSheetDialogArtist(this);
         Bundle arguments = new Bundle();
         arguments.putString(ARTIST_ID , mFollowedArtists.get(clickedItemIndex).getId());
+        arguments.putInt(CLICKED_INDEX , clickedItemIndex);
         bottomSheet.setArguments(arguments);
         bottomSheet.show(((MainActivity)getActivity()).getSupportFragmentManager(), bottomSheet.getTag());
     }
 
+    @Override
+    public void onFollowingLayoutClicked(final String id, final int clickedItemIndex) {
+        mServiceController.unFollowArtistsOrUsers
+                (getContext(), "artist", new ArrayList<String>(Collections.singletonList(id)));
+
+        final Artist removedArtist = mFollowedArtists.get(clickedItemIndex);
+
+        mFollowedArtists.remove(clickedItemIndex);
+        mAdapter.clear();
+        mAdapter.addAll(mFollowedArtists);
+        mAdapter.notifyItemRemoved(clickedItemIndex);
+
+        Snackbar snack = Snackbar.make(mArtistsList, "OK, got it.", Snackbar.LENGTH_LONG);
+        snack.setAction("UNDO", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mServiceController.followArtistsOrUsers
+                                (getContext(), "artist", new ArrayList<String>(Collections.singletonList(id)));
+                        mFollowedArtists.add(0, removedArtist);
+                        mAdapter.clear();
+                        mAdapter.addAll(mFollowedArtists);
+                        mAdapter.notifyItemInserted(0);
+                        mArtistsList.smoothScrollBy(0, -(int)Utils.convertDpToPixel(80f, getContext()));
+
+                    }
+                });
+
+        SnackbarHelper.configSnackbar(getContext(), snack, R.drawable.custom_snackbar, Color.BLACK);
+        snack.show();
+    }
 }

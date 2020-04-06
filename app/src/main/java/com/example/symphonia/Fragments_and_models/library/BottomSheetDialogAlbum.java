@@ -33,6 +33,8 @@ import static java.util.Arrays.asList;
 
 public class BottomSheetDialogAlbum extends BottomSheetDialogFragment {
     private static final String ALBUM_ID = "ALBUM_ID";
+    private static final String CLICKED_INDEX = "CLICKED_INDEX";
+
     private float firstY = 0;
 
     private BottomSheetListener mListener;
@@ -56,6 +58,7 @@ public class BottomSheetDialogAlbum extends BottomSheetDialogFragment {
         Bundle arguments = getArguments();
         assert arguments != null;
         final String albumId = arguments.getString(ALBUM_ID);
+        final int clickedIndex = arguments.getInt(CLICKED_INDEX);
 
         final Album mAlbum = serviceController.getAlbum(getContext(), albumId);
 
@@ -172,16 +175,17 @@ public class BottomSheetDialogAlbum extends BottomSheetDialogFragment {
         liked.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(likeText.getText().equals(getString(R.string.liked))){
+                /*if(likeText.getText().equals(getString(R.string.liked))){
                     serviceController.removeAlbumsForUser(getContext(),
                             new ArrayList<String>(Collections.singletonList(mAlbum.getAlbumId())));
-                    dismiss();
+
                 } else {
                     serviceController.saveAlbumsForUser(getContext(),
                             new ArrayList<String>(Collections.singletonList(mAlbum.getAlbumId())));
                     dismiss();
-                }
-                mListener.onLikedLayoutClicked();
+                }*/
+                mListener.onLikedLayoutClicked(albumId, clickedIndex);
+                dismiss();
             }
         });
 
@@ -197,7 +201,7 @@ public class BottomSheetDialogAlbum extends BottomSheetDialogFragment {
     }
 
     public interface BottomSheetListener{
-        void onLikedLayoutClicked();
+        void onLikedLayoutClicked(String id, int clickedItemIndex);
         void onGoFullAlbumLayoutClicked(String mAlbumId);
     }
 }

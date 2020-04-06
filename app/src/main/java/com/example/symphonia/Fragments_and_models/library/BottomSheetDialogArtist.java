@@ -36,8 +36,15 @@ import static java.util.Arrays.asList;
 public class BottomSheetDialogArtist extends BottomSheetDialogFragment {
 
     private static final String ARTIST_ID = "ARTIST_ID";
+    private static final String CLICKED_INDEX = "CLICKED_INDEX";
+
+    private BottomSheetListener mListener;
 
     private float firstY = 0;
+
+    public BottomSheetDialogArtist(BottomSheetListener mListener) {
+        this.mListener = mListener;
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     @NonNull
@@ -53,7 +60,8 @@ public class BottomSheetDialogArtist extends BottomSheetDialogFragment {
 
         Bundle arguments = getArguments();
         assert arguments != null;
-        String artistId = arguments.getString(ARTIST_ID);
+        final String artistId = arguments.getString(ARTIST_ID);
+        final int clickedIndex = arguments.getInt(CLICKED_INDEX);
 
         Artist mArtist = serviceController.getArtist(getContext(),  artistId);
 
@@ -146,9 +154,22 @@ public class BottomSheetDialogArtist extends BottomSheetDialogFragment {
         }
 
 
+        following.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+                mListener.onFollowingLayoutClicked(artistId, clickedIndex);
+            }
+        });
+
 
 
 
         return bottomSheet;
     }
+
+    public interface BottomSheetListener{
+        void onFollowingLayoutClicked(String id, int clickedItemIndex);
+    }
+
 }
