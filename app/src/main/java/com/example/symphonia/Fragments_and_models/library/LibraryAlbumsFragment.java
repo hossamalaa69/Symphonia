@@ -30,6 +30,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * responsible for all the interaction with albums
@@ -42,6 +43,7 @@ public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapt
         RvListAlbumsAdapter.ListItemLongClickListener, BottomSheetDialogAlbum.BottomSheetListener {
 
     private static final String ALBUM_ID = "ALBUM_ID";
+    private static final String CLICKED_INDEX = "CLICKED_INDEX";
 
     private RecyclerView mAlbumsList;
 
@@ -176,18 +178,20 @@ public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapt
         BottomSheetDialogAlbum bottomSheet = new BottomSheetDialogAlbum(this);
         Bundle arguments = new Bundle();
         arguments.putString( ALBUM_ID , mLikedAlbums.get(clickedItemIndex).getAlbumId());
+        arguments.putInt(CLICKED_INDEX , clickedItemIndex);
         bottomSheet.setArguments(arguments);
         bottomSheet.show(((MainActivity)getActivity()).getSupportFragmentManager(), bottomSheet.getTag());
     }
 
     @Override
-    public void onLikedLayoutClicked() {
+    public void onLikedLayoutClicked(final String id, final int clickedItemIndex) {
 
-        mLikedAlbums = mServiceController.getUserSavedAlbums(getContext(), 0, 20);
+        mServiceController.removeAlbumsForUser(getContext(),
+                new ArrayList<String>(Collections.singletonList(id)));
+
+        mLikedAlbums.remove(clickedItemIndex);
+        mAdapter.notifyItemRemoved(clickedItemIndex);
         if(mLikedAlbums.size() == 0) albumsEmptyState.setVisibility(View.VISIBLE);
-        mAdapter.clear();
-        mAdapter.addAll(mLikedAlbums);
-        mAdapter.notifyDataSetChanged();
 
         Snackbar snack = Snackbar.make(mAlbumsList, R.string.remove_album_snackbar_text, Snackbar.LENGTH_LONG);
         SnackbarHelper.configSnackbar(getContext(), snack, R.drawable.custom_snackbar, Color.BLACK);
