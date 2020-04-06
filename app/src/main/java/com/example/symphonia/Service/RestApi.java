@@ -15,6 +15,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
+import com.example.symphonia.Entities.Category;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Track;
@@ -259,7 +260,7 @@ public class RestApi implements APIs {
 
     private Bitmap image;
 
-    private Bitmap fetchImage(Context context, String url) {
+    private Bitmap fetchImage(final Context context, String url) {
         ImageRequest request = new ImageRequest(url,
                 new Response.Listener<Bitmap>() {
                     @Override
@@ -269,6 +270,7 @@ public class RestApi implements APIs {
                 }, 0, 0, null,
                 new Response.ErrorListener() {
                     public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(context,"avdvadv",Toast.LENGTH_SHORT);
                     }
                 });
         VolleySingleton.getInstance(context).getRequestQueue().add(request);
@@ -468,11 +470,54 @@ public class RestApi implements APIs {
         return null;
     }
 
+
+   /* @Override
+    public ArrayList<Category> getCategories(final Context context) {
+        final updateUiGetCategories listener=(updateUiGetCategories) context;
+        final ArrayList<Category> categories=new ArrayList<>();
+        StringRequest stringRequest=new StringRequest(Request.Method.GET, Constants.GET_ALL_CATEGORIES,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject root=new JSONObject(response);
+                            JSONObject data = root.getJSONObject("data");
+                            JSONArray catArr=data.optJSONArray("categorys");
+                            for(int i=0;i<catArr.length();i++){
+                                JSONObject jsonObject=catArr.getJSONObject(i);
+                                String href=jsonObject.getString("href");
+                                String id=jsonObject.getString("id");
+                                String name=jsonObject.getString("name");
+                                JSONArray imgArr=jsonObject.getJSONArray("icons");
+                                JSONObject imgObj=imgArr.getJSONObject(0);
+                                String imgUrl=imgObj.getString("url");
+                                Bitmap imgBitmap=fetchImage(context,imgUrl);
+                                categories.add(new Category(name,imgBitmap,id,href));
+                            }
+                            listener.getCategoriesSuccess(categories);
+
+                        }catch (Exception e){
+                            e.fillInStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,"afavvavav",Toast.LENGTH_SHORT);
+            }
+        });
+        VolleySingleton.getInstance(context).getRequestQueue().add(stringRequest);
+        return categories;
+    }*/
+
+    public interface updateUiGetCategories{
+        void getCategoriesSuccess(ArrayList<Category> c);
+    }
     @Override
-    public ArrayList<Container> getCategories(Context context) {
+    public ArrayList<Category> getCategories(Context context) {
         Log.e("Category", "start fetching");
         final updateUiPlaylists listener = (updateUiPlaylists) context;
-        final ArrayList<Container> categoriesList = new ArrayList<>();
+        final ArrayList<Category> categoriesList = new ArrayList<>();
         StringRequest request = new StringRequest(Request.Method.GET, Constants.GET_ALL_CATEGORIES, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -483,7 +528,7 @@ public class RestApi implements APIs {
                     for (int i = 0; i < categories.length(); i++) {
                         JSONObject category = categories.getJSONObject(i);
                         String link = category.getString("href");
-                        categoriesList.add(new Container(link));
+                        categoriesList.add(new Category(link));
                     }
                     Log.e("Category", "loaded");
                     Utils.categories = categoriesList;
@@ -525,15 +570,15 @@ public class RestApi implements APIs {
      * @return arraylist of container which has the genres
      */
     @Override
-    public ArrayList<Container> getGenres(Context context) {
+    public ArrayList<Category> getGenres(Context context) {
         return null;
     }
 
-    public interface updateUigetGenres{
+    /*public interface updateUigetGenres{
         void updateUigetGenresSuccess();
 
         void updateUigetGenresFail();
-    }
+    }*/
 
 
     @Override

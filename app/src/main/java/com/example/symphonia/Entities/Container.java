@@ -1,5 +1,7 @@
 package com.example.symphonia.Entities;
 
+import android.graphics.Bitmap;
+
 /**
  * @author Mahmoud Amr Nabil
  * @version 1.0
@@ -7,15 +9,15 @@ package com.example.symphonia.Entities;
 public class Container {
     private String catName;
     private String catName2;
-    private int imgRes;
+    private Bitmap imgRes;
 
-    public Container(String s, int i) {
+    public Container(String s, Bitmap i) {
         catName = s;
         imgRes = i;
         catName2 = null;
     }
 
-    public Container(String s, String s2, int i) {
+    public Container(String s, String s2, Bitmap i) {
         catName = s;
         imgRes = i;
         catName2 = s2;
@@ -32,7 +34,7 @@ public class Container {
         return catName;
     }
 
-    public int getImg_Res() {
+    public Bitmap getImg_Res() {
         return imgRes;
     }
 }

@@ -86,7 +86,7 @@ public class ProfilePlaylistsAdapter extends RecyclerView.Adapter<ProfilePlaylis
         public void makeProfilePlaylistItem(int pos) {
             Container temp = container.get(pos);
             textView.setText(temp.getCat_Name());
-            imageView.setImageResource(temp.getImg_Res());
+            imageView.setImageBitmap(temp.getImg_Res());
             imageView.setOval(false);
             textView2.setText(temp.getCat_Name2());
         }

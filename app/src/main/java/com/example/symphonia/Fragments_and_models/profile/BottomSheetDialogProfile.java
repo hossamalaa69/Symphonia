@@ -6,7 +6,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -93,14 +92,13 @@ public class BottomSheetDialogProfile extends BottomSheetDialogFragment {
         TextView profileName = view.findViewById(R.id.tv_profile_playlist_name);
         profileName.setText(profile.getCat_Name());
         ImageView profileImage = view.findViewById(R.id.image_profile_or_playlist);
-        profileImage.setImageResource(profile.getImg_Res());
+        profileImage.setImageBitmap(profile.getImg_Res());
 
         LinearLayout imageFrame = view.findViewById(R.id.image_frame);
         ImageView symphoniaImage = view.findViewById(R.id.image_symphonia);
         ImageView soundWave = view.findViewById(R.id.image_sound_wave);
 
-        int dominantColor = Utils.getDominantColor(BitmapFactory.decodeResource(getContext().getResources()
-                , profile.getImg_Res()));
+        int dominantColor = Utils.getDominantColor(profile.getImg_Res());
         imageFrame.setBackgroundColor(dominantColor);
         if(!Utils.isColorDark(dominantColor)){
             symphoniaImage.setColorFilter(Color.rgb(0, 0, 0));

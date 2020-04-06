@@ -64,8 +64,8 @@ public class HomeFragment extends Fragment {
         if (Constants.DEBUG_STATUS)
             initViews();
 
-        ServiceController SController = ServiceController.getInstance();
-        SController.getCategories(getContext());
+        //ServiceController SController = ServiceController.getInstance();
+        //SController.getCategories(getContext());
 
         final ImageView ivSettings = root.findViewById(R.id.iv_setting_home);
         ivSettings.setOnClickListener(new View.OnClickListener() {

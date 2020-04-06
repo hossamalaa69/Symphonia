@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.palette.graphics.Palette;
 
+import com.example.symphonia.Entities.Category;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Track;
@@ -35,7 +36,7 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
  */
 public class Utils {
 
-    public static ArrayList<Container> categories ;
+    public static ArrayList<Category> categories ;
     /**
      * extracts name from email
      *
@@ -200,8 +201,7 @@ public class Utils {
      * @author Mahmoud Amr Nabil
      */
     public static Drawable createSearchListBackground(Context context, Container container) {
-        int color = getDominantColor(BitmapFactory.decodeResource(context.getResources()
-                , container.getImg_Res()));
+        int color = getDominantColor(container.getImg_Res());
 
         SomeDrawable3 drawable = new SomeDrawable3(color, Color.BLACK);
         return drawable;
@@ -217,8 +217,7 @@ public class Utils {
      * @author Mahmoud Amr Nabil
      */
     public static Drawable createCategoryBackground(Context context, Container container) {
-        int color = getDominantColor(BitmapFactory.decodeResource(context.getResources()
-                , container.getImg_Res()));
+        int color = getDominantColor(container.getImg_Res());
 
         SomeDrawable4 drawable = new SomeDrawable4(color, Color.BLACK);
         return drawable;

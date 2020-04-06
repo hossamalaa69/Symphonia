@@ -7,18 +7,13 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Adapters.SearchMainAdapter;
-import com.example.symphonia.Entities.Container;
-import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
+import com.example.symphonia.Entities.Category;
 import com.example.symphonia.R;
-import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
 
 import java.util.ArrayList;
@@ -28,11 +23,13 @@ import java.util.ArrayList;
  * @author Mahmoud Amr Nabil
  * @version 1.0
  */
-public class SearchFragment extends Fragment implements SearchMainAdapter.CatListItemClickListner
-, RestApi.updateUigetGenres {
+public class SearchFragment extends Fragment implements SearchMainAdapter.CatListItemClickListner {
 
     private ServiceController con;
 
+    private RecyclerView RV2;
+
+    View root;
     private View.OnClickListener listener = new View.OnClickListener() {
         @Override
         /**
@@ -59,29 +56,21 @@ public class SearchFragment extends Fragment implements SearchMainAdapter.CatLis
      */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        searchViewModel =
-                ViewModelProviders.of(this).get(SearchViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_search, container, false);
 
-        searchViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-
-            }
-        });
+            root = inflater.inflate(R.layout.fragment_search, container, false);
         //get instance of the service controller
         con=ServiceController.getInstance();
 
         //attach views
         LinearLayout RL = root.findViewById(R.id.send_to_serchlist);
         RecyclerView RV = root.findViewById(R.id.search_top_genres_grid);
-        RecyclerView RV2 = root.findViewById(R.id.search_browse_all_grid);
+        RV2 = root.findViewById(R.id.search_browse_all_grid);
 
         //handle click
         RL.setOnClickListener(listener);
 
         //add data and setup for RV
-        ArrayList<Container> Genre = con.getGenres(getContext());
+        ArrayList<Category> Genre = con.getGenres(getContext());
         RV.setNestedScrollingEnabled(false);//disable the scroll of the recycler view
         GridLayoutManager LM = new GridLayoutManager(getContext(), 2);
         RV.setLayoutManager(LM);
@@ -90,7 +79,8 @@ public class SearchFragment extends Fragment implements SearchMainAdapter.CatLis
         RV.setAdapter(genresAdapter);
 
         //add data and setup for RV2
-        ArrayList<Container> Category = con.getCategories(getContext());
+        //RestApi restApi=new RestApi();
+        ArrayList<Category> Category = con.getCategories(getContext());
         RV2.setNestedScrollingEnabled(false);
         GridLayoutManager LM2 = new GridLayoutManager(getContext(), 2);
         RV2.setLayoutManager(LM2);
@@ -107,20 +97,22 @@ public class SearchFragment extends Fragment implements SearchMainAdapter.CatLis
      * @param c cotainer which has the information of the category that will be shown
      */
     @Override
-    public void onListItemClickListner(Container c) {
+    public void onListItemClickListner(Category c) {
         getParentFragmentManager().beginTransaction()
                 .replace(R.id.nav_host_fragment, new CategoryFragment(c))
                 .addToBackStack(null)
                 .commit();
     }
 
-    @Override
-    public void updateUigetGenresSuccess() {
 
-    }
+    public void UpdateUiGetCategories(ArrayList<Category> c){
 
-    @Override
-    public void updateUigetGenresFail() {
-
+        RV2 = root.findViewById(R.id.search_browse_all_grid);
+        RV2.setNestedScrollingEnabled(false);
+        GridLayoutManager LM2 = new GridLayoutManager(getContext(), 2);
+        RV2.setLayoutManager(LM2);
+        RV2.setHasFixedSize(true);
+        catAdapter = new SearchMainAdapter(c,this);
+        RV2.setAdapter(catAdapter);
     }
 }

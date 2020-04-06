@@ -82,7 +82,7 @@ public class SeeAllArtistsAdapter extends RecyclerView.Adapter<SeeAllArtistsAdap
         public void makeResult(int pos) {
             Container temp = container.get(pos);
             textView.setText(temp.getCat_Name());
-            imageView.setImageResource(temp.getImg_Res());
+            imageView.setImageBitmap(temp.getImg_Res());
         }
     }
 }

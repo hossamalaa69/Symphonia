@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
+import com.example.symphonia.Entities.Category;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Track;
@@ -101,9 +102,9 @@ public interface APIs {
 
     ArrayList<Container> getResultsOfSearch(Context context, String searchWord);
 
-    ArrayList<Container> getCategories(Context context);
+    ArrayList<Category> getCategories(Context context);
 
-    ArrayList<Container> getGenres(Context context);
+    ArrayList<Category> getGenres(Context context);
 
     ArrayList<Container> getArtists(Context context, String searchWord);
 

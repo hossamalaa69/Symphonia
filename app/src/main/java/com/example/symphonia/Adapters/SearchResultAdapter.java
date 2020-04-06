@@ -124,7 +124,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
             else {
                 textView2.setText(temp.getCat_Name2());
             }
-            imageView.setImageResource(temp.getImg_Res());
+            imageView.setImageBitmap(temp.getImg_Res());
             if(chooseImg){
                 show.setVisibility(View.VISIBLE);
                 close.setVisibility(View.GONE);

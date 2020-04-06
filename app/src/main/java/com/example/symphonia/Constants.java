@@ -27,7 +27,7 @@ public class Constants {
     public static final boolean DEBUG_STATUS = true;
 
     //Base URL
-    public final static  String BASE_URL="http://ec2-52-21-160-186.compute-1.amazonaws.com/";
+    public final static  String BASE_URL="http://zasymphonia.ddns.net";
 
     public final static  String LOG_IN_URL  = BASE_URL+"api/v1/users/login?";
 
@@ -40,6 +40,10 @@ public class Constants {
     public static  final  String GET_POPULAR_PLAYLISTS = BASE_URL + "api/v1/browse/categories/party/playlists?";
 
     public static final String GET_ALL_CATEGORIES= BASE_URL+ "api/v1/browse/categories?";
+
+    public static final String Get_Current_User_Profile=BASE_URL+"api/v1/me";
+
+
     /**
      * made-for-you playlists link
      */

@@ -9,8 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.symphonia.Entities.Category;
 import com.example.symphonia.R;
-import com.example.symphonia.Entities.Container;
 
 import java.util.ArrayList;
 
@@ -19,18 +19,18 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class SearchMainAdapter extends RecyclerView.Adapter<SearchMainAdapter.SearchCategoriesViewHolder>  {
-    private ArrayList<Container> categorySet;
+    private ArrayList<Category> categorySet;
     private CatListItemClickListner listItemClickListner;
     public interface CatListItemClickListner{
-        void onListItemClickListner(Container c);
+        void onListItemClickListner(Category c);
     }
 
     /**
      *constructor of SearchMainAdapter
-     * @param data Arraylist of Container which has the data of category or genre
+     * @param data Arraylist of Category which has the data of category or genre
      * @param l context
      */
-    public SearchMainAdapter(ArrayList<Container> data,CatListItemClickListner l) {
+    public SearchMainAdapter(ArrayList<Category> data,CatListItemClickListner l) {
         categorySet = data;
         listItemClickListner=l;
     }
@@ -91,9 +91,9 @@ public class SearchMainAdapter extends RecyclerView.Adapter<SearchMainAdapter.Se
          * @param pos position of the item
          */
         public void makeCategory(int pos) {
-            Container temp = categorySet.get(pos);
+            Category temp = categorySet.get(pos);
             textView.setText(temp.getCat_Name());
-            imageView.setImageResource(temp.getImg_Res());
+            imageView.setImageBitmap(temp.getImg_Res());
         }
 
         /**

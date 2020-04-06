@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
+import com.example.symphonia.Entities.Category;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Track;
@@ -149,11 +150,11 @@ public class ServiceController {
         return mSupplier.getResultsOfSearch(context, searchWord);
     }
 
-    public ArrayList<Container> getCategories(Context context) {
+    public ArrayList<Category> getCategories(Context context) {
         return mSupplier.getCategories(context);
     }
 
-    public ArrayList<Container> getGenres(Context context) {
+    public ArrayList<Category> getGenres(Context context) {
         return mSupplier.getGenres(context);
     }
 

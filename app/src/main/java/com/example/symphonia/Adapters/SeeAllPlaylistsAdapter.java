@@ -90,7 +90,7 @@ public class SeeAllPlaylistsAdapter extends RecyclerView.Adapter<SeeAllPlaylists
         public void makeResult(int pos) {
             Container temp = container.get(pos);
             textView.setText(temp.getCat_Name());
-            imageView.setImageResource(temp.getImg_Res());
+            imageView.setImageBitmap(temp.getImg_Res());
             if(showText) textView2.setText(temp.getCat_Name2());
         }
     }

@@ -107,7 +107,7 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.Foll
         public void makeFollowerstItem(int pos) {
             Container temp = container.get(pos);
             textView.setText(temp.getCat_Name());
-            imageView.setImageResource(temp.getImg_Res());
+            imageView.setImageBitmap(temp.getImg_Res());
             imageView.setOval(true);
             textView2.setText(temp.getCat_Name2());
         }

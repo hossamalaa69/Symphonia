@@ -84,7 +84,7 @@ public class SeeAllProfilesAdapter extends RecyclerView.Adapter<SeeAllProfilesAd
         public void makeProfileItem(int pos) {
             Container temp = data.get(pos);
             textView.setText(temp.getCat_Name());
-            imageView.setImageResource(temp.getImg_Res());
+            imageView.setImageBitmap(temp.getImg_Res());
         }
 
         @Override

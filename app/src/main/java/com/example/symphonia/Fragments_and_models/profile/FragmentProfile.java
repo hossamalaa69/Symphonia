@@ -164,7 +164,7 @@ public class FragmentProfile extends Fragment {
         appBarLayout.setOnClickListener(follow);
         appBarLayout.setOnTouchListener(t);
 
-        profileImage.setImageResource(profile.getImg_Res());
+        profileImage.setImageBitmap(profile.getImg_Res());
         //followButton.setOnClickListener(follow);
         backImg.setOnClickListener(back);
         playlistsLayout.setOnClickListener(toPlaylists);

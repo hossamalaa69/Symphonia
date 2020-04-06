@@ -57,6 +57,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAdapter.OnPlaylistClicked
         , RvTracksHomeAdapter.OnTrackClicked
         , RestApi.updateUiPlaylists
+       // ,RestApi.updateUiGetCategories
         , RvBarAdapter.ItemInterface, Serializable {
 
     private RecyclerView.LayoutManager layoutManager;
@@ -617,6 +618,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     }
 
     private HomeFragment homeFragment;
+    private SearchFragment searchFragment;
 
     /**
      * this function initialize BottomNavigationView
@@ -631,6 +633,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                 .setPrimaryNavigationFragment(navHostFragment)
                 .commit();
         homeFragment = new HomeFragment();
+        searchFragment=new SearchFragment();
         navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -647,7 +650,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                         return true;
                     case R.id.navigation_search:
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.nav_host_fragment, new SearchFragment())
+                                .replace(R.id.nav_host_fragment,searchFragment)
                                 .commit();
                         return true;
                     case R.id.navigation_premium:
@@ -752,4 +755,9 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             return;
         }
     }
+
+    /*@Override
+    public void getCategoriesSuccess(ArrayList<Category> c) {
+        searchFragment.UpdateUiGetCategories(c);
+    }*/
 }

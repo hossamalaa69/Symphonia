@@ -164,7 +164,7 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.nav_host_fragment, new FragmentProfile(new Container("Islam Ahmed",R.drawable.islam_ahmed)))
+                        .replace(R.id.nav_host_fragment, new FragmentProfile(new Container("Islam Ahmed",Utils.convertToBitmap(R.drawable.islam_ahmed))))
                         .addToBackStack(null)
                         .commit();            }
         });

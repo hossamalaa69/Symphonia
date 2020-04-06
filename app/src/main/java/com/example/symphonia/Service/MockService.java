@@ -5,10 +5,10 @@ import android.net.Uri;
 import android.provider.Settings;
 import android.view.View;
 
-import com.example.symphonia.Activities.User_Management.LoginActivity;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
+import com.example.symphonia.Entities.Category;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Copyright;
 import com.example.symphonia.Entities.Playlist;
@@ -378,14 +378,14 @@ public class MockService implements APIs {
 
         if (firstTimeToGetRecentSearches) {
             mRecentSearches = new ArrayList<>();
-            mRecentSearches.add(new Container("Quran", context.getResources().getString(R.string.Playlist), R.drawable.images));
-            mRecentSearches.add(new Container("George Wassouf", context.getResources().getString(R.string.Artist), R.drawable.download));
-            mRecentSearches.add(new Container("Get Weird", context.getResources().getString(R.string.Album) + ".Little Mix", R.drawable.download1));
-            mRecentSearches.add(new Container("Godzilla", context.getResources().getString(R.string.Song) + ".Eminem juice WRLD", R.drawable.images));
-            mRecentSearches.add(new Container("Lollipop", context.getResources().getString(R.string.Album) + ".Little Mix", R.drawable.images3));
-            mRecentSearches.add(new Container("Friction", context.getResources().getString(R.string.Playlist), R.drawable.images));
-            mRecentSearches.add(new Container("Playlist", context.getResources().getString(R.string.Playlist), R.drawable.alan));
-            mRecentSearches.add(new Container("Miley Cyrus", context.getResources().getString(R.string.Artist), R.drawable.download));
+            mRecentSearches.add(new Container("Quran", context.getResources().getString(R.string.Playlist), Utils.convertToBitmap(R.drawable.images)));
+            mRecentSearches.add(new Container("George Wassouf", context.getResources().getString(R.string.Artist), Utils.convertToBitmap(R.drawable.download)));
+            mRecentSearches.add(new Container("Get Weird", context.getResources().getString(R.string.Album) + ".Little Mix", Utils.convertToBitmap(R.drawable.download1)));
+            mRecentSearches.add(new Container("Godzilla", context.getResources().getString(R.string.Song) + ".Eminem juice WRLD", Utils.convertToBitmap(R.drawable.images)));
+            mRecentSearches.add(new Container("Lollipop", context.getResources().getString(R.string.Album) + ".Little Mix", Utils.convertToBitmap(R.drawable.images3)));
+            mRecentSearches.add(new Container("Friction", context.getResources().getString(R.string.Playlist), Utils.convertToBitmap(R.drawable.images)));
+            mRecentSearches.add(new Container("Playlist", context.getResources().getString(R.string.Playlist), Utils.convertToBitmap(R.drawable.alan)));
+            mRecentSearches.add(new Container("Miley Cyrus", context.getResources().getString(R.string.Artist), Utils.convertToBitmap(R.drawable.download)));
         }
         return mRecentSearches;
     }
@@ -399,71 +399,71 @@ public class MockService implements APIs {
         String genre = context.getResources().getString(R.string.Genre);
 
         mData = new ArrayList<>();
-        mData.add(new Container("Quran", playlist, R.drawable.download));
-        mData.add(new Container("George Wassouf", artist, R.drawable.download));
-        mData.add(new Container("Get Weird", album + ".Little Mix", R.drawable.download1));
-        mData.add(new Container("Godzilla", song + ".Eminem juice WRLD", R.drawable.images));
-        mData.add(new Container("Believer", song + ".Eminem juice WRLD", R.drawable.images));
-        mData.add(new Container("Natural", song + ".Imagine Dragons", R.drawable.abu));
-        mData.add(new Container("Love Save Us Once", album + ".Little Mix", R.drawable.download));
-        mData.add(new Container("Get Weird", album + ".Little Mix", R.drawable.download1));
-        mData.add(new Container("Mozart", genre, R.drawable.images3));
-        mData.add(new Container("Get Weird", album + ".Little Mix", R.drawable.images3));
-        mData.add(new Container("Mine", playlist, R.drawable.images));
-        mData.add(new Container("ALVXARO", playlist, R.drawable.adele));
+        mData.add(new Container("Quran", playlist, Utils.convertToBitmap(R.drawable.download)));
+        mData.add(new Container("George Wassouf", artist, Utils.convertToBitmap(R.drawable.download)));
+        mData.add(new Container("Get Weird", album + ".Little Mix", Utils.convertToBitmap(R.drawable.download1)));
+        mData.add(new Container("Godzilla", song + ".Eminem juice WRLD", Utils.convertToBitmap(R.drawable.images)));
+        mData.add(new Container("Believer", song + ".Eminem juice WRLD", Utils.convertToBitmap(R.drawable.images)));
+        mData.add(new Container("Natural", song + ".Imagine Dragons", Utils.convertToBitmap(R.drawable.abu)));
+        mData.add(new Container("Love Save Us Once", album + ".Little Mix", Utils.convertToBitmap(R.drawable.download)));
+        mData.add(new Container("Get Weird", album + ".Little Mix", Utils.convertToBitmap(R.drawable.download1)));
+        mData.add(new Container("Mozart", genre, Utils.convertToBitmap(R.drawable.images3)));
+        mData.add(new Container("Get Weird", album + ".Little Mix", Utils.convertToBitmap(R.drawable.images3)));
+        mData.add(new Container("Mine", playlist, Utils.convertToBitmap(R.drawable.images)));
+        mData.add(new Container("ALVXARO", playlist, Utils.convertToBitmap(R.drawable.adele)));
 
-        mData.add(new Container("Amr Diab", artist, R.drawable.amr));
-        mData.add(new Container("Stop Noise", album + ".Little Mix", R.drawable.download1));
-        mData.add(new Container("Beautiful Song", song + ".Eminem juice WRLD", R.drawable.images));
-        mData.add(new Container("Lose Yourself", song + ".Eminem juice WRLD", R.drawable.images));
-        mData.add(new Container("Whatever It Takes", song + ".Imagine Dragons", R.drawable.tamer_ashour));
-        mData.add(new Container("Max Payne", album + ".Little Mix", R.drawable.download));
-        mData.add(new Container("Rick And Morty", album + ".Little Mix", R.drawable.download1));
-        mData.add(new Container("Rock", genre, R.drawable.images3));
-        mData.add(new Container("Elephant", album + ".Little Mix", R.drawable.images3));
-        mData.add(new Container("End Of World", playlist, R.drawable.images));
-        mData.add(new Container("Crazy Love", playlist, R.drawable.angham));
+        mData.add(new Container("Amr Diab", artist, Utils.convertToBitmap(R.drawable.amr)));
+        mData.add(new Container("Stop Noise", album + ".Little Mix", Utils.convertToBitmap(R.drawable.download1)));
+        mData.add(new Container("Beautiful Song", song + ".Eminem juice WRLD", Utils.convertToBitmap(R.drawable.images)));
+        mData.add(new Container("Lose Yourself", song + ".Eminem juice WRLD", Utils.convertToBitmap(R.drawable.images)));
+        mData.add(new Container("Whatever It Takes", song + ".Imagine Dragons", Utils.convertToBitmap(R.drawable.tamer_ashour)));
+        mData.add(new Container("Max Payne", album + ".Little Mix", Utils.convertToBitmap(R.drawable.download)));
+        mData.add(new Container("Rick And Morty", album + ".Little Mix", Utils.convertToBitmap(R.drawable.download1)));
+        mData.add(new Container("Rock", genre, Utils.convertToBitmap(R.drawable.images3)));
+        mData.add(new Container("Elephant", album + ".Little Mix", Utils.convertToBitmap(R.drawable.images3)));
+        mData.add(new Container("End Of World", playlist, Utils.convertToBitmap(R.drawable.images)));
+        mData.add(new Container("Crazy Love", playlist, Utils.convertToBitmap(R.drawable.angham)));
 
-        mData.add(new Container("Van Diesel", artist, R.drawable.download));
-        mData.add(new Container("Wind", album + ".Little Mix", R.drawable.download1));
-        mData.add(new Container("I Will Survive", song + ".Eminem juice WRLD", R.drawable.images));
-        mData.add(new Container("Beautiful Mind", song + ".Eminem juice WRLD", R.drawable.images));
-        mData.add(new Container("Sucker For Pain", song + ".Imagine Dragons", R.drawable.billie));
-        mData.add(new Container("Pain", album + ".Little Mix", R.drawable.download));
-        mData.add(new Container("Quite Place", album + ".Little Mix", R.drawable.download1));
-        mData.add(new Container("Sleep", genre, R.drawable.images3));
-        mData.add(new Container("Gamal", album + ".Little Mix", R.drawable.images3));
-        mData.add(new Container("Nerds", playlist, R.drawable.images));
-        mData.add(new Container("Smoke Grenades", playlist, R.drawable.jannat));
+        mData.add(new Container("Van Diesel", artist, Utils.convertToBitmap(R.drawable.download)));
+        mData.add(new Container("Wind", album + ".Little Mix", Utils.convertToBitmap(R.drawable.download1)));
+        mData.add(new Container("I Will Survive", song + ".Eminem juice WRLD", Utils.convertToBitmap(R.drawable.images)));
+        mData.add(new Container("Beautiful Mind", song + ".Eminem juice WRLD", Utils.convertToBitmap(R.drawable.images)));
+        mData.add(new Container("Sucker For Pain", song + ".Imagine Dragons", Utils.convertToBitmap(R.drawable.billie)));
+        mData.add(new Container("Pain", album + ".Little Mix", Utils.convertToBitmap(R.drawable.download)));
+        mData.add(new Container("Quite Place", album + ".Little Mix", Utils.convertToBitmap(R.drawable.download1)));
+        mData.add(new Container("Sleep", genre, Utils.convertToBitmap(R.drawable.images3)));
+        mData.add(new Container("Gamal", album + ".Little Mix", Utils.convertToBitmap(R.drawable.images3)));
+        mData.add(new Container("Nerds", playlist, Utils.convertToBitmap(R.drawable.images)));
+        mData.add(new Container("Smoke Grenades", playlist, Utils.convertToBitmap(R.drawable.jannat)));
 
-        mData.add(new Container("Samir Abo Elnil", artist, R.drawable.download));
-        mData.add(new Container("Sun Rises", album + ".Little Mix", R.drawable.download1));
-        mData.add(new Container("Cat Sound", song + ".Eminem juice WRLD", R.drawable.images));
-        mData.add(new Container("Billie Jean", song + ".Eminem juice WRLD", R.drawable.images));
-        mData.add(new Container("Thunder", song + ".Imagine Dragons", R.drawable.loai));
-        mData.add(new Container("The Shadows", album + ".Little Mix", R.drawable.download));
-        mData.add(new Container("Silence Of Lambs", album + ".Little Mix", R.drawable.download1));
-        mData.add(new Container("Afro", genre, R.drawable.images3));
-        mData.add(new Container("Fancy", album + ".Little Mix", R.drawable.images3));
-        mData.add(new Container("Jungles", playlist, R.drawable.images));
-        mData.add(new Container("Oranges", playlist, R.drawable.hamza));
+        mData.add(new Container("Samir Abo Elnil", artist, Utils.convertToBitmap(R.drawable.download)));
+        mData.add(new Container("Sun Rises", album + ".Little Mix", Utils.convertToBitmap(R.drawable.download1)));
+        mData.add(new Container("Cat Sound", song + ".Eminem juice WRLD", Utils.convertToBitmap(R.drawable.images)));
+        mData.add(new Container("Billie Jean", song + ".Eminem juice WRLD", Utils.convertToBitmap(R.drawable.images)));
+        mData.add(new Container("Thunder", song + ".Imagine Dragons", Utils.convertToBitmap(R.drawable.loai)));
+        mData.add(new Container("The Shadows", album + ".Little Mix", Utils.convertToBitmap(R.drawable.download)));
+        mData.add(new Container("Silence Of Lambs", album + ".Little Mix", Utils.convertToBitmap(R.drawable.download1)));
+        mData.add(new Container("Afro", genre, Utils.convertToBitmap(R.drawable.images3)));
+        mData.add(new Container("Fancy", album + ".Little Mix", Utils.convertToBitmap(R.drawable.images3)));
+        mData.add(new Container("Jungles", playlist, Utils.convertToBitmap(R.drawable.images)));
+        mData.add(new Container("Oranges", playlist, Utils.convertToBitmap(R.drawable.hamza)));
 
-        mData.add(new Container("Adele", artist, R.drawable.adele));
-        mData.add(new Container("Yellow Album", album + ".Little Mix", R.drawable.download1));
-        mData.add(new Container("Stressed Out", song + ".Eminem juice WRLD", R.drawable.images));
-        mData.add(new Container("ThunderClouds", song + ".Eminem juice WRLD", R.drawable.images));
-        mData.add(new Container("Thunder", song + ".Imagine Dragons", R.drawable.halsey));
-        mData.add(new Container("High Waves", "Album.Little Mix", R.drawable.download));
-        mData.add(new Container("Nice Album", album + ".Little Mix", R.drawable.download1));
-        mData.add(new Container("Pop", genre, R.drawable.images3));
-        mData.add(new Container("Lollipop", album + ".Little Mix", R.drawable.images3));
-        mData.add(new Container("Friction", playlist, R.drawable.images));
-        mData.add(new Container("Playlist", playlist, R.drawable.wael));
-        mData.add(new Container("Miley Cyrus", artist, R.drawable.download));
+        mData.add(new Container("Adele", artist, Utils.convertToBitmap(R.drawable.adele)));
+        mData.add(new Container("Yellow Album", album + ".Little Mix", Utils.convertToBitmap(R.drawable.download1)));
+        mData.add(new Container("Stressed Out", song + ".Eminem juice WRLD", Utils.convertToBitmap(R.drawable.images)));
+        mData.add(new Container("ThunderClouds", song + ".Eminem juice WRLD", Utils.convertToBitmap(R.drawable.images)));
+        mData.add(new Container("Thunder", song + ".Imagine Dragons", Utils.convertToBitmap(R.drawable.halsey)));
+        mData.add(new Container("High Waves", "Album.Little Mix", Utils.convertToBitmap(R.drawable.download)));
+        mData.add(new Container("Nice Album", album + ".Little Mix", Utils.convertToBitmap(R.drawable.download1)));
+        mData.add(new Container("Pop", genre, Utils.convertToBitmap(R.drawable.images3)));
+        mData.add(new Container("Lollipop", album + ".Little Mix", Utils.convertToBitmap(R.drawable.images3)));
+        mData.add(new Container("Friction", playlist, Utils.convertToBitmap(R.drawable.images)));
+        mData.add(new Container("Playlist", playlist, Utils.convertToBitmap(R.drawable.wael)));
+        mData.add(new Container("Miley Cyrus", artist, Utils.convertToBitmap(R.drawable.download)));
 
-        mData.add((new Container("my profile", profile, R.drawable.assala)));
-        mData.add((new Container("mohammed ahmed", profile, R.drawable.cairokee)));
-        mData.add((new Container("ali saad", profile, R.drawable.samira)));
+        mData.add((new Container("my profile", profile, Utils.convertToBitmap(R.drawable.assala))));
+        mData.add((new Container("mohammed ahmed", profile, Utils.convertToBitmap(R.drawable.cairokee))));
+        mData.add((new Container("ali saad", profile, Utils.convertToBitmap(R.drawable.samira))));
 
 
         LinkedList<Container> resultsLinked = new LinkedList<>();
@@ -492,37 +492,37 @@ public class MockService implements APIs {
     }
 
     @Override
-    public ArrayList<Container> getCategories(Context context) {
-        ArrayList<Container> categories = new ArrayList<>();
-        categories.add(new Container(context.getResources().getString(R.string.New_Releases), R.drawable.solid_image));
-        categories.add(new Container(context.getResources().getString(R.string.Charts), R.drawable.solid_image2));
-        categories.add(new Container(context.getResources().getString(R.string.Concerts), R.drawable.solid_image3));
-        categories.add(new Container(context.getResources().getString(R.string.Made_for_you), R.drawable.solid_image4));
-        categories.add(new Container(context.getResources().getString(R.string.Arabic), R.drawable.solid_image5));
-        categories.add(new Container(context.getResources().getString(R.string.Mood), R.drawable.blue_image));
-        categories.add(new Container(context.getResources().getString(R.string.Decades), R.drawable.solid_image8));
-        categories.add(new Container(context.getResources().getString(R.string.Gaming), R.drawable.solid_image7));
-        categories.add(new Container(context.getResources().getString(R.string.Workout), R.drawable.solid_red_image));
-        categories.add(new Container(context.getResources().getString(R.string.Focus), R.drawable.multicolor_image));
-        categories.add(new Container(context.getResources().getString(R.string.Party), R.drawable.solidcolor_image));
-        categories.add(new Container(context.getResources().getString(R.string.Dinner), R.drawable.purble_image));
-        categories.add(new Container(context.getResources().getString(R.string.Jazz), R.drawable.grey_image));
-        categories.add(new Container(context.getResources().getString(R.string.Soul), R.drawable.lightpurble_image));
-        categories.add(new Container(context.getResources().getString(R.string.Kids), R.drawable.lemongreen_image));
-        categories.add(new Container(context.getResources().getString(R.string.Blues), R.drawable.lightgrey_image));
-        categories.add(new Container(context.getResources().getString(R.string.Punk), R.drawable.lightbrown_image));
-        categories.add(new Container(context.getResources().getString(R.string.Travel), R.drawable.gradientgreen_image));
+    public ArrayList<Category> getCategories(Context context) {
+        ArrayList<Category> categories = new ArrayList<>();
+        categories.add(new Category(context.getResources().getString(R.string.New_Releases), Utils.convertToBitmap(R.drawable.solid_image)));
+        categories.add(new Category(context.getResources().getString(R.string.Charts), Utils.convertToBitmap(R.drawable.solid_image2)));
+        categories.add(new Category(context.getResources().getString(R.string.Concerts), Utils.convertToBitmap(R.drawable.solid_image3)));
+        categories.add(new Category(context.getResources().getString(R.string.Made_for_you), Utils.convertToBitmap(R.drawable.solid_image4)));
+        categories.add(new Category(context.getResources().getString(R.string.Arabic), Utils.convertToBitmap(R.drawable.solid_image5)));
+        categories.add(new Category(context.getResources().getString(R.string.Mood), Utils.convertToBitmap(R.drawable.blue_image)));
+        categories.add(new Category(context.getResources().getString(R.string.Decades), Utils.convertToBitmap(R.drawable.solid_image8)));
+        categories.add(new Category(context.getResources().getString(R.string.Gaming), Utils.convertToBitmap(R.drawable.solid_image7)));
+        categories.add(new Category(context.getResources().getString(R.string.Workout), Utils.convertToBitmap(R.drawable.solid_red_image)));
+        categories.add(new Category(context.getResources().getString(R.string.Focus), Utils.convertToBitmap(R.drawable.multicolor_image)));
+        categories.add(new Category(context.getResources().getString(R.string.Party), Utils.convertToBitmap(R.drawable.solidcolor_image)));
+        categories.add(new Category(context.getResources().getString(R.string.Dinner), Utils.convertToBitmap(R.drawable.purble_image)));
+        categories.add(new Category(context.getResources().getString(R.string.Jazz), Utils.convertToBitmap(R.drawable.grey_image)));
+        categories.add(new Category(context.getResources().getString(R.string.Soul), Utils.convertToBitmap(R.drawable.lightpurble_image)));
+        categories.add(new Category(context.getResources().getString(R.string.Kids), Utils.convertToBitmap(R.drawable.lemongreen_image)));
+        categories.add(new Category(context.getResources().getString(R.string.Blues), Utils.convertToBitmap(R.drawable.lightgrey_image)));
+        categories.add(new Category(context.getResources().getString(R.string.Punk), Utils.convertToBitmap(R.drawable.lightbrown_image)));
+        categories.add(new Category(context.getResources().getString(R.string.Travel), Utils.convertToBitmap(R.drawable.gradientgreen_image)));
         return categories;
     }
 
     @Override
-    public ArrayList<Container> getGenres(Context context) {
-        ArrayList<Container> genres = new ArrayList<>();
-        genres.add(new Container(context.getResources().getString(R.string.Pop), R.drawable.blue_image2));
-        genres.add(new Container(context.getResources().getString(R.string.HipHop), R.drawable.yellow_image));
-        genres.add(new Container(context.getResources().getString(R.string.Rock), R.drawable.image_pink));
-        genres.add(new Container(context.getResources().getString(R.string.Sleep), R.drawable.skyblue_image));
-        genres.add(new Container(context.getResources().getString(R.string.Chill), R.drawable.purble_image));
+    public ArrayList<Category> getGenres(Context context) {
+        ArrayList<Category> genres = new ArrayList<>();
+        genres.add(new Category(context.getResources().getString(R.string.Pop), Utils.convertToBitmap(R.drawable.blue_image2)));
+        genres.add(new Category(context.getResources().getString(R.string.HipHop), Utils.convertToBitmap(R.drawable.yellow_image)));
+        genres.add(new Category(context.getResources().getString(R.string.Rock), Utils.convertToBitmap(R.drawable.image_pink)));
+        genres.add(new Category(context.getResources().getString(R.string.Sleep), Utils.convertToBitmap(R.drawable.skyblue_image)));
+        genres.add(new Category(context.getResources().getString(R.string.Chill), Utils.convertToBitmap(R.drawable.purble_image)));
         return genres;
     }
 
@@ -608,20 +608,20 @@ public class MockService implements APIs {
     @Override
     public ArrayList<Container> getAllPopularPlaylists(Context context) {
         ArrayList<Container> playlists = new ArrayList<>();
-        playlists.add(new Container("greate playlist", "2,700 " + context.getResources().getString(R.string.Followers), R.drawable.adele));
-        playlists.add(new Container("Amr Diab", "5,200 " + context.getResources().getString(R.string.Followers), R.drawable.amr));
-        playlists.add(new Container("beautiful", "3,300 " + context.getResources().getString(R.string.Followers), R.drawable.imagine));
-        playlists.add(new Container("simple", "800 " + context.getResources().getString(R.string.Followers), R.drawable.alan));
-        playlists.add(new Container("nice songs", "1200 " + context.getResources().getString(R.string.Followers), R.drawable.ed));
-        playlists.add(new Container("araby", "3000 " + context.getResources().getString(R.string.Followers), R.drawable.assala));
-        playlists.add(new Container("Bahaa Sultan", "2,100 " + context.getResources().getString(R.string.Followers), R.drawable.bahaa));
-        playlists.add(new Container("anghami", "1,100 " + context.getResources().getString(R.string.Followers), R.drawable.angham));
-        playlists.add(new Container("Thunder", "2100 " + context.getResources().getString(R.string.Followers), R.drawable.halsey));
-        playlists.add(new Container("selena", "2800 " + context.getResources().getString(R.string.Followers), R.drawable.selena));
-        playlists.add(new Container("Smoke Grenades", "500 " + context.getResources().getString(R.string.Followers), R.drawable.jannat));
-        playlists.add(new Container("Playlist", "26 " + context.getResources().getString(R.string.Followers), R.drawable.wael));
-        playlists.add(new Container("3 d2at", "773 " + context.getResources().getString(R.string.Followers), R.drawable.abu));
-        playlists.add(new Container("Oranges", "470 " + context.getResources().getString(R.string.Followers), R.drawable.hamza));
+        playlists.add(new Container("greate playlist", "2,700 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.adele)));
+        playlists.add(new Container("Amr Diab", "5,200 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.amr)));
+        playlists.add(new Container("beautiful", "3,300 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.imagine)));
+        playlists.add(new Container("simple", "800 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.alan)));
+        playlists.add(new Container("nice songs", "1200 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.ed)));
+        playlists.add(new Container("araby", "3000 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.assala)));
+        playlists.add(new Container("Bahaa Sultan", "2,100 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.bahaa)));
+        playlists.add(new Container("anghami", "1,100 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.angham)));
+        playlists.add(new Container("Thunder", "2100 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.halsey)));
+        playlists.add(new Container("selena", "2800 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.selena)));
+        playlists.add(new Container("Smoke Grenades", "500 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.jannat)));
+        playlists.add(new Container("Playlist", "26 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.wael)));
+        playlists.add(new Container("3 d2at", "773 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.abu)));
+        playlists.add(new Container("Oranges", "470 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.hamza)));
 
         return playlists;
     }
@@ -878,34 +878,34 @@ public class MockService implements APIs {
     @Override
     public ArrayList<Container> getProfileFollowers(Context context) {
         ArrayList<Container> followers=new ArrayList<>();
-        followers.add(new Container("HuffPost", "2,700 " + context.getResources().getString(R.string.Followers), R.drawable.images));
-        followers.add(new Container("Majeestic Casual", "5,200 " + context.getResources().getString(R.string.Followers), R.drawable.images3));
-        followers.add(new Container("beautiful", "3,300 " + context.getResources().getString(R.string.Followers), R.drawable.download));
-        followers.add(new Container("Anders Stab Nielson", "800 " + context.getResources().getString(R.string.Followers), R.drawable.download1));
-        followers.add(new Container("Simon Hoffman", "1200 " + context.getResources().getString(R.string.Followers), R.drawable.images2));
-        followers.add(new Container("HouseNation", "3000 " + context.getResources().getString(R.string.Followers), R.drawable.abu));
-        followers.add(new Container("Chan Jun Jie", "2,100 " + context.getResources().getString(R.string.Followers), R.drawable.halsey));
-        followers.add(new Container("Efal Sayed", "1,100 " + context.getResources().getString(R.string.Followers), R.drawable.bahaa));
-        followers.add(new Container("Michelle Choi", "2100 " + context.getResources().getString(R.string.Followers), R.drawable.halsey));
-        followers.add(new Container("Brandon Bay", "2800 " + context.getResources().getString(R.string.Followers), R.drawable.selena));
-        followers.add(new Container("Ryan Jones", "500 " + context.getResources().getString(R.string.Followers), R.drawable.hamza));
-        followers.add(new Container("MTV Brasil", "26 " + context.getResources().getString(R.string.Followers), R.drawable.jannat));
-        followers.add(new Container("Sonny Lind", "773 " + context.getResources().getString(R.string.Followers), R.drawable.wael));
-        followers.add(new Container("Oranges", "470 " + context.getResources().getString(R.string.Followers), R.drawable.angham));
-        followers.add(new Container("greate Artist", "1,200 " + context.getResources().getString(R.string.Followers), R.drawable.images));
-        followers.add(new Container("Kevin Cross", "1,523 " + context.getResources().getString(R.string.Followers), R.drawable.images3));
-        followers.add(new Container("Craige Dewart", "4,444 " + context.getResources().getString(R.string.Followers), R.drawable.download));
-        followers.add(new Container("Wes Ley", "832 " + context.getResources().getString(R.string.Followers), R.drawable.download1));
-        followers.add(new Container("Jasper Oh", "1328 " + context.getResources().getString(R.string.Followers), R.drawable.images2));
-        followers.add(new Container("Kevin Enhorn", "3034 " + context.getResources().getString(R.string.Followers), R.drawable.abu));
-        followers.add(new Container("Mark Springer", "6,100 " + context.getResources().getString(R.string.Followers), R.drawable.halsey));
-        followers.add(new Container("anghami", "11,000 " + context.getResources().getString(R.string.Followers), R.drawable.bahaa));
-        followers.add(new Container("Ahmed Ali Sheikh", "110 " + context.getResources().getString(R.string.Followers), R.drawable.halsey));
-        followers.add(new Container("selena", "28,000 " + context.getResources().getString(R.string.Followers), R.drawable.selena));
-        followers.add(new Container("Martin kepic", "0 " + context.getResources().getString(R.string.Followers), R.drawable.hamza));
-        followers.add(new Container("An ther", "26,000 " + context.getResources().getString(R.string.Followers), R.drawable.jannat));
-        followers.add(new Container("Ketan Patel", "773 " + context.getResources().getString(R.string.Followers), R.drawable.wael));
-        followers.add(new Container("Dani Hecht", "470 " + context.getResources().getString(R.string.Followers), R.drawable.angham));
+        followers.add(new Container("HuffPost", "2,700 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.images)));
+        followers.add(new Container("Majeestic Casual", "5,200 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.images3)));
+        followers.add(new Container("beautiful", "3,300 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.download)));
+        followers.add(new Container("Anders Stab Nielson", "800 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.download1)));
+        followers.add(new Container("Simon Hoffman", "1200 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.images2)));
+        followers.add(new Container("HouseNation", "3000 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.abu)));
+        followers.add(new Container("Chan Jun Jie", "2,100 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.halsey)));
+        followers.add(new Container("Efal Sayed", "1,100 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.bahaa)));
+        followers.add(new Container("Michelle Choi", "2100 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.halsey)));
+        followers.add(new Container("Brandon Bay", "2800 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.selena)));
+        followers.add(new Container("Ryan Jones", "500 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.hamza)));
+        followers.add(new Container("MTV Brasil", "26 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.jannat)));
+        followers.add(new Container("Sonny Lind", "773 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.wael)));
+        followers.add(new Container("Oranges", "470 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.angham)));
+        followers.add(new Container("greate Artist", "1,200 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.images)));
+        followers.add(new Container("Kevin Cross", "1,523 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.images3)));
+        followers.add(new Container("Craige Dewart", "4,444 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.download)));
+        followers.add(new Container("Wes Ley", "832 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.download1)));
+        followers.add(new Container("Jasper Oh", "1328 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.images2)));
+        followers.add(new Container("Kevin Enhorn", "3034 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.abu)));
+        followers.add(new Container("Mark Springer", "6,100 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.halsey)));
+        followers.add(new Container("anghami", "11,000 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.bahaa)));
+        followers.add(new Container("Ahmed Ali Sheikh", "110 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.halsey)));
+        followers.add(new Container("selena", "28,000 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.selena)));
+        followers.add(new Container("Martin kepic", "0 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.hamza)));
+        followers.add(new Container("An ther", "26,000 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.jannat)));
+        followers.add(new Container("Ketan Patel", "773 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.wael)));
+        followers.add(new Container("Dani Hecht", "470 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.angham)));
 
         return followers;
     }
@@ -913,20 +913,20 @@ public class MockService implements APIs {
     @Override
     public ArrayList<Container> getProfileFollowing(Context context) {
         ArrayList<Container> followers=new ArrayList<>();
-        followers.add(new Container("Adele", "200,700 " + context.getResources().getString(R.string.Followers), R.drawable.adele));
-        followers.add(new Container("Amr Diab", "500,200 " + context.getResources().getString(R.string.Followers), R.drawable.amr));
-        followers.add(new Container("Imagine dragons", "300,300 " + context.getResources().getString(R.string.Followers), R.drawable.imagine));
-        followers.add(new Container("Alan Walker", "80,000 " + context.getResources().getString(R.string.Followers), R.drawable.alan));
-        followers.add(new Container("ED Sheeran", "12,000 " + context.getResources().getString(R.string.Followers), R.drawable.ed));
-        followers.add(new Container("Asala ", "30,000 " + context.getResources().getString(R.string.Followers), R.drawable.assala));
-        followers.add(new Container("Bahaa Sultan", "21,000 " + context.getResources().getString(R.string.Followers), R.drawable.bahaa));
-        followers.add(new Container("angham", "11,000 " + context.getResources().getString(R.string.Followers), R.drawable.angham));
-        followers.add(new Container("Thunder and Tomorrow", "2100 " + context.getResources().getString(R.string.Followers), R.drawable.halsey));
-        followers.add(new Container("Selena", "28,000 " + context.getResources().getString(R.string.Followers), R.drawable.selena));
-        followers.add(new Container("Smoke Grenades", "5,000 " + context.getResources().getString(R.string.Followers), R.drawable.jannat));
-        followers.add(new Container("Wael Jassar", "260 " + context.getResources().getString(R.string.Followers), R.drawable.wael));
-        followers.add(new Container("Abo", "7,730 " + context.getResources().getString(R.string.Followers), R.drawable.abu));
-        followers.add(new Container("Hamza Nemra", "4,700 " + context.getResources().getString(R.string.Followers), R.drawable.hamza));
+        followers.add(new Container("Adele", "200,700 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.adele)));
+        followers.add(new Container("Amr Diab", "500,200 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.amr)));
+        followers.add(new Container("Imagine dragons", "300,300 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.imagine)));
+        followers.add(new Container("Alan Walker", "80,000 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.alan)));
+        followers.add(new Container("ED Sheeran", "12,000 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.ed)));
+        followers.add(new Container("Asala ", "30,000 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.assala)));
+        followers.add(new Container("Bahaa Sultan", "21,000 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.bahaa)));
+        followers.add(new Container("angham", "11,000 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.angham)));
+        followers.add(new Container("Thunder and Tomorrow", "2100 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.halsey)));
+        followers.add(new Container("Selena", "28,000 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.selena)));
+        followers.add(new Container("Smoke Grenades", "5,000 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.jannat)));
+        followers.add(new Container("Wael Jassar", "260 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.wael)));
+        followers.add(new Container("Abo", "7,730 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.abu)));
+        followers.add(new Container("Hamza Nemra", "4,700 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.hamza)));
         return followers;
     }
 }
