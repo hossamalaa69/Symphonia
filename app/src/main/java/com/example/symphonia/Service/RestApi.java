@@ -18,9 +18,12 @@ import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Entities.Category;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Playlist;
+import com.example.symphonia.Entities.Profile;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Entities.User;
+import com.example.symphonia.Fragments_and_models.settings.SettingsFragment;
 import com.example.symphonia.Helpers.Utils;
+import com.example.symphonia.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,20 +61,21 @@ public class RestApi implements APIs {
                             if (type.equals("premium-user")) {
                                 premium = true;
                                 type = "user";
-                            } else if(type.equals("artist")){
+                            } else if (type.equals("artist")) {
                                 premium = true;
                             }
 
-                            if((type.equals("user")&&!mType) || (type.equals("artist")&&mType) )
+                            if ((type.equals("user") && !mType) || (type.equals("artist") && mType))
                                 updateLogin.updateUiLoginFail("type");
-                            else{
-                                Constants.currentUser = new User(username,id, name, type.equals("user"), premium);
+                            else {
+                                Constants.currentUser = new User(username, id, name, type.equals("user"), premium);
+                                Constants.currentUser.setUserType(type);
                                 updateLogin.updateUiLoginSuccess();
                             }
 
-                        }catch (JSONException e){
+                        } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(context,"Check your internet connection",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Check your internet connection", Toast.LENGTH_SHORT).show();
                             updateLogin.updateUiLoginFail("exception");
                         }
                     }
@@ -117,33 +121,34 @@ public class RestApi implements APIs {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        try{
+                        try {
                             JSONObject root = new JSONObject(response);
-                            boolean exists= root.getBoolean("exists");
-                            if(!exists){
+                            boolean exists = root.getBoolean("exists");
+                            if (!exists) {
                                 updateUiEmailValidity.updateUiEmailValiditySuccess();
                                 return;
                             }
                             String type = root.getString("type");
                             updateUiEmailValidity.updateUiEmailValidityFail(type);
-                        }catch (JSONException e){
+                        } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(context,"Error",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(context, error.toString(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
                     }
-                }){
+                }) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("email", email);
                 return params;
-            }};
+            }
+        };
 
         VolleySingleton.getInstance(context).getRequestQueue().add(stringrequest);
         return true;
@@ -270,7 +275,7 @@ public class RestApi implements APIs {
                 }, 0, 0, null,
                 new Response.ErrorListener() {
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(context,"avdvadv",Toast.LENGTH_SHORT);
+                        Toast.makeText(context, "avdvadv", Toast.LENGTH_SHORT);
                     }
                 });
         VolleySingleton.getInstance(context).getRequestQueue().add(request);
@@ -510,9 +515,10 @@ public class RestApi implements APIs {
         return categories;
     }*/
 
-    public interface updateUiGetCategories{
+    public interface updateUiGetCategories {
         void getCategoriesSuccess(ArrayList<Category> c);
     }
+
     @Override
     public ArrayList<Category> getCategories(Context context) {
         Log.e("Category", "start fetching");
@@ -566,6 +572,7 @@ public class RestApi implements APIs {
 
     /**
      * get genres for the current user
+     *
      * @param context activity context
      * @return arraylist of container which has the genres
      */
@@ -785,5 +792,41 @@ public class RestApi implements APIs {
     @Override
     public ArrayList<Container> getProfileFollowing(Context context) {
         return null;
+    }
+
+    @Override
+    public Profile getCurrentUserProfile(Context context, SettingsFragment settingsFragment) {
+        updateUiProfileInSetting listener = (updateUiProfileInSetting) context;
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constants.Get_Current_User_Profile,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                        }catch (Exception e){
+                            e.fillInStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Profile", "" + error.getMessage());
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", Constants.currentToken);
+                return headers;            }
+        }
+        ;
+
+        VolleySingleton.getInstance(context).getRequestQueue().add(stringRequest);
+        Profile profile=new Profile("avad",Utils.convertToBitmap(R.drawable.blue_image));
+        return profile;
+    }
+
+    public interface updateUiProfileInSetting{
+        public void getCurrentProfile(Profile profile,SettingsFragment settingsFragment);
     }
 }

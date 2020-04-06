@@ -13,6 +13,11 @@ import java.util.ArrayList;
  */
 public class User {
 
+
+    /**
+     * holds user type
+     */
+    private String mUserType;
     /**
      * holds user id
      */
@@ -516,6 +521,14 @@ public class User {
 
     public void set_id(String _id) {
         this._id = _id;
+    }
+
+    public String getUserType() {
+        return mUserType;
+    }
+
+    public void setUserType(String mUserType) {
+        this.mUserType = mUserType;
     }
 
 }

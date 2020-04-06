@@ -118,7 +118,7 @@ public class PlaylistFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 int prev = Utils.CurrTrackInfo.TrackPosInPlaylist;
-                for (int i = 0; i < Utils.CurrPlaylist.playlist.getTracks().size() - 1; i++) {
+                for (int i = 0; i < Utils.CurrPlaylist.playlist.getTracks().size(); i++) {
                     if (!Utils.CurrPlaylist.playlist.getTracks().get(i).isHidden() && !Utils.CurrPlaylist.playlist.getTracks().get(i).isLocked()) {
                         Utils.CurrTrackInfo.TrackPosInPlaylist = i;
                         Utils.setTrackInfo(0, Utils.CurrTrackInfo.TrackPosInPlaylist, Utils.CurrPlaylist.playlist.getTracks());
@@ -163,7 +163,7 @@ public class PlaylistFragment extends Fragment {
      * @param pos  position of current item
      */
     public void changeSelected(int prev, int pos) {
-        if (Utils.CurrPlaylist.playlist == null ||
+        if (Utils.CurrPlaylist.playlist == null || Utils.CurrTrackInfo.currPlaylistName == null ||
                 !Utils.CurrPlaylist.playlist.getmPlaylistTitle().matches(Utils.CurrTrackInfo.currPlaylistName)) {
             return;
         }
@@ -199,7 +199,7 @@ public class PlaylistFragment extends Fragment {
     }
 
     public void changeHidden(int pos, boolean isHidden) {
-        if (pos != -1 && pos < Utils.CurrTrackInfo.currPlaylistTracks.size()) {
+        if (pos != -1 && pos < Utils.CurrPlaylist.playlist.getTracks().size()) {
             View view = rvTracks.getLayoutManager().getChildAt(pos);
             TextView tvTitle = null;
             ImageView ivHide = null;

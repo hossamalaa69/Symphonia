@@ -8,7 +8,9 @@ import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Entities.Category;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Playlist;
+import com.example.symphonia.Entities.Profile;
 import com.example.symphonia.Entities.Track;
+import com.example.symphonia.Fragments_and_models.settings.SettingsFragment;
 
 import java.util.ArrayList;
 
@@ -230,4 +232,6 @@ public interface APIs {
     ArrayList<Container>getProfileFollowers(Context context);
 
     ArrayList<Container>getProfileFollowing(Context context);
+
+    Profile getCurrentUserProfile(Context context, SettingsFragment settingsFragment);
 }

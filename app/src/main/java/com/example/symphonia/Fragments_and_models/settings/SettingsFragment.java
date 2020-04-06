@@ -1,6 +1,7 @@
 package com.example.symphonia.Fragments_and_models.settings;
 
 import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -22,10 +23,12 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Entities.Container;
+import com.example.symphonia.Entities.Profile;
 import com.example.symphonia.Fragments_and_models.premium.PremiumFragment;
 import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
+import com.example.symphonia.Service.RestApi;
 import com.google.android.material.appbar.AppBarLayout;
 
 /**
@@ -35,6 +38,13 @@ public class SettingsFragment extends Fragment {
 
     private NestedScrollView nestedScrollView;
     private float firstY;
+
+    private ImageView userImg;
+    private TextView userName;
+    private String profileName;
+    private Bitmap profileImg;
+
+    private View rootView;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -46,11 +56,12 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
+        rootView = inflater.inflate(R.layout.fragment_settings, container, false);
 
         nestedScrollView = rootView.findViewById(R.id.container);
         nestedScrollView.setNestedScrollingEnabled(false);
 
+        userImg=rootView.findViewById(R.id.image_user);
 
         AppBarLayout appBarLayout = rootView.findViewById(R.id.app_bar);
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
@@ -84,8 +95,11 @@ public class SettingsFragment extends Fragment {
         final Button premiumButton = rootView.findViewById(R.id.button_go_premium);
 
         ConstraintLayout profileLayout = rootView.findViewById(R.id.layout_profile);
-        final TextView userName = rootView.findViewById(R.id.text_user_name);
+        userName = rootView.findViewById(R.id.text_user_name);
         final TextView viewProfile = rootView.findViewById(R.id.text_view_profile);
+
+        RestApi restApi=new RestApi();
+        restApi.getCurrentUserProfile(getContext(),this);
 
         premiumButton.setOnTouchListener(new View.OnTouchListener() {
             @SuppressLint("ClickableViewAccessibility")
@@ -164,7 +178,7 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.nav_host_fragment, new FragmentProfile(new Container("Islam Ahmed",Utils.convertToBitmap(R.drawable.islam_ahmed))))
+                        .replace(R.id.nav_host_fragment, new FragmentProfile(new Container(profileName,profileImg)))
                         .addToBackStack(null)
                         .commit();            }
         });
@@ -178,6 +192,13 @@ public class SettingsFragment extends Fragment {
             }
         });
         return rootView;
+    }
+
+    public void updateUiProfile(Profile profile){
+        profileImg=profile.getImg_Res();
+        profileName=profile.getCat_Name();
+        userImg.setImageBitmap(profileImg);
+        userName.setText(profileName);
     }
 
 }

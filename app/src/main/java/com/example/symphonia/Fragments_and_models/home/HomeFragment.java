@@ -64,9 +64,11 @@ public class HomeFragment extends Fragment {
         if (Constants.DEBUG_STATUS)
             initViews();
 
-        //ServiceController SController = ServiceController.getInstance();
-        //SController.getCategories(getContext());
 
+        else {
+            ServiceController SController = ServiceController.getInstance();
+            SController.getCategories(getContext());
+        }
         final ImageView ivSettings = root.findViewById(R.id.iv_setting_home);
         ivSettings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,8 +103,7 @@ public class HomeFragment extends Fragment {
 
     }
 
-    public void loadAllPlaylists()
-    {
+    public void loadAllPlaylists() {
         ServiceController SController = ServiceController.getInstance();
         playlists = SController.getRandomPlaylists(getContext(), Constants.currentToken);
         popularPlaylists = SController.getPopularPlaylists(getContext(), Constants.currentToken);
@@ -110,6 +111,7 @@ public class HomeFragment extends Fragment {
         madeForYouPlaylists = SController.getMadeForYoutPlaylists(getContext(), Constants.currentToken);
 
     }
+
     /**
      * random playlists
      */
@@ -125,6 +127,7 @@ public class HomeFragment extends Fragment {
     private void initViews() {
 
         //----------------------
+        loadAllPlaylists();
         updateRecentPlaylists();
         updateMadeForYouPlaylists();
         updatePopularPlaylists();
