@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="100dp"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="@color/colorPrimary"
+    app:cardBackgroundColor="@android:color/transparent"
+    tools:cardBackgroundColor="@color/colorPrimary"
     app:cardCornerRadius="0dp"
     app:cardElevation="0dp"
     app:cardPreventCornerOverlap="false">
@@ -35,6 +36,7 @@
             android:gravity="center"
             android:textColor="@android:color/white"
             android:textSize="12sp"
+            android:maxLines="2"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

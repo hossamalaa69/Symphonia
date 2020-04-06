@@ -451,7 +451,7 @@ public class User {
      * @param artist artist to be followed
      */
     public void followArtist(Artist artist) {
-        mFollowingArtists.add(artist);
+        if(!mFollowingArtists.contains(artist)) mFollowingArtists.add(artist);
     }
 
     /**
@@ -469,6 +469,10 @@ public class User {
 
     public Boolean checkSavedAlbum(Album checkedAlbum){
         return mSavedAlbums.contains(checkedAlbum);
+    }
+
+    public Boolean checkFollowing(Artist checkedArtist){
+        return mFollowingArtists.contains(checkedArtist);
     }
 
     /**

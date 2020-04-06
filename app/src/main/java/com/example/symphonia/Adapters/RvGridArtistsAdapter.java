@@ -13,6 +13,7 @@ import com.example.symphonia.Constants;
 import com.example.symphonia.R;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Service.ServiceController;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -22,31 +23,32 @@ import java.util.ArrayList;
  * @author islamahmed1092
  * @version 1.0
  */
-public class RvGridArtistsAdapter extends RecyclerView.Adapter<RvGridArtistsAdapter.ArtistViewHolder> {
+public class RvGridArtistsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private static final int ARTIST_HOLDER = 0;
+    private static final int MORE_FOR_YOU_HOLDER = 1;
     /**
      * the list of the recommended artists to be shown to the user
      */
     private ArrayList<Artist> mArtists;
+
+    private ArrayList<String> mClickedArtists;
+
     /**
      * an object from the interface to handle the click on grid items
      */
     private ListItemClickListener mOnClickListener;
-    /**
-     * instance to request from the mock services and API
-     */
-    private ServiceController mServiceController;
 
     /**
      * Constructor to take the data and get the service controller
      *
-     * @param artists recommended artists
+     * @param artists          recommended artists
      * @param mOnClickListener click listener for the grid items
      */
-    public RvGridArtistsAdapter(ArrayList<Artist> artists, ListItemClickListener mOnClickListener) {
+    public RvGridArtistsAdapter(ArrayList<Artist> artists, ArrayList<String> mClickedArtists, ListItemClickListener mOnClickListener) {
         this.mArtists = artists;
+        this.mClickedArtists = mClickedArtists;
         this.mOnClickListener = mOnClickListener;
-        mServiceController = ServiceController.getInstance();
     }
 
     /**
@@ -56,33 +58,63 @@ public class RvGridArtistsAdapter extends RecyclerView.Adapter<RvGridArtistsAdap
      */
     @Override
     public int getItemCount() {
-        return mArtists.size();
+        return mArtists.size() + 1;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == getItemCount() - 1)
+            return MORE_FOR_YOU_HOLDER;
+        else
+            return ARTIST_HOLDER;
     }
 
     /**
      * returns the right view holder for each item in recyclerview
      *
-     * @param parent the root view
+     * @param parent   the root view
      * @param viewType useful if there is more than one view holder
      * @return view holder for the artist item
      */
     @NonNull
     @Override
-    public ArtistViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == ARTIST_HOLDER) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_item_artist_add, parent, false);
+            return new ArtistViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_more_for_you_item, parent, false);
+            return new MoreForYouHolder(view);
+        }
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_item_artist_add, parent, false);
-        return new ArtistViewHolder(view);
     }
 
     /**
      * bind the view holder which has the turn to be shown
      *
-     * @param holder item view holder
+     * @param holder   item view holder
      * @param position its position in recyclerview
      */
     @Override
-    public void onBindViewHolder(ArtistViewHolder holder, int position) {
-        holder.bind(position);
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder.getItemViewType() == ARTIST_HOLDER) {
+            ArtistViewHolder viewHolder = (ArtistViewHolder) holder;
+            Artist artist = mArtists.get(position);
+            if (artist.getImage() != null)
+                viewHolder.artistImage.setImageBitmap(artist.getImage());
+            else
+                Picasso.get()
+                        .load(artist.getImageUrl())
+                        .fit()
+                        .centerInside()
+                        .into(viewHolder.artistImage);
+
+            viewHolder.artistName.setText(artist.getArtistName());
+            if (mClickedArtists.contains(artist.getId()))
+                viewHolder.checkImage.setVisibility(View.VISIBLE);
+            else
+                viewHolder.checkImage.setVisibility(View.GONE);
+        }
     }
 
 
@@ -90,7 +122,7 @@ public class RvGridArtistsAdapter extends RecyclerView.Adapter<RvGridArtistsAdap
      * clear all the data in artists array
      * and create a new one
      */
-    public void clear(){
+    public void clear() {
         mArtists.clear();
         mArtists = new ArrayList<>();
     }
@@ -100,15 +132,8 @@ public class RvGridArtistsAdapter extends RecyclerView.Adapter<RvGridArtistsAdap
      *
      * @param artists array to be added
      */
-    public void addAll(ArrayList<Artist> artists){
+    public void addAll(ArrayList<Artist> artists) {
         this.mArtists.addAll(artists);
-    }
-
-    /**
-     * interface to handle click for the items
-     */
-    public interface ListItemClickListener{
-        void onListItemClick(View v, int clickedItemIndex);
     }
 
     /**
@@ -133,22 +158,6 @@ public class RvGridArtistsAdapter extends RecyclerView.Adapter<RvGridArtistsAdap
         }
 
         /**
-         * called when the viewholder of an item is binded
-         *
-         * @param position item position
-         */
-        void bind(int position) {
-            Artist artist = mArtists.get(position);
-            artistImage.setImageBitmap(artist.getImage());
-            artistName.setText(artist.getArtistName());
-            if(mServiceController.isFollowing(Constants.currentUser.isListenerType(), Constants.currentToken, mArtists.get(position).getId()))
-                checkImage.setVisibility(View.VISIBLE);
-            else
-                checkImage.setVisibility(View.GONE);
-
-        }
-
-        /**
          * calls the interface object of the list item click
          *
          * @param v clicked item
@@ -157,5 +166,34 @@ public class RvGridArtistsAdapter extends RecyclerView.Adapter<RvGridArtistsAdap
         public void onClick(View v) {
             mOnClickListener.onListItemClick(v, getAdapterPosition());
         }
+    }
+
+    public class MoreForYouHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+
+        /**
+         * prepare the views of the item
+         *
+         * @param itemView view of the recyclerview item
+         */
+        MoreForYouHolder(View itemView) {
+            super(itemView);
+            itemView.setOnClickListener(this);
+        }
+
+
+        @Override
+        public void onClick(View v) {
+            mOnClickListener.onMoreForeYouClick(getAdapterPosition());
+        }
+    }
+
+
+    /**
+     * interface to handle click for the items
+     */
+    public interface ListItemClickListener {
+        void onListItemClick(View v, int clickedItemIndex);
+        void onMoreForeYouClick(int clickedItemIndex);
     }
 }

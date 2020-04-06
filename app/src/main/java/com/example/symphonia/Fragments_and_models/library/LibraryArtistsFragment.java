@@ -74,7 +74,8 @@ public class LibraryArtistsFragment extends Fragment implements RvListArtistsAda
         View rootView = inflater.inflate(R.layout.fragment_library_artists, container, false);
 
         mServiceController = ServiceController.getInstance();
-        mFollowedArtists = mServiceController.getFollowedArtists(Constants.currentUser.isListenerType(), Constants.currentToken, 30);
+        mFollowedArtists = mServiceController.getFollowedArtists(getContext(), Constants.currentUser.getUserType(), 65535, null);
+
 
         final RecyclerView mArtistsList = rootView.findViewById(R.id.rv_artists);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -137,8 +138,7 @@ public class LibraryArtistsFragment extends Fragment implements RvListArtistsAda
     @Override
     public void onResume() {
         super.onResume();
-        mFollowedArtists = mServiceController.getFollowedArtists
-                (Constants.currentUser.isListenerType(), Constants.currentToken, 30);
+        mFollowedArtists = mServiceController.getFollowedArtists(getContext(), Constants.currentUser.getUserType(), 65535, null);
 
         mAdapter.clear();
         mAdapter.addAll(mFollowedArtists);

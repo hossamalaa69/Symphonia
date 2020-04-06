@@ -84,6 +84,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:background="@color/colorPrimary"
         android:id="@+id/rv_artists_grid"
@@ -91,6 +92,13 @@
         android:layout_height="match_parent"
         android:layoutAnimation="@anim/layout_animation"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@android:color/white"
+        android:layout_gravity="center"/>
 
     <Button
         android:id="@+id/button_done"

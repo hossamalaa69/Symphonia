@@ -55,7 +55,7 @@ public class BottomSheetDialogArtist extends BottomSheetDialogFragment {
         assert arguments != null;
         String artistId = arguments.getString(ARTIST_ID);
 
-        Artist mArtist = serviceController.getArtist(getContext(), Constants.currentToken,  artistId);
+        Artist mArtist = serviceController.getArtist(getContext(),  artistId);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override

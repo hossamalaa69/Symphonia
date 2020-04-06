@@ -7,6 +7,8 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -22,6 +24,7 @@ import com.example.symphonia.Adapters.RvGridArtistsAdapter;
 import com.example.symphonia.Service.ServiceController;
 import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Activity used in 2 cases:
@@ -51,6 +54,10 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
      * A grid of the shown recommended artists for the current user to choose from
      */
     private ArrayList<Artist> mRecommendedArtists;
+
+    private ArrayList<String> mClickedArtists;
+
+    private ArrayList<String> mClickedBeforeArtists;
     /**
      * An adapter to control the grid of artists
      */
@@ -88,6 +95,7 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
      */
     private int mSelectedArtistPosition = 0;
 
+    private int offset = 0;
 
     /**
      * initialize the ui of the activity
@@ -132,17 +140,17 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
 
         // getting the recommended artists from the server and check that the user doesn't follow them
         mRecommendedArtists = new ArrayList<>();
+        mClickedArtists = new ArrayList<>();
+        mClickedBeforeArtists = new ArrayList<>();
+
         ArrayList<Artist> returnedArtists = mServiceController.getRecommendedArtists
-                (Constants.currentUser.isListenerType(), Constants.currentToken, 20);
+                (this, Constants.currentUser.getUserType(), offset, 5);
 
-        for (Artist artist : returnedArtists) {
-            if(!mServiceController.isFollowing(Constants.currentUser.isListenerType(),
-                    Constants.currentToken,
-                    artist.getId())){
+        offset += returnedArtists.size();
+        mRecommendedArtists.addAll(returnedArtists);
 
-                mRecommendedArtists.add(artist);
-            }
-        }
+        ProgressBar progressBar = findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.GONE);
 
         // preparing the recyclerview and its components
         mArtistsList = findViewById(R.id.rv_artists_grid);
@@ -153,7 +161,7 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         mArtistsList.addItemDecoration(mItemDecoration);
         mLayoutManager = new GridLayoutManager(this, 3);
         mArtistsList.setLayoutManager(mLayoutManager);
-        mAdapter = new RvGridArtistsAdapter(mRecommendedArtists, this);
+        mAdapter = new RvGridArtistsAdapter(mRecommendedArtists, mClickedArtists, this);
         mArtistsList.setAdapter(mAdapter);
 
         if(!isOnline()) {
@@ -169,6 +177,7 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
                 if(isNewUser){
                     Intent i = new Intent(AddArtistsActivity.this, MainActivity.class);
                     startActivity(i);
+                    finish();
                 }
                 else
                     finish();
@@ -205,9 +214,7 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
                 // store the returned id and get the artist of this id
                 assert data != null;
                 String selectedArtistId = data.getStringExtra(SELECTED_ARTIST_ID);
-                Artist selectedArtist = mServiceController.getArtist(this,
-                        Constants.currentToken,
-                        selectedArtistId);
+                Artist selectedArtist = mServiceController.getArtist(this, selectedArtistId);
 
                 // add the artist to recommended list if it's not in it
                 if(mRecommendedArtists.contains(selectedArtist)){
@@ -217,36 +224,23 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
                     mRecommendedArtists.add(0, selectedArtist);
                 }
 
-                // follow the selected artist if it's not already followed
-                if(!mServiceController.isFollowing(Constants.currentUser.isListenerType(), Constants.currentToken
-                        , selectedArtist.getId())) {
+                if(!mClickedArtists.contains(selectedArtistId)) {
+                    mClickedArtists.add(selectedArtistId);
+                    mServiceController.followArtistsOrUsers(this, "artist",
+                            new ArrayList<String>(Collections.singletonList(selectedArtistId)));
 
-                    if(isNewUser){
-                        countFollowing ++;
-                        if(countFollowing>=3) mButtonDone.setVisibility(View.VISIBLE);
+/*
+                    mAdapter.notifyItemChanged(mSelectedArtistPosition);
+*/
+                    if(mClickedArtists.size() >= 3) mButtonDone.setVisibility(View.VISIBLE);
+                    if(!mClickedBeforeArtists.contains(selectedArtistId)){
+                        mClickedBeforeArtists.add(selectedArtistId);
+                        addMoreArtists(mSelectedArtistPosition, false);
                     }
-                    mServiceController.followArtistOrUser(Constants.currentUser.isListenerType(), Constants.currentToken
-                            , mRecommendedArtists.get(mSelectedArtistPosition).getId());
+                } else {
+                    mLayoutManager.scrollToPositionWithOffset(mSelectedArtistPosition, 0);
                 }
-
-                // get and update the list with some related artists to the chosen one
-                ArrayList<Artist> relatedArtists = mServiceController.getArtistRelatedArtists(this,
-                        mRecommendedArtists.get(mSelectedArtistPosition).getId());
-
-                for(Artist artist : relatedArtists)
-                {
-                    if(!mServiceController.isFollowing(Constants.currentUser.isListenerType(),
-                            Constants.currentToken,
-                            artist.getId()))
-                    {
-                        if (!mRecommendedArtists.contains(artist)) {
-                            mRecommendedArtists.add(mSelectedArtistPosition + 1, artist);
-                        }
-                    }
-                }
-
                 mAdapter.notifyDataSetChanged();
-                mLayoutManager.scrollToPositionWithOffset(mSelectedArtistPosition, 0);
             }
         }
     }
@@ -262,61 +256,39 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
     @Override
     public void onListItemClick(View itemView, int clickedItemIndex) {
         View checkImage = itemView.findViewById(R.id.image_check);
+        Artist clickedArtist = mRecommendedArtists.get(clickedItemIndex);
 
-        if(!mServiceController.isFollowing(Constants.currentUser.isListenerType(),
-                Constants.currentToken,
-                mRecommendedArtists.get(clickedItemIndex).getId())) {
+        if(!mClickedArtists.contains(clickedArtist.getId())) {
+            mServiceController.followArtistsOrUsers(this, "artist",
+                            new ArrayList<String>(Collections.singletonList(clickedArtist.getId())));
 
-            // if the user doesn't follow the artist then follow him/her and get some related artists
-
-            if(isNewUser){
-                countFollowing ++;
-                if(countFollowing>=3)
-                    mButtonDone.setVisibility(View.VISIBLE);
-            }
-
+            mClickedArtists.add(clickedArtist.getId());
             checkImage.setVisibility(View.VISIBLE);
-            mServiceController.followArtistOrUser(Constants.currentUser.isListenerType(),
-                    Constants.currentToken,
-                    mRecommendedArtists.get(clickedItemIndex).getId());
-
-            boolean isAdded = false;
-            ArrayList<Artist> relatedArtists = mServiceController.getArtistRelatedArtists(this,
-                    mRecommendedArtists.get(clickedItemIndex).getId());
-
-            for(Artist artist : relatedArtists)
-            {
-                if(!mServiceController.isFollowing(Constants.currentUser.isListenerType(),
-                        Constants.currentToken,
-                        artist.getId()))
-                {
-                    if (!mRecommendedArtists.contains(artist)) {
-                        mRecommendedArtists.add(clickedItemIndex + 1, artist);
-                        mAdapter.notifyItemInserted(clickedItemIndex + 1);
-                        isAdded = true;
-                    }
-
-                }
-
-            }
-            if(isAdded) {
-                mLayoutManager.scrollToPositionWithOffset(clickedItemIndex, 0);
+            if(!mClickedBeforeArtists.contains(clickedArtist.getId())){
+                mClickedBeforeArtists.add(clickedArtist.getId());
+                addMoreArtists(clickedItemIndex, false);
             }
         }
         else {
+            mClickedArtists.remove(clickedArtist.getId());
 
-            // if the user is following the artist then unfollow him/her
+            mServiceController.unFollowArtistsOrUsers(this, "artist",
+                    new ArrayList<String>(Collections.singletonList(clickedArtist.getId())));
+
             checkImage.setVisibility(View.GONE);
-            mServiceController.unFollowArtistOrUser(Constants.currentUser.isListenerType(),
-                    Constants.currentToken,
-                    mRecommendedArtists.get(clickedItemIndex).getId());
-
-            if(isNewUser){
-                countFollowing--;
-                if(countFollowing<3)
-                    mButtonDone.setVisibility(View.GONE);
-            }
         }
+
+        if(isNewUser){
+            if(mClickedArtists.size() < 3)
+                mButtonDone.setVisibility(View.GONE);
+            else
+                mButtonDone.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onMoreForeYouClick(int clickedItemIndex) {
+        addMoreArtists(clickedItemIndex, true);
     }
 
 
@@ -329,11 +301,10 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         if(isNewUser){
             CustomSkipDialog custom_dialog = new CustomSkipDialog();
             custom_dialog.showDialog(this);
-        }
-        else
+        } else {
             super.onBackPressed();
+        }
     }
-
 
     /**
      * @return if there is a connection to the internet or not
@@ -345,5 +316,19 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
             return networkInfo != null && networkInfo.isConnectedOrConnecting();
         }
         return false;
+    }
+
+    public void addMoreArtists(int clickedItemIndex, boolean isMoreItem){
+        ArrayList<Artist> returnedArtists = mServiceController.getRecommendedArtists
+                (this, Constants.currentUser.getUserType(), offset, 6);
+
+        int change = (isMoreItem)? 0:1;
+
+        if(returnedArtists.size() != 0) {
+            offset += returnedArtists.size();
+            if(!isMoreItem) mLayoutManager.scrollToPositionWithOffset(clickedItemIndex, 0);
+            mRecommendedArtists.addAll(clickedItemIndex + change, returnedArtists);
+            mAdapter.notifyItemRangeInserted(clickedItemIndex + change, returnedArtists.size());
+        }
     }
 }
