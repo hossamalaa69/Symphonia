@@ -45,6 +45,11 @@ public class Step5Activity extends AppCompatActivity implements RestApi.updateUi
         createMail();
     }
 
+    @Override
+    public void updateUiSignUpFailed() {
+        showButton();
+    }
+
     /**
      * sign up button
      */
@@ -217,6 +222,11 @@ public class Step5Activity extends AppCompatActivity implements RestApi.updateUi
             return networkInfo != null && networkInfo.isConnectedOrConnecting();
         }
         return false;
+    }
+
+    public void showButton(){
+        progressBar.setVisibility(View.GONE);
+        btn_signUp.setVisibility(View.VISIBLE);
     }
 
     public void createMail(){

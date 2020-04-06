@@ -38,9 +38,9 @@
                 android:value=".Activities.User_Interface.MainActivity" />
         </activity>
         <activity
-            android:name=".Activities.User_Management.ListenerPages.EmailCheckListenerActivity"
+            android:name=".Activities.User_Management.ForgetPassword.EmailCheck"
             android:label="@string/check_email"
-            android:parentActivityName=".Activities.User_Management.ListenerPages.ForgetPasswordListenerActivity"
+            android:parentActivityName=".Activities.User_Management.ForgetPassword.ForgetPassword"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
@@ -48,7 +48,7 @@
                 android:value=".Activities.User_Interface.MainActivity" />
         </activity>
         <activity
-            android:name=".Activities.User_Management.ListenerPages.ForgetPasswordListenerActivity"
+            android:name=".Activities.User_Management.ForgetPassword.ForgetPassword"
             android:label="@string/forgot_password"
             android:parentActivityName=".Activities.User_Management.LoginActivity"
             android:screenOrientation="portrait"

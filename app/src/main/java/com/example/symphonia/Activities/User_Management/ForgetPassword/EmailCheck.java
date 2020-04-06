@@ -1,4 +1,4 @@
-package com.example.symphonia.Activities.User_Management.ArtistPages;
+package com.example.symphonia.Activities.User_Management.ForgetPassword;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,24 +9,25 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.symphonia.R;
 
-public class EmailCheckArtistActivity extends AppCompatActivity {
+public class EmailCheck extends AppCompatActivity {
 
-    private String user;
+    private String userName;
+    private String type;
     private TextView message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_email_check_listener);
+        setContentView(R.layout.activity_email_check);
 
         Bundle b = getIntent().getExtras();
-        user = b.getString("user");
-
+        userName = b.getString("user");
+        type = b.getString("type");
         message = findViewById(R.id.message);
-        message.append(" " + user);
+        message.append(" " + userName);
     }
 
-    public void openGmail(View view) {
+    public void openGMail(View view) {
         Intent intent = getPackageManager().getLaunchIntentForPackage("com.google.android.gm");
         startActivity(intent);
     }

@@ -196,6 +196,7 @@ public class RestApi implements APIs {
                         }catch (JSONException e){
                             e.printStackTrace();
                             Toast.makeText(context,"Check your internet connection",Toast.LENGTH_SHORT).show();
+                            updateUiSignUp.updateUiSignUpFailed();
                         }
                     }
                 },
@@ -203,6 +204,7 @@ public class RestApi implements APIs {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(context, error.toString(),Toast.LENGTH_SHORT).show();
+                        updateUiSignUp.updateUiSignUpFailed();
                     }
                 }) {
             @Override
@@ -227,6 +229,7 @@ public class RestApi implements APIs {
 
     public interface updateUiSignUp {
         void updateUiSignUpSuccess();
+        void updateUiSignUpFailed();
     }
 
 
