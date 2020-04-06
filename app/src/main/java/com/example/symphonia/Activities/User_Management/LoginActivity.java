@@ -267,6 +267,9 @@ public class LoginActivity extends AppCompatActivity implements RestApi.updateUi
 
         Intent i = new Intent(this, StartActivity.class);
         startActivity(i);
+
+       // Intent i = new Intent(this, StartActivity.class);
+       // startActivity(i);
     }
 
     public void failedLogin(String reason){

@@ -146,9 +146,6 @@ public class Step5Activity extends AppCompatActivity implements RestApi.updateUi
      */
     public void openNext(View view) {
 
-        //enableButton();
-        btn_signUp.setVisibility(View.GONE);
-        progressBar.setVisibility(View.VISIBLE);
 
         //checks if not online
         if(!isOnline()){
@@ -157,6 +154,9 @@ public class Step5Activity extends AppCompatActivity implements RestApi.updateUi
             custom_dialogOffline.showDialog(this, false);
             return;
         }
+        //enableButton();
+        btn_signUp.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
 
         //creates object of service controller class
         ServiceController serviceController = ServiceController.getInstance();

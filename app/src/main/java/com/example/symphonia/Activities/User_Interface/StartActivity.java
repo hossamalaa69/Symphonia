@@ -57,14 +57,9 @@ public class StartActivity extends AppCompatActivity {
             Constants.currentToken = token;
             Constants.currentUser = new User(email,id,name,type,premium);
 
-            Toast.makeText(this,"All variables are assigned",Toast.LENGTH_SHORT).show();
-            Toast.makeText(this,Constants.currentToken,Toast.LENGTH_SHORT).show();
             Toast.makeText(this,Constants.currentUser.getmEmail(),Toast.LENGTH_SHORT).show();
-            Toast.makeText(this,Constants.currentUser.getmName(),Toast.LENGTH_SHORT).show();
-            Toast.makeText(this,Constants.currentUser.get_id(),Toast.LENGTH_SHORT).show();
-            Toast.makeText(this,""+Constants.currentUser.isPremuim(),Toast.LENGTH_SHORT).show();
-            Toast.makeText(this,""+Constants.currentUser.isListenerType(),Toast.LENGTH_SHORT).show();
-
+//            Intent i = new Intent(this, MainActivity.class);
+//            startActivity(i);
         }
 
         //object from RelativeLayout that holds many layouts for animation

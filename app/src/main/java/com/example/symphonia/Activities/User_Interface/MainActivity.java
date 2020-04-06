@@ -165,6 +165,8 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         mediaController = MediaController.getController();
         checkUserType();
 
@@ -818,9 +820,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     }
 
     public void checkUserType() {
-
-        ServiceController serviceController = ServiceController.getInstance();
-        serviceController.logIn(this, "user1@symphonia.com", "12345678", true);
 
         if (Constants.currentUser.isListenerType())
             Toast.makeText(this, "Listener", Toast.LENGTH_SHORT).show();
