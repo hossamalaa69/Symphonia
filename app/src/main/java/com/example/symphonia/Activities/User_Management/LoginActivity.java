@@ -265,11 +265,11 @@ public class LoginActivity extends AppCompatActivity implements RestApi.updateUi
         //commits edits
         editor.apply();
 
-        Intent i = new Intent(this, StartActivity.class);
-        startActivity(i);
+//        Intent i = new Intent(this, StartActivity.class);
+//        startActivity(i);
 
-       // Intent i = new Intent(this, StartActivity.class);
-       // startActivity(i);
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
     }
 
     public void failedLogin(String reason){
