@@ -1,6 +1,7 @@
 package com.example.symphonia.Activities.User_Management.SignUp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -16,10 +17,12 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.symphonia.Activities.User_Interface.AddArtistsActivity;
+import com.example.symphonia.Activities.User_Interface.StartActivity;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Helpers.CustomOfflineDialog;
 import com.example.symphonia.Helpers.Utils;
@@ -166,6 +169,16 @@ public class Step5Activity extends AppCompatActivity implements RestApi.updateUi
         boolean userType;
         userType = mUser.equals("Listener");
 
+//        Toast.makeText(this,mName,Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this,mEmail,Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this,mPassword,Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this,mDOB,Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this,mGender,Toast.LENGTH_SHORT).show();
+//        if(userType)
+//            Toast.makeText(this,"user",Toast.LENGTH_SHORT).show();
+//        else
+//            Toast.makeText(this,"artist",Toast.LENGTH_SHORT).show();
+
         //calls sign up function to make a new account
         serviceController.signUp(this, userType, mEmail, mPassword, mDOB, mGender, mName);
 
@@ -208,12 +221,26 @@ public class Step5Activity extends AppCompatActivity implements RestApi.updateUi
 
     public void createMail(){
 
+        // Creates object of SharedPreferences.
+        SharedPreferences sharedPref= getSharedPreferences("LoginPref", 0);
+        //new Editor
+        SharedPreferences.Editor editor= sharedPref.edit();
+        //put values
+        editor.putString("token", Constants.currentToken);
+        editor.putString("name", Constants.currentUser.getmName());
+        editor.putString("email", Constants.currentUser.getmEmail());
+        editor.putString("id",Constants.currentUser.get_id());
+        editor.putBoolean("type", Constants.currentUser.isListenerType());
+        editor.putBoolean("premium", Constants.currentUser.isPremuim());
+        //commits edits
+        editor.apply();
+
 
 //        btn_signUp.setVisibility(View.VISIBLE);
 //        progressBar.setVisibility(View.GONE);
             //then goes to AddArtist activity to suggest artists for user
-        Intent i = new Intent(this, AddArtistsActivity.class);
-        i.putExtra("newUser", "true");
+        Intent i = new Intent(this, StartActivity.class);
+        //i.putExtra("newUser", "true");
         startActivity(i);
     }
 

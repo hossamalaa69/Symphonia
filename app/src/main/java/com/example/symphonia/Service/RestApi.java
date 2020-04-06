@@ -20,6 +20,7 @@ import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Entities.User;
 import com.example.symphonia.Helpers.Utils;
+import com.example.symphonia.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -80,6 +81,7 @@ public class RestApi implements APIs {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         updateLogin.updateUiLoginFail("input");
+                        Toast.makeText(context,error.toString(),Toast.LENGTH_SHORT).show();
                     }
                 }) {
             @Override
@@ -169,8 +171,58 @@ public class RestApi implements APIs {
      * @return returns true if sign up is done
      */
     @Override
-    public boolean signUp(final Context context, boolean mType, String email, String password, String DOB, String gender, String name) {
-        return false;
+    public boolean signUp(final Context context, final boolean mType, final String email, final String password
+            , final String DOB, final String gender, final String name) {
+        final updateUiSignUp updateUiSignUp = (updateUiSignUp) context;
+        StringRequest stringrequest = new StringRequest(Request.Method.POST, (Constants.SIGN_UP_URL),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject root = new JSONObject(response);
+                            Constants.currentToken = root.getString("token");
+                            JSONObject user = root.getJSONObject("user");
+                            String id = user.getString("_id");
+                            String type = user.getString("type");
+                            Constants.currentUser = new User(email, id, mType, Utils.convertToBitmap(R.drawable.img_init_profile)
+                                    ,name,DOB,gender,type.equals("artist")
+                                    ,0,0,new ArrayList<User>(),new ArrayList<User>()
+                                    ,new ArrayList<Playlist>(),new ArrayList<Playlist>()
+                                    ,new ArrayList<Artist>(),new ArrayList<Album>(),new ArrayList<Track>());
+
+                            Constants.currentUser.setUserType(type);
+                            Toast.makeText(context,"Done sign up",Toast.LENGTH_SHORT).show();
+                            updateUiSignUp.updateUiSignUpSuccess();
+                        }catch (JSONException e){
+                            e.printStackTrace();
+                            Toast.makeText(context,"Check your internet connection",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(context, error.toString(),Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("name", name);
+                params.put("email", email);
+                params.put("emailConfirm", email);
+                params.put("password", password);
+                params.put("dateOfBirth", DOB);
+                params.put("gender", gender);
+                if(mType)
+                    params.put("type", "user");
+                else
+                    params.put("type","artist");
+                return params;
+            }
+        };
+        VolleySingleton.getInstance(context).getRequestQueue().add(stringrequest);
+        return true;
     }
 
     public interface updateUiSignUp {

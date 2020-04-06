@@ -60,8 +60,8 @@ public class StartActivity extends AppCompatActivity {
             Toast.makeText(this,Constants.currentUser.getmEmail(),Toast.LENGTH_SHORT).show();
             Toast.makeText(this,"token: "+Constants.currentToken,Toast.LENGTH_SHORT).show();
 
-            Intent i = new Intent(this, MainActivity.class);
-            startActivity(i);
+            //Intent i = new Intent(this, MainActivity.class);
+            //startActivity(i);
         }
 
         //object from RelativeLayout that holds many layouts for animation
@@ -97,6 +97,14 @@ public class StartActivity extends AppCompatActivity {
         Intent i = new Intent(this, WelcomeActivity.class);
         i.putExtra("user", "Artist");
         startActivity(i);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
     }
 
 }
