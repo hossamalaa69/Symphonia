@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
@@ -12,11 +13,14 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.symphonia.Activities.User_Interface.AddArtistsActivity;
+import com.example.symphonia.Constants;
 import com.example.symphonia.Helpers.CustomOfflineDialog;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
@@ -32,6 +36,20 @@ import com.example.symphonia.Service.ServiceController;
  */
 public class Step5Activity extends AppCompatActivity implements RestApi.updateUiSignUp {
 
+
+    @Override
+    public void updateUiSignUpSuccess() {
+        createMail();
+    }
+
+    /**
+     * sign up button
+     */
+    private Button btn_signUp;
+    /**
+     * progress bar which is shown when loading sign up
+     */
+    private ProgressBar progressBar;
     /**
      * Holds EditText for user's name input
      */
@@ -76,6 +94,8 @@ public class Step5Activity extends AppCompatActivity implements RestApi.updateUi
         TextView text_view_link2 = findViewById(R.id.t2);
         text_view_link2.setMovementMethod(LinkMovementMethod.getInstance());
 
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        btn_signUp = (Button) findViewById(R.id.next5);
         //received user's data from previous activity
         Bundle b = getIntent().getExtras();
         mUser = b.getString("user");
@@ -125,8 +145,10 @@ public class Step5Activity extends AppCompatActivity implements RestApi.updateUi
      * opens next page of sign up
      */
     public void openNext(View view) {
-        //creates object of service controller class
-        ServiceController serviceController = ServiceController.getInstance();
+
+        //enableButton();
+        btn_signUp.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
 
         //checks if not online
         if(!isOnline()){
@@ -136,6 +158,9 @@ public class Step5Activity extends AppCompatActivity implements RestApi.updateUi
             return;
         }
 
+        //creates object of service controller class
+        ServiceController serviceController = ServiceController.getInstance();
+
         //stores user' name and type
         mName = edit_text_name.getText().toString();
         boolean userType;
@@ -144,7 +169,8 @@ public class Step5Activity extends AppCompatActivity implements RestApi.updateUi
         //calls sign up function to make a new account
         serviceController.signUp(this, userType, mEmail, mPassword, mDOB, mGender, mName);
 
-        createMail();
+        if(Constants.DEBUG_STATUS)
+            createMail();
     }
 
     /**
@@ -152,9 +178,8 @@ public class Step5Activity extends AppCompatActivity implements RestApi.updateUi
      */
     public void enableButton() {
         //gets button by id, then makes it enabled
-        Button btn_login = findViewById(R.id.next);
-        btn_login.setEnabled(true);
-        btn_login.setBackgroundResource(R.drawable.btn_curved_white);
+        btn_signUp.setEnabled(true);
+        btn_signUp.setBackgroundResource(R.drawable.btn_curved_white);
     }
 
     /**
@@ -162,9 +187,8 @@ public class Step5Activity extends AppCompatActivity implements RestApi.updateUi
      */
     public void lockButton() {
         //gets button by id, then makes it disabled
-        Button btn_login = findViewById(R.id.next);
-        btn_login.setEnabled(false);
-        btn_login.setBackgroundResource(R.drawable.btn_curved_gray);
+        btn_signUp.setEnabled(false);
+        btn_signUp.setBackgroundResource(R.drawable.btn_curved_gray);
     }
 
     /**
@@ -183,14 +207,14 @@ public class Step5Activity extends AppCompatActivity implements RestApi.updateUi
     }
 
     public void createMail(){
-        //then goes to AddArtist activity to suggest artists for user
+
+
+//        btn_signUp.setVisibility(View.VISIBLE);
+//        progressBar.setVisibility(View.GONE);
+            //then goes to AddArtist activity to suggest artists for user
         Intent i = new Intent(this, AddArtistsActivity.class);
         i.putExtra("newUser", "true");
         startActivity(i);
     }
 
-    @Override
-    public void updateUiSignUpSuccess() {
-        createMail();
-    }
 }
