@@ -7,8 +7,6 @@
     android:layout_height="match_parent"
     tools:background="@color/colorPrimary"
     >
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/image_frame"
         android:layout_width="145dp"

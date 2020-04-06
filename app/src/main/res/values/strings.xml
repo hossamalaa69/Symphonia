@@ -214,5 +214,10 @@
     <string name="add_album_snackbar_text">Added to Your Library.</string>
     <string name="thanks_for_reporting">thanks for reporting.</string>
     <string name="more_for_you">More\nFor You</string>
+    <string name="performed_by">Performed by</string>
+    <string name="written_by">Written by</string>
+    <string name="produced_by">Produced by</string>
+    <string name="source">source</string>
+    <string name="report_error">Report Error</string>
 
 </resources>

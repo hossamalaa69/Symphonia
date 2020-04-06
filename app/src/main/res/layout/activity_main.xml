@@ -14,7 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/dark_gray"
+       android:background="@color/dark_gray"
+        app:labelVisibilityMode="labeled"
         app:itemIconTint="@drawable/nav_bottom_colors"
         app:itemTextColor="@drawable/nav_bottom_colors"
         app:menu="@menu/bottom_nav_menu" />
@@ -34,9 +35,4 @@
         android:layout_above="@id/nav_view"
         android:visibility="gone" />
 
-    <include layout="@layout/setting_track"
-        android:layout_width="match_parent"
-        android:visibility="gone"
-        android:id="@+id/setting_track_container"
-        android:layout_height="match_parent"/>
 </RelativeLayout>
