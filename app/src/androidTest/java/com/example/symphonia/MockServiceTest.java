@@ -509,7 +509,7 @@ public class MockServiceTest {
         tracks.add(new Track("One Last Time", "Ariana Grande", "Rewind-the sound of 2014", null, R.drawable.you_cant_stop_the_girl, null));
         testPlaylists.add(new Playlist("Rewind-the sound of 2014", null,
                 Utils.convertToBitmap(R.drawable.rewind_the_sound), tracks));
-        ArrayList<Playlist> comingData = mockService.getRecentPlaylists(appContext, Constants.currentToken);
+        ArrayList<Playlist> comingData = mockService.getRecentPlaylists(appContext, null);
         assertEquals(testPlaylists.size(), comingData.size());
         for (int i = 0; i < testPlaylists.size(); i++) {
             assertEquals(testPlaylists.get(i), comingData.get(i));
@@ -528,7 +528,7 @@ public class MockServiceTest {
         tracks.add(new Track("Little Do You Know", "Alex & Sierra", "Rewind-the sound of 2014", null, R.drawable.rescue_me, null));
         testPlaylists.add(new Playlist("Rewind-the sound of 2014", null,
                 Utils.convertToBitmap(R.drawable.rewind_the_sound), tracks));
-        ArrayList<Playlist> comingData = mockService.getRecentPlaylists(appContext, Constants.currentToken);
+        ArrayList<Playlist> comingData = mockService.getRecentPlaylists(appContext, null);
         assertNotEquals(testPlaylists.size(), comingData.size());
 
     }
@@ -565,7 +565,7 @@ public class MockServiceTest {
         tracks.add(new Track("You Can't Stop The Girl", "Bebe Rexha", "mood booster", null, R.drawable.you_cant_stop_the_girl, null));
         testPlaylists.add(new Playlist("mood booster", "Get happy with this pick-up playlist full of current feel-good songs",
                 Utils.convertToBitmap(R.drawable.mood_booster), tracks));
-        ArrayList<Playlist> comingData = mockService.getRecentPlaylists(appContext, Constants.currentToken);
+        ArrayList<Playlist> comingData = mockService.getRecentPlaylists(appContext,null);
         assertEquals(testPlaylists.size(), comingData.size());
         for (int i = 0; i < testPlaylists.size(); i++) {
             assertEquals(testPlaylists.get(i), comingData.get(i));
@@ -584,7 +584,7 @@ public class MockServiceTest {
         tracks.add(new Track("Rescue Me", "OneRepublic", "mood booster", "Rescue Me", R.drawable.rescue_me, null));
         testPlaylists.add(new Playlist("mood booster", "Get happy with this pick-up playlist full of current feel-good songs",
                 Utils.convertToBitmap(R.drawable.mood_booster), tracks));
-        ArrayList<Playlist> comingData = mockService.getRecentPlaylists(appContext, Constants.currentToken);
+        ArrayList<Playlist> comingData = mockService.getRecentPlaylists(appContext,null);
         assertNotEquals(testPlaylists.size(), comingData.size());
 
     }

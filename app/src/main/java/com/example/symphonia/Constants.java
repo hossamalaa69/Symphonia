@@ -35,7 +35,7 @@ public class Constants {
 
     public final static String EMAIL_EXISTS_URL = BASE_URL+"api/v1/users/email-exist?";
 
-    public static final String GET_TRACKS_HISTORY = BASE_URL+"api/v1/me/player/tracks/history";
+    public static final String GET_RECENT_PLAYLISTS = BASE_URL+"api/v1/me/recently-played";
 
     public static  final  String GET_POPULAR_PLAYLISTS = BASE_URL + "api/v1/browse/categories/party/playlists?";
 

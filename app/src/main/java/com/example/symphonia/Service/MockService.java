@@ -15,6 +15,7 @@ import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Profile;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Entities.User;
+import com.example.symphonia.Fragments_and_models.home.HomeFragment;
 import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
 import com.example.symphonia.Fragments_and_models.profile.ProfilePlaylistsFragment;
 import com.example.symphonia.Fragments_and_models.settings.SettingsFragment;
@@ -221,7 +222,7 @@ public class MockService implements APIs {
      * @return recently-player  playlist
      */
     @Override
-    public ArrayList<Playlist> getRecentPlaylists(Context context, String mToken) {
+    public ArrayList<Playlist> getRecentPlaylists(Context context, HomeFragment fragment) {
         return mRecentPlaylists;
     }
 

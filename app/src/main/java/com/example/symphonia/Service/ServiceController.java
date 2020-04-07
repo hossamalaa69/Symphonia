@@ -9,6 +9,7 @@ import com.example.symphonia.Entities.Category;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Track;
+import com.example.symphonia.Fragments_and_models.home.HomeFragment;
 import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
 
 import java.util.ArrayList;
@@ -102,11 +103,11 @@ public class ServiceController {
      * getter for recently-player playlist
      *
      * @param context context of hosting activity
-     * @param mToken  token of user
+     * @param fragment  fragment of user
      * @return recently-player  playlist
      */
-    public ArrayList<Playlist> getRecentPlaylists(Context context, String mToken) {
-        return mSupplier.getRecentPlaylists(context, mToken);
+    public ArrayList<Playlist> getRecentPlaylists(Context context, HomeFragment fragment) {
+        return mSupplier.getRecentPlaylists(context, fragment);
     }
 
     /**

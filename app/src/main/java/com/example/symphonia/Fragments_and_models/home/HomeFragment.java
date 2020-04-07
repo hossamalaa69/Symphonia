@@ -2,6 +2,7 @@ package com.example.symphonia.Fragments_and_models.home;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,6 +23,7 @@ import com.example.symphonia.Adapters.RvPlaylistsHomeAdapter;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Fragments_and_models.settings.SettingsFragment;
+import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
 
@@ -35,6 +38,7 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
 
 
+
     RecyclerView.LayoutManager layoutManager;
     RvPlaylistsHomeAdapter rvPlaylistsHomeAdapter;
     private HomeViewModel homeViewModel;
@@ -44,7 +48,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView rvPopularPlaylist;
     private RecyclerView rvBasedOnYourRecentlyPlayed;
 
-    View root;
+    private  View root;
 
     /**
      * inflate view of fragment
@@ -61,14 +65,6 @@ public class HomeFragment extends Fragment {
         root = inflater.inflate(R.layout.fragment_home, container, false);
 
 
-        if (Constants.DEBUG_STATUS)
-            initViews();
-
-
-        else {
-            ServiceController SController = ServiceController.getInstance();
-            SController.getCategories(getContext());
-        }
         final ImageView ivSettings = root.findViewById(R.id.iv_setting_home);
         ivSettings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,12 +99,21 @@ public class HomeFragment extends Fragment {
 
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        if (Constants.DEBUG_STATUS)
+            initViews();
+        else {
+           // loadAllPlaylists();
+        }
+    }
+
     public void loadAllPlaylists() {
         ServiceController SController = ServiceController.getInstance();
         playlists = SController.getRandomPlaylists(getContext(), Constants.currentToken);
-    //    popularPlaylists = SController.getPopularPlaylists(getContext(), Constants.currentToken);
-    //    recentPlaylists = SController.getRecentPlaylists(getContext(), Constants.currentToken);
-    //    madeForYouPlaylists = SController.getMadeForYoutPlaylists(getContext(), Constants.currentToken);
+        popularPlaylists = SController.getPopularPlaylists(getContext(), Constants.currentToken);
+       recentPlaylists = SController.getRecentPlaylists(getContext(), this);
+       madeForYouPlaylists = SController.getMadeForYoutPlaylists(getContext(), Constants.currentToken);
 
     }
 
@@ -128,15 +133,17 @@ public class HomeFragment extends Fragment {
 
         //----------------------
         loadAllPlaylists();
-   //     updateRecentPlaylists();
-   //     updateMadeForYouPlaylists();
-   //     updatePopularPlaylists();
+       updateRecentPlaylists();
+             updateMadeForYouPlaylists();
+             updatePopularPlaylists();
         updateRandomPlaylists();
 
     }
 
 
     public void updateRecentPlaylists() {
+        Log.e("recent","update");
+        recentPlaylists = Utils.LoadedPlaylists.recentPlaylists;
         layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
         View view = root.findViewById(R.id.recently_played_playlist);
         rvRecentlyPlayed = view.findViewById(R.id.rv_sample_home);
@@ -149,6 +156,7 @@ public class HomeFragment extends Fragment {
 
     public void updatePopularPlaylists() {
         //popular playlist
+        popularPlaylists = Utils.LoadedPlaylists.popularPlaylists;
         layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
         View view = root.findViewById(R.id.popular_playlist_playlist);
         rvPopularPlaylist = view.findViewById(R.id.rv_sample_home);
@@ -162,6 +170,7 @@ public class HomeFragment extends Fragment {
 
     public void updateMadeForYouPlaylists() {
         // made for you playlist;
+        madeForYouPlaylists = Utils.LoadedPlaylists.madeForYouPlaylists;
         layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
         View view = root.findViewById(R.id.made_for_you_playlist);
         rvMadeForYou = view.findViewById(R.id.rv_sample_home);
@@ -176,6 +185,7 @@ public class HomeFragment extends Fragment {
     public void updateRandomPlaylists() {
 
         //heavy playlist
+        playlists = Utils.LoadedPlaylists.randomPlaylists;
         layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
         View view = root.findViewById(R.id.your_heavy_rotation_playlist);
         rvHeavyPlaylist = view.findViewById(R.id.rv_sample_home);
