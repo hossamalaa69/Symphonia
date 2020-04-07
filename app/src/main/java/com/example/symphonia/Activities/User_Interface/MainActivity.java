@@ -2,6 +2,7 @@ package com.example.symphonia.Activities.User_Interface;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -49,6 +50,7 @@ import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.MediaController;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.RestApi;
+import com.example.symphonia.Service.ServiceController;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.Serializable;
@@ -245,7 +247,8 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
 
 
         mediaController = MediaController.getController();
-        checkUserType();
+        Bundle b = getIntent().getExtras();
+        checkUserType(b);
 
         // initialize bottom navigation view
         initBottomNavView();
@@ -394,7 +397,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         startService(intent);
         updatePlayBtn();
         MediaController.setOnCompletionListener(onCompletionListener);
-        mediaController.setMediaPlayCompletionService();
     }
 
     @Override
@@ -417,6 +419,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             makeToast(getString(R.string.track_is_locked));
             return;
         }
+
         playBar.setVisibility(View.VISIBLE);
 
         // keep tracking previous track
@@ -447,9 +450,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             ivIsFavourite.setImageResource(R.drawable.ic_favorite_border_black_24dp);
         }
         playTrack();
-        MediaController.setOnCompletionListener(onCompletionListener);
-        mediaController.setMediaPlayCompletionService();
-        prevPos = pos;
+
     }
 
     /**
@@ -530,7 +531,8 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             prevPos = Utils.CurrTrackInfo.prevTrackPos;
             for (int i = Utils.CurrTrackInfo.TrackPosInPlaylist + 1; i < Utils.CurrTrackInfo.currPlaylistTracks.size(); i++) {
                 if (!Utils.CurrTrackInfo.currPlaylistTracks.get(i).isHidden()
-                        && !(Utils.CurrTrackInfo.currPlaylistTracks.get(i).isLocked()&&!Constants.currentUser.isPremuim())) {
+                        && !Utils.CurrTrackInfo.currPlaylistTracks.get(i).isLocked()
+                        && !Constants.currentUser.isPremuim()) {
                     Utils.CurrTrackInfo.TrackPosInPlaylist = i;
                     Utils.setTrackInfo(0, Utils.CurrTrackInfo.TrackPosInPlaylist, Utils.CurrTrackInfo.currPlaylistTracks);
                     rvBar.getLayoutManager().scrollToPosition(Utils.CurrTrackInfo.TrackPosInPlaylist);
@@ -682,7 +684,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                 .setPrimaryNavigationFragment(navHostFragment)
                 .commit();
         homeFragment = new HomeFragment();
-        //searchFragment=new SearchFragment();
+        searchFragment=new SearchFragment();
         navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -699,7 +701,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                         return true;
                     case R.id.navigation_search:
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.nav_host_fragment,new SearchFragment())
+                                .replace(R.id.nav_host_fragment,searchFragment)
                                 .commit();
                         return true;
                     case R.id.navigation_premium:
@@ -776,7 +778,15 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         return false;
     }
 
-    public void checkUserType() {
+    public void checkUserType(Bundle b) {
+
+        if(Constants.DEBUG_STATUS){
+            SharedPreferences sharedPref= getSharedPreferences("LoginPref", 0);
+            String email = sharedPref.getString("email", "");
+            boolean type = sharedPref.getBoolean("type",true);
+            ServiceController serviceController = ServiceController.getInstance();
+            serviceController.logIn(this,email,"12345678",type);
+        }
 
         if (Constants.currentUser.isListenerType())
             Toast.makeText(this, "Listener", Toast.LENGTH_SHORT).show();

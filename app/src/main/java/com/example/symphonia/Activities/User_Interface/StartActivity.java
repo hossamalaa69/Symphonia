@@ -48,17 +48,10 @@ public class StartActivity extends AppCompatActivity {
 
         if(Constants.DEBUG_STATUS){
             String token = sharedPref.getString("token","");
-            String email = sharedPref.getString("email", "");
-            boolean type = sharedPref.getBoolean("type", true);
+
             if(!(token.equals(""))){
-                ServiceController serviceController = ServiceController.getInstance();
-                serviceController.logIn(this, email,
-                        "12345678", type);
-
-
                 Intent i = new Intent(this, MainActivity.class);
                 startActivity(i);
-
             }
         }
 
