@@ -56,7 +56,6 @@ public class RestApi implements APIs {
                             String name = user.getString("name");
                             String type = user.getString("type");
                             String image = user.getString("imageUrl");
-                            String phone = user.getString("phone");
                             boolean premium = false;
                             if (type.equals("premium-user")) {
                                 premium = true;
@@ -71,7 +70,6 @@ public class RestApi implements APIs {
                                 Constants.currentUser = new User(username, id, name, type.equals("user"), premium);
                                 Constants.currentUser.setUserType(type);
                                 Constants.currentUser.setImageUrl(image);
-                                Constants.currentUser.setPhone(phone);
 
                                 updateLogin.updateUiLoginSuccess();
                             }
