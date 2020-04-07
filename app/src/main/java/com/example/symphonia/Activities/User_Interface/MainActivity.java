@@ -785,7 +785,10 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             String email = sharedPref.getString("email", "");
             boolean type = sharedPref.getBoolean("type",true);
             ServiceController serviceController = ServiceController.getInstance();
-            serviceController.logIn(this,email,"12345678",type);
+            boolean logged = serviceController.logIn(this,email,"12345678",type);
+            if(!logged)
+                serviceController.logIn(this,"user1@symphonia.com"
+                        ,"12345678",true);
         }
 
         if (Constants.currentUser.isListenerType())
