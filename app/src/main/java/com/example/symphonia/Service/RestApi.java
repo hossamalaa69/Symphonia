@@ -60,14 +60,14 @@ public class RestApi implements APIs {
                             if (type.equals("premium-user")) {
                                 premium = true;
                                 type = "user";
-                            } else if(type.equals("artist")){
+                            } else if (type.equals("artist")) {
                                 premium = true;
                             }
 
-                            if((type.equals("user")&&!mType) || (type.equals("artist")&&mType) )
+                            if ((type.equals("user") && !mType) || (type.equals("artist") && mType))
                                 updateLogin.updateUiLoginFail("type");
-                            else{
-                                Constants.currentUser = new User(username,id, name, type.equals("user"), premium);
+                            else {
+                                Constants.currentUser = new User(username, id, name, type.equals("user"), premium);
                                 Constants.currentUser.setUserType(type);
                                 Constants.currentUser.setImageUrl(image);
                                 Constants.currentUser.setPhone(phone);
@@ -75,9 +75,9 @@ public class RestApi implements APIs {
                                 updateLogin.updateUiLoginSuccess();
                             }
 
-                        }catch (JSONException e){
+                        } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(context,"Check your internet connection",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Check your internet connection", Toast.LENGTH_SHORT).show();
                             updateLogin.updateUiLoginFail("exception");
                         }
                     }
@@ -135,33 +135,34 @@ public class RestApi implements APIs {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        try{
+                        try {
                             JSONObject root = new JSONObject(response);
-                            boolean exists= root.getBoolean("exists");
-                            if(!exists){
+                            boolean exists = root.getBoolean("exists");
+                            if (!exists) {
                                 updateUiEmailValidity.updateUiEmailValiditySuccess();
                                 return;
                             }
                             String type = root.getString("type");
                             updateUiEmailValidity.updateUiEmailValidityFail(type);
-                        }catch (JSONException e){
+                        } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(context,"Error",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(context, error.toString(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
                     }
-                }){
+                }) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("email", email);
                 return params;
-            }};
+            }
+        };
 
         VolleySingleton.getInstance(context).getRequestQueue().add(stringrequest);
         return true;
@@ -201,15 +202,15 @@ public class RestApi implements APIs {
                             String id = user.getString("_id");
                             String type = user.getString("type");
                             Constants.currentUser = new User(email, id, mType, Utils.convertToBitmap(R.drawable.img_init_profile)
-                                    ,name,DOB,gender,type.equals("artist")
-                                    ,0,0,new ArrayList<User>(),new ArrayList<User>()
-                                    ,new ArrayList<Playlist>(),new ArrayList<Playlist>()
-                                    ,new ArrayList<Artist>(),new ArrayList<Album>(),new ArrayList<Track>());
+                                    , name, DOB, gender, type.equals("artist")
+                                    , 0, 0, new ArrayList<User>(), new ArrayList<User>()
+                                    , new ArrayList<Playlist>(), new ArrayList<Playlist>()
+                                    , new ArrayList<Artist>(), new ArrayList<Album>(), new ArrayList<Track>());
 
                             Constants.currentUser.setUserType(type);
-                            Toast.makeText(context,"Done sign up",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Done sign up", Toast.LENGTH_SHORT).show();
                             updateUiSignUp.updateUiSignUpSuccess();
-                        }catch (JSONException e){
+                        } catch (JSONException e) {
                             e.printStackTrace();
                             Toast.makeText(context,"Check your internet connection",Toast.LENGTH_SHORT).show();
                             updateUiSignUp.updateUiSignUpFailed();
@@ -237,10 +238,10 @@ public class RestApi implements APIs {
                 params.put("password", password);
                 params.put("dateOfBirth", DOB);
                 params.put("gender", gender);
-                if(mType)
+                if (mType)
                     params.put("type", "user");
                 else
-                    params.put("type","artist");
+                    params.put("type", "artist");
                 return params;
             }
         };
@@ -300,10 +301,10 @@ public class RestApi implements APIs {
                         JSONArray images = playlist.getJSONArray("images");
                         JSONObject image = images.getJSONObject(0);
                         String imageUrl = image.getString("url");
-                        Bitmap playlistImage = fetchImage(context, imageUrl);
+                        String id = playlist.getString("_id");
                         JSONObject tracks = playlist.getJSONObject("tracks");
                         String tracksUrl = tracks.getString("href");
-                        popularPlaylists.add(new Playlist(title, decs, playlistImage, null, tracksUrl));
+                        popularPlaylists.add(new Playlist(title, id, decs, imageUrl, null, tracksUrl));
                         listener.updateUiGetPopularPlaylistsSuccess();
 
                     }
@@ -378,10 +379,10 @@ public class RestApi implements APIs {
                         JSONArray images = playlist.getJSONArray("images");
                         JSONObject image = images.getJSONObject(0);
                         String imageUrl = image.getString("url");
-                        Bitmap playlistImage = fetchImage(context, imageUrl);
+                        String id = playlist.getString("_id");
                         JSONObject tracks = playlist.getJSONObject("tracks");
                         String tracksUrl = tracks.getString("href");
-                        madeForYouPlaylists.add(new Playlist(title, decs, playlistImage, null, tracksUrl));
+                        madeForYouPlaylists.add(new Playlist(title, id, decs, imageUrl, null, tracksUrl));
                         listener.updateUiGetMadeForYouPlaylistsSuccess();
 
                     }
@@ -441,10 +442,10 @@ public class RestApi implements APIs {
                         JSONArray images = playlist.getJSONArray("images");
                         JSONObject image = images.getJSONObject(0);
                         String imageUrl = image.getString("url");
-                        Bitmap playlistImage = fetchImage(context, imageUrl);
+                        String id = playlist.getString("_id");
                         JSONObject tracks = playlist.getJSONObject("tracks");
                         String tracksUrl = tracks.getString("href");
-                        recentPlaylists.add(new Playlist(title, decs, playlistImage, null, tracksUrl));
+                        recentPlaylists.add(new Playlist(title, id, decs, imageUrl, null, tracksUrl));
                         listener.updateUiGetRecentPlaylistsSuccess();
                     }
                 } catch (JSONException e) {
@@ -488,24 +489,21 @@ public class RestApi implements APIs {
         final updateUiPlaylists listener = (updateUiPlaylists) context;
         final ArrayList<Playlist> randomPlaylists = new ArrayList<>();
         //TODO  backend still under working
-        StringRequest request = new StringRequest(Request.Method.GET, Utils.categories.get(0).getCat_Name(), new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.GET, Constants.GET_RANDOM_PLAYLISTS, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
-                    JSONObject root = new JSONObject(response);
-                    JSONObject playlistsObj = root.getJSONObject("playlists");
-                    JSONArray playlists = playlistsObj.getJSONArray("items");
+                    JSONArray playlists = new JSONArray(response);
                     for (int i = 0; i < playlists.length(); i++) {
                         JSONObject playlist = playlists.getJSONObject(i);
                         String title = playlist.getString("name");
-                        String decs = playlist.getString("description");
+                        String id = playlist.getString("_id");
+                        String decs = playlist.optString("description");
                         JSONArray images = playlist.getJSONArray("images");
                         JSONObject image = images.getJSONObject(0);
                         String imageUrl = image.getString("url");
-                        Bitmap playlistImage = fetchImage(context, imageUrl);
-                        JSONObject tracks = playlist.getJSONObject("tracks");
-                        String tracksUrl = tracks.getString("href");
-                        randomPlaylists.add(new Playlist(title, decs, playlistImage, null, tracksUrl));
+                        randomPlaylists.add(new Playlist(title, id, "", imageUrl,
+                                null, Constants.BASE_URL + Constants.GET_PLAYLISTS_TRACKS + "/id" + "/tracks"));
                         listener.updateUiGetRandomPlaylistsSuccess();
                     }
                 } catch (JSONException e) {
@@ -517,17 +515,16 @@ public class RestApi implements APIs {
             public void onErrorResponse(VolleyError error) {
             }
         }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            /*@Override
+            public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Authorization", Constants.currentToken);
                 return headers;
-            }
-
+            }*/
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("limit", "10");
+                params.put("number", "10");
                 return params;
             }
         };
@@ -598,6 +595,7 @@ public class RestApi implements APIs {
 
     /**
      * get genres for the current user
+     *
      * @param context activity context
      * @return arraylist of container which has the genres
      */
@@ -606,7 +604,7 @@ public class RestApi implements APIs {
         return null;
     }
 
-    public interface updateUigetGenres{
+    public interface updateUigetGenres {
         void updateUigetGenresSuccess();
 
         void updateUigetGenresFail();

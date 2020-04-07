@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 /**
@@ -115,8 +116,12 @@ public class RvPlaylistsHomeAdapter extends RecyclerView.Adapter<RvPlaylistsHome
             if (mPlaylists.get(pos).getmPlaylistImage() == null) {
                 ivPlaylistImage.setImageResource(R.drawable.no_image);
             }
-            ivPlaylistImage.setImageBitmap(
-                    mPlaylists.get(pos).getmPlaylistImage());
+            Picasso.get()
+                    .load(mPlaylists.get(pos).getImageUrl())
+                    .fit()
+                    .centerCrop()
+                    .into(ivPlaylistImage);
+
             if (mPlaylists.get(pos).getmPlaylistTitle() == null) {
                 tvPlaylistTitle.setVisibility(View.GONE);
             }

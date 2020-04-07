@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Activities.User_Interface.StartActivity;
 import com.example.symphonia.Activities.User_Management.ForgetPassword.ForgetPassword;
 import com.example.symphonia.Constants;
@@ -265,11 +266,11 @@ public class LoginActivity extends AppCompatActivity implements RestApi.updateUi
         //commits edits
         editor.apply();
 
-        Intent i = new Intent(this, StartActivity.class);
-        startActivity(i);
+        //Intent i = new Intent(this, StartActivity.class);
+        //startActivity(i);
 
-//        Intent i = new Intent(this, MainActivity.class);
-//        startActivity(i);
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
     }
 
     public void failedLogin(String reason){

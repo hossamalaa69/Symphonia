@@ -45,6 +45,7 @@ public class Constants {
      */
     public static  final  String GET_M_F_Y_PLAYLISTS = BASE_URL + "api/v1/browse/categories/party/playlists?";
 
-    public static  final  String GET_RANDOM_PLAYLISTS = BASE_URL + "/api/v1/playlists/rand?";
+    public static  final  String GET_RANDOM_PLAYLISTS = BASE_URL + "api/v1/playlists/rand?";
 
+    public static final  String    GET_PLAYLISTS_TRACKS = BASE_URL +"api/v1/playlists/";
 }

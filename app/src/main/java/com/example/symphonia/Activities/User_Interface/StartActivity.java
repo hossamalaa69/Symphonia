@@ -60,8 +60,8 @@ public class StartActivity extends AppCompatActivity {
             Toast.makeText(this,Constants.currentUser.getmEmail(),Toast.LENGTH_SHORT).show();
             Toast.makeText(this,"token: "+Constants.currentToken,Toast.LENGTH_SHORT).show();
 
-            //Intent i = new Intent(this, MainActivity.class);
-            //startActivity(i);
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
         }
 
         //object from RelativeLayout that holds many layouts for animation

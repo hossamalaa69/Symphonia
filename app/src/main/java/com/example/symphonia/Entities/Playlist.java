@@ -11,6 +11,7 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class Playlist {
+    private  String id;
     /**
      * playlist name
      */
@@ -33,6 +34,7 @@ public class Playlist {
      */
     private String tracksURL;
 
+    private String imageUrl;
     /**
      * non empty constructor
      *
@@ -48,19 +50,28 @@ public class Playlist {
         this.tracks = tracks;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public String getId() {
+        return id;
+    }
+
     /**
      * non empty constructor
      *
      * @param mPlaylistTitle       playlist title
      * @param mPlaylistDescription playlist description
-     * @param mPlaylistImage       playlist image
+     * @param imageUrl            playlist image's url
      * @param tracks               playlist tracks
      * @param tracksURL            tracks url
      */
-    public Playlist(String mPlaylistTitle, String mPlaylistDescription, Bitmap mPlaylistImage, ArrayList<Track> tracks, String tracksURL) {
+    public Playlist(String mPlaylistTitle,String id , String mPlaylistDescription, String imageUrl, ArrayList<Track> tracks, String tracksURL) {
         this.mPlaylistTitle = mPlaylistTitle;
+        this.id = id;
         this.mPlaylistDescription = mPlaylistDescription;
-        this.mPlaylistImage = mPlaylistImage;
+        this.imageUrl = imageUrl;
         this.tracks = tracks;
         this.tracksURL = tracksURL;
     }

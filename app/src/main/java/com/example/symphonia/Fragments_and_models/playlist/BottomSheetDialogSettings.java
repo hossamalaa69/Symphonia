@@ -50,6 +50,7 @@ public class BottomSheetDialogSettings extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
                 listener.onCreditsClicked(pos);
+                dismiss();
             }
         });
         report.setOnClickListener(new View.OnClickListener() {
