@@ -48,7 +48,7 @@ public class StartActivity extends AppCompatActivity {
         String id = sharedPref.getString("id","");
         String name = sharedPref.getString("name", "");
         String email = sharedPref.getString("email", "");
-
+        String image = sharedPref.getString("image","");
         boolean type = sharedPref.getBoolean("type",true);
         boolean premium = sharedPref.getBoolean("premium",true);
 
@@ -56,7 +56,7 @@ public class StartActivity extends AppCompatActivity {
         {
             Constants.currentToken = token;
             Constants.currentUser = new User(email,id,name,type,premium);
-
+            Constants.currentUser.setImageUrl(image);
             Toast.makeText(this,"Welcome: "+Constants.currentUser.getmEmail(),Toast.LENGTH_SHORT).show();
             //Toast.makeText(this,"token: "+Constants.currentToken,Toast.LENGTH_SHORT).show();
 

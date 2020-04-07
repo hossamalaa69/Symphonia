@@ -264,6 +264,7 @@ public class LoginActivity extends AppCompatActivity implements RestApi.updateUi
         editor.putString("id",Constants.currentUser.get_id());
         editor.putBoolean("type", Constants.currentUser.isListenerType());
         editor.putBoolean("premium", Constants.currentUser.isPremuim());
+        editor.putString("image",Constants.currentUser.getImageUrl());
         //commits edits
         editor.apply();
 

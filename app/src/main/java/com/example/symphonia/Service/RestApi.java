@@ -199,6 +199,7 @@ public class RestApi implements APIs {
                             Constants.currentToken = root.getString("token");
                             JSONObject user = root.getJSONObject("user");
                             String id = user.getString("_id");
+                            String image = user.getString("imageUrl");
                             String type = user.getString("type");
                             Constants.currentUser = new User(email, id, mType, Utils.convertToBitmap(R.drawable.img_init_profile)
                                     , name, DOB, gender, type.equals("artist")
@@ -207,6 +208,7 @@ public class RestApi implements APIs {
                                     , new ArrayList<Artist>(), new ArrayList<Album>(), new ArrayList<Track>());
 
                             Constants.currentUser.setUserType(type);
+                            Constants.currentUser.setImageUrl(image);
                             Toast.makeText(context, "Signed up successfully", Toast.LENGTH_SHORT).show();
                             updateUiSignUp.updateUiSignUpSuccess();
                         } catch (JSONException e) {
