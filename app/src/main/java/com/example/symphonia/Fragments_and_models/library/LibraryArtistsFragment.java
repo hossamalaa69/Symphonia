@@ -154,6 +154,7 @@ public class LibraryArtistsFragment extends Fragment implements RvListArtistsAda
         mAdapter.clear();
         mAdapter.addAll(mFollowedArtists);
         mAdapter.notifyDataSetChanged();
+        mArtistsList.scrollToPosition(mFollowedArtists.size());
     }
 
 
