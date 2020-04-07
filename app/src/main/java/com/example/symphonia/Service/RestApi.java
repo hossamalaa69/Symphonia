@@ -737,6 +737,7 @@ public class RestApi implements APIs {
         StringRequest request = new StringRequest(Request.Method.PUT, Constants.FOLLOW_ARTIST_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Log.v("TAG", "onResponse: ");
             }
         }, new Response.ErrorListener() {
             @Override
@@ -749,6 +750,7 @@ public class RestApi implements APIs {
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Authorization", Constants.currentToken);
+                headers.put("Content-Type", "application/json");
                 return headers;
             }
 
@@ -850,6 +852,7 @@ public class RestApi implements APIs {
                 return params;
             }
         };
+
         VolleySingleton.getInstance(context).getRequestQueue().add(request);
         return recommendedArtists;
     }
@@ -857,6 +860,8 @@ public class RestApi implements APIs {
     public interface UpdateAddArtists{
         void updateGetRecommendedArtists(ArrayList<Artist> returnedArtists);
     }
+
+
 
     /**
      * Get information about artists similar to a given artist.

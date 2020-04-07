@@ -113,7 +113,8 @@
 
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
-                    android:src="@drawable/islam_ahmed"
+                    android:src="@drawable/placeholder_user"
+                    android:background="@drawable/circle"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -124,10 +125,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
-                    android:text="Islam Ahmed"
                     android:textAppearance="?android:textAppearanceLarge"
                     android:textColor="@android:color/white"
                     android:textStyle="bold"
+                    tools:text="Islam Ahmed"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/image_user"
                     app:layout_constraintTop_toTopOf="parent"
@@ -139,19 +140,19 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
-                    android:text="View Profile"
+                    android:text="@string/view_profile"
                     android:textColor="@color/light_gray"
                     android:textSize="13sp"
                     app:layout_constraintStart_toEndOf="@+id/image_user"
                     app:layout_constraintTop_toBottomOf="@+id/text_user_name" />
 
-                <TextView
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
-                    android:text=">"
-                    android:textColor="@color/light_gray"
+                    android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                    android:tint="@color/light_gray"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

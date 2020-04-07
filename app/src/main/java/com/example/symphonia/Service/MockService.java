@@ -776,7 +776,8 @@ public class MockService implements APIs {
         for (int i = offset; i < Math.min(offset + limit, currentArtists.size()); i++) {
             recommendedArtists.add(currentArtists.get(i));
         }
-
+        RestApi.UpdateAddArtists listener = (RestApi.UpdateAddArtists) context;
+        listener.updateGetRecommendedArtists(recommendedArtists);
         return recommendedArtists;
 
     }
@@ -849,6 +850,7 @@ public class MockService implements APIs {
 
         return searchResult;
     }
+
 
     /**
      * Get a list of the albums saved in the current user’s ‘Your Music’ library
