@@ -30,8 +30,9 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.Foll
      *
      * @param data Arraylist of Container which has the data of the adapter
      */
-    public FollowersAdapter(ArrayList<Container> data) {
+    public FollowersAdapter(ArrayList<Container> data,ProfileFollowersItemClickListner l) {
         container = data;
+        listner=l;
     }
 
     /**
@@ -71,7 +72,7 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.Foll
     }
 
 
-    class FollowersViewHolder extends RecyclerView.ViewHolder {
+    class FollowersViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
         private TextView textView;
         private RoundedImageView imageView;
         private TextView textView2;
@@ -80,6 +81,7 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.Foll
 
         public FollowersViewHolder(@NonNull View itemView) {
             super(itemView);
+            itemView.setOnLongClickListener(this);
             //attach views
             textView = itemView.findViewById(R.id.tv_search_list_item);
             imageView = itemView.findViewById(R.id.img_search_list_item);
@@ -114,6 +116,12 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.Foll
             imageView.setImageBitmap(temp.getImg_Res());
             imageView.setOval(true);
             textView2.setText(temp.getCat_Name2());
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            listner.onProfileFollowerItemlongClickListener(container.get(getAdapterPosition()));
+            return false;
         }
     }
 }

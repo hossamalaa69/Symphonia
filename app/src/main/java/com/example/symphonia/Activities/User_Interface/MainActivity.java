@@ -1,6 +1,5 @@
 package com.example.symphonia.Activities.User_Interface;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -14,11 +13,9 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,7 +50,6 @@ import com.example.symphonia.MediaController;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.RestApi;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -818,6 +814,11 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     @Override
     public void getCurrentUserFollowing(ArrayList<Container> f, FragmentProfile fragmentProfile) {
         fragmentProfile.updateUiFollowing(f);
+    }
+
+    @Override
+    public void getCurrentUserFollowers(ArrayList<Profile> f, FragmentProfile fragmentProfile) {
+        fragmentProfile.updateUiFollowers(f);
     }
 
     /*@Override

@@ -1081,8 +1081,39 @@ public class RestApi implements APIs {
     }
 
     @Override
-    public ArrayList<Profile> getCurrentUserFollowers(Context context, FragmentProfile fragmentProfile) {
-        return null;
+    public ArrayList<Profile> getCurrentUserFollowers(Context context, final FragmentProfile fragmentProfile) {
+        final updateUiProfileInProfileFragment listener = (updateUiProfileInProfileFragment) context;
+        final ArrayList<Profile>followers=new ArrayList<>();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,Constants.Get_User_Followers
+                ,new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    listener.getCurrentUserFollowers(followers,fragmentProfile);
+                }catch (Exception e){
+                    e.fillInStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Profile", "" + error.getMessage());
+            }
+        }){
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization","Bearer "+ Constants.currentToken);
+                return headers;
+            }
+        };
+
+
+        VolleySingleton.getInstance(context).getRequestQueue().add(stringRequest);
+        return followers;
+
     }
 
     @Override
@@ -1109,7 +1140,7 @@ public class RestApi implements APIs {
     public interface updateUiProfileInProfileFragment{
         public void getCurrentProfilePlaylists(ArrayList<Container> playlists, FragmentProfile fragmentProfile);
         public void getCurrentUserFollowing(ArrayList<Container> f, FragmentProfile fragmentProfile);
-
+        public void getCurrentUserFollowers(ArrayList<Profile> f, FragmentProfile fragmentProfile);
     }
 
     public interface updateUiProfileInSetting{

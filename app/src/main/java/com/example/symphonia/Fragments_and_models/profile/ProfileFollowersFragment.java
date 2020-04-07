@@ -20,7 +20,7 @@ import com.example.symphonia.Service.ServiceController;
 
 import java.util.ArrayList;
 
-public class ProfileFollowersFragment extends Fragment {
+public class ProfileFollowersFragment extends Fragment implements FollowersAdapter.ProfileFollowersItemClickListner{
     private ArrayList<Container>data;
     private ServiceController controller;
     private RecyclerView recyclerView;
@@ -62,8 +62,15 @@ public class ProfileFollowersFragment extends Fragment {
             textView.setText(getResources().getString(R.string.Following));
             data=controller.getProfileFollowing(getContext());
         }
-        FollowersAdapter adapter=new FollowersAdapter(data);
+        FollowersAdapter adapter=new FollowersAdapter(data,this);
         recyclerView.setAdapter(adapter);
         return root;
+    }
+
+    @Override
+    public void onProfileFollowerItemlongClickListener(Container c) {
+        BottomSheetDialogProfile bottomSheet = new BottomSheetDialogProfile(c,4);
+        assert getParentFragmentManager() != null;
+        bottomSheet.show(getParentFragmentManager(),bottomSheet.getTag());
     }
 }

@@ -3,7 +3,6 @@ package com.example.symphonia.Fragments_and_models.search;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -211,10 +210,10 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
                         Drawable drawable = Utils.createSearchListBackground(getContext(),f.get(0));
 
                         // transition drawable controls the animation ov changing background
-                   TransitionDrawable td = new TransitionDrawable(new Drawable[]{trackBackgroun, drawable});
-                    trackBackgroun = drawable;
-                    resultRecycler.setBackground(td);
-                    td.startTransition(300);
+                   //ransitionDrawable td = new TransitionDrawable(new Drawable[]{trackBackgroun, drawable});
+                    //trackBackgroun = drawable;
+                    resultRecycler.setBackground(drawable);
+                    //td.startTransition(300);
                     }
                 }
                 if(controller.getArtists(getContext(),editText.getText().toString()).size()==0) artistsText.setVisibility(View.GONE);

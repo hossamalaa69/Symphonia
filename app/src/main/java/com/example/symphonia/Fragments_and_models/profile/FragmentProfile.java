@@ -22,9 +22,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Adapters.ProfilePlaylistsAdapter;
 import com.example.symphonia.Entities.Container;
+import com.example.symphonia.Entities.Profile;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
-import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
 import com.google.android.material.appbar.AppBarLayout;
 
@@ -173,6 +173,8 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
         appBarLayout.setOnClickListener(follow);
         appBarLayout.setOnTouchListener(t);
 
+        followButton.setText("FOLLOW");
+
         profileImage.setImageBitmap(profile.getImg_Res());
         //followButton.setOnClickListener(follow);
         backImg.setOnClickListener(back);
@@ -184,14 +186,14 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
         backgroundProfileName.setText(profile.getCat_Name());
         Drawable drawable=Utils.createSearchListBackground(getContext(),profile);
         background.setBackground(drawable);
-        RestApi restApi=new RestApi();
-        restApi.getCurrentUserPlaylists(getContext(),this);
-        /*LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
+        //RestApi restApi=new RestApi();
+        //restApi.getCurrentUserPlaylists(getContext(),this);
+        LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setHasFixedSize(true);
         ProfilePlaylistsAdapter adapter=new ProfilePlaylistsAdapter(controller.getFourPlaylists(getContext()),this);
-        recyclerView.setAdapter(adapter);*/
+        recyclerView.setAdapter(adapter);
         //handle animation
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             /**
@@ -258,5 +260,8 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
 
     public void updateUiFollowing(ArrayList<Container>following){
         followingNum.setText(following.size());
+    }
+    public void updateUiFollowers(ArrayList<Profile>followers){
+        followersNum.setText(followers.size());
     }
 }

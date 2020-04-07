@@ -148,6 +148,15 @@ public class BottomSheetDialogProfile extends BottomSheetDialogFragment {
             follow.setVisibility(View.VISIBLE);
             share.setVisibility(View.VISIBLE);
         }
+        else if(chooseLayout==4){
+            options2.setVisibility(View.GONE);
+            follow.setVisibility(View.GONE);
+            divider.setVisibility(View.VISIBLE);
+            following.setVisibility(View.VISIBLE);
+            hide.setVisibility(View.VISIBLE);
+            homeScreen.setVisibility(View.VISIBLE);
+            share.setVisibility(View.VISIBLE);
+        }
 
         share.setOnClickListener(new View.OnClickListener() {
             @Override

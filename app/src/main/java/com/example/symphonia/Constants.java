@@ -24,7 +24,7 @@ public class Constants {
      * debug status for app to decide which service mode will be used
      * true for MockService, false for REST APIs mode
      */
-    public final static boolean DEBUG_STATUS = false;
+    public final static boolean DEBUG_STATUS = true;
 
     //Base URL
     public final static  String BASE_URL="https://zasymphonia.ddns.net/";
@@ -49,7 +49,7 @@ public class Constants {
 
     public static final String Get_User_Following=BASE_URL+"api/v1/me/following";
 
-
+    public static final String Get_User_Followers=BASE_URL+"api/v1/Artists/5e7f76abdb66b448b4356324/followers";
 
     /**
      * made-for-you playlists link
