@@ -108,7 +108,7 @@ public class Step3Activity extends AppCompatActivity {
         else
             dob+="-" + day;
 
-        Toast.makeText(this,dob,Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this,dob,Toast.LENGTH_SHORT).show();
         i.putExtra("DOB", dob);
         startActivity(i);
     }

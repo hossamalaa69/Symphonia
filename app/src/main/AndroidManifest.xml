@@ -27,16 +27,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".Activities.User_Management.ArtistPages.EmailCheckArtistActivity"
-            android:label="@string/check_email"
-            android:parentActivityName=".Activities.User_Management.ArtistPages.ForgetPasswordArtistActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.User_Interface.MainActivity" />
-        </activity>
+
         <activity
             android:name=".Activities.User_Management.ForgetPassword.EmailCheck"
             android:label="@string/check_email"
@@ -158,6 +149,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.User_Interface.SplashScreenActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
                       <intent-filter>
                             <action android:name="android.intent.action.MAIN" />
