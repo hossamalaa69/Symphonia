@@ -149,11 +149,15 @@ public class LibraryArtistsFragment extends Fragment implements RvListArtistsAda
     @Override
     public void onResume() {
         super.onResume();
+        int oldSize = mFollowedArtists.size();
         mFollowedArtists = mServiceController.getFollowedArtists(getContext(), Constants.currentUser.getUserType(), 65535, null);
 
         mAdapter.clear();
         mAdapter.addAll(mFollowedArtists);
         mAdapter.notifyDataSetChanged();
+
+        if(oldSize < mFollowedArtists.size())
+            mArtistsList.scrollToPosition(mFollowedArtists.size());
     }
 
 

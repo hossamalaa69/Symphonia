@@ -2,6 +2,7 @@ package com.example.symphonia.Activities.User_Interface;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -49,6 +50,7 @@ import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.MediaController;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.RestApi;
+import com.example.symphonia.Service.ServiceController;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.Serializable;
@@ -245,7 +247,8 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
 
 
         mediaController = MediaController.getController();
-        checkUserType();
+        Bundle b = getIntent().getExtras();
+        checkUserType(b);
 
         // initialize bottom navigation view
         initBottomNavView();
@@ -681,7 +684,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                 .setPrimaryNavigationFragment(navHostFragment)
                 .commit();
         homeFragment = new HomeFragment();
-        //searchFragment=new SearchFragment();
+        searchFragment=new SearchFragment();
         navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -698,7 +701,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                         return true;
                     case R.id.navigation_search:
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.nav_host_fragment,new SearchFragment())
+                                .replace(R.id.nav_host_fragment,searchFragment)
                                 .commit();
                         return true;
                     case R.id.navigation_premium:
@@ -775,9 +778,20 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         return false;
     }
 
-    public void checkUserType() {
+    public void checkUserType(Bundle b) {
 
-        if (Constants.currentUser.isListenerType())
+        if(Constants.DEBUG_STATUS){
+            SharedPreferences sharedPref= getSharedPreferences("LoginPref", 0);
+            String email = sharedPref.getString("email", "");
+            boolean type = sharedPref.getBoolean("type",true);
+            ServiceController serviceController = ServiceController.getInstance();
+            boolean logged = serviceController.logIn(this,email,"12345678",type);
+            if(!logged)
+                serviceController.logIn(this,"user1@symphonia.com"
+                        ,"12345678",true);
+        }
+
+/*        if (Constants.currentUser.isListenerType())
             Toast.makeText(this, "Listener", Toast.LENGTH_SHORT).show();
         else
             Toast.makeText(this, "Artist", Toast.LENGTH_SHORT).show();
@@ -785,7 +799,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         if (Constants.currentUser.isPremuim())
             Toast.makeText(this, "Premium", Toast.LENGTH_SHORT).show();
         else
-            Toast.makeText(this, "Not Premium", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Not Premium", Toast.LENGTH_SHORT).show();*/
     }
 
     public void checkIntent(Bundle b) {

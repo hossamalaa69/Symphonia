@@ -37,7 +37,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:src="@drawable/ic_search_black_24dp"
+                android:src="@drawable/ic_search"
                 android:tint="@color/artists_search_bar_content" />
 
             <TextView

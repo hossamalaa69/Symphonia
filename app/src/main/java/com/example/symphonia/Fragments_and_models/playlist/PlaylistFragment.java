@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Adapters.RvTracksHomeAdapter;
+import com.example.symphonia.Constants;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.google.android.material.appbar.AppBarLayout;
@@ -119,7 +120,7 @@ public class PlaylistFragment extends Fragment {
             public void onClick(View v) {
                 int prev = Utils.CurrTrackInfo.TrackPosInPlaylist;
                 for (int i = 0; i < Utils.CurrPlaylist.playlist.getTracks().size(); i++) {
-                    if (!Utils.CurrPlaylist.playlist.getTracks().get(i).isHidden() && !Utils.CurrPlaylist.playlist.getTracks().get(i).isLocked()) {
+                    if (!Utils.CurrPlaylist.playlist.getTracks().get(i).isHidden() && !(Utils.CurrPlaylist.playlist.getTracks().get(i).isLocked()&&!Constants.currentUser.isPremuim())) {
                         Utils.CurrTrackInfo.TrackPosInPlaylist = i;
                         Utils.setTrackInfo(0, Utils.CurrTrackInfo.TrackPosInPlaylist, Utils.CurrPlaylist.playlist.getTracks());
                         Utils.CurrTrackInfo.prevTrackPos = Utils.CurrTrackInfo.TrackPosInPlaylist;
@@ -167,7 +168,7 @@ public class PlaylistFragment extends Fragment {
                 !Utils.CurrPlaylist.playlist.getmPlaylistTitle().matches(Utils.CurrTrackInfo.currPlaylistName)) {
             return;
         }
-        if (prev != -1 && Utils.CurrTrackInfo.currPlaylistTracks != null && !Utils.CurrTrackInfo.currPlaylistTracks.get(prev).isLocked()
+        if (prev != -1 && Utils.CurrTrackInfo.currPlaylistTracks != null && !(Utils.CurrTrackInfo.currPlaylistTracks.get(prev).isLocked()&&!Constants.currentUser.isPremuim())
         ) {
             if (prev > -1 && pos < Utils.CurrTrackInfo.currPlaylistTracks.size()) {
                 View prevView = rvTracks.getLayoutManager().getChildAt(prev);
