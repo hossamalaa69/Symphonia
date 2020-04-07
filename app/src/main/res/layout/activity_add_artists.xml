@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="@color/colorPrimary"
     tools:context=".Activities.User_Interface.AddArtistsActivity">
 
 
@@ -86,7 +87,6 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:background="@color/colorPrimary"
         android:id="@+id/rv_artists_grid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

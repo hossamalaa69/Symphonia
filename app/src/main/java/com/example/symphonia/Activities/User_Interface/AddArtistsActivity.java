@@ -158,10 +158,13 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         mArtistsList.setLayoutManager(mLayoutManager);
         mAdapter = new RvGridArtistsAdapter(mRecommendedArtists, mClickedArtists, this);
         mArtistsList.setAdapter(mAdapter);
-
+        mArtistsList.setVisibility(View.INVISIBLE);
 
         ArrayList<Artist> returnedArtists = mServiceController.getRecommendedArtists
                 (this, Constants.currentUser.getUserType(), offset, 8);
+
+        if(Constants.DEBUG_STATUS)
+            addMoreArtists(returnedArtists);
 
         if(!isOnline()) {
             CustomOfflineDialog custom_dialogOffline = new CustomOfflineDialog();
@@ -227,7 +230,6 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
                     mClickedArtists.add(selectedArtistId);
                     mServiceController.followArtistsOrUsers(this, "artist",
                             new ArrayList<String>(Collections.singletonList(selectedArtistId)));
-
 /*
                     mAdapter.notifyItemChanged(mSelectedArtistPosition);
 */
@@ -236,6 +238,8 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
                         mClickedBeforeArtists.add(selectedArtistId);
                         ArrayList<Artist> returnedArtists = mServiceController.getRecommendedArtists
                                 (this, Constants.currentUser.getUserType(), offset, 6);
+                        if(Constants.DEBUG_STATUS)
+                            addMoreArtists(returnedArtists);
                     }
                 } else {
                     mLayoutManager.scrollToPositionWithOffset(mSelectedArtistPosition, 0);
@@ -269,6 +273,9 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
                 mClickedBeforeArtists.add(clickedArtist.getId());
                 ArrayList<Artist> returnedArtists = mServiceController.getRecommendedArtists
                         (this, Constants.currentUser.getUserType(), offset, 6);
+
+                if(Constants.DEBUG_STATUS)
+                    addMoreArtists(returnedArtists);
             }
         }
         else {
@@ -322,24 +329,23 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         return false;
     }
 
-    public void addMoreArtists(){
-
-
-    }
-
-    @Override
-    public void updateGetRecommendedArtists(ArrayList<Artist> returnedArtists) {
+    public void addMoreArtists(ArrayList<Artist> returnedArtists){
         ProgressBar progressBar = findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.GONE);
-
+        mArtistsList.setVisibility(View.VISIBLE);
         boolean isMoreItem = clickedItemIndex == mRecommendedArtists.size();
         int change = (isMoreItem)? 0:1;
 
         if(returnedArtists.size() != 0) {
             offset += returnedArtists.size();
-            if(!isMoreItem) mLayoutManager.scrollToPositionWithOffset(clickedItemIndex, 0);
+            if(!isMoreItem || clickedItemIndex == 0) mLayoutManager.scrollToPositionWithOffset(clickedItemIndex, 0);
             mRecommendedArtists.addAll(clickedItemIndex + change, returnedArtists);
             mAdapter.notifyItemRangeInserted(clickedItemIndex + change, returnedArtists.size());
         }
+    }
+
+    @Override
+    public void updateGetRecommendedArtists(ArrayList<Artist> returnedArtists) {
+        addMoreArtists(returnedArtists);
     }
 }

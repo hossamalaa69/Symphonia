@@ -748,9 +748,9 @@ public class RestApi implements APIs {
     }
 
     @Override
-    public ArrayList<Artist> getRecommendedArtists(Context context, String type, final int offset, final int limit) {
+    public ArrayList<Artist> getRecommendedArtists(final Context context, String type, final int offset, final int limit) {
 
-        UpdateAddArtists listener = (UpdateAddArtists) context;
+        final UpdateAddArtists listener = (UpdateAddArtists) context;
         final ArrayList<Artist> recommendedArtists = new ArrayList<>();
 
         StringRequest request = new StringRequest(Request.Method.GET, Constants.GET_RECOMMENDED_ARTISTS, new Response.Listener<String>() {
@@ -758,16 +758,18 @@ public class RestApi implements APIs {
             public void onResponse(String response) {
                 try {
                     JSONObject root = new JSONObject(response);
-                    JSONArray artistArray = root.getJSONArray("artists");
+                    JSONObject artists = root.getJSONObject("artists");
+                    JSONArray artistArray = artists.getJSONArray("items");
                     for (int i = 0; i < artistArray.length(); i++) {
                         JSONObject artist = artistArray.getJSONObject(i);
-                        String id = artist.getString("id");
+                        String id = artist.getString("_id");
                         String name = artist.getString("name");
-                        JSONArray images = artist.getJSONArray("images");
-                        JSONObject image = images.getJSONObject(1);
-                        String imageUrl = image.getString("url");
+                        /*JSONArray images = artist.getJSONArray("images");
+                        JSONObject image = images.getJSONObject(1);*/
+                        String imageUrl = artist.getString("imageUrl");
                         recommendedArtists.add(new Artist(id, imageUrl, name));
                     }
+                    listener.updateGetRecommendedArtists(recommendedArtists);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -775,8 +777,7 @@ public class RestApi implements APIs {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("recent", "error");
-
+                Toast.makeText(context,"Error: "+ error.networkResponse.statusCode,Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
@@ -795,7 +796,6 @@ public class RestApi implements APIs {
             }
         };
         VolleySingleton.getInstance(context).getRequestQueue().add(request);
-        listener.updateGetRecommendedArtists(recommendedArtists);
         return recommendedArtists;
     }
 
