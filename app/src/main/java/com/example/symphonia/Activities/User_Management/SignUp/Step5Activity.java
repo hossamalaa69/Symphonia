@@ -117,7 +117,10 @@ public class Step5Activity extends AppCompatActivity implements RestApi.updateUi
 
         //sets input text with extracted name from email entered, then enables (next button)
         edit_text_name.setText(Utils.getNameFromEmail(mEmail));
-        enableButton();
+        if(edit_text_name.getText().toString().length()>=3)
+            enableButton();
+        else
+            lockButton();
 
         //set listeners for name input
         edit_text_name.addTextChangedListener(new TextWatcher() {
@@ -142,7 +145,7 @@ public class Step5Activity extends AppCompatActivity implements RestApi.updateUi
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if(actionId== EditorInfo.IME_ACTION_DONE){
                     //checks validity of input, then calls open next method
-                    if(edit_text_name.getText().toString().length()>=1) openNext(v);
+                    if(edit_text_name.getText().toString().length()>=3) openNext(v);
                 }
                 return false;
             }
