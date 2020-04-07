@@ -123,7 +123,7 @@ public class Step5Activity extends AppCompatActivity implements RestApi.updateUi
         edit_text_name.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 //checks if length is more than 1 char, then enables sign up button
-                if (s.length() >= 1) enableButton();
+                if (s.length() >= 3) enableButton();
                 else lockButton();
             }
 
