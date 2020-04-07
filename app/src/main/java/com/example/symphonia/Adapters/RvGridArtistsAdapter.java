@@ -105,6 +105,8 @@ public class RvGridArtistsAdapter extends RecyclerView.Adapter<RecyclerView.View
             else
                 Picasso.get()
                         .load(artist.getImageUrl())
+                        .fit()
+                        .centerCrop()
                         .placeholder(R.drawable.placeholder_artist)
                         .into(viewHolder.artistImage);
 

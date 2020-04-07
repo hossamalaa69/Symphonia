@@ -22,6 +22,7 @@ import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.symphonia.Activities.User_Interface.MainActivity;
+import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Profile;
 import com.example.symphonia.Fragments_and_models.premium.PremiumFragment;
@@ -30,11 +31,12 @@ import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.RestApi;
 import com.google.android.material.appbar.AppBarLayout;
+import com.squareup.picasso.Picasso;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SettingsFragment extends Fragment {
+public class SettingsFragment extends Fragment{
 
     private NestedScrollView nestedScrollView;
     private float firstY;
@@ -62,6 +64,8 @@ public class SettingsFragment extends Fragment {
         nestedScrollView.setNestedScrollingEnabled(false);
 
         userImg=rootView.findViewById(R.id.image_user);
+
+        userName = rootView.findViewById(R.id.text_user_name);
 
         AppBarLayout appBarLayout = rootView.findViewById(R.id.app_bar);
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
@@ -96,6 +100,7 @@ public class SettingsFragment extends Fragment {
 
         ConstraintLayout profileLayout = rootView.findViewById(R.id.layout_profile);
         userName = rootView.findViewById(R.id.text_user_name);
+
         final TextView viewProfile = rootView.findViewById(R.id.text_view_profile);
 
         RestApi restApi=new RestApi();

@@ -291,6 +291,7 @@ public class ServiceController {
 
     public ArrayList<Container>getCurrentUserPlaylists(Context context, FragmentProfile fragmentProfile){
         return mSupplier.getCurrentUserPlaylists(context,fragmentProfile);
+
     }
 
 

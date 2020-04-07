@@ -219,5 +219,6 @@
     <string name="produced_by">Produced by</string>
     <string name="source">source</string>
     <string name="report_error">Report Error</string>
+    <string name="view_profile">View Profile</string>
 
 </resources>

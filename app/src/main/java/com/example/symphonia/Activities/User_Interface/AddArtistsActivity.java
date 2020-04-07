@@ -163,9 +163,6 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         ArrayList<Artist> returnedArtists = mServiceController.getRecommendedArtists
                 (this, Constants.currentUser.getUserType(), offset, 8);
 
-        if(Constants.DEBUG_STATUS)
-            addMoreArtists(returnedArtists);
-
         if(!isOnline()) {
             CustomOfflineDialog custom_dialogOffline = new CustomOfflineDialog();
             custom_dialogOffline.showDialog(AddArtistsActivity.this, true);
@@ -238,8 +235,6 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
                         mClickedBeforeArtists.add(selectedArtistId);
                         ArrayList<Artist> returnedArtists = mServiceController.getRecommendedArtists
                                 (this, Constants.currentUser.getUserType(), offset, 6);
-                        if(Constants.DEBUG_STATUS)
-                            addMoreArtists(returnedArtists);
                     }
                 } else {
                     mLayoutManager.scrollToPositionWithOffset(mSelectedArtistPosition, 0);
@@ -274,8 +269,6 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
                 ArrayList<Artist> returnedArtists = mServiceController.getRecommendedArtists
                         (this, Constants.currentUser.getUserType(), offset, 6);
 
-                if(Constants.DEBUG_STATUS)
-                    addMoreArtists(returnedArtists);
             }
         }
         else {
@@ -329,7 +322,8 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         return false;
     }
 
-    public void addMoreArtists(ArrayList<Artist> returnedArtists){
+    @Override
+    public void updateGetRecommendedArtists(ArrayList<Artist> returnedArtists) {
         ProgressBar progressBar = findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.GONE);
         mArtistsList.setVisibility(View.VISIBLE);
@@ -342,10 +336,5 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
             mRecommendedArtists.addAll(clickedItemIndex + change, returnedArtists);
             mAdapter.notifyItemRangeInserted(clickedItemIndex + change, returnedArtists.size());
         }
-    }
-
-    @Override
-    public void updateGetRecommendedArtists(ArrayList<Artist> returnedArtists) {
-        addMoreArtists(returnedArtists);
     }
 }
