@@ -239,14 +239,21 @@ public class Step5Activity extends AppCompatActivity implements RestApi.updateUi
         //new Editor
         SharedPreferences.Editor editor= sharedPref.edit();
         //put values
-        editor.putString("token", Constants.currentToken);
-        editor.putString("name", Constants.currentUser.getmName());
-        editor.putString("email", Constants.currentUser.getmEmail());
-        editor.putString("id",Constants.currentUser.get_id());
-        editor.putBoolean("type", Constants.currentUser.isListenerType());
-        editor.putBoolean("premium", Constants.currentUser.isPremuim());
-        editor.putString("image",Constants.currentUser.getImageUrl());
+        if(!(Constants.DEBUG_STATUS)){
+            editor.putString("token", Constants.currentToken);
+            editor.putString("name", Constants.currentUser.getmName());
+            editor.putString("email", Constants.currentUser.getmEmail());
+            editor.putString("id",Constants.currentUser.get_id());
+            editor.putBoolean("type", Constants.currentUser.isListenerType());
+            editor.putBoolean("premium", Constants.currentUser.isPremuim());
+            editor.putString("image",Constants.currentUser.getImageUrl());
+         }
 
+        else{
+            editor.putString("token", Constants.currentToken);
+            editor.putString("email", Constants.currentUser.getmEmail());
+            editor.putBoolean("type", Constants.currentUser.isListenerType());
+        }
         //commits edits
         editor.apply();
 

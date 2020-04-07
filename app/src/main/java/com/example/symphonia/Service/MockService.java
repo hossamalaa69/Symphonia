@@ -305,6 +305,7 @@ public class MockService implements APIs {
                     , 65500, 40, new ArrayList<User>()
                     , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
                     , followed, new ArrayList<Album>(mAlbums), new ArrayList<Track>());
+            Constants.currentUser.setUserType("artist");
         } else {
 
             //for listener type, set different token
