@@ -217,17 +217,17 @@ public class SearchListFragment extends Fragment implements SearchResultAdapter.
                     }
                 }
                 String text=editText.getText().toString();
-                if(controller.getArtists(getContext(),text).size()==0) artistsText.setVisibility(View.GONE);
+                if(controller.getArtistsCount()==0) artistsText.setVisibility(View.GONE);
                 else artistsText.setVisibility(View.VISIBLE);
-                if(controller.getAlbums(getContext(),text).size()==0) albumsText.setVisibility(View.GONE);
+                if(controller.getAlbumsCount()==0) albumsText.setVisibility(View.GONE);
                 else albumsText.setVisibility(View.VISIBLE);
-                if(controller.getSongs(getContext(),text).size()==0) songsText.setVisibility(View.GONE);
+                if(controller.getSongsCount()==0) songsText.setVisibility(View.GONE);
                 else songsText.setVisibility(View.VISIBLE);
-                if(controller.getPlaylists(getContext(),text).size()==0) playlistsText.setVisibility(View.GONE);
+                if(controller.getPlaylistsCount()==0) playlistsText.setVisibility(View.GONE);
                 else playlistsText.setVisibility(View.VISIBLE);
-                if(controller.getGenresAndMoods(getContext(),text).size()==0) genresText.setVisibility(View.GONE);
+                if(controller.getGenresCount()==0) genresText.setVisibility(View.GONE);
                 else genresText.setVisibility(View.VISIBLE);
-                if(controller.getProfiles(getContext(),text).size()==0) profilesText.setVisibility(View.GONE);
+                if(controller.getProfilesCount()==0) profilesText.setVisibility(View.GONE);
                 else profilesText.setVisibility(View.VISIBLE);
                 eraseText.setVisibility(View.VISIBLE);
                 adapter1=new SearchResultAdapter(GetResultData(s),true,context);

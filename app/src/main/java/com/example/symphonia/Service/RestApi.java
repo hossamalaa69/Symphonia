@@ -2,7 +2,6 @@ package com.example.symphonia.Service;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -1152,6 +1151,36 @@ public class RestApi implements APIs {
     @Override
     public Profile getCurrentUserPlaylists(Context context, ProfilePlaylistsFragment profilePlaylistsFragment) {
         return null;
+    }
+
+    @Override
+    public int getArtistsCount() {
+        return 0;
+    }
+
+    @Override
+    public int getProfilessCount() {
+        return 0;
+    }
+
+    @Override
+    public int getPlaylistsCount() {
+        return 0;
+    }
+
+    @Override
+    public int getGenresCount() {
+        return 0;
+    }
+
+    @Override
+    public int getSongsCount() {
+        return 0;
+    }
+
+    @Override
+    public int getAlbumsCount() {
+        return 0;
     }
 
 

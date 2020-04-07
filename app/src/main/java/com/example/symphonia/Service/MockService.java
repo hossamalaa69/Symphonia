@@ -47,6 +47,12 @@ public class MockService implements APIs {
     private ArrayList<Container> mData;
     private ArrayList<Container> mRecentSearches;
     private ArrayList<Playlist> mPopularPlaylists;
+    private int artistsCount=0;
+    private int albumssCount=0;
+    private int songsCount=0;
+    private int profilesCount=0;
+    private int genresCount=0;
+    private int playlistsCount=0;
 
     /**
      * Array that holds some users of type listener to be mimic
@@ -484,11 +490,31 @@ public class MockService implements APIs {
 
         LinkedList<Container> resultsLinked = new LinkedList<>();
         ArrayList<Container> results = new ArrayList<>();
+        artistsCount=0;
+        albumssCount=0;
+        songsCount=0;
+        profilesCount=0;
+        genresCount=0;
+        playlistsCount=0;
         for (int i = 0; i < mData.size(); i++) {
-            if (mData.get(i).getCat_Name().startsWith(searchWord))
+            if (mData.get(i).getCat_Name().startsWith(searchWord)) {
                 resultsLinked.addFirst(mData.get(i));
-            else if (mData.get(i).getCat_Name().contains(searchWord))
+                if(mData.get(i).getCat_Name2().startsWith("Song")) songsCount++;
+                if(mData.get(i).getCat_Name2().startsWith("Album")) albumssCount++;
+                if(mData.get(i).getCat_Name2().startsWith("Artist")) artistsCount++;
+                if(mData.get(i).getCat_Name2().startsWith("Genre")) genresCount++;
+                if(mData.get(i).getCat_Name2().startsWith("Playlist")) playlistsCount++;
+                if(mData.get(i).getCat_Name2().startsWith("Profile")) profilesCount++;
+            }
+            else if (mData.get(i).getCat_Name().contains(searchWord)) {
                 resultsLinked.addLast(mData.get(i));
+                if(mData.get(i).getCat_Name2().startsWith("Song")) songsCount++;
+                if(mData.get(i).getCat_Name2().startsWith("Album")) albumssCount++;
+                if(mData.get(i).getCat_Name2().startsWith("Artist")) artistsCount++;
+                if(mData.get(i).getCat_Name2().startsWith("Genre")) genresCount++;
+                if(mData.get(i).getCat_Name2().startsWith("Playlist")) playlistsCount++;
+                if(mData.get(i).getCat_Name2().startsWith("Profile")) profilesCount++;
+            }
         }
         results.addAll(resultsLinked);
         return results;
@@ -973,4 +999,36 @@ public class MockService implements APIs {
     public Profile getCurrentUserPlaylists(Context context, ProfilePlaylistsFragment profilePlaylistsFragment) {
         return null;
     }
+
+    @Override
+    public int getArtistsCount() {
+        return artistsCount;
+    }
+
+    @Override
+    public int getProfilessCount() {
+        return profilesCount;
+    }
+
+    @Override
+    public int getPlaylistsCount() {
+        return playlistsCount;
+    }
+
+    @Override
+    public int getGenresCount() {
+        return genresCount;
+    }
+
+    @Override
+    public int getSongsCount() {
+        return songsCount;
+    }
+
+    @Override
+    public int getAlbumsCount() {
+        return albumssCount;
+    }
+
+
 }

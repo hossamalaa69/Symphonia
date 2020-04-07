@@ -252,4 +252,11 @@ public interface APIs {
     int getNumberofUserPlaylists(Context context,FragmentProfile fragmentProfile);
 
     Profile getCurrentUserPlaylists(Context context, ProfilePlaylistsFragment profilePlaylistsFragment);
+
+    int getArtistsCount();
+    int getProfilessCount();
+    int getPlaylistsCount();
+    int getGenresCount();
+    int getSongsCount();
+    int getAlbumsCount();
 }

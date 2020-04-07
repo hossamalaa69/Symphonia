@@ -292,7 +292,30 @@ public class ServiceController {
 
     public ArrayList<Container>getCurrentUserPlaylists(Context context, FragmentProfile fragmentProfile){
         return mSupplier.getCurrentUserPlaylists(context,fragmentProfile);
+    }
 
+    public int getProfilesCount(){
+        return mSupplier.getProfilessCount();
+    }
+
+    public int getPlaylistsCount(){
+        return mSupplier.getPlaylistsCount();
+    }
+
+    public int getAlbumsCount(){
+        return mSupplier.getAlbumsCount();
+    }
+
+    public int getArtistsCount(){
+        return mSupplier.getArtistsCount();
+    }
+
+    public int getGenresCount(){
+        return mSupplier.getGenresCount();
+    }
+
+    public int getSongsCount(){
+        return mSupplier.getSongsCount();
     }
 
 
