@@ -9,6 +9,7 @@ import com.example.symphonia.Entities.Category;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Track;
+import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
 
 import java.util.ArrayList;
 
@@ -286,6 +287,10 @@ public class ServiceController {
 
     public ArrayList<Container>getProfileFollowing(Context context){
         return mSupplier.getProfileFollowing(context);
+    }
+
+    public ArrayList<Container>getCurrentUserPlaylists(Context context, FragmentProfile fragmentProfile){
+        return mSupplier.getCurrentUserPlaylists(context,fragmentProfile);
     }
 
 

@@ -21,6 +21,8 @@ import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Profile;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Entities.User;
+import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
+import com.example.symphonia.Fragments_and_models.profile.ProfilePlaylistsFragment;
 import com.example.symphonia.Fragments_and_models.settings.SettingsFragment;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
@@ -635,7 +637,8 @@ public class RestApi implements APIs {
 
     @Override
     public ArrayList<Container> getFourPlaylists(Context context) {
-        return null;
+        ArrayList<Container>paylists=new ArrayList<>();
+        return paylists;
     }
 
 
@@ -741,14 +744,19 @@ public class RestApi implements APIs {
     }
 
     @Override
-    public Profile getCurrentUserProfile(Context context, SettingsFragment settingsFragment) {
-        updateUiProfileInSetting listener = (updateUiProfileInSetting) context;
+    public Profile getCurrentUserProfile(final Context context, final SettingsFragment settingsFragment) {
+        final updateUiProfileInSetting listener = (updateUiProfileInSetting) context;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constants.Get_Current_User_Profile,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
+                            String name=jsonObject.getString("name");
+                            String imgUrl=jsonObject.getString("imageUrl");
+                            Bitmap imgBitmap=fetchImage(context,imgUrl);
+                            Profile profile=new Profile(name,imgBitmap);
+                            listener.getCurrentProfile(profile,settingsFragment);
                         }catch (Exception e){
                             e.fillInStackTrace();
                         }
@@ -758,21 +766,72 @@ public class RestApi implements APIs {
             public void onErrorResponse(VolleyError error) {
                 Log.e("Profile", "" + error.getMessage());
             }
-        }){
+        })
+        {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Authorization", Constants.currentToken);
-                return headers;            }
+                return headers;
+            }
+
+           /* @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("user_id", "exampleuser01");
+                return params;
+            }*/
         }
         ;
+
 
         VolleySingleton.getInstance(context).getRequestQueue().add(stringRequest);
         Profile profile=new Profile("avad",Utils.convertToBitmap(R.drawable.blue_image));
         return profile;
     }
 
+    @Override
+    public ArrayList<Container> getCurrentUserPlaylists(Context context, FragmentProfile fragmentProfile) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Artist> getCurrentUserFollowing(Context context, FragmentProfile fragmentProfile) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Profile> getCurrentUserFollowers(Context context, FragmentProfile fragmentProfile) {
+        return null;
+    }
+
+    @Override
+    public int getNumbersoUserFollowers(Context context, FragmentProfile fragmentProfile) {
+        return 0;
+    }
+
+    @Override
+    public int getNumbersoUserFollowing(Context context, FragmentProfile fragmentProfile) {
+        return 0;
+    }
+
+    @Override
+    public int getNumberofUserPlaylists(Context context, FragmentProfile fragmentProfile) {
+        return 0;
+    }
+
+    @Override
+    public Profile getCurrentUserPlaylists(Context context, ProfilePlaylistsFragment profilePlaylistsFragment) {
+        return null;
+    }
+
+
+    public interface updateUiProfileInProfileFragment{
+        public void getCurrentProfilePlaylists(ArrayList<Container> playlists, FragmentProfile fragmentProfile);
+    }
+
     public interface updateUiProfileInSetting{
         public void getCurrentProfile(Profile profile,SettingsFragment settingsFragment);
     }
+
 }

@@ -20,6 +20,10 @@ import java.util.ArrayList;
  */
 public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.FollowersViewHolder> {
     private ArrayList<Container> container;
+    public interface ProfileFollowersItemClickListner{
+        void onProfileFollowerItemlongClickListener(Container c);//handle clicking on close image
+    }
+    private ProfileFollowersItemClickListner listner;
 
     /**
      * constructor of the adapter

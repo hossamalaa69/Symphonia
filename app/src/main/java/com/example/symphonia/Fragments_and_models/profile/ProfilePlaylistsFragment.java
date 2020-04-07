@@ -13,10 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Adapters.ProfilePlaylistsAdapter;
+import com.example.symphonia.Entities.Container;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
 
-public class ProfilePlaylistsFragment extends Fragment {
+public class ProfilePlaylistsFragment extends Fragment implements ProfilePlaylistsAdapter.ProfileplaylistItemClickListner {
     private ServiceController controller;
     private RecyclerView recyclerView;
     private ImageView backImg;
@@ -37,8 +38,16 @@ public class ProfilePlaylistsFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        ProfilePlaylistsAdapter adapter=new ProfilePlaylistsAdapter(controller.getAllPopularPlaylists(getContext()));
+        ProfilePlaylistsAdapter adapter=new ProfilePlaylistsAdapter(controller.getAllPopularPlaylists(getContext()),this);
         recyclerView.setAdapter(adapter);
         return root;
     }
+
+    @Override
+    public void onProfileItemlongClickListener(Container c) {
+        BottomSheetDialogProfile bottomSheet = new BottomSheetDialogProfile(c,3);
+        assert getParentFragmentManager() != null;
+        bottomSheet.show(getParentFragmentManager(),bottomSheet.getTag());
+    }
+
 }

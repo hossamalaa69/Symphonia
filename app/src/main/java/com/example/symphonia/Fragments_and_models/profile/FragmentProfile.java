@@ -27,12 +27,14 @@ import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
 import com.google.android.material.appbar.AppBarLayout;
 
+import java.util.ArrayList;
+
 /**
  * FragmentProfile to show the fragment_profile layout
  *  * @author Mahmoud Amr Nabil
  *  * @version 1.0
  */
-public class FragmentProfile extends Fragment {
+public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter.ProfileplaylistItemClickListner {
     private ServiceController controller;
     private Container profile;
     private LinearLayout animatedLayout;
@@ -175,11 +177,13 @@ public class FragmentProfile extends Fragment {
         backgroundProfileName.setText(profile.getCat_Name());
         Drawable drawable=Utils.createSearchListBackground(getContext(),profile);
         background.setBackground(drawable);
+
+       // controller.getCurrentUserPlaylists(getContext(),this);
         LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setHasFixedSize(true);
-        ProfilePlaylistsAdapter adapter=new ProfilePlaylistsAdapter(controller.getFourPlaylists(getContext()));
+        ProfilePlaylistsAdapter adapter=new ProfilePlaylistsAdapter(controller.getFourPlaylists(getContext()),this);
         recyclerView.setAdapter(adapter);
         //handle animation
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -229,4 +233,19 @@ public class FragmentProfile extends Fragment {
         return newColor;
     }
 
+    @Override
+    public void onProfileItemlongClickListener(Container c) {
+        BottomSheetDialogProfile bottomSheet = new BottomSheetDialogProfile(c,3);
+        assert getParentFragmentManager() != null;
+        bottomSheet.show(getParentFragmentManager(),bottomSheet.getTag());
+    }
+
+    public void updatePlaylists(ArrayList<Container> p){
+        LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setHasFixedSize(true);
+        ProfilePlaylistsAdapter adapter=new ProfilePlaylistsAdapter(p,this);
+        recyclerView.setAdapter(adapter);
+    }
 }

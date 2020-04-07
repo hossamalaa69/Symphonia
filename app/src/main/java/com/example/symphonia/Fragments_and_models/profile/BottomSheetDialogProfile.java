@@ -126,6 +126,7 @@ public class BottomSheetDialogProfile extends BottomSheetDialogFragment {
         moreShare=view.findViewById(R.id.more_share);
 
         if(chooseLayout==1){
+            options1.setVisibility(View.VISIBLE);
             divider.setVisibility(View.GONE);
             following.setVisibility(View.GONE);
             follow.setVisibility(View.GONE);
@@ -136,6 +137,16 @@ public class BottomSheetDialogProfile extends BottomSheetDialogFragment {
         else if(chooseLayout==2) {
             options1.setVisibility(View.GONE);
             options2.setVisibility(View.VISIBLE);
+        }
+        else if(chooseLayout==3){
+            options2.setVisibility(View.GONE);
+            options1.setVisibility(View.VISIBLE);
+            divider.setVisibility(View.GONE);
+            following.setVisibility(View.GONE);
+            hide.setVisibility(View.GONE);
+            homeScreen.setVisibility(View.VISIBLE);
+            follow.setVisibility(View.VISIBLE);
+            share.setVisibility(View.VISIBLE);
         }
 
         share.setOnClickListener(new View.OnClickListener() {
@@ -232,5 +243,6 @@ public class BottomSheetDialogProfile extends BottomSheetDialogFragment {
 
         return bottomSheet;
     }
+
 }
 

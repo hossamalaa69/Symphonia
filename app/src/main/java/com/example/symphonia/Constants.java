@@ -24,10 +24,10 @@ public class Constants {
      * debug status for app to decide which service mode will be used
      * true for MockService, false for REST APIs mode
      */
-    public final static boolean DEBUG_STATUS = false;
+    public final static boolean DEBUG_STATUS = true;
 
     //Base URL
-    public final static  String BASE_URL="http://ec2-54-197-122-205.compute-1.amazonaws.com/";
+    public final static  String BASE_URL="https://zasymphonia.ddns.net/";
 
     public final static  String LOG_IN_URL  = BASE_URL+"api/v1/users/login?";
 

@@ -17,13 +17,17 @@ import java.util.ArrayList;
 
 public class ProfilePlaylistsAdapter extends RecyclerView.Adapter<ProfilePlaylistsAdapter.ProfilePlaylistViewHolder> {
     private ArrayList<Container> container;
-
+    public interface ProfileplaylistItemClickListner{
+        void onProfileItemlongClickListener(Container c);//handle clicking on close image
+    }
+    private ProfileplaylistItemClickListner listner;
     /**
      *constructor of the adapter
      * @param data Arraylist of Container which has the data of the adapter
      */
-    public ProfilePlaylistsAdapter(ArrayList<Container> data) {
+    public ProfilePlaylistsAdapter(ArrayList<Container> data,ProfileplaylistItemClickListner l) {
         container = data;
+        listner=l;
     }
 
     /**
@@ -61,7 +65,7 @@ public class ProfilePlaylistsAdapter extends RecyclerView.Adapter<ProfilePlaylis
     }
 
 
-    class ProfilePlaylistViewHolder extends RecyclerView.ViewHolder {
+    class ProfilePlaylistViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
         private TextView textView;
         private RoundedImageView imageView;
         private TextView textView2;
@@ -70,6 +74,8 @@ public class ProfilePlaylistsAdapter extends RecyclerView.Adapter<ProfilePlaylis
 
         public ProfilePlaylistViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            itemView.setOnLongClickListener(this);
             //attach views
             textView=itemView.findViewById(R.id.tv_search_list_item);
             imageView=itemView.findViewById(R.id.img_search_list_item);
@@ -79,6 +85,13 @@ public class ProfilePlaylistsAdapter extends RecyclerView.Adapter<ProfilePlaylis
             show.setVisibility(View.GONE);
             delete.setVisibility(View.GONE);
         }
+
+        @Override
+        public boolean onLongClick(View v) {
+            listner.onProfileItemlongClickListener(container.get(getAdapterPosition()));
+            return true;
+        }
+
         /**
          * set text and recources in the view of the item
          * @param pos position of the item

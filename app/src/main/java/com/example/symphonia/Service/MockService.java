@@ -15,6 +15,8 @@ import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Profile;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Entities.User;
+import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
+import com.example.symphonia.Fragments_and_models.profile.ProfilePlaylistsFragment;
 import com.example.symphonia.Fragments_and_models.settings.SettingsFragment;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
@@ -930,6 +932,41 @@ public class MockService implements APIs {
 
     @Override
     public Profile getCurrentUserProfile(Context context, SettingsFragment settingsFragment) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Container> getCurrentUserPlaylists(Context context, FragmentProfile fragmentProfile) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Artist> getCurrentUserFollowing(Context context, FragmentProfile fragmentProfile) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Profile> getCurrentUserFollowers(Context context, FragmentProfile fragmentProfile) {
+        return null;
+    }
+
+    @Override
+    public int getNumbersoUserFollowers(Context context, FragmentProfile fragmentProfile) {
+        return 0;
+    }
+
+    @Override
+    public int getNumbersoUserFollowing(Context context, FragmentProfile fragmentProfile) {
+        return 0;
+    }
+
+    @Override
+    public int getNumberofUserPlaylists(Context context, FragmentProfile fragmentProfile) {
+        return 0;
+    }
+
+    @Override
+    public Profile getCurrentUserPlaylists(Context context, ProfilePlaylistsFragment profilePlaylistsFragment) {
         return null;
     }
 }

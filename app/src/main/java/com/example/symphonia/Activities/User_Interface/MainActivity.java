@@ -32,6 +32,7 @@ import com.example.symphonia.Adapters.RvBarAdapter;
 import com.example.symphonia.Adapters.RvPlaylistsHomeAdapter;
 import com.example.symphonia.Adapters.RvTracksHomeAdapter;
 import com.example.symphonia.Constants;
+import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Profile;
 import com.example.symphonia.Entities.Track;
@@ -39,6 +40,7 @@ import com.example.symphonia.Fragments_and_models.home.HomeFragment;
 import com.example.symphonia.Fragments_and_models.library.LibraryFragment;
 import com.example.symphonia.Fragments_and_models.playlist.PlaylistFragment;
 import com.example.symphonia.Fragments_and_models.premium.PremiumFragment;
+import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
 import com.example.symphonia.Fragments_and_models.search.SearchFragment;
 import com.example.symphonia.Fragments_and_models.settings.SettingsFragment;
 import com.example.symphonia.Helpers.SnapHelperOneByOne;
@@ -46,7 +48,6 @@ import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.MediaController;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.RestApi;
-import com.example.symphonia.Service.ServiceController;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.Serializable;
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         , RestApi.updateUiPlaylists
        // ,RestApi.updateUiGetCategories
         ,RestApi.updateUiProfileInSetting
+        ,RestApi.updateUiProfileInProfileFragment
         , RvBarAdapter.ItemInterface, Serializable {
 
     private RecyclerView.LayoutManager layoutManager;
@@ -844,9 +846,15 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         }
     }
 
+
+    @Override
+    public void getCurrentProfilePlaylists(ArrayList<Container> playlists, FragmentProfile fragmentProfile) {
+        fragmentProfile.updatePlaylists(playlists);
+    }
+
     @Override
     public void getCurrentProfile(Profile profile, SettingsFragment settingsFragment) {
-
+        settingsFragment.updateUiProfile(profile);
     }
 
     /*@Override

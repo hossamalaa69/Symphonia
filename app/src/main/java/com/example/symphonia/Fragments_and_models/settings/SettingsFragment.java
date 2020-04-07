@@ -177,6 +177,7 @@ public class SettingsFragment extends Fragment {
         profileLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(profileImg==null) profileImg=Utils.convertToBitmap(R.drawable.blue_image);
                 getParentFragmentManager().beginTransaction()
                         .replace(R.id.nav_host_fragment, new FragmentProfile(new Container(profileName,profileImg)))
                         .addToBackStack(null)
