@@ -36,7 +36,7 @@ public class RestApi implements APIs {
      *
      * @param context  holds context of activity that called this method
      * @param username email or username of user
-     * @param password password of userhaledali
+     * @param password password of user
      * @param mType    type of user, true for listener and false for artist
      * @return return true if data is matched
      */
@@ -54,6 +54,8 @@ public class RestApi implements APIs {
                             String id = user.getString("_id");
                             String name = user.getString("name");
                             String type = user.getString("type");
+                            String image = user.getString("imageUrl");
+                            String phone = user.getString("phone");
                             boolean premium = false;
                             if (type.equals("premium-user")) {
                                 premium = true;
@@ -67,6 +69,9 @@ public class RestApi implements APIs {
                             else{
                                 Constants.currentUser = new User(username,id, name, type.equals("user"), premium);
                                 Constants.currentUser.setUserType(type);
+                                Constants.currentUser.setImageUrl(image);
+                                Constants.currentUser.setPhone(phone);
+
                                 updateLogin.updateUiLoginSuccess();
                             }
 
@@ -80,8 +85,19 @@ public class RestApi implements APIs {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        updateLogin.updateUiLoginFail("input");
-                        Toast.makeText(context,error.toString(),Toast.LENGTH_SHORT).show();
+                        try {
+                            if(error.networkResponse.statusCode==401)
+                                updateLogin.updateUiLoginFail("input");
+                            else{
+                                Toast.makeText(context,"Error"+error.networkResponse.statusCode,Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context,"Check your internet connection",Toast.LENGTH_SHORT).show();
+                                updateLogin.updateUiLoginFail("exception");
+                            }
+                        }catch (Exception e){
+                            e.printStackTrace();
+                            Toast.makeText(context,"Check your internet connection",Toast.LENGTH_SHORT).show();
+                            updateLogin.updateUiLoginFail("exception");
+                        }
                     }
                 }) {
             @Override
@@ -203,7 +219,12 @@ public class RestApi implements APIs {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(context, error.toString(),Toast.LENGTH_SHORT).show();
+                        try{
+                            Toast.makeText(context,"Error: "+ error.networkResponse.statusCode,Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context,"Check your internet connection",Toast.LENGTH_SHORT).show();
+                        }catch (Exception e){
+                            Toast.makeText(context,"Check your internet connection",Toast.LENGTH_SHORT).show();
+                        }
                         updateUiSignUp.updateUiSignUpFailed();
                     }
                 }) {

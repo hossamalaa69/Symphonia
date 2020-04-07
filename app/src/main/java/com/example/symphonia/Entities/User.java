@@ -15,6 +15,14 @@ public class User {
 
 
     /**
+     * phone number of user
+     */
+    private String mPhone;
+    /**
+     * image url of user
+     */
+    private String mImageUrl;
+    /**
      * holds user type
      */
     private String mUserType;
@@ -536,4 +544,19 @@ public class User {
         this.mUserType = mUserType;
     }
 
+    public String getPhone() {
+        return mPhone;
+    }
+
+    public void setPhone(String mPhone) {
+        this.mPhone = mPhone;
+    }
+
+    public String getImageUrl() {
+        return mImageUrl;
+    }
+
+    public void setImageUrl(String mImageUrl) {
+        this.mImageUrl = mImageUrl;
+    }
 }
