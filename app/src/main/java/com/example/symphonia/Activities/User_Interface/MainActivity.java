@@ -791,7 +791,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                         ,"12345678",true);
         }
 
-        if (Constants.currentUser.isListenerType())
+/*        if (Constants.currentUser.isListenerType())
             Toast.makeText(this, "Listener", Toast.LENGTH_SHORT).show();
         else
             Toast.makeText(this, "Artist", Toast.LENGTH_SHORT).show();
@@ -799,7 +799,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         if (Constants.currentUser.isPremuim())
             Toast.makeText(this, "Premium", Toast.LENGTH_SHORT).show();
         else
-            Toast.makeText(this, "Not Premium", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Not Premium", Toast.LENGTH_SHORT).show();*/
     }
 
     public void checkIntent(Bundle b) {
