@@ -10,6 +10,7 @@ import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Profile;
 import com.example.symphonia.Entities.Track;
+import com.example.symphonia.Fragments_and_models.home.HomeFragment;
 import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
 import com.example.symphonia.Fragments_and_models.profile.ProfilePlaylistsFragment;
 import com.example.symphonia.Fragments_and_models.settings.SettingsFragment;
@@ -87,10 +88,10 @@ public interface APIs {
      * getter for recently-player playlist
      *
      * @param context context of hosting activity
-     * @param mToken  token of user
+     * @param fragment  token of user
      * @return recently-player  playlist
      */
-    ArrayList<Playlist> getRecentPlaylists(Context context, String mToken);
+    ArrayList<Playlist> getRecentPlaylists(Context context, HomeFragment fragment);
 
 
     /**

@@ -15,6 +15,7 @@ import com.example.symphonia.Activities.User_Management.WelcomeActivity;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.User;
 import com.example.symphonia.R;
+import com.example.symphonia.Service.ServiceController;
 
 /**
  * Activity that handles Start page with animations
@@ -44,6 +45,24 @@ public class StartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_start);
 
         SharedPreferences sharedPref= getSharedPreferences("LoginPref", 0);
+
+        if(Constants.DEBUG_STATUS){
+            String token = sharedPref.getString("token","");
+            String email = sharedPref.getString("email", "");
+            boolean type = sharedPref.getBoolean("type", true);
+            if(!(token.equals(""))){
+                ServiceController serviceController = ServiceController.getInstance();
+                serviceController.logIn(this, email,
+                        "12345678", type);
+
+
+                Intent i = new Intent(this, MainActivity.class);
+                startActivity(i);
+
+            }
+        }
+
+
         String token = sharedPref.getString("token","");
         String id = sharedPref.getString("id","");
         String name = sharedPref.getString("name", "");
@@ -54,6 +73,7 @@ public class StartActivity extends AppCompatActivity {
 
         if(!(token.equals("")))
         {
+
             Constants.currentToken = token;
             Constants.currentUser = new User(email,id,name,type,premium);
             Constants.currentUser.setImageUrl(image);

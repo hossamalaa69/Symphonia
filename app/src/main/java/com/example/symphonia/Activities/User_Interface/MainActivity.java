@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     }
 
     @Override
-    public void updateUiGetRecentPlaylistsSuccess() {
+    public void updateUiGetRecentPlaylistsSuccess(HomeFragment homeFragment) {
         if (navView.getSelectedItemId() == R.id.navigation_home)
             homeFragment.updateRecentPlaylists();
     }

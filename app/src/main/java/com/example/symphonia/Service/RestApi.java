@@ -2,6 +2,7 @@ package com.example.symphonia.Service;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Profile;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Entities.User;
+import com.example.symphonia.Fragments_and_models.home.HomeFragment;
 import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
 import com.example.symphonia.Fragments_and_models.profile.ProfilePlaylistsFragment;
 import com.example.symphonia.Fragments_and_models.settings.SettingsFragment;
@@ -90,16 +92,16 @@ public class RestApi implements APIs {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         try {
-                            if(error.networkResponse.statusCode==401)
+                            if (error.networkResponse.statusCode == 401)
                                 updateLogin.updateUiLoginFail("input");
-                            else{
-                                Toast.makeText(context,"Error"+error.networkResponse.statusCode,Toast.LENGTH_SHORT).show();
-                                Toast.makeText(context,"Check your internet connection",Toast.LENGTH_SHORT).show();
+                            else {
+                                Toast.makeText(context, "Error" + error.networkResponse.statusCode, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Check your internet connection", Toast.LENGTH_SHORT).show();
                                 updateLogin.updateUiLoginFail("exception");
                             }
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             e.printStackTrace();
-                            Toast.makeText(context,"Check your internet connection",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Check your internet connection", Toast.LENGTH_SHORT).show();
                             updateLogin.updateUiLoginFail("exception");
                         }
                     }
@@ -218,7 +220,7 @@ public class RestApi implements APIs {
                             updateUiSignUp.updateUiSignUpSuccess();
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(context,"Check your internet connection",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Check your internet connection", Toast.LENGTH_SHORT).show();
                             updateUiSignUp.updateUiSignUpFailed();
                         }
                     }
@@ -226,11 +228,11 @@ public class RestApi implements APIs {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        try{
-                            Toast.makeText(context,"Error: "+ error.networkResponse.statusCode,Toast.LENGTH_SHORT).show();
-                            Toast.makeText(context,"Failed",Toast.LENGTH_SHORT).show();
-                        }catch (Exception e){
-                            Toast.makeText(context,"Failed",Toast.LENGTH_SHORT).show();
+                        try {
+                            Toast.makeText(context, "Error: " + error.networkResponse.statusCode, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
                         }
                         updateUiSignUp.updateUiSignUpFailed();
                     }
@@ -257,6 +259,7 @@ public class RestApi implements APIs {
 
     public interface updateUiSignUp {
         void updateUiSignUpSuccess();
+
         void updateUiSignUpFailed();
     }
 
@@ -272,7 +275,7 @@ public class RestApi implements APIs {
 
         void updateUiGetRandomPlaylistsFail();
 
-        void updateUiGetRecentPlaylistsSuccess();
+        void updateUiGetRecentPlaylistsSuccess(HomeFragment homeFragment);
 
         void updateUiGetRecentPlaylistsFail();
 
@@ -425,36 +428,39 @@ public class RestApi implements APIs {
      * getter for recently-player playlist
      *
      * @param context context of hosting activity
-     * @param mToken  token of user
+     * @param fragment  token of user
      * @return recently-player  playlist
      */
     @Override
-    public ArrayList<Playlist> getRecentPlaylists(final Context context, String mToken) {
+    public ArrayList<Playlist> getRecentPlaylists(final Context context, final HomeFragment fragment) {
         Log.e("recent", "start");
-
-        final updateUiPlaylists listener = (updateUiPlaylists) context;
         final ArrayList<Playlist> recentPlaylists = new ArrayList<>();
         //TODO  backend still under working
-        StringRequest request = new StringRequest(Request.Method.GET, Utils.categories.get(0).getCat_Name(), new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.GET, Constants.GET_RECENT_PLAYLISTS, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
+                    Log.e("recent", "respond");
+                    Utils.LoadedPlaylists.recentPlaylists = new ArrayList<>();
+                    updateUiPlaylists listener = (updateUiPlaylists) context;
                     JSONObject root = new JSONObject(response);
-                    JSONObject playlistsObj = root.getJSONObject("playlists");
+                    JSONObject playlistsObj = root.getJSONObject("history");
                     JSONArray playlists = playlistsObj.getJSONArray("items");
                     for (int i = 0; i < playlists.length(); i++) {
                         JSONObject playlist = playlists.getJSONObject(i);
-                        String title = playlist.getString("name");
-                        String decs = playlist.getString("description");
-                        JSONArray images = playlist.getJSONArray("images");
-                        JSONObject image = images.getJSONObject(0);
-                        String imageUrl = image.getString("url");
-                        String id = playlist.getString("_id");
-                        JSONObject tracks = playlist.getJSONObject("tracks");
-                        String tracksUrl = tracks.getString("href");
-                        recentPlaylists.add(new Playlist(title, id, decs, imageUrl, null, tracksUrl));
-                        listener.updateUiGetRecentPlaylistsSuccess();
+                        JSONObject context = playlist.optJSONObject("context");
+                        if (context != null) {
+                            String title = context.getString("name");
+                            String decs = context.optString("description");
+                            JSONArray images = context.getJSONArray("images");
+                            String imageUrl = (String) images.get(0);
+                            String id = context.getString("_id");
+                            Utils.LoadedPlaylists.recentPlaylists.add(new Playlist(title, id, decs, imageUrl,
+                                    null, Constants.BASE_URL + Constants.GET_PLAYLISTS_TRACKS + id + "/tracks"));
+                        }
                     }
+                    Log.e("recent", "success");
+                    listener.updateUiGetRecentPlaylistsSuccess(fragment);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -469,7 +475,7 @@ public class RestApi implements APIs {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", Constants.currentToken);
+                headers.put("Authorization", "Bearer " + Constants.currentToken);
                 return headers;
             }
 
@@ -493,6 +499,8 @@ public class RestApi implements APIs {
      */
     @Override
     public ArrayList<Playlist> getRandomPlaylists(final Context context, String mToken) {
+        Log.e("rand", "start");
+
         final updateUiPlaylists listener = (updateUiPlaylists) context;
         final ArrayList<Playlist> randomPlaylists = new ArrayList<>();
         //TODO  backend still under working
@@ -500,6 +508,8 @@ public class RestApi implements APIs {
             @Override
             public void onResponse(String response) {
                 try {
+                    Log.e("rand", "respond");
+
                     JSONArray playlists = new JSONArray(response);
                     for (int i = 0; i < playlists.length(); i++) {
                         JSONObject playlist = playlists.getJSONObject(i);
@@ -510,9 +520,10 @@ public class RestApi implements APIs {
                         JSONObject image = images.getJSONObject(0);
                         String imageUrl = image.getString("url");
                         randomPlaylists.add(new Playlist(title, id, "", imageUrl,
-                                null, Constants.BASE_URL + Constants.GET_PLAYLISTS_TRACKS + "/id" + "/tracks"));
-                        listener.updateUiGetRandomPlaylistsSuccess();
+                                null, Constants.BASE_URL + Constants.GET_PLAYLISTS_TRACKS + id + "/tracks"));
                     }
+                    Log.e("rand", "success");
+                    listener.updateUiGetRandomPlaylistsSuccess();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -520,18 +531,20 @@ public class RestApi implements APIs {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.e("rand", "error");
+
             }
         }) {
-            /*@Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", Constants.currentToken);
-                return headers;
-            }*/
+            /* @Override
+             public Map<String, String> getHeaders() {
+                 Map<String, String> headers = new HashMap<>();
+                 headers.put("Authorization", "Bearer " + Constants.currentToken);
+                 return headers;
+             }*/
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("number", "10");
+                params.put("number", "2");
                 return params;
             }
         };
@@ -627,7 +640,7 @@ public class RestApi implements APIs {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", Constants.currentToken);
+                headers.put("Authorization", "Bearer " + Constants.currentToken);
                 return headers;
             }
 
@@ -834,7 +847,7 @@ public class RestApi implements APIs {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context,"Error: "+ error.networkResponse.statusCode,Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Error: " + error.networkResponse.statusCode, Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
@@ -857,7 +870,7 @@ public class RestApi implements APIs {
         return recommendedArtists;
     }
 
-    public interface UpdateAddArtists{
+    public interface UpdateAddArtists {
         void updateGetRecommendedArtists(ArrayList<Artist> returnedArtists);
     }
 

@@ -10,17 +10,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
 /**
  * class tha adapt recycler view of tracks
  *
  * @author Khaled Ali
- * @since 22-3-2020
  * @version 1.0
+ * @since 22-3-2020
  */
 public class RvPlaylistsHomeAdapter extends RecyclerView.Adapter<RvPlaylistsHomeAdapter.Holder> {
 
@@ -39,8 +41,9 @@ public class RvPlaylistsHomeAdapter extends RecyclerView.Adapter<RvPlaylistsHome
 
     /**
      * non empty constructor
+     *
      * @param context context of hosting activity
-     * @param list arrayList of playlists that would be represented
+     * @param list    arrayList of playlists that would be represented
      */
     public RvPlaylistsHomeAdapter(Context context, ArrayList<Playlist> list) {
         this.mPlaylists = list;
@@ -50,8 +53,9 @@ public class RvPlaylistsHomeAdapter extends RecyclerView.Adapter<RvPlaylistsHome
 
     /**
      * this function inflates the view the will hold each track information
-     * @param parent viewGroup that hold each viewItem
-     * @param viewType  type of view
+     *
+     * @param parent   viewGroup that hold each viewItem
+     * @param viewType type of view
      * @return Holder that holds each view
      */
     @NonNull
@@ -63,7 +67,8 @@ public class RvPlaylistsHomeAdapter extends RecyclerView.Adapter<RvPlaylistsHome
 
     /**
      * this function is called for binding holders
-     * @param holder holder that would bind with data
+     *
+     * @param holder   holder that would bind with data
      * @param position position of holder in recycler view
      */
     @Override
@@ -97,6 +102,7 @@ public class RvPlaylistsHomeAdapter extends RecyclerView.Adapter<RvPlaylistsHome
 
         /**
          * non empty constructor
+         *
          * @param itemView view that holds item
          */
         public Holder(@NonNull View itemView) {
@@ -116,11 +122,15 @@ public class RvPlaylistsHomeAdapter extends RecyclerView.Adapter<RvPlaylistsHome
             if (mPlaylists.get(pos).getmPlaylistImage() == null) {
                 ivPlaylistImage.setImageResource(R.drawable.no_image);
             }
-            Picasso.get()
-                    .load(mPlaylists.get(pos).getImageUrl())
-                    .fit()
-                    .centerCrop()
-                    .into(ivPlaylistImage);
+            if (!Constants.DEBUG_STATUS)
+                Picasso.get()
+                        .load(mPlaylists.get(pos).getImageUrl())
+                        .fit()
+                        .centerCrop()
+                        .into(ivPlaylistImage);
+            else {
+                ivPlaylistImage.setImageBitmap(mPlaylists.get(pos).getmPlaylistImage());
+            }
 
             if (mPlaylists.get(pos).getmPlaylistTitle() == null) {
                 tvPlaylistTitle.setVisibility(View.GONE);
@@ -136,6 +146,7 @@ public class RvPlaylistsHomeAdapter extends RecyclerView.Adapter<RvPlaylistsHome
 
         /**
          * this function is called when user click on item
+         *
          * @param view takes view that is clicked
          */
         @Override

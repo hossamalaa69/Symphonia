@@ -76,6 +76,15 @@ public class Utils {
          * current clicked playlist
          */
         public static Playlist playlist = null;
+
+    }
+
+    public static class LoadedPlaylists{
+        public static ArrayList<Playlist> randomPlaylists;
+        public static ArrayList<Playlist> madeForYouPlaylists;
+        public static ArrayList<Playlist> recentPlaylists;
+        public static ArrayList<Playlist> popularPlaylists;
+
     }
 
     /**
