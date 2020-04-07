@@ -273,8 +273,8 @@ public class LoginActivity extends AppCompatActivity implements RestApi.updateUi
 //        Intent i = new Intent(this, MainActivity.class);
 //        startActivity(i);
 
-        Intent i = new Intent(this, AddArtistsActivity.class);
-        i.putExtra("newUser", "true");
+        Intent i = new Intent(this, MainActivity.class);
+        //i.putExtra("newUser", "true");
         startActivity(i);
     }
 

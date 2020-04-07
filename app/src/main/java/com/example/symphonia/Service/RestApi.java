@@ -207,7 +207,7 @@ public class RestApi implements APIs {
                                     , new ArrayList<Artist>(), new ArrayList<Album>(), new ArrayList<Track>());
 
                             Constants.currentUser.setUserType(type);
-                            Toast.makeText(context, "Done sign up", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Signed up successfully", Toast.LENGTH_SHORT).show();
                             updateUiSignUp.updateUiSignUpSuccess();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -221,9 +221,9 @@ public class RestApi implements APIs {
                     public void onErrorResponse(VolleyError error) {
                         try{
                             Toast.makeText(context,"Error: "+ error.networkResponse.statusCode,Toast.LENGTH_SHORT).show();
-                            Toast.makeText(context,"Check your internet connection",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context,"Failed",Toast.LENGTH_SHORT).show();
                         }catch (Exception e){
-                            Toast.makeText(context,"Check your internet connection",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context,"Failed",Toast.LENGTH_SHORT).show();
                         }
                         updateUiSignUp.updateUiSignUpFailed();
                     }

@@ -57,8 +57,8 @@ public class StartActivity extends AppCompatActivity {
             Constants.currentToken = token;
             Constants.currentUser = new User(email,id,name,type,premium);
 
-            Toast.makeText(this,Constants.currentUser.getmEmail(),Toast.LENGTH_SHORT).show();
-            Toast.makeText(this,"token: "+Constants.currentToken,Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Welcome: "+Constants.currentUser.getmEmail(),Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this,"token: "+Constants.currentToken,Toast.LENGTH_SHORT).show();
 
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
