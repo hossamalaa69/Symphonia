@@ -17,10 +17,11 @@
         android:id="@+id/image_album"
         android:layout_width="@dimen/library_item_size"
         android:layout_height="@dimen/library_item_size"
+        android:background="@color/dark_gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/amr" />
+        android:src="@drawable/placeholder_album" />
 
     <TextView
         android:id="@+id/text_album_name"

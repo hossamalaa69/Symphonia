@@ -1,6 +1,7 @@
 package com.example.symphonia.Activities.User_Management.SignUp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -16,10 +17,12 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.symphonia.Activities.User_Interface.AddArtistsActivity;
+import com.example.symphonia.Activities.User_Interface.StartActivity;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Helpers.CustomOfflineDialog;
 import com.example.symphonia.Helpers.Utils;
@@ -40,6 +43,11 @@ public class Step5Activity extends AppCompatActivity implements RestApi.updateUi
     @Override
     public void updateUiSignUpSuccess() {
         createMail();
+    }
+
+    @Override
+    public void updateUiSignUpFailed() {
+        showButton();
     }
 
     /**
@@ -109,13 +117,16 @@ public class Step5Activity extends AppCompatActivity implements RestApi.updateUi
 
         //sets input text with extracted name from email entered, then enables (next button)
         edit_text_name.setText(Utils.getNameFromEmail(mEmail));
-        enableButton();
+        if(edit_text_name.getText().toString().length()>=3)
+            enableButton();
+        else
+            lockButton();
 
         //set listeners for name input
         edit_text_name.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 //checks if length is more than 1 char, then enables sign up button
-                if (s.length() >= 1) enableButton();
+                if (s.length() >= 3) enableButton();
                 else lockButton();
             }
 
@@ -134,7 +145,7 @@ public class Step5Activity extends AppCompatActivity implements RestApi.updateUi
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if(actionId== EditorInfo.IME_ACTION_DONE){
                     //checks validity of input, then calls open next method
-                    if(edit_text_name.getText().toString().length()>=1) openNext(v);
+                    if(edit_text_name.getText().toString().length()>=3) openNext(v);
                 }
                 return false;
             }
@@ -165,6 +176,16 @@ public class Step5Activity extends AppCompatActivity implements RestApi.updateUi
         mName = edit_text_name.getText().toString();
         boolean userType;
         userType = mUser.equals("Listener");
+
+//        Toast.makeText(this,mName,Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this,mEmail,Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this,mPassword,Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this,mDOB,Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this,mGender,Toast.LENGTH_SHORT).show();
+//        if(userType)
+//            Toast.makeText(this,"user",Toast.LENGTH_SHORT).show();
+//        else
+//            Toast.makeText(this,"artist",Toast.LENGTH_SHORT).show();
 
         //calls sign up function to make a new account
         serviceController.signUp(this, userType, mEmail, mPassword, mDOB, mGender, mName);
@@ -206,7 +227,26 @@ public class Step5Activity extends AppCompatActivity implements RestApi.updateUi
         return false;
     }
 
+    public void showButton(){
+        progressBar.setVisibility(View.GONE);
+        btn_signUp.setVisibility(View.VISIBLE);
+    }
+
     public void createMail(){
+
+        // Creates object of SharedPreferences.
+        SharedPreferences sharedPref= getSharedPreferences("LoginPref", 0);
+        //new Editor
+        SharedPreferences.Editor editor= sharedPref.edit();
+        //put values
+        editor.putString("token", Constants.currentToken);
+        editor.putString("name", Constants.currentUser.getmName());
+        editor.putString("email", Constants.currentUser.getmEmail());
+        editor.putString("id",Constants.currentUser.get_id());
+        editor.putBoolean("type", Constants.currentUser.isListenerType());
+        editor.putBoolean("premium", Constants.currentUser.isPremuim());
+        //commits edits
+        editor.apply();
 
 
 //        btn_signUp.setVisibility(View.VISIBLE);

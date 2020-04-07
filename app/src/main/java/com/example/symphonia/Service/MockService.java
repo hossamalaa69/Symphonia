@@ -941,7 +941,7 @@ public class MockService implements APIs {
     }
 
     @Override
-    public ArrayList<Artist> getCurrentUserFollowing(Context context, FragmentProfile fragmentProfile) {
+    public ArrayList<Container> getCurrentUserFollowing(Context context, FragmentProfile fragmentProfile) {
         return null;
     }
 

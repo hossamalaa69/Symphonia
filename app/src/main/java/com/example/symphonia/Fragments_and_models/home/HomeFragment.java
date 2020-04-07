@@ -106,9 +106,9 @@ public class HomeFragment extends Fragment {
     public void loadAllPlaylists() {
         ServiceController SController = ServiceController.getInstance();
         playlists = SController.getRandomPlaylists(getContext(), Constants.currentToken);
-        popularPlaylists = SController.getPopularPlaylists(getContext(), Constants.currentToken);
-        recentPlaylists = SController.getRecentPlaylists(getContext(), Constants.currentToken);
-        madeForYouPlaylists = SController.getMadeForYoutPlaylists(getContext(), Constants.currentToken);
+    //    popularPlaylists = SController.getPopularPlaylists(getContext(), Constants.currentToken);
+    //    recentPlaylists = SController.getRecentPlaylists(getContext(), Constants.currentToken);
+    //    madeForYouPlaylists = SController.getMadeForYoutPlaylists(getContext(), Constants.currentToken);
 
     }
 
@@ -128,9 +128,9 @@ public class HomeFragment extends Fragment {
 
         //----------------------
         loadAllPlaylists();
-        updateRecentPlaylists();
-        updateMadeForYouPlaylists();
-        updatePopularPlaylists();
+   //     updateRecentPlaylists();
+   //     updateMadeForYouPlaylists();
+   //     updatePopularPlaylists();
         updateRandomPlaylists();
 
     }
@@ -145,7 +145,6 @@ public class HomeFragment extends Fragment {
         rvRecentlyPlayed.setLayoutManager(layoutManager);
         rvPlaylistsHomeAdapter = new RvPlaylistsHomeAdapter(getContext(), recentPlaylists);
         rvRecentlyPlayed.setAdapter(rvPlaylistsHomeAdapter);
-
     }
 
     public void updatePopularPlaylists() {

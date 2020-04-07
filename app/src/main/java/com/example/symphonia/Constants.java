@@ -24,14 +24,14 @@ public class Constants {
      * debug status for app to decide which service mode will be used
      * true for MockService, false for REST APIs mode
      */
-    public final static boolean DEBUG_STATUS = true;
+    public final static boolean DEBUG_STATUS = false;
 
     //Base URL
     public final static  String BASE_URL="https://zasymphonia.ddns.net/";
 
     public final static  String LOG_IN_URL  = BASE_URL+"api/v1/users/login?";
 
-    public final static  String SIGN_UP_URL = BASE_URL+"api/v1/users/signUp?";
+    public final static  String SIGN_UP_URL = BASE_URL+"api/v1/users/signup?";
 
     public final static String EMAIL_EXISTS_URL = BASE_URL+"api/v1/users/email-exist?";
 
@@ -43,12 +43,24 @@ public class Constants {
 
     public static final String Get_Current_User_Profile=BASE_URL+"api/v1/me";
 
+    public static final String Get_Current_User_Profile_playlists=BASE_URL+"api/v1/me/playlists";
+
+    public static final String Get_playlist=BASE_URL+"api/v1/playlists";
+
+    public static final String Get_User_Following=BASE_URL+"api/v1/me/following";
+
+
 
     /**
      * made-for-you playlists link
      */
     public static  final  String GET_M_F_Y_PLAYLISTS = BASE_URL + "api/v1/browse/categories/party/playlists?";
 
-    public static  final  String GET_RANDOM_PLAYLISTS = BASE_URL + "api/v1/browse/categories/party/playlists?";
+    public static  final  String GET_RANDOM_PLAYLISTS = BASE_URL + "api/v1/playlists/rand?";
 
+    public static final String GET_RECOMMENDED_ARTISTS = BASE_URL + "api/v1/browse/artists";
+
+    public static final String FOLLOW_ARTIST_URL = BASE_URL + "api/v1/me/following";
+
+    public static final  String    GET_PLAYLISTS_TRACKS = BASE_URL +"api/v1/playlists/";
 }

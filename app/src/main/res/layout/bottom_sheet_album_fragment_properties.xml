@@ -148,7 +148,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:paddingRight="32dp"
-                android:tint="#80FFFFFF"
+                android:tint="#70FFFFFF"
                 android:src="@drawable/ic_artist"
                 android:paddingEnd="32dp" />
 
@@ -208,7 +208,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:paddingRight="32dp"
-                android:tint="#80FFFFFF"
+                android:tint="#70FFFFFF"
                 android:src="@drawable/ic_share_outlined"
                 android:paddingEnd="32dp" />
 

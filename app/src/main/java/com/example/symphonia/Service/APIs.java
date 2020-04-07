@@ -239,7 +239,7 @@ public interface APIs {
 
     ArrayList<Container> getCurrentUserPlaylists(Context context, FragmentProfile fragmentProfile);
 
-    ArrayList<Artist> getCurrentUserFollowing(Context context, FragmentProfile fragmentProfile);
+    ArrayList<Container> getCurrentUserFollowing(Context context, FragmentProfile fragmentProfile);
 
     ArrayList<Profile> getCurrentUserFollowers(Context context, FragmentProfile fragmentProfile);
 

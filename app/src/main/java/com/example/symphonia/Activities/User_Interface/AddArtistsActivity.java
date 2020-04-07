@@ -21,6 +21,7 @@ import com.example.symphonia.R;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Adapters.GridSpacingItemDecorationAdapter;
 import com.example.symphonia.Adapters.RvGridArtistsAdapter;
+import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
 import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
 import java.util.ArrayList;
@@ -36,7 +37,8 @@ import java.util.Collections;
  * @author islamahmed1092
  * @version 1.0
  */
-public class AddArtistsActivity extends AppCompatActivity implements RvGridArtistsAdapter.ListItemClickListener {
+public class AddArtistsActivity extends AppCompatActivity implements RvGridArtistsAdapter.ListItemClickListener
+        , RestApi.UpdateAddArtists {
 
     /**
      * Static final variable for opened subActivity to get the result from it
@@ -97,6 +99,8 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
 
     private int offset = 0;
 
+    private int clickedItemIndex = 0;
+
     /**
      * initialize the ui of the activity
      *
@@ -143,15 +147,6 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         mClickedArtists = new ArrayList<>();
         mClickedBeforeArtists = new ArrayList<>();
 
-        ArrayList<Artist> returnedArtists = mServiceController.getRecommendedArtists
-                (this, Constants.currentUser.getUserType(), offset, 5);
-
-        offset += returnedArtists.size();
-        mRecommendedArtists.addAll(returnedArtists);
-
-        ProgressBar progressBar = findViewById(R.id.progress_bar);
-        progressBar.setVisibility(View.GONE);
-
         // preparing the recyclerview and its components
         mArtistsList = findViewById(R.id.rv_artists_grid);
         mItemDecoration = new GridSpacingItemDecorationAdapter(3,
@@ -163,6 +158,13 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         mArtistsList.setLayoutManager(mLayoutManager);
         mAdapter = new RvGridArtistsAdapter(mRecommendedArtists, mClickedArtists, this);
         mArtistsList.setAdapter(mAdapter);
+        mArtistsList.setVisibility(View.INVISIBLE);
+
+        ArrayList<Artist> returnedArtists = mServiceController.getRecommendedArtists
+                (this, Constants.currentUser.getUserType(), offset, 8);
+
+        if(Constants.DEBUG_STATUS)
+            addMoreArtists(returnedArtists);
 
         if(!isOnline()) {
             CustomOfflineDialog custom_dialogOffline = new CustomOfflineDialog();
@@ -223,19 +225,21 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
                 else {
                     mRecommendedArtists.add(0, selectedArtist);
                 }
-
+                clickedItemIndex = mSelectedArtistPosition;
                 if(!mClickedArtists.contains(selectedArtistId)) {
                     mClickedArtists.add(selectedArtistId);
                     mServiceController.followArtistsOrUsers(this, "artist",
                             new ArrayList<String>(Collections.singletonList(selectedArtistId)));
-
 /*
                     mAdapter.notifyItemChanged(mSelectedArtistPosition);
 */
                     if(mClickedArtists.size() >= 3) mButtonDone.setVisibility(View.VISIBLE);
                     if(!mClickedBeforeArtists.contains(selectedArtistId)){
                         mClickedBeforeArtists.add(selectedArtistId);
-                        addMoreArtists(mSelectedArtistPosition, false);
+                        ArrayList<Artist> returnedArtists = mServiceController.getRecommendedArtists
+                                (this, Constants.currentUser.getUserType(), offset, 6);
+                        if(Constants.DEBUG_STATUS)
+                            addMoreArtists(returnedArtists);
                     }
                 } else {
                     mLayoutManager.scrollToPositionWithOffset(mSelectedArtistPosition, 0);
@@ -255,6 +259,7 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
      */
     @Override
     public void onListItemClick(View itemView, int clickedItemIndex) {
+        this.clickedItemIndex = clickedItemIndex;
         View checkImage = itemView.findViewById(R.id.image_check);
         Artist clickedArtist = mRecommendedArtists.get(clickedItemIndex);
 
@@ -266,7 +271,11 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
             checkImage.setVisibility(View.VISIBLE);
             if(!mClickedBeforeArtists.contains(clickedArtist.getId())){
                 mClickedBeforeArtists.add(clickedArtist.getId());
-                addMoreArtists(clickedItemIndex, false);
+                ArrayList<Artist> returnedArtists = mServiceController.getRecommendedArtists
+                        (this, Constants.currentUser.getUserType(), offset, 6);
+
+                if(Constants.DEBUG_STATUS)
+                    addMoreArtists(returnedArtists);
             }
         }
         else {
@@ -288,7 +297,9 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
 
     @Override
     public void onMoreForeYouClick(int clickedItemIndex) {
-        addMoreArtists(clickedItemIndex, true);
+        this.clickedItemIndex = clickedItemIndex;
+        ArrayList<Artist> returnedArtists = mServiceController.getRecommendedArtists
+                (this, Constants.currentUser.getUserType(), offset, 6);
     }
 
 
@@ -318,17 +329,23 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         return false;
     }
 
-    public void addMoreArtists(int clickedItemIndex, boolean isMoreItem){
-        ArrayList<Artist> returnedArtists = mServiceController.getRecommendedArtists
-                (this, Constants.currentUser.getUserType(), offset, 6);
-
+    public void addMoreArtists(ArrayList<Artist> returnedArtists){
+        ProgressBar progressBar = findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.GONE);
+        mArtistsList.setVisibility(View.VISIBLE);
+        boolean isMoreItem = clickedItemIndex == mRecommendedArtists.size();
         int change = (isMoreItem)? 0:1;
 
         if(returnedArtists.size() != 0) {
             offset += returnedArtists.size();
-            if(!isMoreItem) mLayoutManager.scrollToPositionWithOffset(clickedItemIndex, 0);
+            if(!isMoreItem || clickedItemIndex == 0) mLayoutManager.scrollToPositionWithOffset(clickedItemIndex, 0);
             mRecommendedArtists.addAll(clickedItemIndex + change, returnedArtists);
             mAdapter.notifyItemRangeInserted(clickedItemIndex + change, returnedArtists.size());
         }
+    }
+
+    @Override
+    public void updateGetRecommendedArtists(ArrayList<Artist> returnedArtists) {
+        addMoreArtists(returnedArtists);
     }
 }

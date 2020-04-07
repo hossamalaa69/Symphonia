@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -92,9 +93,22 @@ public class Step3Activity extends AppCompatActivity {
         i.putExtra("password", mPassword);
         String dob = "";
         //concatinates DOB in one string
-        dob +=""+ mDatePicker.getDayOfMonth()+'/';
-        dob +=""+ mDatePicker.getMonth()+1+'/';
+        int month = mDatePicker.getMonth()+1;
+        int day = mDatePicker.getDayOfMonth();
+
         dob +=""+ mDatePicker.getYear();
+
+        if(month<10)
+            dob +="-0"+month;
+        else
+            dob +="-"+ month;
+
+        if(day<10)
+            dob +="-0"+ day;
+        else
+            dob+="-" + day;
+
+        Toast.makeText(this,dob,Toast.LENGTH_SHORT).show();
         i.putExtra("DOB", dob);
         startActivity(i);
     }

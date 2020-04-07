@@ -24,6 +24,7 @@ import com.example.symphonia.Adapters.ProfilePlaylistsAdapter;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
+import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
 import com.google.android.material.appbar.AppBarLayout;
 
@@ -53,6 +54,9 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
     private ImageView options;
     private double x;
     private double y;
+    private TextView playlistsNum;
+    private TextView followersNum;
+    private TextView followingNum;
 
     private View.OnClickListener showOptions=new View.OnClickListener() {
         @Override
@@ -161,6 +165,9 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
         backImg=root.findViewById(R.id.img_back_profile);
         followButton=root.findViewById(R.id.btn_profile_follow);
         options=root.findViewById(R.id.profile_options_menu);
+        playlistsNum=root.findViewById(R.id.number_of_playlists);
+        followersNum=root.findViewById(R.id.number_of_followers);
+        followingNum=root.findViewById(R.id.number_of_following);
 
         options.setOnClickListener(showOptions);
         appBarLayout.setOnClickListener(follow);
@@ -177,14 +184,14 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
         backgroundProfileName.setText(profile.getCat_Name());
         Drawable drawable=Utils.createSearchListBackground(getContext(),profile);
         background.setBackground(drawable);
-
-       // controller.getCurrentUserPlaylists(getContext(),this);
-        LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
+        RestApi restApi=new RestApi();
+        restApi.getCurrentUserPlaylists(getContext(),this);
+        /*LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setHasFixedSize(true);
         ProfilePlaylistsAdapter adapter=new ProfilePlaylistsAdapter(controller.getFourPlaylists(getContext()),this);
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);*/
         //handle animation
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             /**
@@ -247,5 +254,9 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
         recyclerView.setHasFixedSize(true);
         ProfilePlaylistsAdapter adapter=new ProfilePlaylistsAdapter(p,this);
         recyclerView.setAdapter(adapter);
+    }
+
+    public void updateUiFollowing(ArrayList<Container>following){
+        followingNum.setText(following.size());
     }
 }

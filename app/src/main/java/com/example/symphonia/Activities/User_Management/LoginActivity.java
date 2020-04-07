@@ -16,9 +16,10 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.symphonia.Activities.User_Interface.StartActivity;
-import com.example.symphonia.Activities.User_Management.ListenerPages.ForgetPasswordListenerActivity;
+import com.example.symphonia.Activities.User_Interface.AddArtistsActivity;
 import com.example.symphonia.Activities.User_Interface.MainActivity;
+import com.example.symphonia.Activities.User_Interface.StartActivity;
+import com.example.symphonia.Activities.User_Management.ForgetPassword.ForgetPassword;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Helpers.CustomOfflineDialog;
 import com.example.symphonia.Helpers.Utils;
@@ -229,8 +230,9 @@ public class LoginActivity extends AppCompatActivity implements RestApi.updateUi
     public void openForget(View view) {
         //gets email from input text, then send it forget password activity
         edit_text_email = findViewById(R.id.emailInput);
-        Intent i = new Intent(this, ForgetPasswordListenerActivity.class);
+        Intent i = new Intent(this, ForgetPassword.class);
         i.putExtra("user", edit_text_email.getText().toString());
+        i.putExtra("type",mType);
         startActivity(i);
     }
 
@@ -265,10 +267,14 @@ public class LoginActivity extends AppCompatActivity implements RestApi.updateUi
         //commits edits
         editor.apply();
 
-//        Intent i = new Intent(this, StartActivity.class);
+        //Intent i = new Intent(this, StartActivity.class);
+        //startActivity(i);
+
+//        Intent i = new Intent(this, MainActivity.class);
 //        startActivity(i);
 
-        Intent i = new Intent(this, MainActivity.class);
+        Intent i = new Intent(this, AddArtistsActivity.class);
+        i.putExtra("newUser", "true");
         startActivity(i);
     }
 

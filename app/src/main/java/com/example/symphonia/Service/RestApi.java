@@ -2,6 +2,7 @@ package com.example.symphonia.Service;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -41,7 +42,7 @@ public class RestApi implements APIs {
      *
      * @param context  holds context of activity that called this method
      * @param username email or username of user
-     * @param password password of userhaledali
+     * @param password password of user
      * @param mType    type of user, true for listener and false for artist
      * @return return true if data is matched
      */
@@ -59,6 +60,7 @@ public class RestApi implements APIs {
                             String id = user.getString("_id");
                             String name = user.getString("name");
                             String type = user.getString("type");
+                            String image = user.getString("imageUrl");
                             boolean premium = false;
                             if (type.equals("premium-user")) {
                                 premium = true;
@@ -72,6 +74,8 @@ public class RestApi implements APIs {
                             else {
                                 Constants.currentUser = new User(username, id, name, type.equals("user"), premium);
                                 Constants.currentUser.setUserType(type);
+                                Constants.currentUser.setImageUrl(image);
+
                                 updateLogin.updateUiLoginSuccess();
                             }
 
@@ -85,7 +89,19 @@ public class RestApi implements APIs {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        updateLogin.updateUiLoginFail("input");
+                        try {
+                            if(error.networkResponse.statusCode==401)
+                                updateLogin.updateUiLoginFail("input");
+                            else{
+                                Toast.makeText(context,"Error"+error.networkResponse.statusCode,Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context,"Check your internet connection",Toast.LENGTH_SHORT).show();
+                                updateLogin.updateUiLoginFail("exception");
+                            }
+                        }catch (Exception e){
+                            e.printStackTrace();
+                            Toast.makeText(context,"Check your internet connection",Toast.LENGTH_SHORT).show();
+                            updateLogin.updateUiLoginFail("exception");
+                        }
                     }
                 }) {
             @Override
@@ -176,12 +192,70 @@ public class RestApi implements APIs {
      * @return returns true if sign up is done
      */
     @Override
-    public boolean signUp(final Context context, boolean mType, String email, String password, String DOB, String gender, String name) {
-        return false;
+    public boolean signUp(final Context context, final boolean mType, final String email, final String password
+            , final String DOB, final String gender, final String name) {
+        final updateUiSignUp updateUiSignUp = (updateUiSignUp) context;
+        StringRequest stringrequest = new StringRequest(Request.Method.POST, (Constants.SIGN_UP_URL),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject root = new JSONObject(response);
+                            Constants.currentToken = root.getString("token");
+                            JSONObject user = root.getJSONObject("user");
+                            String id = user.getString("_id");
+                            String type = user.getString("type");
+                            Constants.currentUser = new User(email, id, mType, Utils.convertToBitmap(R.drawable.img_init_profile)
+                                    , name, DOB, gender, type.equals("artist")
+                                    , 0, 0, new ArrayList<User>(), new ArrayList<User>()
+                                    , new ArrayList<Playlist>(), new ArrayList<Playlist>()
+                                    , new ArrayList<Artist>(), new ArrayList<Album>(), new ArrayList<Track>());
+
+                            Constants.currentUser.setUserType(type);
+                            Toast.makeText(context, "Done sign up", Toast.LENGTH_SHORT).show();
+                            updateUiSignUp.updateUiSignUpSuccess();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(context,"Check your internet connection",Toast.LENGTH_SHORT).show();
+                            updateUiSignUp.updateUiSignUpFailed();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        try{
+                            Toast.makeText(context,"Error: "+ error.networkResponse.statusCode,Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context,"Check your internet connection",Toast.LENGTH_SHORT).show();
+                        }catch (Exception e){
+                            Toast.makeText(context,"Check your internet connection",Toast.LENGTH_SHORT).show();
+                        }
+                        updateUiSignUp.updateUiSignUpFailed();
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("name", name);
+                params.put("email", email);
+                params.put("emailConfirm", email);
+                params.put("password", password);
+                params.put("dateOfBirth", DOB);
+                params.put("gender", gender);
+                if (mType)
+                    params.put("type", "user");
+                else
+                    params.put("type", "artist");
+                return params;
+            }
+        };
+        VolleySingleton.getInstance(context).getRequestQueue().add(stringrequest);
+        return true;
     }
 
     public interface updateUiSignUp {
         void updateUiSignUpSuccess();
+        void updateUiSignUpFailed();
     }
 
 
@@ -231,10 +305,10 @@ public class RestApi implements APIs {
                         JSONArray images = playlist.getJSONArray("images");
                         JSONObject image = images.getJSONObject(0);
                         String imageUrl = image.getString("url");
-                        Bitmap playlistImage = fetchImage(context, imageUrl);
+                        String id = playlist.getString("_id");
                         JSONObject tracks = playlist.getJSONObject("tracks");
                         String tracksUrl = tracks.getString("href");
-                        popularPlaylists.add(new Playlist(title, decs, playlistImage, null, tracksUrl));
+                        popularPlaylists.add(new Playlist(title, id, decs, imageUrl, null, tracksUrl));
                         listener.updateUiGetPopularPlaylistsSuccess();
 
                     }
@@ -310,10 +384,10 @@ public class RestApi implements APIs {
                         JSONArray images = playlist.getJSONArray("images");
                         JSONObject image = images.getJSONObject(0);
                         String imageUrl = image.getString("url");
-                        Bitmap playlistImage = fetchImage(context, imageUrl);
+                        String id = playlist.getString("_id");
                         JSONObject tracks = playlist.getJSONObject("tracks");
                         String tracksUrl = tracks.getString("href");
-                        madeForYouPlaylists.add(new Playlist(title, decs, playlistImage, null, tracksUrl));
+                        madeForYouPlaylists.add(new Playlist(title, id, decs, imageUrl, null, tracksUrl));
                         listener.updateUiGetMadeForYouPlaylistsSuccess();
 
                     }
@@ -373,10 +447,10 @@ public class RestApi implements APIs {
                         JSONArray images = playlist.getJSONArray("images");
                         JSONObject image = images.getJSONObject(0);
                         String imageUrl = image.getString("url");
-                        Bitmap playlistImage = fetchImage(context, imageUrl);
+                        String id = playlist.getString("_id");
                         JSONObject tracks = playlist.getJSONObject("tracks");
                         String tracksUrl = tracks.getString("href");
-                        recentPlaylists.add(new Playlist(title, decs, playlistImage, null, tracksUrl));
+                        recentPlaylists.add(new Playlist(title, id, decs, imageUrl, null, tracksUrl));
                         listener.updateUiGetRecentPlaylistsSuccess();
                     }
                 } catch (JSONException e) {
@@ -420,24 +494,21 @@ public class RestApi implements APIs {
         final updateUiPlaylists listener = (updateUiPlaylists) context;
         final ArrayList<Playlist> randomPlaylists = new ArrayList<>();
         //TODO  backend still under working
-        StringRequest request = new StringRequest(Request.Method.GET, Utils.categories.get(0).getCat_Name(), new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.GET, Constants.GET_RANDOM_PLAYLISTS, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
-                    JSONObject root = new JSONObject(response);
-                    JSONObject playlistsObj = root.getJSONObject("playlists");
-                    JSONArray playlists = playlistsObj.getJSONArray("items");
+                    JSONArray playlists = new JSONArray(response);
                     for (int i = 0; i < playlists.length(); i++) {
                         JSONObject playlist = playlists.getJSONObject(i);
                         String title = playlist.getString("name");
-                        String decs = playlist.getString("description");
+                        String id = playlist.getString("_id");
+                        String decs = playlist.optString("description");
                         JSONArray images = playlist.getJSONArray("images");
                         JSONObject image = images.getJSONObject(0);
                         String imageUrl = image.getString("url");
-                        Bitmap playlistImage = fetchImage(context, imageUrl);
-                        JSONObject tracks = playlist.getJSONObject("tracks");
-                        String tracksUrl = tracks.getString("href");
-                        randomPlaylists.add(new Playlist(title, decs, playlistImage, null, tracksUrl));
+                        randomPlaylists.add(new Playlist(title, id, "", imageUrl,
+                                null, Constants.BASE_URL + Constants.GET_PLAYLISTS_TRACKS + "/id" + "/tracks"));
                         listener.updateUiGetRandomPlaylistsSuccess();
                     }
                 } catch (JSONException e) {
@@ -449,17 +520,16 @@ public class RestApi implements APIs {
             public void onErrorResponse(VolleyError error) {
             }
         }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            /*@Override
+            public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Authorization", Constants.currentToken);
                 return headers;
-            }
-
+            }*/
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("limit", "10");
+                params.put("number", "10");
                 return params;
             }
         };
@@ -583,7 +653,9 @@ public class RestApi implements APIs {
         return null;
     }
 
-    /*public interface updateUigetGenres{
+   /*
+    public interface updateUigetGenres {
+>>>>>>> 598a3dc644c95c2e4a950f5d68f49279662ee492
         void updateUigetGenresSuccess();
 
         void updateUigetGenresFail();
@@ -658,12 +730,68 @@ public class RestApi implements APIs {
     }
 
     @Override
-    public void followArtistsOrUsers(Context context, String type, ArrayList<String> ids) {
+    public void followArtistsOrUsers(Context context, final String type, final ArrayList<String> ids) {
+
+        StringRequest request = new StringRequest(Request.Method.PUT, Constants.FOLLOW_ARTIST_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("recent", "error");
+
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", Constants.currentToken);
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("type", type);
+                params.put("ids", TextUtils.join(",", ids));
+                return params;
+            }
+        };
+        VolleySingleton.getInstance(context).getRequestQueue().add(request);
 
     }
 
     @Override
-    public void unFollowArtistsOrUsers(Context context, String type, ArrayList<String> ids) {
+    public void unFollowArtistsOrUsers(Context context, final String type, final ArrayList<String> ids) {
+
+        StringRequest request = new StringRequest(Request.Method.DELETE, Constants.FOLLOW_ARTIST_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("recent", "error");
+
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", Constants.currentToken);
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("type", type);
+                params.put("ids", TextUtils.join(",", ids));
+                return params;
+            }
+        };
+        VolleySingleton.getInstance(context).getRequestQueue().add(request);
 
     }
 
@@ -673,8 +801,59 @@ public class RestApi implements APIs {
     }
 
     @Override
-    public ArrayList<Artist> getRecommendedArtists(Context context, String type, int offset, int limit) {
-        return null;
+    public ArrayList<Artist> getRecommendedArtists(final Context context, String type, final int offset, final int limit) {
+
+        final UpdateAddArtists listener = (UpdateAddArtists) context;
+        final ArrayList<Artist> recommendedArtists = new ArrayList<>();
+
+        StringRequest request = new StringRequest(Request.Method.GET, Constants.GET_RECOMMENDED_ARTISTS, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject root = new JSONObject(response);
+                    JSONObject artists = root.getJSONObject("artists");
+                    JSONArray artistArray = artists.getJSONArray("items");
+                    for (int i = 0; i < artistArray.length(); i++) {
+                        JSONObject artist = artistArray.getJSONObject(i);
+                        String id = artist.getString("_id");
+                        String name = artist.getString("name");
+                        /*JSONArray images = artist.getJSONArray("images");
+                        JSONObject image = images.getJSONObject(1);*/
+                        String imageUrl = artist.getString("imageUrl");
+                        recommendedArtists.add(new Artist(id, imageUrl, name));
+                    }
+                    listener.updateGetRecommendedArtists(recommendedArtists);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,"Error: "+ error.networkResponse.statusCode,Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", Constants.currentToken);
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("limit", String.valueOf(limit));
+                params.put("offset", String.valueOf(offset));
+                return params;
+            }
+        };
+        VolleySingleton.getInstance(context).getRequestQueue().add(request);
+        return recommendedArtists;
+    }
+
+    public interface UpdateAddArtists{
+        void updateGetRecommendedArtists(ArrayList<Artist> returnedArtists);
     }
 
     /**
@@ -766,14 +945,14 @@ public class RestApi implements APIs {
             public void onErrorResponse(VolleyError error) {
                 Log.e("Profile", "" + error.getMessage());
             }
-        })
-        {
+        }){
+
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", Constants.currentToken);
-                return headers;
-            }
+            Map<String, String> headers = new HashMap<>();
+            headers.put("Authorization","Bearer "+ Constants.currentToken);
+            return headers;
+        }
 
            /* @Override
             protected Map<String, String> getParams() throws AuthFailureError {
@@ -781,8 +960,7 @@ public class RestApi implements APIs {
                 params.put("user_id", "exampleuser01");
                 return params;
             }*/
-        }
-        ;
+        };
 
 
         VolleySingleton.getInstance(context).getRequestQueue().add(stringRequest);
@@ -791,13 +969,113 @@ public class RestApi implements APIs {
     }
 
     @Override
-    public ArrayList<Container> getCurrentUserPlaylists(Context context, FragmentProfile fragmentProfile) {
-        return null;
+    public ArrayList<Container> getCurrentUserPlaylists(final Context context, final FragmentProfile fragmentProfile) {
+        final updateUiProfileInProfileFragment listener = (updateUiProfileInProfileFragment) context;
+        final ArrayList<Container>playlists=new ArrayList<>();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,Constants.Get_Current_User_Profile_playlists
+                ,new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray playlistsArr=jsonObject.getJSONArray("ownedPlaylists");
+                            for(int i=0;i<playlistsArr.length();i++){
+                                String s=playlistsArr.get(i).toString();
+                                playlists.add(getPlaylist(context,s));
+                            }
+                            listener.getCurrentProfilePlaylists(playlists,fragmentProfile);
+                        }catch (Exception e){
+                            e.fillInStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Profile", "" + error.getMessage());
+            }
+        }){
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization","Bearer "+ Constants.currentToken);
+                return headers;
+            }
+        };
+
+
+        VolleySingleton.getInstance(context).getRequestQueue().add(stringRequest);
+        return playlists;
+
     }
 
+    private Container getPlaylist(Context context,String s){
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,Constants.Get_playlist+"/"+s
+                ,new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                }catch (Exception e){
+                    e.fillInStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Profile", "" + error.getMessage());
+            }
+        }){
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization","Bearer "+ Constants.currentToken);
+                return headers;
+            }
+        };
+
+
+        VolleySingleton.getInstance(context).getRequestQueue().add(stringRequest);
+        Container container=new Container("ava",Utils.convertToBitmap(R.drawable.amr));
+        return container;
+
+    }
+
+
     @Override
-    public ArrayList<Artist> getCurrentUserFollowing(Context context, FragmentProfile fragmentProfile) {
-        return null;
+    public ArrayList<Container> getCurrentUserFollowing(final Context context, final FragmentProfile fragmentProfile) {
+        final updateUiProfileInProfileFragment listener = (updateUiProfileInProfileFragment) context;
+        final ArrayList<Container>following=new ArrayList<>();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,Constants.Get_User_Following
+                ,new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    listener.getCurrentUserFollowing(following,fragmentProfile);
+                }catch (Exception e){
+                    e.fillInStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Profile", "" + error.getMessage());
+            }
+        }){
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization","Bearer "+ Constants.currentToken);
+                return headers;
+            }
+        };
+
+
+        VolleySingleton.getInstance(context).getRequestQueue().add(stringRequest);
+        return following;
     }
 
     @Override
@@ -828,6 +1106,8 @@ public class RestApi implements APIs {
 
     public interface updateUiProfileInProfileFragment{
         public void getCurrentProfilePlaylists(ArrayList<Container> playlists, FragmentProfile fragmentProfile);
+        public void getCurrentUserFollowing(ArrayList<Container> f, FragmentProfile fragmentProfile);
+
     }
 
     public interface updateUiProfileInSetting{

@@ -7,8 +7,6 @@
     android:layout_height="match_parent"
     tools:background="@color/colorPrimary"
     >
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/image_frame"
         android:layout_width="145dp"
@@ -140,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:paddingRight="32dp"
-                android:tint="#80FFFFFF"
+                android:tint="#70FFFFFF"
                 android:src="@drawable/ic_remove_circle_outline"
                 android:paddingEnd="32dp" />
 
@@ -160,7 +158,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_gravity="center"
-            android:background="#80FFFFFF" />
+            android:background="#70FFFFFF" />
 
         <LinearLayout
             android:id="@+id/layout_view_artist"
@@ -177,7 +175,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:paddingRight="32dp"
-                android:tint="#80FFFFFF"
+                android:tint="#70FFFFFF"
                 android:src="@drawable/ic_artist"
                 android:paddingEnd="32dp" />
 
@@ -207,7 +205,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:paddingRight="32dp"
-                android:tint="#80FFFFFF"
+                android:tint="#70FFFFFF"
                 android:src="@drawable/ic_share_outlined"
                 android:paddingEnd="32dp" />
 
@@ -237,7 +235,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:paddingRight="32dp"
-                android:tint="#80FFFFFF"
+                android:tint="#70FFFFFF"
                 android:src="@drawable/ic_phone_24dp"
                 android:paddingEnd="32dp" />
 

@@ -1,4 +1,4 @@
-package com.example.symphonia.Activities.User_Management.ArtistPages;
+package com.example.symphonia.Activities.User_Management.ForgetPassword;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,28 +10,37 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.symphonia.Activities.User_Management.ListenerPages.EmailCheckListenerActivity;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 
 
-public class ForgetPasswordArtistActivity extends AppCompatActivity {
+public class ForgetPassword extends AppCompatActivity {
 
     private EditText email;
-    private String user;
-
-
+    private String userName;
+    private String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_forget_password_listener);
+        setContentView(R.layout.activity_forget_password);
 
         Bundle b = getIntent().getExtras();
-        user = b.getString("user");
+        type = b.getString("type");
+
+        try {
+            userName = b.getString("user");
+        }catch (NullPointerException e){
+            userName = "";
+        }
 
         email = findViewById(R.id.emailInput);
-        email.setText(user);
+        email.setText(userName);
+
+        if(Utils.isValidEmail(userName))
+            enableButton();
+        else
+            lockButton();
 
         email.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
@@ -65,8 +74,9 @@ public class ForgetPasswordArtistActivity extends AppCompatActivity {
 
     public void sendMail(View view) {
         email = findViewById(R.id.emailInput);
-        Intent i = new Intent(this, EmailCheckListenerActivity.class);
+        Intent i = new Intent(this, EmailCheck.class);
         i.putExtra("user", email.getText().toString());
+        i.putExtra("type",type);
         startActivity(i);
     }
 
