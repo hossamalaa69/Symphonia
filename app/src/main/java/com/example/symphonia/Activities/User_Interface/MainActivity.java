@@ -394,6 +394,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         startService(intent);
         updatePlayBtn();
         MediaController.setOnCompletionListener(onCompletionListener);
+        mediaController.setMediaPlayCompletionService();
     }
 
     @Override
@@ -416,7 +417,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             makeToast(getString(R.string.track_is_locked));
             return;
         }
-
         playBar.setVisibility(View.VISIBLE);
 
         // keep tracking previous track
@@ -447,7 +447,9 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             ivIsFavourite.setImageResource(R.drawable.ic_favorite_border_black_24dp);
         }
         playTrack();
-
+        MediaController.setOnCompletionListener(onCompletionListener);
+        mediaController.setMediaPlayCompletionService();
+        prevPos = pos;
     }
 
     /**
@@ -528,8 +530,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             prevPos = Utils.CurrTrackInfo.prevTrackPos;
             for (int i = Utils.CurrTrackInfo.TrackPosInPlaylist + 1; i < Utils.CurrTrackInfo.currPlaylistTracks.size(); i++) {
                 if (!Utils.CurrTrackInfo.currPlaylistTracks.get(i).isHidden()
-                        && !Utils.CurrTrackInfo.currPlaylistTracks.get(i).isLocked()
-                        && !Constants.currentUser.isPremuim()) {
+                        && !(Utils.CurrTrackInfo.currPlaylistTracks.get(i).isLocked()&&!Constants.currentUser.isPremuim())) {
                     Utils.CurrTrackInfo.TrackPosInPlaylist = i;
                     Utils.setTrackInfo(0, Utils.CurrTrackInfo.TrackPosInPlaylist, Utils.CurrTrackInfo.currPlaylistTracks);
                     rvBar.getLayoutManager().scrollToPosition(Utils.CurrTrackInfo.TrackPosInPlaylist);
