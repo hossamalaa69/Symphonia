@@ -681,7 +681,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                 .setPrimaryNavigationFragment(navHostFragment)
                 .commit();
         homeFragment = new HomeFragment();
-        searchFragment=new SearchFragment();
+        //searchFragment=new SearchFragment();
         navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -698,7 +698,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                         return true;
                     case R.id.navigation_search:
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.nav_host_fragment,searchFragment)
+                                .replace(R.id.nav_host_fragment,new SearchFragment())
                                 .commit();
                         return true;
                     case R.id.navigation_premium:

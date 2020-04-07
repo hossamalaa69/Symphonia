@@ -31,7 +31,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="40dp"
-            android:background="@android:color/transparent"
+            android:background="@null"
             android:cursorVisible="true"
             android:gravity="center_vertical"
             android:imeOptions="actionSearch"

@@ -158,7 +158,7 @@ public class SearchForAllFragment extends Fragment implements SeeAllProfilesAdap
     @Override
     public void onProfileItemClickListener(Container c) {
         getParentFragmentManager().beginTransaction()
-                .replace(R.id.nav_host_fragment, new FragmentProfile(c))
+                .replace(R.id.nav_host_fragment, new FragmentProfile(c,false))
                 .addToBackStack(null)
                 .commit();
     }

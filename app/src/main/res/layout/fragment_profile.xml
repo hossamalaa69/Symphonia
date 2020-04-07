@@ -70,7 +70,7 @@
                 android:id="@+id/app_bar_profile"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:background="@android:color/transparent"
+                android:background="@null"
                 app:elevation="0dp"
                 app:layout_scrollFlags="scroll">
 

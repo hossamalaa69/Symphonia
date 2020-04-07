@@ -22,7 +22,6 @@ import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.symphonia.Activities.User_Interface.MainActivity;
-import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Profile;
 import com.example.symphonia.Fragments_and_models.premium.PremiumFragment;
@@ -31,7 +30,6 @@ import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.RestApi;
 import com.google.android.material.appbar.AppBarLayout;
-import com.squareup.picasso.Picasso;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -64,8 +62,9 @@ public class SettingsFragment extends Fragment{
         nestedScrollView.setNestedScrollingEnabled(false);
 
         userImg=rootView.findViewById(R.id.image_user);
-
+        userImg.setImageResource(R.drawable.islam_ahmed);
         userName = rootView.findViewById(R.id.text_user_name);
+        userName.setText("Islam Ahmed");
 
         AppBarLayout appBarLayout = rootView.findViewById(R.id.app_bar);
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
@@ -184,7 +183,7 @@ public class SettingsFragment extends Fragment{
             public void onClick(View v) {
                 if(profileImg==null) profileImg=Utils.convertToBitmap(R.drawable.blue_image);
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.nav_host_fragment, new FragmentProfile(new Container(profileName,profileImg)))
+                        .replace(R.id.nav_host_fragment, new FragmentProfile(new Container("Islam Ahmed",Utils.convertToBitmap(R.drawable.islam_ahmed))))
                         .addToBackStack(null)
                         .commit();            }
         });

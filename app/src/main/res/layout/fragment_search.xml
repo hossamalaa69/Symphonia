@@ -23,7 +23,7 @@
             app:elevation="0dp"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:background="@android:color/transparent"
+            android:background="@null"
             app:layout_scrollFlags="scroll"
             >
             <com.google.android.material.appbar.CollapsingToolbarLayout

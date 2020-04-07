@@ -57,6 +57,7 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
     private TextView playlistsNum;
     private TextView followersNum;
     private TextView followingNum;
+    private boolean checkIfUserProfile=true;
 
     private View.OnClickListener showOptions=new View.OnClickListener() {
         @Override
@@ -144,6 +145,10 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
     public FragmentProfile(Container c){
         profile=c;
     }
+    public FragmentProfile(Container c,boolean b){
+        profile=c;
+        checkIfUserProfile=b;
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -173,7 +178,7 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
         appBarLayout.setOnClickListener(follow);
         appBarLayout.setOnTouchListener(t);
 
-        followButton.setText("FOLLOW");
+        if(!checkIfUserProfile)  followButton.setText("FOLLOW");
 
         profileImage.setImageBitmap(profile.getImg_Res());
         //followButton.setOnClickListener(follow);
