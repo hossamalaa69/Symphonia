@@ -235,6 +235,7 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
                         mClickedBeforeArtists.add(selectedArtistId);
                         ArrayList<Artist> returnedArtists = mServiceController.getRecommendedArtists
                                 (this, Constants.currentUser.getUserType(), offset, 6);
+                        mLayoutManager.scrollToPositionWithOffset(clickedItemIndex, 0);
                     }
                 } else {
                     mLayoutManager.scrollToPositionWithOffset(mSelectedArtistPosition, 0);
