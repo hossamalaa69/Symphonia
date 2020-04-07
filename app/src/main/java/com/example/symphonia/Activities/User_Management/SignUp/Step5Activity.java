@@ -249,8 +249,8 @@ public class Step5Activity extends AppCompatActivity implements RestApi.updateUi
 //        btn_signUp.setVisibility(View.VISIBLE);
 //        progressBar.setVisibility(View.GONE);
             //then goes to AddArtist activity to suggest artists for user
-        Intent i = new Intent(this, StartActivity.class);
-        //i.putExtra("newUser", "true");
+        Intent i = new Intent(this, AddArtistsActivity.class);
+        i.putExtra("newUser", "true");
         startActivity(i);
     }
 

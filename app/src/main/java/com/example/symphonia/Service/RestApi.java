@@ -2,6 +2,7 @@ package com.example.symphonia.Service;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -678,12 +679,68 @@ public class RestApi implements APIs {
     }
 
     @Override
-    public void followArtistsOrUsers(Context context, String type, ArrayList<String> ids) {
+    public void followArtistsOrUsers(Context context, final String type, final ArrayList<String> ids) {
+
+        StringRequest request = new StringRequest(Request.Method.PUT, Constants.FOLLOW_ARTIST_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("recent", "error");
+
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", Constants.currentToken);
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("type", type);
+                params.put("ids", TextUtils.join(",", ids));
+                return params;
+            }
+        };
+        VolleySingleton.getInstance(context).getRequestQueue().add(request);
 
     }
 
     @Override
-    public void unFollowArtistsOrUsers(Context context, String type, ArrayList<String> ids) {
+    public void unFollowArtistsOrUsers(Context context, final String type, final ArrayList<String> ids) {
+
+        StringRequest request = new StringRequest(Request.Method.DELETE, Constants.FOLLOW_ARTIST_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("recent", "error");
+
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", Constants.currentToken);
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("type", type);
+                params.put("ids", TextUtils.join(",", ids));
+                return params;
+            }
+        };
+        VolleySingleton.getInstance(context).getRequestQueue().add(request);
 
     }
 
@@ -693,8 +750,59 @@ public class RestApi implements APIs {
     }
 
     @Override
-    public ArrayList<Artist> getRecommendedArtists(Context context, String type, int offset, int limit) {
-        return null;
+    public ArrayList<Artist> getRecommendedArtists(Context context, String type, final int offset, final int limit) {
+
+        UpdateAddArtists listener = (UpdateAddArtists) context;
+        final ArrayList<Artist> recommendedArtists = new ArrayList<>();
+
+        StringRequest request = new StringRequest(Request.Method.GET, Constants.GET_RECOMMENDED_ARTISTS, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject root = new JSONObject(response);
+                    JSONArray artistArray = root.getJSONArray("artists");
+                    for (int i = 0; i < artistArray.length(); i++) {
+                        JSONObject artist = artistArray.getJSONObject(i);
+                        String id = artist.getString("id");
+                        String name = artist.getString("name");
+                        JSONArray images = artist.getJSONArray("images");
+                        JSONObject image = images.getJSONObject(1);
+                        String imageUrl = image.getString("url");
+                        recommendedArtists.add(new Artist(id, imageUrl, name));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("recent", "error");
+
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", Constants.currentToken);
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("limit", String.valueOf(limit));
+                params.put("offset", String.valueOf(offset));
+                return params;
+            }
+        };
+        VolleySingleton.getInstance(context).getRequestQueue().add(request);
+        listener.updateGetRecommendedArtists(recommendedArtists);
+        return recommendedArtists;
+    }
+
+    public interface UpdateAddArtists{
+        void updateGetRecommendedArtists(ArrayList<Artist> returnedArtists);
     }
 
     /**

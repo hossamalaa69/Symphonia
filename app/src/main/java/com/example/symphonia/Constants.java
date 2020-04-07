@@ -47,5 +47,9 @@ public class Constants {
 
     public static  final  String GET_RANDOM_PLAYLISTS = BASE_URL + "api/v1/playlists/rand?";
 
+    public static final String GET_RECOMMENDED_ARTISTS = BASE_URL + "api/v1/browse/artists";
+
+    public static final String FOLLOW_ARTIST_URL = BASE_URL + "api/v1/me/following";
+
     public static final  String    GET_PLAYLISTS_TRACKS = BASE_URL +"api/v1/playlists/";
 }
