@@ -3,24 +3,17 @@ package com.example.symphonia.Fragments_and_models.library;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-
 import android.graphics.Color;
-
 import android.os.Bundle;
-
 import android.view.MotionEvent;
 import android.view.View;
-
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-
-import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
@@ -63,7 +56,7 @@ public class BottomSheetDialogArtist extends BottomSheetDialogFragment {
         final String artistId = arguments.getString(ARTIST_ID);
         final int clickedIndex = arguments.getInt(CLICKED_INDEX);
 
-        Artist mArtist = serviceController.getArtist(getContext(),  artistId);
+        Artist mArtist = serviceController.getArtist(getContext(), artistId);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +64,6 @@ public class BottomSheetDialogArtist extends BottomSheetDialogFragment {
                 dismiss();
             }
         });
-
 
 
         bottomSheet.getWindow()
@@ -107,11 +99,10 @@ public class BottomSheetDialogArtist extends BottomSheetDialogFragment {
 
         int dominantColor = Utils.getDominantColor(mArtist.getImage());
         imageFrame.setBackgroundColor(dominantColor);
-        if(!Utils.isColorDark(dominantColor)){
+        if (!Utils.isColorDark(dominantColor)) {
             symphoniaImage.setColorFilter(Color.rgb(0, 0, 0));
             soundWave.setColorFilter(Color.rgb(0, 0, 0));
-        }
-        else{
+        } else {
             symphoniaImage.setColorFilter(Color.rgb(255, 255, 255));
             soundWave.setColorFilter(Color.rgb(255, 255, 255));
         }
@@ -124,7 +115,7 @@ public class BottomSheetDialogArtist extends BottomSheetDialogFragment {
 
         ArrayList<LinearLayout> layouts = new ArrayList<>(asList(following, removeArtist, viewArtist, share, homeScreen));
 
-        for (LinearLayout layout: layouts) {
+        for (LinearLayout layout : layouts) {
             layout.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(final View v, MotionEvent event) {
@@ -136,12 +127,12 @@ public class BottomSheetDialogArtist extends BottomSheetDialogFragment {
                             return true;
                         case MotionEvent.ACTION_UP:
                             Utils.cancelTouchAnimation(v);
-                            if((currentY >= 0) && (currentY <= v.getHeight())){
+                            if ((currentY >= 0) && (currentY <= v.getHeight())) {
                                 v.performClick();
                             }
                             return true;
                         case MotionEvent.ACTION_MOVE:
-                            if(Math.abs(currentY - firstY) > 3){
+                            if (Math.abs(currentY - firstY) > 3) {
                                 Utils.cancelTouchAnimation(v);
                             }
                             return true;
@@ -163,12 +154,10 @@ public class BottomSheetDialogArtist extends BottomSheetDialogFragment {
         });
 
 
-
-
         return bottomSheet;
     }
 
-    public interface BottomSheetListener{
+    public interface BottomSheetListener {
         void onFollowingLayoutClicked(String id, int clickedItemIndex);
     }
 

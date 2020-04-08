@@ -1,20 +1,31 @@
 package com.example.symphonia;
 
+import android.annotation.TargetApi;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.toolbox.StringRequest;
 import com.example.symphonia.Helpers.Utils;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * this class controls media player
@@ -133,7 +144,8 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
 
     private void setConfigrations() {
         audioManager = (AudioManager) getApplicationContext().getSystemService(AUDIO_SERVICE);
-        int result = audioManager.requestAudioFocus(onAudioFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_REQUEST_GRANTED);
+        int result = audioManager.requestAudioFocus(onAudioFocusChangeListener,
+                AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_REQUEST_GRANTED);
         if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             stop();
             releaseMedia();
@@ -148,11 +160,36 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
     /**
      * this function initialize media player with current track info
      */
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     public void initMediaPlayer() {
         mediaPlayer = new MediaPlayer();
         setMediaPlayCompletionService();
         try {
-            mediaPlayer.setDataSource(getApplicationContext(), Utils.CurrTrackInfo.currPlaylistTracks.get(Utils.CurrTrackInfo.TrackPosInPlaylist).getUri());
+            Log.e("media","init");
+
+         /*   StringRequest request = new StringRequest(Request.Method.POST,Constants.PLAY_TRACK+"5e8a1e0f7937ec4d40c6deba",null,null){
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Authorization", "Bearer " + Constants.currentToken);
+                    headers.put("Content-Type", "application/json");
+                    return headers;
+                }
+                @Override
+                public String getBodyContentType() {
+                    return "{\"contextId\": \"1203809ufhadhf89\",\n" +
+                            "\t\"context_type\": \"playlist\",\n" +
+                            "\t\"context_url\": \"https://localhost:3000/\",\n" +
+                            "\t\"device\": \"Chrome\"}";
+                }
+            };
+                */
+            Map<String, String> headers = new HashMap<>();
+            headers.put("Authorization", "Bearer " + Constants.currentToken);
+           // headers.put("Content-Type", "application/json");
+
+            mediaPlayer.setDataSource(getApplicationContext(),
+                        Uri.parse(Constants.PLAY_TRACK+"5e8a1e0f7937ec4d40c6deba"),headers);
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.setOnPreparedListener(this);
             mediaPlayer.setOnErrorListener(this);
@@ -163,6 +200,7 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
         } catch (IOException e) {
             e.printStackTrace();
             makeToast(getApplicationContext().getResources().getString(R.string.cant_play));
+            Log.e("media","exception");
 
             mediaPlayer.reset();
         }
@@ -294,6 +332,7 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
      * Called when MediaPlayer is ready
      */
     public void onPrepared(MediaPlayer player) {
+        Log.e("media","start");
         player.start();
      //   makeToast(getApplicationContext().getResources().getString(R.string.started));
     }

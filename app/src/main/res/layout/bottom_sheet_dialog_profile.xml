@@ -276,8 +276,8 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:orientation="horizontal"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp">
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="24dp"
@@ -304,8 +304,8 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:orientation="horizontal"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp">
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="24dp"
@@ -332,8 +332,8 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:orientation="horizontal"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp">
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="24dp"
@@ -360,8 +360,8 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:orientation="horizontal"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp">
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="24dp"
@@ -388,8 +388,8 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:orientation="horizontal"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp">
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="24dp"
@@ -416,8 +416,8 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:orientation="horizontal"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp">
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="24dp"

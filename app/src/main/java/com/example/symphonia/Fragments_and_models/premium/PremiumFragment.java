@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
+import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Adapters.PremiumAdapter;
 import com.example.symphonia.Constants;
 import com.example.symphonia.R;
@@ -62,6 +63,7 @@ public class PremiumFragment extends Fragment {
 
         checkPremium(root);
 
+        ((MainActivity)getActivity()).setRoot(true);
         //makes text view with anchor to be clickable
         TextView text_view_anchor = (TextView) root.findViewById(R.id.t1);
         text_view_anchor.setMovementMethod(LinkMovementMethod.getInstance());
@@ -132,5 +134,11 @@ public class PremiumFragment extends Fragment {
             text_view_current_plan.setText(getResources().getString(R.string.try_premium));
             text_view_try_premium.setText(getResources().getString(R.string.spotify_free));
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        ((MainActivity)getActivity()).setRoot(false);
     }
 }

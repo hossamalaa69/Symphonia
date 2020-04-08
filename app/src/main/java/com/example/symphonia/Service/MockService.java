@@ -17,6 +17,7 @@ import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Entities.User;
 import com.example.symphonia.Fragments_and_models.home.HomeFragment;
 import com.example.symphonia.Fragments_and_models.profile.BottomSheetDialogProfile;
+import com.example.symphonia.Fragments_and_models.playlist.PlaylistFragment;
 import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
 import com.example.symphonia.Fragments_and_models.profile.ProfileFollowersFragment;
 import com.example.symphonia.Fragments_and_models.profile.ProfilePlaylistsFragment;
@@ -226,7 +227,7 @@ public class MockService implements APIs {
      * getter for recently-player playlist
      *
      * @param context context of hosting activity
-     * @param mToken  token of user
+     * @param fragment  token of user
      * @return recently-player  playlist
      */
     @Override
@@ -234,15 +235,21 @@ public class MockService implements APIs {
         return mRecentPlaylists;
     }
 
+    @Override
+    public ArrayList<Track> getTracksOfPlaylist(Context context, String id, PlaylistFragment playlistFragment) {
+        return mRecentPlaylists.get(0).getTracks();
+    }
+
+
     /**
      * getter for Random playlist
      *
      * @param context context of hosting activity
-     * @param mToken  token of user
+     * @param homeFragment  token of user
      * @return Random  playlist
      */
     @Override
-    public ArrayList<Playlist> getRandomPlaylists(Context context, String mToken) {
+    public ArrayList<Playlist> getRandomPlaylists(Context context, HomeFragment homeFragment) {
         return mRandomPlaylists;
     }
 
@@ -338,6 +345,11 @@ public class MockService implements APIs {
             Constants.currentUser.setUserType("artist");
 
         return true;
+    }
+
+    @Override
+    public void playTrack(Context context, String id, String context_id, String context_url, String context_type) {
+
     }
 
     /**

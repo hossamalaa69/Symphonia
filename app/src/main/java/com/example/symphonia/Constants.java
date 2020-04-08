@@ -63,4 +63,6 @@ public class Constants {
     public static final String FOLLOW_ARTIST_URL = BASE_URL + "api/v1/me/following";
 
     public static final  String    GET_PLAYLISTS_TRACKS = BASE_URL +"api/v1/playlists/";
+
+    public static final String PLAY_TRACK = BASE_URL+"api/v1/me/player/tracks/";
 }

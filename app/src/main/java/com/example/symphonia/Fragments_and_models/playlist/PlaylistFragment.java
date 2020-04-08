@@ -1,6 +1,7 @@
 package com.example.symphonia.Fragments_and_models.playlist;
 
 
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
@@ -23,7 +24,9 @@ import com.example.symphonia.Adapters.RvTracksHomeAdapter;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
+import com.example.symphonia.Service.ServiceController;
 import com.google.android.material.appbar.AppBarLayout;
+import com.squareup.picasso.Picasso;
 
 /**
  * fragment that represent playlist tracks to user
@@ -33,15 +36,14 @@ import com.google.android.material.appbar.AppBarLayout;
  */
 public class PlaylistFragment extends Fragment {
 
-    RecyclerView.LayoutManager layoutManager;
-    RvTracksHomeAdapter rvTracksHomeAdapter;
-    AppBarLayout appBarLayout;
-    ;
+    private RecyclerView.LayoutManager layoutManager;
+    private RvTracksHomeAdapter rvTracksHomeAdapter;
+    private AppBarLayout appBarLayout;
     private ImageView playlistImage;
     private TextView playlistTitle;
     private TextView madeForUser;
     private RecyclerView rvTracks;
-    Button playBtn;
+    private Button playBtn;
 
     /**
      * this is required empty constructor
@@ -51,6 +53,7 @@ public class PlaylistFragment extends Fragment {
 
     }
 
+    RelativeLayout backgroundLayout;
 
     /**
      * inflate view of fragment
@@ -71,29 +74,29 @@ public class PlaylistFragment extends Fragment {
         playlistImage = view.findViewById(R.id.tv_playlist_image_tracks);
         appBarLayout = view.findViewById(R.id.appBarLayout2);
         playBtn = view.findViewById(R.id.btn_play);
+        backgroundLayout = view.findViewById(R.id.rl_background_frag_playlist);
+
         appBarLayout.setScrollbarFadingEnabled(true);
 
         playlistImage.setImageBitmap(Utils.CurrPlaylist.playlist.getmPlaylistImage());
         playlistTitle.setText(Utils.CurrPlaylist.playlist.getmPlaylistTitle());
         madeForUser.setText(R.string.made_for_you_by_spotify);
-        layoutManager = new LinearLayoutManager(getContext());
-        rvTracks.setHasFixedSize(true);
-        rvTracks.setLayoutManager(layoutManager);
-        rvTracksHomeAdapter = new RvTracksHomeAdapter(getContext(), Utils.CurrPlaylist.playlist.getTracks());
+
+        if (Constants.DEBUG_STATUS)
+            updateTracks();
+        else {
+            ServiceController serviceController = ServiceController.getInstance();
+            serviceController.getTracksOfPlaylist(getContext(), Utils.CurrPlaylist.playlist.getId(), this);
+        }
         // transition drawable controls the animation ov changing background
 
-        Drawable background = Utils.createBackground(getContext(), Utils.CurrPlaylist.playlist.getmPlaylistImage());
-        TransitionDrawable td = new TransitionDrawable(new Drawable[]{getResources().getDrawable(R.drawable.background), background});
-        RelativeLayout backgroundLayout = view.findViewById(R.id.rl_background_frag_playlist);
 
-        backgroundLayout.setBackground(td);
-        td.startTransition(500);
-        rvTracks.setAdapter(rvTracksHomeAdapter);
         final FrameLayout frameLayout = view.findViewById(R.id.frame_playlist_fragment);
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                float alpha = (float) ((appBarLayout.getScrollBarSize() - verticalOffset / 40) / (appBarLayout.getScrollBarSize() * 1.0));
+                float alpha = (float) (
+                        (appBarLayout.getScrollBarSize() - verticalOffset / 40) / (appBarLayout.getScrollBarSize() * 1.0));
                 //          frameLayout.setAlpha(1-alpha);
 
                 if (alpha < 1.2) {
@@ -107,7 +110,8 @@ public class PlaylistFragment extends Fragment {
             @Override
             public void onGlobalLayout() {
                 if (Utils.CurrTrackInfo.TrackPosInPlaylist != -1) {
-                    TextView title = (TextView) rvTracks.getChildAt(Utils.CurrTrackInfo.TrackPosInPlaylist).findViewById(R.id.tv_track_title_item);
+                    TextView title = (TextView) rvTracks.getChildAt(
+                            Utils.CurrTrackInfo.TrackPosInPlaylist).findViewById(R.id.tv_track_title_item);
                     if (((String) title.getText()).matches(Utils.CurrTrackInfo.track.getmTitle()))
                         title.setTextColor(getContext().getResources().getColor(R.color.colorGreen));
                 }
@@ -120,7 +124,8 @@ public class PlaylistFragment extends Fragment {
             public void onClick(View v) {
                 int prev = Utils.CurrTrackInfo.TrackPosInPlaylist;
                 for (int i = 0; i < Utils.CurrPlaylist.playlist.getTracks().size(); i++) {
-                    if (!Utils.CurrPlaylist.playlist.getTracks().get(i).isHidden() && !(Utils.CurrPlaylist.playlist.getTracks().get(i).isLocked()&&!Constants.currentUser.isPremuim())) {
+                    if (!Utils.CurrPlaylist.playlist.getTracks().get(i).isHidden() &&
+                            !(Utils.CurrPlaylist.playlist.getTracks().get(i).isLocked() && !Constants.currentUser.isPremuim())) {
                         Utils.CurrTrackInfo.TrackPosInPlaylist = i;
                         Utils.setTrackInfo(0, Utils.CurrTrackInfo.TrackPosInPlaylist, Utils.CurrPlaylist.playlist.getTracks());
                         Utils.CurrTrackInfo.prevTrackPos = Utils.CurrTrackInfo.TrackPosInPlaylist;
@@ -137,6 +142,31 @@ public class PlaylistFragment extends Fragment {
         return view;
     }
 
+
+    public void updateTracks() {
+        layoutManager = new LinearLayoutManager(getContext());
+        rvTracks.setHasFixedSize(true);
+        rvTracks.setLayoutManager(layoutManager);
+        rvTracksHomeAdapter = new RvTracksHomeAdapter(getContext(), Utils.CurrPlaylist.playlist.getTracks());
+        rvTracks.setAdapter(rvTracksHomeAdapter);
+
+        if (!Constants.DEBUG_STATUS)
+            Picasso.get()
+                    .load(Utils.CurrPlaylist.playlist.getImageUrl())
+                    .fit()
+                    .centerCrop()
+                    .into(playlistImage);
+
+/*
+
+        Drawable background = Utils.createBackground(getContext(), ((BitmapDrawable) playlistImage.getDrawable()).getBitmap());
+        TransitionDrawable td = new TransitionDrawable(
+                new Drawable[]{getResources().getDrawable(R.drawable.background), background});
+        backgroundLayout.setBackground(td);
+        td.startTransition(500);
+*/
+
+    }
     /**
      * this function change item image view favourite according to its data
      *
@@ -168,7 +198,8 @@ public class PlaylistFragment extends Fragment {
                 !Utils.CurrPlaylist.playlist.getmPlaylistTitle().matches(Utils.CurrTrackInfo.currPlaylistName)) {
             return;
         }
-        if (prev != -1 && Utils.CurrTrackInfo.currPlaylistTracks != null && !(Utils.CurrTrackInfo.currPlaylistTracks.get(prev).isLocked()&&!Constants.currentUser.isPremuim())
+        if (prev != -1 && Utils.CurrTrackInfo.currPlaylistTracks != null &&
+                !(Utils.CurrTrackInfo.currPlaylistTracks.get(prev).isLocked() && !Constants.currentUser.isPremuim())
         ) {
             if (prev > -1 && pos < Utils.CurrTrackInfo.currPlaylistTracks.size()) {
                 View prevView = rvTracks.getLayoutManager().getChildAt(prev);
@@ -199,6 +230,12 @@ public class PlaylistFragment extends Fragment {
 
     }
 
+    /**
+     * this function called to change hidden item in tracks recycler view
+     *
+     * @param pos      position of track to be hidden
+     * @param isHidden if track is hidden
+     */
     public void changeHidden(int pos, boolean isHidden) {
         if (pos != -1 && pos < Utils.CurrPlaylist.playlist.getTracks().size()) {
             View view = rvTracks.getLayoutManager().getChildAt(pos);

@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.R;
 import com.example.symphonia.Adapters.LibraryPagerAdapter;
 import com.google.android.material.appbar.AppBarLayout;
@@ -37,6 +38,8 @@ public class LibraryFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
+        ((MainActivity)getActivity()).setRoot(true);
+
         View root = inflater.inflate(R.layout.fragment_your_library, container, false);
         LibraryPagerAdapter sectionsPagerAdapter = new LibraryPagerAdapter(getContext(), getChildFragmentManager());
         ViewPager viewPager = root.findViewById(R.id.view_pager);
@@ -55,5 +58,11 @@ public class LibraryFragment extends Fragment {
 
 
         return root;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        ((MainActivity)getActivity()).setRoot(false);
     }
 }

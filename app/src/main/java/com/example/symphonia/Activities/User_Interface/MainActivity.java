@@ -14,8 +14,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -85,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     private ImageView trackImage;
     private Toast toast;
     private PlaylistFragment playlistFragment;
+    private boolean root = true;
     /**
      * holds position of item which its color needs to be reset
      */
@@ -110,6 +109,11 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
      */
     View linearLayout;
 
+    /**
+     * this function is called when user click on like item in settings of track
+     *
+     * @param pos position of track in current playlist
+     */
     @Override
     public void onLikeClicked(int pos) {
         if (!Utils.CurrPlaylist.playlist.getTracks().get(pos).isLiked() && !Utils.CurrPlaylist.playlist.getTracks().get(pos).isLocked()) {
@@ -130,6 +134,11 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         }
     }
 
+    /**
+     * this function is called when user click on hide item in settings of track
+     *
+     * @param pos position of track in current playlist
+     */
     @Override
     public void onHideClicked(int pos) {
         if (!Utils.CurrPlaylist.playlist.getTracks().get(pos).isHidden() && !Utils.CurrPlaylist.playlist.getTracks().get(pos).isLocked()) {
@@ -149,6 +158,11 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         }
     }
 
+    /**
+     * this function is called when user click on report item in settings of track
+     *
+     * @param pos position of track in current playlist
+     */
     @Override
     public void onReportClicked(int pos) {
         LayoutInflater inflater = getLayoutInflater();
@@ -161,6 +175,11 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         toast.show();
     }
 
+    /**
+     * this function is called when user click on share item in settings of track
+     *
+     * @param pos position of track in current playlist
+     */
     @Override
     public void onShareClicked(int pos) {
         Intent intent = new Intent(Intent.ACTION_SEND);
@@ -173,40 +192,64 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     }
 
     /**
-     * this function handles settings
+     * this function is called when user click on show credits item in settings of track
+     *
+     * @param pos position of track in current playlist
      */
-
-
     @Override
     public void onCreditsClicked(int pos) {
-        BottomSheetDialogSettingsCredits sheet  = new BottomSheetDialogSettingsCredits(pos);
-        sheet.show(getSupportFragmentManager(),"credits");
+        BottomSheetDialogSettingsCredits sheet = new BottomSheetDialogSettingsCredits(pos);
+        sheet.show(getSupportFragmentManager(), "credits");
     }
 
     /**
-     * this is used for click listener
+     * this function is called when user click on view artist item in settings of track
+     *
+     * @param pos position of track in current playlist
      */
-
-
+    @Override
+    public void onViewArtistClicked(int pos) {
+        //TODO open artist in islam's work
+    }
     //----------------------------------------------------------------------------
+
+    /**
+     * this function updates data after fetching categories
+     */
     @Override
     public void getCategoriesSuccess() {
-        if (navView.getSelectedItemId() == R.id.navigation_home)
-            homeFragment.loadAllPlaylists();
+        /*if (navView.getSelectedItemId() == R.id.navigation_home)
+            homeFragment.loadAllPlaylists();*/
     }
 
+    @Override
+    public void updateUiGetTracksOfPlaylist(PlaylistFragment playlistFragment) {
+        if (playlistFragment.isVisible()) {
+            playlistFragment.updateTracks();
+        }
+    }
+
+    /**
+     * this function updates data after fetching popular playlists
+     */
     @Override
     public void updateUiGetPopularPlaylistsSuccess() {
         if (navView.getSelectedItemId() == R.id.navigation_home)
             homeFragment.updatePopularPlaylists();
     }
 
+    /**
+     * this function updates data after fetching random playlists
+     */
     @Override
-    public void updateUiGetRandomPlaylistsSuccess() {
+    public void updateUiGetRandomPlaylistsSuccess(HomeFragment homeFragment) {
         if (navView.getSelectedItemId() == R.id.navigation_home)
             homeFragment.updateRandomPlaylists();
     }
 
+    /**
+     * this function updates data after fetching recent playlists
+     */
     @Override
     public void updateUiGetRecentPlaylistsSuccess(HomeFragment homeFragment) {
         if (navView.getSelectedItemId() == R.id.navigation_home)
@@ -214,26 +257,46 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     }
 
     @Override
+    public void updateUiPlayTrack() {
+            playTrack();
+    }
+
+    /**
+     * this function updates data after fetching make-for-you playlists
+     */
+    @Override
     public void updateUiGetMadeForYouPlaylistsSuccess() {
         if (navView.getSelectedItemId() == R.id.navigation_home)
             homeFragment.updateMadeForYouPlaylists();
     }
 
+    /**
+     * this function updates data if fail to  fetch popular playlists
+     */
     @Override
     public void updateUiGetPopularPlaylistsFail() {
 
     }
 
+    /**
+     * this function updates data if fail to  fetch random playlists
+     */
     @Override
     public void updateUiGetRandomPlaylistsFail() {
 
     }
 
+    /**
+     * this function updates data if fail to  fetch recent playlists
+     */
     @Override
     public void updateUiGetRecentPlaylistsFail() {
 
     }
 
+    /**
+     * this function updates data if fail to  fetch make-for-you playlists
+     */
     @Override
     public void updateUiGetMadeForYouPlaylistsFail() {
 
@@ -310,12 +373,13 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         //check if user online
         if (!isOnline()) {
             connectToInternet();
-        } else {
-            //TODO load data from internet here and send it to fragments
         }
     }
 
-    Runnable runnable = new Runnable() {
+    /**
+     * this is a runnable for updating playBar ui in ui thread
+     */
+    private Runnable runnable = new Runnable() {
         @Override
         public void run() {
             updatePlayBar();
@@ -352,7 +416,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     /**
      * this function is called when playBar is recycled
      *
-     * @param pos
+     * @param pos position of current track
      */
     @Override
     public void OnItemSwitchedListener(int pos) {
@@ -403,12 +467,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         MediaController.setOnCompletionListener(onCompletionListener);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
-
     /**
      * listener called when track is clicked
      *
@@ -453,8 +511,10 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         } else {
             ivIsFavourite.setImageResource(R.drawable.ic_favorite_border_black_24dp);
         }
-        playTrack();
-
+        if(Constants.DEBUG_STATUS)
+         playTrack();
+        else
+            ServiceController.getInstance().playTrack(this,null,null,null,null);
     }
 
     /**
@@ -535,8 +595,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             prevPos = Utils.CurrTrackInfo.prevTrackPos;
             for (int i = Utils.CurrTrackInfo.TrackPosInPlaylist + 1; i < Utils.CurrTrackInfo.currPlaylistTracks.size(); i++) {
                 if (!Utils.CurrTrackInfo.currPlaylistTracks.get(i).isHidden()
-                        && !Utils.CurrTrackInfo.currPlaylistTracks.get(i).isLocked()
-                        && !Constants.currentUser.isPremuim()) {
+                        && !(Utils.CurrTrackInfo.currPlaylistTracks.get(i).isLocked() && !Constants.currentUser.isPremuim())) {
                     Utils.CurrTrackInfo.TrackPosInPlaylist = i;
                     Utils.setTrackInfo(0, Utils.CurrTrackInfo.TrackPosInPlaylist, Utils.CurrTrackInfo.currPlaylistTracks);
                     rvBar.getLayoutManager().scrollToPosition(Utils.CurrTrackInfo.TrackPosInPlaylist);
@@ -593,6 +652,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                 .addToBackStack(null)
                 .commit();
     }
+
     /**
      * this function attach data to views in mainActivity
      */
@@ -612,8 +672,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         ivIsFavourite = playBar.findViewById(R.id.iv_like_track_bar);
     }
 
-    View settingContainer;
-
     /**
      * this function is called when setting is clicked
      *
@@ -622,14 +680,11 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     @Override
     public void showTrackSettingFragment(int pos) {
 
-        BottomSheetDialogSettings settings = new BottomSheetDialogSettings(pos,this);
-        settings.show(getSupportFragmentManager(),"settings");
+        BottomSheetDialogSettings settings = new BottomSheetDialogSettings(pos, this);
+        settings.show(getSupportFragmentManager(), "settings");
       /*  setDataOfTrackSettings(pos);
         setSettingListeners(pos);*/
     }
-
-
-
 
 
     /**
@@ -637,23 +692,14 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
      */
     @Override
     public void onBackPressed() {
-        if (settingContainer != null && settingContainer.getVisibility() == View.VISIBLE) {
-            settingContainer.setVisibility(View.VISIBLE);
-            Animation slide_up = AnimationUtils.loadAnimation(getApplicationContext(),
-                    R.anim.slide_down);
-            linearLayout.startAnimation(slide_up);
-            settingContainer.animate().alpha(0).setDuration(300);
-            settingContainer.setVisibility(View.GONE);
-            navView.setVisibility(View.VISIBLE);
-            if (Utils.CurrTrackInfo.track != null)
-                playBar.setVisibility(View.VISIBLE);
-            return;
-        }
         if (playlistFragment != null && playlistFragment.isVisible()) {
             getSupportFragmentManager().popBackStack();
             return;
         }
-        if (homeFragment.isVisible()) finish();
+
+        if (root){
+            finishAffinity();
+        }
         super.onBackPressed();
 
     }
@@ -672,8 +718,14 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         startActivity(intent);
     }
 
+    /**
+     * this holds instance of home fragment
+     */
     private HomeFragment homeFragment;
+
     private SearchFragment searchFragment;
+    private LibraryFragment libraryFragment;
+    private PremiumFragment premiumFragment;
 
     /**
      * this function initialize BottomNavigationView
@@ -689,28 +741,31 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                 .commit();
         homeFragment = new HomeFragment();
         searchFragment=new SearchFragment();
+        libraryFragment=new LibraryFragment();
+        premiumFragment=new PremiumFragment();
+
         navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.navigation_home:
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.nav_host_fragment, homeFragment)
+                                .replace(R.id.nav_host_fragment, homeFragment, "home")
                                 .commit();
                         return true;
                     case R.id.navigation_library:
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.nav_host_fragment, new LibraryFragment())
+                                .replace(R.id.nav_host_fragment, libraryFragment, "library")
                                 .commit();
                         return true;
                     case R.id.navigation_search:
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.nav_host_fragment,searchFragment)
+                                .replace(R.id.nav_host_fragment,searchFragment, "search")
                                 .commit();
                         return true;
                     case R.id.navigation_premium:
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.nav_host_fragment, new PremiumFragment())
+                                .replace(R.id.nav_host_fragment, premiumFragment, "premium")
                                 .commit();
                         return true;
                 }
@@ -784,15 +839,15 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
 
     public void checkUserType(Bundle b) {
 
-        if(Constants.DEBUG_STATUS){
-            SharedPreferences sharedPref= getSharedPreferences("LoginPref", 0);
+        if (Constants.DEBUG_STATUS) {
+            SharedPreferences sharedPref = getSharedPreferences("LoginPref", 0);
             String email = sharedPref.getString("email", "");
-            boolean type = sharedPref.getBoolean("type",true);
+            boolean type = sharedPref.getBoolean("type", true);
             ServiceController serviceController = ServiceController.getInstance();
-            boolean logged = serviceController.logIn(this,email,"12345678",type);
-            if(!logged)
-                serviceController.logIn(this,"user1@symphonia.com"
-                        ,"12345678",true);
+            boolean logged = serviceController.logIn(this, email, "12345678", type);
+            if (!logged)
+                serviceController.logIn(this, "user1@symphonia.com"
+                        , "12345678", true);
         }
 
 /*        if (Constants.currentUser.isListenerType())
@@ -862,6 +917,14 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     @Override
     public void getUserFollowing(ArrayList<Container> f, ProfileFollowersFragment profileFollowersFragment) {
         profileFollowersFragment.updateUiFollowing(f);
+    }
+
+    public boolean isRoot() {
+        return root;
+    }
+
+    public void setRoot(boolean root) {
+        this.root = root;
     }
 
     /*@Override

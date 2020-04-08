@@ -64,8 +64,9 @@ public class HomeFragment extends Fragment {
         if (Constants.DEBUG_STATUS)
             initViews();
         else {
-            // loadAllPlaylists();
+             loadAllPlaylists();
         }
+        ((MainActivity)getActivity()).setRoot(true);
 
         final ImageView ivSettings = root.findViewById(R.id.iv_setting_home);
         ivSettings.setOnClickListener(new View.OnClickListener() {
@@ -101,12 +102,15 @@ public class HomeFragment extends Fragment {
 
     }
 
+    /**
+     * load data from service
+     */
     public void loadAllPlaylists() {
         ServiceController SController = ServiceController.getInstance();
-        playlists = SController.getRandomPlaylists(getContext(), Constants.currentToken);
-        popularPlaylists = SController.getPopularPlaylists(getContext(), Constants.currentToken);
+        playlists = SController.getRandomPlaylists(getContext(),this);
+     //   popularPlaylists = SController.getPopularPlaylists(getContext(), Constants.currentToken);
         recentPlaylists = SController.getRecentPlaylists(getContext(), this);
-        madeForYouPlaylists = SController.getMadeForYoutPlaylists(getContext(), Constants.currentToken);
+     //   madeForYouPlaylists = SController.getMadeForYoutPlaylists(getContext(), Constants.currentToken);
 
     }
 
@@ -127,8 +131,8 @@ public class HomeFragment extends Fragment {
         //----------------------
         loadAllPlaylists();
         updateRecentPlaylists();
-        updateMadeForYouPlaylists();
-        updatePopularPlaylists();
+      //  updateMadeForYouPlaylists();
+      //  updatePopularPlaylists();
         updateRandomPlaylists();
 
     }
@@ -203,4 +207,9 @@ public class HomeFragment extends Fragment {
 
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        ((MainActivity)getActivity()).setRoot(false);
+    }
 }

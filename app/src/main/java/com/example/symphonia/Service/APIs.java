@@ -12,6 +12,7 @@ import com.example.symphonia.Entities.Profile;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Fragments_and_models.home.HomeFragment;
 import com.example.symphonia.Fragments_and_models.profile.BottomSheetDialogProfile;
+import com.example.symphonia.Fragments_and_models.playlist.PlaylistFragment;
 import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
 import com.example.symphonia.Fragments_and_models.profile.ProfileFollowersFragment;
 import com.example.symphonia.Fragments_and_models.profile.ProfilePlaylistsFragment;
@@ -100,10 +101,10 @@ public interface APIs {
      * getter for random playlist
      *
      * @param context context of hosting activity
-     * @param mToken  token of user
+     * @param homeFragment  token of user
      * @return random  playlist
      */
-    ArrayList<Playlist> getRandomPlaylists(Context context, String mToken);
+    ArrayList<Playlist> getRandomPlaylists(Context context, HomeFragment homeFragment);
 
     ArrayList<Container> getResentResult(Context context);
 
@@ -263,4 +264,11 @@ public interface APIs {
     int getGenresCount();
     int getSongsCount();
     int getAlbumsCount();
+
+/*
+    void playTrack(Context context, String id,String context_id,String context_url,String context_type);
+*/
+    ArrayList<Track> getTracksOfPlaylist(Context context, String id, PlaylistFragment playlistFragment);
+
+    void playTrack(Context context, String id, String context_id, String context_url, String context_type);
 }
