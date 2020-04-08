@@ -45,6 +45,6 @@
         android:textColor="@color/colorWhite"
         app:autoSizeTextType="uniform"
         app:autoSizeMinTextSize="6sp"
-        app:autoSizeMaxTextSize="16sp"
+        app:autoSizeMaxTextSize="11sp"
         app:autoSizeStepGranularity="1sp"/>
 </LinearLayout>
