@@ -66,7 +66,8 @@ public class SettingsFragment extends Fragment{
         userImg=rootView.findViewById(R.id.image_user);
         userImg.setImageResource(R.drawable.img_init_profile);
         userName = rootView.findViewById(R.id.text_user_name);
-        userName.setText("");
+        userName.setText("user");
+        profileName="user";
 
         AppBarLayout appBarLayout = rootView.findViewById(R.id.app_bar);
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();

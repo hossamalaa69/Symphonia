@@ -1046,7 +1046,7 @@ public class RestApi implements APIs {
                                 String imageUrl=imageArr.getString(0);
                                 //String imageUrl=imageUrlObj.toString();
                                 JSONArray followers=playlist.getJSONArray("followers");
-                                playlists.add(new Container(name,imageUrl,followers,id));
+                                playlists.add(new Container(name,imageUrl,followers));
                             }
                             listener.getCurrentProfilePlaylists(playlists,fragmentProfile);
                         }catch (Exception e){

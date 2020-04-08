@@ -127,6 +127,13 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
                 if(s.equals(getResources().getString(R.string.follow)))
                     followButton.setText(getResources().getString(R.string.Following));
                 if(s.equals(getResources().getString(R.string.Following))) followButton.setText(getResources().getString(R.string.follow));
+                if(s.equals("Edit Profile")){
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.nav_host_fragment,new EditProfileFragment(profile));
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }
             }
         }
     };
@@ -268,7 +275,7 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
         LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setNestedScrollingEnabled(false);
-        recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(false);
         List<Container>l=p.subList(0,n);
         ArrayList<Container>c=new ArrayList<>();
         c.addAll(l);
