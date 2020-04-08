@@ -1091,8 +1091,7 @@ public class RestApi implements APIs {
                             JSONObject jsonObject = new JSONObject(response);
                             String name=jsonObject.getString("name");
                             String imgUrl=jsonObject.getString("imageUrl");
-                            Bitmap imgBitmap=fetchImage(context,imgUrl);
-                            profile[0] =new Profile(name,imgBitmap);
+                            profile[0] =new Profile(name,imgUrl);
                             listener.getCurrentProfile(profile[0],settingsFragment);
                         } catch (Exception e) {
                             e.fillInStackTrace();
