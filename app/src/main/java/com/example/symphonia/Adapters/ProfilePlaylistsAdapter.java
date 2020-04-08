@@ -9,9 +9,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.R;
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -99,9 +101,20 @@ public class ProfilePlaylistsAdapter extends RecyclerView.Adapter<ProfilePlaylis
         public void makeProfilePlaylistItem(int pos) {
             Container temp = container.get(pos);
             textView.setText(temp.getCat_Name());
-            imageView.setImageBitmap(temp.getImg_Res());
             imageView.setOval(false);
-            textView2.setText(temp.getCat_Name2());
+            if(!Constants.DEBUG_STATUS){
+                textView2.setText(String.valueOf(temp.getFollowersCount())+" Followers");
+                Picasso.get()
+                        .load(temp.getImgUrl())
+                        .fit()
+                        .centerCrop()
+                        .placeholder(R.drawable.placeholder_album)
+                        .into(imageView);
+            }
+            else {
+                imageView.setImageBitmap(temp.getImg_Res());
+                textView2.setText(temp.getCat_Name2());
+            }
         }
     }
 }

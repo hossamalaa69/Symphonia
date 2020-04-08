@@ -6,7 +6,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,12 +15,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Container;
-import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.squareup.picasso.Picasso;
 
 public class BottomSheetDialogProfile extends BottomSheetDialogFragment {
 
@@ -92,13 +92,33 @@ public class BottomSheetDialogProfile extends BottomSheetDialogFragment {
         TextView profileName = view.findViewById(R.id.tv_profile_playlist_name);
         profileName.setText(profile.getCat_Name());
         ImageView profileImage = view.findViewById(R.id.image_profile_or_playlist);
-        profileImage.setImageBitmap(profile.getImg_Res());
 
+        final TextView followText=view.findViewById(R.id.tv_follow);
+        final ImageView followImg=view.findViewById(R.id.imgv_follow);
         LinearLayout imageFrame = view.findViewById(R.id.image_frame);
         ImageView symphoniaImage = view.findViewById(R.id.image_symphonia);
         ImageView soundWave = view.findViewById(R.id.image_sound_wave);
+        if(chooseLayout==3&& Constants.DEBUG_STATUS==false) {
+            Picasso.get()
+                    .load(profile.getImgUrl())
+                    .fit()
+                    .centerCrop()
+                    .placeholder(R.drawable.placeholder_album)
+                    .into(profileImage);
+        }
+        else if(chooseLayout==4&& Constants.DEBUG_STATUS==false) {
+            Picasso.get()
+                    .load(profile.getImgUrl())
+                    .fit()
+                    .centerCrop()
+                    .placeholder(R.drawable.img_init_profile)
+                    .into(profileImage);
+        }
+        else profileImage.setImageBitmap(profile.getImg_Res());
+        /*BitmapDrawable drawable=(BitmapDrawable)profileImage.getDrawable();
+        Bitmap bitmap=drawable.getBitmap();
 
-        int dominantColor = Utils.getDominantColor(profile.getImg_Res());
+        int dominantColor = Utils.getDominantColor(bitmap);
         imageFrame.setBackgroundColor(dominantColor);
         if(!Utils.isColorDark(dominantColor)){
             symphoniaImage.setColorFilter(Color.rgb(0, 0, 0));
@@ -107,7 +127,7 @@ public class BottomSheetDialogProfile extends BottomSheetDialogFragment {
         else{
             symphoniaImage.setColorFilter(Color.rgb(255, 255, 255));
             soundWave.setColorFilter(Color.rgb(255, 255, 255));
-        }
+        }*/
 
         options1=view.findViewById(R.id.list_of_options1);
         divider=view.findViewById(R.id.divider);
@@ -157,6 +177,21 @@ public class BottomSheetDialogProfile extends BottomSheetDialogFragment {
             homeScreen.setVisibility(View.VISIBLE);
             share.setVisibility(View.VISIBLE);
         }
+
+        follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(followText.getText()=="Follow") {
+                    followText.setText("Stop Following");
+                    followImg.setImageResource(R.mipmap.close_white_foreground);
+
+                }
+                else if(followText.getText()=="Stop Following"){
+                    followText.setText("Follow");
+                    followImg.setImageResource(R.drawable.ic_add);
+                }
+            }
+        });
 
         share.setOnClickListener(new View.OnClickListener() {
             @Override

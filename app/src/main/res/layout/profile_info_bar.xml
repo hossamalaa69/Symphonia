@@ -19,7 +19,7 @@
         android:layout_weight="1">
         <TextView
             android:id="@+id/number_of_playlists"
-            android:text="83"
+            android:text="0"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -69,7 +69,7 @@
             android:textColor="@color/colorWhite"
             android:gravity="bottom|center_horizontal"
             android:textAllCaps="true"
-            android:text="23708"/>
+            android:text="0"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -108,7 +108,7 @@
             android:textStyle="bold"
             android:textColor="@color/colorWhite"
             android:gravity="bottom|center_horizontal"
-            android:text="510"/>
+            android:text="0"/>
 
         <TextView
             android:layout_width="match_parent"

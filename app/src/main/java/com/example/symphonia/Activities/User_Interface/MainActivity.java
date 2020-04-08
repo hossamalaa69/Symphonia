@@ -43,6 +43,8 @@ import com.example.symphonia.Fragments_and_models.playlist.BottomSheetDialogSett
 import com.example.symphonia.Fragments_and_models.playlist.PlaylistFragment;
 import com.example.symphonia.Fragments_and_models.premium.PremiumFragment;
 import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
+import com.example.symphonia.Fragments_and_models.profile.ProfileFollowersFragment;
+import com.example.symphonia.Fragments_and_models.profile.ProfilePlaylistsFragment;
 import com.example.symphonia.Fragments_and_models.search.SearchFragment;
 import com.example.symphonia.Fragments_and_models.settings.SettingsFragment;
 import com.example.symphonia.Helpers.SnapHelperOneByOne;
@@ -67,8 +69,10 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         , RvTracksHomeAdapter.OnTrackClicked
         , RestApi.updateUiPlaylists
        // ,RestApi.updateUiGetCategories
+        ,RestApi.updateProfileFollow
         ,RestApi.updateUiProfileInSetting
         ,RestApi.updateUiProfileInProfileFragment
+        ,RestApi.updateProfilePlaylists
         ,BottomSheetDialogSettings.BottomSheetListener
         , RvBarAdapter.ItemInterface, Serializable {
 
@@ -821,18 +825,43 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     }
 
     @Override
+    public void getCurrentUserFollowingNumber(String f, FragmentProfile fragmentProfile) {
+        fragmentProfile.updateUiFollowing(f);
+    }
+
+    @Override
     public void getCurrentProfile(Profile profile, SettingsFragment settingsFragment) {
         settingsFragment.updateUiProfile(profile);
     }
 
-    @Override
+    /*@Override
     public void getCurrentUserFollowing(ArrayList<Container> f, FragmentProfile fragmentProfile) {
         fragmentProfile.updateUiFollowing(f);
     }
 
     @Override
     public void getCurrentUserFollowers(ArrayList<Profile> f, FragmentProfile fragmentProfile) {
-        fragmentProfile.updateUiFollowers(f);
+        //fragmentProfile.updateUiFollowers(f);
+    }*/
+
+    @Override
+    public void getCurrentUserFollowersNumber(String num,FragmentProfile fragmentProfile) {
+        fragmentProfile.updateUiFollowers(num);
+    }
+
+    @Override
+    public void getAllUserPlaylists(ArrayList<Container> p, ProfilePlaylistsFragment profilePlaylistsFragment) {
+        profilePlaylistsFragment.updatePlaylists(p);
+    }
+
+    @Override
+    public void getUserFollowers(ArrayList<Container> f, ProfileFollowersFragment profileFollowersFragment) {
+        profileFollowersFragment.updateUiFollowers(f);
+    }
+
+    @Override
+    public void getUserFollowing(ArrayList<Container> f, ProfileFollowersFragment profileFollowersFragment) {
+        profileFollowersFragment.updateUiFollowing(f);
     }
 
     /*@Override

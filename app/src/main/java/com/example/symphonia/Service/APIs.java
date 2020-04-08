@@ -11,7 +11,9 @@ import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Profile;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Fragments_and_models.home.HomeFragment;
+import com.example.symphonia.Fragments_and_models.profile.BottomSheetDialogProfile;
 import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
+import com.example.symphonia.Fragments_and_models.profile.ProfileFollowersFragment;
 import com.example.symphonia.Fragments_and_models.profile.ProfilePlaylistsFragment;
 import com.example.symphonia.Fragments_and_models.settings.SettingsFragment;
 
@@ -240,18 +242,20 @@ public interface APIs {
 
     ArrayList<Container> getCurrentUserPlaylists(Context context, FragmentProfile fragmentProfile);
 
-    ArrayList<Container> getCurrentUserFollowing(Context context, FragmentProfile fragmentProfile);
+    ArrayList<Container> getCurrentUserFollowing(Context context, ProfileFollowersFragment profileFollowersFragment);
 
-    ArrayList<Profile> getCurrentUserFollowers(Context context, FragmentProfile fragmentProfile);
+    ArrayList<Container> getCurrentUserFollowers(Context context, ProfileFollowersFragment profileFollowersFragment);
 
 
-    int getNumbersoUserFollowers(Context context, FragmentProfile fragmentProfile);
+    String getNumbersoUserFollowers(Context context, FragmentProfile fragmentProfile);
 
-    int getNumbersoUserFollowing(Context context, FragmentProfile fragmentProfile);
+    String getNumbersoUserFollowing(Context context, FragmentProfile fragmentProfile);
 
-    int getNumberofUserPlaylists(Context context,FragmentProfile fragmentProfile);
+    String getNumberofUserPlaylists(Context context,FragmentProfile fragmentProfile);
 
-    Profile getCurrentUserPlaylists(Context context, ProfilePlaylistsFragment profilePlaylistsFragment);
+    ArrayList<Container> getAllCurrentUserPlaylists(Context context, ProfilePlaylistsFragment profilePlaylistsFragment);
+
+    void followPlaylist(Context context, BottomSheetDialogProfile bottomSheetDialogProfile);
 
     int getArtistsCount();
     int getProfilessCount();

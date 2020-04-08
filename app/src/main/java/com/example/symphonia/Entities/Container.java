@@ -2,6 +2,8 @@ package com.example.symphonia.Entities;
 
 import android.graphics.Bitmap;
 
+import org.json.JSONArray;
+
 /**
  * @author Mahmoud Amr Nabil
  * @version 1.0
@@ -10,6 +12,9 @@ public class Container {
     private String catName;
     private String catName2;
     private Bitmap imgRes;
+    private String imgUrl;
+    private String id;
+    private JSONArray followers;
 
     public Container(String s, Bitmap i) {
         catName = s;
@@ -21,6 +26,19 @@ public class Container {
         catName = s;
         imgRes = i;
         catName2 = s2;
+    }
+
+    public Container(String s, String url, JSONArray f) {
+        catName = s;
+        imgUrl=url;
+        followers=f;
+    }
+
+    public Container(String s, String url, JSONArray f,String i) {
+        catName = s;
+        imgUrl=url;
+        followers=f;
+        id=i;
     }
 
     public Container(String s) {
@@ -37,5 +55,20 @@ public class Container {
 
     public Bitmap getImg_Res() {
         return imgRes;
+    }
+    public void setImgBitmap(Bitmap bitmap){
+        imgRes=bitmap;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public int getFollowersCount(){
+        return followers.length();
+    }
+
+    public String getId(){
+        return id;
     }
 }

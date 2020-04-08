@@ -13,9 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Adapters.ProfilePlaylistsAdapter;
+import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.R;
+import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
+
+import java.util.ArrayList;
 
 public class ProfilePlaylistsFragment extends Fragment implements ProfilePlaylistsAdapter.ProfileplaylistItemClickListner {
     private ServiceController controller;
@@ -35,11 +39,17 @@ public class ProfilePlaylistsFragment extends Fragment implements ProfilePlaylis
         backImg=root.findViewById(R.id.img_back_profile_main);
 
         backImg.setOnClickListener(listener);
-        recyclerView.setHasFixedSize(true);
-        LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        ProfilePlaylistsAdapter adapter=new ProfilePlaylistsAdapter(controller.getAllPopularPlaylists(getContext()),this);
-        recyclerView.setAdapter(adapter);
+        if(!Constants.DEBUG_STATUS) {
+            RestApi restApi=new RestApi();
+            restApi.getAllCurrentUserPlaylists(getContext(),this);
+        }
+        else {
+            recyclerView.setHasFixedSize(true);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+            recyclerView.setLayoutManager(layoutManager);
+            ProfilePlaylistsAdapter adapter = new ProfilePlaylistsAdapter(controller.getAllPopularPlaylists(getContext()), this);
+            recyclerView.setAdapter(adapter);
+        }
         return root;
     }
 
@@ -48,6 +58,14 @@ public class ProfilePlaylistsFragment extends Fragment implements ProfilePlaylis
         BottomSheetDialogProfile bottomSheet = new BottomSheetDialogProfile(c,3);
         assert getParentFragmentManager() != null;
         bottomSheet.show(getParentFragmentManager(),bottomSheet.getTag());
+    }
+
+    public void updatePlaylists(ArrayList<Container>c){
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        ProfilePlaylistsAdapter adapter = new ProfilePlaylistsAdapter(c, this);
+        recyclerView.setAdapter(adapter);
     }
 
 }

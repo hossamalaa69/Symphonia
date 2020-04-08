@@ -14,8 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Adapters.FollowersAdapter;
+import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.R;
+import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
 
 import java.util.ArrayList;
@@ -53,17 +55,25 @@ public class ProfileFollowersFragment extends Fragment implements FollowersAdapt
         LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         data=new ArrayList<>();
-
+        RestApi restApi=new RestApi();
         if(getRightData) {
             textView.setText(getResources().getString(R.string.followers));
-            data=controller.getProfileFollowers(getContext());
+            if(!Constants.DEBUG_STATUS)
+                restApi.getCurrentUserFollowers(getContext(),this);
+            else
+            data=controller.getCurrentUserFollowers(getContext(),this);
+            //data=controller.getProfileFollowers(getContext());
                     }
         else {
             textView.setText(getResources().getString(R.string.Following));
-            data=controller.getProfileFollowing(getContext());
+            if(!Constants.DEBUG_STATUS) restApi.getCurrentUserFollowing(getContext(),this);
+            else data=controller.getProfileFollowing(getContext());
+
         }
-        FollowersAdapter adapter=new FollowersAdapter(data,this);
-        recyclerView.setAdapter(adapter);
+        if(Constants.DEBUG_STATUS) {
+            FollowersAdapter adapter = new FollowersAdapter(data, this);
+            recyclerView.setAdapter(adapter);
+        }
         return root;
     }
 
@@ -72,5 +82,15 @@ public class ProfileFollowersFragment extends Fragment implements FollowersAdapt
         BottomSheetDialogProfile bottomSheet = new BottomSheetDialogProfile(c,4);
         assert getParentFragmentManager() != null;
         bottomSheet.show(getParentFragmentManager(),bottomSheet.getTag());
+    }
+
+    public void updateUiFollowers(ArrayList<Container> c){
+        FollowersAdapter adapter = new FollowersAdapter(c, this);
+        recyclerView.setAdapter(adapter);
+    }
+
+    public void updateUiFollowing(ArrayList<Container> c){
+        FollowersAdapter adapter = new FollowersAdapter(c, this);
+        recyclerView.setAdapter(adapter);
     }
 }

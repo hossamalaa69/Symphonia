@@ -2,6 +2,7 @@ package com.example.symphonia.Fragments_and_models.settings;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.RestApi;
 import com.google.android.material.appbar.AppBarLayout;
+import com.squareup.picasso.Picasso;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,9 +64,9 @@ public class SettingsFragment extends Fragment{
         nestedScrollView.setNestedScrollingEnabled(false);
 
         userImg=rootView.findViewById(R.id.image_user);
-        userImg.setImageResource(R.drawable.islam_ahmed);
+        userImg.setImageResource(R.drawable.img_init_profile);
         userName = rootView.findViewById(R.id.text_user_name);
-        userName.setText("Islam Ahmed");
+        userName.setText("");
 
         AppBarLayout appBarLayout = rootView.findViewById(R.id.app_bar);
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
@@ -181,9 +183,9 @@ public class SettingsFragment extends Fragment{
         profileLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(profileImg==null) profileImg=Utils.convertToBitmap(R.drawable.blue_image);
+                if(profileImg==null) profileImg=Utils.convertToBitmap(R.drawable.img_init_profile);
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.nav_host_fragment, new FragmentProfile(new Container("Islam Ahmed",Utils.convertToBitmap(R.drawable.islam_ahmed))))
+                        .replace(R.id.nav_host_fragment, new FragmentProfile(new Container(profileName,profileImg)))
                         .addToBackStack(null)
                         .commit();            }
         });
@@ -200,9 +202,16 @@ public class SettingsFragment extends Fragment{
     }
 
     public void updateUiProfile(Profile profile){
-        profileImg=profile.getImg_Res();
+        Picasso.get()
+                .load(profile.getImgUrl())
+                .fit()
+                .centerCrop()
+                .placeholder(R.drawable.img_init_profile)
+                .into(userImg);
+        BitmapDrawable drawable=(BitmapDrawable)userImg.getDrawable();
+        profileImg=drawable.getBitmap();
         profileName=profile.getCat_Name();
-        userImg.setImageBitmap(profileImg);
+        //userImg.setImageBitmap(profileImg);
         userName.setText(profileName);
     }
 

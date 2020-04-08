@@ -11,6 +11,7 @@ import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Fragments_and_models.home.HomeFragment;
 import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
+import com.example.symphonia.Fragments_and_models.profile.ProfileFollowersFragment;
 
 import java.util.ArrayList;
 
@@ -294,6 +295,18 @@ public class ServiceController {
         return mSupplier.getCurrentUserPlaylists(context,fragmentProfile);
     }
 
+    public String getNumbersoUserFollowers(Context context, FragmentProfile fragmentProfile){
+        return mSupplier.getNumbersoUserFollowers(context,fragmentProfile);
+    }
+
+    public String getNumbersoUserFollowing(Context context, FragmentProfile fragmentProfile){
+        return mSupplier.getNumbersoUserFollowing(context,fragmentProfile);
+    }
+
+    public ArrayList<Container>getCurrentUserFollowers(Context context, ProfileFollowersFragment profileFollowersFragment){
+        return mSupplier.getCurrentUserFollowers(context,profileFollowersFragment);
+    }
+
     public int getProfilesCount(){
         return mSupplier.getProfilessCount();
     }
@@ -302,12 +315,12 @@ public class ServiceController {
         return mSupplier.getPlaylistsCount();
     }
 
-    public int getAlbumsCount(){
-        return mSupplier.getAlbumsCount();
-    }
-
     public int getArtistsCount(){
         return mSupplier.getArtistsCount();
+    }
+
+    public int getAlbumsCount(){
+        return mSupplier.getAlbumsCount();
     }
 
     public int getGenresCount(){

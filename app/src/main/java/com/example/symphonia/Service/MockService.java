@@ -16,7 +16,9 @@ import com.example.symphonia.Entities.Profile;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Entities.User;
 import com.example.symphonia.Fragments_and_models.home.HomeFragment;
+import com.example.symphonia.Fragments_and_models.profile.BottomSheetDialogProfile;
 import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
+import com.example.symphonia.Fragments_and_models.profile.ProfileFollowersFragment;
 import com.example.symphonia.Fragments_and_models.profile.ProfilePlaylistsFragment;
 import com.example.symphonia.Fragments_and_models.settings.SettingsFragment;
 import com.example.symphonia.Helpers.Utils;
@@ -907,6 +909,46 @@ public class MockService implements APIs {
 
     @Override
     public ArrayList<Container> getProfileFollowers(Context context) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Container> getProfileFollowing(Context context) {
+        ArrayList<Container> followers=new ArrayList<>();
+        followers.add(new Container("Adele", "200,700 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.adele)));
+        followers.add(new Container("Amr Diab", "500,200 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.amr)));
+        followers.add(new Container("Imagine dragons", "300,300 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.imagine)));
+        followers.add(new Container("Alan Walker", "80,000 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.alan)));
+        followers.add(new Container("ED Sheeran", "12,000 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.ed)));
+        followers.add(new Container("Asala ", "30,000 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.assala)));
+        followers.add(new Container("Bahaa Sultan", "21,000 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.bahaa)));
+        followers.add(new Container("angham", "11,000 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.angham)));
+        followers.add(new Container("Thunder and Tomorrow", "2100 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.halsey)));
+        followers.add(new Container("Selena", "28,000 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.selena)));
+        followers.add(new Container("Smoke Grenades", "5,000 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.jannat)));
+        followers.add(new Container("Wael Jassar", "260 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.wael)));
+        followers.add(new Container("Abo", "7,730 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.abu)));
+        followers.add(new Container("Hamza Nemra", "4,700 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.hamza)));
+      return followers;
+    }
+
+    @Override
+    public Profile getCurrentUserProfile(Context context, SettingsFragment settingsFragment) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Container> getCurrentUserPlaylists(Context context, FragmentProfile fragmentProfile) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Container> getCurrentUserFollowing(Context context, ProfileFollowersFragment profileFollowersFragment) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Container> getCurrentUserFollowers(Context context, ProfileFollowersFragment profileFollowersFragment) {
         ArrayList<Container> followers=new ArrayList<>();
         followers.add(new Container("HuffPost", "2,700 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.images)));
         followers.add(new Container("Majeestic Casual", "5,200 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.images3)));
@@ -941,64 +983,30 @@ public class MockService implements APIs {
     }
 
     @Override
-    public ArrayList<Container> getProfileFollowing(Context context) {
-        ArrayList<Container> followers=new ArrayList<>();
-        followers.add(new Container("Adele", "200,700 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.adele)));
-        followers.add(new Container("Amr Diab", "500,200 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.amr)));
-        followers.add(new Container("Imagine dragons", "300,300 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.imagine)));
-        followers.add(new Container("Alan Walker", "80,000 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.alan)));
-        followers.add(new Container("ED Sheeran", "12,000 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.ed)));
-        followers.add(new Container("Asala ", "30,000 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.assala)));
-        followers.add(new Container("Bahaa Sultan", "21,000 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.bahaa)));
-        followers.add(new Container("angham", "11,000 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.angham)));
-        followers.add(new Container("Thunder and Tomorrow", "2100 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.halsey)));
-        followers.add(new Container("Selena", "28,000 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.selena)));
-        followers.add(new Container("Smoke Grenades", "5,000 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.jannat)));
-        followers.add(new Container("Wael Jassar", "260 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.wael)));
-        followers.add(new Container("Abo", "7,730 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.abu)));
-        followers.add(new Container("Hamza Nemra", "4,700 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.hamza)));
-      return followers;
-    }
-
-    @Override
-    public Profile getCurrentUserProfile(Context context, SettingsFragment settingsFragment) {
+    public String getNumbersoUserFollowers(Context context, FragmentProfile fragmentProfile) {
         return null;
     }
 
     @Override
-    public ArrayList<Container> getCurrentUserPlaylists(Context context, FragmentProfile fragmentProfile) {
+    public String getNumbersoUserFollowing(Context context, FragmentProfile fragmentProfile) {
         return null;
     }
 
     @Override
-    public ArrayList<Container> getCurrentUserFollowing(Context context, FragmentProfile fragmentProfile) {
+    public String getNumberofUserPlaylists(Context context, FragmentProfile fragmentProfile) {
         return null;
     }
 
     @Override
-    public ArrayList<Profile> getCurrentUserFollowers(Context context, FragmentProfile fragmentProfile) {
+    public ArrayList<Container> getAllCurrentUserPlaylists(Context context, ProfilePlaylistsFragment profilePlaylistsFragment) {
         return null;
     }
 
     @Override
-    public int getNumbersoUserFollowers(Context context, FragmentProfile fragmentProfile) {
-        return 0;
+    public void followPlaylist(Context context, BottomSheetDialogProfile bottomSheetDialogProfile) {
+
     }
 
-    @Override
-    public int getNumbersoUserFollowing(Context context, FragmentProfile fragmentProfile) {
-        return 0;
-    }
-
-    @Override
-    public int getNumberofUserPlaylists(Context context, FragmentProfile fragmentProfile) {
-        return 0;
-    }
-
-    @Override
-    public Profile getCurrentUserPlaylists(Context context, ProfilePlaylistsFragment profilePlaylistsFragment) {
-        return null;
-    }
 
     @Override
     public int getArtistsCount() {
