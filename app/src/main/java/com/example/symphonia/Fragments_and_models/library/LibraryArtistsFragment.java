@@ -187,7 +187,7 @@ public class LibraryArtistsFragment extends Fragment implements RvListArtistsAda
         snack.setAction("UNDO", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(mFollowedArtists.contains(removedArtist)){
+                        if(!(mFollowedArtists.contains(removedArtist))){
                             mServiceController.followArtistsOrUsers
                                     (getContext(), "artist", new ArrayList<String>(Collections.singletonList(id)));
                             mFollowedArtists.add(0, removedArtist);

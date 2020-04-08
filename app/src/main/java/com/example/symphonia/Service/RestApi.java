@@ -571,7 +571,7 @@ public class RestApi implements APIs {
     public void playTrack(final Context context, String id, String context_id, String context_url, String context_type) {
         final updateUiPlaylists listener = (updateUiPlaylists) context;
 
-        final StringRequest request = new StringRequest(Request.Method.POST, Constants.PLAY_TRACK.concat("5e8a1e0f7937ec4d40c6deba")
+        final StringRequest request = new StringRequest(Request.Method.GET, Constants.PLAY_TRACK.concat("5e8a1e0f7937ec4d40c6deba")
             , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
