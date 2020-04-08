@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     private ImageView trackImage;
     private Toast toast;
     private PlaylistFragment playlistFragment;
+    private boolean root = true;
     /**
      * holds position of item which its color needs to be reset
      */
@@ -691,7 +692,10 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             getSupportFragmentManager().popBackStack();
             return;
         }
-        if (homeFragment.isVisible()) finish();
+
+        if (root){
+            finishAffinity();
+        }
         super.onBackPressed();
 
     }
@@ -716,6 +720,8 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     private HomeFragment homeFragment;
 
     private SearchFragment searchFragment;
+    private LibraryFragment libraryFragment;
+    private PremiumFragment premiumFragment;
 
     /**
      * this function initialize BottomNavigationView
@@ -730,29 +736,32 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                 .setPrimaryNavigationFragment(navHostFragment)
                 .commit();
         homeFragment = new HomeFragment();
-        searchFragment = new SearchFragment();
+        searchFragment=new SearchFragment();
+        libraryFragment=new LibraryFragment();
+        premiumFragment=new PremiumFragment();
+
         navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.navigation_home:
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.nav_host_fragment, homeFragment)
+                                .replace(R.id.nav_host_fragment, homeFragment, "home")
                                 .commit();
                         return true;
                     case R.id.navigation_library:
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.nav_host_fragment, new LibraryFragment())
+                                .replace(R.id.nav_host_fragment, libraryFragment, "library")
                                 .commit();
                         return true;
                     case R.id.navigation_search:
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.nav_host_fragment, searchFragment)
+                                .replace(R.id.nav_host_fragment,searchFragment, "search")
                                 .commit();
                         return true;
                     case R.id.navigation_premium:
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.nav_host_fragment, new PremiumFragment())
+                                .replace(R.id.nav_host_fragment, premiumFragment, "premium")
                                 .commit();
                         return true;
                 }
@@ -879,6 +888,14 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     @Override
     public void getCurrentUserFollowers(ArrayList<Profile> f, FragmentProfile fragmentProfile) {
         fragmentProfile.updateUiFollowers(f);
+    }
+
+    public boolean isRoot() {
+        return root;
+    }
+
+    public void setRoot(boolean root) {
+        this.root = root;
     }
 
     /*@Override

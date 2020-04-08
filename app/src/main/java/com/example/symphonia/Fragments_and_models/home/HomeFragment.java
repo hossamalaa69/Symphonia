@@ -66,6 +66,7 @@ public class HomeFragment extends Fragment {
         else {
              loadAllPlaylists();
         }
+        ((MainActivity)getActivity()).setRoot(true);
 
         final ImageView ivSettings = root.findViewById(R.id.iv_setting_home);
         ivSettings.setOnClickListener(new View.OnClickListener() {
@@ -206,4 +207,9 @@ public class HomeFragment extends Fragment {
 
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        ((MainActivity)getActivity()).setRoot(false);
+    }
 }
