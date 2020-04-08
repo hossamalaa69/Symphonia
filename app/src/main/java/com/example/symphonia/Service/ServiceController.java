@@ -10,6 +10,7 @@ import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Fragments_and_models.home.HomeFragment;
+import com.example.symphonia.Fragments_and_models.playlist.PlaylistFragment;
 import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
 
 import java.util.ArrayList;
@@ -68,6 +69,8 @@ public class ServiceController {
         return mSupplier.logIn(context, username, password, mType);
     }
 
+
+
     /**
      * checks if email is already signed in database or not
      *
@@ -114,11 +117,11 @@ public class ServiceController {
      * getter for random playlist
      *
      * @param context context of hosting activity
-     * @param mToken  token of user
+     * @param homeFragment  token of user
      * @return random  playlist
      */
-    public ArrayList<Playlist> getRandomPlaylists(Context context, String mToken) {
-        return mSupplier.getRandomPlaylists(context, mToken);
+    public ArrayList<Playlist> getRandomPlaylists(Context context, HomeFragment homeFragment) {
+        return mSupplier.getRandomPlaylists(context,homeFragment );
     }
 
     /**
@@ -318,5 +321,11 @@ public class ServiceController {
         return mSupplier.getSongsCount();
     }
 
-
+    public void playTrack(Context context, String id,String context_id,String context_url,String context_type)
+    {
+        mSupplier.playTrack(context,id,context_id,context_url,context_type);
+    }
+    public  ArrayList<Track>  getTracksOfPlaylist(Context context, String id, PlaylistFragment playlistFragment) {
+         return  mSupplier.getTracksOfPlaylist(context,id,playlistFragment);
+    }
 }

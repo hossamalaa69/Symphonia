@@ -80,7 +80,7 @@ public class Track implements Serializable {
      * @param mAlbum          album name
      * @param uri             Uri of track
      */
-    public Track(String mTitle, String mArtist, String playlistName, String mAlbum, int mImageResources, Uri uri,boolean locked) {
+    public Track(String mTitle, String mArtist, String playlistName, String mAlbum, int mImageResources, Uri uri, boolean locked) {
         this.mTitle = mTitle;
         this.mArtist = mArtist;
         this.mAlbum = mAlbum;
@@ -171,6 +171,7 @@ public class Track implements Serializable {
 
     /**
      * getter for artist name
+     *
      * @return artist name
      */
     public String getmArtist() {
@@ -223,4 +224,21 @@ public class Track implements Serializable {
     }
 
 
+    public void setmDuration(int mDuration) {
+        this.mDuration = mDuration;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setUri(Uri uri) {
+        this.uri = uri;
+    }
+
+    private String id;
+
+    public String getId() {
+        return id;
+    }
 }

@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.symphonia.Entities.Track;
+import com.example.symphonia.Fragments_and_models.library.BottomSheetDialogArtist;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -46,6 +47,14 @@ public class BottomSheetDialogSettings extends BottomSheetDialogFragment {
         TextView share = view.findViewById(R.id.tv_track_share_settings);
         TextView report = view.findViewById(R.id.tv_track_report_settings);
         TextView credits = view.findViewById(R.id.tv_track_show_credits_settings);
+        TextView showArtist = view.findViewById(R.id.tv_track_view_artist_settings);
+
+        showArtist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onViewArtistClicked(pos);
+            }
+        });
         credits.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,6 +136,9 @@ public class BottomSheetDialogSettings extends BottomSheetDialogFragment {
         void onShareClicked(int pos);
 
         void onCreditsClicked(int pos);
+
+        void onViewArtistClicked(int pos);
+
 
     }
 
