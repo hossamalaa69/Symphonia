@@ -1,5 +1,6 @@
 package com.example.symphonia;
 
+import android.annotation.TargetApi;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +8,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
@@ -20,6 +22,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.symphonia.Helpers.Utils;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -156,6 +160,7 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
     /**
      * this function initialize media player with current track info
      */
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     public void initMediaPlayer() {
         mediaPlayer = new MediaPlayer();
         setMediaPlayCompletionService();
@@ -179,9 +184,12 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
                 }
             };
                 */
+            Map<String, String> headers = new HashMap<>();
+            headers.put("Authorization", "Bearer " + Constants.currentToken);
+           // headers.put("Content-Type", "application/json");
 
             mediaPlayer.setDataSource(getApplicationContext(),
-                        Uri.parse(Constants.PLAY_TRACK+"5e8a1e0f7937ec4d40c6deba"));
+                        Uri.parse(Constants.PLAY_TRACK+"5e8a1e0f7937ec4d40c6deba"),headers);
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.setOnPreparedListener(this);
             mediaPlayer.setOnErrorListener(this);

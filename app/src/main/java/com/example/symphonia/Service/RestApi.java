@@ -565,45 +565,37 @@ public class RestApi implements APIs {
     }
 
     @Override
-    public void playTrack(Context context, String id, String context_id, String context_url, String context_type) {
+    public void playTrack(final Context context, String id, String context_id, String context_url, String context_type) {
         final updateUiPlaylists listener = (updateUiPlaylists) context;
 
         final StringRequest request = new StringRequest(Request.Method.POST, Constants.PLAY_TRACK.concat("5e8a1e0f7937ec4d40c6deba")
-               /*      .concat("/contextId=1203809ufhadhf89")
-                     .concat("/context_type=playlist")
-                     .concat("/context_url=https://localhost:3000/")
-                     .concat("/device=android")*/, new Response.Listener<String>() {
+            , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Utils.CurrTrackInfo.currPlaylistTracks.get(Utils.CurrTrackInfo.TrackPosInPlaylist).setUri(Uri.parse(response));
                 listener.updateUiPlayTrack();
+                Log.e("play", "success");
+
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("play", "error");
+                Toast.makeText(context,error.toString(),Toast.LENGTH_SHORT).show();
+
             }
         }) {
              @Override
              public Map<String, String> getHeaders() {
                  Map<String, String> headers = new HashMap<>();
                  headers.put("Authorization", "Bearer " + Constants.currentToken);
-                 headers.put("Content-Type", "application/json");
+              //   headers.put("Content-Type", "application/json");
                  return headers;
              }
                  @Override
                  public String getBodyContentType() {
-                     return "{\"contextId\": \"1203809ufhadhf89\",\n" +
-                             "\t\"context_type\": \"playlist\",\n" +
-                             "\t\"context_url\": \"https://localhost:3000/\",\n" +
-                             "\t\"device\": \"android\"}";
+                     return "{\"contextId\": \"5e701fdf2672a63a60573a06\",\"context_type\": \"album\",\"context_url\": \"https://thesymphonia.ddns.net/\",\"device\": \"android\"}";
                  }
-          /*    @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("number", "5");
-                return params;
-            }*/
         };
 
         VolleySingleton.getInstance(context).getRequestQueue().add(request);
