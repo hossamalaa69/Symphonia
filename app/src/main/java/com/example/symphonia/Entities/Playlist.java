@@ -130,4 +130,8 @@ public class Playlist {
     public void setTracks(ArrayList<Track> tracks) {
         this.tracks = tracks;
     }
+
+    public void setPlaylistImage(Bitmap bitmap) {
+            mPlaylistImage = bitmap;
+    }
 }

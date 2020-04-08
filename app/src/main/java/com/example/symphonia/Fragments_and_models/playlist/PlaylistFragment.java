@@ -1,7 +1,7 @@
 package com.example.symphonia.Fragments_and_models.playlist;
 
 
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
@@ -27,6 +27,7 @@ import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
 import com.google.android.material.appbar.AppBarLayout;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 /**
  * fragment that represent playlist tracks to user
@@ -78,7 +79,6 @@ public class PlaylistFragment extends Fragment {
 
         appBarLayout.setScrollbarFadingEnabled(true);
 
-        playlistImage.setImageBitmap(Utils.CurrPlaylist.playlist.getmPlaylistImage());
         playlistTitle.setText(Utils.CurrPlaylist.playlist.getmPlaylistTitle());
         madeForUser.setText(R.string.made_for_you_by_spotify);
 
@@ -142,6 +142,7 @@ public class PlaylistFragment extends Fragment {
         return view;
     }
 
+    Drawable background;
 
     public void updateTracks() {
         layoutManager = new LinearLayoutManager(getContext());
@@ -149,24 +150,45 @@ public class PlaylistFragment extends Fragment {
         rvTracks.setLayoutManager(layoutManager);
         rvTracksHomeAdapter = new RvTracksHomeAdapter(getContext(), Utils.CurrPlaylist.playlist.getTracks());
         rvTracks.setAdapter(rvTracksHomeAdapter);
+        Target target = new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                Utils.CurrPlaylist.playlist.setPlaylistImage(bitmap);
+                background = Utils.createBackground(getContext(), Utils.CurrPlaylist.playlist.getmPlaylistImage());
+                playlistImage.setImageBitmap(Utils.CurrPlaylist.playlist.getmPlaylistImage());
+                TransitionDrawable td = new TransitionDrawable(
+                        new Drawable[]{getResources().getDrawable(R.drawable.background), background});
+                backgroundLayout.setBackground(td);
+                td.startTransition(500);
+            }
 
+            @Override
+            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+            }
+        };
         if (!Constants.DEBUG_STATUS)
             Picasso.get()
                     .load(Utils.CurrPlaylist.playlist.getImageUrl())
-                    .fit()
-                    .centerCrop()
-                    .into(playlistImage);
+                    .into(target);
 
-/*
+        if (Constants.DEBUG_STATUS) {
+            playlistImage.setImageBitmap(Utils.CurrPlaylist.playlist.getmPlaylistImage());
+            background = Utils.createBackground(getContext(), Utils.CurrPlaylist.playlist.getmPlaylistImage());
+            TransitionDrawable td = new TransitionDrawable(
+                    new Drawable[]{getResources().getDrawable(R.drawable.background), background});
+            backgroundLayout.setBackground(td);
+            td.startTransition(500);
+        }
 
-        Drawable background = Utils.createBackground(getContext(), ((BitmapDrawable) playlistImage.getDrawable()).getBitmap());
-        TransitionDrawable td = new TransitionDrawable(
-                new Drawable[]{getResources().getDrawable(R.drawable.background), background});
-        backgroundLayout.setBackground(td);
-        td.startTransition(500);
-*/
 
     }
+
     /**
      * this function change item image view favourite according to its data
      *

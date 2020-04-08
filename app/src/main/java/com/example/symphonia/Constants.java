@@ -24,7 +24,7 @@ public class Constants {
      * debug status for app to decide which service mode will be used
      * true for MockService, false for REST APIs mode
      */
-    public final static boolean DEBUG_STATUS = false;
+    public final static boolean DEBUG_STATUS = true;
 
     //Base URL
     public final static  String BASE_URL="https://thesymphonia.ddns.net/";
