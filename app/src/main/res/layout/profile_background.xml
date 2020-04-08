@@ -40,7 +40,7 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:background="@drawable/btn_showall"
-        android:text="Edit Profile"
+        android:text="@string/Edit_Profile"
         android:textAllCaps="true"
         android:textColor="@color/colorWhite"
         app:autoSizeTextType="uniform"

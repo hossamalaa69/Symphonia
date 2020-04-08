@@ -163,6 +163,7 @@
     <string name="followers">متابعين</string>
     <string name="Following">متابع</string>
     <string name="playlists">قوائم التشغيل</string>
+    <string name="Edit_Profile">تعديل الملف الشخصي</string>
 
     <string name="locked_songs">أغاني مغلقة؟</string>
     <string name="no_worries">لا يوجد مشاكل.</string>

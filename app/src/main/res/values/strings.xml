@@ -191,6 +191,8 @@
     <string name="started">Started</string>
     <string name="preparing">Preparing</string>
 
+
+    <string name="Edit_Profile">Edit Profile</string>
     <string name="See_all">See all</string>
     <string name="Public_playlists">Public playlists</string>
     <string name="follow">FOLLOW</string>

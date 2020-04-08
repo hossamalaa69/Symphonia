@@ -127,13 +127,6 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
                 if(s.equals(getResources().getString(R.string.follow)))
                     followButton.setText(getResources().getString(R.string.Following));
                 if(s.equals(getResources().getString(R.string.Following))) followButton.setText(getResources().getString(R.string.follow));
-                if(s.equals("Edit Profile")){
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.nav_host_fragment,new EditProfileFragment(profile));
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
-                }
             }
         }
     };
