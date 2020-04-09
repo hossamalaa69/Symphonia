@@ -206,7 +206,7 @@ public class SettingsFragment extends Fragment{
     }
 
     public void updateUiProfile(Profile profile){
-        if(!profile.getImgUrl().equals("https://thesymphonia.ddns.net/api/v1/images/users/default.png")) {
+        if(!profile.getImgUrl().contains("default")) {
             Picasso.get()
                     .load(profile.getImgUrl())
                     .fit()
