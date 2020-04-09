@@ -12,6 +12,7 @@ import java.io.Serializable;
  * @since 22-3-2020
  */
 public class Track implements Serializable {
+    private String imageUrl;
     /**
      * title of tack
      */
@@ -24,7 +25,7 @@ public class Track implements Serializable {
     /**
      * playlist  name  of tack
      */
-    private String PlaylistName;
+    private String playlistName;
     /**
      * album name of tack
      */
@@ -84,7 +85,7 @@ public class Track implements Serializable {
         this.mTitle = mTitle;
         this.mArtist = mArtist;
         this.mAlbum = mAlbum;
-        this.PlaylistName = playlistName;
+        this.playlistName = playlistName;
         this.mImageResources = mImageResources;
         this.uri = uri;
         this.locked = locked;
@@ -103,7 +104,7 @@ public class Track implements Serializable {
         this.mTitle = mTitle;
         this.mArtist = mArtist;
         this.mAlbum = mAlbum;
-        this.PlaylistName = playlistName;
+        this.playlistName = playlistName;
         this.mImageResources = mImageResources;
     }
 
@@ -122,11 +123,44 @@ public class Track implements Serializable {
     public Track(String mTitle, String mDescription, String playlistName, String mURL, boolean isHidden, boolean isLiked, int mImageResources, int mDuration) {
         this.mTitle = mTitle;
         this.mDescription = mDescription;
-        PlaylistName = playlistName;
+        this.playlistName = playlistName;
         this.isHidden = isHidden;
         this.isLiked = isLiked;
         this.mImageResources = mImageResources;
         this.mDuration = mDuration;
+    }
+
+    /**
+     * non empty constructor
+     *
+     * @param mTitle          title of track
+     * @param playlistName    name of playlsit
+     * @param mImageResources image resources of track
+     * @param mArtist         description of track
+     * @param isLocked        is track locked
+     * @param mDuration       duration of track
+     */
+    public Track(String mTitle, String mArtist, String playlistName, String id, boolean isLocked, int mImageResources, int mDuration, String imageUrl) {
+        this.mTitle = mTitle;
+        this.mArtist = mArtist;
+        this.locked = isLocked;
+        this.id = id;
+        this.imageUrl = imageUrl;
+        this.playlistName = playlistName;
+        this.mImageResources = mImageResources;
+        this.mDuration = mDuration;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public String getmAlbum() {
+        return mAlbum;
+    }
+
+    public int getmDuration() {
+        return mDuration;
     }
 
     /**
@@ -153,7 +187,7 @@ public class Track implements Serializable {
      * @return playlist name
      */
     public String getPlaylistName() {
-        return PlaylistName;
+        return playlistName;
     }
 
     /**

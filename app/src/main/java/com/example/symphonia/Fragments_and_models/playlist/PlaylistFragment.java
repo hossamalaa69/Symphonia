@@ -132,7 +132,7 @@ public class PlaylistFragment extends Fragment {
                         changeSelected(prev, Utils.CurrTrackInfo.TrackPosInPlaylist);
                         ((MainActivity) getActivity()).showPlayBar();
                         ((MainActivity) getActivity()).updatePlayBar();
-                        ((MainActivity) getActivity()).playTrack();
+                        ((MainActivity) getActivity()).startTrack();
                         return;
                     }
                 }

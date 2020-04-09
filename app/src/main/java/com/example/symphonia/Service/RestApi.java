@@ -26,9 +26,8 @@ import com.example.symphonia.Entities.Profile;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Entities.User;
 import com.example.symphonia.Fragments_and_models.home.HomeFragment;
-import com.example.symphonia.Fragments_and_models.profile.BottomSheetDialogProfile;
-
 import com.example.symphonia.Fragments_and_models.playlist.PlaylistFragment;
+import com.example.symphonia.Fragments_and_models.profile.BottomSheetDialogProfile;
 import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
 import com.example.symphonia.Fragments_and_models.profile.ProfileFollowersFragment;
 import com.example.symphonia.Fragments_and_models.profile.ProfilePlaylistsFragment;
@@ -274,11 +273,11 @@ public class RestApi implements APIs {
     }
 
 
-
     public interface updateUiPlaylists {
         void getCategoriesSuccess();
 
         void updateUiGetTracksOfPlaylist(PlaylistFragment playlistFragment);
+
         void updateUiGetPopularPlaylistsSuccess();
 
         void updateUiGetPopularPlaylistsFail();
@@ -508,8 +507,8 @@ public class RestApi implements APIs {
     /**
      * getter for random playlist
      *
-     * @param context context of hosting activity
-     * @param homeFragment  token of user
+     * @param context      context of hosting activity
+     * @param homeFragment token of user
      * @return random  playlist
      */
     @Override
@@ -546,7 +545,7 @@ public class RestApi implements APIs {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("rand", "error");
-                
+
 
             }
         }) {
@@ -572,10 +571,11 @@ public class RestApi implements APIs {
         final updateUiPlaylists listener = (updateUiPlaylists) context;
 
         final StringRequest request = new StringRequest(Request.Method.GET, Constants.PLAY_TRACK.concat("5e8a1e0f7937ec4d40c6deba")
-            , new Response.Listener<String>() {
+                , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Utils.CurrTrackInfo.currPlaylistTracks.get(Utils.CurrTrackInfo.TrackPosInPlaylist).setUri(Uri.parse(response));
+                Utils.CurrTrackInfo.loading = false;
                 listener.updateUiPlayTrack();
                 Log.e("play", "success");
 
@@ -584,21 +584,22 @@ public class RestApi implements APIs {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("play", "error");
-                Toast.makeText(context,error.toString(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
 
             }
         }) {
-             @Override
-             public Map<String, String> getHeaders() {
-                 Map<String, String> headers = new HashMap<>();
-                 headers.put("Authorization", "Bearer " + Constants.currentToken);
-              //   headers.put("Content-Type", "application/json");
-                 return headers;
-             }
-                 @Override
-                 public String getBodyContentType() {
-                     return "{\"contextId\": \"5e701fdf2672a63a60573a06\",\"context_type\": \"album\",\"context_url\": \"https://thesymphonia.ddns.net/\",\"device\": \"android\"}";
-                 }
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + Constants.currentToken);
+                //   headers.put("Content-Type", "application/json");
+                return headers;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "{\"contextId\": \"5e701fdf2672a63a60573a06\",\"context_type\": \"album\",\"context_url\": \"https://thesymphonia.ddns.net/\",\"device\": \"android\"}";
+            }
         };
 
         VolleySingleton.getInstance(context).getRequestQueue().add(request);
@@ -608,7 +609,8 @@ public class RestApi implements APIs {
     public ArrayList<Track> getTracksOfPlaylist(Context context, String id, final PlaylistFragment playlistFragment) {
         final updateUiPlaylists listener = (updateUiPlaylists) context;
         final ArrayList<Track> tracksList = new ArrayList<>();
-        final StringRequest request = new StringRequest(Request.Method.GET, Constants.GET_PLAYLISTS_TRACKS.concat(id).concat("/tracks"), new Response.Listener<String>() {
+        final StringRequest request = new StringRequest(Request.Method.GET
+                , Constants.GET_PLAYLISTS_TRACKS.concat(id).concat("/tracks"), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -616,15 +618,19 @@ public class RestApi implements APIs {
                     Utils.LoadedPlaylists.randomPlaylists = new ArrayList<>();
                     JSONArray root = new JSONArray(response);
                     JSONObject firstElement = root.getJSONObject(0);
-                    JSONArray tracks  = firstElement.getJSONArray("tracks");
+                    JSONArray tracks = firstElement.getJSONArray("tracks");
                     for (int i = 0; i < tracks.length(); i++) {
                         JSONObject track = tracks.getJSONObject(i);
                         String title = track.getString("name");
                         String id = track.getString("_id");
-                        String artist = track.optString("artist");
+                        JSONObject album = track.getJSONObject("album");
+                        String imageUrl = album.getString("image");
+                        JSONObject artist = track.getJSONObject("artist");
+                        String artistName = artist.getString("name");
                         int duration = track.getInt("durationMs");
-                        String url = track.getString("trackPath");
-                        tracksList.add(new Track(title,artist, Utils.CurrPlaylist.playlist.getmPlaylistTitle(),null,R.drawable.no_image, Uri.parse(url),false));
+                        String premium = track.getString("premium");
+                        tracksList.add(new Track(title, artistName, Utils.CurrPlaylist.playlist.getmPlaylistTitle()
+                                , id, (premium.matches("true")), R.drawable.no_image, duration, imageUrl));
                     }
                     Utils.CurrPlaylist.playlist.setTracks(tracksList);
                     Log.e("tracks", "success");
@@ -998,7 +1004,7 @@ public class RestApi implements APIs {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization","Bearer " + Constants.currentToken);
+                headers.put("Authorization", "Bearer " + Constants.currentToken);
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
@@ -1089,10 +1095,10 @@ public class RestApi implements APIs {
                     public void onResponse(String response) {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
-                            String name=jsonObject.getString("name");
-                            String imgUrl=jsonObject.getString("imageUrl");
-                            profile[0] =new Profile(name,imgUrl);
-                            listener.getCurrentProfile(profile[0],settingsFragment);
+                            String name = jsonObject.getString("name");
+                            String imgUrl = jsonObject.getString("imageUrl");
+                            profile[0] = new Profile(name, imgUrl);
+                            listener.getCurrentProfile(profile[0], settingsFragment);
                         } catch (Exception e) {
                             e.fillInStackTrace();
                         }
@@ -1126,28 +1132,28 @@ public class RestApi implements APIs {
     @Override
     public ArrayList<Container> getCurrentUserPlaylists(final Context context, final FragmentProfile fragmentProfile) {
         final updateUiProfileInProfileFragment listener = (updateUiProfileInProfileFragment) context;
-        final ArrayList<Container>playlists=new ArrayList<>();
-        StringRequest stringRequest = new StringRequest(Request.Method.GET,Constants.Get_Current_User_Profile_playlists
-                ,new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray playlistsArr=jsonObject.getJSONArray("ownedPlaylists");
-                            for(int i=0;i<playlistsArr.length();i++){
-                                JSONObject playlist=playlistsArr.getJSONObject(i);
-                                String name=playlist.getString("name");
-                                String id=playlist.getString("id");
-                                JSONArray imageArr=playlist.getJSONArray("images");
-                                String imageUrl=imageArr.getString(0);
-                                //String imageUrl=imageUrlObj.toString();
-                                JSONArray followers=playlist.getJSONArray("followers");
-                                playlists.add(new Container(name,imageUrl,followers));
-                            }
-                            listener.getCurrentProfilePlaylists(playlists,fragmentProfile);
-                        }catch (Exception e){
-                            e.fillInStackTrace();
-                        }
+        final ArrayList<Container> playlists = new ArrayList<>();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constants.Get_Current_User_Profile_playlists
+                , new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray playlistsArr = jsonObject.getJSONArray("ownedPlaylists");
+                    for (int i = 0; i < playlistsArr.length(); i++) {
+                        JSONObject playlist = playlistsArr.getJSONObject(i);
+                        String name = playlist.getString("name");
+                        String id = playlist.getString("id");
+                        JSONArray imageArr = playlist.getJSONArray("images");
+                        String imageUrl = imageArr.getString(0);
+                        //String imageUrl=imageUrlObj.toString();
+                        JSONArray followers = playlist.getJSONArray("followers");
+                        playlists.add(new Container(name, imageUrl, followers));
+                    }
+                    listener.getCurrentProfilePlaylists(playlists, fragmentProfile);
+                } catch (Exception e) {
+                    e.fillInStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -1216,25 +1222,25 @@ public class RestApi implements APIs {
     @Override
     public ArrayList<Container> getCurrentUserFollowing(final Context context, final ProfileFollowersFragment profileFollowersFragment) {
         final updateProfileFollow listener = (updateProfileFollow) context;
-        final ArrayList<Container>following=new ArrayList<>();
-        StringRequest stringRequest = new StringRequest(Request.Method.GET,Constants.Get_User_Following
-                ,new Response.Listener<String>() {
+        final ArrayList<Container> following = new ArrayList<>();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constants.Get_User_Following
+                , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    JSONObject artists=jsonObject.getJSONObject("artists");
-                    JSONArray jsonArray=artists.getJSONArray("items");
-                    for(int i=0;i<jsonArray.length();i++){
-                        JSONObject item=jsonArray.getJSONObject(i);
-                        String id=item.getString("_id");
-                        String name=item.getString("name");
-                        String imageUrl=item.getString("imageUrl");
-                        JSONArray followArtist=item.getJSONArray("followedUsers");
-                        following.add(new Container(name,imageUrl,followArtist));
+                    JSONObject artists = jsonObject.getJSONObject("artists");
+                    JSONArray jsonArray = artists.getJSONArray("items");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject item = jsonArray.getJSONObject(i);
+                        String id = item.getString("_id");
+                        String name = item.getString("name");
+                        String imageUrl = item.getString("imageUrl");
+                        JSONArray followArtist = item.getJSONArray("followedUsers");
+                        following.add(new Container(name, imageUrl, followArtist));
                     }
-                    listener.getUserFollowing(following,profileFollowersFragment);
-                }catch (Exception e){
+                    listener.getUserFollowing(following, profileFollowersFragment);
+                } catch (Exception e) {
                     e.fillInStackTrace();
                 }
             }
@@ -1261,24 +1267,24 @@ public class RestApi implements APIs {
     @Override
     public ArrayList<Container> getCurrentUserFollowers(Context context, final ProfileFollowersFragment profileFollowersFragment) {
         final updateProfileFollow listener = (updateProfileFollow) context;
-        final ArrayList<Container>followers=new ArrayList<>();
-        StringRequest stringRequest = new StringRequest(Request.Method.GET,Constants.BASE_URL+"api/v1/Artists/"+Constants.currentUser.get_id()+"/followers"
-                ,new Response.Listener<String>() {
+        final ArrayList<Container> followers = new ArrayList<>();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constants.BASE_URL + "api/v1/Artists/" + Constants.currentUser.get_id() + "/followers"
+                , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    JSONArray jsonArray=jsonObject.getJSONArray("followers");
-                    for(int i=0;i<jsonArray.length();i++){
-                        JSONObject follower=jsonArray.getJSONObject(i);
-                        String id=follower.getString("_id");
-                        String name=follower.getString("name");
-                        String imgUrl=follower.getString("imageUrl");
-                        JSONArray artistFollowers=follower.getJSONArray("followedUsers");
-                        followers.add(new Container(name,imgUrl,artistFollowers));
+                    JSONArray jsonArray = jsonObject.getJSONArray("followers");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject follower = jsonArray.getJSONObject(i);
+                        String id = follower.getString("_id");
+                        String name = follower.getString("name");
+                        String imgUrl = follower.getString("imageUrl");
+                        JSONArray artistFollowers = follower.getJSONArray("followedUsers");
+                        followers.add(new Container(name, imgUrl, artistFollowers));
                     }
-                    listener.getUserFollowers(followers,profileFollowersFragment);
-                }catch (Exception e){
+                    listener.getUserFollowers(followers, profileFollowersFragment);
+                } catch (Exception e) {
                     e.fillInStackTrace();
                 }
             }
@@ -1307,15 +1313,15 @@ public class RestApi implements APIs {
     public String getNumbersoUserFollowers(Context context, final FragmentProfile fragmentProfile) {
         final updateUiProfileInProfileFragment listener = (updateUiProfileInProfileFragment) context;
         final String[] count = new String[1];
-        StringRequest stringRequest = new StringRequest(Request.Method.GET,Constants.BASE_URL+"api/v1/Artists/"+Constants.currentUser.get_id()+"/followers"
-                ,new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constants.BASE_URL + "api/v1/Artists/" + Constants.currentUser.get_id() + "/followers"
+                , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    count[0] =String.valueOf(jsonObject.getInt("followers_count"));
-                    listener.getCurrentUserFollowersNumber(count[0],fragmentProfile);
-                }catch (Exception e){
+                    count[0] = String.valueOf(jsonObject.getInt("followers_count"));
+                    listener.getCurrentUserFollowersNumber(count[0], fragmentProfile);
+                } catch (Exception e) {
                     e.fillInStackTrace();
                 }
             }
@@ -1324,12 +1330,12 @@ public class RestApi implements APIs {
             public void onErrorResponse(VolleyError error) {
                 Log.e("Profile", "" + error.getMessage());
             }
-        }){
+        }) {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization","Bearer "+ Constants.currentToken);
+                headers.put("Authorization", "Bearer " + Constants.currentToken);
                 return headers;
             }
         };
@@ -1343,15 +1349,15 @@ public class RestApi implements APIs {
     public String getNumbersoUserFollowing(Context context, final FragmentProfile fragmentProfile) {
         final updateUiProfileInProfileFragment listener = (updateUiProfileInProfileFragment) context;
         final String[] count = new String[1];
-        StringRequest stringRequest = new StringRequest(Request.Method.GET,Constants.Get_User_Following
-                ,new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constants.Get_User_Following
+                , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    count[0] =String.valueOf(jsonObject.getInt("totalFollowed"));
-                    listener.getCurrentUserFollowingNumber(count[0],fragmentProfile);
-                }catch (Exception e){
+                    count[0] = String.valueOf(jsonObject.getInt("totalFollowed"));
+                    listener.getCurrentUserFollowingNumber(count[0], fragmentProfile);
+                } catch (Exception e) {
                     e.fillInStackTrace();
                 }
             }
@@ -1360,12 +1366,12 @@ public class RestApi implements APIs {
             public void onErrorResponse(VolleyError error) {
                 Log.e("Profile", "" + error.getMessage());
             }
-        }){
+        }) {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization","Bearer "+ Constants.currentToken);
+                headers.put("Authorization", "Bearer " + Constants.currentToken);
                 return headers;
             }
         };
@@ -1383,26 +1389,26 @@ public class RestApi implements APIs {
     @Override
     public ArrayList<Container> getAllCurrentUserPlaylists(Context context, final ProfilePlaylistsFragment profilePlaylistsFragment) {
         final updateProfilePlaylists listener = (updateProfilePlaylists) context;
-        final ArrayList<Container>playlists=new ArrayList<>();
-        StringRequest stringRequest = new StringRequest(Request.Method.GET,Constants.Get_Current_User_Profile_playlists
-                ,new Response.Listener<String>() {
+        final ArrayList<Container> playlists = new ArrayList<>();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constants.Get_Current_User_Profile_playlists
+                , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    JSONArray playlistsArr=jsonObject.getJSONArray("ownedPlaylists");
-                    for(int i=0;i<playlistsArr.length();i++){
-                        JSONObject playlist=playlistsArr.getJSONObject(i);
-                        String name=playlist.getString("name");
-                        String id=playlist.getString("id");
-                        JSONArray imageArr=playlist.getJSONArray("images");
-                        String imageUrl=imageArr.getString(0);
+                    JSONArray playlistsArr = jsonObject.getJSONArray("ownedPlaylists");
+                    for (int i = 0; i < playlistsArr.length(); i++) {
+                        JSONObject playlist = playlistsArr.getJSONObject(i);
+                        String name = playlist.getString("name");
+                        String id = playlist.getString("id");
+                        JSONArray imageArr = playlist.getJSONArray("images");
+                        String imageUrl = imageArr.getString(0);
                         //String imageUrl=imageUrlObj.toString();
-                        JSONArray followers=playlist.getJSONArray("followers");
-                        playlists.add(new Container(name,imageUrl,followers));
+                        JSONArray followers = playlist.getJSONArray("followers");
+                        playlists.add(new Container(name, imageUrl, followers));
                     }
-                    listener.getAllUserPlaylists(playlists,profilePlaylistsFragment);
-                }catch (Exception e){
+                    listener.getAllUserPlaylists(playlists, profilePlaylistsFragment);
+                } catch (Exception e) {
                     e.fillInStackTrace();
                 }
             }
@@ -1411,12 +1417,12 @@ public class RestApi implements APIs {
             public void onErrorResponse(VolleyError error) {
                 Log.e("Profile", "" + error.getMessage());
             }
-        }){
+        }) {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization","Bearer "+ Constants.currentToken);
+                headers.put("Authorization", "Bearer " + Constants.currentToken);
                 return headers;
             }
         };
@@ -1466,25 +1472,28 @@ public class RestApi implements APIs {
 
     public interface updateUiProfileInProfileFragment {
         public void getCurrentProfilePlaylists(ArrayList<Container> playlists, FragmentProfile fragmentProfile);
+
         public void getCurrentUserFollowingNumber(String f, FragmentProfile fragmentProfile);
-        public void getCurrentUserFollowersNumber(String s,FragmentProfile fragmentProfile);
+
+        public void getCurrentUserFollowersNumber(String s, FragmentProfile fragmentProfile);
     }
 
     public interface updateUiProfileInSetting {
         public void getCurrentProfile(Profile profile, SettingsFragment settingsFragment);
     }
 
-    public interface updateProfilePlaylists{
-        public void getAllUserPlaylists(ArrayList<Container>p,ProfilePlaylistsFragment profilePlaylistsFragment);
+    public interface updateProfilePlaylists {
+        public void getAllUserPlaylists(ArrayList<Container> p, ProfilePlaylistsFragment profilePlaylistsFragment);
     }
 
-    public interface updateProfileFollow{
-        public void getUserFollowers(ArrayList<Container>f,ProfileFollowersFragment profileFollowersFragment);
-        public void getUserFollowing(ArrayList<Container>f,ProfileFollowersFragment profileFollowersFragment);
+    public interface updateProfileFollow {
+        public void getUserFollowers(ArrayList<Container> f, ProfileFollowersFragment profileFollowersFragment);
+
+        public void getUserFollowing(ArrayList<Container> f, ProfileFollowersFragment profileFollowersFragment);
 
     }
 
-    public interface updateAfterActions{
+    public interface updateAfterActions {
 
     }
 

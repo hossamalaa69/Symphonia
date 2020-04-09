@@ -122,6 +122,7 @@ public class RvPlaylistsHomeAdapter extends RecyclerView.Adapter<RvPlaylistsHome
             if (mPlaylists.get(pos).getmPlaylistImage() == null) {
                 ivPlaylistImage.setImageResource(R.drawable.no_image);
             }
+
             if (!Constants.DEBUG_STATUS)
                 Picasso.get()
                         .load(mPlaylists.get(pos).getImageUrl())

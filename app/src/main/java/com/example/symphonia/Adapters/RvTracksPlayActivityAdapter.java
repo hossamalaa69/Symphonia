@@ -9,8 +9,10 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -152,6 +154,7 @@ public class RvTracksPlayActivityAdapter extends RecyclerView.Adapter<RvTracksPl
          */
         public Holder(@NonNull View itemView) {
             super(itemView);
+
             trackImage = itemView.findViewById(R.id.iv_track_image_item_play_activity);
         }
 
@@ -160,7 +163,14 @@ public class RvTracksPlayActivityAdapter extends RecyclerView.Adapter<RvTracksPl
          */
         private void bind() {
             Track track = tracks.get(getAdapterPosition());
-            trackImage.setImageResource(track.getmImageResources());
+            if (!Constants.DEBUG_STATUS)
+                Picasso.get()
+                        .load(tracks.get(getAdapterPosition()).getImageUrl())
+                        .fit()
+                        .centerCrop()
+                        .into(trackImage);
+            else
+                trackImage.setImageResource(track.getmImageResources());
         }
     }
 }
