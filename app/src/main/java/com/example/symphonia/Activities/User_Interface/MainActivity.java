@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -52,6 +53,7 @@ import com.example.symphonia.R;
 import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -66,12 +68,12 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAdapter.OnPlaylistClicked
         , RvTracksHomeAdapter.OnTrackClicked
         , RestApi.updateUiPlaylists
-       // ,RestApi.updateUiGetCategories
-        ,RestApi.updateProfileFollow
-        ,RestApi.updateUiProfileInSetting
-        ,RestApi.updateUiProfileInProfileFragment
-        ,RestApi.updateProfilePlaylists
-        ,BottomSheetDialogSettings.BottomSheetListener
+        // ,RestApi.updateUiGetCategories
+        , RestApi.updateProfileFollow
+        , RestApi.updateUiProfileInSetting
+        , RestApi.updateUiProfileInProfileFragment
+        , RestApi.updateProfilePlaylists
+        , BottomSheetDialogSettings.BottomSheetListener
         , RvBarAdapter.ItemInterface, Serializable {
 
     private RecyclerView.LayoutManager layoutManager;
@@ -258,6 +260,8 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
 
     @Override
     public void updateUiPlayTrack() {
+        Log.e("main update", "call play track");
+        if (!Utils.CurrTrackInfo.loading)
             playTrack();
     }
 
@@ -382,10 +386,12 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            updatePlayBar();
-            if (mediaController.isMediaNotNull() && !Utils.CurrTrackInfo.paused) {
+            //     updatePlayBar();
+            if (!Utils.CurrTrackInfo.paused ||
+                    (mediaController.isMediaNotNull() && mediaController.isMediaPlayerPlaying())) {
                 updatePlayBtn();
             }
+
             mHandler.postDelayed(this, 500);
         }
     };
@@ -420,10 +426,11 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
      */
     @Override
     public void OnItemSwitchedListener(int pos) {
+        Utils.CurrTrackInfo.paused = false;
         if (playlistFragment != null && playlistFragment.isVisible())
             playlistFragment.changeSelected(Utils.CurrTrackInfo.TrackPosInPlaylist, pos);
         Utils.setTrackInfo(0, pos, Utils.CurrTrackInfo.currPlaylistTracks);
-        playTrack();
+        startTrack();
         updatePlayBar();
     }
 
@@ -435,7 +442,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         if (rvBar != null) {
             if (Utils.CurrTrackInfo.TrackPosInPlaylist != -1)
                 rvBar.getLayoutManager().scrollToPosition(Utils.CurrTrackInfo.TrackPosInPlaylist);
-            if (mediaController.isMediaPlayerPlaying()) {
+            if (mediaController.isMediaPlayerPlaying() && !Utils.CurrTrackInfo.paused) {
                 ivPlayButton.setImageResource(R.drawable.ic_pause_black_24dp);
             } else {
                 ivPlayButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
@@ -459,6 +466,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
      * this function play media player with track stored in Current Playing
      */
     public void playTrack() {
+        Log.e("main", "play");
         Utils.CurrTrackInfo.paused = false;
         Intent intent = new Intent(this, MediaController.class);
         intent.setAction(MediaController.ACTION_PLAY);
@@ -496,7 +504,15 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             barAdapter.notifyDataSetChanged();
         }
         // update data of bar
-        trackImage.setImageResource(tracks.get(pos).getmImageResources());
+        if (!Constants.DEBUG_STATUS)
+            Picasso.get()
+                    .load(tracks.get(pos).getImageUrl())
+                    .fit()
+                    .centerCrop()
+                    .into(trackImage);
+        else
+            trackImage.setImageResource(tracks.get(pos).getmImageResources());
+
         rvBar.getLayoutManager().scrollToPosition(pos);
         ivPlayButton.setImageResource(R.drawable.ic_pause_black_24dp);
 
@@ -511,11 +527,22 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         } else {
             ivIsFavourite.setImageResource(R.drawable.ic_favorite_border_black_24dp);
         }
-        if(Constants.DEBUG_STATUS)
-         playTrack();
-        else
-            ServiceController.getInstance().playTrack(this,null,null,null,null);
+        Log.e("main", "track clicked");
+        startTrack();
     }
+
+    public void startTrack() {
+        Utils.CurrTrackInfo.paused = false;
+        if (Constants.DEBUG_STATUS)
+            playTrack();
+        else {
+            Utils.CurrTrackInfo.loading = true;
+            if (mediaController.isMediaPlayerPlaying())
+                mediaController.releaseMedia();
+            ServiceController.getInstance().playTrack(this, null, null, null, null);
+        }
+    }
+
 
     /**
      * this function adds listener to views in main activity
@@ -566,7 +593,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                     if (mediaController.isMediaNotNull())
                         mediaController.resumeMedia();
                     else {
-                        playTrack();
+                        startTrack();
                         if (playlistFragment.isVisible()) {
                             playlistFragment.changeSelected(-1, Utils.CurrTrackInfo.TrackPosInPlaylist);
                         }
@@ -599,7 +626,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                     Utils.CurrTrackInfo.TrackPosInPlaylist = i;
                     Utils.setTrackInfo(0, Utils.CurrTrackInfo.TrackPosInPlaylist, Utils.CurrTrackInfo.currPlaylistTracks);
                     rvBar.getLayoutManager().scrollToPosition(Utils.CurrTrackInfo.TrackPosInPlaylist);
-                    playTrack();
+                    startTrack();
                     if (playlistFragment != null && playlistFragment.isVisible()) {
                         playlistFragment.changeSelected(prevPos, Utils.CurrTrackInfo.TrackPosInPlaylist);
                     }
@@ -607,6 +634,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                     return;
                 }
             }
+            Utils.CurrTrackInfo.paused = true;
             mediaController.releaseMedia();
             if (playlistFragment != null && playlistFragment.isVisible()) {
                 playlistFragment.changeSelected(Utils.CurrTrackInfo.TrackPosInPlaylist, -1);
@@ -697,7 +725,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             return;
         }
 
-        if (root){
+        if (root) {
             finishAffinity();
         }
         super.onBackPressed();
@@ -740,9 +768,9 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                 .setPrimaryNavigationFragment(navHostFragment)
                 .commit();
         homeFragment = new HomeFragment();
-        searchFragment=new SearchFragment();
-        libraryFragment=new LibraryFragment();
-        premiumFragment=new PremiumFragment();
+        searchFragment = new SearchFragment();
+        libraryFragment = new LibraryFragment();
+        premiumFragment = new PremiumFragment();
 
         navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -760,7 +788,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                         return true;
                     case R.id.navigation_search:
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.nav_host_fragment,searchFragment, "search")
+                                .replace(R.id.nav_host_fragment, searchFragment, "search")
                                 .commit();
                         return true;
                     case R.id.navigation_premium:
@@ -900,7 +928,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     }*/
 
     @Override
-    public void getCurrentUserFollowersNumber(String num,FragmentProfile fragmentProfile) {
+    public void getCurrentUserFollowersNumber(String num, FragmentProfile fragmentProfile) {
         fragmentProfile.updateUiFollowers(num);
     }
 

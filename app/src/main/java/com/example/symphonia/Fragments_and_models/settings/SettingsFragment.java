@@ -23,6 +23,7 @@ import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.symphonia.Activities.User_Interface.MainActivity;
+import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Profile;
 import com.example.symphonia.Fragments_and_models.premium.PremiumFragment;
@@ -66,8 +67,8 @@ public class SettingsFragment extends Fragment{
         userImg=rootView.findViewById(R.id.image_user);
         userImg.setImageResource(R.drawable.img_init_profile);
         userName = rootView.findViewById(R.id.text_user_name);
-        userName.setText("user");
-        profileName="user";
+        userName.setText(Constants.currentUser.getmName());
+        profileName = Constants.currentUser.getmName();
 
         AppBarLayout appBarLayout = rootView.findViewById(R.id.app_bar);
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
@@ -226,8 +227,8 @@ public class SettingsFragment extends Fragment{
         BitmapDrawable drawable=(BitmapDrawable)userImg.getDrawable();
         profileImg=drawable.getBitmap();
         profileName=profile.getCat_Name();
+        Constants.currentUser.setmName(profileName);
         //userImg.setImageBitmap(profileImg);
-        userName.setText(profileName);
     }
 
 }

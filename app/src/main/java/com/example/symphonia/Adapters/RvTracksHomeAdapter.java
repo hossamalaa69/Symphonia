@@ -15,6 +15,7 @@ import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -197,7 +198,15 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
          * bind data to views
          */
         public void bind(int pos) {
-            ivTrackImage.setImageResource(mTracks.get(pos).getmImageResources());
+
+            if (!Constants.DEBUG_STATUS)
+                Picasso.get()
+                        .load(mTracks.get(pos).getImageUrl())
+                        .fit()
+                        .centerCrop()
+                        .into(ivTrackImage);
+            else
+                ivTrackImage.setImageResource(mTracks.get(pos).getmImageResources());
             tvTrackTitle.setText(mTracks.get(pos).getmTitle());
             tvTrackDescription.setText(mTracks.get(pos).getmArtist());
             Track track = mTracks.get(getAdapterPosition());

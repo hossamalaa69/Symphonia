@@ -16,14 +16,9 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.toolbox.StringRequest;
 import com.example.symphonia.Helpers.Utils;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -165,42 +160,25 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
         mediaPlayer = new MediaPlayer();
         setMediaPlayCompletionService();
         try {
-            Log.e("media","init");
+            Log.e("media", "init");
 
-         /*   StringRequest request = new StringRequest(Request.Method.POST,Constants.PLAY_TRACK+"5e8a1e0f7937ec4d40c6deba",null,null){
-                @Override
-                public Map<String, String> getHeaders() {
-                    Map<String, String> headers = new HashMap<>();
-                    headers.put("Authorization", "Bearer " + Constants.currentToken);
-                    headers.put("Content-Type", "application/json");
-                    return headers;
-                }
-                @Override
-                public String getBodyContentType() {
-                    return "{\"contextId\": \"1203809ufhadhf89\",\n" +
-                            "\t\"context_type\": \"playlist\",\n" +
-                            "\t\"context_url\": \"https://localhost:3000/\",\n" +
-                            "\t\"device\": \"Chrome\"}";
-                }
-            };
-                */
             Map<String, String> headers = new HashMap<>();
             headers.put("Authorization", "Bearer " + Constants.currentToken);
-           // headers.put("Content-Type", "application/json");
+            // headers.put("Content-Type", "application/json");
 
             mediaPlayer.setDataSource(getApplicationContext(),
-                        Uri.parse(Constants.PLAY_TRACK+"5e8a1e0f7937ec4d40c6deba"),headers);
+                    Uri.parse(Constants.PLAY_TRACK + "5e8a1e0f7937ec4d40c6deba"), headers);
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.setOnPreparedListener(this);
             mediaPlayer.setOnErrorListener(this);
             mediaPlayer.setLooping(false);
             mediaPlayer.prepareAsync(); // prepare async to not block main thread
-          //  makeToast(getApplicationContext().getResources().getString(R.string.preparing));
+            //  makeToast(getApplicationContext().getResources().getString(R.string.preparing));
 
         } catch (IOException e) {
             e.printStackTrace();
             makeToast(getApplicationContext().getResources().getString(R.string.cant_play));
-            Log.e("media","exception");
+            Log.e("media", "exception");
 
             mediaPlayer.reset();
         }
@@ -307,6 +285,7 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
                 }
             audioManager.abandonAudioFocus(onAudioFocusChangeListener);
         }
+        Utils.CurrTrackInfo.paused = true;
     }
 
 
@@ -324,7 +303,7 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
         // The MediaPlayer has moved to the Error state, must be reset!
         mediaPlayer.reset();
         releaseMedia();
-        setConfigrations();
+        //  setConfigrations();
         return true;
     }
 
@@ -332,9 +311,9 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
      * Called when MediaPlayer is ready
      */
     public void onPrepared(MediaPlayer player) {
-        Log.e("media","start");
+        Log.e("media", "start");
         player.start();
-     //   makeToast(getApplicationContext().getResources().getString(R.string.started));
+        //   makeToast(getApplicationContext().getResources().getString(R.string.started));
     }
 
     /**

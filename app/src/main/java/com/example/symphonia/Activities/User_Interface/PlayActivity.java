@@ -1,6 +1,7 @@
 package com.example.symphonia.Activities.User_Interface;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.media.MediaPlayer;
@@ -28,6 +29,8 @@ import com.example.symphonia.Helpers.SnapHelperOneByOne;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.MediaController;
 import com.example.symphonia.R;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -146,6 +149,32 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         });
         mediaController.setMediaPlayCompletionService();
 
+        this.runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                if (mediaController.isMediaNotNull() && mediaController.isMediaPlayerPlaying()) {
+                    seekBar.setMax(Utils.CurrTrackInfo.track.getmDuration() / 1000);
+                    int mCurrentPosition = mediaController.getCurrentPosition();
+                    seekBar.setProgress(mCurrentPosition / 1000);
+                    seekBarCurr.setText(String.valueOf(mCurrentPosition / 1000));
+                    seeKBarRemain.setText(String.valueOf(-(
+                            Utils.CurrTrackInfo.track.getmDuration() - mCurrentPosition) / 1000));
+                } else {
+                    seekBar.setMax(0);
+                    seekBar.setProgress(0);
+                    seekBarCurr.setText(String.valueOf(0));
+                    seeKBarRemain.setText(String.valueOf(0));
+                }
+
+                if (!Utils.CurrTrackInfo.paused || (mediaController.isMediaNotNull() && mediaController.isMediaPlayerPlaying())) {
+                    updatePlayBtn();
+                } else {
+                    playBtn.setImageResource(R.drawable.ic_play_circle_filled_black_24dp);
+                }
+                mHandler.postDelayed(this, 500);
+            }
+        });
     }
 
     /**
@@ -168,7 +197,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
                 Utils.CurrTrackInfo.paused = true;
                 seekBar.setProgress(0);
                 seekBarCurr.setText(String.valueOf(0));
-                seeKBarRemain.setText(String.valueOf(mediaController.getDuration() / 1000));
+                seeKBarRemain.setText(String.valueOf(Utils.CurrTrackInfo.track.getmDuration() / 1000));
                 mediaController.releaseMedia();
                 return;
             }
@@ -176,6 +205,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
             layoutManager.scrollToPosition(Utils.CurrTrackInfo.TrackPosInPlaylist);
             Utils.setTrackInfo(0, Utils.CurrTrackInfo.TrackPosInPlaylist, tracks);
             playTrack();
+            Utils.CurrTrackInfo.paused = false;
             updateScreen();
             updatePlayBtn();
             return;
@@ -184,7 +214,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
             Utils.CurrTrackInfo.paused = true;
             seekBar.setProgress(0);
             seekBarCurr.setText(String.valueOf(0));
-            seeKBarRemain.setText(String.valueOf(mediaController.getDuration() / 1000));
+            seeKBarRemain.setText(String.valueOf(Utils.CurrTrackInfo.track.getmDuration() / 1000));
             mediaController.releaseMedia();
         }
         updateScreen();
@@ -286,6 +316,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
 
     }
 
+    ConstraintLayout constraintLayout;
     int i = 0;
 
     /**
@@ -301,8 +332,33 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         if (layoutManager != null)
             layoutManager.scrollToPosition(Utils.CurrTrackInfo.TrackPosInPlaylist);
         // change background color according to track image
-        ConstraintLayout constraintLayout = findViewById(R.id.background_play_activity);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        constraintLayout = findViewById(R.id.background_play_activity);
+        Target target = new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                Drawable drawable = Utils.createBackground(PlayActivity.this, bitmap);
+                // transition drawable controls the animation ov changing background
+                TransitionDrawable td = new TransitionDrawable(new Drawable[]{trackBackgroun, drawable});
+                trackBackgroun = drawable;
+                constraintLayout.setBackground(td);
+                td.startTransition(500);
+            }
+
+            @Override
+            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+            }
+        };
+        if (!Constants.DEBUG_STATUS)
+            Picasso.get()
+                    .load(tracks.get(trackPos).getImageUrl())
+                    .into(target);
+        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             Drawable drawable = Utils.createBackground(this, tracks.get(trackPos).getmImageResources());
             // transition drawable controls the animation ov changing background
             TransitionDrawable td = new TransitionDrawable(new Drawable[]{trackBackgroun, drawable});
@@ -322,7 +378,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
             } else likeBtn.setImageResource(R.drawable.ic_favorite_border_black_24dp);
 
             seekBar.setProgress(0);
-            seekBar.setMax(mediaController.getDuration() / 1000);
+            seekBar.setMax(Utils.CurrTrackInfo.track.getmDuration() / 1000);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 seekBar.setProgress(mediaController.getCurrentPosition() / 1000, true);
             } else {
@@ -350,32 +406,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
             });
 
             //Make sure you update SeekBar on UI thread
-            this.runOnUiThread(new Runnable() {
 
-                @Override
-                public void run() {
-                    if (mediaController.isMediaNotNull() && mediaController.isMediaPlayerPlaying()) {
-                        seekBar.setMax(mediaController.getDuration() / 1000);
-                        int mCurrentPosition = mediaController.getCurrentPosition();
-                        seekBar.setProgress(mCurrentPosition / 1000);
-                        seekBarCurr.setText(String.valueOf(mCurrentPosition / 1000));
-                        seeKBarRemain.setText(String.valueOf(-(
-                                mediaController.getDuration() - mCurrentPosition) / 1000));
-                    } else {
-                        seekBar.setMax(0);
-                        seekBar.setProgress(0);
-                        seekBarCurr.setText(String.valueOf(0));
-                        seeKBarRemain.setText(String.valueOf(0));
-                    }
-
-                    if (!Utils.CurrTrackInfo.paused) {
-                        updatePlayBtn();
-                    } else {
-                        playBtn.setImageResource(R.drawable.ic_play_circle_filled_black_24dp);
-                    }
-                    mHandler.postDelayed(this, 500);
-                }
-            });
 
         }
 

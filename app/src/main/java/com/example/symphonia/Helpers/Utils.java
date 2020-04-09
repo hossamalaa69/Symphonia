@@ -94,6 +94,7 @@ public class Utils {
      */
     public static class CurrTrackInfo {
 
+        public static  boolean loading = false;
         /**
          * indicates that track is Utils.CurrTrackInfo.paused
          */
