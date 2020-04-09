@@ -264,7 +264,7 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
 
     public void updatePlaylists(ArrayList<Container> p){
         int n=3;
-        if(p.size()<=3) {n=p.size(); seeAll.setVisibility(View.GONE);}
+        if(p.size()>3) {n=p.size(); seeAll.setVisibility(View.VISIBLE);}
         LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setNestedScrollingEnabled(false);
