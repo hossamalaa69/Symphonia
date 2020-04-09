@@ -86,8 +86,11 @@ public class PlaylistFragment extends Fragment {
         playlistTitle.setText(Utils.CurrPlaylist.playlist.getmPlaylistTitle());
         madeForUser.setText(R.string.made_for_you_by_spotify);
 
-        if (Constants.DEBUG_STATUS)
+        if (Constants.DEBUG_STATUS) {
+
             updateTracks();
+            progressPar.setVisibility(View.GONE);
+        }
         else {
             ServiceController serviceController = ServiceController.getInstance();
             serviceController.getTracksOfPlaylist(getContext(), Utils.CurrPlaylist.playlist.getId(), this);

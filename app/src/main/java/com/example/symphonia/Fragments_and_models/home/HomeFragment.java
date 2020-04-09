@@ -61,14 +61,17 @@ public class HomeFragment extends Fragment {
         homeViewModel =
                 ViewModelProviders.of(this).get(HomeViewModel.class);
         root = inflater.inflate(R.layout.fragment_home, container, false);
-        if (Constants.DEBUG_STATUS)
+        progressPar = root.findViewById(R.id.progress_bar_home);
+        progressPar.setVisibility(View.VISIBLE);
+        if (Constants.DEBUG_STATUS) {
             initViews();
+            progressPar.setVisibility(View.GONE);
+        }
         else {
              loadAllPlaylists();
         }
         ((MainActivity)getActivity()).setRoot(true);
-        progressPar = root.findViewById(R.id.progress_bar_home);
-        progressPar.setVisibility(View.VISIBLE);
+
 
         final ImageView ivSettings = root.findViewById(R.id.iv_setting_home);
         ivSettings.setOnClickListener(new View.OnClickListener() {
