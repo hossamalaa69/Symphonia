@@ -953,7 +953,7 @@ public class RestApi implements APIs {
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull retrofit2.Response<Void> response) {
-                Toast.makeText(context, "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "Code: " + response.code(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
