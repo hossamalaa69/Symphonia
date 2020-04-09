@@ -160,7 +160,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
                     seekBarCurr.setText(String.valueOf(mCurrentPosition / 1000));
                     seeKBarRemain.setText(String.valueOf(-(
                             Utils.CurrTrackInfo.track.getmDuration() - mCurrentPosition) / 1000));
-                } else {
+                } else if (!mediaController.isMediaNotNull()) {
                     seekBar.setMax(0);
                     seekBar.setProgress(0);
                     seekBarCurr.setText(String.valueOf(0));
@@ -234,6 +234,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
 
                 } else if (!Utils.CurrTrackInfo.paused) {
                     Utils.CurrTrackInfo.paused = true;
+                    Utils.CurrTrackInfo.currPlayingPos = mediaController.getCurrentPosition();
                     mediaController.pauseMedia();
                     playBtn.setImageResource(R.drawable.ic_play_circle_filled_black_24dp);
                 } else {

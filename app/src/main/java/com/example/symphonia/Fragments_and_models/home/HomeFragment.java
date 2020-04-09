@@ -67,6 +67,8 @@ public class HomeFragment extends Fragment {
              loadAllPlaylists();
         }
         ((MainActivity)getActivity()).setRoot(true);
+        progressPar = root.findViewById(R.id.progress_bar_home);
+        progressPar.setVisibility(View.VISIBLE);
 
         final ImageView ivSettings = root.findViewById(R.id.iv_setting_home);
         ivSettings.setOnClickListener(new View.OnClickListener() {
@@ -111,6 +113,13 @@ public class HomeFragment extends Fragment {
      //   popularPlaylists = SController.getPopularPlaylists(getContext(), Constants.currentToken);
         recentPlaylists = SController.getRecentPlaylists(getContext(), this);
      //   madeForYouPlaylists = SController.getMadeForYoutPlaylists(getContext(), Constants.currentToken);
+        //hide data of playlists commented
+        View view = root.findViewById(R.id.popular_playlist_playlist);
+        playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
+        playlistTitle.setVisibility(View.GONE);
+        view = root.findViewById(R.id.made_for_you_playlist);
+        playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
+        playlistTitle.setVisibility(View.GONE);
 
     }
 
@@ -133,11 +142,18 @@ public class HomeFragment extends Fragment {
         updateRecentPlaylists();
       //  updateMadeForYouPlaylists();
       //  updatePopularPlaylists();
+
+
         updateRandomPlaylists();
 
+
+    }
+    public void hideProgressBar()
+    {
+        progressPar.setVisibility(View.GONE);
     }
 
-
+  private  View progressPar;
     public void updateRecentPlaylists() {
         Log.e("recent", "update");
         if (!Constants.DEBUG_STATUS)
