@@ -119,12 +119,18 @@ FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.FollowersViewHold
             imageView.setOval(false);
             if(!Constants.DEBUG_STATUS){
                 textView2.setText(String.valueOf(temp.getFollowersCount())+" Followers");
-                Picasso.get()
-                        .load(temp.getImgUrl())
-                        .fit()
-                        .centerCrop()
-                        .placeholder(R.drawable.placeholder_album)
-                        .into(imageView);
+                if(!temp.getImgUrl().equals("https://thesymphonia.ddns.net/api/v1/images/users/default.png"))
+                {
+                    Picasso.get()
+                            .load(temp.getImgUrl())
+                            .fit()
+                            .centerCrop()
+                            .placeholder(R.drawable.placeholder_album)
+                            .into(imageView);
+                }
+                else{
+                    imageView.setImageResource(R.drawable.img_init_profile);
+                }
             }
             else {
                 imageView.setImageBitmap(temp.getImg_Res());
