@@ -45,7 +45,7 @@ public class PlaylistFragment extends Fragment {
     private TextView madeForUser;
     private RecyclerView rvTracks;
     private Button playBtn;
-
+    private View progressPar;
     /**
      * this is required empty constructor
      */
@@ -53,7 +53,10 @@ public class PlaylistFragment extends Fragment {
         // Required empty public constructor
 
     }
-
+    public void hideProgressBar()
+    {
+        progressPar.setVisibility(View.GONE);
+    }
     RelativeLayout backgroundLayout;
 
     /**
@@ -76,7 +79,8 @@ public class PlaylistFragment extends Fragment {
         appBarLayout = view.findViewById(R.id.appBarLayout2);
         playBtn = view.findViewById(R.id.btn_play);
         backgroundLayout = view.findViewById(R.id.rl_background_frag_playlist);
-
+        progressPar = view.findViewById(R.id.progress_bar);
+        progressPar.setVisibility(View.VISIBLE);
         appBarLayout.setScrollbarFadingEnabled(true);
 
         playlistTitle.setText(Utils.CurrPlaylist.playlist.getmPlaylistTitle());
@@ -110,6 +114,8 @@ public class PlaylistFragment extends Fragment {
             @Override
             public void onGlobalLayout() {
                 if (Utils.CurrTrackInfo.TrackPosInPlaylist != -1) {
+                    if(rvTracks.getChildAt(
+                            Utils.CurrTrackInfo.TrackPosInPlaylist)==null) return;
                     TextView title = (TextView) rvTracks.getChildAt(
                             Utils.CurrTrackInfo.TrackPosInPlaylist).findViewById(R.id.tv_track_title_item);
                     if (((String) title.getText()).matches(Utils.CurrTrackInfo.track.getmTitle()))

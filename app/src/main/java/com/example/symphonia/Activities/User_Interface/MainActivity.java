@@ -228,6 +228,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     public void updateUiGetTracksOfPlaylist(PlaylistFragment playlistFragment) {
         if (playlistFragment.isVisible()) {
             playlistFragment.updateTracks();
+            playlistFragment.hideProgressBar();
         }
     }
 
@@ -237,7 +238,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     @Override
     public void updateUiGetPopularPlaylistsSuccess() {
         if (navView.getSelectedItemId() == R.id.navigation_home)
-            homeFragment.updatePopularPlaylists();
+        {homeFragment.updatePopularPlaylists(); homeFragment.hideProgressBar();}
     }
 
     /**
@@ -246,7 +247,8 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     @Override
     public void updateUiGetRandomPlaylistsSuccess(HomeFragment homeFragment) {
         if (navView.getSelectedItemId() == R.id.navigation_home)
-            homeFragment.updateRandomPlaylists();
+        {  homeFragment.updateRandomPlaylists();      homeFragment.hideProgressBar();}
+
     }
 
     /**
@@ -255,7 +257,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     @Override
     public void updateUiGetRecentPlaylistsSuccess(HomeFragment homeFragment) {
         if (navView.getSelectedItemId() == R.id.navigation_home)
-            homeFragment.updateRecentPlaylists();
+        { homeFragment.updateRecentPlaylists();   homeFragment.hideProgressBar();}
     }
 
     @Override
@@ -272,6 +274,13 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     public void updateUiGetMadeForYouPlaylistsSuccess() {
         if (navView.getSelectedItemId() == R.id.navigation_home)
             homeFragment.updateMadeForYouPlaylists();
+    }
+
+    @Override
+    public void updateUiNoTracks() {
+        if (playlistFragment.isVisible()) {
+            playlistFragment.hideProgressBar();
+        }
     }
 
     /**

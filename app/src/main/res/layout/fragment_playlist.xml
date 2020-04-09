@@ -75,6 +75,18 @@
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/title_size" />
 
+
+
         </RelativeLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <FrameLayout
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <ProgressBar
+        android:layout_marginBottom="@dimen/image_small_item_size"
+        android:layout_width="@dimen/image_small_item_size"
+        android:layout_height="@dimen/image_small_item_size"
+        android:layout_gravity="center" />
+    </FrameLayout>
 </RelativeLayout>

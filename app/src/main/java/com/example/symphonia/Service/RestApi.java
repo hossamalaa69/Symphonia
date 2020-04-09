@@ -276,6 +276,8 @@ public class RestApi implements APIs {
     public interface updateUiPlaylists {
         void getCategoriesSuccess();
 
+        void updateUiNoTracks();
+
         void updateUiGetTracksOfPlaylist(PlaylistFragment playlistFragment);
 
         void updateUiGetPopularPlaylistsSuccess();
@@ -637,6 +639,8 @@ public class RestApi implements APIs {
                     listener.updateUiGetTracksOfPlaylist(playlistFragment);
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    listener.updateUiNoTracks();
+
                 }
             }
         }, new Response.ErrorListener() {
