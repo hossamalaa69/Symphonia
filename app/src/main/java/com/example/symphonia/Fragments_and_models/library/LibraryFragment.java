@@ -38,7 +38,6 @@ public class LibraryFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        ((MainActivity)getActivity()).setRoot(true);
 
         View root = inflater.inflate(R.layout.fragment_your_library, container, false);
         LibraryPagerAdapter sectionsPagerAdapter = new LibraryPagerAdapter(getContext(), getChildFragmentManager());
@@ -58,6 +57,12 @@ public class LibraryFragment extends Fragment {
 
 
         return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity)getActivity()).setRoot(true);
     }
 
     @Override

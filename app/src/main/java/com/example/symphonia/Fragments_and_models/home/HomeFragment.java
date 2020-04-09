@@ -70,7 +70,6 @@ public class HomeFragment extends Fragment {
         else {
              loadAllPlaylists();
         }
-        ((MainActivity)getActivity()).setRoot(true);
 
 
         final ImageView ivSettings = root.findViewById(R.id.iv_setting_home);
@@ -224,6 +223,12 @@ public class HomeFragment extends Fragment {
         rvPlaylistsHomeAdapter = new RvPlaylistsHomeAdapter(getContext(), playlists);
         rvBasedOnYourRecentlyPlayed.setAdapter(rvPlaylistsHomeAdapter);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity)getActivity()).setRoot(true);
     }
 
     @Override

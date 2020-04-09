@@ -62,8 +62,6 @@ public class PremiumFragment extends Fragment {
         final View root = inflater.inflate(R.layout.fragment_premium, container, false);
 
         checkPremium(root);
-        if(getTag() != null && getTag().equals("premium"))
-            ((MainActivity)getActivity()).setRoot(true);
         //makes text view with anchor to be clickable
         TextView text_view_anchor = (TextView) root.findViewById(R.id.t1);
         text_view_anchor.setMovementMethod(LinkMovementMethod.getInstance());
@@ -134,6 +132,13 @@ public class PremiumFragment extends Fragment {
             text_view_current_plan.setText(getResources().getString(R.string.try_premium));
             text_view_try_premium.setText(getResources().getString(R.string.spotify_free));
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(getTag() != null && getTag().equals("premium"))
+            ((MainActivity)getActivity()).setRoot(true);
     }
 
     @Override
