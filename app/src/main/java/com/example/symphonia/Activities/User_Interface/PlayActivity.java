@@ -98,11 +98,19 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
      * this function start a service to play audio
      */
     private void playTrack() {
+        resetSeekBar();
         Intent intent = new Intent(this, MediaController.class);
         intent.setAction(MediaController.ACTION_PLAY);
         Log.e("PlayActivity", "play track     " + i++);
         Utils.CurrTrackInfo.paused = false;
         startService(intent);
+    }
+
+    private void resetSeekBar() {
+        mediaController.releaseMedia();
+        seekBar.setProgress(0);
+        seekBarCurr.setText(String.valueOf(0));
+        seeKBarRemain.setText(String.valueOf(0));
     }
 
     /**
