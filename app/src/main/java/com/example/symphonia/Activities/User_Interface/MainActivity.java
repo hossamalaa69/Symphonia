@@ -276,6 +276,13 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             homeFragment.updateMadeForYouPlaylists();
     }
 
+    @Override
+    public void updateUiNoTracks() {
+        if (playlistFragment.isVisible()) {
+            playlistFragment.hideProgressBar();
+        }
+    }
+
     /**
      * this function updates data if fail to  fetch popular playlists
      */

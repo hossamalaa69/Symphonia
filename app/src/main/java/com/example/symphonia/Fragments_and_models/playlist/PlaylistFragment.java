@@ -114,7 +114,7 @@ public class PlaylistFragment extends Fragment {
             @Override
             public void onGlobalLayout() {
                 if (Utils.CurrTrackInfo.TrackPosInPlaylist != -1) {
-                    if((TextView) rvTracks.getChildAt(
+                    if(rvTracks.getChildAt(
                             Utils.CurrTrackInfo.TrackPosInPlaylist)==null) return;
                     TextView title = (TextView) rvTracks.getChildAt(
                             Utils.CurrTrackInfo.TrackPosInPlaylist).findViewById(R.id.tv_track_title_item);
