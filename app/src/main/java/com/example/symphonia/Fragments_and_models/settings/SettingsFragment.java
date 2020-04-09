@@ -206,26 +206,28 @@ public class SettingsFragment extends Fragment{
     }
 
     public void updateUiProfile(Profile profile){
-        Picasso.get()
-                .load(profile.getImgUrl())
-                .fit()
-                .centerCrop()
-                .placeholder(R.drawable.img_init_profile)
-                .into(userImg,new com.squareup.picasso.Callback() {
-                    @Override
-                    public void onSuccess() {
-                        BitmapDrawable drawable=(BitmapDrawable)userImg.getDrawable();
-                        profileImg=drawable.getBitmap();
-                    }
+        if(!profile.getImgUrl().equals("https://thesymphonia.ddns.net/api/v1/images/users/default.png")) {
+            Picasso.get()
+                    .load(profile.getImgUrl())
+                    .fit()
+                    .centerCrop()
+                    .placeholder(R.drawable.img_init_profile)
+                    .into(userImg, new com.squareup.picasso.Callback() {
+                        @Override
+                        public void onSuccess() {
+                            BitmapDrawable drawable = (BitmapDrawable) userImg.getDrawable();
+                            profileImg = drawable.getBitmap();
+                        }
 
-                    @Override
-                    public void onError(Exception e) {
+                        @Override
+                        public void onError(Exception e) {
 
-                    }
+                        }
 
-                });
-        BitmapDrawable drawable=(BitmapDrawable)userImg.getDrawable();
-        profileImg=drawable.getBitmap();
+                    });
+            BitmapDrawable drawable = (BitmapDrawable) userImg.getDrawable();
+            profileImg = drawable.getBitmap();
+        }
         profileName=profile.getCat_Name();
         Constants.currentUser.setmName(profileName);
         //userImg.setImageBitmap(profileImg);
