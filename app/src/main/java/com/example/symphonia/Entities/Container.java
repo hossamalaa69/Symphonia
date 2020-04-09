@@ -22,6 +22,12 @@ public class Container {
         catName2 = null;
     }
 
+    public Container(String s, String i) {
+        catName = s;
+        imgUrl = i;
+        catName2 = null;
+    }
+
     public Container(String s, String s2, Bitmap i) {
         catName = s;
         imgRes = i;
