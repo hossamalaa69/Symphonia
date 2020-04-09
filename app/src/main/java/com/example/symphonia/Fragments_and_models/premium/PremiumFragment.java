@@ -62,8 +62,8 @@ public class PremiumFragment extends Fragment {
         final View root = inflater.inflate(R.layout.fragment_premium, container, false);
 
         checkPremium(root);
-
-        ((MainActivity)getActivity()).setRoot(true);
+        if(getTag() != null && getTag().equals("premium"))
+            ((MainActivity)getActivity()).setRoot(true);
         //makes text view with anchor to be clickable
         TextView text_view_anchor = (TextView) root.findViewById(R.id.t1);
         text_view_anchor.setMovementMethod(LinkMovementMethod.getInstance());

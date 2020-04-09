@@ -28,6 +28,7 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Activities.User_Interface.StartActivity;
+import com.example.symphonia.Constants;
 import com.example.symphonia.R;
 
 
@@ -37,6 +38,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.settings);
         Preference logOut = (Preference) findPreference("log_out");
+        logOut.setSummary("You logged in as " + Constants.currentUser.getmName());
         assert logOut != null;
         logOut.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
