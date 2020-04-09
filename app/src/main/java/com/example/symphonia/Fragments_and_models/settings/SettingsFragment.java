@@ -107,6 +107,8 @@ public class SettingsFragment extends Fragment{
 
         RestApi restApi=new RestApi();
         restApi.getCurrentUserProfile(getContext(),this);
+        restApi.getCurrentUserProfile(getContext(),this);
+
 
         premiumButton.setOnTouchListener(new View.OnTouchListener() {
             @SuppressLint("ClickableViewAccessibility")
@@ -208,7 +210,19 @@ public class SettingsFragment extends Fragment{
                 .fit()
                 .centerCrop()
                 .placeholder(R.drawable.img_init_profile)
-                .into(userImg);
+                .into(userImg,new com.squareup.picasso.Callback() {
+                    @Override
+                    public void onSuccess() {
+                        BitmapDrawable drawable=(BitmapDrawable)userImg.getDrawable();
+                        profileImg=drawable.getBitmap();
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+
+                    }
+
+                });
         BitmapDrawable drawable=(BitmapDrawable)userImg.getDrawable();
         profileImg=drawable.getBitmap();
         profileName=profile.getCat_Name();
