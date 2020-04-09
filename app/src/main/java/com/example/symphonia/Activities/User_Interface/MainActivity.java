@@ -890,11 +890,16 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             SharedPreferences sharedPref = getSharedPreferences("LoginPref", 0);
             String email = sharedPref.getString("email", "");
             boolean type = sharedPref.getBoolean("type", true);
-            ServiceController serviceController = ServiceController.getInstance();
-            boolean logged = serviceController.logIn(this, email, "12345678", type);
-            if (!logged)
-                serviceController.logIn(this, "user1@symphonia.com"
-                        , "12345678", true);
+            String x;
+            try{
+                x = b.getString("newuser");
+            }catch (NullPointerException e) {
+                ServiceController serviceController = ServiceController.getInstance();
+                boolean logged = serviceController.logIn(this, email, "12345678", type);
+                if (!logged)
+                    serviceController.logIn(this, "user1@symphonia.com"
+                            , "12345678", true);
+            }
         }
 
 /*        if (Constants.currentUser.isListenerType())

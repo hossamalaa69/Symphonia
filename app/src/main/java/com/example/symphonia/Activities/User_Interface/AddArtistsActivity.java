@@ -175,6 +175,7 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
             public void onClick(View v) {
                 if(isNewUser){
                     Intent i = new Intent(AddArtistsActivity.this, MainActivity.class);
+                    i.putExtra("newuser","true");
                     startActivity(i);
                     finish();
                 }

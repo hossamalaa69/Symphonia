@@ -59,6 +59,7 @@ public class CustomSkipDialog {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(activity, MainActivity.class);
+                i.putExtra("newuser","true");
                 activity.startActivity(i);
             }
         });
