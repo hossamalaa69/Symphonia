@@ -372,6 +372,15 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         mediaController.setMediaPlayCompletionService();
         prevPos = Utils.CurrTrackInfo.prevTrackPos;
         updatePlayBar();
+        if(trackImage!=null &&Utils.CurrTrackInfo.track!=null)
+        if (!Constants.DEBUG_STATUS)
+            Picasso.get()
+                    .load(Utils.CurrTrackInfo.track.getImageUrl())
+                    .fit()
+                    .centerCrop()
+                    .into(trackImage);
+        else
+            trackImage.setImageResource(Utils.CurrTrackInfo.track.getmImageResources());
 
         this.runOnUiThread(runnable);
         //check if user online
@@ -456,7 +465,8 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
 
             }
         }
-        if (trackImage != null && Utils.CurrTrackInfo.track != null) {
+
+        if (trackImage != null && Utils.CurrTrackInfo.track != null&&Constants.DEBUG_STATUS) {
             trackImage.setImageResource(Utils.CurrTrackInfo.track.getmImageResources());
         }
     }
@@ -504,15 +514,15 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             barAdapter.notifyDataSetChanged();
         }
         // update data of bar
+
         if (!Constants.DEBUG_STATUS)
             Picasso.get()
-                    .load(tracks.get(pos).getImageUrl())
+                    .load(Utils.CurrTrackInfo.track.getImageUrl())
                     .fit()
                     .centerCrop()
                     .into(trackImage);
         else
-            trackImage.setImageResource(tracks.get(pos).getmImageResources());
-
+            trackImage.setImageResource(Utils.CurrTrackInfo.track.getmImageResources());
         rvBar.getLayoutManager().scrollToPosition(pos);
         ivPlayButton.setImageResource(R.drawable.ic_pause_black_24dp);
 
