@@ -241,4 +241,16 @@ public class HomeFragment extends Fragment {
         rvBasedOnYourRecentlyPlayed.setAdapter(rvPlaylistsHomeAdapter);
 
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity)getActivity()).setRoot(true);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        ((MainActivity)getActivity()).setRoot(false);
+    }
 }
