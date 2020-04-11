@@ -30,9 +30,7 @@ import com.example.symphonia.Service.ServiceController;
 import java.util.ArrayList;
 
 /**
- * A sub activity of ِAddArtistsActivity
- * for searching for an artist
- * and returning the id to AddArtistsActivity
+ *
  *
  * @author islamahmed1092
  * @version 1.0
