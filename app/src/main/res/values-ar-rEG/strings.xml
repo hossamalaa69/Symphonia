@@ -196,4 +196,18 @@
     <string name="remove_album_snackbar_text">تم حذفها من مكتبتك</string>
     <string name="add_album_snackbar_text">تمت إضافتها إلى مكتبتك</string>
 
+    <string name="insongs">في الاغاني</string>
+    <string name="inplaylists">في قوائم التشغيل</string>
+    <string name="ingenres">في الأنواع والأوضاع</string>
+    <string name="inprofiles">في  ملفات التعريف</string>
+    <string name="inartists">في الفنانين</string>
+    <string name="inalbums">في الالبومات</string>
+
+    <string name="WhatsApp">واتساب</string>
+    <string name="facebook">أخبار فيسبوك</string>
+    <string name="messenger">ماسنجر</string>
+    <string name="SmS">رسالة قصيرة</string>
+    <string name="copylink">انسخ الرابط</string>
+    <string name="more">المزيد</string>
+
 </resources>

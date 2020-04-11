@@ -21,6 +21,11 @@ import com.example.symphonia.Service.ServiceController;
 
 import java.util.ArrayList;
 
+/**
+ * FragmentProfile to show the all_profile_playlists layout
+ *  * @author Mahmoud Amr Nabil
+ *  * @version 1.0
+ */
 public class ProfilePlaylistsFragment extends Fragment implements ProfilePlaylistsAdapter.ProfileplaylistItemClickListner {
     private ServiceController controller;
     private RecyclerView recyclerView;
@@ -53,6 +58,10 @@ public class ProfilePlaylistsFragment extends Fragment implements ProfilePlaylis
         return root;
     }
 
+    /**
+     * handle long click on item playlist item
+     * @param c the playlist that user long clicked on
+     */
     @Override
     public void onProfileItemlongClickListener(Container c) {
         BottomSheetDialogProfile bottomSheet = new BottomSheetDialogProfile(c,3);
@@ -60,6 +69,10 @@ public class ProfilePlaylistsFragment extends Fragment implements ProfilePlaylis
         bottomSheet.show(getParentFragmentManager(),bottomSheet.getTag());
     }
 
+    /**
+     * update the playlists after successful response
+     * @param c the list of playlists
+     */
     public void updatePlaylists(ArrayList<Container>c){
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());

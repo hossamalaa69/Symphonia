@@ -18,7 +18,8 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 /**
- *
+ * @author Mahmoud Amr Nabil
+ * @version 1.0
  */
 public class
 FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.FollowersViewHolder> {
@@ -40,7 +41,6 @@ FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.FollowersViewHold
 
     /**
      * Called when RecyclerView needs a new RecyclerView.ViewHolder
-     *
      * @param parent   The ViewGroup into which the new View will be added after it is bound to an adapter position.
      * @param viewType The view type of the new View.
      * @return SeeAllPlaylistsViewHolder
@@ -138,6 +138,11 @@ FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.FollowersViewHold
             }
         }
 
+        /**
+         * handle long click on followers item
+         * @param v view which is long clicked on
+         * @return boolean
+         */
         @Override
         public boolean onLongClick(View v) {
             listner.onProfileFollowerItemlongClickListener(container.get(getAdapterPosition()));

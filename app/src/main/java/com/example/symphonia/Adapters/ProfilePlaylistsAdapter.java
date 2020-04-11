@@ -17,6 +17,10 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+/**
+ * @author Mahmoud Amr Nabil
+ * @version 1.0
+ */
 public class ProfilePlaylistsAdapter extends RecyclerView.Adapter<ProfilePlaylistsAdapter.ProfilePlaylistViewHolder> {
     private ArrayList<Container> container;
     public interface ProfileplaylistItemClickListner{
@@ -88,6 +92,11 @@ public class ProfilePlaylistsAdapter extends RecyclerView.Adapter<ProfilePlaylis
             delete.setVisibility(View.GONE);
         }
 
+        /**
+         * handle long click on followers item
+         * @param v view which is long clicked on
+         * @return boolean
+         */
         @Override
         public boolean onLongClick(View v) {
             listner.onProfileItemlongClickListener(container.get(getAdapterPosition()));

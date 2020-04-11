@@ -176,13 +176,15 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
         followersNum=root.findViewById(R.id.number_of_followers);
         followingNum=root.findViewById(R.id.number_of_following);
 
+        //handle clicks
         options.setOnClickListener(showOptions);
         appBarLayout.setOnClickListener(follow);
         appBarLayout.setOnTouchListener(t);
 
-        if(!checkIfUserProfile)  followButton.setText("FOLLOW");
+        if(!checkIfUserProfile)  followButton.setText(getContext().getResources().getString(R.string.follow));
 
         profileImage.setImageBitmap(profile.getImg_Res());
+
         //followButton.setOnClickListener(follow);
         backImg.setOnClickListener(back);
         playlistsLayout.setOnClickListener(toPlaylists);
@@ -200,6 +202,7 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
             restApi.getNumbersoUserFollowing(getContext(),this);
         }
         else {
+            seeAll.setVisibility(View.VISIBLE);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setNestedScrollingEnabled(false);
@@ -245,6 +248,7 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
         return root;
     }
 
+
     private int getColorWithAlpha(int color, float ratio) {
         int newColor = 0;
         int alpha = Math.round(Color.alpha(color) * ratio);
@@ -255,6 +259,10 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
         return newColor;
     }
 
+    /**
+     * handle long click on item playlist item
+     * @param c the playlist that user long clicked on
+     */
     @Override
     public void onProfileItemlongClickListener(Container c) {
         BottomSheetDialogProfile bottomSheet = new BottomSheetDialogProfile(c,3);
@@ -262,6 +270,10 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
         bottomSheet.show(getParentFragmentManager(),bottomSheet.getTag());
     }
 
+    /**
+     * update the playlists after successful response
+     * @param p the list of playlists
+     */
     public void updatePlaylists(ArrayList<Container> p){
         int n=3;
         if(p.size()>3) {n=p.size(); seeAll.setVisibility(View.VISIBLE);}
@@ -277,9 +289,18 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
         playlistsNum.setText(String.valueOf(p.size()));
     }
 
+    /**
+     * update number of following
+     * @param num number of following
+     */
     public void updateUiFollowing(String num){
         followingNum.setText(num);
     }
+
+    /**
+     * update number of followers
+     * @param s number of followers
+     */
     public void updateUiFollowers(String s){
         followersNum.setText(s);
     }

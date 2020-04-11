@@ -223,4 +223,18 @@
     <string name="report_error">Report Error</string>
     <string name="view_profile">View Profile</string>
 
+    <string name="insongs">in songs</string>
+    <string name="inplaylists">in playlists</string>
+    <string name="ingenres">in genres and modes</string>
+    <string name="inprofiles">in profiles</string>
+    <string name="inartists">in artists</string>
+    <string name="inalbums">in albums</string>
+    
+    <string name="WhatsApp">WhatsApp</string>
+    <string name="facebook">Facebook News Feed</string>
+    <string name="messenger">Messenger</string>
+    <string name="SmS">SMS</string>
+    <string name="copylink">Copy Link</string>
+    <string name="more">More</string>
+
 </resources>

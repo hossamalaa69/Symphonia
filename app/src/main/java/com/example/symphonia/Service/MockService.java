@@ -409,6 +409,12 @@ public class MockService implements APIs {
         return true;
     }
 
+
+    /**
+     * get the recent searches of the user
+     * @param context context of the activity
+     * @return ArrayList of Container of recent searches
+     */
     @Override
     public ArrayList<Container> getResentResult(Context context) {
 
@@ -426,6 +432,13 @@ public class MockService implements APIs {
         return mRecentSearches;
     }
 
+
+    /**
+     * get all results of search
+     * @param context context of the activity
+     * @param searchWord the word which user searched for
+     * @return ArrayList of Container of Container
+     */
     public ArrayList<Container> getAllResultsOfSearch(Context context, String searchWord) {
         String song = context.getResources().getString(R.string.Song);
         String artist = context.getResources().getString(R.string.Artist);
@@ -513,27 +526,33 @@ public class MockService implements APIs {
         for (int i = 0; i < mData.size(); i++) {
             if (mData.get(i).getCat_Name().startsWith(searchWord)) {
                 resultsLinked.addFirst(mData.get(i));
-                if(mData.get(i).getCat_Name2().startsWith("Song")) songsCount++;
-                if(mData.get(i).getCat_Name2().startsWith("Album")) albumssCount++;
-                if(mData.get(i).getCat_Name2().startsWith("Artist")) artistsCount++;
-                if(mData.get(i).getCat_Name2().startsWith("Genre")) genresCount++;
-                if(mData.get(i).getCat_Name2().startsWith("Playlist")) playlistsCount++;
-                if(mData.get(i).getCat_Name2().startsWith("Profile")) profilesCount++;
+                if(mData.get(i).getCat_Name2().startsWith(song)) songsCount++;
+                if(mData.get(i).getCat_Name2().startsWith(album)) albumssCount++;
+                if(mData.get(i).getCat_Name2().startsWith(artist)) artistsCount++;
+                if(mData.get(i).getCat_Name2().startsWith(genre)) genresCount++;
+                if(mData.get(i).getCat_Name2().startsWith(playlist)) playlistsCount++;
+                if(mData.get(i).getCat_Name2().startsWith(profile)) profilesCount++;
             }
             else if (mData.get(i).getCat_Name().contains(searchWord)) {
                 resultsLinked.addLast(mData.get(i));
-                if(mData.get(i).getCat_Name2().startsWith("Song")) songsCount++;
-                if(mData.get(i).getCat_Name2().startsWith("Album")) albumssCount++;
-                if(mData.get(i).getCat_Name2().startsWith("Artist")) artistsCount++;
-                if(mData.get(i).getCat_Name2().startsWith("Genre")) genresCount++;
-                if(mData.get(i).getCat_Name2().startsWith("Playlist")) playlistsCount++;
-                if(mData.get(i).getCat_Name2().startsWith("Profile")) profilesCount++;
+                if(mData.get(i).getCat_Name2().startsWith(song)) songsCount++;
+                if(mData.get(i).getCat_Name2().startsWith(album)) albumssCount++;
+                if(mData.get(i).getCat_Name2().startsWith(artist)) artistsCount++;
+                if(mData.get(i).getCat_Name2().startsWith(genre)) genresCount++;
+                if(mData.get(i).getCat_Name2().startsWith(playlist)) playlistsCount++;
+                if(mData.get(i).getCat_Name2().startsWith(profile)) profilesCount++;
             }
         }
         results.addAll(resultsLinked);
         return results;
     }
 
+    /**
+     * get seven or less results of search
+     * @param context context of the activity
+     * @param searchWord  the word which user searched for
+     * @return ArrayList of Container of Container
+     */
     @Override
     public ArrayList<Container> getResultsOfSearch(Context context, String searchWord) {
         ArrayList<Container> results = new ArrayList<>();
@@ -547,6 +566,11 @@ public class MockService implements APIs {
         return results;
     }
 
+    /**
+     * get a list of user categories
+     * @param context context of the activity
+     * @return ArrayList of Category of categories
+     */
     @Override
     public ArrayList<Category> getCategories(Context context) {
         ArrayList<Category> categories = new ArrayList<>();
@@ -571,6 +595,11 @@ public class MockService implements APIs {
         return categories;
     }
 
+    /**
+     * get a lsit of user genres
+     * @param context context of the activity
+     * @return ArrayList of Category of genres
+     */
     @Override
     public ArrayList<Category> getGenres(Context context) {
         ArrayList<Category> genres = new ArrayList<>();
@@ -582,6 +611,12 @@ public class MockService implements APIs {
         return genres;
     }
 
+    /**
+     * get a list of artists of the search results
+     * @param context context of the activity
+     * @param searchWord the word which user searched for
+     * @return ArrayList of Container of artists
+     */
     @Override
     public ArrayList<Container> getArtists(Context context, String searchWord) {
         ArrayList<Container> temp = getAllResultsOfSearch(context, searchWord);
@@ -593,6 +628,12 @@ public class MockService implements APIs {
         return artists;
     }
 
+    /**
+     * get a list of songs of the search results
+     * @param context context of the activity
+     * @param searchWord the word which user searched for
+     * @return ArrayList of Container of songs
+     */
     @Override
     public ArrayList<Container> getSongs(Context context, String searchWord) {
         ArrayList<Container> temp = getAllResultsOfSearch(context, searchWord);
@@ -604,6 +645,12 @@ public class MockService implements APIs {
         return songs;
     }
 
+    /**
+     * get a list of albums of the search results
+     * @param context context of the activity
+     * @param searchWord the word which user searched for
+     * @return ArrayList of Container of albums
+     */
     @Override
     public ArrayList<Container> getAlbums(Context context, String searchWord) {
         ArrayList<Container> temp = getAllResultsOfSearch(context, searchWord);
@@ -615,6 +662,12 @@ public class MockService implements APIs {
         return albums;
     }
 
+    /**
+     * get a list of genres of the search results
+     * @param context context of the activity
+     * @param searchWord the word which user searched for
+     * @return ArrayList of Container of genres
+     */
     @Override
     public ArrayList<Container> getGenresAndMoods(Context context, String searchWord) {
         ArrayList<Container> temp = getAllResultsOfSearch(context, searchWord);
@@ -626,6 +679,12 @@ public class MockService implements APIs {
         return genres;
     }
 
+    /**
+     * get a list of playlists of the search results
+     * @param context context of the activity
+     * @param searchWord the word which user searched for
+     * @return ArrayList of Container of playlists
+     */
     @Override
     public ArrayList<Container> getPlaylists(Context context, String searchWord) {
         ArrayList<Container> temp = getAllResultsOfSearch(context, searchWord);
@@ -637,6 +696,12 @@ public class MockService implements APIs {
         return playlists;
     }
 
+    /**
+     * get a list of profiles of the search results
+     * @param context context of the activity
+     * @param searchWord the word which user searched for
+     * @return ArrayList of Container of profiles
+     */
     @Override
     public ArrayList<Container> getProfiles(Context context, String searchWord) {
         ArrayList<Container> temp = getAllResultsOfSearch(context, searchWord);
@@ -648,12 +713,21 @@ public class MockService implements APIs {
         return profiles;
     }
 
+    /**
+     * ensure that the recent searches won't be returned again
+     * @param context context of the activity
+     * @param position position of the element which is deleted
+     */
     @Override
     public void removeOneRecentSearch(Context context, int position) {
         //mRecentSearches.remove(position);
         firstTimeToGetRecentSearches = false;
     }
 
+    /**
+     *ensure to return empty list when recent searches is required
+     * @param context context of the activity
+     */
     @Override
     public void removeAllRecentSearches(Context context) {
 
@@ -661,6 +735,11 @@ public class MockService implements APIs {
         mRecentSearches = new ArrayList<Container>();
     }
 
+    /**
+     * return a list of popular playlists
+     * @param context context of the activity
+     * @return a ArrayList of Container of Popular playlists
+     */
     @Override
     public ArrayList<Container> getAllPopularPlaylists(Context context) {
         ArrayList<Container> playlists = new ArrayList<>();
@@ -682,6 +761,11 @@ public class MockService implements APIs {
         return playlists;
     }
 
+    /**
+     * return four popular playlists
+     * @param context context of the activity
+     * @return return four popular playlists
+     */
     @Override
     public ArrayList<Container> getFourPlaylists(Context context) {
         ArrayList<Container> data = new ArrayList<>();
@@ -919,11 +1003,21 @@ public class MockService implements APIs {
         return true;
     }
 
+    /**
+     * get users followers
+     * @param context context of the activity
+     * @return arraylist of container of followers
+     */
     @Override
     public ArrayList<Container> getProfileFollowers(Context context) {
         return null;
     }
 
+    /**
+     * get users who current user follow them
+     * @param context context of the activity
+     * @return arraylist of container of users who follow the current user
+     */
     @Override
     public ArrayList<Container> getProfileFollowing(Context context) {
         ArrayList<Container> followers=new ArrayList<>();
@@ -944,21 +1038,45 @@ public class MockService implements APIs {
       return followers;
     }
 
+    /**
+     * get current user profile
+     * @param context context of the activity
+     * @param settingsFragment the fragment which called this function
+     * @return user profile
+     */
     @Override
     public Profile getCurrentUserProfile(Context context, SettingsFragment settingsFragment) {
         return null;
     }
 
+    /**
+     *get current user playlists
+     * @param context context of the activity
+     * @param fragmentProfile the fragment which called this function
+     * @return ArrayList of Container of User's playlists
+     */
     @Override
     public ArrayList<Container> getCurrentUserPlaylists(Context context, FragmentProfile fragmentProfile) {
         return null;
     }
 
+    /**
+     * get users who the current user follow them
+     * @param context context of the activity
+     * @param profileFollowersFragment the fragment which called this function
+     * @return ArrayList of Container current user following
+     */
     @Override
     public ArrayList<Container> getCurrentUserFollowing(Context context, ProfileFollowersFragment profileFollowersFragment) {
         return null;
     }
 
+    /**
+     * get a list of current user followers
+     * @param context context of the activity
+     * @param profileFollowersFragment the fragment the function is called from
+     * @return ArrayList of Container of Followers
+     */
     @Override
     public ArrayList<Container> getCurrentUserFollowers(Context context, ProfileFollowersFragment profileFollowersFragment) {
         ArrayList<Container> followers=new ArrayList<>();
@@ -994,57 +1112,109 @@ public class MockService implements APIs {
         return followers;
     }
 
+    /**
+     * get number of user followers
+     * @param context context of the activity
+     * @param fragmentProfile the fragment the function is called from
+     * @return string of the number of followers
+     */
     @Override
     public String getNumbersoUserFollowers(Context context, FragmentProfile fragmentProfile) {
         return null;
     }
 
+    /**
+     * get number of users that user follow
+     * @param context context of the activity
+     * @param fragmentProfile the fragment the function is called from
+     * @return string of the number of following
+     */
     @Override
     public String getNumbersoUserFollowing(Context context, FragmentProfile fragmentProfile) {
         return null;
     }
 
+    /**
+     * get number of playlists of current user
+     * @param context context of the activity
+     * @param fragmentProfile the fragment the function is called from
+     * @return string of the number of playlists
+     */
     @Override
     public String getNumberofUserPlaylists(Context context, FragmentProfile fragmentProfile) {
         return null;
     }
 
+    /**
+     * get current user playlists
+     * @param context context of the activity
+     * @param profilePlaylistsFragment the fragment the function is called from
+     * @return current user playlists
+     */
     @Override
     public ArrayList<Container> getAllCurrentUserPlaylists(Context context, ProfilePlaylistsFragment profilePlaylistsFragment) {
         return null;
     }
 
+    /**
+     * follow playlist
+     * @param context context of the activity
+     * @param bottomSheetDialogProfile the fragment the function is called from
+     */
     @Override
     public void followPlaylist(Context context, BottomSheetDialogProfile bottomSheetDialogProfile) {
 
     }
 
-
+    /**
+     * get number of artists in search result
+     * @return int artistsCount
+     */
     @Override
     public int getArtistsCount() {
         return artistsCount;
     }
 
+    /**
+     * get number of profiles in search result
+     * @return int profilesCount
+     */
     @Override
     public int getProfilessCount() {
         return profilesCount;
     }
 
+    /**
+     * get number of playlists in search result
+     * @return int playlistsCount
+     */
     @Override
     public int getPlaylistsCount() {
         return playlistsCount;
     }
 
+    /**
+     * get number of genres in search result
+     * @return int genresCount
+     */
     @Override
     public int getGenresCount() {
         return genresCount;
     }
 
+    /**
+     * get number of songs in search result
+     * @return int songsCount
+     */
     @Override
     public int getSongsCount() {
         return songsCount;
     }
 
+    /**
+     * get number of albums in search result
+     * @return int albumssCount
+     */
     @Override
     public int getAlbumsCount() {
         return albumssCount;

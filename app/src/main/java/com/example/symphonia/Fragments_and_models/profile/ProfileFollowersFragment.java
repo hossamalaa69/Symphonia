@@ -22,6 +22,11 @@ import com.example.symphonia.Service.ServiceController;
 
 import java.util.ArrayList;
 
+/**
+ * FragmentProfile to show the Profile_Followers layout
+ *  * @author Mahmoud Amr Nabil
+ *  * @version 1.0
+ */
 public class ProfileFollowersFragment extends Fragment implements FollowersAdapter.ProfileFollowersItemClickListner{
     private ArrayList<Container>data;
     private ServiceController controller;
@@ -44,13 +49,13 @@ public class ProfileFollowersFragment extends Fragment implements FollowersAdapt
         View root = inflater.inflate(R.layout.profile_folllowers, container, false);
 
         controller=ServiceController.getInstance();
-
+        //attach views
         recyclerView=root.findViewById(R.id.rv_followers_profile);
         textView=root.findViewById(R.id.tv_followers_following);
         backImg=root.findViewById(R.id.img_back_profile_main);
-
+        //handle click
         backImg.setOnClickListener(back);
-
+        //handle recycler view
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -77,6 +82,10 @@ public class ProfileFollowersFragment extends Fragment implements FollowersAdapt
         return root;
     }
 
+    /**
+     * handle long click on item follower item
+     * @param c the follower that user long clicked on
+     */
     @Override
     public void onProfileFollowerItemlongClickListener(Container c) {
         BottomSheetDialogProfile bottomSheet = new BottomSheetDialogProfile(c,4);
@@ -84,11 +93,19 @@ public class ProfileFollowersFragment extends Fragment implements FollowersAdapt
         bottomSheet.show(getParentFragmentManager(),bottomSheet.getTag());
     }
 
+    /**
+     * update the list of followers after successful response
+     * @param c followers list
+     */
     public void updateUiFollowers(ArrayList<Container> c){
         FollowersAdapter adapter = new FollowersAdapter(c, this);
         recyclerView.setAdapter(adapter);
     }
 
+    /**
+     * update the list of following after successful response
+     * @param c following list
+     */
     public void updateUiFollowing(ArrayList<Container> c){
         FollowersAdapter adapter = new FollowersAdapter(c, this);
         recyclerView.setAdapter(adapter);

@@ -106,32 +106,108 @@ public interface APIs {
      */
     ArrayList<Playlist> getRandomPlaylists(Context context, HomeFragment homeFragment);
 
+    /**
+     * get the recent searches of the user
+     * @param context context of the activity
+     * @return ArrayList of Container of recent searches
+     */
     ArrayList<Container> getResentResult(Context context);
 
+    /**
+     * get seven or less results of search
+     * @param context context of the activity
+     * @param searchWord  the word which user searched for
+     * @return ArrayList of Container of Container
+     */
     ArrayList<Container> getResultsOfSearch(Context context, String searchWord);
 
+    /**
+     * get a list of user categories
+     * @param context context of the activity
+     * @return ArrayList of Category of categories
+     */
     ArrayList<Category> getCategories(Context context);
 
+    /**
+     * get a lsit of user genres
+     * @param context context of the activity
+     * @return ArrayList of Category of genres
+     */
     ArrayList<Category> getGenres(Context context);
 
+    /**
+     * get a list of artists of the search results
+     * @param context context of the activity
+     * @param searchWord the word which user searched for
+     * @return ArrayList of Container of artists
+     */
     ArrayList<Container> getArtists(Context context, String searchWord);
 
+    /**
+     * get a list of songs of the search results
+     * @param context context of the activity
+     * @param searchWord the word which user searched for
+     * @return ArrayList of Container of songs
+     */
     ArrayList<Container> getSongs(Context context, String searchWord);
 
+    /**
+     * get a list of albums of the search results
+     * @param context context of the activity
+     * @param searchWord the word which user searched for
+     * @return ArrayList of Container of albums
+     */
     ArrayList<Container> getAlbums(Context context, String searchWord);
 
+    /**
+     * get a list of genres of the search results
+     * @param context context of the activity
+     * @param searchWord the word which user searched for
+     * @return ArrayList of Container of genres
+     */
     ArrayList<Container> getGenresAndMoods(Context context, String searchWord);
 
+    /**
+     * get a list of playlists of the search results
+     * @param context context of the activity
+     * @param searchWord the word which user searched for
+     * @return ArrayList of Container of playlists
+     */
     ArrayList<Container> getPlaylists(Context context, String searchWord);
 
+    /**
+     * get a list of profiles of the search results
+     * @param context context of the activity
+     * @param searchWord the word which user searched for
+     * @return ArrayList of Container of profiles
+     */
     ArrayList<Container> getProfiles(Context context, String searchWord);
 
+    /**
+     * ensure that the recent searches won't be returned again
+     * @param context context of the activity
+     * @param position position of the element which is deleted
+     */
     void removeOneRecentSearch(Context context, int position);
 
+    /**
+     *ensure to return empty list when recent searches is required
+     * @param context context of the activity
+     */
     void removeAllRecentSearches(Context context);
 
+    /**
+     * return a list of popular playlists
+     * @param context context of the activity
+     * @return a ArrayList of Container of Popular playlists
+     */
     ArrayList<Container> getAllPopularPlaylists(Context context);
 
+    /**
+     * return four popular playlists
+     * @param context context of the activity
+     * @return return four popular playlists
+     */
     ArrayList<Container> getFourPlaylists(Context context);
 
     /**
@@ -235,34 +311,121 @@ public interface APIs {
 
     boolean promotePremium(final Context context, View root, String token);
 
+    /**
+     * get users followers
+     * @param context context of the activity
+     * @return arraylist of container of followers
+     */
     ArrayList<Container>getProfileFollowers(Context context);
 
+    /**
+     * get users who current user follow them
+     * @param context context of the activity
+     * @return arraylist of container of users who follow the current user
+     */
     ArrayList<Container>getProfileFollowing(Context context);
 
+    /**
+     * get current user profile
+     * @param context context of the activity
+     * @param settingsFragment the fragment which called this function
+     * @return user profile
+     */
     Profile getCurrentUserProfile(Context context, SettingsFragment settingsFragment);
 
+    /**
+     *get current user playlists
+     * @param context context of the activity
+     * @param fragmentProfile the fragment which called this function
+     * @return ArrayList of Container of User's playlists
+     */
     ArrayList<Container> getCurrentUserPlaylists(Context context, FragmentProfile fragmentProfile);
 
+    /**
+     * get users who the current user follow
+     * @param context context of the activity
+     * @param profileFollowersFragment the fragment which called this function
+     * @return ArrayList of Container current user following
+     */
     ArrayList<Container> getCurrentUserFollowing(Context context, ProfileFollowersFragment profileFollowersFragment);
 
+    /**
+     * get a list of current user followers
+     * @param context context of the activity
+     * @param profileFollowersFragment the fragment the function is called from
+     * @return ArrayList of Container of Followers
+     */
     ArrayList<Container> getCurrentUserFollowers(Context context, ProfileFollowersFragment profileFollowersFragment);
 
-
+    /**
+     * get number of user followers
+     * @param context context of the activity
+     * @param fragmentProfile the fragment the function is called from
+     * @return string of the number of followers
+     */
     String getNumbersoUserFollowers(Context context, FragmentProfile fragmentProfile);
 
+    /**
+     * get number of users that user follow
+     * @param context context of the activity
+     * @param fragmentProfile the fragment the function is called from
+     * @return string of the number of following
+     */
     String getNumbersoUserFollowing(Context context, FragmentProfile fragmentProfile);
 
+    /**
+     * get number of playlists of current user
+     * @param context context of the activity
+     * @param fragmentProfile the fragment the function is called from
+     * @return string of the number of playlists
+     */
     String getNumberofUserPlaylists(Context context,FragmentProfile fragmentProfile);
 
+    /**
+     * get current user playlists
+     * @param context context of the activity
+     * @param profilePlaylistsFragment the fragment the function is called from
+     * @return current user playlists
+     */
     ArrayList<Container> getAllCurrentUserPlaylists(Context context, ProfilePlaylistsFragment profilePlaylistsFragment);
 
+    /**
+     * follow playlist
+     * @param context context of the activity
+     * @param bottomSheetDialogProfile the fragment the function is called from
+     */
     void followPlaylist(Context context, BottomSheetDialogProfile bottomSheetDialogProfile);
 
+    /**
+     * get number of artists in search result
+     * @return int artists Count
+     */
     int getArtistsCount();
+
+    /**
+     * get number of profiles in search result
+     * @return int profiles Count
+     */
     int getProfilessCount();
+    /**
+     * get number of playlists in search result
+     * @return int playlists Count
+     */
     int getPlaylistsCount();
+    /**
+     * get number of genres in search result
+     * @return int genresCount
+     */
     int getGenresCount();
+    /**
+     * get number of songs in search result
+     * @return int songs Count
+     */
     int getSongsCount();
+    /**
+     * get number of albums in search result
+     * @return int albums Count
+     */
     int getAlbumsCount();
 
 /*

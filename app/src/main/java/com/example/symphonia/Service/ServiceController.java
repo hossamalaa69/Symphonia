@@ -147,55 +147,120 @@ public class ServiceController {
         return mSupplier.getPopularPlaylists(context, mToken);
     }
 
-
+    /**
+     * get the recent searches of the user
+     * @param context context of the activity
+     * @return ArrayList of Container of recent searches
+     */
     public ArrayList<Container> getResentResult(Context context) {
         return mSupplier.getResentResult(context);
     }
 
+    /**
+     * get seven or less results of search
+     * @param context context of the activity
+     * @param searchWord  the word which user searched for
+     * @return ArrayList of Container of Container
+     */
     public ArrayList<Container> getResultsOfSearch(Context context, String searchWord) {
         return mSupplier.getResultsOfSearch(context, searchWord);
     }
 
+    /**
+     * get a list of user categories
+     * @param context context of the activity
+     * @return ArrayList of Category of categories
+     */
     public ArrayList<Category> getCategories(Context context) {
         return mSupplier.getCategories(context);
     }
 
+    /**
+     * get a lsit of user genres
+     * @param context context of the activity
+     * @return ArrayList of Category of genres
+     */
     public ArrayList<Category> getGenres(Context context) {
         return mSupplier.getGenres(context);
     }
 
+    /**
+     * get a list of artists of the search results
+     * @param context context of the activity
+     * @param searchWord the word which user searched for
+     * @return ArrayList of Container of artists
+     */
     public ArrayList<Container> getArtists(Context context, String searchWord) {
         return mSupplier.getArtists(context, searchWord);
     }
 
+    /**
+     * get a list of songs of the search results
+     * @param context context of the activity
+     * @param searchWord the word which user searched for
+     * @return ArrayList of Container of songs
+     */
     public ArrayList<Container> getSongs(Context context, String searchWord) {
         return mSupplier.getSongs(context, searchWord);
     }
 
+    /**
+     * get a list of albums of the search results
+     * @param context context of the activity
+     * @param searchWord the word which user searched for
+     * @return ArrayList of Container of albums
+     */
     public ArrayList<Container> getAlbums(Context context, String searchWord) {
         return mSupplier.getAlbums(context, searchWord);
 
     }
 
+    /**
+     * get a list of genres of the search results
+     * @param context context of the activity
+     * @param searchWord the word which user searched for
+     * @return ArrayList of Container of genres
+     */
     public ArrayList<Container> getGenresAndMoods(Context context, String searchWord) {
         return mSupplier.getGenresAndMoods(context, searchWord);
 
     }
 
+    /**
+     * get a list of playlists of the search results
+     * @param context context of the activity
+     * @param searchWord the word which user searched for
+     * @return ArrayList of Container of playlists
+     */
     public ArrayList<Container> getPlaylists(Context context, String searchWord) {
         return mSupplier.getPlaylists(context, searchWord);
 
     }
 
+    /**
+     * get a list of profiles of the search results
+     * @param context context of the activity
+     * @param searchWord the word which user searched for
+     * @return ArrayList of Container of profiles
+     */
     public ArrayList<Container> getProfiles(Context context, String searchWord) {
         return mSupplier.getProfiles(context, searchWord);
 
     }
 
+    /**
+     * ensure that the recent searches won't be returned again
+     * @param context context of the activity
+     * @param position position of the element which is deleted
+     */
     public void removeOneRecentSearch(Context context, int position) {
         mSupplier.removeOneRecentSearch(context, position);
     }
 
+    /**
+     *ensure to return empty list when recent searches is required
+     * @param context context of the activity
+     */
     public void removeAllRecentSearches(Context context) {
         mSupplier.removeAllRecentSearches(context);
     }
@@ -243,10 +308,20 @@ public class ServiceController {
         return mSupplier.getUserSavedAlbums(context, offset, limit);
     }
 
+    /**
+     * return a list of popular playlists
+     * @param context context of the activity
+     * @return a ArrayList of Container of Popular playlists
+     */
     public ArrayList<Container> getAllPopularPlaylists(Context context) {
         return mSupplier.getAllPopularPlaylists(context);
     }
 
+    /**
+     * return four popular playlists
+     * @param context context of the activity
+     * @return return four popular playlists
+     */
     public ArrayList<Container> getFourPlaylists(Context context) {
         return mSupplier.getFourPlaylists(context);
     }
@@ -286,50 +361,108 @@ public class ServiceController {
         return mSupplier.promotePremium(context, root, token);
     }
 
+    /**
+     * get users followers
+     * @param context context of the activity
+     * @return arraylist of container of followers
+     */
     public ArrayList<Container>getProfileFollowers(Context context){
         return mSupplier.getProfileFollowers(context);
     }
 
+    /**
+     * get users who current user follow them
+     * @param context context of the activity
+     * @return arraylist of container of users who follow the current user
+     */
     public ArrayList<Container>getProfileFollowing(Context context){
         return mSupplier.getProfileFollowing(context);
     }
 
+    /**
+     *get current user playlists
+     * @param context context of the activity
+     * @param fragmentProfile the fragment which called this function
+     * @return ArrayList of Container of User's playlists
+     */
     public ArrayList<Container>getCurrentUserPlaylists(Context context, FragmentProfile fragmentProfile){
         return mSupplier.getCurrentUserPlaylists(context,fragmentProfile);
     }
 
+    /**
+     * get number of user followers
+     * @param context context of the activity
+     * @param fragmentProfile the fragment the function is called from
+     * @return string of the number of followers
+     */
     public String getNumbersoUserFollowers(Context context, FragmentProfile fragmentProfile){
         return mSupplier.getNumbersoUserFollowers(context,fragmentProfile);
     }
 
+    /**
+     * get number of users that user follow
+     * @param context context of the activity
+     * @param fragmentProfile the fragment the function is called from
+     * @return string of the number of following
+     */
     public String getNumbersoUserFollowing(Context context, FragmentProfile fragmentProfile){
         return mSupplier.getNumbersoUserFollowing(context,fragmentProfile);
     }
 
+    /**
+     * get a list of current user followers
+     * @param context context of the activity
+     * @param profileFollowersFragment the fragment the function is called from
+     * @return ArrayList of Container of Followers
+     */
     public ArrayList<Container>getCurrentUserFollowers(Context context, ProfileFollowersFragment profileFollowersFragment){
         return mSupplier.getCurrentUserFollowers(context,profileFollowersFragment);
     }
 
+    /**
+     * get number of profiles in search result
+     * @return int profiles Count
+     */
     public int getProfilesCount(){
         return mSupplier.getProfilessCount();
     }
 
+    /**
+     * get number of playlists in search result
+     * @return int playlists Count
+     */
     public int getPlaylistsCount(){
         return mSupplier.getPlaylistsCount();
     }
 
+    /**
+     * get number of artists in search result
+     * @return int artists Count
+     */
     public int getArtistsCount(){
         return mSupplier.getArtistsCount();
     }
 
+    /**
+     * get number of albums in search result
+     * @return int albums Count
+     */
     public int getAlbumsCount(){
         return mSupplier.getAlbumsCount();
     }
 
+    /**
+     * get number of genres in search result
+     * @return int genresCount
+     */
     public int getGenresCount(){
         return mSupplier.getGenresCount();
     }
 
+    /**
+     * get number of songs in search result
+     * @return int songs Count
+     */
     public int getSongsCount(){
         return mSupplier.getSongsCount();
     }

@@ -23,6 +23,11 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.squareup.picasso.Picasso;
 
+/**
+ * FragmentProfile to show the BottomSheetDialogProfile layout
+ *  * @author Mahmoud Amr Nabil
+ *  * @version 1.0
+ */
 public class BottomSheetDialogProfile extends BottomSheetDialogFragment {
 
     private Container profile;
@@ -128,7 +133,7 @@ public class BottomSheetDialogProfile extends BottomSheetDialogFragment {
             symphoniaImage.setColorFilter(Color.rgb(255, 255, 255));
             soundWave.setColorFilter(Color.rgb(255, 255, 255));
         }*/
-
+        //attach views
         options1=view.findViewById(R.id.list_of_options1);
         divider=view.findViewById(R.id.divider);
         following = view.findViewById(R.id.layout_following);
@@ -144,7 +149,7 @@ public class BottomSheetDialogProfile extends BottomSheetDialogFragment {
         smsShare=view.findViewById(R.id.sms_share);
         linkShare=view.findViewById(R.id.link_share);
         moreShare=view.findViewById(R.id.more_share);
-
+        //handle which view will be shown
         if(chooseLayout==1){
             options1.setVisibility(View.VISIBLE);
             divider.setVisibility(View.GONE);
@@ -177,7 +182,7 @@ public class BottomSheetDialogProfile extends BottomSheetDialogFragment {
             homeScreen.setVisibility(View.VISIBLE);
             share.setVisibility(View.VISIBLE);
         }
-
+        //handle clicks
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

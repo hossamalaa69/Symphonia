@@ -828,16 +828,30 @@ public class RestApi implements APIs {
 
     }
 
+    /**
+     *ensure to return empty list when recent searches is required
+     * @param context context of the activity
+     */
     @Override
     public void removeAllRecentSearches(Context context) {
 
     }
 
+    /**
+     * return a list of popular playlists
+     * @param context context of the activity
+     * @return a ArrayList of Container of Popular playlists
+     */
     @Override
     public ArrayList<Container> getAllPopularPlaylists(Context context) {
         return null;
     }
 
+    /**
+     * return four popular playlists
+     * @param context context of the activity
+     * @return return four popular playlists
+     */
     @Override
     public ArrayList<Container> getFourPlaylists(Context context) {
         ArrayList<Container> paylists = new ArrayList<>();
@@ -1089,6 +1103,13 @@ public class RestApi implements APIs {
         return null;
     }
 
+
+    /**
+     * make request to get current user profile
+     * @param context context of the activity
+     * @param settingsFragment the fragment which called this function
+     * @return user profile
+     */
     @Override
     public Profile getCurrentUserProfile(final Context context, final SettingsFragment settingsFragment) {
         final updateUiProfileInSetting listener = (updateUiProfileInSetting) context;
@@ -1133,6 +1154,12 @@ public class RestApi implements APIs {
         return profile[0];
     }
 
+    /**
+     *make request to get current user playlists
+     * @param context context of the activity
+     * @param fragmentProfile the fragment which called this function
+     * @return ArrayList of Container of User's playlists
+     */
     @Override
     public ArrayList<Container> getCurrentUserPlaylists(final Context context, final FragmentProfile fragmentProfile) {
         final updateUiProfileInProfileFragment listener = (updateUiProfileInProfileFragment) context;
@@ -1222,7 +1249,12 @@ public class RestApi implements APIs {
 
     }*/
 
-
+    /**
+     * make request to get users who the current user follow
+     * @param context context of the activity
+     * @param profileFollowersFragment the fragment which called this function
+     * @return ArrayList of Container current user following
+     */
     @Override
     public ArrayList<Container> getCurrentUserFollowing(final Context context, final ProfileFollowersFragment profileFollowersFragment) {
         final updateProfileFollow listener = (updateProfileFollow) context;
@@ -1268,6 +1300,12 @@ public class RestApi implements APIs {
         return following;
     }
 
+    /**
+     * make request to get a list of current user followers
+     * @param context context of the activity
+     * @param profileFollowersFragment the fragment the function is called from
+     * @return ArrayList of Container of Followers
+     */
     @Override
     public ArrayList<Container> getCurrentUserFollowers(Context context, final ProfileFollowersFragment profileFollowersFragment) {
         final updateProfileFollow listener = (updateProfileFollow) context;
@@ -1313,6 +1351,12 @@ public class RestApi implements APIs {
 
     }
 
+    /**
+     * make request to get number of user followers
+     * @param context context of the activity
+     * @param fragmentProfile the fragment the function is called from
+     * @return string of the number of followers
+     */
     @Override
     public String getNumbersoUserFollowers(Context context, final FragmentProfile fragmentProfile) {
         final updateUiProfileInProfileFragment listener = (updateUiProfileInProfileFragment) context;
@@ -1349,6 +1393,12 @@ public class RestApi implements APIs {
         return count[0];
     }
 
+    /**
+     * make request to get number of users that user follow
+     * @param context context of the activity
+     * @param fragmentProfile the fragment the function is called from
+     * @return string of the number of following
+     */
     @Override
     public String getNumbersoUserFollowing(Context context, final FragmentProfile fragmentProfile) {
         final updateUiProfileInProfileFragment listener = (updateUiProfileInProfileFragment) context;
@@ -1390,6 +1440,12 @@ public class RestApi implements APIs {
         return "";
     }
 
+    /**
+     * make request to get current user playlists
+     * @param context context of the activity
+     * @param profilePlaylistsFragment the fragment the function is called from
+     * @return current user playlists
+     */
     @Override
     public ArrayList<Container> getAllCurrentUserPlaylists(Context context, final ProfilePlaylistsFragment profilePlaylistsFragment) {
         final updateProfilePlaylists listener = (updateProfilePlaylists) context;
@@ -1437,43 +1493,74 @@ public class RestApi implements APIs {
 
     }
 
+    /**
+     * make request to follow playlist
+     * @param context context of the activity
+     * @param bottomSheetDialogProfile the fragment the function is called from
+     */
     @Override
     public void followPlaylist(Context context, BottomSheetDialogProfile bottomSheetDialogProfile) {
 
     }
 
-
+    /**
+     * make a request to get number of artists in search result
+     * @return int artists Count
+     */
     @Override
     public int getArtistsCount() {
         return 0;
     }
 
+    /**
+     * make a request to get number of profiles in search result
+     * @return int profiles Count
+     */
     @Override
     public int getProfilessCount() {
         return 0;
     }
 
+    /**
+     * make a request to get number of playlists in search result
+     * @return int playlists Count
+     */
     @Override
     public int getPlaylistsCount() {
         return 0;
     }
 
+    /**
+     * make a request to get number of genres in search result
+     * @return int genres Count
+     */
     @Override
     public int getGenresCount() {
         return 0;
     }
 
+    /**
+     * make a request to get number of songs in search result
+     * @return int songs Count
+     */
     @Override
     public int getSongsCount() {
         return 0;
     }
 
+    /**
+     * get number of albums in search result
+     * @return int albums Count
+     */
     @Override
     public int getAlbumsCount() {
         return 0;
     }
 
 
+    /**
+     * update ui in the profile fragment
+     */
     public interface updateUiProfileInProfileFragment {
         public void getCurrentProfilePlaylists(ArrayList<Container> playlists, FragmentProfile fragmentProfile);
 
@@ -1482,14 +1569,23 @@ public class RestApi implements APIs {
         public void getCurrentUserFollowersNumber(String s, FragmentProfile fragmentProfile);
     }
 
+    /**
+     * update ui of profile in settings fragment
+     */
     public interface updateUiProfileInSetting {
         public void getCurrentProfile(Profile profile, SettingsFragment settingsFragment);
     }
 
+    /**
+     * update ui in profileplaylistfragmnet
+     */
     public interface updateProfilePlaylists {
         public void getAllUserPlaylists(ArrayList<Container> p, ProfilePlaylistsFragment profilePlaylistsFragment);
     }
 
+    /**
+     * update follow and ujnfollow
+     */
     public interface updateProfileFollow {
         public void getUserFollowers(ArrayList<Container> f, ProfileFollowersFragment profileFollowersFragment);
 
@@ -1497,6 +1593,9 @@ public class RestApi implements APIs {
 
     }
 
+    /**
+     *
+     */
     public interface updateAfterActions {
 
     }

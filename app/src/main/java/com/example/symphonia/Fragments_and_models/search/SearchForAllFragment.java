@@ -155,6 +155,10 @@ public class SearchForAllFragment extends Fragment implements SeeAllProfilesAdap
         searchResult.setAdapter(d);
     }
 
+    /**
+     * handle click on profile item
+     * @param c the profile which is clicked
+     */
     @Override
     public void onProfileItemClickListener(Container c) {
         getParentFragmentManager().beginTransaction()

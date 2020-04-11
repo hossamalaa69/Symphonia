@@ -920,17 +920,31 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         }
     }
 
-
+    /**
+     * call function updatePlaylists in fragmentProfile after successful response
+     * @param playlists the list of updated playlists
+     * @param fragmentProfile the fragment which will be updated
+     */
     @Override
     public void getCurrentProfilePlaylists(ArrayList<Container> playlists, FragmentProfile fragmentProfile) {
         fragmentProfile.updatePlaylists(playlists);
     }
 
+    /**
+     * call function updateUiFollowing in fragmentProfile after successful response
+     * @param f string of number of following
+     * @param fragmentProfile the fragment which will be updated
+     */
     @Override
     public void getCurrentUserFollowingNumber(String f, FragmentProfile fragmentProfile) {
         fragmentProfile.updateUiFollowing(f);
     }
 
+    /**
+     * call function updateUiFollowing in fragmentProfile after successful response
+     * @param profile current user profile
+     * @param settingsFragment the fragment which will be updated
+     */
     @Override
     public void getCurrentProfile(Profile profile, SettingsFragment settingsFragment) {
         settingsFragment.updateUiProfile(profile);
@@ -946,21 +960,41 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         //fragmentProfile.updateUiFollowers(f);
     }*/
 
+    /**
+     * call function updateUiFollowers in fragmentProfile after successful response
+     * @param num string of number of followers
+     * @param fragmentProfile the fragment which will be updated
+     */
     @Override
     public void getCurrentUserFollowersNumber(String num, FragmentProfile fragmentProfile) {
         fragmentProfile.updateUiFollowers(num);
     }
 
+    /**
+     * call function updatePlaylists in profilePlaylistsFragment after successful response
+     * @param p list of updated playlists
+     * @param profilePlaylistsFragment the fragment which will be updated
+     */
     @Override
     public void getAllUserPlaylists(ArrayList<Container> p, ProfilePlaylistsFragment profilePlaylistsFragment) {
         profilePlaylistsFragment.updatePlaylists(p);
     }
 
+    /**
+     * call function updateUiFollowers in profileFollowersFragment after successful response
+     * @param f list of followers
+     * @param profileFollowersFragment the fragment which will be updated
+     */
     @Override
     public void getUserFollowers(ArrayList<Container> f, ProfileFollowersFragment profileFollowersFragment) {
         profileFollowersFragment.updateUiFollowers(f);
     }
 
+    /**
+     * call function updateUiFollowing in profileFollowersFragment after successful response
+     * @param f list of following
+     * @param profileFollowersFragment the fragment which will be updated
+     */
     @Override
     public void getUserFollowing(ArrayList<Container> f, ProfileFollowersFragment profileFollowersFragment) {
         profileFollowersFragment.updateUiFollowing(f);

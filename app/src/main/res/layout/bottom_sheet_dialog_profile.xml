@@ -291,7 +291,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="WhatsApp"
+                    android:text="@string/WhatsApp"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@android:color/white"
                     android:textStyle="bold" />
@@ -319,7 +319,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="Facebook News Feed"
+                    android:text="@string/facebook"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@android:color/white"
                     android:textStyle="bold" />
@@ -347,7 +347,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="Messenger"
+                    android:text="@string/messenger"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@android:color/white"
                     android:textStyle="bold" />
@@ -375,7 +375,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="SMS"
+                    android:text="@string/SmS"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@android:color/white"
                     android:textStyle="bold" />
@@ -403,7 +403,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="Copy Link"
+                    android:text="@string/copylink"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@android:color/white"
                     android:textStyle="bold" />
@@ -431,7 +431,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="More"
+                    android:text="@string/more"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@android:color/white"
                     android:textStyle="bold" />
