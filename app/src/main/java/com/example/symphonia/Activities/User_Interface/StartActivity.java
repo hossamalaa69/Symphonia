@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -15,7 +14,6 @@ import com.example.symphonia.Activities.User_Management.WelcomeActivity;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.User;
 import com.example.symphonia.R;
-import com.example.symphonia.Service.ServiceController;
 
 /**
  * Activity that handles Start page with animations
@@ -74,7 +72,7 @@ public class StartActivity extends AppCompatActivity {
             Constants.currentToken = token;
             Constants.currentUser = new User(email,id,name,type,premium);
             Constants.currentUser.setImageUrl(image);
-            Toast.makeText(this,"Welcome: "+Constants.currentUser.getmEmail(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,getString(R.string.welcome)+Constants.currentUser.getmEmail(),Toast.LENGTH_SHORT).show();
             //Toast.makeText(this,"token: "+Constants.currentToken,Toast.LENGTH_SHORT).show();
 
             //after set last user data, then go to main activity directly

@@ -195,5 +195,9 @@
     <string name="checking">يُفحص..</string>
     <string name="remove_album_snackbar_text">تم حذفها من مكتبتك</string>
     <string name="add_album_snackbar_text">تمت إضافتها إلى مكتبتك</string>
+    <string name="welcome">"مرحبًا "</string>
+    <string name="sign_up_success">تم التسجيل بنجاح</string>
+    <string name="failed">فشل</string>
+    <string name="thanks_for_reporting">شكرًا على التبليغ</string>
 
 </resources>

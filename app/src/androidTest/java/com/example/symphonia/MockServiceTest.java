@@ -1,18 +1,14 @@
 package com.example.symphonia;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.view.View;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
-import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Entities.User;
@@ -121,7 +117,7 @@ public class MockServiceTest {
     public void ApplyPremiumSuccess(){
         assertTrue(mockService.promotePremium(appContext,new View(appContext),"Token"));
     }
-
+/*
     @Test
     public void getFollowedArtistsSuccess() {
         Constants.currentUser = user;
@@ -607,7 +603,7 @@ public class MockServiceTest {
         assertNotEquals(testPlaylists.size(), comingData.size());
 
     }
-
+*/
 }
 
 

@@ -102,7 +102,7 @@ public class RestApi implements APIs {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(context, "Check your internet connection", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, R.string.check_internet, Toast.LENGTH_SHORT).show();
                             updateLogin.updateUiLoginFail("exception");
                         }
                     }
@@ -115,12 +115,12 @@ public class RestApi implements APIs {
                                 updateLogin.updateUiLoginFail("input");
                             else {
                                 Toast.makeText(context, "Error" + error.networkResponse.statusCode, Toast.LENGTH_SHORT).show();
-                                Toast.makeText(context, "Check your internet connection", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, R.string.check_internet, Toast.LENGTH_SHORT).show();
                                 updateLogin.updateUiLoginFail("exception");
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
-                            Toast.makeText(context, "Check your internet connection", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, R.string.check_internet, Toast.LENGTH_SHORT).show();
                             updateLogin.updateUiLoginFail("exception");
                         }
                     }
@@ -235,11 +235,11 @@ public class RestApi implements APIs {
 
                             Constants.currentUser.setUserType(type);
                             Constants.currentUser.setImageUrl(image);
-                            Toast.makeText(context, "Signed up successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, R.string.sign_up_success, Toast.LENGTH_SHORT).show();
                             updateUiSignUp.updateUiSignUpSuccess();
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(context, "Check your internet connection", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, R.string.check_internet, Toast.LENGTH_SHORT).show();
                             updateUiSignUp.updateUiSignUpFailed();
                         }
                     }
@@ -249,9 +249,9 @@ public class RestApi implements APIs {
                     public void onErrorResponse(VolleyError error) {
                         try {
                             Toast.makeText(context, "Error: " + error.networkResponse.statusCode, Toast.LENGTH_SHORT).show();
-                            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, R.string.failed, Toast.LENGTH_SHORT).show();
                         } catch (Exception e) {
-                            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, R.string.failed, Toast.LENGTH_SHORT).show();
                         }
                         updateUiSignUp.updateUiSignUpFailed();
                     }
