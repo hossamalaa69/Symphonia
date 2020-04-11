@@ -1,8 +1,6 @@
 package com.example.symphonia;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.provider.Settings;
 import android.view.View;
@@ -11,7 +9,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Entities.Container;
@@ -285,7 +282,7 @@ public class MockServiceTest {
         Constants.currentUser = user;
         assertTrue(mockService.checkUserSavedAlbums(appContext, new ArrayList<String>(Collections.singletonList("7eFyrxZRPqw8yvZXMUm88A"))).get(0));
     }
-/*
+
     @Test
     public void getResultsOfSearchFail() {
         ArrayList<Container> testedData = new ArrayList<>();
