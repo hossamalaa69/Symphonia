@@ -116,17 +116,26 @@ public class PremiumFragment extends Fragment {
         return root;
     }
 
+    /**
+     * checks type of user to change page contain
+     * @param root root view of fragment
+     */
     public void checkPremium(View root){
+
+        //get button,plans ids
         btn_promote = (Button) root.findViewById(R.id.promote_premium);
         text_view_current_plan = (TextView) root.findViewById(R.id.try_premium);
         text_view_try_premium = (TextView) root.findViewById(R.id.symphonia_free);
 
+        //checks if user is premium
         if(Constants.currentUser.isPremuim()){
+            //lock promote button, set new plan of premium
             btn_promote.setEnabled(false);
             btn_promote.setBackgroundResource(R.drawable.btn_curved_gray);
             text_view_current_plan.setText(getResources().getString(R.string.symphonia_premium));
             text_view_try_premium.setText(getResources().getString(R.string.promoted_premium));
         } else{
+            //if not premium then set current plan
             btn_promote.setEnabled(true);
             btn_promote.setBackgroundResource(R.drawable.btn_curved_white);
             text_view_current_plan.setText(getResources().getString(R.string.try_premium));
@@ -134,6 +143,9 @@ public class PremiumFragment extends Fragment {
         }
     }
 
+    /**
+     * on resume fragment, make flag for main activity that it's opened
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -141,6 +153,9 @@ public class PremiumFragment extends Fragment {
             ((MainActivity)getActivity()).setRoot(true);
     }
 
+    /**
+     * on pause fragment, reset flag of main activity
+     */
     @Override
     public void onPause() {
         super.onPause();

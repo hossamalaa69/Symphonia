@@ -214,7 +214,7 @@ public class User {
     /**
      * setter of password
      *
-     * @param mPassword password of user
+     * @param mPassword password of user (just in mock service)
      */
     public void setmPassword(String mPassword) {
         this.mPassword = mPassword;
@@ -472,14 +472,32 @@ public class User {
         mFollowingArtists.remove(artist);
     }
 
+    /**
+     * handles saving album for user
+     * @param album album to be added to list
+     */
     public void saveAlbum(Album album){mSavedAlbums.add(album);};
 
+    /**
+     * handles removing album from user's list
+     * @param album abbum to be removed
+     */
     public void removeAlbum(Album album){mSavedAlbums.remove(album);};
 
+    /**
+     * checks if albums is saved or not
+     * @param checkedAlbum album to be checked
+     * @return returns true if exists
+     */
     public Boolean checkSavedAlbum(Album checkedAlbum){
         return mSavedAlbums.contains(checkedAlbum);
     }
 
+    /**
+     * checks if following an artist
+     * @param checkedArtist artist to be checked
+     * @return returns true if followed
+     */
     public Boolean checkFollowing(Artist checkedArtist){
         return mFollowingArtists.contains(checkedArtist);
     }
@@ -520,6 +538,14 @@ public class User {
         this.mType = mType;
     }
 
+    /**
+     * Constructor for user
+     * @param email holds email
+     * @param id holds id
+     * @param name holds name
+     * @param type holds type
+     * @param premium holds if premium
+     */
     public User(String email,String id,String name,boolean type,boolean premium){
         this.mEmail = email;
         this._id = id;
@@ -528,34 +554,66 @@ public class User {
         this.mIsPremuim = premium;
     }
 
+    /**
+     * getter for user id
+     * @return returns user id
+     */
     public String get_id() {
         return _id;
     }
 
+    /**
+     * setter for user id
+     * @param _id holds user id
+     */
     public void set_id(String _id) {
         this._id = _id;
     }
 
+    /**
+     * getter for user type (user/artist)
+     * @return return user's type
+     */
     public String getUserType() {
         return mUserType;
     }
 
+    /**
+     * setter for user type
+     * @param mUserType holds user type
+     */
     public void setUserType(String mUserType) {
         this.mUserType = mUserType;
     }
 
+    /**
+     * getter for user phone
+     * @return returns user's phone
+     */
     public String getPhone() {
         return mPhone;
     }
 
+    /**
+     * setter fpr user phone number
+     * @param mPhone holds user's phone number
+     */
     public void setPhone(String mPhone) {
         this.mPhone = mPhone;
     }
 
+    /**
+     * getter for user's image url
+     * @return returns image url of user
+     */
     public String getImageUrl() {
         return mImageUrl;
     }
 
+    /**
+     * setter for image url
+     * @param mImageUrl holds image url
+     */
     public void setImageUrl(String mImageUrl) {
         this.mImageUrl = mImageUrl;
     }

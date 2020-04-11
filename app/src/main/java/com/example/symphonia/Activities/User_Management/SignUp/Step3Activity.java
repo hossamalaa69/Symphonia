@@ -14,7 +14,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.symphonia.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 
 /**
@@ -51,7 +54,8 @@ public class Step3Activity extends AppCompatActivity {
 
     /**
      * Represents the initialization of activity
-      @param savedInstanceState represents received data from other activities
+     *
+     * @param savedInstanceState represents received data from other activities
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -71,18 +75,22 @@ public class Step3Activity extends AppCompatActivity {
         //gets datePicker by id, then set listeners for changing
         mDatePicker = findViewById(R.id.datePicker1);
         mDatePicker.setMaxDate(new Date().getTime());
-        mDatePicker.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
-            @Override
-            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                //checks if year is older than 2000, then enable (Next button)
-                if (year <= 1999) enableButton();
-                else lockButton();
-            }
-        });
+
+        //set initial date, then set listener for changing date pikcer
+        mDatePicker.init(2020, 0, 1
+                , new DatePicker.OnDateChangedListener() {
+                    @Override
+                    public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        //checks if year is older than 2000, then enable (Next button)
+                        if (year <= 1999) enableButton();
+                        else lockButton();
+                    }
+                });
     }
 
     /**
      * opens next page of sign up
+     *
      * @param view holds clicked button
      */
     public void openNext(View view) {
@@ -93,20 +101,21 @@ public class Step3Activity extends AppCompatActivity {
         i.putExtra("password", mPassword);
         String dob = "";
         //concatinates DOB in one string
-        int month = mDatePicker.getMonth()+1;
+        int month = mDatePicker.getMonth() + 1;
         int day = mDatePicker.getDayOfMonth();
 
-        dob +=""+ mDatePicker.getYear();
+        dob += "" + mDatePicker.getYear();
 
-        if(month<10)
-            dob +="-0"+month;
+        //make date in form of YYYY-MM-DD
+        if (month < 10)
+            dob += "-0" + month;
         else
-            dob +="-"+ month;
+            dob += "-" + month;
 
-        if(day<10)
-            dob +="-0"+ day;
+        if (day < 10)
+            dob += "-0" + day;
         else
-            dob+="-" + day;
+            dob += "-" + day;
 
 //        Toast.makeText(this,dob,Toast.LENGTH_SHORT).show();
         i.putExtra("DOB", dob);

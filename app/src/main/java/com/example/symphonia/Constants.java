@@ -27,13 +27,22 @@ public class Constants {
      */
     public final static boolean DEBUG_STATUS = false;
 
-    //Base URL
+    /**
+     * holds base url
+     */
     public final static  String BASE_URL="https://thesymphonia.ddns.net/";
 
+    /**
+     * holds login API
+     */
     public final static  String LOG_IN_URL  = BASE_URL+"api/v1/users/login?";
-
+    /**
+     * holds sign up API
+     */
     public final static  String SIGN_UP_URL = BASE_URL+"api/v1/users/signup?";
-
+    /**
+     * holds check email exists API
+     */
     public final static String EMAIL_EXISTS_URL = BASE_URL+"api/v1/users/email-exist?";
 
     public static final String GET_RECENT_PLAYLISTS = BASE_URL+"api/v1/me/recently-played";

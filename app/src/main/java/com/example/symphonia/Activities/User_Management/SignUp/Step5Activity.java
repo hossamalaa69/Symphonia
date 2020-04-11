@@ -39,14 +39,21 @@ import com.example.symphonia.Service.ServiceController;
  */
 public class Step5Activity extends AppCompatActivity implements RestApi.updateUiSignUp {
 
-
+    /**
+     * holds overriding interface of success request
+     */
     @Override
     public void updateUiSignUpSuccess() {
+        //create mail if request is success
         createMail();
     }
 
+    /**
+     * holds overriding interface of failed request
+     */
     @Override
     public void updateUiSignUpFailed() {
+        //Don't create mail if request is failed and show button to try again
         showButton();
     }
 
@@ -89,7 +96,7 @@ public class Step5Activity extends AppCompatActivity implements RestApi.updateUi
 
     /**
      * Represents the initialization of activity
-     @param savedInstanceState represents received data from other activities
+     * @param savedInstanceState represents received data from other activities
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,9 +109,11 @@ public class Step5Activity extends AppCompatActivity implements RestApi.updateUi
         TextView text_view_link2 = findViewById(R.id.t2);
         text_view_link2.setMovementMethod(LinkMovementMethod.getInstance());
 
+        //set progress bar with id in layout file
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         btn_signUp = (Button) findViewById(R.id.next5);
-        //received user's data from previous activity
+
+        //receives user's data from previous activity
         Bundle b = getIntent().getExtras();
         mUser = b.getString("user");
         mPassword = b.getString("password");
@@ -157,7 +166,6 @@ public class Step5Activity extends AppCompatActivity implements RestApi.updateUi
      */
     public void openNext(View view) {
 
-
         //checks if not online
         if(!isOnline()){
             //shows offline dialog to prevent user from continuing sign up
@@ -165,7 +173,8 @@ public class Step5Activity extends AppCompatActivity implements RestApi.updateUi
             custom_dialogOffline.showDialog(this, false);
             return;
         }
-        //enableButton();
+
+        //makes button is invisible and progress is visible
         btn_signUp.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
 
@@ -190,8 +199,8 @@ public class Step5Activity extends AppCompatActivity implements RestApi.updateUi
         //calls sign up function to make a new account
         serviceController.signUp(this, userType, mEmail, mPassword, mDOB, mGender, mName);
 
-        if(Constants.DEBUG_STATUS)
-            createMail();
+        //if current mode is Mock, then call functions synchronously
+        if(Constants.DEBUG_STATUS) createMail();
     }
 
     /**
@@ -227,18 +236,24 @@ public class Step5Activity extends AppCompatActivity implements RestApi.updateUi
         return false;
     }
 
+    /**
+     * makes sign up button visible
+     */
     public void showButton(){
         progressBar.setVisibility(View.GONE);
         btn_signUp.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * creates mail and sends user to next step
+     */
     public void createMail(){
 
         // Creates object of SharedPreferences.
         SharedPreferences sharedPref= getSharedPreferences("LoginPref", 0);
         //new Editor
         SharedPreferences.Editor editor= sharedPref.edit();
-        //put values
+        //set user's params if REST API mode
         if(!(Constants.DEBUG_STATUS)){
             editor.putString("token", Constants.currentToken);
             editor.putString("name", Constants.currentUser.getmName());
@@ -247,9 +262,8 @@ public class Step5Activity extends AppCompatActivity implements RestApi.updateUi
             editor.putBoolean("type", Constants.currentUser.isListenerType());
             editor.putBoolean("premium", Constants.currentUser.isPremuim());
             editor.putString("image",Constants.currentUser.getImageUrl());
-         }
-
-        else{
+         } else{
+            //if Mock mode, don't save all params
             editor.putString("token", Constants.currentToken);
             editor.putString("email", Constants.currentUser.getmEmail());
             editor.putBoolean("type", Constants.currentUser.isListenerType());
@@ -257,10 +271,10 @@ public class Step5Activity extends AppCompatActivity implements RestApi.updateUi
         //commits edits
         editor.apply();
 
-
 //        btn_signUp.setVisibility(View.VISIBLE);
 //        progressBar.setVisibility(View.GONE);
-            //then goes to AddArtist activity to suggest artists for user
+
+        //sends to AddArtist activity to suggest artists for user
         Intent i = new Intent(this, AddArtistsActivity.class);
         i.putExtra("newUser", "true");
         startActivity(i);

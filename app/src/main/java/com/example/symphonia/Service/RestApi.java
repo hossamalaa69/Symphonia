@@ -47,7 +47,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 
+/**
+ * Class that holds all functions to be used to fill metadata of application
+ * using REST APIs implementation
+ *
+ * @author Hossam Alaa
+ * @version 1.0
+ * @since 11-4-2020
+ */
+
 public class RestApi implements APIs {
+
     /**
      * holds logging user in, creation of user object and sets token
      *
@@ -1074,6 +1084,13 @@ public class RestApi implements APIs {
         return null;
     }
 
+    /**
+     * handles promoting user to premium
+     * @param context holds context of activity
+     * @param root holds root view of fragment
+     * @param token holds token of user
+     * @return returns true if promoted
+     */
     @Override
     public boolean promotePremium(final Context context, View root, String token) {
         return false;

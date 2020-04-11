@@ -913,6 +913,13 @@ public class MockService implements APIs {
         return returnedAlbums;
     }
 
+    /**
+     * handles promoting user to premium
+     * @param context holds context of activity
+     * @param root holds root view of fragment
+     * @param token holds token of user
+     * @return returns true if promoted
+     */
     @Override
     public boolean promotePremium(final Context context, View root, String token) {
         Constants.currentUser.setPremuim(true);

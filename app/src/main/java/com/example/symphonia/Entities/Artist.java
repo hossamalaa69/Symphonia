@@ -14,7 +14,9 @@ public class Artist {
      * image of the artist
      */
     private Bitmap mArtistImage = null;
-
+    /**
+     * holds image url of artist
+     */
     private String mImageUrl = null;
     /**
      * name of the artist

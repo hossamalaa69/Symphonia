@@ -37,15 +37,18 @@ public class StartActivity extends AppCompatActivity {
 
     /**
      * Represents the initialization of activity
-     @param savedInstanceState represents received data from other activities
+     * @param savedInstanceState represents received data from other activities
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
+        //open log in shared preferences which contains user's info
         SharedPreferences sharedPref= getSharedPreferences("LoginPref", 0);
 
+
+        //check if it's mock mode, then login with local account
         if(Constants.DEBUG_STATUS){
             String token = sharedPref.getString("token","");
 
@@ -56,6 +59,7 @@ public class StartActivity extends AppCompatActivity {
         }
 
 
+        //if REST API mode, so load more info from shared preferences
         String token = sharedPref.getString("token","");
         String id = sharedPref.getString("id","");
         String name = sharedPref.getString("name", "");
@@ -64,15 +68,16 @@ public class StartActivity extends AppCompatActivity {
         boolean type = sharedPref.getBoolean("type",true);
         boolean premium = sharedPref.getBoolean("premium",true);
 
+        //if token is not empty, it means there was a user logged before
         if(!(token.equals("")))
         {
-
             Constants.currentToken = token;
             Constants.currentUser = new User(email,id,name,type,premium);
             Constants.currentUser.setImageUrl(image);
             Toast.makeText(this,"Welcome: "+Constants.currentUser.getmEmail(),Toast.LENGTH_SHORT).show();
             //Toast.makeText(this,"token: "+Constants.currentToken,Toast.LENGTH_SHORT).show();
 
+            //after set last user data, then go to main activity directly
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
         }
@@ -112,6 +117,9 @@ public class StartActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    /**
+     * handles back press in activity to exit app
+     */
     @Override
     public void onBackPressed() {
         Intent a = new Intent(Intent.ACTION_MAIN);

@@ -282,6 +282,13 @@ public class ServiceController {
         return mSupplier.checkUserSavedAlbums(context, ids);
     }
 
+    /**
+     * handles promoting user to premium
+     * @param context holds context of activity
+     * @param root holds root view of fragment
+     * @param token holds token of user
+     * @return returns true if promoted
+     */
     public boolean promotePremium(final Context context, View root, String token){
         return mSupplier.promotePremium(context, root, token);
     }

@@ -3,6 +3,7 @@ package com.example.symphonia;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.view.View;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
@@ -38,9 +39,9 @@ import static org.junit.Assert.assertTrue;
 @LargeTest
 public class MockServiceTest {
 
-    MockService mockService;
-    Context appContext;
-    User user;
+    private MockService mockService;
+    private Context appContext;
+    private User user;
 
 
     @Before
@@ -55,7 +56,7 @@ public class MockServiceTest {
         artists.add(new Artist("5", Utils.convertToBitmap(R.drawable.wael_gassar), "Wael Jassar"));
 
         appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        user = new User("eslam1092@hotmail.com", true, Utils.convertToBitmap(R.drawable.amr)
+        user = new User("eslam1092@hotmail.com","f3fgd", true, Utils.convertToBitmap(R.drawable.amr)
                 , "Islam Ahmed", "1998-11-24", "male", true
                 , 65500, 40, new ArrayList<User>()
                 , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
@@ -103,6 +104,17 @@ public class MockServiceTest {
         assertTrue(mockService.checkEmailAvailability(appContext, "user14@symphonia.com", true));
     }
 
+
+    @Test
+    public void SignUpSuccess(){
+        assertTrue(mockService.signUp(appContext,true,"email@gmail.com","password"
+                ,"1999","male","Hossam Alaa"));
+    }
+
+    @Test
+    public void ApplyPremiumSuccess(){
+        assertTrue(mockService.promotePremium(appContext,new View(appContext),"Token"));
+    }
 
     @Test
     public void getFollowedArtistsSuccess() {

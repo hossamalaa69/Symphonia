@@ -26,7 +26,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
     /**
      * Represents the initialization of activity
-     @param savedInstanceState represents received data from other activities
+     * @param savedInstanceState represents received data from other activities
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
