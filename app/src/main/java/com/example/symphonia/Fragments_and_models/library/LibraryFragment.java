@@ -59,12 +59,20 @@ public class LibraryFragment extends Fragment {
         return root;
     }
 
+
+    /**
+     * called when the fragment is shown
+     */
     @Override
     public void onResume() {
         super.onResume();
         ((MainActivity)getActivity()).setRoot(true);
     }
 
+
+    /**
+     * called when the user leave the framgnet
+     */
     @Override
     public void onPause() {
         super.onPause();

@@ -168,6 +168,9 @@ public class RvListArtistsAdapter extends RecyclerView.Adapter<RvListArtistsAdap
         }
     }
 
+    /**
+     * Interface to handle the long click for the items
+     */
     public interface ListItemLongClickListener{
         void onListItemLongClick(int clickedItemIndex);
     }

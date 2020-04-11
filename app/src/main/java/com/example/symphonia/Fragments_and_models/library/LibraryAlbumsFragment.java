@@ -42,11 +42,23 @@ import java.util.Collections;
 public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapter.ListItemClickListener,
         RvListAlbumsAdapter.ListItemLongClickListener, BottomSheetDialogAlbum.BottomSheetListener {
 
+    /**
+     * final variable to send the album id to the bottomsheet
+     */
     private static final String ALBUM_ID = "ALBUM_ID";
+    /**
+     * final variable to send the clicked index to the bottomsheet
+     */
     private static final String CLICKED_INDEX = "CLICKED_INDEX";
 
+    /**
+     * recyclerview to show the data of the albums
+     */
     private RecyclerView mAlbumsList;
 
+    /**
+     * Text view that is shown when there is no data
+     */
     private TextView albumsEmptyState;
     /**
      * adapter to control the items in recyclerview
@@ -60,8 +72,19 @@ public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapt
      * instance to request data from mock services and API
      */
     private ServiceController mServiceController;
+    /**
+     * the last touched view
+     */
     private View touchedView = null;
+    /**
+     * the first x when the user puts his finger on the screen
+     * used to animate the touch of the views
+     */
     private float firstX = 0;
+    /**
+     * the first y when the user puts his finger on the screen
+     * used to animate the touch of the views
+     */
     private float firstY = 0;
 
     /**
@@ -173,6 +196,11 @@ public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapt
 
     }
 
+    /**
+     * called when user perform a long click to an item
+     *
+     * @param clickedItemIndex the index of the clicked item
+     */
     @Override
     public void onListItemLongClick(int clickedItemIndex) {
         BottomSheetDialogAlbum bottomSheet = new BottomSheetDialogAlbum(this);
@@ -183,6 +211,12 @@ public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapt
         bottomSheet.show(((MainActivity)getActivity()).getSupportFragmentManager(), bottomSheet.getTag());
     }
 
+    /**
+     * called when user clicks on the liked layout in bottomsheet
+     *
+     * @param id id of the album
+     * @param clickedItemIndex index of the album in recyclerview
+     */
     @Override
     public void onLikedLayoutClicked(final String id, final int clickedItemIndex) {
 
@@ -198,6 +232,11 @@ public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapt
         snack.show();
     }
 
+    /**
+     * called when user clicks on the go to full album in bottomsheet
+     *
+     * @param mAlbumId album id
+     */
     @Override
     public void onGoFullAlbumLayoutClicked(String mAlbumId) {
         AlbumFragment fragment = new AlbumFragment();

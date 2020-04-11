@@ -173,41 +173,42 @@ public interface APIs {
      */
     ArrayList<Album> getUserSavedAlbums(Context context, int offset, int limit);
 
-
-    ////////////////////////////////////// To Be Edited ////////////////////////////////////////////
-
     /**
      * Get the current user’s followed artists
      *
      * @param type  true for user and false for artist
      * @param limit he maximum number of items to return
+     * @param after the last artist ID retrieved from the previous request
      * @return list of followed artists
      */
     ArrayList<Artist> getFollowedArtists(Context context, String type, int limit, String after);
 
 
     /**
-     * Add the current user as a follower of one artist or other users
+     * Add the current user as a followers of one or more artists or other users
      *
-     * @param type true for user and false for artist
-     * @param ids  user or artist id
+     * @param context activity context
+     * @param type the type of what will be followed, can be artist or user
+     * @param ids array of users or artists ids
      */
     void followArtistsOrUsers(Context context, String type, ArrayList<String> ids);
 
     /**
-     * Remove the current user as a follower of one artist or other users
+     * Remove the current user as a follower of one or more artists or other users
      *
-     * @param type true for user and false for artist
-     * @param ids  user or artist id
+     * @param context activity context
+     * @param type the type of what will be unFollowed, can be artist or user
+     * @param ids array of users or artists ids
      */
     void unFollowArtistsOrUsers(Context context, String type, ArrayList<String> ids);
 
     /**
-     * Check to see if the current user is following an artist or other users
+     * Check to see if the current user is following an artist or more or other users
      *
-     * @param type true for user and false for artist
-     * @param ids  user or artist id
-     * @return true if following and false if not
+     * @param context activity context
+     * @param type the type of the checked objects, can be artist or user
+     * @param ids array of users or artists ids
+     * @return array of boolean
      */
     ArrayList<Boolean> isFollowing(Context context, String type, ArrayList<String> ids);
 
@@ -215,23 +216,58 @@ public interface APIs {
      * Get a list of recommended artist for the current user
      *
      * @param context activity context
-     * @param type    artist or user
-     * @param offset  the beginning of the items
-     * @param limit   he maximum number of items to return
+     * @param type artist or user
+     * @param offset the beginning of the items
+     * @param limit the maximum number of items to return
      * @return list of recommended artists
      */
     ArrayList<Artist> getRecommendedArtists(Context context, String type, int offset, int limit);
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Get information for a single album.
+     *
+     * @param context activity context
+     * @param id album id
+     * @return album object
+     */
     Album getAlbum(Context context, String id);
 
+    /**
+     * Get information about an album’s tracks.
+     * Optional parameters can be used to limit the number of tracks returned.
+     *
+     * @param context activity context
+     * @param id album id
+     * @param offset the beginning of the tracks list
+     * @param limit the maximum number of tracks to get
+     * @return array of album tracks
+     */
     ArrayList<Track> getAlbumTracks(Context context, String id, int offset, int limit);
 
+    /**
+     * Save one or more albums to the current user’s ‘Your Music’ library.
+     *
+     * @param context activity context
+     * @param ids array of albums ids
+     */
     void saveAlbumsForUser(Context context, ArrayList<String> ids);
 
+    /**
+     * Remove one or more albums from the current user’s ‘Your Music’ library.
+     *
+     * @param context activity context
+     * @param ids array of albums ids
+     */
     void removeAlbumsForUser(Context context, ArrayList<String> ids);
 
+    /**
+     * Check if one or more albums is already saved in the current user’s ‘Your Music’ library.
+     *
+     * @param context activity context
+     * @param ids array of albums ids
+     * @return array of booleans, true for found and false for not found
+     */
     ArrayList<Boolean> checkUserSavedAlbums(Context context, ArrayList<String> ids);
 
     /**

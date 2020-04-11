@@ -25,13 +25,22 @@ import java.util.ArrayList;
  */
 public class RvGridArtistsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    /**
+     * Final variable for the viewHolder type
+     */
     private static final int ARTIST_HOLDER = 0;
+    /**
+     * Final variable for the viewHolder type
+     */
     private static final int MORE_FOR_YOU_HOLDER = 1;
     /**
      * the list of the recommended artists to be shown to the user
      */
     private ArrayList<Artist> mArtists;
 
+    /**
+     * Array of clicked artists
+     */
     private ArrayList<String> mClickedArtists;
 
     /**
@@ -61,6 +70,13 @@ public class RvGridArtistsAdapter extends RecyclerView.Adapter<RecyclerView.View
         return mArtists.size() + 1;
     }
 
+    /**
+     * Get the type of the viewHolder
+     * for the current binded item
+     *
+     * @param position current binded item position
+     * @return the type of the viewHolder for the current item
+     */
     @Override
     public int getItemViewType(int position) {
         if (position == getItemCount() - 1)
@@ -169,6 +185,9 @@ public class RvGridArtistsAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
+    /**
+     * View holder to hold MoreForYou item data
+     */
     public class MoreForYouHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
 
@@ -182,7 +201,11 @@ public class RvGridArtistsAdapter extends RecyclerView.Adapter<RecyclerView.View
             itemView.setOnClickListener(this);
         }
 
-
+        /**
+         * calls the interface object of the list item click
+         *
+         * @param v clicked item
+         */
         @Override
         public void onClick(View v) {
             mOnClickListener.onMoreForeYouClick(getAdapterPosition());

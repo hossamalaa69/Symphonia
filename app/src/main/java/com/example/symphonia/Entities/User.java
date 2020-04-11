@@ -465,7 +465,10 @@ public class User {
      * @param artist artist to be followed
      */
     public void followArtist(Artist artist) {
-        if (!mFollowingArtists.contains(artist)) mFollowingArtists.add(artist);
+        for (Artist a: mFollowingArtists) {
+            if(a.getId().equals(artist.getId())) return;
+        }
+        mFollowingArtists.add(artist);
     }
 
     /**
@@ -474,7 +477,12 @@ public class User {
      * @param artist artist to be unfollowed
      */
     public void unFollowArtist(Artist artist) {
-        mFollowingArtists.remove(artist);
+        for (Artist a: mFollowingArtists) {
+            if(a.getId().equals(artist.getId())){
+                mFollowingArtists.remove(a);
+                return;
+            }
+        }
     }
 
     /**
@@ -482,22 +490,25 @@ public class User {
      *
      * @param album album to be added to list
      */
-    public void saveAlbum(Album album) {
-        mSavedAlbums.add(album);
-    }
 
-    ;
+    public void saveAlbum(Album album){
+        for (Album a: mSavedAlbums) {
+            if(a.getAlbumId().equals(album.getAlbumId())) return;
+        }
+        mSavedAlbums.add(album);
+    };
 
     /**
      * handles removing album from user's list
-     *
-     * @param album abbum to be removed
+     * @param album album to be removed
      */
-    public void removeAlbum(Album album) {
-        mSavedAlbums.remove(album);
-    }
-
-    ;
+    public void removeAlbum(Album album){
+        for (Album a: mSavedAlbums) {
+        if(a.getAlbumId().equals(album.getAlbumId())){
+            mSavedAlbums.remove(a);
+            return;
+        }
+    }};
 
     /**
      * checks if albums is saved or not
@@ -505,8 +516,11 @@ public class User {
      * @param checkedAlbum album to be checked
      * @return returns true if exists
      */
-    public Boolean checkSavedAlbum(Album checkedAlbum) {
-        return mSavedAlbums.contains(checkedAlbum);
+    public Boolean checkSavedAlbum(Album checkedAlbum){
+        for (Album album: mSavedAlbums) {
+            if(album.getAlbumId().equals(checkedAlbum.getAlbumId())) return true;
+        }
+        return false;
     }
 
     /**
@@ -515,8 +529,11 @@ public class User {
      * @param checkedArtist artist to be checked
      * @return returns true if followed
      */
-    public Boolean checkFollowing(Artist checkedArtist) {
-        return mFollowingArtists.contains(checkedArtist);
+    public Boolean checkFollowing(Artist checkedArtist){
+        for (Artist artist: mFollowingArtists) {
+            if(artist.getId().equals(checkedArtist.getId())) return true;
+        }
+        return false;
     }
 
     /**

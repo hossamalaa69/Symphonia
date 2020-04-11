@@ -28,7 +28,7 @@ public class Artist {
     private String mArtistId;
 
     /**
-     * constructor for the artist object
+     * constructor for the artist object in mock service case
      *
      * @param mArtistId   artist id
      * @param mImage      artist image
@@ -40,16 +40,29 @@ public class Artist {
         this.mArtistName = mArtistName;
     }
 
+    /**
+     * constructor for the artist object in Rest Api case
+     *
+     * @param mArtistId   artist id
+     * @param mImageUrl   artist image url
+     * @param mArtistName artist name
+     */
     public Artist(String mArtistId, String mImageUrl, String mArtistName) {
         this.mArtistId = mArtistId;
         this.mImageUrl = mImageUrl;
         this.mArtistName = mArtistName;
     }
 
+    /**
+     * @param mImageUrl image url
+     */
     public void setImageUrl(String mImageUrl) {
         this.mImageUrl = mImageUrl;
     }
 
+    /**
+     * @return image url
+     */
     public String getImageUrl() {
         return mImageUrl;
     }
@@ -67,8 +80,6 @@ public class Artist {
     public void setImage(Bitmap mImage) {
         this.mArtistImage = mImage;
     }
-
-
 
     /**
      * @return artist name

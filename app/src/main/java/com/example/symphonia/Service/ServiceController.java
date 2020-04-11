@@ -199,18 +199,49 @@ public class ServiceController {
         mSupplier.removeAllRecentSearches(context);
     }
 
+    /**
+     * Get the current user’s followed artists
+     *
+     * @param context activity context
+     * @param type current type, can be artist or user
+     * @param limit he maximum number of items to return
+     * @param after the last artist ID retrieved from the previous request
+     * @return list of followed artists
+     */
     public ArrayList<Artist> getFollowedArtists(Context context, String type, int limit, String after) {
         return mSupplier.getFollowedArtists(context, type, limit, after);
     }
 
+    /**
+     * Add the current user as a followers of one or more artists or other users
+     *
+     * @param context activity context
+     * @param type the type of what will be followed, can be artist or user
+     * @param ids array of users or artists ids
+     */
     public void followArtistsOrUsers(Context context, String type, ArrayList<String> ids) {
         mSupplier.followArtistsOrUsers(context, type, ids);
     }
 
+    /**
+     * Remove the current user as a follower of one or more artists or other users
+     *
+     * @param context activity context
+     * @param type the type of what will be unFollowed, can be artist or user
+     * @param ids array of users or artists ids
+     */
     public void unFollowArtistsOrUsers(Context context, String type, ArrayList<String> ids) {
         mSupplier.unFollowArtistsOrUsers(context, type, ids);
     }
 
+    /**
+     * Check to see if the current user is following an artist or more or other users
+     *
+     * @param context activity context
+     * @param type the type of the checked objects, can be artist or user
+     * @param ids array of users or artists ids
+     * @return array of boolean
+     */
     public ArrayList<Boolean> isFollowing(Context context, String type, ArrayList<String> ids) {
         return mSupplier.isFollowing(context, type, ids);
     }
@@ -218,8 +249,10 @@ public class ServiceController {
     /**
      * Get a list of recommended artist for the current user
      *
-     * @param type  true for user and false for artist
-     * @param limit he maximum number of items to return
+     * @param context activity context
+     * @param type artist or user
+     * @param offset the beginning of the items
+     * @param limit the maximum number of items to return
      * @return list of recommended artists
      */
     public ArrayList<Artist> getRecommendedArtists(Context context, String type, int offset, int limit) {
@@ -230,14 +263,38 @@ public class ServiceController {
         return mSupplier.searchArtist(context, q, 0, 20);
     }
 
+    /**
+     * Search for a specific artist
+     *
+     * @param context Activity context
+     * @param q Query to search for
+     * @param offset The index of the first result to return
+     * @param limit Maximum number of results to return
+     * @return List of search result artists
+     */
     public ArrayList<Artist> searchArtist(Context context, String q, int offset, int limit) {
         return mSupplier.searchArtist(context, q, offset, limit);
     }
 
+    /**
+     * Get information about artists similar to a given artist.
+     *
+     * @param context activity context
+     * @param id artist id
+     * @return Arraylist of similar artists
+     */
     public ArrayList<Artist> getArtistRelatedArtists(Context context, String id) {
         return mSupplier.getArtistRelatedArtists(context, id);
     }
 
+    /**
+     * Get a list of the albums saved in the current user’s ‘Your Music’ library
+     *
+     * @param context Activity context
+     * @param offset The index of the first object to return
+     * @param limit The maximum number of objects to return
+     * @return List of saved albums
+     */
     public ArrayList<Album> getUserSavedAlbums(Context context, int offset, int limit) {
         return mSupplier.getUserSavedAlbums(context, offset, limit);
     }
@@ -261,22 +318,58 @@ public class ServiceController {
         return mSupplier.getArtist(context, id);
     }
 
+    /**
+     * Get information for a single album.
+     *
+     * @param context activity context
+     * @param id album id
+     * @return album object
+     */
     public Album getAlbum(Context context, String id) {
         return mSupplier.getAlbum(context, id);
     }
 
+    /**
+     * Get information about an album’s tracks.
+     * Optional parameters can be used to limit the number of tracks returned.
+     *
+     * @param context activity context
+     * @param id album id
+     * @param offset the beginning of the tracks list
+     * @param limit the maximum number of tracks to get
+     * @return array of album tracks
+     */
     public ArrayList<Track> getAlbumTracks(Context context, String id, int offset, int limit) {
         return mSupplier.getAlbumTracks(context, id, offset, limit);
     }
 
+    /**
+     * Save one or more albums to the current user’s ‘Your Music’ library.
+     *
+     * @param context activity context
+     * @param ids array of albums ids
+     */
     public void saveAlbumsForUser(Context context, ArrayList<String> ids) {
         mSupplier.saveAlbumsForUser(context, ids);
     }
 
+    /**
+     * Remove one or more albums from the current user’s ‘Your Music’ library.
+     *
+     * @param context activity context
+     * @param ids array of albums ids
+     */
     public void removeAlbumsForUser(Context context, ArrayList<String> ids) {
         mSupplier.removeAlbumsForUser(context, ids);
     }
 
+    /**
+     * Check if one or more albums is already saved in the current user’s ‘Your Music’ library.
+     *
+     * @param context activity context
+     * @param ids array of albums ids
+     * @return array of booleans, true for found and false for not found
+     */
     public ArrayList<Boolean> checkUserSavedAlbums(Context context, ArrayList<String> ids) {
         return mSupplier.checkUserSavedAlbums(context, ids);
     }

@@ -32,17 +32,40 @@ import java.util.Collections;
 import static java.util.Arrays.asList;
 
 public class BottomSheetDialogAlbum extends BottomSheetDialogFragment {
+
+    /**
+     * variable to get the album id
+     */
     private static final String ALBUM_ID = "ALBUM_ID";
+    /**
+     * variable to get the clicked index from library album fragment
+     */
     private static final String CLICKED_INDEX = "CLICKED_INDEX";
 
+    /**
+     * the first y when the user puts his finger on the screen
+     * used to animate the touch of the views
+     */
     private float firstY = 0;
 
+    /**
+     * listener object from the bottomsheet interface
+     */
     private BottomSheetListener mListener;
 
+    /**
+     * @param mListener listener object to the clicks of the layouts
+     */
     public BottomSheetDialogAlbum(BottomSheetListener mListener) {
         this.mListener = mListener;
     }
 
+    /**
+     * creating the dialog and initializing views
+     *
+     * @param savedInstanceState saved data from previous calls
+     * @return dialog view
+     */
     @SuppressLint("ClickableViewAccessibility")
     @NonNull
     @Override
@@ -200,6 +223,9 @@ public class BottomSheetDialogAlbum extends BottomSheetDialogFragment {
         return bottomSheet;
     }
 
+    /**
+     * Interface to the clicks of the layouts
+     */
     public interface BottomSheetListener{
         void onLikedLayoutClicked(String id, int clickedItemIndex);
         void onGoFullAlbumLayoutClicked(String mAlbumId);

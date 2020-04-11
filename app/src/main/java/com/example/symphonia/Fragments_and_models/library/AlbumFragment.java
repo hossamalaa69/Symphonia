@@ -47,16 +47,34 @@ import java.util.Locale;
 public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter.ListItemClickListener
 , BottomSheetDialogAlbumFragment.BottomSheetListener {
 
+    /**
+     * Final value to get the album id
+     */
     private static final String ALBUM_ID = "ALBUM_ID";
+    /**
+     * object to control between mock service and server
+     */
     private ServiceController serviceController;
+    /**
+     * save album icon
+     */
     private ImageView saveIcon;
+    /**
+     * the container of the view
+     */
     private NestedScrollView viewContainer;
     /**
      * object from album contains all the data
      */
     private Album mAlbum;
-    private int mScrollY = 0;
+    /**
+     * the first y when the user puts his finger on the screen
+     * used to animate the touch of the views
+     */
     private float firstY = 0;
+    /**
+     * the current touched view
+     */
     private View touchedView = null;
 
     public AlbumFragment() {
@@ -293,7 +311,6 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
     }
 
     /**
-     * TODO in the next phase
      * handles the click of the recyclerview items
      * the artists of the album
      * @param clickedItemIndex index of the clicked item
@@ -364,11 +381,10 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
         return copyrightsText.toString();
     }
 
-    private double calculateDistance(float x1, float y1, float x2, float y2){
-        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2) * 1.0);
-    }
-
-
+    /**
+     * update the ui of the fragment
+     * called when the user clicks the liked layout in the bottom sheet
+     */
     @Override
     public void onLikedLayoutClicked() {
         if(serviceController.checkUserSavedAlbums(getContext(),

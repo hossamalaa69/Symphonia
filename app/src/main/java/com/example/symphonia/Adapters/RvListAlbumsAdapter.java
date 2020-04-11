@@ -152,12 +152,15 @@ public class RvListAlbumsAdapter extends RecyclerView.Adapter<RvListAlbumsAdapte
     }
 
     /**
-     * interface to handle click for the items
+     * Interface to handle click for the items
      */
     public interface ListItemClickListener{
         void onListItemClick(View v, int clickedItemIndex);
     }
 
+    /**
+     * Interface to handle the long click for the items
+     */
     public interface ListItemLongClickListener{
         void onListItemLongClick(int clickedItemIndex);
     }

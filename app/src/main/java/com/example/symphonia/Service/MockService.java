@@ -726,7 +726,7 @@ public class MockService implements APIs {
      * Get information for a single artist identified by their unique ID
      *
      * @param context activity context
-     * @param id      artist id
+     * @param id artist id
      * @return artist object
      */
 
@@ -744,7 +744,7 @@ public class MockService implements APIs {
      * Get information about artists similar to a given artist.
      *
      * @param context activity context
-     * @param id      artist id
+     * @param id artist id
      * @return Arraylist of similar artists
      */
     @Override
@@ -768,8 +768,10 @@ public class MockService implements APIs {
     /**
      * Get the current user’s followed artists
      *
-     * @param type  true for user and false for artist
+     * @param context activity context
+     * @param type current type, can be artist or user
      * @param limit he maximum number of items to return
+     * @param after the last artist ID retrieved from the previous request
      * @return list of followed artists
      */
     @Override
@@ -784,10 +786,11 @@ public class MockService implements APIs {
     }
 
     /**
-     * Add the current user as a follower of one artist or other users
+     * Add the current user as a followers of one or more artists or other users
      *
-     * @param type true for user and false for artist
-     * @param ids  user or artist id
+     * @param context activity context
+     * @param type the type of what will be followed, can be artist or user
+     * @param ids array of users or artists ids
      */
     @Override
     public void followArtistsOrUsers(Context context, String type, ArrayList<String> ids) {
@@ -798,10 +801,11 @@ public class MockService implements APIs {
     }
 
     /**
-     * Remove the current user as a follower of one artist or other users
+     * Remove the current user as a follower of one or more artists or other users
      *
-     * @param type true for user and false for artist
-     * @param ids  user or artist id
+     * @param context activity context
+     * @param type the type of what will be unFollowed, can be artist or user
+     * @param ids array of users or artists ids
      */
     @Override
     public void unFollowArtistsOrUsers(Context context, String type, ArrayList<String> ids) {
@@ -812,11 +816,12 @@ public class MockService implements APIs {
     }
 
     /**
-     * Check to see if the current user is following an artist or other users
+     * Check to see if the current user is following an artist or more or other users
      *
-     * @param type true for user and false for artist
-     * @param ids  user or artist id
-     * @return true if following and false if not
+     * @param context activity context
+     * @param type the type of the checked objects, can be artist or user
+     * @param ids array of users or artists ids
+     * @return array of boolean
      */
     @Override
     public ArrayList<Boolean> isFollowing(Context context, String type, ArrayList<String> ids) {
@@ -831,8 +836,10 @@ public class MockService implements APIs {
     /**
      * Get a list of recommended artist for the current user
      *
-     * @param type  artist or user
-     * @param limit he maximum number of items to return
+     * @param context activity context
+     * @param type artist or user
+     * @param offset the beginning of the items
+     * @param limit the maximum number of items to return
      * @return list of recommended artists
      */
     @Override
@@ -846,12 +853,24 @@ public class MockService implements APIs {
         for (int i = offset; i < Math.min(offset + limit, currentArtists.size()); i++) {
             recommendedArtists.add(currentArtists.get(i));
         }
-        RestApi.UpdateAddArtists listener = (RestApi.UpdateAddArtists) context;
-        listener.updateGetRecommendedArtists(recommendedArtists);
+        try{
+            RestApi.UpdateAddArtists listener = (RestApi.UpdateAddArtists) context;
+            listener.updateGetRecommendedArtists(recommendedArtists);
+        } catch (ClassCastException e){
+            e.printStackTrace();
+        }
+
         return recommendedArtists;
 
     }
 
+    /**
+     * Get information for a single album.
+     *
+     * @param context activity context
+     * @param id album id
+     * @return album object
+     */
     @Override
     public Album getAlbum(Context context, String id) {
         for (Album album : mAlbums) {
@@ -862,6 +881,16 @@ public class MockService implements APIs {
         return null;
     }
 
+    /**
+     * Get information about an album’s tracks.
+     * Optional parameters can be used to limit the number of tracks returned.
+     *
+     * @param context activity context
+     * @param id album id
+     * @param offset the beginning of the tracks list
+     * @param limit the maximum number of tracks to get
+     * @return array of album tracks
+     */
     @Override
     public ArrayList<Track> getAlbumTracks(Context context, String id, int offset, int limit) {
         Album album = getAlbum(context, id);
@@ -869,6 +898,12 @@ public class MockService implements APIs {
         return null;
     }
 
+    /**
+     * Save one or more albums to the current user’s ‘Your Music’ library.
+     *
+     * @param context activity context
+     * @param ids array of albums ids
+     */
     @Override
     public void saveAlbumsForUser(Context context, ArrayList<String> ids) {
         for (String id : ids) {
@@ -877,6 +912,12 @@ public class MockService implements APIs {
         }
     }
 
+    /**
+     * Remove one or more albums from the current user’s ‘Your Music’ library.
+     *
+     * @param context activity context
+     * @param ids array of albums ids
+     */
     @Override
     public void removeAlbumsForUser(Context context, ArrayList<String> ids) {
         for (String id : ids) {
@@ -885,6 +926,13 @@ public class MockService implements APIs {
         }
     }
 
+    /**
+     * Check if one or more albums is already saved in the current user’s ‘Your Music’ library.
+     *
+     * @param context activity context
+     * @param ids array of albums ids
+     * @return array of booleans, true for found and false for not found
+     */
     @Override
     public ArrayList<Boolean> checkUserSavedAlbums(Context context, ArrayList<String> ids) {
         ArrayList<Boolean> checkArray = new ArrayList<>();
@@ -899,9 +947,9 @@ public class MockService implements APIs {
      * Search for a specific artist
      *
      * @param context Activity context
-     * @param q       Query to search for
-     * @param offset  The index of the first result to return
-     * @param limit   Maximum number of results to return
+     * @param q Query to search for
+     * @param offset The index of the first result to return
+     * @param limit Maximum number of results to return
      * @return List of search result artists
      */
     @Override
@@ -926,8 +974,8 @@ public class MockService implements APIs {
      * Get a list of the albums saved in the current user’s ‘Your Music’ library
      *
      * @param context Activity context
-     * @param offset  The index of the first object to return
-     * @param limit   The maximum number of objects to return
+     * @param offset The index of the first object to return
+     * @param limit The maximum number of objects to return
      * @return List of saved albums
      */
     @Override

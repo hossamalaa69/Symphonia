@@ -347,15 +347,24 @@ public class Utils {
         }
     }
 
+    /**
+     * check if the color is dark or not
+     *
+     * @param color the checked color
+     * @return true if dark and false if light
+     */
     public static boolean isColorDark(int color) {
         double darkness = 1 - (0.299 * Color.red(color) + 0.587 * Color.green(color) + 0.114 * Color.blue(color)) / 255;
-        if (darkness < 0.5) {
-            return false; // It's a light color
-        } else {
-            return true; // It's a dark color
-        }
+        return !(darkness < 0.5);
     }
 
+    /**
+     * function to apply touch animation to a view
+     *
+     * @param view the view to apply animation on
+     * @param scale scaling factor
+     * @param transparency alpha factor
+     */
     public static void startTouchAnimation(View view, float scale, float transparency) {
         if (view != null) {
             view.setScaleX(scale);
@@ -364,6 +373,11 @@ public class Utils {
         }
     }
 
+    /**
+     * function to cancel touch animation on a view
+     *
+     * @param view the view to cancel animation
+     */
     public static void cancelTouchAnimation(View view) {
         if (view != null) {
             view.setScaleX(1.0f);
@@ -372,6 +386,14 @@ public class Utils {
         }
     }
 
+    /**
+     * convert the dependent pixel value to pixels
+     * based on the current device
+     *
+     * @param dp value in dependent pixels
+     * @param context activity context
+     * @return the converted value of pixels
+     */
     public static float convertDpToPixel(float dp, Context context){
         return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
