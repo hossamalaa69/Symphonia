@@ -199,5 +199,10 @@
     <string name="sign_up_success">تم التسجيل بنجاح</string>
     <string name="failed">فشل</string>
     <string name="thanks_for_reporting">شكرًا على التبليغ</string>
+    <string name="performed_by">اداء</string>
+    <string name="written_by">المؤلف</string>
+    <string name="produced_by">المنتج</string>
+    <string name="source">المصادر</string>
+    <string name="report_error">ابلاغ عن  مشكله</string>
 
 </resources>
