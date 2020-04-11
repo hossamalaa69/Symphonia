@@ -33,6 +33,7 @@ import java.util.Collections;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -229,13 +230,24 @@ public class MockServiceTest {
     }
 
     @Test
-    public void getArtistTest(){
+    public void getArtistSuccess(){
         assertEquals("5", mockService.getArtist(appContext, "5").getId());
     }
 
     @Test
-    public void getAlbumsTest(){
+    public void getArtistFail(){
+        assertNull(mockService.getArtist(appContext, "500"));
+    }
+
+
+    @Test
+    public void getAlbumSuccess(){
         assertEquals("2D1nEskDzLz38JiUeVK5mh", mockService.getAlbum(appContext, "2D1nEskDzLz38JiUeVK5mh").getAlbumId());
+    }
+
+    @Test
+    public void getAlbumFail(){
+        assertNull(mockService.getAlbum(appContext, "500"));
     }
 
     @Test
@@ -284,7 +296,6 @@ public class MockServiceTest {
         ArrayList<Container> comingData = mockService.getResultsOfSearch(appContext, "Am");
         assertNotEquals(comingData.size(), testedData.size());
     }
-
     @Test
     public void getResultsOfSearchSuccess() {
         ArrayList<Container> testedData = new ArrayList<>();
@@ -298,7 +309,6 @@ public class MockServiceTest {
             assertEquals(comingData.get(i).getImg_Res().getWidth(), testedData.get(i).getImg_Res().getWidth());
             assertEquals(comingData.get(i).getImg_Res().getHeight(), testedData.get(i).getImg_Res().getHeight());        }
     }
-
     @Test
     public void getArtistsFail() {
         ArrayList<Container> testedData = new ArrayList<>();
@@ -306,7 +316,6 @@ public class MockServiceTest {
         ArrayList<Container> comingData = mockService.getArtists(appContext, "Am");
         assertNotEquals(comingData.get(0).getCat_Name(), testedData.get(0).getCat_Name());
     }
-
     @Test
     public void getArtistsSuccess() {
         String artist = appContext.getResources().getString(R.string.Artist);
@@ -323,7 +332,6 @@ public class MockServiceTest {
             assertEquals(comingData.get(i).getImg_Res().getWidth(), testedData.get(i).getImg_Res().getWidth());
             assertEquals(comingData.get(i).getImg_Res().getHeight(), testedData.get(i).getImg_Res().getHeight());        }
     }
-
     @Test
     public void getSongsFails() {
         ArrayList<Container> testedData = new ArrayList<>();
@@ -331,7 +339,6 @@ public class MockServiceTest {
         ArrayList<Container> comingData = mockService.getSongs(appContext, "Th");
         assertNotEquals(comingData.get(0).getCat_Name(), testedData.get(0).getCat_Name());
     }
-
     @Test
     public void getSongsSuccess() {
         String song = appContext.getResources().getString(R.string.Song);
@@ -347,7 +354,6 @@ public class MockServiceTest {
             assertEquals(comingData.get(i).getImg_Res().getWidth(), testedData.get(i).getImg_Res().getWidth());
             assertEquals(comingData.get(i).getImg_Res().getHeight(), testedData.get(i).getImg_Res().getHeight());        }
     }
-
     @Test
     public void getAlbumsFails() {
         ArrayList<Container> testedData = new ArrayList<>();
@@ -355,7 +361,6 @@ public class MockServiceTest {
         ArrayList<Container> comingData = mockService.getAlbums(appContext, "G");
         assertNotEquals(comingData.size(), testedData.size());
     }
-
     @Test
     public void getAlbumsSuccess() {
         ArrayList<Container> testedData = new ArrayList<>();
@@ -369,7 +374,6 @@ public class MockServiceTest {
             assertEquals(comingData.get(i).getImg_Res().getWidth(), testedData.get(i).getImg_Res().getWidth());
             assertEquals(comingData.get(i).getImg_Res().getHeight(), testedData.get(i).getImg_Res().getHeight());        }
     }
-
     @Test
     public void getProfilesFails() {
         ArrayList<Container> testedData = new ArrayList<>();
@@ -377,7 +381,6 @@ public class MockServiceTest {
         ArrayList<Container> comingData = mockService.getProfiles(appContext, "G");
         assertNotEquals(comingData.size(), testedData.size());
     }
-
     @Test
     public void getProfilesSuccess() {
         ArrayList<Container> testedData = new ArrayList<>();
@@ -390,7 +393,6 @@ public class MockServiceTest {
             assertEquals(comingData.get(i).getImg_Res().getWidth(), testedData.get(i).getImg_Res().getWidth());
             assertEquals(comingData.get(i).getImg_Res().getHeight(), testedData.get(i).getImg_Res().getHeight());        }
     }
-
     @Test
     public void getGenresFails() {
         ArrayList<Container> testedData = new ArrayList<>();
@@ -398,7 +400,6 @@ public class MockServiceTest {
         ArrayList<Container> comingData = mockService.getGenresAndMoods(appContext, "R");
         assertNotEquals(testedData.get(0).getCat_Name(), comingData.get(0).getCat_Name());
     }
-
     @Test
     public void getGenresSuccess() {
         ArrayList<Container> testedData = new ArrayList<>();
@@ -413,7 +414,6 @@ public class MockServiceTest {
             assertEquals(comingData.get(i).getImg_Res().getHeight(), testedData.get(i).getImg_Res().getHeight());
         }
     }
-
     @Test
     public void getPlaylistsFails() {
         ArrayList<Container> testedData = new ArrayList<>();
@@ -421,7 +421,6 @@ public class MockServiceTest {
         ArrayList<Container> comingData = mockService.getPlaylists(appContext, "Q");
         assertNotEquals(comingData.get(0).getCat_Name(), testedData.get(0).getCat_Name());
     }
-
     /*@Test
     public void getPlaylistsSuccess() {
         ArrayList<Container> testedData = new ArrayList<>();
@@ -429,7 +428,6 @@ public class MockServiceTest {
         ArrayList<Container> comingData = mockService.getPlaylists(appContext, "Q");
         assertEquals(comingData.size(), testedData.size());
     }
-
     @Test
     public void  بgetPlaylistsFails() {
         ArrayList<Container> testedData = new ArrayList<>();
@@ -741,8 +739,6 @@ public class MockServiceTest {
 
 
 /*
-
-
     @Test
     public void isOnlineTest() {
         MainActivity activity = new MainActivity();
@@ -753,7 +749,6 @@ public class MockServiceTest {
             ;
         }
     }
-
     @Test
     public void isOnlineTestFails() {
         MainActivity activity = new MainActivity();

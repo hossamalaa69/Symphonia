@@ -3,6 +3,7 @@ package com.example.symphonia;
 
 import android.net.Uri;
 import android.provider.Settings;
+import android.graphics.Color;
 
 import androidx.test.filters.LargeTest;
 
@@ -45,7 +46,7 @@ public class UtilsTest {
     public void getNameEmailFails(){
         assertNotEquals(Utils.getNameFromEmail("abc@gmail.com"),"fgfd");
     }
-    
+
     @Test
     public  void setTrackInfoTestSuccess()
     {
@@ -78,8 +79,7 @@ public class UtilsTest {
     }
 
     @Test
-    public  void setTrackInfoTestFails()
-    {
+    public  void setTrackInfoTestFails() {
         ArrayList<Track> tracks = new ArrayList<Track>();
         tracks.add(new Track("Intentions", "Justing Bieber, Quavo", "Daily Left", null
                 , R.drawable.intentions, Settings.System.DEFAULT_RINGTONE_URI, false));
@@ -89,7 +89,13 @@ public class UtilsTest {
                 , R.drawable.feel_me, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), true));
         Utils.CurrPlaylist.playlist = new Playlist("Daily Left", "Sia, J Balvin, Bad Bunny, Justin Bieber, Drake",
                 Utils.convertToBitmap(R.drawable.daily_left), tracks);
-        Utils.setTrackInfo(0,0,tracks);
-        assertNotEquals(Utils.CurrTrackInfo.currPlaylistName,"mood boost");
+        Utils.setTrackInfo(0, 0, tracks);
+        assertNotEquals(Utils.CurrTrackInfo.currPlaylistName, "mood boost");
+    }
+
+    @Test
+    public void isColorDarkTest(){
+        assertTrue(Utils.isColorDark(Color.BLACK));
+        assertFalse(Utils.isColorDark(Color.WHITE));
     }
 }
