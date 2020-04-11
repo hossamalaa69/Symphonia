@@ -24,7 +24,14 @@
   &nbsp;&nbsp;&nbsp; 3-Press in **make** item, finally press on **run** item (takes few minutes in first time)
   <br>
   
-## 4-Running Unit Tests, Code Coverage and Report generation  
+## 4-Running Unit Tests, Code Coverage and Report generation 
+   #### 4.1-Running Unit Tests:
+   &nbsp;&nbsp;&nbsp; in **explorer** >> **app** >> **Java** >> **com.example.symphonia** >> right click >> **run Tests**
+  
+   #### 4.2-Coverage Report Generation:
+   &nbsp;&nbsp;&nbsp; Choose **Gradle** in top right corner >> double click on **app** >> click on **execute gradle task** icon <br>
+   &nbsp;&nbsp;&nbsp; Write this command **createDebugAndroidTestCoverageReport** and wait untill building is finshed <br>
+   &nbsp;&nbsp;&nbsp; Report generated in >> **app** >> **build** >> **reports** >> **coverage** >> **debug** open **index.html**
   <br>
   
 ## 5- Generate function documentation
