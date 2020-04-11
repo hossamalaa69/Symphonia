@@ -46,6 +46,7 @@ public class PlaylistFragment extends Fragment {
     private RecyclerView rvTracks;
     private Button playBtn;
     private View progressPar;
+
     /**
      * this is required empty constructor
      */
@@ -53,10 +54,11 @@ public class PlaylistFragment extends Fragment {
         // Required empty public constructor
 
     }
-    public void hideProgressBar()
-    {
+
+    public void hideProgressBar() {
         progressPar.setVisibility(View.GONE);
     }
+
     RelativeLayout backgroundLayout;
 
     /**
@@ -86,9 +88,11 @@ public class PlaylistFragment extends Fragment {
         playlistTitle.setText(Utils.CurrPlaylist.playlist.getmPlaylistTitle());
         madeForUser.setText(R.string.made_for_you_by_spotify);
 
-        if (Constants.DEBUG_STATUS)
+        if (Constants.DEBUG_STATUS) {
+
             updateTracks();
-        else {
+            progressPar.setVisibility(View.GONE);
+        } else {
             ServiceController serviceController = ServiceController.getInstance();
             serviceController.getTracksOfPlaylist(getContext(), Utils.CurrPlaylist.playlist.getId(), this);
         }
@@ -114,8 +118,8 @@ public class PlaylistFragment extends Fragment {
             @Override
             public void onGlobalLayout() {
                 if (Utils.CurrTrackInfo.TrackPosInPlaylist != -1) {
-                    if(rvTracks.getChildAt(
-                            Utils.CurrTrackInfo.TrackPosInPlaylist)==null) return;
+                    if (rvTracks.getChildAt(
+                            Utils.CurrTrackInfo.TrackPosInPlaylist) == null) return;
                     TextView title = (TextView) rvTracks.getChildAt(
                             Utils.CurrTrackInfo.TrackPosInPlaylist).findViewById(R.id.tv_track_title_item);
                     if (((String) title.getText()).matches(Utils.CurrTrackInfo.track.getmTitle()))
@@ -150,6 +154,9 @@ public class PlaylistFragment extends Fragment {
 
     Drawable background;
 
+    /**
+     * this function is called to update recycler view of tracks
+     */
     public void updateTracks() {
         layoutManager = new LinearLayoutManager(getContext());
         rvTracks.setHasFixedSize(true);

@@ -99,6 +99,11 @@ public class User {
      */
     private ArrayList<Album> mSavedAlbums;
 
+
+    public User() {
+
+    }
+
     /**
      * constructor of user, initializes parameters
      *
@@ -143,7 +148,7 @@ public class User {
      * @param mSavedAlbums      array of saved albums
      * @param mPlayedTracks     array of played tracks
      */
-    public User(String mEmail,String id, boolean mType, Bitmap mUserImage, String mName, String mDOB
+    public User(String mEmail, String id, boolean mType, Bitmap mUserImage, String mName, String mDOB
             , String mGender, boolean mIsPremuim, int mNumOfFollowers, int mNumOfFollowings
             , ArrayList<User> mFollowings, ArrayList<User> mFollowers
             , ArrayList<Playlist> mFavPlaylists, ArrayList<Playlist> mMadePlaylists
@@ -171,16 +176,16 @@ public class User {
     /**
      * override constructor for user
      *
-     * @param email    email of user
-     * @param password password of user
-     * @param mType    type of user
+     * @param email      email of user
+     * @param password   password of user
+     * @param mType      type of user
      * @param mIsPremium if user is premium
      */
     public User(String email, String password, boolean mType, boolean mIsPremium) {
         this.mEmail = email;
         this.mPassword = password;
         this.mType = mType;
-        this.mIsPremuim=mIsPremium;
+        this.mIsPremuim = mIsPremium;
     }
 
 
@@ -214,7 +219,7 @@ public class User {
     /**
      * setter of password
      *
-     * @param mPassword password of user
+     * @param mPassword password of user (just in mock service)
      */
     public void setmPassword(String mPassword) {
         this.mPassword = mPassword;
@@ -460,7 +465,10 @@ public class User {
      * @param artist artist to be followed
      */
     public void followArtist(Artist artist) {
-        if(!mFollowingArtists.contains(artist)) mFollowingArtists.add(artist);
+        for (Artist a: mFollowingArtists) {
+            if(a.getId().equals(artist.getId())) return;
+        }
+        mFollowingArtists.add(artist);
     }
 
     /**
@@ -469,19 +477,63 @@ public class User {
      * @param artist artist to be unfollowed
      */
     public void unFollowArtist(Artist artist) {
-        mFollowingArtists.remove(artist);
+        for (Artist a: mFollowingArtists) {
+            if(a.getId().equals(artist.getId())){
+                mFollowingArtists.remove(a);
+                return;
+            }
+        }
     }
 
-    public void saveAlbum(Album album){mSavedAlbums.add(album);};
+    /**
+     * handles saving album for user
+     *
+     * @param album album to be added to list
+     */
 
-    public void removeAlbum(Album album){mSavedAlbums.remove(album);};
+    public void saveAlbum(Album album){
+        for (Album a: mSavedAlbums) {
+            if(a.getAlbumId().equals(album.getAlbumId())) return;
+        }
+        mSavedAlbums.add(album);
+    };
 
+    /**
+     * handles removing album from user's list
+     * @param album album to be removed
+     */
+    public void removeAlbum(Album album){
+        for (Album a: mSavedAlbums) {
+        if(a.getAlbumId().equals(album.getAlbumId())){
+            mSavedAlbums.remove(a);
+            return;
+        }
+    }};
+
+    /**
+     * checks if albums is saved or not
+     *
+     * @param checkedAlbum album to be checked
+     * @return returns true if exists
+     */
     public Boolean checkSavedAlbum(Album checkedAlbum){
-        return mSavedAlbums.contains(checkedAlbum);
+        for (Album album: mSavedAlbums) {
+            if(album.getAlbumId().equals(checkedAlbum.getAlbumId())) return true;
+        }
+        return false;
     }
 
+    /**
+     * checks if following an artist
+     *
+     * @param checkedArtist artist to be checked
+     * @return returns true if followed
+     */
     public Boolean checkFollowing(Artist checkedArtist){
-        return mFollowingArtists.contains(checkedArtist);
+        for (Artist artist: mFollowingArtists) {
+            if(artist.getId().equals(checkedArtist.getId())) return true;
+        }
+        return false;
     }
 
     /**
@@ -520,7 +572,16 @@ public class User {
         this.mType = mType;
     }
 
-    public User(String email,String id,String name,boolean type,boolean premium){
+    /**
+     * Constructor for user
+     *
+     * @param email   holds email
+     * @param id      holds id
+     * @param name    holds name
+     * @param type    holds type
+     * @param premium holds if premium
+     */
+    public User(String email, String id, String name, boolean type, boolean premium) {
         this.mEmail = email;
         this._id = id;
         this.mName = name;
@@ -528,34 +589,74 @@ public class User {
         this.mIsPremuim = premium;
     }
 
+    /**
+     * getter for user id
+     *
+     * @return returns user id
+     */
     public String get_id() {
         return _id;
     }
 
+    /**
+     * setter for user id
+     *
+     * @param _id holds user id
+     */
     public void set_id(String _id) {
         this._id = _id;
     }
 
+    /**
+     * getter for user type (user/artist)
+     *
+     * @return return user's type
+     */
     public String getUserType() {
         return mUserType;
     }
 
+    /**
+     * setter for user type
+     *
+     * @param mUserType holds user type
+     */
     public void setUserType(String mUserType) {
         this.mUserType = mUserType;
     }
 
+    /**
+     * getter for user phone
+     *
+     * @return returns user's phone
+     */
     public String getPhone() {
         return mPhone;
     }
 
+    /**
+     * setter fpr user phone number
+     *
+     * @param mPhone holds user's phone number
+     */
     public void setPhone(String mPhone) {
         this.mPhone = mPhone;
     }
 
+    /**
+     * getter for user's image url
+     *
+     * @return returns image url of user
+     */
     public String getImageUrl() {
         return mImageUrl;
     }
 
+    /**
+     * setter for image url
+     *
+     * @param mImageUrl holds image url
+     */
     public void setImageUrl(String mImageUrl) {
         this.mImageUrl = mImageUrl;
     }

@@ -13,41 +13,64 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 
-
+/**
+ * Activity that handles Forget password page
+ *
+ * @author Hossam Alaa
+ * @since 4-10-2020
+ * @version 1.0
+ */
 public class ForgetPassword extends AppCompatActivity {
 
+    /**
+     * edit text that holds email of user
+     */
     private EditText email;
+    /**
+     * holds email that was entered in login activity
+     */
     private String userName;
+    /**
+     * holds user type
+     */
     private String type;
 
+    /**
+     * Represents the initialization of activity
+     * @param savedInstanceState represents received data from other activities
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forget_password);
 
+        //receives type of user from previous activity
         Bundle b = getIntent().getExtras();
         type = b.getString("type");
 
+        //if user entered his mail in login, then take it
         try {
             userName = b.getString("user");
         }catch (NullPointerException e){
+            //if not entered, set email with null
             userName = "";
         }
 
+        //get email input text and set it with entered email
         email = findViewById(R.id.emailInput);
         email.setText(userName);
 
-        if(Utils.isValidEmail(userName))
-            enableButton();
-        else
-            lockButton();
+        //checks if it's valid email or not to open button for user
+        if(Utils.isValidEmail(userName)) enableButton();
+        else lockButton();
 
+        //listener for edit text view
         email.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
-                if (Utils.isValidEmail(s.toString()))
-                    enableButton();
-                else
-                    lockButton();
+                //if current text is valid email, then enable button
+                if (Utils.isValidEmail(s.toString())) enableButton();
+                //if not, then lock button
+                else lockButton();
             }
 
             public void beforeTextChanged(CharSequence s, int start,
@@ -60,20 +83,35 @@ public class ForgetPassword extends AppCompatActivity {
         });
     }
 
+    /**
+     * handles button enable for user
+     */
     public void enableButton() {
+        //get button id, then make it enabled and set background with white color(enable sign)
         Button login = findViewById(R.id.getlink);
         login.setEnabled(true);
         login.setBackgroundResource(R.drawable.btn_curved_white);
     }
 
+    /**
+     * handles button locking for user
+     */
     public void lockButton() {
+        //get button id, then make it locked and set background with gray color(lock sign)
         Button login = findViewById(R.id.getlink);
         login.setEnabled(false);
         login.setBackgroundResource(R.drawable.btn_curved_gray);
     }
 
+    /**
+     * handles listener for send email button
+     * @param view holds clicked view
+     */
     public void sendMail(View view) {
+        //get email from input text by id
         email = findViewById(R.id.emailInput);
+
+        //then send it to Check Email page
         Intent i = new Intent(this, EmailCheck.class);
         i.putExtra("user", email.getText().toString());
         i.putExtra("type",type);

@@ -222,6 +222,15 @@
     <string name="source">source</string>
     <string name="report_error">Report Error</string>
     <string name="view_profile">View Profile</string>
+    <string name="welcome">\"Welcome: \"</string>
+    <string name="sign_up_success">Signed up successfully</string>
+    <string name="failed">Failed</string>
+    <string name="free_account">Free Account</string>
+    <string name="go_premium">Go Premium</string>
+    <string name="undo">UNDO</string>
+    <string name="un_following_message">OK, got it.</string>
+    <string name="log_out">Log out</string>
+    <string name="logged_as">You are Logged in as </string>
 
     <string name="insongs">in songs</string>
     <string name="inplaylists">in playlists</string>

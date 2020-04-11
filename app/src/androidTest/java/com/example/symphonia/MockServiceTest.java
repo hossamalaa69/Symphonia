@@ -3,6 +3,9 @@ package com.example.symphonia;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.provider.Settings;
+import android.view.View;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
@@ -12,6 +15,7 @@ import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Entities.Container;
+import com.example.symphonia.Entities.Copyright;
 import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Entities.User;
@@ -23,9 +27,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -36,13 +44,15 @@ import static org.junit.Assert.assertNotEquals;
 @LargeTest
 public class MockServiceTest {
 
-    MockService mockService;
-    Context appContext;
-    User user;
+    private MockService mockService;
+    private Context appContext;
+    private User user;
 
 
     @Before
     public void setUp() {
+        Constants.currentUser = new User();
+
         mockService = new MockService();
 
         ArrayList<Artist> artists = new ArrayList<>();
@@ -52,12 +62,55 @@ public class MockServiceTest {
         artists.add(new Artist("4", Utils.convertToBitmap(R.drawable.wael), "Wael Kfoury"));
         artists.add(new Artist("5", Utils.convertToBitmap(R.drawable.wael_gassar), "Wael Jassar"));
 
-        /*appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        user = new User("eslam1092@hotmail.com", true, Utils.convertToBitmap(R.drawable.amr)
+        ArrayList<Album> albums = new ArrayList<>();
+
+        albums.add(new Album("6qqNVTkY8uBg9cP3Jd7DAH",
+                "single",
+                new ArrayList<Artist>(Collections.singletonList(artists.get(0))),
+                new ArrayList<Copyright>(Arrays.asList(new Copyright("2020 Darkroom/Interscope Records", "C"),
+                        new Copyright("2020 Darkroom/Interscope Records", "P"))),
+                Utils.convertToBitmap(R.drawable.no_time_to_die),
+                "No Time To Die",
+                "2020-02-13",
+                new ArrayList<Track>()));
+
+        albums.add(new Album("7eFyrxZRPqw8yvZXMUm88A",
+                "album",
+                new ArrayList<Artist>(Collections.singletonList(artists.get(1))),
+                new ArrayList<Copyright>(Arrays.asList(new Copyright("2018 Nay", "C"),
+                        new Copyright("2018 Nay", "P"))),
+                Utils.convertToBitmap(R.drawable.kol_hayaty),
+                "Kol Hayaty",
+                "2018-10-03",
+                new ArrayList<Track>()));
+
+        albums.add(new Album("2D1nEskDzLz38JiUeVK5mh",
+                "single",
+                new ArrayList<Artist>(Collections.singletonList(artists.get(2))),
+                new ArrayList<Copyright>(Arrays.asList(new Copyright("2020 MuzicUp", "C"),
+                        new Copyright("2020 MuzicUp", "P"))),
+                Utils.convertToBitmap(R.drawable.shamekh),
+                "Shamekh",
+                "2020-01-12",
+                new ArrayList<Track>()));
+
+        albums.add(new Album("0hZwt0aSEEiwUByVQuxntK",
+                "album",
+                new ArrayList<Artist>(Collections.singletonList(artists.get(3))),
+                new ArrayList<Copyright>(Collections.singletonList(new Copyright("2012 Awakening Worldwide", "C"))),
+                Utils.convertToBitmap(R.drawable.fogive_me),
+                "Forgive Me",
+                "2012-04-02",
+                new ArrayList<Track>()));
+
+
+        appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        user = new User("eslam1092@hotmail.com", "f3fgd", true, Utils.convertToBitmap(R.drawable.amr)
                 , "Islam Ahmed", "1998-11-24", "male", true
                 , 65500, 40, new ArrayList<User>()
                 , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
-                , artists, new ArrayList<Album>(), new ArrayList<Track>());*/
+                , artists, albums, new ArrayList<Track>());
+
     }
 
 
@@ -103,53 +156,122 @@ public class MockServiceTest {
 
 
     @Test
+    public void SignUpSuccessListener() {
+        assertTrue(mockService.signUp(appContext, true, "email@gmail.com", "password"
+                , "1999", "male", "Hossam Alaa"));
+    }
+
+    @Test
+    public void SignUpSuccessArtist() {
+        assertTrue(mockService.signUp(appContext, false, "email@gmail.com", "password"
+                , "1999", "male", "Hossam Alaa"));
+    }
+
+    @Test
+    public void ApplyPremiumSuccess() {
+        assertTrue(mockService.promotePremium(appContext, new View(appContext), "Token"));
+    }
+
     public void getFollowedArtistsSuccess() {
         Constants.currentUser = user;
-        assertEquals(5, mockService.getFollowedArtists(false, "token1", 15).size());
+        assertEquals(5, mockService.getFollowedArtists(appContext, "user", 20, null).size());
     }
 
     @Test
     public void getFollowedArtistsFail() {
         Constants.currentUser = user;
-        assertNotEquals(5, mockService.getFollowedArtists(false, "token1", 3).size());
+        assertNotEquals(5, mockService.getFollowedArtists(appContext, "user", 3, null).size());
     }
 
     @Test
     public void followArtistSuccess() {
         Constants.currentUser = user;
-        mockService.followArtistOrUser(false, "token1", "6");
-        assertEquals(6, mockService.getFollowedArtists(false, "token1", 20).size());
+        mockService.followArtistsOrUsers(appContext, "artist" , new ArrayList<String>(Collections.singletonList("6")));
+        assertEquals(6, mockService.getFollowedArtists(appContext, "user", 20, null).size());
     }
 
     @Test
     public void followArtistFail() {
         Constants.currentUser = user;
-        mockService.followArtistOrUser(false, "token1", "3");
-        assertNotEquals(6, mockService.getFollowedArtists(false, "token1", 20).size());
+        mockService.followArtistsOrUsers(appContext, "artist", new ArrayList<String>(Collections.singletonList("3")));
+        assertNotEquals(6, mockService.getFollowedArtists(appContext, "user", 20, null).size());
+    }
+
+    @Test
+    public void unFollowArtistTest(){
+        Constants.currentUser = user;
+        mockService.unFollowArtistsOrUsers(appContext, "artist", new ArrayList<String>(Collections.singletonList("3")));
+        assertEquals(4, mockService.getFollowedArtists(appContext, "user", 20, null).size());
     }
 
     @Test
     public void isFollowingSuccess() {
         Constants.currentUser = user;
-        assertTrue(mockService.isFollowing(false, "token1", "2"));
+        assertTrue(mockService.isFollowing(appContext, "artist", new ArrayList<String>(Collections.singletonList("3"))).get(0));
     }
 
     @Test
     public void isFollowingFail() {
         Constants.currentUser = user;
-        assertFalse(mockService.isFollowing(false, "token1", "6"));
+        assertFalse(mockService.isFollowing(appContext, "artist", new ArrayList<String>(Collections.singletonList("6"))).get(0));
     }
 
     @Test
     public void getRecommendedArtistsSuccess() {
         Constants.currentUser = user;
-        assertEquals(5, mockService.getRecommendedArtists(true, "token2", 20).size());
+        assertEquals(8, mockService.getRecommendedArtists(appContext, "user", 0, 8).size());
     }
 
     @Test
     public void getRecommendedArtistsFail() {
         Constants.currentUser = user;
-        assertNotEquals(20, mockService.getRecommendedArtists(false, "token1", 20).size());
+        assertNotEquals(50, mockService.getRecommendedArtists(appContext, "user", 0, 50).size());
+    }
+
+    @Test
+    public void getArtistTest(){
+        assertEquals("5", mockService.getArtist(appContext, "5").getId());
+    }
+
+    @Test
+    public void getAlbumsTest(){
+        assertEquals("2D1nEskDzLz38JiUeVK5mh", mockService.getAlbum(appContext, "2D1nEskDzLz38JiUeVK5mh").getAlbumId());
+    }
+
+    @Test
+    public void getArtistRelatedArtistsTest(){
+        assertEquals(6, mockService.getArtistRelatedArtists(appContext, "1").size());
+    }
+
+    @Test
+    public void searchArtistTest(){
+        assertEquals("Ragheb Alama", mockService.searchArtist(appContext, "Ragheb Alama", 0, 20).get(0).getArtistName());
+    }
+
+    @Test
+    public void getUserSavedAlbumsTest(){
+        Constants.currentUser = user;
+        assertEquals(4, mockService.getUserSavedAlbums(appContext, 0, 20).size());
+    }
+
+    @Test
+    public void saveAlbumsTest() {
+        Constants.currentUser = user;
+        mockService.saveAlbumsForUser(appContext, new ArrayList<String>(Collections.singletonList("3JfSxDfmwS5OeHPwLSkrfr")));
+        assertEquals(5, mockService.getUserSavedAlbums(appContext, 0, 20).size());
+    }
+
+    @Test
+    public void removeAlbumsTest(){
+        Constants.currentUser = user;
+        mockService.removeAlbumsForUser(appContext, new ArrayList<String>(Collections.singletonList("7eFyrxZRPqw8yvZXMUm88A")));
+        assertEquals(3, mockService.getUserSavedAlbums(appContext, 0, 20).size());
+    }
+
+    @Test
+    public void checkAlbumsTest() {
+        Constants.currentUser = user;
+        assertTrue(mockService.checkUserSavedAlbums(appContext, new ArrayList<String>(Collections.singletonList("7eFyrxZRPqw8yvZXMUm88A"))).get(0));
     }
 
     @Test
@@ -300,22 +422,23 @@ public class MockServiceTest {
         assertNotEquals(comingData.get(0).getCat_Name(), testedData.get(0).getCat_Name());
     }
 
-    /* @Test
-     public void getPlaylistsSuccess() {
-         ArrayList<Container> testedData = new ArrayList<>();
-         testedData.add(new Container("Quran", "Playlist", R.drawable.images));
-         ArrayList<Container> comingData = mockService.getPlaylists(appContext, "Q");
-         assertEquals(comingData.size(), testedData.size());
-     }
+    /*@Test
+    public void getPlaylistsSuccess() {
+        ArrayList<Container> testedData = new ArrayList<>();
+        testedData.add(new Container("Quran", "Playlist", R.drawable.images));
+        ArrayList<Container> comingData = mockService.getPlaylists(appContext, "Q");
+        assertEquals(comingData.size(), testedData.size());
+    }
 
-     @Test
-     public void getPlaylistsFails() {
-         ArrayList<Container> testedData = new ArrayList<>();
-         testedData.add(new Container("quran", "Playlist", R.drawable.images2));
-         ArrayList<Container> comingData = mockService.getPlaylists(appContext, "Q");
-         assertNotEquals(comingData.size(), testedData.size());
-     }
- */
+    @Test
+    public void getPlaylistsFails() {
+        ArrayList<Container> testedData = new ArrayList<>();
+        testedData.add(new Container("quran", "Playlist", R.drawable.images2));
+        ArrayList<Container> comingData = mockService.getPlaylists(appContext, "Q");
+        assertNotEquals(comingData.size(), testedData.size());
+    }*/
+
+
     @Test
     public void getPlaylistsSuccess() {
         ArrayList<Container> testedData = new ArrayList<>();
@@ -413,22 +536,81 @@ public class MockServiceTest {
     }
 
     @Test
+    public void getTrackOfPlaylistSuccess() {
+        ArrayList<Playlist> testPlaylists = new ArrayList<>();
+        ArrayList<Track> tracks = new ArrayList<Track>();
+        tracks.add(new Track("Little Do You Know", "Alex & Sierra", "Rewind-the sound of 2014"
+                , null, R.drawable.little_do_you_know, Settings.System.DEFAULT_RINGTONE_URI, true));
+        tracks.add(new Track("Wildest Dreams", "Taylor Swift", "Rewind-the sound of 2014"
+                , null, R.drawable.wildest_dreams, Uri.parse("http://stream.radiosai.net:8002/"), false));
+        tracks.add(new Track("One Last Time", "Ariana Grande", "Rewind-the sound of 2014"
+                , null, R.drawable.one_last_time, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), false));
+        testPlaylists.add(new Playlist("Rewind-the sound of 2014", null,
+                Utils.convertToBitmap(R.drawable.rewind_the_sound), tracks));
+        ArrayList<Track> comingData = mockService.getTracksOfPlaylist(appContext, null, null);
+        assertEquals(testPlaylists.get(0).getTracks().size(), comingData.size());
+        for (int i = 0; i < testPlaylists.size(); i++) {
+            //     assertEquals(testPlaylists.get(i), comingData.get(i));
+            for (int j = 0; j < testPlaylists.get(i).getTracks().size(); j++) {
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getId(), comingData.get(j).getId());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getImageUrl(), comingData.get(j).getImageUrl());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getmAlbum(), comingData.get(j).getmAlbum());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getmArtist(), comingData.get(j).getmArtist());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getmDescription(), comingData.get(j).getmDescription());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getmDuration(), comingData.get(j).getmDuration());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getmImageResources(), comingData.get(j).getmImageResources());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getmTitle(), comingData.get(j).getmTitle());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getPlaylistName(), comingData.get(j).getPlaylistName());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getUri(), comingData.get(j).getUri());
+            }
+        }
+    }
+
+    @Test
+    public void getTrackOfPlaylistFail() {
+        ArrayList<Playlist> testPlaylists = new ArrayList<>();
+        ArrayList<Track> tracks = new ArrayList<Track>();
+        tracks.add(new Track("Little Do You Know", "Alex & Sierra", "Rewind-the sound of 2014"
+                , null, R.drawable.little_do_you_know, Settings.System.DEFAULT_RINGTONE_URI, true));
+        testPlaylists.add(new Playlist("Rewind-the sound of 2014", null,
+                Utils.convertToBitmap(R.drawable.rewind_the_sound), tracks));
+        ArrayList<Track> comingData = mockService.getTracksOfPlaylist(appContext, null, null);
+        assertNotEquals(testPlaylists.get(0).getTracks().size(), comingData.size());
+    }
+
+    @Test
     public void getRecentPlaylistsTest() {
         ArrayList<Playlist> testPlaylists = new ArrayList<>();
         ArrayList<Track> tracks = new ArrayList<Track>();
-        tracks.add(new Track("Rescue Me", "OneRepublic", "mood booster", "Rescue Me", R.drawable.rescue_me, null));
-        tracks.add(new Track("Freaking Me Out", "Ava Max", "mood booster", null, R.drawable.freaking_me_out, null));
-        tracks.add(new Track("You Can't Stop The Girl", "Bebe Rexha", "mood booster", null, R.drawable.you_cant_stop_the_girl, null));
-        testPlaylists.add(new Playlist("mood booster", "Get happy with this pick-up playlist full of current feel-good songs",
-                Utils.convertToBitmap(R.drawable.mood_booster), tracks));
-        ArrayList<Playlist> comingData = mockService.getPopularPlaylists(appContext, Constants.currentToken);
+        tracks.add(new Track("Little Do You Know", "Alex & Sierra", "Rewind-the sound of 2014"
+                , null, R.drawable.little_do_you_know, Settings.System.DEFAULT_RINGTONE_URI, true));
+        tracks.add(new Track("Wildest Dreams", "Taylor Swift", "Rewind-the sound of 2014"
+                , null, R.drawable.wildest_dreams, Uri.parse("http://stream.radiosai.net:8002/"), false));
+        tracks.add(new Track("One Last Time", "Ariana Grande", "Rewind-the sound of 2014"
+                , null, R.drawable.one_last_time, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), false));
+        testPlaylists.add(new Playlist("Rewind-the sound of 2014", null,
+                Utils.convertToBitmap(R.drawable.rewind_the_sound), tracks));
+        ArrayList<Playlist> comingData = mockService.getRecentPlaylists(appContext, null);
         assertEquals(testPlaylists.size(), comingData.size());
         for (int i = 0; i < testPlaylists.size(); i++) {
-            assertEquals(testPlaylists.get(i), comingData.get(i));
+            //     assertEquals(testPlaylists.get(i), comingData.get(i));
             assertEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
-            assertEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
+            assertEquals(testPlaylists.get(i).getId(), comingData.get(i).getId());
+            assertEquals(testPlaylists.get(i).getImageUrl(), comingData.get(i).getImageUrl());
+            assertEquals(testPlaylists.get(i).getmPlaylistDescription(), comingData.get(i).getmPlaylistDescription());
+            assertEquals(testPlaylists.get(i).getmPlaylistTitle(), comingData.get(i).getmPlaylistTitle());
+            assertEquals(testPlaylists.get(i).getTracksURL(), comingData.get(i).getTracksURL());
             for (int j = 0; j < testPlaylists.get(i).getTracks().size(); j++) {
-                assertEquals(testPlaylists.get(i).getTracks().get(j), comingData.get(i).getTracks().get(j));
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getId(), comingData.get(i).getTracks().get(j).getId());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getImageUrl(), comingData.get(i).getTracks().get(j).getImageUrl());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getmAlbum(), comingData.get(i).getTracks().get(j).getmAlbum());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getmArtist(), comingData.get(i).getTracks().get(j).getmArtist());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getmDescription(), comingData.get(i).getTracks().get(j).getmDescription());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getmDuration(), comingData.get(i).getTracks().get(j).getmDuration());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getmImageResources(), comingData.get(i).getTracks().get(j).getmImageResources());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getmTitle(), comingData.get(i).getTracks().get(j).getmTitle());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getPlaylistName(), comingData.get(i).getTracks().get(j).getPlaylistName());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getUri(), comingData.get(i).getTracks().get(j).getUri());
             }
         }
     }
@@ -437,30 +619,48 @@ public class MockServiceTest {
     public void getRecentPlaylistsFails() {
         ArrayList<Playlist> testPlaylists = new ArrayList<>();
         ArrayList<Track> tracks = new ArrayList<Track>();
-        tracks.add(new Track("Rescue Me", "OneRepublic", "mood booster", "Rescue Me", R.drawable.rescue_me, null));
+        tracks.add(new Track("Rescue Me", "OneRepublic", "mood booster", "Rescue Me", R.drawable.rescue_me));
         testPlaylists.add(new Playlist("mood booster", "Get happy with this pick-up playlist full of current feel-good songs",
                 Utils.convertToBitmap(R.drawable.mood_booster), tracks));
-        ArrayList<Playlist> comingData = mockService.getPopularPlaylists(appContext, Constants.currentToken);
-        assertNotEquals(testPlaylists.size(), comingData.size());
+        ArrayList<Playlist> comingData = mockService.getRecentPlaylists(appContext, null);
+        for (int i = 0; i < testPlaylists.size(); i++) {
+            assertNotEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
+        }
     }
 
     @Test
     public void getRandomPlaylists() {
         ArrayList<Playlist> testPlaylists = new ArrayList<>();
         ArrayList<Track> tracks = new ArrayList<Track>();
-        tracks.add(new Track("Intentions", "Justing Bieber, Quavo", "Daily Left", null, R.drawable.intentions, null));
-        tracks.add(new Track("Stupid Love", "Lady Gaga", "Daily Left", null, R.drawable.stupid_love, null));
-        tracks.add(new Track("Feel Me", "Selena Gomez", "Daily Left", null, R.drawable.feel_me, null));
+        tracks.add(new Track("Intentions", "Justing Bieber, Quavo", "Daily Left", null
+                , R.drawable.intentions, Settings.System.DEFAULT_RINGTONE_URI, false));
+        tracks.add(new Track("Stupid Love", "Lady Gaga", "Daily Left", null
+                , R.drawable.stupid_love, Uri.parse("http://stream.radiosai.net:8002/"), false));
+        tracks.add(new Track("Feel Me", "Selena Gomez", "Daily Left", null
+                , R.drawable.feel_me, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), true));
         testPlaylists.add(new Playlist("Daily Left", "Sia, J Balvin, Bad Bunny, Justin Bieber, Drake",
-                Utils.convertToBitmap(R.drawable.images), tracks));
-        ArrayList<Playlist> comingData = mockService.getRandomPlaylists(appContext, Constants.currentToken);
+                Utils.convertToBitmap(R.drawable.daily_left), tracks));
+        ArrayList<Playlist> comingData = mockService.getRandomPlaylists(appContext, null);
         assertEquals(testPlaylists.size(), comingData.size());
         for (int i = 0; i < testPlaylists.size(); i++) {
-            assertEquals(testPlaylists.get(i), comingData.get(i));
+            //  assertEquals(testPlaylists.get(i), comingData.get(i));
             assertEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
-            assertEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
+            assertEquals(testPlaylists.get(i).getId(), comingData.get(i).getId());
+            assertEquals(testPlaylists.get(i).getImageUrl(), comingData.get(i).getImageUrl());
+            assertEquals(testPlaylists.get(i).getmPlaylistDescription(), comingData.get(i).getmPlaylistDescription());
+            assertEquals(testPlaylists.get(i).getmPlaylistTitle(), comingData.get(i).getmPlaylistTitle());
+            assertEquals(testPlaylists.get(i).getTracksURL(), comingData.get(i).getTracksURL());
             for (int j = 0; j < testPlaylists.get(i).getTracks().size(); j++) {
-                assertEquals(testPlaylists.get(i).getTracks().get(j), comingData.get(i).getTracks().get(j));
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getId(), comingData.get(i).getTracks().get(j).getId());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getImageUrl(), comingData.get(i).getTracks().get(j).getImageUrl());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getmAlbum(), comingData.get(i).getTracks().get(j).getmAlbum());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getmArtist(), comingData.get(i).getTracks().get(j).getmArtist());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getmDescription(), comingData.get(i).getTracks().get(j).getmDescription());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getmDuration(), comingData.get(i).getTracks().get(j).getmDuration());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getmImageResources(), comingData.get(i).getTracks().get(j).getmImageResources());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getmTitle(), comingData.get(i).getTracks().get(j).getmTitle());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getPlaylistName(), comingData.get(i).getTracks().get(j).getPlaylistName());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getUri(), comingData.get(i).getTracks().get(j).getUri());
             }
         }
     }
@@ -469,30 +669,52 @@ public class MockServiceTest {
     public void getRandomPlaylistsFails() {
         ArrayList<Playlist> testPlaylists = new ArrayList<>();
         ArrayList<Track> tracks = new ArrayList<Track>();
-        tracks.add(new Track("Intentions", "Justing Bieber, Quavo", "Daily Left", null, R.drawable.intentions, null));
+        tracks.add(new Track("Stupid Love", "Lady Gaga", "Daily Left", null
+                , R.drawable.stupid_love, Uri.parse("http://stream.radiosai.net:8002/"), false));
         testPlaylists.add(new Playlist("Daily Left", "Sia, J Balvin, Bad Bunny, Justin Bieber, Drake",
                 Utils.convertToBitmap(R.drawable.images), tracks));
-        ArrayList<Playlist> comingData = mockService.getRandomPlaylists(appContext, Constants.currentToken);
-        assertNotEquals(testPlaylists.size(), comingData.size());
+        ArrayList<Playlist> comingData = mockService.getRandomPlaylists(appContext, null);
+        for (int i = 0; i < testPlaylists.size(); i++) {
+            assertNotEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
+        }
     }
 
     @Test
     public void getMadeForYouPlaylists() {
         ArrayList<Playlist> testPlaylists = new ArrayList<>();
         ArrayList<Track> tracks = new ArrayList<Track>();
-        tracks.add(new Track("Intentions", "Justing Bieber, Quavo", "Daily Left", null, R.drawable.intentions, null));
-        tracks.add(new Track("Stupid Love", "Lady Gaga", "Daily Left", null, R.drawable.stupid_love, null));
-        tracks.add(new Track("Feel Me", "Selena Gomez", "Daily Left", null, R.drawable.feel_me, null));
+        tracks.add(new Track("Intentions", "Justing Bieber, Quavo", "Daily Left", null
+                , R.drawable.intentions, Settings.System.DEFAULT_RINGTONE_URI, false));
+        tracks.add(new Track("Stupid Love", "Lady Gaga", "Daily Left", null
+                , R.drawable.stupid_love, Uri.parse("http://stream.radiosai.net:8002/"), false));
+        tracks.add(new Track("Feel Me", "Selena Gomez", "Daily Left", null
+                , R.drawable.feel_me, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), true));
         testPlaylists.add(new Playlist("Daily Left", "Sia, J Balvin, Bad Bunny, Justin Bieber, Drake",
-                Utils.convertToBitmap(R.drawable.images), tracks));
+                Utils.convertToBitmap(R.drawable.daily_left), tracks));
         ArrayList<Playlist> comingData = mockService.getMadeForYouPlaylists(appContext, Constants.currentToken);
         assertEquals(testPlaylists.size(), comingData.size());
         for (int i = 0; i < testPlaylists.size(); i++) {
-            assertEquals(testPlaylists.get(i), comingData.get(i));
+            //    assertEquals(testPlaylists.get(i), comingData.get(i));
+            //     assertEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
             assertEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
-            assertEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
+            assertEquals(testPlaylists.get(i).getId(), comingData.get(i).getId());
+            assertEquals(testPlaylists.get(i).getImageUrl(), comingData.get(i).getImageUrl());
+            assertEquals(testPlaylists.get(i).getmPlaylistDescription(), comingData.get(i).getmPlaylistDescription());
+            assertEquals(testPlaylists.get(i).getmPlaylistTitle(), comingData.get(i).getmPlaylistTitle());
+            assertEquals(testPlaylists.get(i).getTracksURL(), comingData.get(i).getTracksURL());
+
             for (int j = 0; j < testPlaylists.get(i).getTracks().size(); j++) {
-                assertEquals(testPlaylists.get(i).getTracks().get(j), comingData.get(i).getTracks().get(j));
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getId(), comingData.get(i).getTracks().get(j).getId());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getImageUrl(), comingData.get(i).getTracks().get(j).getImageUrl());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getmAlbum(), comingData.get(i).getTracks().get(j).getmAlbum());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getmArtist(), comingData.get(i).getTracks().get(j).getmArtist());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getmDescription(), comingData.get(i).getTracks().get(j).getmDescription());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getmDuration(), comingData.get(i).getTracks().get(j).getmDuration());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getmImageResources(), comingData.get(i).getTracks().get(j).getmImageResources());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getmTitle(), comingData.get(i).getTracks().get(j).getmTitle());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getPlaylistName(), comingData.get(i).getTracks().get(j).getPlaylistName());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getUri(), comingData.get(i).getTracks().get(j).getUri());
+
             }
         }
     }
@@ -501,45 +723,65 @@ public class MockServiceTest {
     public void getMadeForYouPlaylistsFails() {
         ArrayList<Playlist> testPlaylists = new ArrayList<>();
         ArrayList<Track> tracks = new ArrayList<Track>();
-        tracks.add(new Track("Intentions", "Justing Bieber, Quavo", "Daily Left", null, R.drawable.intentions, null));
+        tracks.add(new Track("Feel Me", "Selena Gomez", "Daily Left", null
+                , R.drawable.feel_me, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), true));
         testPlaylists.add(new Playlist("Daily Left", "Sia, J Balvin, Bad Bunny, Justin Bieber, Drake",
-                Utils.convertToBitmap(R.drawable.images), tracks));
+                Utils.convertToBitmap(R.drawable.daily_left), tracks));
         ArrayList<Playlist> comingData = mockService.getMadeForYouPlaylists(appContext, Constants.currentToken);
-        assertNotEquals(testPlaylists.size(), comingData.size());
-    }
-
-    @Test
-    public void getRecentlyPlayedPlaylists() {
-        ArrayList<Playlist> testPlaylists = new ArrayList<>();
-        ArrayList<Track> tracks = new ArrayList<Track>();
-        tracks.add(new Track("Little Do You Know", "Alex & Sierra", "Rewind-the sound of 2014", null, R.drawable.rescue_me, null));
-        tracks.add(new Track("Wildest Dreams", "Taylor Swift", "Rewind-the sound of 2014", null, R.drawable.freaking_me_out, null));
-        tracks.add(new Track("One Last Time", "Ariana Grande", "Rewind-the sound of 2014", null, R.drawable.you_cant_stop_the_girl, null));
-        testPlaylists.add(new Playlist("Rewind-the sound of 2014", null,
-                Utils.convertToBitmap(R.drawable.rewind_the_sound), tracks));
-        ArrayList<Playlist> comingData = mockService.getRecentPlaylists(appContext, null);
-        assertEquals(testPlaylists.size(), comingData.size());
         for (int i = 0; i < testPlaylists.size(); i++) {
-            assertEquals(testPlaylists.get(i), comingData.get(i));
-            assertEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
-            assertEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
-            for (int j = 0; j < testPlaylists.get(i).getTracks().size(); j++) {
-                assertEquals(testPlaylists.get(i).getTracks().get(j), comingData.get(i).getTracks().get(j));
-            }
+            assertNotEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
         }
+
     }
 
     @Test
-    public void getRecentlyPlayedPlaylistsFails() {
-        ArrayList<Playlist> testPlaylists = new ArrayList<>();
+    public  void setTrackInfoTestSuccess()
+    {
         ArrayList<Track> tracks = new ArrayList<Track>();
-        tracks.add(new Track("Little Do You Know", "Alex & Sierra", "Rewind-the sound of 2014", null, R.drawable.rescue_me, null));
-        testPlaylists.add(new Playlist("Rewind-the sound of 2014", null,
-                Utils.convertToBitmap(R.drawable.rewind_the_sound), tracks));
-        ArrayList<Playlist> comingData = mockService.getRecentPlaylists(appContext, null);
-        assertNotEquals(testPlaylists.size(), comingData.size());
+        tracks.add(new Track("Intentions", "Justing Bieber, Quavo", "Daily Left", null
+                , R.drawable.intentions, Settings.System.DEFAULT_RINGTONE_URI, false));
+        tracks.add(new Track("Stupid Love", "Lady Gaga", "Daily Left", null
+                , R.drawable.stupid_love, Uri.parse("http://stream.radiosai.net:8002/"), false));
+        tracks.add(new Track("Feel Me", "Selena Gomez", "Daily Left", null
+                , R.drawable.feel_me, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), true));
+        Utils.CurrPlaylist.playlist = new Playlist("Daily Left", "Sia, J Balvin, Bad Bunny, Justin Bieber, Drake",
+                Utils.convertToBitmap(R.drawable.daily_left), tracks);
+        Utils.setTrackInfo(0,0,tracks);
+        assertEquals(Utils.CurrTrackInfo.currPlayingPos,0);
+        assertEquals(Utils.CurrTrackInfo.TrackPosInPlaylist,0);
+        assertEquals(Utils.CurrTrackInfo.currPlaylistName,"Daily Left");
+        for (int j = 0; j < tracks.size(); j++) {
+            assertEquals(tracks.get(j).getId(), Utils.CurrTrackInfo.currPlaylistTracks.get(j).getId());
+            assertEquals(tracks.get(j).getImageUrl(),  Utils.CurrTrackInfo.currPlaylistTracks.get(j).getImageUrl());
+            assertEquals(tracks.get(j).getmAlbum(),  Utils.CurrTrackInfo.currPlaylistTracks.get(j).getmAlbum());
+            assertEquals(tracks.get(j).getmArtist(),  Utils.CurrTrackInfo.currPlaylistTracks.get(j).getmArtist());
+            assertEquals(tracks.get(j).getmDescription(), Utils.CurrTrackInfo.currPlaylistTracks.get(j).getmDescription());
+            assertEquals(tracks.get(j).getmDuration(),  Utils.CurrTrackInfo.currPlaylistTracks.get(j).getmDuration());
+            assertEquals(tracks.get(j).getmImageResources(), Utils.CurrTrackInfo.currPlaylistTracks.get(j).getmImageResources());
+            assertEquals(tracks.get(j).getmTitle(),  Utils.CurrTrackInfo.currPlaylistTracks.get(j).getmTitle());
+            assertEquals(tracks.get(j).getPlaylistName(),  Utils.CurrTrackInfo.currPlaylistTracks.get(j).getPlaylistName());
+            assertEquals(tracks.get(j).getUri(),  Utils.CurrTrackInfo.currPlaylistTracks.get(j).getUri());
+        }
 
     }
+
+    @Test
+    public  void setTrackInfoTestFails()
+    {
+        ArrayList<Track> tracks = new ArrayList<Track>();
+        tracks.add(new Track("Intentions", "Justing Bieber, Quavo", "Daily Left", null
+                , R.drawable.intentions, Settings.System.DEFAULT_RINGTONE_URI, false));
+        tracks.add(new Track("Stupid Love", "Lady Gaga", "Daily Left", null
+                , R.drawable.stupid_love, Uri.parse("http://stream.radiosai.net:8002/"), false));
+        tracks.add(new Track("Feel Me", "Selena Gomez", "Daily Left", null
+                , R.drawable.feel_me, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), true));
+        Utils.CurrPlaylist.playlist = new Playlist("Daily Left", "Sia, J Balvin, Bad Bunny, Justin Bieber, Drake",
+                Utils.convertToBitmap(R.drawable.daily_left), tracks);
+        Utils.setTrackInfo(0,0,tracks);
+        assertNotEquals(Utils.CurrTrackInfo.currPlaylistName,"mood boost");
+    }
+/*
+
 
     @Test
     public void isOnlineTest() {
@@ -561,26 +803,45 @@ public class MockServiceTest {
             assertNotEquals(networkInfo != null && networkInfo.isConnectedOrConnecting(), activity.isOnline());
             ;
         }
-    }
+    }*/
 
 
     @Test
     public void getPopularPlaylists() {
         ArrayList<Playlist> testPlaylists = new ArrayList<>();
         ArrayList<Track> tracks = new ArrayList<Track>();
-        tracks.add(new Track("Rescue Me", "OneRepublic", "mood booster", "Rescue Me", R.drawable.rescue_me, null));
-        tracks.add(new Track("Freaking Me Out", "Ava Max", "mood booster", null, R.drawable.freaking_me_out, null));
-        tracks.add(new Track("You Can't Stop The Girl", "Bebe Rexha", "mood booster", null, R.drawable.you_cant_stop_the_girl, null));
-        testPlaylists.add(new Playlist("mood booster", "Get happy with this pick-up playlist full of current feel-good songs",
+        tracks.add(new Track("Rescue Me", "OneRepublic", "mood booster",
+                "Rescue Me", R.drawable.rescue_me, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), false));
+        tracks.add(new Track("Freaking Me Out", "Ava Max",
+                "mood booster", null, R.drawable.freaking_me_out, Settings.System.DEFAULT_RINGTONE_URI, true));
+        tracks.add(new Track("You Can't Stop The Girl",
+                "Bebe Rexha", "mood booster", null, R.drawable.you_cant_stop_the_girl
+                , Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), false));
+        testPlaylists.add(new Playlist("mood booster",
+                "Get happy with this pick-up playlist full of current feel-good songs",
                 Utils.convertToBitmap(R.drawable.mood_booster), tracks));
-        ArrayList<Playlist> comingData = mockService.getRecentPlaylists(appContext,null);
+        ArrayList<Playlist> comingData = mockService.getPopularPlaylists(appContext, null);
         assertEquals(testPlaylists.size(), comingData.size());
         for (int i = 0; i < testPlaylists.size(); i++) {
-            assertEquals(testPlaylists.get(i), comingData.get(i));
+            //   assertEquals(testPlaylists.get(i), comingData.get(i));
             assertEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
-            assertEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
+            assertEquals(testPlaylists.get(i).getId(), comingData.get(i).getId());
+            assertEquals(testPlaylists.get(i).getImageUrl(), comingData.get(i).getImageUrl());
+            assertEquals(testPlaylists.get(i).getmPlaylistDescription(), comingData.get(i).getmPlaylistDescription());
+            assertEquals(testPlaylists.get(i).getmPlaylistTitle(), comingData.get(i).getmPlaylistTitle());
+            assertEquals(testPlaylists.get(i).getTracksURL(), comingData.get(i).getTracksURL());
+
             for (int j = 0; j < testPlaylists.get(i).getTracks().size(); j++) {
-                assertEquals(testPlaylists.get(i).getTracks().get(j), comingData.get(i).getTracks().get(j));
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getId(), comingData.get(i).getTracks().get(j).getId());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getImageUrl(), comingData.get(i).getTracks().get(j).getImageUrl());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getmAlbum(), comingData.get(i).getTracks().get(j).getmAlbum());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getmArtist(), comingData.get(i).getTracks().get(j).getmArtist());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getmDescription(), comingData.get(i).getTracks().get(j).getmDescription());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getmDuration(), comingData.get(i).getTracks().get(j).getmDuration());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getmImageResources(), comingData.get(i).getTracks().get(j).getmImageResources());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getmTitle(), comingData.get(i).getTracks().get(j).getmTitle());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getPlaylistName(), comingData.get(i).getTracks().get(j).getPlaylistName());
+                assertEquals(testPlaylists.get(i).getTracks().get(j).getUri(), comingData.get(i).getTracks().get(j).getUri());
             }
         }
     }
@@ -589,16 +850,15 @@ public class MockServiceTest {
     public void getPopularPlaylistsFails() {
         ArrayList<Playlist> testPlaylists = new ArrayList<>();
         ArrayList<Track> tracks = new ArrayList<Track>();
-        tracks.add(new Track("Rescue Me", "OneRepublic", "mood booster", "Rescue Me", R.drawable.rescue_me, null));
-        testPlaylists.add(new Playlist("mood booster", "Get happy with this pick-up playlist full of current feel-good songs",
+        tracks.add(new Track("You Can't Stop The Girl",
+                "Bebe Rexha", "mood booster", null, R.drawable.you_cant_stop_the_girl
+                , Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), false));
+        testPlaylists.add(new Playlist("mood booster",
+                "Get happy with this pick-up playlist full of current feel-good songs",
                 Utils.convertToBitmap(R.drawable.mood_booster), tracks));
-        ArrayList<Playlist> comingData = mockService.getRecentPlaylists(appContext,null);
-        assertNotEquals(testPlaylists.size(), comingData.size());
-
+        ArrayList<Playlist> comingData = mockService.getPopularPlaylists(appContext, null);
+        for (int i = 0; i < testPlaylists.size(); i++) {
+            assertNotEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
+        }
     }
 }
-
-
-
-
-

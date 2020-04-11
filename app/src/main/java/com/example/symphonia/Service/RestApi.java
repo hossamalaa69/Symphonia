@@ -47,7 +47,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 
+/**
+ * Class that holds all functions to be used to fill metadata of application
+ * using REST APIs implementation
+ *
+ * @author Hossam Alaa
+ * @version 1.0
+ * @since 11-4-2020
+ */
+
 public class RestApi implements APIs {
+
     /**
      * holds logging user in, creation of user object and sets token
      *
@@ -92,7 +102,7 @@ public class RestApi implements APIs {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(context, "Check your internet connection", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, R.string.check_internet, Toast.LENGTH_SHORT).show();
                             updateLogin.updateUiLoginFail("exception");
                         }
                     }
@@ -105,12 +115,12 @@ public class RestApi implements APIs {
                                 updateLogin.updateUiLoginFail("input");
                             else {
                                 Toast.makeText(context, "Error" + error.networkResponse.statusCode, Toast.LENGTH_SHORT).show();
-                                Toast.makeText(context, "Check your internet connection", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, R.string.check_internet, Toast.LENGTH_SHORT).show();
                                 updateLogin.updateUiLoginFail("exception");
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
-                            Toast.makeText(context, "Check your internet connection", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, R.string.check_internet, Toast.LENGTH_SHORT).show();
                             updateLogin.updateUiLoginFail("exception");
                         }
                     }
@@ -225,11 +235,11 @@ public class RestApi implements APIs {
 
                             Constants.currentUser.setUserType(type);
                             Constants.currentUser.setImageUrl(image);
-                            Toast.makeText(context, "Signed up successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, R.string.sign_up_success, Toast.LENGTH_SHORT).show();
                             updateUiSignUp.updateUiSignUpSuccess();
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(context, "Check your internet connection", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, R.string.check_internet, Toast.LENGTH_SHORT).show();
                             updateUiSignUp.updateUiSignUpFailed();
                         }
                     }
@@ -239,9 +249,9 @@ public class RestApi implements APIs {
                     public void onErrorResponse(VolleyError error) {
                         try {
                             Toast.makeText(context, "Error: " + error.networkResponse.statusCode, Toast.LENGTH_SHORT).show();
-                            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, R.string.failed, Toast.LENGTH_SHORT).show();
                         } catch (Exception e) {
-                            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, R.string.failed, Toast.LENGTH_SHORT).show();
                         }
                         updateUiSignUp.updateUiSignUpFailed();
                     }
@@ -273,6 +283,9 @@ public class RestApi implements APIs {
     }
 
 
+    /**
+     * this interface includes listeners to update ui
+     */
     public interface updateUiPlaylists {
         void getCategoriesSuccess();
 
@@ -550,24 +563,20 @@ public class RestApi implements APIs {
 
 
             }
-        }) {
-            /* @Override
-             public Map<String, String> getHeaders() {
-                 Map<String, String> headers = new HashMap<>();
-                 headers.put("Authorization", "Bearer " + Constants.currentToken);
-                 return headers;
-             }*/
-           /* @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("number", "5");
-                return params;
-            }*/
-        };
+        });
         VolleySingleton.getInstance(context).getRequestQueue().add(request);
         return randomPlaylists;
     }
 
+    /**
+     * this function initialize the track to be streamed
+     *
+     * @param context      current activity's context
+     * @param id           id of track
+     * @param context_id   id of context
+     * @param context_url  url of context
+     * @param context_type type of context
+     */
     @Override
     public void playTrack(final Context context, String id, String context_id, String context_url, String context_type) {
         final updateUiPlaylists listener = (updateUiPlaylists) context;
@@ -607,6 +616,14 @@ public class RestApi implements APIs {
         VolleySingleton.getInstance(context).getRequestQueue().add(request);
     }
 
+    /**
+     * thif function load tracks of certain playlist
+     *
+     * @param context          context of activity
+     * @param id               id of playlist
+     * @param playlistFragment fragment for response update
+     * @return array list of tracks
+     */
     @Override
     public ArrayList<Track> getTracksOfPlaylist(Context context, String id, final PlaylistFragment playlistFragment) {
         final updateUiPlaylists listener = (updateUiPlaylists) context;
@@ -650,20 +667,7 @@ public class RestApi implements APIs {
 
 
             }
-        }) {
-            /* @Override
-             public Map<String, String> getHeaders() {
-                 Map<String, String> headers = new HashMap<>();
-                 headers.put("Authorization", "Bearer " + Constants.currentToken);
-                 return headers;
-             }*/
-           /* @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("number", "5");
-                return params;
-            }*/
-        };
+        });
         VolleySingleton.getInstance(context).getRequestQueue().add(request);
         return tracksList;
     }
@@ -676,50 +680,6 @@ public class RestApi implements APIs {
     @Override
     public ArrayList<Container> getResultsOfSearch(Context context, String searchWord) {
         return null;
-    }
-
-
-   /* @Override
-    public ArrayList<Category> getCategories(final Context context) {
-        final updateUiGetCategories listener=(updateUiGetCategories) context;
-        final ArrayList<Category> categories=new ArrayList<>();
-        StringRequest stringRequest=new StringRequest(Request.Method.GET, Constants.GET_ALL_CATEGORIES,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject root=new JSONObject(response);
-                            JSONObject data = root.getJSONObject("data");
-                            JSONArray catArr=data.optJSONArray("categorys");
-                            for(int i=0;i<catArr.length();i++){
-                                JSONObject jsonObject=catArr.getJSONObject(i);
-                                String href=jsonObject.getString("href");
-                                String id=jsonObject.getString("id");
-                                String name=jsonObject.getString("name");
-                                JSONArray imgArr=jsonObject.getJSONArray("icons");
-                                JSONObject imgObj=imgArr.getJSONObject(0);
-                                String imgUrl=imgObj.getString("url");
-                                Bitmap imgBitmap=fetchImage(context,imgUrl);
-                                categories.add(new Category(name,imgBitmap,id,href));
-                            }
-                            listener.getCategoriesSuccess(categories);
-
-                        }catch (Exception e){
-                            e.fillInStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context,"afavvavav",Toast.LENGTH_SHORT);
-            }
-        });
-        VolleySingleton.getInstance(context).getRequestQueue().add(stringRequest);
-        return categories;
-    }*/
-
-    public interface updateUiGetCategories {
-        void getCategoriesSuccess(ArrayList<Category> c);
     }
 
     @Override
@@ -858,22 +818,52 @@ public class RestApi implements APIs {
         return paylists;
     }
 
-
+    /**
+     * Get information for a single artist identified by their unique ID
+     *
+     * @param context activity context
+     * @param id artist id
+     * @return artist object
+     */
     @Override
     public Artist getArtist(Context context, String id) {
         return null;
     }
 
+    /**
+     * Get a list of the albums saved in the current user’s ‘Your Music’ library
+     *
+     * @param context Activity context
+     * @param offset The index of the first object to return
+     * @param limit The maximum number of objects to return
+     * @return List of saved albums
+     */
     @Override
     public ArrayList<Album> getUserSavedAlbums(Context context, int offset, int limit) {
         return null;
     }
 
+    /**
+     * Get the current user’s followed artists
+     *
+     * @param context activity context
+     * @param type current type, can be artist or user
+     * @param limit he maximum number of items to return
+     * @param after the last artist ID retrieved from the previous request
+     * @return list of followed artists
+     */
     @Override
     public ArrayList<Artist> getFollowedArtists(Context context, String type, int limit, String after) {
         return null;
     }
 
+    /**
+     * Add the current user as a followers of one or more artists or other users
+     *
+     * @param context activity context
+     * @param type the type of what will be followed, can be artist or user
+     * @param ids array of users or artists ids
+     */
     @Override
     public void followArtistsOrUsers(Context context, final String type, final ArrayList<String> ids) {
 
@@ -913,6 +903,13 @@ public class RestApi implements APIs {
 
     }
 
+    /**
+     * Remove the current user as a follower of one or more artists or other users
+     *
+     * @param context activity context
+     * @param type the type of what will be unFollowed, can be artist or user
+     * @param ids array of users or artists ids
+     */
     @Override
     public void unFollowArtistsOrUsers(final Context context, final String type, final ArrayList<String> ids) {
 
@@ -967,7 +964,7 @@ public class RestApi implements APIs {
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull retrofit2.Response<Void> response) {
-                Toast.makeText(context, "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "Code: " + response.code(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -977,11 +974,28 @@ public class RestApi implements APIs {
         });
     }
 
+    /**
+     * Check to see if the current user is following an artist or more or other users
+     *
+     * @param context activity context
+     * @param type the type of the checked objects, can be artist or user
+     * @param ids array of users or artists ids
+     * @return array of boolean
+     */
     @Override
     public ArrayList<Boolean> isFollowing(Context context, String type, ArrayList<String> ids) {
         return null;
     }
 
+    /**
+     * Get a list of recommended artist for the current user
+     *
+     * @param context activity context
+     * @param type artist or user
+     * @param offset the beginning of the items
+     * @param limit the maximum number of items to return
+     * @return list of recommended artists
+     */
     @Override
     public ArrayList<Artist> getRecommendedArtists(final Context context, String type, final int offset, final int limit) {
 
@@ -1041,10 +1055,9 @@ public class RestApi implements APIs {
      * Get information about artists similar to a given artist.
      *
      * @param context activity context
-     * @param id      artist id
+     * @param id artist id
      * @return Arraylist of similar artists
      */
-    @Override
     public ArrayList<Artist> getArtistRelatedArtists(Context context, String id) {
         return null;
     }
@@ -1053,9 +1066,9 @@ public class RestApi implements APIs {
      * Search for a specific artist
      *
      * @param context Activity context
-     * @param q       Query to search for
-     * @param offset  The index of the first result to return
-     * @param limit   Maximum number of results to return
+     * @param q Query to search for
+     * @param offset The index of the first result to return
+     * @param limit Maximum number of results to return
      * @return List of search result artists
      */
     @Override
@@ -1063,31 +1076,75 @@ public class RestApi implements APIs {
         return null;
     }
 
+    /**
+     * Get information for a single album.
+     *
+     * @param context activity context
+     * @param id album id
+     * @return album object
+     */
     @Override
     public Album getAlbum(Context context, String id) {
         return null;
     }
 
+    /**
+     * Get information about an album’s tracks.
+     * Optional parameters can be used to limit the number of tracks returned.
+     *
+     * @param context activity context
+     * @param id album id
+     * @param offset the beginning of the tracks list
+     * @param limit the maximum number of tracks to get
+     * @return array of album tracks
+     */
     @Override
     public ArrayList<Track> getAlbumTracks(Context context, String id, int offset, int limit) {
         return null;
     }
 
+    /**
+     * Save one or more albums to the current user’s ‘Your Music’ library.
+     *
+     * @param context activity context
+     * @param ids array of albums ids
+     */
     @Override
     public void saveAlbumsForUser(Context context, ArrayList<String> ids) {
 
     }
 
+    /**
+     * Remove one or more albums from the current user’s ‘Your Music’ library.
+     *
+     * @param context activity context
+     * @param ids array of albums ids
+     */
     @Override
     public void removeAlbumsForUser(Context context, ArrayList<String> ids) {
 
     }
 
+    /**
+     * Check if one or more albums is already saved in the current user’s ‘Your Music’ library.
+     *
+     * @param context activity context
+     * @param ids array of albums ids
+     * @return array of booleans, true for found and false for not found
+     */
     @Override
     public ArrayList<Boolean> checkUserSavedAlbums(Context context, ArrayList<String> ids) {
         return null;
     }
 
+    /**
+     * handles promoting user to premium
+     *
+     * @param context holds context of activity
+     * @param root    holds root view of fragment
+     * @param token   holds token of user
+     * @return returns true if promoted
+     */
     @Override
     public boolean promotePremium(final Context context, View root, String token) {
         return false;

@@ -17,18 +17,35 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.symphonia.Entities.Track;
-import com.example.symphonia.Fragments_and_models.library.BottomSheetDialogArtist;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+/**
+ * class that holds bottom sheet of settings of track.
+ *
+ * @author Khaled Ali
+ * @version 1.0
+ */
 public class BottomSheetDialogSettings extends BottomSheetDialogFragment {
 
+    /**
+     * position of track in playlist
+     */
     int pos;
+    /**
+     * listener of sheet
+     */
     BottomSheetListener listener;
 
+    /**
+     * non empty  constructor
+     *
+     * @param context context of current activity
+     * @param pos     position of track in playlist
+     */
     public BottomSheetDialogSettings(int pos, Context context) {
         this.pos = pos;
         listener = (BottomSheetListener) context;
@@ -36,6 +53,14 @@ public class BottomSheetDialogSettings extends BottomSheetDialogFragment {
     }
 
 
+    /**
+     * this function set data of fragment
+     *
+     * @param inflater           inflater of fragment
+     * @param container          container of fragment
+     * @param savedInstanceState instance saved of states
+     * @return view of fragment
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -126,6 +151,9 @@ public class BottomSheetDialogSettings extends BottomSheetDialogFragment {
         return view;
     }
 
+    /**
+     * this interface contains listeners of fragment
+     */
     public interface BottomSheetListener {
         void onLikeClicked(int pos);
 
@@ -142,6 +170,12 @@ public class BottomSheetDialogSettings extends BottomSheetDialogFragment {
 
     }
 
+    /**
+     * this function is called when dialog is being created
+     *
+     * @param savedInstanceState instance of saved states
+     * @return instance of dialog
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -156,7 +190,11 @@ public class BottomSheetDialogSettings extends BottomSheetDialogFragment {
         return dialog;
     }
 
-
+    /**
+     * this function is called to customize  bottom sheet to be full screen
+     *
+     * @param bottomSheetDialog instance of bottom sheet dialog
+     */
     private void setupFullHeight(BottomSheetDialog bottomSheetDialog) {
         FrameLayout bottomSheet = (FrameLayout) bottomSheetDialog.findViewById(R.id.design_bottom_sheet);
         bottomSheet.setBackgroundResource(R.drawable.track_settings_background);
@@ -182,6 +220,11 @@ public class BottomSheetDialogSettings extends BottomSheetDialogFragment {
         behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 
+    /**
+     * this function is called to get height of device's screen
+     *
+     * @return height of screen
+     */
     private int getWindowHeight() {
         // Calculate window height for fullscreen use
         DisplayMetrics displayMetrics = new DisplayMetrics();

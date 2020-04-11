@@ -38,7 +38,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.settings);
         Preference logOut = (Preference) findPreference("log_out");
-        logOut.setSummary("You logged in as " + Constants.currentUser.getmName());
+        logOut.setSummary(getString(R.string.logged_as) + Constants.currentUser.getmName());
         assert logOut != null;
         logOut.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override

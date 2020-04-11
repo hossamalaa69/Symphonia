@@ -137,6 +137,9 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
         return START_STICKY;
     }
 
+    /**
+     * this function sets configeration of media player
+     */
     private void setConfigrations() {
         audioManager = (AudioManager) getApplicationContext().getSystemService(AUDIO_SERVICE);
         int result = audioManager.requestAudioFocus(onAudioFocusChangeListener,
@@ -162,12 +165,15 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
         try {
             Log.e("media", "init");
 
-            Map<String, String> headers = new HashMap<>();
-            headers.put("Authorization", "Bearer " + Constants.currentToken);
-            // headers.put("Content-Type", "application/json");
+            if (!Constants.DEBUG_STATUS) {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + Constants.currentToken);
+                // headers.put("Content-Type", "application/json");
 
-            mediaPlayer.setDataSource(getApplicationContext(),
-                    Uri.parse(Constants.PLAY_TRACK + "5e8a1e0f7937ec4d40c6deba"), headers);
+                mediaPlayer.setDataSource(getApplicationContext(),
+                        Uri.parse(Constants.PLAY_TRACK + "5e8a1e0f7937ec4d40c6deba"), headers);
+            } else
+                mediaPlayer.setDataSource(getApplicationContext(), Utils.CurrTrackInfo.track.getUri());
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.setOnPreparedListener(this);
             mediaPlayer.setOnErrorListener(this);

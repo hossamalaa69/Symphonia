@@ -38,9 +38,18 @@ import java.util.Collections;
  */
 public class LibraryArtistsFragment extends Fragment implements RvListArtistsAdapter.ListItemLongClickListener, BottomSheetDialogArtist.BottomSheetListener {
 
+    /**
+     *
+     */
     private static final String ARTIST_ID = "ARTIST_ID";
+    /**
+     *
+     */
     private static final String CLICKED_INDEX = "CLICKED_INDEX";
-    LinearLayoutManager layoutManager;
+    /**
+     *
+     */
+    private LinearLayoutManager layoutManager;
 
     /**
      * holds the user's following artists
@@ -55,10 +64,26 @@ public class LibraryArtistsFragment extends Fragment implements RvListArtistsAda
      */
     private RvListArtistsAdapter mAdapter;
 
-    RecyclerView mArtistsList;
+    /**
+     * recyclerview to show the artists
+     */
+    private RecyclerView mArtistsList;
 
+    /**
+     * the last touched view
+     */
     private View touchedView = null;
+
+    /**
+     * the first x when the user puts his finger on the screen
+     * used to animate the touch of the views
+     */
     private float firstX = 0;
+
+    /**
+     * the first y when the user puts his finger on the screen
+     * used to animate the touch of the views
+     */
     private float firstY = 0;
 
 
@@ -143,7 +168,7 @@ public class LibraryArtistsFragment extends Fragment implements RvListArtistsAda
     }
 
     /**
-     * calls when it opens or when closing another fragment of activity that leads to it
+     * called when it opens or when closing another fragment of activity that leads to it
      * updates the artists list
      */
     @Override
@@ -161,6 +186,11 @@ public class LibraryArtistsFragment extends Fragment implements RvListArtistsAda
     }
 
 
+    /**
+     * called when the user perform long click to an item
+     *
+     * @param clickedItemIndex the index of the clicked item in the recyclerview
+     */
     @Override
     public void onListItemLongClick(int clickedItemIndex) {
         BottomSheetDialogArtist bottomSheet = new BottomSheetDialogArtist(this);
@@ -171,6 +201,12 @@ public class LibraryArtistsFragment extends Fragment implements RvListArtistsAda
         bottomSheet.show(((MainActivity)getActivity()).getSupportFragmentManager(), bottomSheet.getTag());
     }
 
+    /**
+     * called when the user click on the following layout in bottomsheet
+     *
+     * @param id clicked artist id
+     * @param clickedItemIndex clicked artist index in recyclerview
+     */
     @Override
     public void onFollowingLayoutClicked(final String id, final int clickedItemIndex) {
         mServiceController.unFollowArtistsOrUsers
@@ -183,8 +219,8 @@ public class LibraryArtistsFragment extends Fragment implements RvListArtistsAda
         mAdapter.addAll(mFollowedArtists);
         mAdapter.notifyItemRemoved(clickedItemIndex);
 
-        Snackbar snack = Snackbar.make(mArtistsList, "OK, got it.", Snackbar.LENGTH_LONG);
-        snack.setAction("UNDO", new View.OnClickListener() {
+        Snackbar snack = Snackbar.make(mArtistsList, R.string.un_following_message, Snackbar.LENGTH_LONG);
+        snack.setAction(R.string.undo, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if(!(mFollowedArtists.contains(removedArtist))){

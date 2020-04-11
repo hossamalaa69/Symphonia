@@ -45,7 +45,7 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
      */
     private static final int STATIC_INTEGER_VALUE = 1;
     /**
-     * The id to get the result from the subActivity
+     * Static final variable to get the result from the subActivity
      */
     private static final String SELECTED_ARTIST_ID = "SelectedArtistId";
     /**
@@ -57,8 +57,14 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
      */
     private ArrayList<Artist> mRecommendedArtists;
 
+    /**
+     * Array to store the artists that has been followed
+     */
     private ArrayList<String> mClickedArtists;
 
+    /**
+     * Array to store all clicked before artists
+     */
     private ArrayList<String> mClickedBeforeArtists;
     /**
      * An adapter to control the grid of artists
@@ -86,19 +92,21 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
      * Done button to be clicked when the user finish adding artists
      */
     private Button mButtonDone;
-    /**
-     * Counter to get the number of following artists in case if
-     * the user is a new one and should add at least 3 artists
-     * to complete the registration
-     */
-    private int countFollowing = 0;
+
     /**
      * Keep the position of the clicked item from search activity
      */
     private int mSelectedArtistPosition = 0;
 
+    /**
+     * The current offset to send for requests
+     * updated after each request
+     */
     private int offset = 0;
 
+    /**
+     * The last clicked item index
+     */
     private int clickedItemIndex = 0;
 
     /**
@@ -175,6 +183,7 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
             public void onClick(View v) {
                 if(isNewUser){
                     Intent i = new Intent(AddArtistsActivity.this, MainActivity.class);
+                    i.putExtra("newuser","true");
                     startActivity(i);
                     finish();
                 }
@@ -289,6 +298,11 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         }
     }
 
+    /**
+     * Listener for the More For You item click
+     *
+     * @param clickedItemIndex index of the clicked item
+     */
     @Override
     public void onMoreForeYouClick(int clickedItemIndex) {
         this.clickedItemIndex = clickedItemIndex;
@@ -323,6 +337,11 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         return false;
     }
 
+    /**
+     * Listener to update the data when sending a new request
+     *
+     * @param returnedArtists the returned artists from the request
+     */
     @Override
     public void updateGetRecommendedArtists(ArrayList<Artist> returnedArtists) {
         ProgressBar progressBar = findViewById(R.id.progress_bar);

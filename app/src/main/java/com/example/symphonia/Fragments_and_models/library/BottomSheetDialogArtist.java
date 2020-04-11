@@ -28,17 +28,39 @@ import static java.util.Arrays.asList;
 
 public class BottomSheetDialogArtist extends BottomSheetDialogFragment {
 
+    /**
+     * final variable to get the artist id
+     */
     private static final String ARTIST_ID = "ARTIST_ID";
+    /**
+     * index of the clicked item
+     */
     private static final String CLICKED_INDEX = "CLICKED_INDEX";
 
+    /**
+     * listener object from the bottomsheet
+     */
     private BottomSheetListener mListener;
 
+    /**
+     * the first y when the user puts his finger on the screen
+     * used to animate the touch of the views
+     */
     private float firstY = 0;
 
+    /**
+     * @param mListener object from the bottom sheet listener
+     */
     public BottomSheetDialogArtist(BottomSheetListener mListener) {
         this.mListener = mListener;
     }
 
+    /**
+     * creating the bottomsheet dialog and initializing the views
+     *
+     * @param savedInstanceState saved data from the previous calls
+     * @return the view of the dialog
+     */
     @SuppressLint("ClickableViewAccessibility")
     @NonNull
     @Override
@@ -157,6 +179,9 @@ public class BottomSheetDialogArtist extends BottomSheetDialogFragment {
         return bottomSheet;
     }
 
+    /**
+     * Interface to the clicks of the bottomsheet layouts
+     */
     public interface BottomSheetListener {
         void onFollowingLayoutClicked(String id, int clickedItemIndex);
     }

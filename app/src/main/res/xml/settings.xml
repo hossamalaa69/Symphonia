@@ -10,8 +10,8 @@
         <Preference
             app:iconSpaceReserved="false"
             android:key="log_out"
-            android:title="Log out"
-            android:summary="You are Logged in as Islam Ahmed" >
+            android:title="@string/log_out"
+            android:summary="@string/logged_as" >
         </Preference>
 
     </PreferenceCategory>

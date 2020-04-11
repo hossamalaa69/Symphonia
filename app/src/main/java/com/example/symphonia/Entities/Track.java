@@ -151,14 +151,29 @@ public class Track implements Serializable {
         this.mDuration = mDuration;
     }
 
+    /**
+     * getter fo image url of track
+     *
+     * @return url of image of track
+     */
     public String getImageUrl() {
         return imageUrl;
     }
 
+    /**
+     * getter fo album of track
+     *
+     * @return album of track
+     */
     public String getmAlbum() {
         return mAlbum;
     }
 
+    /**
+     * getter of duration of track
+     *
+     * @return duration of track
+     */
     public int getmDuration() {
         return mDuration;
     }
@@ -199,6 +214,11 @@ public class Track implements Serializable {
         this.locked = mLocked;
     }
 
+    /**
+     * getter if track is locked
+     *
+     * @return if track is locked
+     */
     public boolean isLocked() {
         return locked;
     }
@@ -257,21 +277,43 @@ public class Track implements Serializable {
         return mImageResources;
     }
 
-
+    /**
+     * setter of track duration
+     *
+     * @param mDuration duration of track
+     */
     public void setmDuration(int mDuration) {
         this.mDuration = mDuration;
     }
 
+    /**
+     * setter for track id
+     *
+     * @param id id of track
+     */
     public void setId(String id) {
         this.id = id;
     }
 
+    /**
+     * setter for uri of track
+     *
+     * @param uri uri of track
+     */
     public void setUri(Uri uri) {
         this.uri = uri;
     }
 
+    /**
+     * id of track
+     */
     private String id;
 
+    /**
+     * getter of track id
+     *
+     * @return track id
+     */
     public String getId() {
         return id;
     }

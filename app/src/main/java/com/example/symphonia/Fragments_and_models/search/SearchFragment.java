@@ -62,7 +62,6 @@ public class SearchFragment extends Fragment implements SearchMainAdapter.CatLis
         //get instance of the service controller
         con=ServiceController.getInstance();
 
-        ((MainActivity)getActivity()).setRoot(true);
         //attach views
         LinearLayout RL = root.findViewById(R.id.send_to_serchlist);
         RecyclerView RV = root.findViewById(R.id.search_top_genres_grid);
@@ -116,6 +115,12 @@ public class SearchFragment extends Fragment implements SearchMainAdapter.CatLis
         RV2.setHasFixedSize(true);
         catAdapter = new SearchMainAdapter(c,this);
         RV2.setAdapter(catAdapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity)getActivity()).setRoot(true);
     }
 
     @Override

@@ -32,16 +32,23 @@ import com.example.symphonia.Service.ServiceController;
  */
 public class Step1Activity extends AppCompatActivity implements RestApi.updateUiEmailValidity {
 
+    /**
+     * holds overriding interface of success request
+     */
     @Override
     public void updateUiEmailValiditySuccess() {
+        //if request is success, then it's available email
         availableMail();
     }
 
+    /**
+     * holds overriding interface of failed request
+     */
     @Override
     public void updateUiEmailValidityFail(String type) {
+        //if request is failed, then it's logged email
         notAvailable(type);
     }
-
 
     /**
      * represents Edit text that holds email input
@@ -118,6 +125,8 @@ public class Step1Activity extends AppCompatActivity implements RestApi.updateUi
             return;
         }
 
+        //after button is clicked, set text with loading message
+        // to inform user that is under request then lock button to not override old request
         Button next = findViewById(R.id.next);
         next.setText(R.string.checking);
         lockButton();
@@ -126,12 +135,11 @@ public class Step1Activity extends AppCompatActivity implements RestApi.updateUi
         boolean isAvailable =
                 serviceController.checkEmailAvailability(this, mEmail.getText().toString(), mType);
 
+        //if current mode is Mock, then call functions synchronously
         if(Constants.DEBUG_STATUS){
             //if email is not signed before, then go to next step with user data
-            if(isAvailable)
-            {
-                availableMail();
-            } else {
+            if(isAvailable) availableMail();
+             else {
                 //shows dialog that informs that email is signed before
                 if(mUser.equals("Listener"))
                     notAvailable("user");
@@ -176,23 +184,36 @@ public class Step1Activity extends AppCompatActivity implements RestApi.updateUi
         return false;
     }
 
+    /**
+     * executed when email is available
+     */
     public void availableMail(){
 
+        //make next button is enabled
         Button next = findViewById(R.id.next);
         next.setText(R.string.next);
         enableButton();
+
+        //go to next step of sign up with entered data
         Intent i = new Intent(this, Step2Activity.class);
         i.putExtra("user", mUser);
         i.putExtra("email", mEmail.getText().toString());
         startActivity(i);
     }
 
+    /**
+     * executed when email is not available
+     * @param type holds type of user
+     */
     public void notAvailable(String type){
 
+        //make button is enabled to allow user to try another email
         Button next = findViewById(R.id.next);
         next.setText(R.string.next);
         enableButton();
 
+        //show dialog that informs him that email is logged and go
+        // to login activity with it's entered type
         CustomSignUpDialog custom_dialog = new CustomSignUpDialog();
         if(type.equals("artist"))
             custom_dialog.showDialog(this, mEmail.getText().toString(), "Artist");

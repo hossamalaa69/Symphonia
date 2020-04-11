@@ -36,13 +36,21 @@ import com.example.symphonia.Service.ServiceController;
  */
 public class LoginActivity extends AppCompatActivity implements RestApi.updateUiLogin {
 
+    /**
+     * holds overriding interface of success request
+     */
     @Override
     public void updateUiLoginSuccess() {
+        //makes successful login if request is succeeded
         successLogin();
     }
 
+    /**
+     * holds overriding interface of failed request
+     */
     @Override
     public void updateUiLoginFail(String reason) {
+        //makes failed login if request is failed
         failedLogin(reason);
     }
 
@@ -67,6 +75,7 @@ public class LoginActivity extends AppCompatActivity implements RestApi.updateUi
      */
     private boolean mIsValid;
 
+
     /**
      * Represents the initialization of activity
      @param savedInstanceState represents received data from other activities
@@ -76,7 +85,7 @@ public class LoginActivity extends AppCompatActivity implements RestApi.updateUi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
+        //get login button by id and set default text
         Button btn_login = findViewById(R.id.login);
         btn_login.setText(getResources().getString(R.string.log_in));
         //get text view by id, which shows if password or email or both are wrong
@@ -208,7 +217,9 @@ public class LoginActivity extends AppCompatActivity implements RestApi.updateUi
         lockButton();
         //boolean variable to get user type
         boolean userType = mType.equals("Listener");
-        //calls function login with the valid data from inputs
+
+
+        //if current mode is Mock, then call functions synchronously
         if(Constants.DEBUG_STATUS){
             if (serviceController.logIn(this, edit_text_email.getText().toString(),
                         edit_text_password.getText().toString(), userType)) {
@@ -257,7 +268,7 @@ public class LoginActivity extends AppCompatActivity implements RestApi.updateUi
         SharedPreferences sharedPref= getSharedPreferences("LoginPref", 0);
         //new Editor
         SharedPreferences.Editor editor= sharedPref.edit();
-        //put values
+        //put user's params if REST API mode
         if(!(Constants.DEBUG_STATUS)){
             editor.putString("token", Constants.currentToken);
             editor.putString("name", Constants.currentUser.getmName());
@@ -268,11 +279,12 @@ public class LoginActivity extends AppCompatActivity implements RestApi.updateUi
             editor.putString("image",Constants.currentUser.getImageUrl());
         }
         else{
+            //put less params if in Mock service mode
             editor.putString("token", Constants.currentToken);
             editor.putString("email", Constants.currentUser.getmEmail());
             editor.putBoolean("type", Constants.currentUser.isListenerType());
-
         }
+        //save shared preferences
         editor.apply();
 
         //Intent i = new Intent(this, StartActivity.class);
@@ -282,20 +294,33 @@ public class LoginActivity extends AppCompatActivity implements RestApi.updateUi
 //        startActivity(i);
 
         Intent i = new Intent(this, MainActivity.class);
-//        i.putExtra("newUser", "true");
         startActivity(i);
     }
 
+    /**
+     * holds actions performed if login is failed
+     * @param reason controls which action should be executed
+     */
     public void failedLogin(String reason){
+
+        //get login button by id and makes it enabled to
+        // allow user to try again
         Button btn_login = findViewById(R.id.login);
         btn_login.setText(getResources().getString(R.string.log_in));
         enableButton();
-        //visible to inform that user's input are invalid
+
+        //makes text view is visible to inform that user's input are invalid
         text_view_errorInput.setVisibility(View.VISIBLE);
+
+        //here's all conditions for failed login
+
+        //if email or password is wrong, then set textView with this message
         if(reason.equals("input"))
             text_view_errorInput.setText(R.string.wrong_password_or_email);
+        //if combination is right but different user, then inform user with this
         else if(reason.equals("type"))
             text_view_errorInput.setText(R.string.belongs_to_different_user);
+        //if it's internet connection problem, then don't show any user's error
         else
             text_view_errorInput.setVisibility(View.INVISIBLE);
     }
