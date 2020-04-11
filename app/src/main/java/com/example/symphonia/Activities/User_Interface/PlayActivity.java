@@ -106,6 +106,9 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         startService(intent);
     }
 
+    /**
+     * this function resets data of seek bar
+     */
     private void resetSeekBar() {
         mediaController.releaseMedia();
         seekBar.setProgress(0);

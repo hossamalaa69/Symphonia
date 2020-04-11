@@ -66,9 +66,8 @@ public class HomeFragment extends Fragment {
         if (Constants.DEBUG_STATUS) {
             initViews();
             progressPar.setVisibility(View.GONE);
-        }
-        else {
-             loadAllPlaylists();
+        } else {
+            loadAllPlaylists();
         }
 
 
@@ -111,10 +110,10 @@ public class HomeFragment extends Fragment {
      */
     public void loadAllPlaylists() {
         ServiceController SController = ServiceController.getInstance();
-        playlists = SController.getRandomPlaylists(getContext(),this);
-     //   popularPlaylists = SController.getPopularPlaylists(getContext(), Constants.currentToken);
+        playlists = SController.getRandomPlaylists(getContext(), this);
+        //   popularPlaylists = SController.getPopularPlaylists(getContext(), Constants.currentToken);
         recentPlaylists = SController.getRecentPlaylists(getContext(), this);
-     //   madeForYouPlaylists = SController.getMadeForYoutPlaylists(getContext(), Constants.currentToken);
+        //   madeForYouPlaylists = SController.getMadeForYoutPlaylists(getContext(), Constants.currentToken);
         //hide data of playlists commented
         View view = root.findViewById(R.id.popular_playlist_playlist);
         playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
@@ -142,20 +141,26 @@ public class HomeFragment extends Fragment {
         //----------------------
         loadAllPlaylists();
         updateRecentPlaylists();
-      //  updateMadeForYouPlaylists();
-      //  updatePopularPlaylists();
-
-
+        //  updateMadeForYouPlaylists();
+        //  updatePopularPlaylists();
         updateRandomPlaylists();
-
-
     }
-    public void hideProgressBar()
-    {
+
+    /**
+     * this function hides progress bar
+     */
+    public void hideProgressBar() {
         progressPar.setVisibility(View.GONE);
     }
 
-  private  View progressPar;
+    /**
+     * this view holds progress bar
+     */
+    private View progressPar;
+
+    /**
+     * this function updates ui of recent playlists
+     */
     public void updateRecentPlaylists() {
         Log.e("recent", "update");
         if (!Constants.DEBUG_STATUS)
@@ -170,6 +175,10 @@ public class HomeFragment extends Fragment {
         rvRecentlyPlayed.setAdapter(rvPlaylistsHomeAdapter);
     }
 
+
+    /**
+     * this function updates ui of popular playlists
+     */
     public void updatePopularPlaylists() {
         //popular playlist
         if (!Constants.DEBUG_STATUS)
@@ -185,6 +194,10 @@ public class HomeFragment extends Fragment {
 
     }
 
+
+    /**
+     * this function updates ui of made-for-you playlists
+     */
     public void updateMadeForYouPlaylists() {
         // made for you playlist;
         if (!Constants.DEBUG_STATUS)
@@ -200,6 +213,10 @@ public class HomeFragment extends Fragment {
 
     }
 
+
+    /**
+     * this function updates ui of random playlists
+     */
     public void updateRandomPlaylists() {
 
         //heavy playlist
@@ -223,17 +240,5 @@ public class HomeFragment extends Fragment {
         rvPlaylistsHomeAdapter = new RvPlaylistsHomeAdapter(getContext(), playlists);
         rvBasedOnYourRecentlyPlayed.setAdapter(rvPlaylistsHomeAdapter);
 
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        ((MainActivity)getActivity()).setRoot(true);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        ((MainActivity)getActivity()).setRoot(false);
     }
 }

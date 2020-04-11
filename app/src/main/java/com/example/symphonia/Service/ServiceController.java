@@ -71,7 +71,6 @@ public class ServiceController {
     }
 
 
-
     /**
      * checks if email is already signed in database or not
      *
@@ -106,8 +105,8 @@ public class ServiceController {
     /**
      * getter for recently-player playlist
      *
-     * @param context context of hosting activity
-     * @param fragment  fragment of user
+     * @param context  context of hosting activity
+     * @param fragment fragment of user
      * @return recently-player  playlist
      */
     public ArrayList<Playlist> getRecentPlaylists(Context context, HomeFragment fragment) {
@@ -117,12 +116,12 @@ public class ServiceController {
     /**
      * getter for random playlist
      *
-     * @param context context of hosting activity
-     * @param homeFragment  token of user
+     * @param context      context of hosting activity
+     * @param homeFragment token of user
      * @return random  playlist
      */
     public ArrayList<Playlist> getRandomPlaylists(Context context, HomeFragment homeFragment) {
-        return mSupplier.getRandomPlaylists(context,homeFragment );
+        return mSupplier.getRandomPlaylists(context, homeFragment);
     }
 
     /**
@@ -219,7 +218,7 @@ public class ServiceController {
     /**
      * Get a list of recommended artist for the current user
      *
-     * @param type true for user and false for artist
+     * @param type  true for user and false for artist
      * @param limit he maximum number of items to return
      * @return list of recommended artists
      */
@@ -255,10 +254,10 @@ public class ServiceController {
      * Get information for a single artist identified by their unique ID
      *
      * @param context activity context
-     * @param id artist id
+     * @param id      artist id
      * @return artist object
      */
-    public Artist getArtist(Context context, String id){
+    public Artist getArtist(Context context, String id) {
         return mSupplier.getArtist(context, id);
     }
 
@@ -284,68 +283,86 @@ public class ServiceController {
 
     /**
      * handles promoting user to premium
+     *
      * @param context holds context of activity
-     * @param root holds root view of fragment
-     * @param token holds token of user
+     * @param root    holds root view of fragment
+     * @param token   holds token of user
      * @return returns true if promoted
      */
-    public boolean promotePremium(final Context context, View root, String token){
+    public boolean promotePremium(final Context context, View root, String token) {
         return mSupplier.promotePremium(context, root, token);
     }
 
-    public ArrayList<Container>getProfileFollowers(Context context){
+    public ArrayList<Container> getProfileFollowers(Context context) {
         return mSupplier.getProfileFollowers(context);
     }
 
-    public ArrayList<Container>getProfileFollowing(Context context){
+    public ArrayList<Container> getProfileFollowing(Context context) {
         return mSupplier.getProfileFollowing(context);
     }
 
-    public ArrayList<Container>getCurrentUserPlaylists(Context context, FragmentProfile fragmentProfile){
-        return mSupplier.getCurrentUserPlaylists(context,fragmentProfile);
+    public ArrayList<Container> getCurrentUserPlaylists(Context context, FragmentProfile fragmentProfile) {
+        return mSupplier.getCurrentUserPlaylists(context, fragmentProfile);
     }
 
-    public String getNumbersoUserFollowers(Context context, FragmentProfile fragmentProfile){
-        return mSupplier.getNumbersoUserFollowers(context,fragmentProfile);
+    public String getNumbersoUserFollowers(Context context, FragmentProfile fragmentProfile) {
+        return mSupplier.getNumbersoUserFollowers(context, fragmentProfile);
     }
 
-    public String getNumbersoUserFollowing(Context context, FragmentProfile fragmentProfile){
-        return mSupplier.getNumbersoUserFollowing(context,fragmentProfile);
+    public String getNumbersoUserFollowing(Context context, FragmentProfile fragmentProfile) {
+        return mSupplier.getNumbersoUserFollowing(context, fragmentProfile);
     }
 
-    public ArrayList<Container>getCurrentUserFollowers(Context context, ProfileFollowersFragment profileFollowersFragment){
-        return mSupplier.getCurrentUserFollowers(context,profileFollowersFragment);
+    public ArrayList<Container> getCurrentUserFollowers(Context context, ProfileFollowersFragment profileFollowersFragment) {
+        return mSupplier.getCurrentUserFollowers(context, profileFollowersFragment);
     }
 
-    public int getProfilesCount(){
+    public int getProfilesCount() {
         return mSupplier.getProfilessCount();
     }
 
-    public int getPlaylistsCount(){
+    public int getPlaylistsCount() {
         return mSupplier.getPlaylistsCount();
     }
 
-    public int getArtistsCount(){
+    public int getArtistsCount() {
         return mSupplier.getArtistsCount();
     }
 
-    public int getAlbumsCount(){
+    public int getAlbumsCount() {
         return mSupplier.getAlbumsCount();
     }
 
-    public int getGenresCount(){
+    public int getGenresCount() {
         return mSupplier.getGenresCount();
     }
 
-    public int getSongsCount(){
+    public int getSongsCount() {
         return mSupplier.getSongsCount();
     }
 
-    public void playTrack(Context context, String id,String context_id,String context_url,String context_type)
-    {
-        mSupplier.playTrack(context,id,context_id,context_url,context_type);
+    /**
+     * this function initialize the request to stream music
+     *
+     * @param context      context of current activity
+     * @param id           id of track
+     * @param context_id   id of context
+     * @param context_url  url of context
+     * @param context_type type of context
+     */
+    public void playTrack(Context context, String id, String context_id, String context_url, String context_type) {
+        mSupplier.playTrack(context, id, context_id, context_url, context_type);
     }
-    public  ArrayList<Track>  getTracksOfPlaylist(Context context, String id, PlaylistFragment playlistFragment) {
-         return  mSupplier.getTracksOfPlaylist(context,id,playlistFragment);
+
+    /**
+     * this function gets tracks of a certain playlist
+     *
+     * @param context          context of current activity
+     * @param id               id of playlist
+     * @param playlistFragment instance of the fragment to make the update in
+     * @return array list of tracks
+     */
+    public ArrayList<Track> getTracksOfPlaylist(Context context, String id, PlaylistFragment playlistFragment) {
+        return mSupplier.getTracksOfPlaylist(context, id, playlistFragment);
     }
 }

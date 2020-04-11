@@ -283,6 +283,9 @@ public class RestApi implements APIs {
     }
 
 
+    /**
+     * this interface includes listeners to update ui
+     */
     public interface updateUiPlaylists {
         void getCategoriesSuccess();
 
@@ -560,24 +563,20 @@ public class RestApi implements APIs {
 
 
             }
-        }) {
-            /* @Override
-             public Map<String, String> getHeaders() {
-                 Map<String, String> headers = new HashMap<>();
-                 headers.put("Authorization", "Bearer " + Constants.currentToken);
-                 return headers;
-             }*/
-           /* @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("number", "5");
-                return params;
-            }*/
-        };
+        });
         VolleySingleton.getInstance(context).getRequestQueue().add(request);
         return randomPlaylists;
     }
 
+    /**
+     * this function initialize the track to be streamed
+     *
+     * @param context      current activity's context
+     * @param id           id of track
+     * @param context_id   id of context
+     * @param context_url  url of context
+     * @param context_type type of context
+     */
     @Override
     public void playTrack(final Context context, String id, String context_id, String context_url, String context_type) {
         final updateUiPlaylists listener = (updateUiPlaylists) context;
@@ -617,6 +616,14 @@ public class RestApi implements APIs {
         VolleySingleton.getInstance(context).getRequestQueue().add(request);
     }
 
+    /**
+     * thif function load tracks of certain playlist
+     *
+     * @param context          context of activity
+     * @param id               id of playlist
+     * @param playlistFragment fragment for response update
+     * @return array list of tracks
+     */
     @Override
     public ArrayList<Track> getTracksOfPlaylist(Context context, String id, final PlaylistFragment playlistFragment) {
         final updateUiPlaylists listener = (updateUiPlaylists) context;
@@ -660,20 +667,7 @@ public class RestApi implements APIs {
 
 
             }
-        }) {
-            /* @Override
-             public Map<String, String> getHeaders() {
-                 Map<String, String> headers = new HashMap<>();
-                 headers.put("Authorization", "Bearer " + Constants.currentToken);
-                 return headers;
-             }*/
-           /* @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("number", "5");
-                return params;
-            }*/
-        };
+        });
         VolleySingleton.getInstance(context).getRequestQueue().add(request);
         return tracksList;
     }
@@ -686,50 +680,6 @@ public class RestApi implements APIs {
     @Override
     public ArrayList<Container> getResultsOfSearch(Context context, String searchWord) {
         return null;
-    }
-
-
-   /* @Override
-    public ArrayList<Category> getCategories(final Context context) {
-        final updateUiGetCategories listener=(updateUiGetCategories) context;
-        final ArrayList<Category> categories=new ArrayList<>();
-        StringRequest stringRequest=new StringRequest(Request.Method.GET, Constants.GET_ALL_CATEGORIES,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject root=new JSONObject(response);
-                            JSONObject data = root.getJSONObject("data");
-                            JSONArray catArr=data.optJSONArray("categorys");
-                            for(int i=0;i<catArr.length();i++){
-                                JSONObject jsonObject=catArr.getJSONObject(i);
-                                String href=jsonObject.getString("href");
-                                String id=jsonObject.getString("id");
-                                String name=jsonObject.getString("name");
-                                JSONArray imgArr=jsonObject.getJSONArray("icons");
-                                JSONObject imgObj=imgArr.getJSONObject(0);
-                                String imgUrl=imgObj.getString("url");
-                                Bitmap imgBitmap=fetchImage(context,imgUrl);
-                                categories.add(new Category(name,imgBitmap,id,href));
-                            }
-                            listener.getCategoriesSuccess(categories);
-
-                        }catch (Exception e){
-                            e.fillInStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context,"afavvavav",Toast.LENGTH_SHORT);
-            }
-        });
-        VolleySingleton.getInstance(context).getRequestQueue().add(stringRequest);
-        return categories;
-    }*/
-
-    public interface updateUiGetCategories {
-        void getCategoriesSuccess(ArrayList<Category> c);
     }
 
     @Override
@@ -1086,9 +1036,10 @@ public class RestApi implements APIs {
 
     /**
      * handles promoting user to premium
+     *
      * @param context holds context of activity
-     * @param root holds root view of fragment
-     * @param token holds token of user
+     * @param root    holds root view of fragment
+     * @param token   holds token of user
      * @return returns true if promoted
      */
     @Override

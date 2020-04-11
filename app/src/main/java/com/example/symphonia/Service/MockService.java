@@ -16,8 +16,8 @@ import com.example.symphonia.Entities.Profile;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Entities.User;
 import com.example.symphonia.Fragments_and_models.home.HomeFragment;
-import com.example.symphonia.Fragments_and_models.profile.BottomSheetDialogProfile;
 import com.example.symphonia.Fragments_and_models.playlist.PlaylistFragment;
+import com.example.symphonia.Fragments_and_models.profile.BottomSheetDialogProfile;
 import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
 import com.example.symphonia.Fragments_and_models.profile.ProfileFollowersFragment;
 import com.example.symphonia.Fragments_and_models.profile.ProfilePlaylistsFragment;
@@ -50,12 +50,12 @@ public class MockService implements APIs {
     private ArrayList<Container> mData;
     private ArrayList<Container> mRecentSearches;
     private ArrayList<Playlist> mPopularPlaylists;
-    private int artistsCount=0;
-    private int albumssCount=0;
-    private int songsCount=0;
-    private int profilesCount=0;
-    private int genresCount=0;
-    private int playlistsCount=0;
+    private int artistsCount = 0;
+    private int albumssCount = 0;
+    private int songsCount = 0;
+    private int profilesCount = 0;
+    private int genresCount = 0;
+    private int playlistsCount = 0;
 
     /**
      * Array that holds some users of type listener to be mimic
@@ -226,8 +226,8 @@ public class MockService implements APIs {
     /**
      * getter for recently-player playlist
      *
-     * @param context context of hosting activity
-     * @param fragment  token of user
+     * @param context  context of hosting activity
+     * @param fragment token of user
      * @return recently-player  playlist
      */
     @Override
@@ -235,6 +235,14 @@ public class MockService implements APIs {
         return mRecentPlaylists;
     }
 
+    /**
+     * this function gets tracks of a certain playlist
+     *
+     * @param context          context of current activity
+     * @param id               id of playlist
+     * @param playlistFragment instance of the fragment to make the update in
+     * @return array list of tracks
+     */
     @Override
     public ArrayList<Track> getTracksOfPlaylist(Context context, String id, PlaylistFragment playlistFragment) {
         return mRecentPlaylists.get(0).getTracks();
@@ -244,8 +252,8 @@ public class MockService implements APIs {
     /**
      * getter for Random playlist
      *
-     * @param context context of hosting activity
-     * @param homeFragment  token of user
+     * @param context      context of hosting activity
+     * @param homeFragment token of user
      * @return Random  playlist
      */
     @Override
@@ -253,6 +261,14 @@ public class MockService implements APIs {
         return mRandomPlaylists;
     }
 
+
+    /**
+     * getter for popular  playlist
+     *
+     * @param context context of hosting activity
+     * @param mToken  token of user
+     * @return Random  playlist
+     */
     @Override
     public ArrayList<Playlist> getPopularPlaylists(Context context, String mToken) {
         return mPopularPlaylists;
@@ -339,7 +355,7 @@ public class MockService implements APIs {
                     , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
                     , followed, new ArrayList<Album>(mAlbums), new ArrayList<Track>());
         }
-        if(mType)
+        if (mType)
             Constants.currentUser.setUserType("user");
         else
             Constants.currentUser.setUserType("artist");
@@ -347,6 +363,15 @@ public class MockService implements APIs {
         return true;
     }
 
+    /**
+     * this function initialize the request to stream music
+     *
+     * @param context      context of current activity
+     * @param id           id of track
+     * @param context_id   id of context
+     * @param context_url  url of context
+     * @param context_type type of context
+     */
     @Override
     public void playTrack(Context context, String id, String context_id, String context_url, String context_type) {
 
@@ -377,7 +402,7 @@ public class MockService implements APIs {
                 , name, DOB, gender, false, 0, 0, new ArrayList<User>()
                 , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
                 , new ArrayList<Artist>(), new ArrayList<Album>(), new ArrayList<Track>());
-        if(mType)
+        if (mType)
             Constants.currentUser.setUserType("user");
         else
             Constants.currentUser.setUserType("artist");
@@ -504,30 +529,29 @@ public class MockService implements APIs {
 
         LinkedList<Container> resultsLinked = new LinkedList<>();
         ArrayList<Container> results = new ArrayList<>();
-        artistsCount=0;
-        albumssCount=0;
-        songsCount=0;
-        profilesCount=0;
-        genresCount=0;
-        playlistsCount=0;
+        artistsCount = 0;
+        albumssCount = 0;
+        songsCount = 0;
+        profilesCount = 0;
+        genresCount = 0;
+        playlistsCount = 0;
         for (int i = 0; i < mData.size(); i++) {
             if (mData.get(i).getCat_Name().startsWith(searchWord)) {
                 resultsLinked.addFirst(mData.get(i));
-                if(mData.get(i).getCat_Name2().startsWith("Song")) songsCount++;
-                if(mData.get(i).getCat_Name2().startsWith("Album")) albumssCount++;
-                if(mData.get(i).getCat_Name2().startsWith("Artist")) artistsCount++;
-                if(mData.get(i).getCat_Name2().startsWith("Genre")) genresCount++;
-                if(mData.get(i).getCat_Name2().startsWith("Playlist")) playlistsCount++;
-                if(mData.get(i).getCat_Name2().startsWith("Profile")) profilesCount++;
-            }
-            else if (mData.get(i).getCat_Name().contains(searchWord)) {
+                if (mData.get(i).getCat_Name2().startsWith("Song")) songsCount++;
+                if (mData.get(i).getCat_Name2().startsWith("Album")) albumssCount++;
+                if (mData.get(i).getCat_Name2().startsWith("Artist")) artistsCount++;
+                if (mData.get(i).getCat_Name2().startsWith("Genre")) genresCount++;
+                if (mData.get(i).getCat_Name2().startsWith("Playlist")) playlistsCount++;
+                if (mData.get(i).getCat_Name2().startsWith("Profile")) profilesCount++;
+            } else if (mData.get(i).getCat_Name().contains(searchWord)) {
                 resultsLinked.addLast(mData.get(i));
-                if(mData.get(i).getCat_Name2().startsWith("Song")) songsCount++;
-                if(mData.get(i).getCat_Name2().startsWith("Album")) albumssCount++;
-                if(mData.get(i).getCat_Name2().startsWith("Artist")) artistsCount++;
-                if(mData.get(i).getCat_Name2().startsWith("Genre")) genresCount++;
-                if(mData.get(i).getCat_Name2().startsWith("Playlist")) playlistsCount++;
-                if(mData.get(i).getCat_Name2().startsWith("Profile")) profilesCount++;
+                if (mData.get(i).getCat_Name2().startsWith("Song")) songsCount++;
+                if (mData.get(i).getCat_Name2().startsWith("Album")) albumssCount++;
+                if (mData.get(i).getCat_Name2().startsWith("Artist")) artistsCount++;
+                if (mData.get(i).getCat_Name2().startsWith("Genre")) genresCount++;
+                if (mData.get(i).getCat_Name2().startsWith("Playlist")) playlistsCount++;
+                if (mData.get(i).getCat_Name2().startsWith("Profile")) profilesCount++;
             }
         }
         results.addAll(resultsLinked);
@@ -740,8 +764,8 @@ public class MockService implements APIs {
     /**
      * Get the current user’s followed artists
      *
-     * @param type   true for user and false for artist
-     * @param limit  he maximum number of items to return
+     * @param type  true for user and false for artist
+     * @param limit he maximum number of items to return
      * @return list of followed artists
      */
     @Override
@@ -758,44 +782,44 @@ public class MockService implements APIs {
     /**
      * Add the current user as a follower of one artist or other users
      *
-     * @param type   true for user and false for artist
-     * @param ids     user or artist id
+     * @param type true for user and false for artist
+     * @param ids  user or artist id
      */
     @Override
     public void followArtistsOrUsers(Context context, String type, ArrayList<String> ids) {
-        for (String id : ids){
+        for (String id : ids) {
             Artist artist = getArtist(context, id);
-            if(artist != null) Constants.currentUser.followArtist(artist);
+            if (artist != null) Constants.currentUser.followArtist(artist);
         }
     }
 
     /**
      * Remove the current user as a follower of one artist or other users
      *
-     * @param type   true for user and false for artist
-     * @param ids     user or artist id
+     * @param type true for user and false for artist
+     * @param ids  user or artist id
      */
     @Override
     public void unFollowArtistsOrUsers(Context context, String type, ArrayList<String> ids) {
-        for (String id : ids){
+        for (String id : ids) {
             Artist artist = getArtist(context, id);
-            if(artist != null) Constants.currentUser.unFollowArtist(artist);
+            if (artist != null) Constants.currentUser.unFollowArtist(artist);
         }
     }
 
     /**
      * Check to see if the current user is following an artist or other users
      *
-     * @param type   true for user and false for artist
-     * @param ids     user or artist id
+     * @param type true for user and false for artist
+     * @param ids  user or artist id
      * @return true if following and false if not
      */
     @Override
     public ArrayList<Boolean> isFollowing(Context context, String type, ArrayList<String> ids) {
         ArrayList<Boolean> checkArray = new ArrayList<>();
-        for (String id : ids){
+        for (String id : ids) {
             Artist artist = getArtist(context, id);
-            if(artist != null) checkArray.add(Constants.currentUser.checkFollowing(artist));
+            if (artist != null) checkArray.add(Constants.currentUser.checkFollowing(artist));
         }
         return checkArray;
     }
@@ -803,15 +827,15 @@ public class MockService implements APIs {
     /**
      * Get a list of recommended artist for the current user
      *
-     * @param type   artist or user
-     * @param limit  he maximum number of items to return
+     * @param type  artist or user
+     * @param limit he maximum number of items to return
      * @return list of recommended artists
      */
     @Override
     public ArrayList<Artist> getRecommendedArtists(Context context, String type, int offset, int limit) {
         ArrayList<Artist> recommendedArtists = new ArrayList<>();
         ArrayList<Artist> currentArtists = new ArrayList<>();
-        for (Artist artist: mArtists) {
+        for (Artist artist : mArtists) {
             if (!Constants.currentUser.checkFollowing(artist)) currentArtists.add(artist);
         }
 
@@ -915,9 +939,10 @@ public class MockService implements APIs {
 
     /**
      * handles promoting user to premium
+     *
      * @param context holds context of activity
-     * @param root holds root view of fragment
-     * @param token holds token of user
+     * @param root    holds root view of fragment
+     * @param token   holds token of user
      * @return returns true if promoted
      */
     @Override
@@ -933,7 +958,7 @@ public class MockService implements APIs {
 
     @Override
     public ArrayList<Container> getProfileFollowing(Context context) {
-        ArrayList<Container> followers=new ArrayList<>();
+        ArrayList<Container> followers = new ArrayList<>();
         followers.add(new Container("Adele", "200,700 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.adele)));
         followers.add(new Container("Amr Diab", "500,200 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.amr)));
         followers.add(new Container("Imagine dragons", "300,300 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.imagine)));
@@ -948,7 +973,7 @@ public class MockService implements APIs {
         followers.add(new Container("Wael Jassar", "260 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.wael)));
         followers.add(new Container("Abo", "7,730 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.abu)));
         followers.add(new Container("Hamza Nemra", "4,700 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.hamza)));
-      return followers;
+        return followers;
     }
 
     @Override
@@ -968,7 +993,7 @@ public class MockService implements APIs {
 
     @Override
     public ArrayList<Container> getCurrentUserFollowers(Context context, ProfileFollowersFragment profileFollowersFragment) {
-        ArrayList<Container> followers=new ArrayList<>();
+        ArrayList<Container> followers = new ArrayList<>();
         followers.add(new Container("HuffPost", "2,700 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.images)));
         followers.add(new Container("Majeestic Casual", "5,200 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.images3)));
         followers.add(new Container("beautiful", "3,300 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.download)));

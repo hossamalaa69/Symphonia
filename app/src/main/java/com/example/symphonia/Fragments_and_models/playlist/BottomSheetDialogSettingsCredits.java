@@ -22,20 +22,42 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+/**
+ * class that holds bottom sheet of credits in settings  of track.
+ *
+ * @author Khaled Ali
+ * @version 1.0
+ */
 public class BottomSheetDialogSettingsCredits extends BottomSheetDialogFragment {
 
+    /**
+     * position of track in playlist
+     */
     int pos;
 
+
+    /**
+     * non empty  constructor
+     *
+     * @param pos position of track in playlist
+     */
     public BottomSheetDialogSettingsCredits(int pos) {
         this.pos = pos;
-
     }
 
 
+    /**
+     * this function set data of fragment
+     *
+     * @param inflater           inflater of fragment
+     * @param container          container of fragment
+     * @param savedInstanceState instance saved of states
+     * @return view of fragment
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-         View view = inflater.inflate(R.layout.track_credits, container, false);
+        View view = inflater.inflate(R.layout.track_credits, container, false);
         TextView artist = view.findViewById(R.id.settings_credit_artist);
         TextView author = view.findViewById(R.id.settings_credit_author);
         TextView producer = view.findViewById(R.id.settings_credit_producer);
@@ -74,6 +96,12 @@ public class BottomSheetDialogSettingsCredits extends BottomSheetDialogFragment 
         return view;
     }
 
+    /**
+     * this function is called when dialog is being created
+     *
+     * @param savedInstanceState instance of saved states
+     * @return instance of dialog
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -89,6 +117,11 @@ public class BottomSheetDialogSettingsCredits extends BottomSheetDialogFragment 
     }
 
 
+    /**
+     * this function is called to customize  bottom sheet to be full screen
+     *
+     * @param bottomSheetDialog instance of bottom sheet dialog
+     */
     private void setupFullHeight(BottomSheetDialog bottomSheetDialog) {
         FrameLayout bottomSheet = (FrameLayout) bottomSheetDialog.findViewById(R.id.design_bottom_sheet);
         bottomSheet.setBackgroundResource(R.drawable.track_settings_background);
@@ -114,6 +147,11 @@ public class BottomSheetDialogSettingsCredits extends BottomSheetDialogFragment 
         behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 
+    /**
+     * this function is called to get height of device's screen
+     *
+     * @return height of screen
+     */
     private int getWindowHeight() {
         // Calculate window height for fullscreen use
         DisplayMetrics displayMetrics = new DisplayMetrics();

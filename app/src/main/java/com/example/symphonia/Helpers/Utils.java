@@ -79,6 +79,9 @@ public class Utils {
 
     }
 
+    /**
+     * this class holds playlists that are loaded from backend
+     */
     public static class LoadedPlaylists{
         public static ArrayList<Playlist> randomPlaylists;
         public static ArrayList<Playlist> madeForYouPlaylists;

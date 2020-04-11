@@ -100,9 +100,10 @@ public class User {
     private ArrayList<Album> mSavedAlbums;
 
 
-    public User(){
+    public User() {
 
     }
+
     /**
      * constructor of user, initializes parameters
      *
@@ -147,7 +148,7 @@ public class User {
      * @param mSavedAlbums      array of saved albums
      * @param mPlayedTracks     array of played tracks
      */
-    public User(String mEmail,String id, boolean mType, Bitmap mUserImage, String mName, String mDOB
+    public User(String mEmail, String id, boolean mType, Bitmap mUserImage, String mName, String mDOB
             , String mGender, boolean mIsPremuim, int mNumOfFollowers, int mNumOfFollowings
             , ArrayList<User> mFollowings, ArrayList<User> mFollowers
             , ArrayList<Playlist> mFavPlaylists, ArrayList<Playlist> mMadePlaylists
@@ -175,16 +176,16 @@ public class User {
     /**
      * override constructor for user
      *
-     * @param email    email of user
-     * @param password password of user
-     * @param mType    type of user
+     * @param email      email of user
+     * @param password   password of user
+     * @param mType      type of user
      * @param mIsPremium if user is premium
      */
     public User(String email, String password, boolean mType, boolean mIsPremium) {
         this.mEmail = email;
         this.mPassword = password;
         this.mType = mType;
-        this.mIsPremuim=mIsPremium;
+        this.mIsPremuim = mIsPremium;
     }
 
 
@@ -464,7 +465,7 @@ public class User {
      * @param artist artist to be followed
      */
     public void followArtist(Artist artist) {
-        if(!mFollowingArtists.contains(artist)) mFollowingArtists.add(artist);
+        if (!mFollowingArtists.contains(artist)) mFollowingArtists.add(artist);
     }
 
     /**
@@ -478,31 +479,43 @@ public class User {
 
     /**
      * handles saving album for user
+     *
      * @param album album to be added to list
      */
-    public void saveAlbum(Album album){mSavedAlbums.add(album);};
+    public void saveAlbum(Album album) {
+        mSavedAlbums.add(album);
+    }
+
+    ;
 
     /**
      * handles removing album from user's list
+     *
      * @param album abbum to be removed
      */
-    public void removeAlbum(Album album){mSavedAlbums.remove(album);};
+    public void removeAlbum(Album album) {
+        mSavedAlbums.remove(album);
+    }
+
+    ;
 
     /**
      * checks if albums is saved or not
+     *
      * @param checkedAlbum album to be checked
      * @return returns true if exists
      */
-    public Boolean checkSavedAlbum(Album checkedAlbum){
+    public Boolean checkSavedAlbum(Album checkedAlbum) {
         return mSavedAlbums.contains(checkedAlbum);
     }
 
     /**
      * checks if following an artist
+     *
      * @param checkedArtist artist to be checked
      * @return returns true if followed
      */
-    public Boolean checkFollowing(Artist checkedArtist){
+    public Boolean checkFollowing(Artist checkedArtist) {
         return mFollowingArtists.contains(checkedArtist);
     }
 
@@ -544,13 +557,14 @@ public class User {
 
     /**
      * Constructor for user
-     * @param email holds email
-     * @param id holds id
-     * @param name holds name
-     * @param type holds type
+     *
+     * @param email   holds email
+     * @param id      holds id
+     * @param name    holds name
+     * @param type    holds type
      * @param premium holds if premium
      */
-    public User(String email,String id,String name,boolean type,boolean premium){
+    public User(String email, String id, String name, boolean type, boolean premium) {
         this.mEmail = email;
         this._id = id;
         this.mName = name;
@@ -560,6 +574,7 @@ public class User {
 
     /**
      * getter for user id
+     *
      * @return returns user id
      */
     public String get_id() {
@@ -568,6 +583,7 @@ public class User {
 
     /**
      * setter for user id
+     *
      * @param _id holds user id
      */
     public void set_id(String _id) {
@@ -576,6 +592,7 @@ public class User {
 
     /**
      * getter for user type (user/artist)
+     *
      * @return return user's type
      */
     public String getUserType() {
@@ -584,6 +601,7 @@ public class User {
 
     /**
      * setter for user type
+     *
      * @param mUserType holds user type
      */
     public void setUserType(String mUserType) {
@@ -592,6 +610,7 @@ public class User {
 
     /**
      * getter for user phone
+     *
      * @return returns user's phone
      */
     public String getPhone() {
@@ -600,6 +619,7 @@ public class User {
 
     /**
      * setter fpr user phone number
+     *
      * @param mPhone holds user's phone number
      */
     public void setPhone(String mPhone) {
@@ -608,6 +628,7 @@ public class User {
 
     /**
      * getter for user's image url
+     *
      * @return returns image url of user
      */
     public String getImageUrl() {
@@ -616,6 +637,7 @@ public class User {
 
     /**
      * setter for image url
+     *
      * @param mImageUrl holds image url
      */
     public void setImageUrl(String mImageUrl) {
