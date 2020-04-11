@@ -17,7 +17,7 @@
   
 ## 3-Running project
   
-  &nbsp;&nbsp; **NOTE**: make sure your phone is connected with USB and open **developer mode** in your mobile settings
+  &nbsp;&nbsp; **NOTE**: make sure your phone is connected with USB and open **developer/debugger mode** in your mobile settings
   
   &nbsp;&nbsp;&nbsp; 1-In middle top of screen choose **app** from the dropdown list  <br> 
   &nbsp;&nbsp;&nbsp; 2-Select **Device** to run app on it *(If your phone is not available, choose built-in emulator)* <br>
