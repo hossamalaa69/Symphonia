@@ -39,4 +39,10 @@
 
   &nbsp;&nbsp;&nbsp; Click on **Tools** >> choose **Generate JavaDoc** >> select **Whole Project** >> **OK**
   <br>
+  
+## 6- MockService/REST API Modes:
+
+  &nbsp;&nbsp;&nbsp; open **Java** folder >> **com.example.symphonia** >> open **Constants.java** class >> set **DEBUG_STATUS** <br>
+  &nbsp;&nbsp;&nbsp;&nbsp; 1-For **Mock Service** Mode : *DEBUG_STATUS=true* <br>
+  &nbsp;&nbsp;&nbsp;&nbsp; 2-For **REST API** Mode : *DEBUG_STATUS=false* <br>
    
