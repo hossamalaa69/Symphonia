@@ -106,8 +106,14 @@ public class MockServiceTest {
 
 
     @Test
-    public void SignUpSuccess(){
+    public void SignUpSuccessListener(){
         assertTrue(mockService.signUp(appContext,true,"email@gmail.com","password"
+                ,"1999","male","Hossam Alaa"));
+    }
+
+    @Test
+    public void SignUpSuccessArtist(){
+        assertTrue(mockService.signUp(appContext,false,"email@gmail.com","password"
                 ,"1999","male","Hossam Alaa"));
     }
 
