@@ -99,6 +99,10 @@ public class User {
      */
     private ArrayList<Album> mSavedAlbums;
 
+
+    public User(){
+
+    }
     /**
      * constructor of user, initializes parameters
      *

@@ -25,9 +25,7 @@ import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -46,6 +44,8 @@ public class MockServiceTest {
 
     @Before
     public void setUp() {
+        Constants.currentUser = new User();
+
         mockService = new MockService();
 
         ArrayList<Artist> artists = new ArrayList<>();
@@ -307,7 +307,7 @@ public class MockServiceTest {
         assertNotEquals(comingData.get(0).getCat_Name(), testedData.get(0).getCat_Name());
     }
 
-    /* @Test
+     @Test
      public void getPlaylistsSuccess() {
          ArrayList<Container> testedData = new ArrayList<>();
          testedData.add(new Container("Quran", "Playlist", R.drawable.images));
@@ -322,7 +322,8 @@ public class MockServiceTest {
          ArrayList<Container> comingData = mockService.getPlaylists(appContext, "Q");
          assertNotEquals(comingData.size(), testedData.size());
      }
- */
+
+
     @Test
     public void getPlaylistsSuccess() {
         ArrayList<Container> testedData = new ArrayList<>();
@@ -600,6 +601,7 @@ public class MockServiceTest {
         assertNotEquals(testPlaylists.size(), comingData.size());
 
     }
+
 }
 
 
