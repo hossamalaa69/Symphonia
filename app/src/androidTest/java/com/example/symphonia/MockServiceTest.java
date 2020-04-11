@@ -1,6 +1,8 @@
 package com.example.symphonia;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.provider.Settings;
 import android.view.View;
@@ -9,8 +11,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
+import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Copyright;
 import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Track;
@@ -269,7 +273,7 @@ public class MockServiceTest {
         assertTrue(mockService.checkUserSavedAlbums(appContext, new ArrayList<String>(Collections.singletonList("7eFyrxZRPqw8yvZXMUm88A"))).get(0));
     }
 
-    /*@Test
+    @Test
     public void getResultsOfSearchFail() {
         ArrayList<Container> testedData = new ArrayList<>();
         testedData.add(new Container("Gamal", "Album.Little Mix", R.drawable.images3));
@@ -518,7 +522,7 @@ public class MockServiceTest {
             assertEquals(comingData.get(i).getCat_Name2(), testedData.get(i).getCat_Name2());
             assertEquals(comingData.get(i).getImg_Res(), testedData.get(i).getImg_Res());
         }
-    }*/
+    }
 
     @Test
     public void getTrackOfPlaylistSuccess() {
@@ -719,38 +723,54 @@ public class MockServiceTest {
 
     }
 
-    /*@Test
-    public void getRecentlyPlayedPlaylists() {
-        ArrayList<Playlist> testPlaylists = new ArrayList<>();
+    @Test
+    public  void setTrackInfoTestSuccess()
+    {
         ArrayList<Track> tracks = new ArrayList<Track>();
-        tracks.add(new Track("Little Do You Know", "Alex & Sierra", "Rewind-the sound of 2014", null, R.drawable.rescue_me, null));
-        tracks.add(new Track("Wildest Dreams", "Taylor Swift", "Rewind-the sound of 2014", null, R.drawable.freaking_me_out, null));
-        tracks.add(new Track("One Last Time", "Ariana Grande", "Rewind-the sound of 2014", null, R.drawable.you_cant_stop_the_girl, null));
-        testPlaylists.add(new Playlist("Rewind-the sound of 2014", null,
-                Utils.convertToBitmap(R.drawable.rewind_the_sound), tracks));
-        ArrayList<Playlist> comingData = mockService.getRecentPlaylists(appContext, null);
-        assertEquals(testPlaylists.size(), comingData.size());
-        for (int i = 0; i < testPlaylists.size(); i++) {
-            assertEquals(testPlaylists.get(i), comingData.get(i));
-            assertEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
-            assertEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
-            for (int j = 0; j < testPlaylists.get(i).getTracks().size(); j++) {
-                assertEquals(testPlaylists.get(i).getTracks().get(j), comingData.get(i).getTracks().get(j));
-            }
+        tracks.add(new Track("Intentions", "Justing Bieber, Quavo", "Daily Left", null
+                , R.drawable.intentions, Settings.System.DEFAULT_RINGTONE_URI, false));
+        tracks.add(new Track("Stupid Love", "Lady Gaga", "Daily Left", null
+                , R.drawable.stupid_love, Uri.parse("http://stream.radiosai.net:8002/"), false));
+        tracks.add(new Track("Feel Me", "Selena Gomez", "Daily Left", null
+                , R.drawable.feel_me, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), true));
+        Utils.CurrPlaylist.playlist = new Playlist("Daily Left", "Sia, J Balvin, Bad Bunny, Justin Bieber, Drake",
+                Utils.convertToBitmap(R.drawable.daily_left), tracks);
+        Utils.setTrackInfo(0,0,tracks);
+        assertEquals(Utils.CurrTrackInfo.currPlayingPos,0);
+        assertEquals(Utils.CurrTrackInfo.TrackPosInPlaylist,0);
+        assertEquals(Utils.CurrTrackInfo.currPlaylistName,"Daily Left");
+        for (int j = 0; j < tracks.size(); j++) {
+            assertEquals(tracks.get(j).getId(), Utils.CurrTrackInfo.currPlaylistTracks.get(j).getId());
+            assertEquals(tracks.get(j).getImageUrl(),  Utils.CurrTrackInfo.currPlaylistTracks.get(j).getImageUrl());
+            assertEquals(tracks.get(j).getmAlbum(),  Utils.CurrTrackInfo.currPlaylistTracks.get(j).getmAlbum());
+            assertEquals(tracks.get(j).getmArtist(),  Utils.CurrTrackInfo.currPlaylistTracks.get(j).getmArtist());
+            assertEquals(tracks.get(j).getmDescription(), Utils.CurrTrackInfo.currPlaylistTracks.get(j).getmDescription());
+            assertEquals(tracks.get(j).getmDuration(),  Utils.CurrTrackInfo.currPlaylistTracks.get(j).getmDuration());
+            assertEquals(tracks.get(j).getmImageResources(), Utils.CurrTrackInfo.currPlaylistTracks.get(j).getmImageResources());
+            assertEquals(tracks.get(j).getmTitle(),  Utils.CurrTrackInfo.currPlaylistTracks.get(j).getmTitle());
+            assertEquals(tracks.get(j).getPlaylistName(),  Utils.CurrTrackInfo.currPlaylistTracks.get(j).getPlaylistName());
+            assertEquals(tracks.get(j).getUri(),  Utils.CurrTrackInfo.currPlaylistTracks.get(j).getUri());
         }
+
     }
 
     @Test
-    public void getRecentlyPlayedPlaylistsFails() {
-        ArrayList<Playlist> testPlaylists = new ArrayList<>();
+    public  void setTrackInfoTestFails()
+    {
         ArrayList<Track> tracks = new ArrayList<Track>();
-        tracks.add(new Track("Little Do You Know", "Alex & Sierra", "Rewind-the sound of 2014", null, R.drawable.rescue_me, null));
-        testPlaylists.add(new Playlist("Rewind-the sound of 2014", null,
-                Utils.convertToBitmap(R.drawable.rewind_the_sound), tracks));
-        ArrayList<Playlist> comingData = mockService.getRecentPlaylists(appContext, null);
-        assertNotEquals(testPlaylists.size(), comingData.size());
-
+        tracks.add(new Track("Intentions", "Justing Bieber, Quavo", "Daily Left", null
+                , R.drawable.intentions, Settings.System.DEFAULT_RINGTONE_URI, false));
+        tracks.add(new Track("Stupid Love", "Lady Gaga", "Daily Left", null
+                , R.drawable.stupid_love, Uri.parse("http://stream.radiosai.net:8002/"), false));
+        tracks.add(new Track("Feel Me", "Selena Gomez", "Daily Left", null
+                , R.drawable.feel_me, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), true));
+        Utils.CurrPlaylist.playlist = new Playlist("Daily Left", "Sia, J Balvin, Bad Bunny, Justin Bieber, Drake",
+                Utils.convertToBitmap(R.drawable.daily_left), tracks);
+        Utils.setTrackInfo(0,0,tracks);
+        assertNotEquals(Utils.CurrTrackInfo.currPlaylistName,"mood boost");
     }
+/*
+
 
     @Test
     public void isOnlineTest() {
