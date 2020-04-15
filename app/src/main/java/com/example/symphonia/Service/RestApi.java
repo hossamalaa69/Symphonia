@@ -1030,7 +1030,7 @@ public class RestApi implements APIs {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
+                listener.updateFail(offset, limit);
             }
         }) {
             @Override
@@ -1048,6 +1048,7 @@ public class RestApi implements APIs {
 
     public interface UpdateAddArtists {
         void updateGetRecommendedArtists(ArrayList<Artist> returnedArtists);
+        void updateFail(int offset, int limit);
     }
 
 

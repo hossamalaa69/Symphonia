@@ -7,11 +7,13 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.symphonia.Constants;
@@ -109,6 +111,11 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
      */
     private int clickedItemIndex = 0;
 
+    private LinearLayout failState;
+
+
+    private CoordinatorLayout coordinatorLayout;
+
     /**
      * initialize the ui of the activity
      *
@@ -128,6 +135,9 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         setContentView(R.layout.activity_add_artists);
         mButtonDone = (Button) findViewById(R.id.button_done);
         Bundle b = getIntent().getExtras();
+
+        coordinatorLayout = findViewById(R.id.view);
+        failState = findViewById(R.id.fail_state);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -347,6 +357,8 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
         ProgressBar progressBar = findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.GONE);
         mArtistsList.setVisibility(View.VISIBLE);
+        coordinatorLayout.setVisibility(View.VISIBLE);
+        failState.setVisibility(View.GONE);
         boolean isMoreItem = clickedItemIndex == mRecommendedArtists.size();
         int change = (isMoreItem)? 0:1;
 
@@ -357,4 +369,19 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
             mAdapter.notifyItemRangeInserted(clickedItemIndex + change, returnedArtists.size());
         }
     }
+
+    @Override
+    public void updateFail(int offset, int limit) {
+        ProgressBar progressBar = findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.GONE);
+        coordinatorLayout.setVisibility(View.GONE);
+        failState.setVisibility(View.VISIBLE);
+
+        ArrayList<Artist> returnedArtists = mServiceController.getRecommendedArtists
+                (this, Constants.currentUser.getUserType(), offset, limit);
+
+
+
+    }
+
 }
