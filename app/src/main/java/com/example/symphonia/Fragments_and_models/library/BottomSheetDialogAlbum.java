@@ -48,6 +48,8 @@ public class BottomSheetDialogAlbum extends BottomSheetDialogFragment {
      */
     private float firstY = 0;
 
+    private Album mAlbum;
+
     /**
      * listener object from the bottomsheet interface
      */
@@ -55,9 +57,11 @@ public class BottomSheetDialogAlbum extends BottomSheetDialogFragment {
 
     /**
      * @param mListener listener object to the clicks of the layouts
+     * @param mAlbum
      */
-    public BottomSheetDialogAlbum(BottomSheetListener mListener) {
+    public BottomSheetDialogAlbum(BottomSheetListener mListener, Album mAlbum) {
         this.mListener = mListener;
+        this.mAlbum = mAlbum;
     }
 
     /**
@@ -80,10 +84,8 @@ public class BottomSheetDialogAlbum extends BottomSheetDialogFragment {
 
         Bundle arguments = getArguments();
         assert arguments != null;
-        final String albumId = arguments.getString(ALBUM_ID);
         final int clickedIndex = arguments.getInt(CLICKED_INDEX);
 
-        final Album mAlbum = serviceController.getAlbum(getContext(), albumId);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,7 +209,7 @@ public class BottomSheetDialogAlbum extends BottomSheetDialogFragment {
                             new ArrayList<String>(Collections.singletonList(mAlbum.getAlbumId())));
                     dismiss();
                 }*/
-                mListener.onLikedLayoutClicked(albumId, clickedIndex);
+                mListener.onLikedLayoutClicked(mAlbum.getAlbumId(), clickedIndex);
                 dismiss();
             }
         });
@@ -216,7 +218,7 @@ public class BottomSheetDialogAlbum extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
                 dismiss();
-                mListener.onGoFullAlbumLayoutClicked(albumId);
+                mListener.onGoFullAlbumLayoutClicked(mAlbum);
             }
         });
 
@@ -228,6 +230,6 @@ public class BottomSheetDialogAlbum extends BottomSheetDialogFragment {
      */
     public interface BottomSheetListener{
         void onLikedLayoutClicked(String id, int clickedItemIndex);
-        void onGoFullAlbumLayoutClicked(String mAlbumId);
+        void onGoFullAlbumLayoutClicked(Album mAlbum);
     }
 }

@@ -140,7 +140,7 @@ public class RvListAlbumsAdapter extends RecyclerView.Adapter<RvListAlbumsAdapte
          */
         @Override
         public void onClick(View v) {
-            mOnClickListener.onListItemClick(v, getAdapterPosition());
+            mOnClickListener.onListItemClick(getAdapterPosition());
         }
 
         @Override
@@ -155,7 +155,7 @@ public class RvListAlbumsAdapter extends RecyclerView.Adapter<RvListAlbumsAdapte
      * Interface to handle click for the items
      */
     public interface ListItemClickListener{
-        void onListItemClick(View v, int clickedItemIndex);
+        void onListItemClick(int clickedItemIndex);
     }
 
     /**

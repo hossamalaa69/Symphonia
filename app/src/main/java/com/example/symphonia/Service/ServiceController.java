@@ -267,14 +267,14 @@ public class ServiceController {
     /**
      * Get the current user’s followed artists
      *
-     * @param context activity context
+     * @param listener
      * @param type current type, can be artist or user
      * @param limit he maximum number of items to return
      * @param after the last artist ID retrieved from the previous request
      * @return list of followed artists
      */
-    public ArrayList<Artist> getFollowedArtists(Context context, String type, int limit, String after) {
-        return mSupplier.getFollowedArtists(context, type, limit, after);
+    public ArrayList<Artist> getFollowedArtists(RestApi.UpdateArtistsLibrary listener, String type, int limit, String after) {
+        return mSupplier.getFollowedArtists(listener, type, limit, after);
     }
 
     /**

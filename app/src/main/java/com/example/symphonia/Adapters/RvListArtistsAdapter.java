@@ -16,6 +16,7 @@ import com.example.symphonia.Activities.User_Interface.AddArtistsActivity;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Entities.Artist;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -32,9 +33,9 @@ public class RvListArtistsAdapter extends RecyclerView.Adapter<RvListArtistsAdap
      */
     private ArrayList<Artist> mArtists;
     /**
-     * context of the recyclerview adapter
+     * an object from the interface to handle the click on list items
      */
-    private Context mContext;
+    private ListItemClickListener mOnClickListener;
 
     private ListItemLongClickListener mOnLongClickListener;
 
@@ -42,11 +43,11 @@ public class RvListArtistsAdapter extends RecyclerView.Adapter<RvListArtistsAdap
      * constructor to get the data
      *
      * @param artists user's following artists
-     * @param context context of the recyclerview
+     * @param mOnClickListener
      */
-    public RvListArtistsAdapter(ArrayList<Artist> artists, Context context, ListItemLongClickListener mOnLongClickListener) {
+    public RvListArtistsAdapter(ArrayList<Artist> artists, ListItemClickListener mOnClickListener, ListItemLongClickListener mOnLongClickListener) {
         this.mArtists = artists;
-        this.mContext = context;
+        this.mOnClickListener = mOnClickListener;
         this.mOnLongClickListener = mOnLongClickListener;
     }
 
@@ -135,7 +136,14 @@ public class RvListArtistsAdapter extends RecyclerView.Adapter<RvListArtistsAdap
             }
             else{
                 Artist artist = mArtists.get(position);
-                artistImage.setImageBitmap(artist.getImage());
+                if (artist.getImage() != null)
+                    artistImage.setImageBitmap(artist.getImage());
+                else
+                    Picasso.get()
+                            .load(artist.getImageUrl())
+                            .placeholder(R.drawable.placeholder_artist)
+                            .into(artistImage);
+
                 artistName.setText(artist.getArtistName());
             }
 
@@ -149,11 +157,8 @@ public class RvListArtistsAdapter extends RecyclerView.Adapter<RvListArtistsAdap
          */
         @Override
         public void onClick(View v) {
-            if(getAdapterPosition() == mArtists.size())
-            {
-                Intent addArtistsIntent = new Intent(mContext, AddArtistsActivity.class);
-                mContext.startActivity(addArtistsIntent);
-            }
+            mOnClickListener.onListItemClick(getAdapterPosition());
+
         }
 
         @Override
@@ -166,6 +171,13 @@ public class RvListArtistsAdapter extends RecyclerView.Adapter<RvListArtistsAdap
             }
             return true;
         }
+    }
+
+    /**
+     * Interface to handle click for the items
+     */
+    public interface ListItemClickListener{
+        void onListItemClick(int clickedItemIndex);
     }
 
     /**

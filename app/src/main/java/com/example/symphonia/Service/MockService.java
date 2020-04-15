@@ -853,20 +853,20 @@ public class MockService implements APIs {
     /**
      * Get the current user’s followed artists
      *
-     * @param context activity context
+     * @param listener
      * @param type current type, can be artist or user
      * @param limit he maximum number of items to return
      * @param after the last artist ID retrieved from the previous request
      * @return list of followed artists
      */
     @Override
-    public ArrayList<Artist> getFollowedArtists(Context context, String type, int limit, String after) {
+    public ArrayList<Artist> getFollowedArtists(RestApi.UpdateArtistsLibrary listener, String type, int limit, String after) {
         ArrayList<Artist> followedArtists = Constants.currentUser.getFollowingArtists();
         ArrayList<Artist> returnedArtists = new ArrayList<>();
         for (int i = 0; i < Math.min(limit, followedArtists.size()); i++) {
             returnedArtists.add(followedArtists.get(i));
         }
-
+        listener.updateArtists(returnedArtists);
         return returnedArtists;
     }
 

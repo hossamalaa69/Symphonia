@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -42,10 +43,7 @@ import java.util.Collections;
 public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapter.ListItemClickListener,
         RvListAlbumsAdapter.ListItemLongClickListener, BottomSheetDialogAlbum.BottomSheetListener {
 
-    /**
-     * final variable to send the album id to the bottomsheet
-     */
-    private static final String ALBUM_ID = "ALBUM_ID";
+
     /**
      * final variable to send the clicked index to the bottomsheet
      */
@@ -87,6 +85,9 @@ public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapt
      */
     private float firstY = 0;
 
+    private ProgressBar progressBar;
+
+
     /**
      * empty constructor
      */
@@ -111,20 +112,23 @@ public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapt
         View rootView = inflater.inflate(R.layout.fragment_library_albums, container, false);
         mServiceController = ServiceController.getInstance();
         albumsEmptyState = rootView.findViewById(R.id.text_albums_empty_state);
-
-        mLikedAlbums = mServiceController.getUserSavedAlbums(getContext(),0, 20);
-
-        if(mLikedAlbums.size() != 0)
-            albumsEmptyState.setVisibility(View.GONE);
-        else
-            albumsEmptyState.setVisibility(View.VISIBLE);
-
-
         mAlbumsList = rootView.findViewById(R.id.rv_albums);
+        progressBar = rootView.findViewById(R.id.progress_bar);
+        mAlbumsList.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+
+        mLikedAlbums = new ArrayList<>();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mAlbumsList.setLayoutManager(layoutManager);
         mAdapter = new RvListAlbumsAdapter(mLikedAlbums, this, this);
         mAlbumsList.setAdapter(mAdapter);
+
+        // to be edited
+        mLikedAlbums = mServiceController.getUserSavedAlbums(getContext(),0, 65535);
+        updateUI(new ArrayList<Album>(mLikedAlbums));
+
+
+
 
         mAlbumsList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
 
@@ -177,16 +181,12 @@ public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapt
      * handles the clicking on the recyclerview item
      * replaces the current fragment with clicked album framgnet
      *
-     * @param v clicked view
      * @param clickedItemIndex index of the clicked view
      */
     @Override
-    public void onListItemClick(View v, int clickedItemIndex) {
+    public void onListItemClick(int clickedItemIndex) {
 
-        AlbumFragment fragment = new AlbumFragment();
-        Bundle arguments = new Bundle();
-        arguments.putString( ALBUM_ID , mLikedAlbums.get(clickedItemIndex).getAlbumId());
-        fragment.setArguments(arguments);
+        AlbumFragment fragment = new AlbumFragment(mLikedAlbums.get(clickedItemIndex));
 
 
         ((MainActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(
@@ -203,11 +203,7 @@ public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapt
      */
     @Override
     public void onListItemLongClick(int clickedItemIndex) {
-        BottomSheetDialogAlbum bottomSheet = new BottomSheetDialogAlbum(this);
-        Bundle arguments = new Bundle();
-        arguments.putString( ALBUM_ID , mLikedAlbums.get(clickedItemIndex).getAlbumId());
-        arguments.putInt(CLICKED_INDEX , clickedItemIndex);
-        bottomSheet.setArguments(arguments);
+        BottomSheetDialogAlbum bottomSheet = new BottomSheetDialogAlbum(this, mLikedAlbums.get(clickedItemIndex));
         bottomSheet.show(((MainActivity)getActivity()).getSupportFragmentManager(), bottomSheet.getTag());
     }
 
@@ -235,20 +231,37 @@ public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapt
     /**
      * called when user clicks on the go to full album in bottomsheet
      *
-     * @param mAlbumId album id
+     * @param mAlbum
      */
     @Override
-    public void onGoFullAlbumLayoutClicked(String mAlbumId) {
-        AlbumFragment fragment = new AlbumFragment();
-        Bundle arguments = new Bundle();
-        arguments.putString( ALBUM_ID , mAlbumId);
-        fragment.setArguments(arguments);
-
+    public void onGoFullAlbumLayoutClicked(Album mAlbum) {
+        AlbumFragment fragment = new AlbumFragment(mAlbum);
 
         ((MainActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(
                 R.id.nav_host_fragment, fragment)
                 .addToBackStack(null)
                 .commit();
+    }
+
+
+    private void updateUI(ArrayList<Album> returnedAlbums){
+
+        mAlbumsList.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
+
+        mLikedAlbums.clear();
+        mLikedAlbums.addAll(returnedAlbums);
+
+        mAdapter.clear();
+        mAdapter.addAll(mLikedAlbums);
+        mAdapter.notifyDataSetChanged();
+
+
+        if(mLikedAlbums.size() != 0)
+            albumsEmptyState.setVisibility(View.GONE);
+        else
+            albumsEmptyState.setVisibility(View.VISIBLE);
+
     }
 
 }

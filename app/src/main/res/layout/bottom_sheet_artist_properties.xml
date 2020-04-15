@@ -10,8 +10,7 @@
         android:id="@+id/image_frame"
         android:layout_width="145dp"
         android:layout_height="196dp"
-        android:layout_centerHorizontal="true"
-        android:background="#F02570">
+        android:layout_centerHorizontal="true">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image_artist"
@@ -22,7 +21,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:src="@drawable/amr"
+            android:src="@drawable/placeholder_artist"
             app:layout_constraintBottom_toTopOf="@+id/frame_icons"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -77,7 +76,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_frame"
-        tools:text="Amr Diab" />
+        tools:text="Artist name" />
 
 
     <LinearLayout

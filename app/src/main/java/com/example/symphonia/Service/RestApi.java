@@ -32,6 +32,7 @@ import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
 import com.example.symphonia.Fragments_and_models.profile.ProfileFollowersFragment;
 import com.example.symphonia.Fragments_and_models.profile.ProfilePlaylistsFragment;
 import com.example.symphonia.Fragments_and_models.settings.SettingsFragment;
+import com.example.symphonia.Helpers.App;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 
@@ -840,21 +841,69 @@ public class RestApi implements APIs {
      */
     @Override
     public ArrayList<Album> getUserSavedAlbums(Context context, int offset, int limit) {
-        return null;
+        return new ArrayList<>();
     }
 
     /**
      * Get the current user’s followed artists
      *
-     * @param context activity context
+     * @param listener
      * @param type current type, can be artist or user
      * @param limit he maximum number of items to return
      * @param after the last artist ID retrieved from the previous request
      * @return list of followed artists
      */
     @Override
-    public ArrayList<Artist> getFollowedArtists(Context context, String type, int limit, String after) {
-        return null;
+    public ArrayList<Artist> getFollowedArtists(final UpdateArtistsLibrary listener, String type, int limit, String after) {
+
+        final ArrayList<Artist> followedArtists = new ArrayList<>();
+
+        Uri.Builder builder = Uri.parse(Constants.FOLLOW_ARTIST_URL).buildUpon();
+        builder.appendQueryParameter("type", type);
+        builder.appendQueryParameter("limit", String.valueOf(limit));
+        builder.appendQueryParameter("after", (after == null)? "null":after);
+
+        StringRequest request = new StringRequest(Request.Method.GET, builder.toString(), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject root = new JSONObject(response);
+                    JSONObject artists = root.getJSONObject("artists");
+                    JSONArray artistArray = artists.getJSONArray("items");
+                    for (int i = 0; i < artistArray.length(); i++) {
+                        JSONObject artist = artistArray.getJSONObject(i);
+                        String id = artist.getString("_id");
+                        String name = artist.getString("name");
+                        /*JSONArray images = artist.getJSONArray("images");
+                        JSONObject image = images.getJSONObject(1);*/
+                        String imageUrl = artist.getString("imageUrl");
+                        followedArtists.add(new Artist(id, imageUrl, name));
+                    }
+                    listener.updateArtists(followedArtists);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + Constants.currentToken);
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+
+        };
+        VolleySingleton.getInstance(App.getContext()).getRequestQueue().add(request);
+        return followedArtists;
+    }
+
+    public interface UpdateArtistsLibrary{
+        void updateArtists(ArrayList<Artist> returnedArtists);
     }
 
     /**

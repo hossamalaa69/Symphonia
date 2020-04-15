@@ -4,6 +4,7 @@ package com.example.symphonia.Fragments_and_models.library;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.example.symphonia.Service.ServiceController;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -48,13 +50,15 @@ public class BottomSheetDialogArtist extends BottomSheetDialogFragment {
      */
     private float firstY = 0;
 
+    private Artist mArtist;
+
     /**
      * @param mListener object from the bottom sheet listener
      */
-    public BottomSheetDialogArtist(BottomSheetListener mListener) {
+    public BottomSheetDialogArtist(BottomSheetListener mListener, Artist mArtist) {
         this.mListener = mListener;
+        this.mArtist = mArtist;
     }
-
     /**
      * creating the bottomsheet dialog and initializing the views
      *
@@ -75,10 +79,7 @@ public class BottomSheetDialogArtist extends BottomSheetDialogFragment {
 
         Bundle arguments = getArguments();
         assert arguments != null;
-        final String artistId = arguments.getString(ARTIST_ID);
         final int clickedIndex = arguments.getInt(CLICKED_INDEX);
-
-        Artist mArtist = serviceController.getArtist(getContext(), artistId);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,22 +113,52 @@ public class BottomSheetDialogArtist extends BottomSheetDialogFragment {
 
         TextView artistName = view.findViewById(R.id.text_artist_name);
         artistName.setText(mArtist.getArtistName());
-        ImageView artistImage = view.findViewById(R.id.image_artist);
-        artistImage.setImageBitmap(mArtist.getImage());
 
-        ConstraintLayout imageFrame = view.findViewById(R.id.image_frame);
-        ImageView symphoniaImage = view.findViewById(R.id.image_symphonia);
-        ImageView soundWave = view.findViewById(R.id.image_sound_wave);
 
-        int dominantColor = Utils.getDominantColor(mArtist.getImage());
-        imageFrame.setBackgroundColor(dominantColor);
-        if (!Utils.isColorDark(dominantColor)) {
-            symphoniaImage.setColorFilter(Color.rgb(0, 0, 0));
-            soundWave.setColorFilter(Color.rgb(0, 0, 0));
+        final ConstraintLayout imageFrame = view.findViewById(R.id.image_frame);
+        final ImageView symphoniaImage = view.findViewById(R.id.image_symphonia);
+        final ImageView soundWave = view.findViewById(R.id.image_sound_wave);
+        final ImageView artistImage = view.findViewById(R.id.image_artist);
+
+
+        if(mArtist.getImage() == null){
+            Picasso.get()
+                    .load(mArtist.getImageUrl())
+                    .placeholder(R.drawable.placeholder_artist)
+                    .into(artistImage, new com.squareup.picasso.Callback() {
+                        @Override
+                        public void onSuccess() {
+                            BitmapDrawable drawable = (BitmapDrawable) artistImage.getDrawable();
+                            int dominantColor = Utils.getDominantColor(drawable.getBitmap());
+                            imageFrame.setBackgroundColor(dominantColor);
+                            if (!Utils.isColorDark(dominantColor)) {
+                                symphoniaImage.setColorFilter(Color.rgb(0, 0, 0));
+                                soundWave.setColorFilter(Color.rgb(0, 0, 0));
+                            } else {
+                                symphoniaImage.setColorFilter(Color.rgb(255, 255, 255));
+                                soundWave.setColorFilter(Color.rgb(255, 255, 255));
+                            }
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+
+                        }
+
+                    });
         } else {
-            symphoniaImage.setColorFilter(Color.rgb(255, 255, 255));
-            soundWave.setColorFilter(Color.rgb(255, 255, 255));
+            artistImage.setImageBitmap(mArtist.getImage());
+            int dominantColor = Utils.getDominantColor(mArtist.getImage());
+            imageFrame.setBackgroundColor(dominantColor);
+            if (!Utils.isColorDark(dominantColor)) {
+                symphoniaImage.setColorFilter(Color.rgb(0, 0, 0));
+                soundWave.setColorFilter(Color.rgb(0, 0, 0));
+            } else {
+                symphoniaImage.setColorFilter(Color.rgb(255, 255, 255));
+                soundWave.setColorFilter(Color.rgb(255, 255, 255));
+            }
         }
+
 
         final LinearLayout following = view.findViewById(R.id.layout_following);
         final LinearLayout removeArtist = view.findViewById(R.id.layout_remove_artist);
@@ -171,7 +202,7 @@ public class BottomSheetDialogArtist extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
                 dismiss();
-                mListener.onFollowingLayoutClicked(artistId, clickedIndex);
+                mListener.onFollowingLayoutClicked(mArtist.getId(), clickedIndex);
             }
         });
 

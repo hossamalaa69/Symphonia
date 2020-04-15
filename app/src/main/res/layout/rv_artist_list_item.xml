@@ -16,7 +16,6 @@
         android:id="@+id/image_artist"
         android:layout_width="@dimen/library_item_size"
         android:layout_height="@dimen/library_item_size"
-        android:background="@drawable/circle"
         android:tint="@color/light_gray"
         android:src="@drawable/placeholder_artist"
         />

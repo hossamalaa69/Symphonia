@@ -1,13 +1,16 @@
 package com.example.symphonia.Fragments_and_models.library;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.symphonia.Activities.User_Interface.AddArtistsActivity;
 import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Helpers.SnackbarHelper;
@@ -22,6 +26,7 @@ import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Adapters.RvListArtistsAdapter;
+import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -36,8 +41,10 @@ import java.util.Collections;
  * @author islamahmed1092
  * @version 1.0
  */
-public class LibraryArtistsFragment extends Fragment implements RvListArtistsAdapter.ListItemLongClickListener, BottomSheetDialogArtist.BottomSheetListener {
-
+public class LibraryArtistsFragment extends Fragment implements RvListArtistsAdapter.ListItemLongClickListener
+        , RvListArtistsAdapter.ListItemClickListener
+        , BottomSheetDialogArtist.BottomSheetListener
+        , RestApi.UpdateArtistsLibrary {
     /**
      *
      */
@@ -86,6 +93,11 @@ public class LibraryArtistsFragment extends Fragment implements RvListArtistsAda
      */
     private float firstY = 0;
 
+    private ProgressBar progressBar;
+    private Snackbar snack;
+    Snackbar.Callback snackCallback;
+
+    private Artist unFollowedArtist;
 
     /**
      * empty constructor
@@ -110,14 +122,39 @@ public class LibraryArtistsFragment extends Fragment implements RvListArtistsAda
         View rootView = inflater.inflate(R.layout.fragment_library_artists, container, false);
 
         mServiceController = ServiceController.getInstance();
-        mFollowedArtists = mServiceController.getFollowedArtists(getContext(), Constants.currentUser.getUserType(), 65535, null);
+/*
+        mServiceController.getFollowedArtists(this, Constants.currentUser.getUserType(), 65535, null);
+*/
 
-
+        mFollowedArtists = new ArrayList<>();
         mArtistsList = rootView.findViewById(R.id.rv_artists);
+        progressBar = rootView.findViewById(R.id.progress_bar);
+        mArtistsList.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+
         layoutManager = new LinearLayoutManager(getActivity());
         mArtistsList.setLayoutManager(layoutManager);
-        mAdapter = new RvListArtistsAdapter(mFollowedArtists, getActivity(), this);
+        mAdapter = new RvListArtistsAdapter(mFollowedArtists, this, this);
         mArtistsList.setAdapter(mAdapter);
+
+/*        final LibraryFragment frag = ((LibraryFragment)this.getParentFragment());
+        assert frag != null;
+        frag.changeScrollFlags(true);*/
+        /*NestedScrollView scroller = (NestedScrollView) rootView.findViewById(R.id.scrollView);
+
+        if (scroller != null) {
+
+            scroller.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                    assert frag != null;
+                    if(scrollY == 120)
+                        frag.changeScrollFlags(true);
+
+
+                }
+            });
+        }*/
 
         mArtistsList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
 
@@ -174,17 +211,14 @@ public class LibraryArtistsFragment extends Fragment implements RvListArtistsAda
     @Override
     public void onResume() {
         super.onResume();
-        int oldSize = mFollowedArtists.size();
-        mFollowedArtists = mServiceController.getFollowedArtists(getContext(), Constants.currentUser.getUserType(), 65535, null);
-
-        mAdapter.clear();
-        mAdapter.addAll(mFollowedArtists);
-        mAdapter.notifyDataSetChanged();
-
-        if(oldSize < mFollowedArtists.size())
-            mArtistsList.scrollToPosition(mFollowedArtists.size());
+        mServiceController.getFollowedArtists(this, Constants.currentUser.getUserType(), 65535, null);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(snack != null) snack.dismiss();
+    }
 
     /**
      * called when the user perform long click to an item
@@ -193,9 +227,8 @@ public class LibraryArtistsFragment extends Fragment implements RvListArtistsAda
      */
     @Override
     public void onListItemLongClick(int clickedItemIndex) {
-        BottomSheetDialogArtist bottomSheet = new BottomSheetDialogArtist(this);
+        BottomSheetDialogArtist bottomSheet = new BottomSheetDialogArtist(this, mFollowedArtists.get(clickedItemIndex));
         Bundle arguments = new Bundle();
-        arguments.putString(ARTIST_ID , mFollowedArtists.get(clickedItemIndex).getId());
         arguments.putInt(CLICKED_INDEX , clickedItemIndex);
         bottomSheet.setArguments(arguments);
         bottomSheet.show(((MainActivity)getActivity()).getSupportFragmentManager(), bottomSheet.getTag());
@@ -209,34 +242,94 @@ public class LibraryArtistsFragment extends Fragment implements RvListArtistsAda
      */
     @Override
     public void onFollowingLayoutClicked(final String id, final int clickedItemIndex) {
-        mServiceController.unFollowArtistsOrUsers
-                (getContext(), "artist", new ArrayList<String>(Collections.singletonList(id)));
-
         final Artist removedArtist = mFollowedArtists.get(clickedItemIndex);
+        unFollowedArtist = removedArtist;
 
         mFollowedArtists.remove(clickedItemIndex);
-        mAdapter.clear();
-        mAdapter.addAll(mFollowedArtists);
         mAdapter.notifyItemRemoved(clickedItemIndex);
 
-        Snackbar snack = Snackbar.make(mArtistsList, R.string.un_following_message, Snackbar.LENGTH_LONG);
-        snack.setAction(R.string.undo, new View.OnClickListener() {
+        snackCallback = new Snackbar.Callback(){
+            @Override
+            public void onDismissed(Snackbar transientBottomBar, int event) {
+                switch (event) {
+                    case Snackbar.BaseCallback.DISMISS_EVENT_TIMEOUT:
+                    case Snackbar.BaseCallback.DISMISS_EVENT_MANUAL:
+                        mServiceController.unFollowArtistsOrUsers
+                                (getContext(), "artist", new ArrayList<String>(Collections.singletonList(id)));
+                        final Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                unFollowedArtist = null;
+                            }
+                        }, 2000);
+                        break;
+                }
+                snack = null;
+            }
+        };
+
+        snack = Snackbar.make(mArtistsList, "OK, got it.", Snackbar.LENGTH_LONG).addCallback(snackCallback);
+
+        snack.setAction("UNDO", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if(!(mFollowedArtists.contains(removedArtist))){
-                            mServiceController.followArtistsOrUsers
-                                    (getContext(), "artist", new ArrayList<String>(Collections.singletonList(id)));
-                            mFollowedArtists.add(0, removedArtist);
-                            mAdapter.clear();
-                            mAdapter.addAll(mFollowedArtists);
-                            mAdapter.notifyItemInserted(0);
+                            mFollowedArtists.add(clickedItemIndex, removedArtist);
+                            mAdapter.notifyItemInserted(clickedItemIndex);
+                            unFollowedArtist = null;
+/*
                             mArtistsList.smoothScrollBy(0, -(int)Utils.convertDpToPixel(80f, getContext()));
+*/
                         }
 
                     }
                 });
 
+
         SnackbarHelper.configSnackbar(getContext(), snack, R.drawable.custom_snackbar, Color.BLACK);
         snack.show();
+    }
+
+    @Override
+    public void updateArtists(ArrayList<Artist> returnedArtists) {
+        if(unFollowedArtist != null) returnedArtists.remove(unFollowedArtist);
+
+        progressBar.setVisibility(View.GONE);
+        mArtistsList.setVisibility(View.VISIBLE);
+
+        int oldSize = mFollowedArtists.size();
+        mFollowedArtists.clear();
+        mFollowedArtists.addAll(returnedArtists);
+
+/*        mAdapter.clear();
+        mAdapter.addAll(mFollowedArtists);*/
+        mAdapter.notifyDataSetChanged();
+
+        if(oldSize < mFollowedArtists.size() && oldSize != 0)
+            mArtistsList.scrollToPosition(mFollowedArtists.size());
+
+    }
+
+    @Override
+    public void onListItemClick(int clickedItemIndex) {
+        if(snack != null){
+            snack.removeCallback(snackCallback);
+            mServiceController.unFollowArtistsOrUsers
+                    (getContext(), "artist", new ArrayList<String>(Collections.singletonList(unFollowedArtist.getId())));
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    unFollowedArtist = null;
+                }
+            }, 2000);
+            snack = null;
+        }
+        if(clickedItemIndex == mFollowedArtists.size())
+        {
+            Intent addArtistsIntent = new Intent(getContext(), AddArtistsActivity.class);
+            getActivity().startActivity(addArtistsIntent);
+        }
     }
 }

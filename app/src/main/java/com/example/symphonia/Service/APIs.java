@@ -252,12 +252,13 @@ public interface APIs {
     /**
      * Get the current user’s followed artists
      *
+     * @param listener
      * @param type  true for user and false for artist
      * @param limit he maximum number of items to return
      * @param after the last artist ID retrieved from the previous request
      * @return list of followed artists
      */
-    ArrayList<Artist> getFollowedArtists(Context context, String type, int limit, String after);
+    ArrayList<Artist> getFollowedArtists(RestApi.UpdateArtistsLibrary listener, String type, int limit, String after);
 
 
     /**

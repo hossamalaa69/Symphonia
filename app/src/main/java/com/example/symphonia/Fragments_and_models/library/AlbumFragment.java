@@ -81,6 +81,10 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
         // Required empty public constructor
     }
 
+    public AlbumFragment(Album mAlbum){
+        this.mAlbum = mAlbum;
+    }
+
     /**
      * fill all the view with album data
      *
@@ -97,12 +101,6 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
         final View rootView = inflater.inflate(R.layout.fragment_album, container, false);
 
         serviceController = ServiceController.getInstance();
-
-        final Bundle arguments = getArguments();
-        assert arguments != null;
-        String albumId = arguments.getString(ALBUM_ID);
-
-        mAlbum = serviceController.getAlbum(getContext(), albumId);
 
         ImageView backIcon = rootView.findViewById(R.id.back_icon);
         backIcon.setOnClickListener(new View.OnClickListener() {
