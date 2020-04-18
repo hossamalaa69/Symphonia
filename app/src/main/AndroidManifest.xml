@@ -31,6 +31,7 @@
         <activity
             android:name=".Activities.User_Management.ForgetPassword.EmailCheck"
             android:label="@string/check_email"
+            android:launchMode="singleTop"
             android:parentActivityName=".Activities.User_Management.ForgetPassword.ForgetPassword"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
@@ -41,6 +42,7 @@
         <activity
             android:name=".Activities.User_Management.ForgetPassword.ForgetPassword"
             android:label="@string/forgot_password"
+            android:launchMode="singleTop"
             android:parentActivityName=".Activities.User_Management.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
@@ -123,6 +125,7 @@
         <activity
             android:name=".Activities.User_Management.LoginActivity"
             android:label=""
+            android:launchMode="singleTop"
             android:parentActivityName=".Activities.User_Management.WelcomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">

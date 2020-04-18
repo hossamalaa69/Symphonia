@@ -200,6 +200,42 @@ public class RestApi implements APIs {
         void updateUiEmailValidityFail(String type);
     }
 
+    @Override
+    public boolean forgetPassword(final Context context,final String email) {
+        final updateUIForgetPassword updateUIforgetpassword = (updateUIForgetPassword) context;
+        StringRequest stringrequest = new StringRequest(Request.Method.POST, (Constants.FORGET_PASSWORD_URL),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            Toast.makeText(context, "Sent to mail", Toast.LENGTH_SHORT).show();
+                            updateUIforgetpassword.updateUIForgetPasswordSuccess();
+                        } catch (Exception e) {
+                            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(context, "invalid Email", Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("email", email);
+                return params;
+            }
+        };
+        VolleySingleton.getInstance(context).getRequestQueue().add(stringrequest);
+        return true;
+    }
+
+    public interface updateUIForgetPassword{
+        void updateUIForgetPasswordSuccess();
+    }
+
     /**
      * handles that user is signing up, initializes new user object
      * fill database with new user

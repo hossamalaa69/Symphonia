@@ -22,10 +22,7 @@ public class EmailCheck extends AppCompatActivity {
      * holds user name
      */
     private String userName;
-    /**
-     * holds user type (listener or artist)
-     */
-    private String type;
+
     /**
      * text view which holds message for user concatenating his email with
      */
@@ -43,7 +40,6 @@ public class EmailCheck extends AppCompatActivity {
         //receives user type and email from previous activity
         Bundle b = getIntent().getExtras();
         userName = b.getString("user");
-        type = b.getString("type");
 
         //get text view by id and set message+user name
         message = findViewById(R.id.message);

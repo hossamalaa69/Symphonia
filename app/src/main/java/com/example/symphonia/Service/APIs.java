@@ -68,6 +68,7 @@ public interface APIs {
             , String DOB, String gender, String name);
 
 
+    boolean forgetPassword(final Context context,String email);
     /**
      * getter for popular playlist
      *

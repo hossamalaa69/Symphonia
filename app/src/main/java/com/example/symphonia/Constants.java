@@ -25,7 +25,7 @@ public class Constants {
      * debug status for app to decide which service mode will be used
      * true for MockService, false for REST APIs mode
      */
-    public final static boolean DEBUG_STATUS = true;
+    public final static boolean DEBUG_STATUS = false;
 
     /**
      * holds base url
@@ -44,7 +44,10 @@ public class Constants {
      * holds check email exists API
      */
     public final static String EMAIL_EXISTS_URL = BASE_URL + "api/v1/users/email-exist?";
-
+    /**
+     * holds forget password API
+     */
+    public final static String FORGET_PASSWORD_URL = BASE_URL + "api/v1/users/forgotpassword?";
     /**
      * url of request to get recent playlists
      */

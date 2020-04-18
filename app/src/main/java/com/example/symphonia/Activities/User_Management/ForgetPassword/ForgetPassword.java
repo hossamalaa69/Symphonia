@@ -10,8 +10,11 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.symphonia.Constants;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
+import com.example.symphonia.Service.RestApi;
+import com.example.symphonia.Service.ServiceController;
 
 /**
  * Activity that handles Forget password page
@@ -20,7 +23,13 @@ import com.example.symphonia.R;
  * @since 4-10-2020
  * @version 1.0
  */
-public class ForgetPassword extends AppCompatActivity {
+public class ForgetPassword extends AppCompatActivity implements RestApi.updateUIForgetPassword {
+
+
+    @Override
+    public void updateUIForgetPasswordSuccess() {
+        goNext();
+    }
 
     /**
      * edit text that holds email of user
@@ -108,14 +117,21 @@ public class ForgetPassword extends AppCompatActivity {
      * @param view holds clicked view
      */
     public void sendMail(View view) {
+        if(Constants.DEBUG_STATUS)
+            goNext();
+        else {
+            email = findViewById(R.id.emailInput);
+            ServiceController serviceController = ServiceController.getInstance();
+            serviceController.forgetPassword(this,email.getText().toString());
+        }
+    }
+
+    public void goNext(){
         //get email from input text by id
         email = findViewById(R.id.emailInput);
-
         //then send it to Check Email page
         Intent i = new Intent(this, EmailCheck.class);
         i.putExtra("user", email.getText().toString());
-        i.putExtra("type",type);
         startActivity(i);
     }
-
 }

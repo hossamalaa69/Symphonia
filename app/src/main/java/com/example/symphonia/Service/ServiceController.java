@@ -71,6 +71,10 @@ public class ServiceController {
     }
 
 
+    public boolean forgetPassword(final Context context,String email){
+        return mSupplier.forgetPassword(context,email);
+    }
+
     /**
      * checks if email is already signed in database or not
      *

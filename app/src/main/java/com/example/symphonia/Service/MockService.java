@@ -415,6 +415,11 @@ public class MockService implements APIs {
         return true;
     }
 
+    @Override
+    public boolean forgetPassword(Context context, String email) {
+        return true;
+    }
+
 
     /**
      * checks if email is already signed in database or not
