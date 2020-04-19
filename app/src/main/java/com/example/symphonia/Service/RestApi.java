@@ -43,6 +43,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import android.os.Handler;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -59,6 +60,7 @@ import retrofit2.Retrofit;
 
 public class RestApi implements APIs {
 
+    private boolean finishedUnFollowing = true;
 
     @Override
     public boolean resetPassword(final Context context, final String password) {
@@ -1048,11 +1050,10 @@ public class RestApi implements APIs {
         };
         VolleySingleton.getInstance(context).getRequestQueue().add(request);*/
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .build();
+        finishedUnFollowing = false;
 
-        RetrofitApi retrofitApi = retrofit.create(RetrofitApi.class);
+        RetrofitSingleton retrofitSingleton = RetrofitSingleton.getInstance();
+        RetrofitApi retrofitApi = retrofitSingleton.getRetrofitApi();
 
         Map<String, String> headers = new HashMap<>();
         headers.put("Authorization", "Bearer " + Constants.currentToken);
@@ -1068,11 +1069,12 @@ public class RestApi implements APIs {
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull retrofit2.Response<Void> response) {
                 //Toast.makeText(context, "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                finishedUnFollowing = true;
             }
 
             @Override
             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-
+                finishedUnFollowing = true;
             }
         });
     }
@@ -1109,7 +1111,7 @@ public class RestApi implements APIs {
         builder.appendQueryParameter("limit", String.valueOf(limit));
         builder.appendQueryParameter("offset", String.valueOf(offset));
 
-        StringRequest request = new StringRequest(Request.Method.GET, builder.toString(), new Response.Listener<String>() {
+        final StringRequest request = new StringRequest(Request.Method.GET, builder.toString(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -1145,7 +1147,18 @@ public class RestApi implements APIs {
             }
 
         };
-        VolleySingleton.getInstance(context).getRequestQueue().add(request);
+        if(finishedUnFollowing)
+            VolleySingleton.getInstance(context).getRequestQueue().add(request);
+        else {
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    VolleySingleton.getInstance(context).getRequestQueue().add(request);
+                    finishedUnFollowing = false;
+                }
+            }, 1000);
+        }
         return recommendedArtists;
     }
 

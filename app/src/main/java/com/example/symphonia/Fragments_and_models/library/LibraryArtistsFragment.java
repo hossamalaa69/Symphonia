@@ -28,6 +28,7 @@ import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Adapters.RvListArtistsAdapter;
 import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -254,6 +255,8 @@ public class LibraryArtistsFragment extends Fragment implements RvListArtistsAda
                 switch (event) {
                     case Snackbar.BaseCallback.DISMISS_EVENT_TIMEOUT:
                     case Snackbar.BaseCallback.DISMISS_EVENT_MANUAL:
+                    case Snackbar.BaseCallback.DISMISS_EVENT_CONSECUTIVE:
+                    case Snackbar.BaseCallback.DISMISS_EVENT_SWIPE:
                         mServiceController.unFollowArtistsOrUsers
                                 (getContext(), "artist", new ArrayList<String>(Collections.singletonList(id)));
                         final Handler handler = new Handler();
@@ -323,13 +326,19 @@ public class LibraryArtistsFragment extends Fragment implements RvListArtistsAda
                 public void run() {
                     unFollowedArtist = null;
                 }
-            }, 2000);
+            }, 1000);
             snack = null;
         }
         if(clickedItemIndex == mFollowedArtists.size())
         {
             Intent addArtistsIntent = new Intent(getContext(), AddArtistsActivity.class);
             getActivity().startActivity(addArtistsIntent);
+        }
+        else {
+            ((MainActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(
+                    R.id.nav_host_fragment, new ArtistFragment())
+                    .addToBackStack(null)
+                    .commit();
         }
     }
 }
