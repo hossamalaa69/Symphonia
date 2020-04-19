@@ -3,6 +3,7 @@ package com.example.symphonia.Activities.User_Interface;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -15,7 +16,9 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -88,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     private RecyclerView rvBar;
     private RvBarAdapter barAdapter;
     private ImageView ivIsFavourite;
-    private ImageView ivPlayButton;
     private View playBar;
     /**
      * image of track in playbar
@@ -121,7 +123,10 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
      * layout of settings
      */
     View linearLayout;
-
+    FrameLayout playBarBtnFrame;
+    ImageView playBtn;
+    ImageView pauseBtn;
+    ProgressBar progressBar;
 
     /**
      * this function is called when user click on like item in settings of track
@@ -357,6 +362,12 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         Bundle b = getIntent().getExtras();
         checkUserType(b);
 
+        playBtn = new ImageView(this);
+        playBtn.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+        pauseBtn = new ImageView(this);
+        pauseBtn.setImageResource(R.drawable.ic_pause_black_24dp);
+        progressBar = new ProgressBar(this);
+
         // initialize bottom navigation view
         initBottomNavView();
 
@@ -432,10 +443,10 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         @Override
         public void run() {
             //     updatePlayBar();
-            if (!Utils.CurrTrackInfo.paused ||
-                    (mediaController.isMediaNotNull() && mediaController.isMediaPlayerPlaying())) {
+            if ((mediaController.isMediaNotNull() && mediaController.isMediaPlayerPlaying())) {
                 updatePlayBtn();
             }
+
 
             mHandler.postDelayed(this, 500);
         }
@@ -489,9 +500,11 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             if (Utils.CurrTrackInfo.TrackPosInPlaylist != -1)
                 rvBar.getLayoutManager().scrollToPosition(Utils.CurrTrackInfo.TrackPosInPlaylist);
             if (mediaController.isMediaPlayerPlaying() && !Utils.CurrTrackInfo.paused) {
-                ivPlayButton.setImageResource(R.drawable.ic_pause_black_24dp);
+                playBarBtnFrame.removeAllViews();
+                playBarBtnFrame.addView(pauseBtn);
             } else {
-                ivPlayButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+                playBarBtnFrame.removeAllViews();
+                playBarBtnFrame.addView(playBtn);
             }
         }
         if (ivIsFavourite != null && Utils.CurrTrackInfo.track != null) {
@@ -518,7 +531,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         Intent intent = new Intent(this, MediaController.class);
         intent.setAction(MediaController.ACTION_PLAY);
         startService(intent);
-        updatePlayBtn();
         MediaController.setOnCompletionListener(onCompletionListener);
     }
 
@@ -561,7 +573,8 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         else
             trackImage.setImageResource(Utils.CurrTrackInfo.track.getmImageResources());
         rvBar.getLayoutManager().scrollToPosition(pos);
-        ivPlayButton.setImageResource(R.drawable.ic_pause_black_24dp);
+        playBarBtnFrame.removeAllViews();
+        playBarBtnFrame.addView(pauseBtn);
 
 
         Utils.setTrackInfo(0, pos, tracks);
@@ -582,14 +595,20 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
      * this function is called to play track in both Mock and Rest API
      */
     public void startTrack() {
+        playBarBtnFrame.removeAllViews();
+        playBarBtnFrame.addView(progressBar);
+        playBarBtnFrame.setOnClickListener(null);
         Utils.CurrTrackInfo.paused = false;
-        if (Constants.DEBUG_STATUS)
+        if (Constants.DEBUG_STATUS) {
             playTrack();
+        }
         else {
             Utils.CurrTrackInfo.loading = true;
             if (mediaController.isMediaPlayerPlaying())
                 mediaController.releaseMedia();
+
             ServiceController.getInstance().playTrack(this, null, null, null, null);
+
         }
     }
 
@@ -628,36 +647,42 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                 startActivity(intent);
             }
         });
-        ivPlayButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mediaController.isMediaPlayerPlaying()) {
-                    ivPlayButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
-                    Utils.CurrTrackInfo.paused = true;
-                    mediaController.pauseMedia();
-                } else {
-                    ivPlayButton.setImageResource(R.drawable.ic_pause_black_24dp);
-                    Utils.CurrTrackInfo.paused = false;
-                    if (mediaController.isMediaNotNull())
-                        mediaController.resumeMedia();
-                    else {
-                        startTrack();
-                        if (playlistFragment.isVisible()) {
-                            playlistFragment.changeSelected(-1, Utils.CurrTrackInfo.TrackPosInPlaylist);
-                        }
-                    }
-
-                }
-            }
-        });
-
+        playBarBtnFrame.setOnClickListener(playBtnListener);
     }
+
+    View.OnClickListener playBtnListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (mediaController.isMediaPlayerPlaying()) {
+                playBarBtnFrame.removeAllViews();
+                playBarBtnFrame.addView(playBtn);
+                Utils.CurrTrackInfo.paused = true;
+                mediaController.pauseMedia();
+            } else {
+                playBarBtnFrame.removeAllViews();
+                playBarBtnFrame.addView(pauseBtn);
+                Utils.CurrTrackInfo.paused = false;
+                if (mediaController.isMediaNotNull())
+                    mediaController.resumeMedia();
+                else {
+                    startTrack();
+                    if (playlistFragment.isVisible()) {
+                        playlistFragment.changeSelected(-1, Utils.CurrTrackInfo.TrackPosInPlaylist);
+                    }
+                }
+
+            }
+        }
+    };
+
 
     /**
      * this function updates playButton to playing
      */
     private void updatePlayBtn() {
-        ivPlayButton.setImageResource(R.drawable.ic_pause_black_24dp);
+        playBarBtnFrame.removeAllViews();
+        playBarBtnFrame.addView(pauseBtn);
+        playBarBtnFrame.setOnClickListener(playBtnListener);
     }
 
     /**
@@ -674,11 +699,12 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                     Utils.CurrTrackInfo.TrackPosInPlaylist = i;
                     Utils.setTrackInfo(0, Utils.CurrTrackInfo.TrackPosInPlaylist, Utils.CurrTrackInfo.currPlaylistTracks);
                     rvBar.getLayoutManager().scrollToPosition(Utils.CurrTrackInfo.TrackPosInPlaylist);
-                    startTrack();
+
                     if (playlistFragment != null && playlistFragment.isVisible()) {
                         playlistFragment.changeSelected(prevPos, Utils.CurrTrackInfo.TrackPosInPlaylist);
                     }
                     updatePlayBar();
+                    startTrack();
                     return;
                 }
             }
@@ -742,9 +768,8 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         layoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
         rvBar.setLayoutManager(layoutManager);
         rvBar.setHasFixedSize(true);
-
+        playBarBtnFrame = playBar.findViewById(R.id.play_btn_parent_play_bar);
         trackImage = playBar.findViewById(R.id.iv_track_image_bar);
-        ivPlayButton = playBar.findViewById(R.id.iv_play_track_bar);
         ivIsFavourite = playBar.findViewById(R.id.iv_like_track_bar);
     }
 

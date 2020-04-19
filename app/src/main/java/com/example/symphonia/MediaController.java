@@ -166,12 +166,9 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
             Log.e("media", "init");
 
             if (!Constants.DEBUG_STATUS) {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + Constants.currentToken);
-                // headers.put("Content-Type", "application/json");
-
+                 Log.e("media", "setting data resource");
                 mediaPlayer.setDataSource(getApplicationContext(),
-                        Uri.parse(Constants.PLAY_TRACK + "5e8a1e0f7937ec4d40c6deba"), headers);
+                        Uri.parse(Constants.PLAY_TRACK +Utils.CurrTrackInfo.track.getId()+"/"+ Utils.CurrTrackInfo.trackTocken));
             } else
                 mediaPlayer.setDataSource(getApplicationContext(), Utils.CurrTrackInfo.track.getUri());
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -185,7 +182,6 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
             e.printStackTrace();
             makeToast(getApplicationContext().getResources().getString(R.string.cant_play));
             Log.e("media", "exception");
-
             mediaPlayer.reset();
         }
 

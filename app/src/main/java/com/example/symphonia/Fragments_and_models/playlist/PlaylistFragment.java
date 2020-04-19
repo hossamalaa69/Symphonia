@@ -122,7 +122,8 @@ public class PlaylistFragment extends Fragment {
                             Utils.CurrTrackInfo.TrackPosInPlaylist) == null) return;
                     TextView title = (TextView) rvTracks.getChildAt(
                             Utils.CurrTrackInfo.TrackPosInPlaylist).findViewById(R.id.tv_track_title_item);
-                    if (((String) title.getText()).matches(Utils.CurrTrackInfo.track.getmTitle()))
+                    if (((String) title.getText()).matches(Utils.CurrTrackInfo.track.getmTitle())&&
+                            Utils.CurrPlaylist.playlist.getmPlaylistTitle().matches(Utils.CurrTrackInfo.track.getPlaylistName()))
                         title.setTextColor(getContext().getResources().getColor(R.color.colorGreen));
                 }
                 // unregister listener (this is important)

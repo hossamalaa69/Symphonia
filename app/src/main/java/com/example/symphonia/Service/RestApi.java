@@ -617,16 +617,21 @@ public class RestApi implements APIs {
     @Override
     public void playTrack(final Context context, String id, String context_id, String context_url, String context_type) {
         final updateUiPlaylists listener = (updateUiPlaylists) context;
-
-        final StringRequest request = new StringRequest(Request.Method.GET, Constants.PLAY_TRACK.concat("5e8a1e0f7937ec4d40c6deba")
+        final StringRequest request = new StringRequest(Request.Method.POST, Constants.PLAY_TRACK.concat("5e8a1e0f7937ec4d40c6deba")
                 , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Utils.CurrTrackInfo.currPlaylistTracks.get(Utils.CurrTrackInfo.TrackPosInPlaylist).setUri(Uri.parse(response));
                 Utils.CurrTrackInfo.loading = false;
-                listener.updateUiPlayTrack();
-                Log.e("play", "success");
-
+                JSONObject obj;
+                try {
+                    obj = new JSONObject(response);
+                    Utils.CurrTrackInfo.trackTocken = obj.getString("data");
+                    listener.updateUiPlayTrack();
+                    Log.e("play", "success");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -646,7 +651,7 @@ public class RestApi implements APIs {
 
             @Override
             public String getBodyContentType() {
-                return "{\"contextId\": \"5e701fdf2672a63a60573a06\",\"context_type\": \"album\",\"context_url\": \"https://thesymphonia.ddns.net/\",\"device\": \"android\"}";
+                return "{\"contextId\": \""+ Utils.CurrTrackInfo.track.getmAlbumId() +",\"context_type\": \"album\",\"context_url\": \"https://thesymphonia.ddns.net/\",\"device\": \"android\"}";
             }
         };
 
@@ -673,20 +678,19 @@ public class RestApi implements APIs {
                     Log.e("tracks", "respond");
                     Utils.LoadedPlaylists.randomPlaylists = new ArrayList<>();
                     JSONArray root = new JSONArray(response);
-                    JSONObject firstElement = root.getJSONObject(0);
-                    JSONArray tracks = firstElement.getJSONArray("tracks");
-                    for (int i = 0; i < tracks.length(); i++) {
-                        JSONObject track = tracks.getJSONObject(i);
+                    for (int i = 0; i < root.length(); i++) {
+                        JSONObject track = root.getJSONObject(i);
                         String title = track.getString("name");
                         String id = track.getString("_id");
                         JSONObject album = track.getJSONObject("album");
                         String imageUrl = album.getString("image");
+                        String albumId = album.getString("_id");
                         JSONObject artist = track.getJSONObject("artist");
                         String artistName = artist.getString("name");
                         int duration = track.getInt("durationMs");
                         String premium = track.getString("premium");
                         tracksList.add(new Track(title, artistName, Utils.CurrPlaylist.playlist.getmPlaylistTitle()
-                                , id, (premium.matches("true")), R.drawable.no_image, duration, imageUrl));
+                                , id, (premium.matches("true")), R.drawable.no_image, duration, imageUrl,albumId));
                     }
                     Utils.CurrPlaylist.playlist.setTracks(tracksList);
                     Log.e("tracks", "success");

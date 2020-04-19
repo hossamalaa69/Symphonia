@@ -48,6 +48,16 @@ public class HomeFragment extends Fragment {
 
     private View root;
 
+    private ArrayList<Playlist> popularPlaylists;
+    private ArrayList<Playlist> recentPlaylists;
+    private ArrayList<Playlist> madeForYouPlaylists;
+    private TextView playlistTitle;
+
+    /**
+     * random playlists
+     */
+    private ArrayList<Playlist> playlists;
+
     /**
      * inflate view of fragment
      *
@@ -67,10 +77,9 @@ public class HomeFragment extends Fragment {
             initViews();
             progressPar.setVisibility(View.GONE);
         } else {
+            hideViews();
             loadAllPlaylists();
         }
-
-
         final ImageView ivSettings = root.findViewById(R.id.iv_setting_home);
         ivSettings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,32 +115,30 @@ public class HomeFragment extends Fragment {
     }
 
     /**
-     * load data from service
+     * this function hides views untill data is loaded
      */
-    public void loadAllPlaylists() {
-        ServiceController SController = ServiceController.getInstance();
-        playlists = SController.getRandomPlaylists(getContext(), this);
-        //   popularPlaylists = SController.getPopularPlaylists(getContext(), Constants.currentToken);
-        recentPlaylists = SController.getRecentPlaylists(getContext(), this);
-        //   madeForYouPlaylists = SController.getMadeForYoutPlaylists(getContext(), Constants.currentToken);
-        //hide data of playlists commented
-        View view = root.findViewById(R.id.popular_playlist_playlist);
+    private  void hideViews()
+    {
+        View view = root.findViewById(R.id.recently_played_playlist);
+        rvRecentlyPlayed = view.findViewById(R.id.rv_sample_home);
+        playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
+        playlistTitle.setVisibility(View.GONE);
+        view = root.findViewById(R.id.your_heavy_rotation_playlist);
+        rvHeavyPlaylist = view.findViewById(R.id.rv_sample_home);
+        playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
+        playlistTitle.setVisibility(View.GONE);
+        view = root.findViewById(R.id.based_on_your_recently_listening_playlist);
+        rvBasedOnYourRecentlyPlayed = view.findViewById(R.id.rv_sample_home);
         playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
         playlistTitle.setVisibility(View.GONE);
         view = root.findViewById(R.id.made_for_you_playlist);
+        rvMadeForYou = view.findViewById(R.id.rv_sample_home);
         playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
         playlistTitle.setVisibility(View.GONE);
 
+
     }
 
-    /**
-     * random playlists
-     */
-    private ArrayList<Playlist> playlists;
-    private ArrayList<Playlist> popularPlaylists;
-    private ArrayList<Playlist> recentPlaylists;
-    private ArrayList<Playlist> madeForYouPlaylists;
-    private TextView playlistTitle;
 
     /**
      * this function initialize views for fragment
@@ -159,6 +166,27 @@ public class HomeFragment extends Fragment {
     private View progressPar;
 
     /**
+     * load data from service
+     */
+    public void loadAllPlaylists() {
+        ServiceController SController = ServiceController.getInstance();
+
+        //   popularPlaylists = SController.getPopularPlaylists(getContext(), Constants.currentToken);
+        //   madeForYouPlaylists = SController.getMadeForYoutPlaylists(getContext(), Constants.currentToken);
+        playlists = SController.getRandomPlaylists(getContext(), this);
+        recentPlaylists = SController.getRecentPlaylists(getContext(), this);
+
+        //hide data of playlists commented
+        View view = root.findViewById(R.id.popular_playlist_playlist);
+        playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
+        playlistTitle.setVisibility(View.GONE);
+        view = root.findViewById(R.id.made_for_you_playlist);
+        playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
+        playlistTitle.setVisibility(View.GONE);
+
+    }
+
+    /**
      * this function updates ui of recent playlists
      */
     public void updateRecentPlaylists() {
@@ -169,12 +197,44 @@ public class HomeFragment extends Fragment {
         View view = root.findViewById(R.id.recently_played_playlist);
         rvRecentlyPlayed = view.findViewById(R.id.rv_sample_home);
         playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
+        playlistTitle.setVisibility(View.VISIBLE);
         playlistTitle.setText(R.string.recently_played);
         rvRecentlyPlayed.setLayoutManager(layoutManager);
         rvPlaylistsHomeAdapter = new RvPlaylistsHomeAdapter(getContext(), recentPlaylists);
         rvRecentlyPlayed.setAdapter(rvPlaylistsHomeAdapter);
     }
 
+
+    /**
+     * this function updates ui of random playlists
+     */
+    public void updateRandomPlaylists() {
+
+        //heavy playlist
+        if (!Constants.DEBUG_STATUS)
+            playlists = Utils.LoadedPlaylists.randomPlaylists;
+        layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
+        View view = root.findViewById(R.id.your_heavy_rotation_playlist);
+        rvHeavyPlaylist = view.findViewById(R.id.rv_sample_home);
+        playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
+        playlistTitle.setText(R.string.heavy_playlist);
+        playlistTitle.setVisibility(View.VISIBLE);
+
+        rvHeavyPlaylist.setLayoutManager(layoutManager);
+        rvPlaylistsHomeAdapter = new RvPlaylistsHomeAdapter(getContext(), playlists);
+        rvHeavyPlaylist.setAdapter(rvPlaylistsHomeAdapter);
+        // based on your recently played
+        layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
+        view = root.findViewById(R.id.based_on_your_recently_listening_playlist);
+        rvBasedOnYourRecentlyPlayed = view.findViewById(R.id.rv_sample_home);
+        playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
+        playlistTitle.setVisibility(View.VISIBLE);
+        playlistTitle.setText(R.string.based_on_your_recently_played);
+        rvBasedOnYourRecentlyPlayed.setLayoutManager(layoutManager);
+        rvPlaylistsHomeAdapter = new RvPlaylistsHomeAdapter(getContext(), playlists);
+        rvBasedOnYourRecentlyPlayed.setAdapter(rvPlaylistsHomeAdapter);
+
+    }
 
     /**
      * this function updates ui of popular playlists
@@ -187,6 +247,7 @@ public class HomeFragment extends Fragment {
         View view = root.findViewById(R.id.popular_playlist_playlist);
         rvPopularPlaylist = view.findViewById(R.id.rv_sample_home);
         playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
+        playlistTitle.setVisibility(View.VISIBLE);
         playlistTitle.setText(R.string.popular_playlist);
         rvPopularPlaylist.setLayoutManager(layoutManager);
         rvPlaylistsHomeAdapter = new RvPlaylistsHomeAdapter(getContext(), popularPlaylists);
@@ -206,6 +267,7 @@ public class HomeFragment extends Fragment {
         View view = root.findViewById(R.id.made_for_you_playlist);
         rvMadeForYou = view.findViewById(R.id.rv_sample_home);
         playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
+        playlistTitle.setVisibility(View.VISIBLE);
         playlistTitle.setText(R.string.made_for_you);
         rvMadeForYou.setLayoutManager(layoutManager);
         rvPlaylistsHomeAdapter = new RvPlaylistsHomeAdapter(getContext(), madeForYouPlaylists);
@@ -213,44 +275,4 @@ public class HomeFragment extends Fragment {
 
     }
 
-
-    /**
-     * this function updates ui of random playlists
-     */
-    public void updateRandomPlaylists() {
-
-        //heavy playlist
-        if (!Constants.DEBUG_STATUS)
-            playlists = Utils.LoadedPlaylists.randomPlaylists;
-        layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
-        View view = root.findViewById(R.id.your_heavy_rotation_playlist);
-        rvHeavyPlaylist = view.findViewById(R.id.rv_sample_home);
-        playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
-        playlistTitle.setText(R.string.heavy_playlist);
-        rvHeavyPlaylist.setLayoutManager(layoutManager);
-        rvPlaylistsHomeAdapter = new RvPlaylistsHomeAdapter(getContext(), playlists);
-        rvHeavyPlaylist.setAdapter(rvPlaylistsHomeAdapter);
-        // based on your recently played
-        layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
-        view = root.findViewById(R.id.based_on_your_recently_listening_playlist);
-        rvBasedOnYourRecentlyPlayed = view.findViewById(R.id.rv_sample_home);
-        playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
-        playlistTitle.setText(R.string.based_on_your_recently_played);
-        rvBasedOnYourRecentlyPlayed.setLayoutManager(layoutManager);
-        rvPlaylistsHomeAdapter = new RvPlaylistsHomeAdapter(getContext(), playlists);
-        rvBasedOnYourRecentlyPlayed.setAdapter(rvPlaylistsHomeAdapter);
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        ((MainActivity)getActivity()).setRoot(true);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        ((MainActivity)getActivity()).setRoot(false);
-    }
 }

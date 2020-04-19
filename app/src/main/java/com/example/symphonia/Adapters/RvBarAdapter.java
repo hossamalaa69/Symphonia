@@ -108,7 +108,7 @@ public class RvBarAdapter extends RecyclerView.Adapter<RvBarAdapter.BarHolder> {
      */
     @Override
     public int getItemCount() {
-        return tracks.size();
+        return (tracks!=null)?tracks.size():0;
     }
 
     /**

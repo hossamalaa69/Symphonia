@@ -126,6 +126,7 @@ public class Utils {
          * current second of playing track
          */
         public static int currPlayingPos =0;
+        public static String trackTocken= null;
     }
 
 

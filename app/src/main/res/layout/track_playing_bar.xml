@@ -30,8 +30,8 @@
         android:id="@+id/iv_like_track_bar"
         android:layout_width="?android:actionBarSize"
         android:layout_height="match_parent"
-        android:layout_toStartOf="@id/iv_play_track_bar"
-        android:layout_toLeftOf="@id/iv_play_track_bar"
+        android:layout_toStartOf="@id/play_btn_parent_play_bar"
+        android:layout_toLeftOf="@id/play_btn_parent_play_bar"
         android:paddingStart="@dimen/large_dimen"
         android:paddingLeft="@dimen/large_dimen"
         android:paddingTop="@dimen/large_dimen"
@@ -40,8 +40,8 @@
         android:paddingBottom="@dimen/large_dimen"
         android:src="@drawable/ic_favorite_border_black_24dp" />
 
-    <ImageView
-        android:id="@+id/iv_play_track_bar"
+    <FrameLayout
+        android:id="@+id/play_btn_parent_play_bar"
         android:layout_width="?android:actionBarSize"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
@@ -51,7 +51,7 @@
         android:paddingTop="@dimen/large_dimen"
         android:paddingEnd="@dimen/large_dimen"
         android:paddingRight="@dimen/large_dimen"
-        android:paddingBottom="@dimen/large_dimen"
-        android:src="@drawable/ic_play_arrow_black_24dp" />
+        android:paddingBottom="@dimen/large_dimen">
 
+    </FrameLayout>
 </RelativeLayout>

@@ -12,6 +12,13 @@ import java.io.Serializable;
  * @since 22-3-2020
  */
 public class Track implements Serializable {
+    /**
+     * id of album to which track belongs
+     */
+    private  String mAlbumId;
+    /**
+     * url of image
+     */
     private String imageUrl;
     /**
      * title of tack
@@ -149,6 +156,37 @@ public class Track implements Serializable {
         this.playlistName = playlistName;
         this.mImageResources = mImageResources;
         this.mDuration = mDuration;
+    }
+    /**
+     * non empty constructor
+     *
+     * @param mTitle          title of track
+     * @param playlistName    name of playlsit
+     * @param mImageResources image resources of track
+     * @param mArtist         description of track
+     * @param isLocked        is track locked
+     * @param mDuration       duration of track
+     * @param albumId         id of album to which track belongs
+     */
+    public Track(String mTitle, String mArtist, String playlistName, String id, boolean isLocked, int mImageResources, int mDuration, String imageUrl,String albumId) {
+        this.mTitle = mTitle;
+        this.mArtist = mArtist;
+        this.locked = isLocked;
+        this.id = id;
+        this.imageUrl = imageUrl;
+        this.playlistName = playlistName;
+        this.mImageResources = mImageResources;
+        this.mDuration = mDuration;
+        this.mAlbumId = albumId;
+    }
+
+    /**
+     * getter fo album id of track
+     *
+     * @return url of album id  of track
+     */
+    public String getmAlbumId() {
+        return mAlbumId;
     }
 
     /**

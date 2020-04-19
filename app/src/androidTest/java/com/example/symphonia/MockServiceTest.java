@@ -734,30 +734,6 @@ public class MockServiceTest {
 
     }
 
-
-/*
-    @Test
-    public void isOnlineTest() {
-        MainActivity activity = new MainActivity();
-        ConnectivityManager connMgr = (ConnectivityManager) activity.getSystemService(activity.CONNECTIVITY_SERVICE);
-        if (connMgr != null) {
-            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-            assertEquals(networkInfo != null && networkInfo.isConnectedOrConnecting(), activity.isOnline());
-            ;
-        }
-    }
-    @Test
-    public void isOnlineTestFails() {
-        MainActivity activity = new MainActivity();
-        ConnectivityManager connMgr = (ConnectivityManager) activity.getSystemService(activity.CONNECTIVITY_SERVICE);
-        if (connMgr != null) {
-            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-            assertNotEquals(networkInfo != null && networkInfo.isConnectedOrConnecting(), activity.isOnline());
-            ;
-        }
-    }*/
-
-
     @Test
     public void getPopularPlaylists() {
         ArrayList<Playlist> testPlaylists = new ArrayList<>();
