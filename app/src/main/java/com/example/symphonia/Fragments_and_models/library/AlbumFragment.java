@@ -110,7 +110,6 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
             }
         });
 
-
         saveIcon = rootView.findViewById(R.id.save_icon);
         if(serviceController.checkUserSavedAlbums(getContext(),
                 new ArrayList<String>(Collections.singletonList(mAlbum.getAlbumId()))).get(0))

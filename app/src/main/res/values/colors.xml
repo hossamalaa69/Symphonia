@@ -25,4 +25,5 @@
     <color name="artist_not_found_small_text">#959595</color>
     <color name="album_tracks_color">#B2B2B2</color>
     <color name="transparentBlack">#40000000</color>
+    <color name="track_preview_background">#282828</color>
 </resources>

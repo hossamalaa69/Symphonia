@@ -16,13 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".Activities.User_Management.ForgetPassword.ResetPassword"
-            android:screenOrientation="portrait"
+        <activity android:name=".Activities.User_Interface.TracksPreview" android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".Activities.User_Management.ForgetPassword.ResetPassword"
             android:label="@string/reset_password"
-            android:theme="@style/AppTheme.NoActionBar"
-        />
-
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Helpers.AdDialog"
             android:theme="@style/Theme.UserDialog" />
