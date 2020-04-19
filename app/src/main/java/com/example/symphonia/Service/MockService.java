@@ -421,7 +421,7 @@ public class MockService implements APIs {
     }
 
     @Override
-    public boolean resetPassword(Context context, String password) {
+    public boolean resetPassword(Context context, String password,final String token) {
         return false;
     }
 

@@ -229,5 +229,6 @@
     <string name="open_email_app">OPEN EMAIL APP</string>
     <string name="reset_password">Reset Password</string>
     <string name="save">Save</string>
+    <string name="token_is_expired">Token is expired</string>
 
 </resources>

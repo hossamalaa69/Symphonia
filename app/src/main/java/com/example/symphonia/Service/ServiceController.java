@@ -75,8 +75,8 @@ public class ServiceController {
         return mSupplier.forgetPassword(context,email);
     }
 
-    public boolean resetPassword(final Context context,final String password){
-        return mSupplier.resetPassword(context,password);
+    public boolean resetPassword(final Context context,final String password,final String token){
+        return mSupplier.resetPassword(context,password,token);
     }
 
     /**

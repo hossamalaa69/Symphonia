@@ -112,7 +112,6 @@ public class StartActivity extends AppCompatActivity {
         Uri appLinkData = appLinkIntent.getData();
         if(appLinkData!=null){
             String newToken = appLinkData.getLastPathSegment();
-            Toast.makeText(this,"new token"+newToken,Toast.LENGTH_SHORT).show();
             Intent i = new Intent(this, ResetPassword.class);
             i.putExtra("token",newToken);
             startActivity(i);

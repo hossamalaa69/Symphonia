@@ -49,6 +49,11 @@ public class Constants {
      */
     public final static String FORGET_PASSWORD_URL = BASE_URL + "api/v1/users/forgotpassword?";
     /**
+     * holds reset password API
+     */
+    public final static String RESET_PASSWORD_URL = BASE_URL + "api/v1/users/resetpassword/";
+
+    /**
      * url of request to get recent playlists
      */
     public static final String GET_RECENT_PLAYLISTS = BASE_URL + "api/v1/me/recently-played";

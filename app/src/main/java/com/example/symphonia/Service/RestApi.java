@@ -16,6 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.example.symphonia.Activities.User_Management.ForgetPassword.ResetPassword;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
@@ -35,6 +36,8 @@ import com.example.symphonia.Fragments_and_models.settings.SettingsFragment;
 import com.example.symphonia.Helpers.App;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,6 +48,7 @@ import java.util.HashMap;
 import java.util.Map;
 import android.os.Handler;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
@@ -62,18 +66,6 @@ public class RestApi implements APIs {
 
     private boolean finishedUnFollowing = true;
 
-    @Override
-    public boolean resetPassword(final Context context, final String password) {
-        final updateUIResetPassword updateuiResetPassword = (updateUIResetPassword) context;
-
-
-        return true;
-    }
-
-    public interface updateUIResetPassword{
-        void updateUIResetSuccess();
-        void updateUIResetFailed();
-    }
     /**
      * holds logging user in, creation of user object and sets token
      *
@@ -1079,6 +1071,74 @@ public class RestApi implements APIs {
         });
     }
 
+
+    @Override
+    public boolean resetPassword(final Context context, final String password,final String token) {
+        final updateUIResetPassword updateuiResetPassword = (updateUIResetPassword) context;
+
+        RetrofitSingleton retrofitSingleton = RetrofitSingleton.getInstance();
+        RetrofitApi retrofitApi = retrofitSingleton.getRetrofitApi();
+
+        Map<String, String> passwords = new HashMap<>();
+        passwords.put("password", password);
+        passwords.put("passwordConfirm", password);
+
+        Call<JsonObject> call = retrofitApi.resetPassword(token,passwords);
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
+
+                if (response.code() == 200) {
+                    try {
+                        Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
+                        JSONObject root = new JSONObject(new Gson().toJson(response.body()));
+                        Constants.currentToken = root.getString("token");
+                        JSONObject user = root.getJSONObject("user");
+                        String id = user.getString("_id");
+                        String name = user.getString("name");
+                        String type = user.getString("type");
+                        String image = user.getString("imageUrl");
+                        String email = user.getString("email");
+                        boolean premium = false;
+                        boolean mType = true;
+                        if (type.equals("premium-user")) {
+                            premium = true;
+                            type = "user";
+                        } else if (type.equals("artist")) {
+                            premium = true;
+                            mType = false;
+                        }
+
+                        Constants.currentUser = new User(email, id, name, mType, premium);
+                        Constants.currentUser.setUserType(type);
+                        Constants.currentUser.setImageUrl(image);
+                        updateuiResetPassword.updateUIResetSuccess();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(context,R.string.error , Toast.LENGTH_SHORT).show();
+                        updateuiResetPassword.updateUIResetFailed();
+                    }
+                }
+                else{
+                    Toast.makeText(context, R.string.token_is_expired, Toast.LENGTH_SHORT).show();
+                    updateuiResetPassword.updateUIResetFailed();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                updateuiResetPassword.updateUIResetFailed();
+            }
+        });
+
+        return true;
+    }
+    public interface updateUIResetPassword{
+        void updateUIResetSuccess();
+        void updateUIResetFailed();
+    }
     /**
      * Check to see if the current user is following an artist or more or other users
      *
