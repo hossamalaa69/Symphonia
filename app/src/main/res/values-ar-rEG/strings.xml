@@ -226,5 +226,8 @@
     <string name="SmS">رسالة قصيرة</string>
     <string name="copylink">انسخ الرابط</string>
     <string name="more">المزيد</string>
+    <string name="open_email_app">OPEN EMAIL APP</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="save">Save</string>
 
 </resources>

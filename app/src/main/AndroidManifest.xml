@@ -16,6 +16,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
+        <activity android:name=".Activities.User_Management.ForgetPassword.ResetPassword"
+            android:screenOrientation="portrait"
+            android:label="@string/reset_password"
+            android:theme="@style/AppTheme.NoActionBar"
+        />
+
         <activity
             android:name=".Helpers.AdDialog"
             android:theme="@style/Theme.UserDialog" />
@@ -27,7 +34,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
             android:name=".Activities.User_Management.ForgetPassword.EmailCheck"
             android:label="@string/check_email"
@@ -139,26 +145,39 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan">
-
             <intent-filter>
                 <action android:name="android.intent.action.SENDTO" />
+
                 <data android:scheme="mailto" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
             android:name=".Activities.User_Interface.StartActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="thesymphonia.ddns.net"
+                    android:pathPrefix="/password-reset/change/"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".Activities.User_Interface.SplashScreenActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
-                      <intent-filter>
-                            <action android:name="android.intent.action.MAIN" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-                            <category android:name="android.intent.category.LAUNCHER" />
-                        </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

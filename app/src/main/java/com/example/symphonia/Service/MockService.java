@@ -420,6 +420,11 @@ public class MockService implements APIs {
         return true;
     }
 
+    @Override
+    public boolean resetPassword(Context context, String password) {
+        return false;
+    }
+
 
     /**
      * checks if email is already signed in database or not

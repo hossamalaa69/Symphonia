@@ -50,8 +50,7 @@ public class EmailCheck extends AppCompatActivity {
      * Holds listener for open email button
      * @param view which contains pressed view
      */
-    public void openGMail(View view) {
-
+    public void openGmail(View view) {
         //send user to GMail application on mobile
         Intent intent = getPackageManager().getLaunchIntentForPackage("com.google.android.gm");
         startActivity(intent);

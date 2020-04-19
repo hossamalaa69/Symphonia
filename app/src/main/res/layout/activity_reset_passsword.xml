@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorDark"
-    android:orientation="vertical"
+    android:background="@drawable/gradient"
     android:padding="20dp"
-    tools:context=".Activities.User_Management.SignUp.Step2Activity">
+    tools:context=".Activities.User_Management.ForgetPassword.ResetPassword">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="@string/create_a_password"
+        android:text="@string/reset_password"
         android:textColor="@color/colorWhite"
         app:autoSizeTextType="uniform"
         app:autoSizeMinTextSize="16sp"
@@ -49,17 +49,26 @@
         android:layout_marginTop="5dp"
         />
     <Button
-        android:id="@+id/next"
-        android:onClick="openNext"
+        android:id="@+id/save"
+        android:onClick="goHome"
         android:layout_width="150dp"
         android:layout_height="55dp"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
         android:background="@drawable/btn_curved_gray"
         android:enabled="false"
-        android:text="@string/next"
+        android:text="@string/save"
         android:textColor="@color/colorGradient2"
         android:textSize="18sp"
         android:textStyle="bold" />
+            <ProgressBar
+                android:layout_marginTop="5dp"
+                android:id="@+id/progress_bar"
+                android:layout_gravity="center"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:visibility="gone"
+                />
+
 
 </LinearLayout>

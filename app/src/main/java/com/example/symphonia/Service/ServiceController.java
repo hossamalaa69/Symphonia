@@ -75,6 +75,10 @@ public class ServiceController {
         return mSupplier.forgetPassword(context,email);
     }
 
+    public boolean resetPassword(final Context context,final String password){
+        return mSupplier.resetPassword(context,password);
+    }
+
     /**
      * checks if email is already signed in database or not
      *

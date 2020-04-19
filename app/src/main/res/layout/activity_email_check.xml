@@ -34,7 +34,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
         android:background="@drawable/btn_curved_white"
-        android:text="OPEN EMAIL APP"
+        android:text="@string/open_email_app"
         android:textColor="@color/colorGradient2"
         app:autoSizeTextType="uniform"
         app:autoSizeMinTextSize="8sp"

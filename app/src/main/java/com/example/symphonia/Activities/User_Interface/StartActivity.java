@@ -3,6 +3,7 @@ package com.example.symphonia.Activities.User_Interface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.symphonia.Activities.User_Management.ForgetPassword.ResetPassword;
 import com.example.symphonia.Activities.User_Management.WelcomeActivity;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.User;
@@ -42,15 +44,18 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
+        handleIntent();
+
+
         //open log in shared preferences which contains user's info
-        SharedPreferences sharedPref= getSharedPreferences("LoginPref", 0);
+        SharedPreferences sharedPref = getSharedPreferences("LoginPref", 0);
 
 
         //check if it's mock mode, then login with local account
-        if(Constants.DEBUG_STATUS){
-            String token = sharedPref.getString("token","");
+        if (Constants.DEBUG_STATUS) {
+            String token = sharedPref.getString("token", "");
 
-            if(!(token.equals(""))){
+            if (!(token.equals(""))) {
                 Intent i = new Intent(this, MainActivity.class);
                 startActivity(i);
             }
@@ -58,21 +63,20 @@ public class StartActivity extends AppCompatActivity {
 
 
         //if REST API mode, so load more info from shared preferences
-        String token = sharedPref.getString("token","");
-        String id = sharedPref.getString("id","");
+        String token = sharedPref.getString("token", "");
+        String id = sharedPref.getString("id", "");
         String name = sharedPref.getString("name", "");
         String email = sharedPref.getString("email", "");
-        String image = sharedPref.getString("image","");
-        boolean type = sharedPref.getBoolean("type",true);
-        boolean premium = sharedPref.getBoolean("premium",true);
+        String image = sharedPref.getString("image", "");
+        boolean type = sharedPref.getBoolean("type", true);
+        boolean premium = sharedPref.getBoolean("premium", true);
 
         //if token is not empty, it means there was a user logged before
-        if(!(token.equals("")))
-        {
+        if (!(token.equals(""))) {
             Constants.currentToken = token;
-            Constants.currentUser = new User(email,id,name,type,premium);
+            Constants.currentUser = new User(email, id, name, type, premium);
             Constants.currentUser.setImageUrl(image);
-            Toast.makeText(this,getString(R.string.welcome)+Constants.currentUser.getmEmail(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.welcome) + Constants.currentUser.getmEmail(), Toast.LENGTH_SHORT).show();
             //Toast.makeText(this,"token: "+Constants.currentToken,Toast.LENGTH_SHORT).show();
 
             //after set last user data, then go to main activity directly
@@ -91,7 +95,30 @@ public class StartActivity extends AppCompatActivity {
         animationDrawable.setExitFadeDuration(mExitTime);
 
         animationDrawable.start();
+        // ATTENTION: This was auto-generated to handle app links.
+
     }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        handleIntent();
+    }
+
+    private void handleIntent() {
+        Intent appLinkIntent = getIntent();
+        String appLinkAction = appLinkIntent.getAction();
+        Uri appLinkData = appLinkIntent.getData();
+        if(appLinkData!=null){
+            String newToken = appLinkData.getLastPathSegment();
+            Toast.makeText(this,"new token"+newToken,Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(this, ResetPassword.class);
+            i.putExtra("token",newToken);
+            startActivity(i);
+        }
+    }
+
 
     /**
      * opens welcome page as user

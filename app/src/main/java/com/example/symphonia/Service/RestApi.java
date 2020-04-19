@@ -59,6 +59,19 @@ import retrofit2.Retrofit;
 
 public class RestApi implements APIs {
 
+
+    @Override
+    public boolean resetPassword(final Context context, final String password) {
+        final updateUIResetPassword updateuiResetPassword = (updateUIResetPassword) context;
+
+
+        return true;
+    }
+
+    public interface updateUIResetPassword{
+        void updateUIResetSuccess();
+        void updateUIResetFailed();
+    }
     /**
      * holds logging user in, creation of user object and sets token
      *
@@ -231,6 +244,7 @@ public class RestApi implements APIs {
         VolleySingleton.getInstance(context).getRequestQueue().add(stringrequest);
         return true;
     }
+
 
     public interface updateUIForgetPassword{
         void updateUIForgetPasswordSuccess();
