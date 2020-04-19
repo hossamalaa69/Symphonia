@@ -215,17 +215,18 @@ public class RestApi implements APIs {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            Toast.makeText(context, "Sent to mail", Toast.LENGTH_SHORT).show();
                             updateUIforgetpassword.updateUIForgetPasswordSuccess();
                         } catch (Exception e) {
-                            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show();
+                            updateUIforgetpassword.updateUIForgetPasswordFailed();
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(context, "invalid Email", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, R.string.invalid_email, Toast.LENGTH_SHORT).show();
+                        updateUIforgetpassword.updateUIForgetPasswordFailed();
                     }
                 }) {
             @Override
@@ -242,6 +243,7 @@ public class RestApi implements APIs {
 
     public interface updateUIForgetPassword{
         void updateUIForgetPasswordSuccess();
+        void updateUIForgetPasswordFailed();
     }
 
     /**

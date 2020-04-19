@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -28,7 +29,13 @@ public class ForgetPassword extends AppCompatActivity implements RestApi.updateU
 
     @Override
     public void updateUIForgetPasswordSuccess() {
+
         goNext();
+    }
+
+    @Override
+    public void updateUIForgetPasswordFailed() {
+        failForget();
     }
 
     /**
@@ -121,17 +128,34 @@ public class ForgetPassword extends AppCompatActivity implements RestApi.updateU
             goNext();
         else {
             email = findViewById(R.id.emailInput);
+            Button btn_getLink = (Button) findViewById(R.id.getlink);
+            ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+            btn_getLink.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
             ServiceController serviceController = ServiceController.getInstance();
             serviceController.forgetPassword(this,email.getText().toString());
         }
     }
 
     public void goNext(){
+
+        Button btn_getLink = (Button) findViewById(R.id.getlink);
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.GONE);
+        btn_getLink.setVisibility(View.VISIBLE);
         //get email from input text by id
         email = findViewById(R.id.emailInput);
         //then send it to Check Email page
         Intent i = new Intent(this, EmailCheck.class);
         i.putExtra("user", email.getText().toString());
         startActivity(i);
+    }
+
+    public void failForget(){
+
+        Button btn_getLink = (Button) findViewById(R.id.getlink);
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.GONE);
+        btn_getLink.setVisibility(View.VISIBLE);
     }
 }

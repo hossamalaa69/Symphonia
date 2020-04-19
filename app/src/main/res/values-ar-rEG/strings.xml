@@ -230,5 +230,6 @@
     <string name="reset_password">Reset Password</string>
     <string name="save">Save</string>
     <string name="token_is_expired">Token is expired</string>
+    <string name="invalid_email">invalid Email</string>
 
 </resources>
