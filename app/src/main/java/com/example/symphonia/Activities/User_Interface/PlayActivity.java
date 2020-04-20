@@ -466,7 +466,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         playlistTitle = findViewById(R.id.tv_playlist_title_play_activity);
         closeActivity = findViewById(R.id.iv_close_play_activity);
         trackSettings = findViewById(R.id.iv_track_settings_play_activity);
-        frameLayout = findViewById(R.id.play_btn_controller_play_activity);
+        //frameLayout = findViewById(R.id.play_btn_controller_play_activity);
         nextBtn = findViewById(R.id.iv_next_track_playActivity);
         prevBtn = findViewById(R.id.iv_prev_track_playActivity);
         hideBtn = findViewById(R.id.iv_hide_track_playActivity);

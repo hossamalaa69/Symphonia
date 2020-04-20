@@ -71,6 +71,8 @@ public interface APIs {
     boolean forgetPassword(final Context context,String email);
 
     boolean resetPassword(final Context context,final String password,final String token);
+
+
     /**
      * getter for popular playlist
      *

@@ -16,6 +16,8 @@ import com.example.symphonia.Activities.User_Management.WelcomeActivity;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.User;
 import com.example.symphonia.R;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 /**
  * Activity that handles Start page with animations

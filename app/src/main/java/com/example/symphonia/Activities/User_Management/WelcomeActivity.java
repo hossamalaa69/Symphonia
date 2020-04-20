@@ -64,8 +64,11 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     public void goFacebook(View view) {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.BASE_URL+"api/v1/users/auth/facebook"));
-        startActivity(intent);
+        if(!Constants.DEBUG_STATUS) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.BASE_URL + "api/v1/users/auth/facebook"));
+            startActivity(intent);
+        }
+
     }
 
 }

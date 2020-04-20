@@ -251,5 +251,6 @@
     <string name="token_is_expired">Token is expired</string>
     <string name="invalid_email">invalid Email</string>
     <string name="retrieving_data">Retrieving data</string>
+    <string name="failed_login">Failed logging in</string>
 
 </resources>

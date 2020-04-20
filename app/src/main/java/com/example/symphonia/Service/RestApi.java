@@ -1140,6 +1140,7 @@ public class RestApi implements APIs {
         return true;
     }
 
+
     public interface updateUIResetPassword {
         void updateUIResetSuccess();
 
