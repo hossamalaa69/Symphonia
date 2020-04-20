@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.R;
 import com.example.symphonia.Entities.Artist;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -118,7 +119,13 @@ public class RvListArtistSearchAdapter extends RecyclerView.Adapter<RvListArtist
          */
         void bind(int position) {
             Artist artist = mArtists.get(position);
-            artistImage.setImageBitmap(artist.getImage());
+            if (artist.getImage() != -1)
+                Picasso.get().load(artist.getImage()).placeholder(R.drawable.placeholder_artist).into(artistImage);
+            else
+                Picasso.get()
+                        .load(artist.getImageUrl())
+                        .placeholder(R.drawable.placeholder_artist)
+                        .into(artistImage);
             artistName.setText(artist.getArtistName());
         }
 

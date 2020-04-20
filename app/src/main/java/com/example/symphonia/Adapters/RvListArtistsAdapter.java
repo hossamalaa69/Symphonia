@@ -136,8 +136,8 @@ public class RvListArtistsAdapter extends RecyclerView.Adapter<RvListArtistsAdap
             }
             else{
                 Artist artist = mArtists.get(position);
-                if (artist.getImage() != null)
-                    artistImage.setImageBitmap(artist.getImage());
+                if (artist.getImage() != -1)
+                    Picasso.get().load(artist.getImage()).placeholder(R.drawable.placeholder_artist).into(artistImage);
                 else
                     Picasso.get()
                             .load(artist.getImageUrl())

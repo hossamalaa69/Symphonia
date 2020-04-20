@@ -80,6 +80,8 @@ public class Constants {
 
     public static final String Get_User_Followers = BASE_URL + "api/v1/Artists/5e7f76abdb66b448b4356324/followers";
 
+    public static final String SEARCH_URL = BASE_URL + "api/v1/search";
+
     /**
      * made-for-you playlists link
      */

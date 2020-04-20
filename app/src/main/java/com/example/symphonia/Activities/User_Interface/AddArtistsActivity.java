@@ -49,7 +49,7 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
     /**
      * Static final variable to get the result from the subActivity
      */
-    private static final String SELECTED_ARTIST_ID = "SelectedArtistId";
+    private static final String SELECTED_ARTIST = "SelectedArtist";
     /**
      * Instance for requesting from mock services and Api
      */
@@ -231,27 +231,27 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
 
                 // store the returned id and get the artist of this id
                 assert data != null;
-                String selectedArtistId = data.getStringExtra(SELECTED_ARTIST_ID);
-                Artist selectedArtist = mServiceController.getArtist(this, selectedArtistId);
+                Artist selectedArtist = (Artist) data.getSerializableExtra(SELECTED_ARTIST);
 
                 // add the artist to recommended list if it's not in it
-                if(mRecommendedArtists.contains(selectedArtist)){
-                    mSelectedArtistPosition = mRecommendedArtists.indexOf(selectedArtist);
+                int index = findArtist(selectedArtist.getId());
+                if(index != -1){
+                    mSelectedArtistPosition = index;
                 }
                 else {
                     mRecommendedArtists.add(0, selectedArtist);
                 }
                 clickedItemIndex = mSelectedArtistPosition;
-                if(!mClickedArtists.contains(selectedArtistId)) {
-                    mClickedArtists.add(selectedArtistId);
+                if(!mClickedArtists.contains(selectedArtist.getId())) {
+                    mClickedArtists.add(selectedArtist.getId());
                     mServiceController.followArtistsOrUsers(this, "artist",
-                            new ArrayList<String>(Collections.singletonList(selectedArtistId)));
+                            new ArrayList<String>(Collections.singletonList(selectedArtist.getId())));
 /*
                     mAdapter.notifyItemChanged(mSelectedArtistPosition);
 */
                     if(mClickedArtists.size() >= 3) mButtonDone.setVisibility(View.VISIBLE);
-                    if(!mClickedBeforeArtists.contains(selectedArtistId)){
-                        mClickedBeforeArtists.add(selectedArtistId);
+                    if(!mClickedBeforeArtists.contains(selectedArtist.getId())){
+                        mClickedBeforeArtists.add(selectedArtist.getId());
                         ArrayList<Artist> returnedArtists = mServiceController.getRecommendedArtists
                                 (this, Constants.currentUser.getUserType(), offset, 6);
                         mLayoutManager.scrollToPositionWithOffset(clickedItemIndex, 0);
@@ -384,4 +384,11 @@ public class AddArtistsActivity extends AppCompatActivity implements RvGridArtis
 
     }
 
+    int findArtist(String id){
+        for (Artist artist : mRecommendedArtists){
+            if(artist.getId().equals(id)) return mRecommendedArtists.indexOf(artist);
+        }
+
+        return -1;
+    }
 }

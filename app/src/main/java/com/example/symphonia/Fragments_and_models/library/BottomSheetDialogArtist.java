@@ -121,7 +121,7 @@ public class BottomSheetDialogArtist extends BottomSheetDialogFragment {
         final ImageView artistImage = view.findViewById(R.id.image_artist);
 
 
-        if(mArtist.getImage() == null){
+        if(mArtist.getImage() == -1){
             Picasso.get()
                     .load(mArtist.getImageUrl())
                     .placeholder(R.drawable.placeholder_artist)
@@ -147,8 +147,8 @@ public class BottomSheetDialogArtist extends BottomSheetDialogFragment {
 
                     });
         } else {
-            artistImage.setImageBitmap(mArtist.getImage());
-            int dominantColor = Utils.getDominantColor(mArtist.getImage());
+            Picasso.get().load(mArtist.getImage()).placeholder(R.drawable.placeholder_artist).into(artistImage);
+            int dominantColor = Utils.getDominantColor(Utils.convertToBitmap(mArtist.getImage()));
             imageFrame.setBackgroundColor(dominantColor);
             if (!Utils.isColorDark(dominantColor)) {
                 symphoniaImage.setColorFilter(Color.rgb(0, 0, 0));

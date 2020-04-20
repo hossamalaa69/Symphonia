@@ -25,6 +25,7 @@ import com.example.symphonia.Adapters.RvListArtistSearchAdapter;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
+import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
 
 import java.util.ArrayList;
@@ -35,18 +36,28 @@ import java.util.ArrayList;
  * @author islamahmed1092
  * @version 1.0
  */
-public class ArtistsSearchActivity extends AppCompatActivity implements RvListArtistSearchAdapter.ListItemClickListener{
+public class ArtistsSearchActivity extends AppCompatActivity implements RvListArtistSearchAdapter.ListItemClickListener
+    , RestApi.UpdateSearchArtists {
 
     /**
      * the id to send the artist to the previous activity
      */
-    private static final String SELECTED_ARTIST_ID = "SelectedArtistId";
+    private static final String SELECTED_ARTIST = "SelectedArtist";
     /**
      * hold the results of the search query
      */
     private ArrayList<Artist> searchResult;
     private View touchedView = null;
     private float firstY = 0;
+    TextView emptyState;
+    TextView notFound1;
+    TextView notFound2;
+    ServiceController serviceController;
+    RvListArtistSearchAdapter adapter;
+    ImageButton clearIcon;
+    RecyclerView artistsList;
+    String currentQ = "";
+    int offset = 0;
 
     /**
      * initialize the ui and handle transitions between the views
@@ -57,21 +68,32 @@ public class ArtistsSearchActivity extends AppCompatActivity implements RvListAr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artists_search);
 
-        final ServiceController serviceController = ServiceController.getInstance();
+
+        serviceController = ServiceController.getInstance();
 
         final EditText searchEditText = findViewById(R.id.text_search_edit);
         final View cardSearchBar = findViewById(R.id.search_bar);
         final RelativeLayout searchBarFocused = findViewById(R.id.search_bar_focused);
-        final TextView emptyState = findViewById(R.id.text_artist_search_empty_state);
-        final TextView notFound1 = findViewById(R.id.text_not_found_state_1);
-        final TextView notFound2 = findViewById(R.id.text_not_found_state_2);
+
+        emptyState = findViewById(R.id.text_artist_search_empty_state);
+        notFound1 = findViewById(R.id.text_not_found_state_1);
+        notFound2 = findViewById(R.id.text_not_found_state_2);
 
         searchResult = new ArrayList<>();
-        final RecyclerView artistsList = findViewById(R.id.rv_artists_list);
+        artistsList = findViewById(R.id.rv_artists_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         artistsList.setLayoutManager(layoutManager);
-        final RvListArtistSearchAdapter adapter = new RvListArtistSearchAdapter(searchResult, this);
+        adapter = new RvListArtistSearchAdapter(new ArrayList<Artist>(), this);
         artistsList.setAdapter(adapter);
+
+        artistsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if(!recyclerView.canScrollVertically(1))
+                    serviceController.searchArtist(ArtistsSearchActivity.this, currentQ, offset, 20);
+            }
+        });
 
         artistsList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
 
@@ -129,10 +151,12 @@ public class ArtistsSearchActivity extends AppCompatActivity implements RvListAr
 
         searchEditText.requestFocus();
 
-        final ImageButton clearIcon = findViewById(R.id.clear);
+
+        clearIcon = findViewById(R.id.clear);
         clearIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                offset = 0;
                 searchEditText.setText("");
             }
         });
@@ -189,8 +213,12 @@ public class ArtistsSearchActivity extends AppCompatActivity implements RvListAr
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.toString().isEmpty()) {
+                searchResult.clear();
+                if (count == 0) {
+                    offset = 0;
+                    currentQ = "";
                     emptyState.setVisibility(View.VISIBLE);
+                    artistsList.setVisibility(View.GONE);
                     clearIcon.setVisibility(View.GONE);
                     notFound1.setVisibility(View.GONE);
                     notFound2.setVisibility(View.GONE);
@@ -198,22 +226,8 @@ public class ArtistsSearchActivity extends AppCompatActivity implements RvListAr
                     adapter.notifyDataSetChanged();
 
                 } else {
-                    emptyState.setVisibility(View.GONE);
-                    clearIcon.setVisibility(View.VISIBLE);
-
-                    searchResult = serviceController.searchArtist(ArtistsSearchActivity.this, s.toString());
-                    adapter.clear();
-                    adapter.addAll(searchResult);
-                    adapter.notifyDataSetChanged();
-                    if(searchResult.isEmpty()) {
-                        notFound1.setText(getString(R.string.not_found_state_1) + " \"" + s + "\"");
-                        notFound1.setVisibility(View.VISIBLE);
-                        notFound2.setVisibility(View.VISIBLE);
-                    }
-                    else {
-                        notFound1.setVisibility(View.GONE);
-                        notFound2.setVisibility(View.GONE);
-                    }
+                    currentQ = s.toString();
+                    serviceController.searchArtist(ArtistsSearchActivity.this, s.toString());
                 }
             }
 
@@ -234,8 +248,36 @@ public class ArtistsSearchActivity extends AppCompatActivity implements RvListAr
 
         Intent resultIntent = new Intent();
         Artist artist = searchResult.get(clickedItemIndex);
-        resultIntent.putExtra(SELECTED_ARTIST_ID, artist.getId());
+        resultIntent.putExtra(SELECTED_ARTIST, artist);
         setResult(Activity.RESULT_OK, resultIntent);
         finish();
+    }
+
+
+    @Override
+    public void updateSuccess(ArrayList<Artist> result, String q) {
+        if(!currentQ.equals(q)) return;
+        artistsList.setVisibility(View.VISIBLE);
+        emptyState.setVisibility(View.GONE);
+        clearIcon.setVisibility(View.VISIBLE);
+        offset += result.size();
+        searchResult.addAll(result);
+        adapter.clear();
+        adapter.addAll(searchResult);
+        adapter.notifyDataSetChanged();
+        if(searchResult.isEmpty()) {
+            notFound1.setText(String.format("%s \"%s\"", getString(R.string.not_found_state_1), q));
+            notFound1.setVisibility(View.VISIBLE);
+            notFound2.setVisibility(View.VISIBLE);
+        }
+        else {
+            notFound1.setVisibility(View.GONE);
+            notFound2.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void updateFail(String q, int offset, int limit) {
+
     }
 }

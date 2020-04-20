@@ -86,46 +86,46 @@ public class MockService implements APIs {
         mArtistArrayList.add(new User("artist3@symphonia.com", "12345678", false, true));
 
         mArtists = new ArrayList<>();
-        mArtists.add(new Artist("1", Utils.convertToBitmap(R.drawable.ragheb), "Ragheb Alama"));
-        mArtists.add(new Artist("2", Utils.convertToBitmap(R.drawable.elissa), "Elissa"));
-        mArtists.add(new Artist("3", Utils.convertToBitmap(R.drawable.angham), "Angham"));
-        mArtists.add(new Artist("4", Utils.convertToBitmap(R.drawable.wael), "Wael Kfoury"));
-        mArtists.add(new Artist("5", Utils.convertToBitmap(R.drawable.wael_gassar), "Wael Jassar"));
-        mArtists.add(new Artist("6", Utils.convertToBitmap(R.drawable.shawn), "Shawn Mendes"));
-        mArtists.add(new Artist("7", Utils.convertToBitmap(R.drawable.bts), "BTS"));
-        mArtists.add(new Artist("8", Utils.convertToBitmap(R.drawable.billie), "Billie Eilish"));
-        mArtists.add(new Artist("9", Utils.convertToBitmap(R.drawable.alan), "Alan Walker"));
-        mArtists.add(new Artist("10", Utils.convertToBitmap(R.drawable.saaad), "Saad Lamjarred"));
-        mArtists.add(new Artist("11", Utils.convertToBitmap(R.drawable.ed), "Ed Sheeran"));
-        mArtists.add(new Artist("12", Utils.convertToBitmap(R.drawable.halsey), "Halsey"));
-        mArtists.add(new Artist("13", Utils.convertToBitmap(R.drawable.imagine), "Imagine Dragons"));
-        mArtists.add(new Artist("14", Utils.convertToBitmap(R.drawable.ariana), "Ariana Grande"));
-        mArtists.add(new Artist("15", Utils.convertToBitmap(R.drawable.aseel), "Aseel Hameem"));
-        mArtists.add(new Artist("16", Utils.convertToBitmap(R.drawable.maroon), "Maroon 5"));
-        mArtists.add(new Artist("17", Utils.convertToBitmap(R.drawable.ali), "Ali Gatie"));
-        mArtists.add(new Artist("18", Utils.convertToBitmap(R.drawable.zayn), "ZAYN"));
-        mArtists.add(new Artist("19", Utils.convertToBitmap(R.drawable.cairokee), "Cairokee"));
-        mArtists.add(new Artist("20", Utils.convertToBitmap(R.drawable.rauf_fayk), "Rauf & Faik"));
-        mArtists.add(new Artist("21", Utils.convertToBitmap(R.drawable.adham), "Adham Nabulsi"));
-        mArtists.add(new Artist("22", Utils.convertToBitmap(R.drawable.abu), "Abu"));
-        mArtists.add(new Artist("23", Utils.convertToBitmap(R.drawable.eminem), "Eminem"));
-        mArtists.add(new Artist("24", Utils.convertToBitmap(R.drawable.hussien), "Hussain Al Jassmi"));
-        mArtists.add(new Artist("25", Utils.convertToBitmap(R.drawable.nancy), "Nancy Ajram"));
-        mArtists.add(new Artist("26", Utils.convertToBitmap(R.drawable.havana), "Camila Cabello"));
-        mArtists.add(new Artist("27", Utils.convertToBitmap(R.drawable.selena), "Selena Gomez"));
-        mArtists.add(new Artist("28", Utils.convertToBitmap(R.drawable.taylor), "Taylor Swift"));
-        mArtists.add(new Artist("29", Utils.convertToBitmap(R.drawable.tamer_ashour), "Tamer Ashour"));
-        mArtists.add(new Artist("30", Utils.convertToBitmap(R.drawable.assala), "Assala Nasri"));
-        mArtists.add(new Artist("31", Utils.convertToBitmap(R.drawable.maher), "Maher Zain"));
-        mArtists.add(new Artist("32", Utils.convertToBitmap(R.drawable.adele), "Adele"));
-        mArtists.add(new Artist("33", Utils.convertToBitmap(R.drawable.hamza), "Hamza Namira"));
-        mArtists.add(new Artist("34", Utils.convertToBitmap(R.drawable.justin), "Justin Bieber"));
-        mArtists.add(new Artist("35", Utils.convertToBitmap(R.drawable.jannat), "Jannat"));
-        mArtists.add(new Artist("36", Utils.convertToBitmap(R.drawable.samira), "Samira Said"));
-        mArtists.add(new Artist("37", Utils.convertToBitmap(R.drawable.maryam), "Myriam Fares"));
-        mArtists.add(new Artist("38", Utils.convertToBitmap(R.drawable.amr), "Amr Diab"));
-        mArtists.add(new Artist("39", Utils.convertToBitmap(R.drawable.bahaa), "Bahaa Sultan"));
-        mArtists.add(new Artist("40", Utils.convertToBitmap(R.drawable.loai), "Loai"));
+        mArtists.add(new Artist("1", R.drawable.ragheb, "Ragheb Alama"));
+        mArtists.add(new Artist("2", R.drawable.elissa, "Elissa"));
+        mArtists.add(new Artist("3", R.drawable.angham, "Angham"));
+        mArtists.add(new Artist("4", R.drawable.wael, "Wael Kfoury"));
+        mArtists.add(new Artist("5", R.drawable.wael_gassar, "Wael Jassar"));
+        mArtists.add(new Artist("6", R.drawable.shawn, "Shawn Mendes"));
+        mArtists.add(new Artist("7", R.drawable.bts, "BTS"));
+        mArtists.add(new Artist("8", R.drawable.billie, "Billie Eilish"));
+        mArtists.add(new Artist("9", R.drawable.alan, "Alan Walker"));
+        mArtists.add(new Artist("10",R.drawable.saaad, "Saad Lamjarred"));
+        mArtists.add(new Artist("11",R.drawable.ed, "Ed Sheeran"));
+        mArtists.add(new Artist("12",R.drawable.halsey, "Halsey"));
+        mArtists.add(new Artist("13",R.drawable.imagine, "Imagine Dragons"));
+        mArtists.add(new Artist("14",R.drawable.ariana, "Ariana Grande"));
+        mArtists.add(new Artist("15",R.drawable.aseel, "Aseel Hameem"));
+        mArtists.add(new Artist("16",R.drawable.maroon, "Maroon 5"));
+        mArtists.add(new Artist("17",R.drawable.ali, "Ali Gatie"));
+        mArtists.add(new Artist("18",R.drawable.zayn, "ZAYN"));
+        mArtists.add(new Artist("19",R.drawable.cairokee, "Cairokee"));
+        mArtists.add(new Artist("20",R.drawable.rauf_fayk, "Rauf & Faik"));
+        mArtists.add(new Artist("21",R.drawable.adham, "Adham Nabulsi"));
+        mArtists.add(new Artist("22",R.drawable.abu, "Abu"));
+        mArtists.add(new Artist("23",R.drawable.eminem, "Eminem"));
+        mArtists.add(new Artist("24",R.drawable.hussien, "Hussain Al Jassmi"));
+        mArtists.add(new Artist("25",R.drawable.nancy, "Nancy Ajram"));
+        mArtists.add(new Artist("26",R.drawable.havana, "Camila Cabello"));
+        mArtists.add(new Artist("27",R.drawable.selena, "Selena Gomez"));
+        mArtists.add(new Artist("28",R.drawable.taylor, "Taylor Swift"));
+        mArtists.add(new Artist("29",R.drawable.tamer_ashour, "Tamer Ashour"));
+        mArtists.add(new Artist("30",R.drawable.assala, "Assala Nasri"));
+        mArtists.add(new Artist("31",R.drawable.maher, "Maher Zain"));
+        mArtists.add(new Artist("32",R.drawable.adele, "Adele"));
+        mArtists.add(new Artist("33",R.drawable.hamza, "Hamza Namira"));
+        mArtists.add(new Artist("34",R.drawable.justin, "Justin Bieber"));
+        mArtists.add(new Artist("35",R.drawable.jannat, "Jannat"));
+        mArtists.add(new Artist("36",R.drawable.samira, "Samira Said"));
+        mArtists.add(new Artist("37",R.drawable.maryam, "Myriam Fares"));
+        mArtists.add(new Artist("38",R.drawable.amr, "Amr Diab"));
+        mArtists.add(new Artist("39",R.drawable.bahaa, "Bahaa Sultan"));
+        mArtists.add(new Artist("40",R.drawable.loai, "Loai"));
 
 
         mAlbums = new ArrayList<>();
@@ -1051,6 +1051,7 @@ public class MockService implements APIs {
     @Override
     public ArrayList<Artist> searchArtist(Context context, String q, int offset, int limit) {
         ArrayList<Artist> found = new ArrayList<>();
+        final RestApi.UpdateSearchArtists listener = (RestApi.UpdateSearchArtists) context;
 
         for (Artist artist : mArtists) {
             if (Pattern.compile(Pattern.quote(q), Pattern.CASE_INSENSITIVE).matcher(artist.getArtistName()).find())
@@ -1061,7 +1062,7 @@ public class MockService implements APIs {
         for (int i = offset; i < Math.min(found.size(), offset + limit); i++) {
             searchResult.add(found.get(i));
         }
-
+        listener.updateSuccess(searchResult, q);
         return searchResult;
     }
 

@@ -116,8 +116,8 @@ public class RvGridArtistsAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (holder.getItemViewType() == ARTIST_HOLDER) {
             ArtistViewHolder viewHolder = (ArtistViewHolder) holder;
             Artist artist = mArtists.get(position);
-            if (artist.getImage() != null)
-                viewHolder.artistImage.setImageBitmap(artist.getImage());
+            if (artist.getImage() != -1)
+                Picasso.get().load(artist.getImage()).placeholder(R.drawable.placeholder_artist).into(viewHolder.artistImage);
             else
                 Picasso.get()
                         .load(artist.getImageUrl())

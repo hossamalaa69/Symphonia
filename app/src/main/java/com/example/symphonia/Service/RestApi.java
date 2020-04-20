@@ -1258,9 +1258,60 @@ public class RestApi implements APIs {
      * @return List of search result artists
      */
     @Override
-    public ArrayList<Artist> searchArtist(Context context, String q, int offset, int limit) {
-        return null;
+    public ArrayList<Artist> searchArtist(Context context, final String q, final int offset, final int limit) {
+        final UpdateSearchArtists listener = (UpdateSearchArtists) context;
+        final ArrayList<Artist> result = new ArrayList<>();
+
+        Uri.Builder builder = Uri.parse(Constants.SEARCH_URL).buildUpon();
+        builder.appendQueryParameter("type", "artist");
+        builder.appendQueryParameter("q", q);
+        builder.appendQueryParameter("limit", String.valueOf(limit));
+        builder.appendQueryParameter("offset", String.valueOf(offset));
+
+        final StringRequest request = new StringRequest(Request.Method.GET, builder.toString(), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject root = new JSONObject(response);
+                    JSONObject artists = root.getJSONObject("artist");
+                    JSONArray artistArray = artists.getJSONArray("items");
+                    for (int i = 0; i < artistArray.length(); i++) {
+                        JSONObject artist = artistArray.getJSONObject(i);
+                        String id = artist.getString("_id");
+                        String name = artist.getString("name");
+                        /*JSONArray images = artist.getJSONArray("images");
+                        JSONObject image = images.getJSONObject(1);*/
+                        String imageUrl = artist.getString("imageUrl");
+                        result.add(new Artist(id, imageUrl, name));
+                    }
+                    listener.updateSuccess(result, q);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                listener.updateFail(q, offset, limit);
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + Constants.currentToken);
+                return headers;
+            }
+
+        };
+        VolleySingleton.getInstance(context).getRequestQueue().add(request);
+        return result;
     }
+
+    public interface UpdateSearchArtists {
+        void updateSuccess(ArrayList<Artist> result, String q);
+        void updateFail(String q, int offset, int limit);
+    }
+
 
     /**
      * Get information for a single album.

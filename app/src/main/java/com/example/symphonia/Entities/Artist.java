@@ -2,6 +2,8 @@ package com.example.symphonia.Entities;
 
 import android.graphics.Bitmap;
 
+import java.io.Serializable;
+
 
 /**
  * A class to hold the data of Artist object
@@ -9,11 +11,11 @@ import android.graphics.Bitmap;
  * @author islamahmed1092
  * @version 1.0
  */
-public class Artist {
+public class Artist implements Serializable {
     /**
      * image of the artist
      */
-    private Bitmap mArtistImage = null;
+    private int mArtistImage = -1;
     /**
      * holds image url of artist
      */
@@ -34,7 +36,7 @@ public class Artist {
      * @param mImage      artist image
      * @param mArtistName artist name
      */
-    public Artist(String mArtistId, Bitmap mImage, String mArtistName) {
+    public Artist(String mArtistId, int mImage, String mArtistName) {
         this.mArtistId = mArtistId;
         this.mArtistImage = mImage;
         this.mArtistName = mArtistName;
@@ -70,14 +72,14 @@ public class Artist {
     /**
      * @return artist image
      */
-    public Bitmap getImage() {
+    public int getImage() {
         return mArtistImage;
     }
 
     /**
      * @param mImage artist image
      */
-    public void setImage(Bitmap mImage) {
+    public void setImage(int mImage) {
         this.mArtistImage = mImage;
     }
 
