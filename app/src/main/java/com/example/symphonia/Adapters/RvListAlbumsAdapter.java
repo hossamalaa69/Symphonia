@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -128,7 +129,17 @@ public class RvListAlbumsAdapter extends RecyclerView.Adapter<RvListAlbumsAdapte
          */
         void bind(int position) {
             Album album = mAlbums.get(position);
-            albumImage.setImageBitmap(album.getAlbumImage());
+            if(album.getAlbumImage() != -1)
+                Picasso.get()
+                        .load(album.getAlbumImage())
+                        .placeholder(R.drawable.placeholder_album)
+                        .into(albumImage);
+            else {
+                Picasso.get()
+                        .load(album.getImageUrl())
+                        .placeholder(R.drawable.placeholder_album)
+                        .into(albumImage);
+            }
             albumName.setText(album.getAlbumName());
             artistName.setText(album.getAlbumArtists().get(0).getArtistName());
         }

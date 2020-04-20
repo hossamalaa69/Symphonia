@@ -2,6 +2,7 @@ package com.example.symphonia.Fragments_and_models.library;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,6 +31,8 @@ import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
 import com.google.android.material.snackbar.Snackbar;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -155,15 +158,34 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
             }
         });
 
-        ImageView albumImage = rootView.findViewById(R.id.image_album);
-        albumImage.setImageBitmap(mAlbum.getAlbumImage());
-
+        final ImageView albumImage = rootView.findViewById(R.id.image_album);
         viewContainer = rootView.findViewById(R.id.container);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            Drawable drawable = Utils.createAlbumBackground(getContext(), mAlbum.getAlbumImage());
+        if(mAlbum.getAlbumImage() != -1)
+            Picasso.get()
+                    .load(mAlbum.getAlbumImage())
+                    .placeholder(R.drawable.placeholder_album)
+                    .into(albumImage, new com.squareup.picasso.Callback() {
+            @Override
+            public void onSuccess() {
+                Drawable drawable = Utils.createAlbumBackground(getContext(), ((BitmapDrawable)albumImage.getDrawable()).getBitmap());
+                viewContainer.setBackground(drawable);
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+
+        });
+        else {
+            Picasso.get()
+                    .load(mAlbum.getImageUrl())
+                    .placeholder(R.drawable.placeholder_album)
+                    .into(albumImage);
+
+            Drawable drawable = Utils.createAlbumBackground(getContext(), Utils.convertToBitmap(mAlbum.getAlbumImage()));
             viewContainer.setBackground(drawable);
         }
-
         final TextView albumTracks = rootView.findViewById(R.id.album_tracks);
         final Button shuffleButton = rootView.findViewById(R.id.button_shuffle);
 

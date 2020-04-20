@@ -106,7 +106,7 @@ public class BottomSheetDialogAlbumFragment extends BottomSheetDialogFragment {
             }
         });
 
-        TextView albumName = view.findViewById(R.id.text_album_name);
+       /* TextView albumName = view.findViewById(R.id.text_album_name);
         albumName.setText(mAlbum.getAlbumName());
         ImageView albumImage = view.findViewById(R.id.image_album);
         albumImage.setImageBitmap(mAlbum.getAlbumImage());
@@ -129,7 +129,7 @@ public class BottomSheetDialogAlbumFragment extends BottomSheetDialogFragment {
 
         Palette palette = Palette.from(mAlbum.getAlbumImage()).generate();
         imageColor.setBackgroundColor(palette.getVibrantColor(0));
-
+*/
 
         final LinearLayout liked = view.findViewById(R.id.layout_liked);
         final LinearLayout viewArtist = view.findViewById(R.id.layout_view_artist);

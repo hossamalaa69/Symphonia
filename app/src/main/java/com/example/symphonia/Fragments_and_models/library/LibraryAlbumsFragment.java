@@ -24,6 +24,7 @@ import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Helpers.SnackbarHelper;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
+import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -41,7 +42,8 @@ import java.util.Collections;
  * @version 1.0
  */
 public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapter.ListItemClickListener,
-        RvListAlbumsAdapter.ListItemLongClickListener, BottomSheetDialogAlbum.BottomSheetListener {
+        RvListAlbumsAdapter.ListItemLongClickListener, BottomSheetDialogAlbum.BottomSheetListener ,
+        RestApi.UpdateAlbumsLibrary {
 
 
     /**
@@ -120,12 +122,10 @@ public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapt
         mLikedAlbums = new ArrayList<>();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mAlbumsList.setLayoutManager(layoutManager);
-        mAdapter = new RvListAlbumsAdapter(mLikedAlbums, this, this);
+        mAdapter = new RvListAlbumsAdapter(new ArrayList<Album>(), this, this);
         mAlbumsList.setAdapter(mAdapter);
 
-        // to be edited
-        mLikedAlbums = mServiceController.getUserSavedAlbums(getContext(),0, 65535);
-        updateUI(new ArrayList<Album>(mLikedAlbums));
+        mServiceController.getUserSavedAlbums(this,0, 65535);
 
 
 
@@ -204,6 +204,9 @@ public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapt
     @Override
     public void onListItemLongClick(int clickedItemIndex) {
         BottomSheetDialogAlbum bottomSheet = new BottomSheetDialogAlbum(this, mLikedAlbums.get(clickedItemIndex));
+        Bundle arguments = new Bundle();
+        arguments.putInt(CLICKED_INDEX , clickedItemIndex);
+        bottomSheet.setArguments(arguments);
         bottomSheet.show(((MainActivity)getActivity()).getSupportFragmentManager(), bottomSheet.getTag());
     }
 
@@ -244,8 +247,8 @@ public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapt
     }
 
 
-    private void updateUI(ArrayList<Album> returnedAlbums){
-
+    @Override
+    public void updateAlbums(ArrayList<Album> returnedAlbums) {
         mAlbumsList.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
 
@@ -261,7 +264,5 @@ public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapt
             albumsEmptyState.setVisibility(View.GONE);
         else
             albumsEmptyState.setVisibility(View.VISIBLE);
-
     }
-
 }

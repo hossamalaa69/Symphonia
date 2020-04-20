@@ -44,6 +44,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -887,14 +888,65 @@ public class RestApi implements APIs {
     /**
      * Get a list of the albums saved in the current user’s ‘Your Music’ library
      *
-     * @param context Activity context
+     * @param listener
      * @param offset  The index of the first object to return
      * @param limit   The maximum number of objects to return
      * @return List of saved albums
      */
     @Override
-    public ArrayList<Album> getUserSavedAlbums(Context context, int offset, int limit) {
-        return new ArrayList<>();
+    public ArrayList<Album> getUserSavedAlbums(final UpdateAlbumsLibrary listener, int offset, int limit) {
+
+        final ArrayList<Album> savedAlbums = new ArrayList<>();
+
+        Uri.Builder builder = Uri.parse(Constants.ALBUMS_URL).buildUpon();
+        builder.appendQueryParameter("limit", String.valueOf(limit));
+        builder.appendQueryParameter("offset", String.valueOf(offset));
+
+        final StringRequest request = new StringRequest(Request.Method.GET, builder.toString(), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject root = new JSONObject(response);
+                    JSONObject albums = root.getJSONObject("Albums");
+                    JSONArray albumsArray = albums.getJSONArray("items");
+                    for (int i = 0; i < albumsArray.length(); i++) {
+                        JSONObject album = albumsArray.getJSONObject(i);
+                        String id = album.getString("_id");
+                        String name = album.getString("name");
+                        /*JSONArray images = artist.getJSONArray("images");
+                        JSONObject image = images.getJSONObject(1);*/
+                        String imageUrl = album.getString("image");
+                        JSONObject artist = album.getJSONObject("artist");
+                        String artistId = artist.getString("_id");
+                        String artistName = artist.getString("name");
+                        ArrayList<Artist> artists = new ArrayList<>(Collections.singletonList(new Artist(artistId, null, artistName)));
+                        savedAlbums.add(new Album(id, artists, imageUrl, name));
+                    }
+                    listener.updateAlbums(savedAlbums);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + Constants.currentToken);
+                return headers;
+            }
+
+        };
+
+        VolleySingleton.getInstance(App.getContext()).getRequestQueue().add(request);
+        return savedAlbums;
+    }
+
+    public interface UpdateAlbumsLibrary {
+        void updateAlbums(ArrayList<Album> returnedAlbums);
     }
 
     /**
@@ -927,8 +979,6 @@ public class RestApi implements APIs {
                         JSONObject artist = artistArray.getJSONObject(i);
                         String id = artist.getString("_id");
                         String name = artist.getString("name");
-                        /*JSONArray images = artist.getJSONArray("images");
-                        JSONObject image = images.getJSONObject(1);*/
                         String imageUrl = artist.getString("imageUrl");
                         followedArtists.add(new Artist(id, imageUrl, name));
                     }
@@ -1014,38 +1064,6 @@ public class RestApi implements APIs {
      */
     @Override
     public void unFollowArtistsOrUsers(final Context context, final String type, final ArrayList<String> ids) {
-
-/*        Uri.Builder builder = Uri.parse(Constants.FOLLOW_ARTIST_URL).buildUpon();
-        builder.appendQueryParameter("type", type);
-        builder.appendQueryParameter("ids", TextUtils.join(",", ids));
-
-        StringRequest request = new StringRequest(Request.Method.DELETE, Constants.FOLLOW_ARTIST_URL, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + Constants.currentToken);
-                headers.put("Content-Type", "application/json");
-                return headers;
-            }
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("type", type);
-                params.put("ids", TextUtils.join(",", ids));
-                return params;
-            }
-        };
-        VolleySingleton.getInstance(context).getRequestQueue().add(request);*/
 
         finishedUnFollowing = false;
 

@@ -135,7 +135,7 @@ public class MockService implements APIs {
                 new ArrayList<Artist>(Collections.singletonList(mArtists.get(7))),
                 new ArrayList<Copyright>(Arrays.asList(new Copyright("2020 Darkroom/Interscope Records", "C"),
                         new Copyright("2020 Darkroom/Interscope Records", "P"))),
-                Utils.convertToBitmap(R.drawable.no_time_to_die),
+                R.drawable.no_time_to_die,
                 "No Time To Die",
                 "2020-02-13",
                 new ArrayList<Track>()));
@@ -145,7 +145,7 @@ public class MockService implements APIs {
                 new ArrayList<Artist>(Collections.singletonList(mArtists.get(37))),
                 new ArrayList<Copyright>(Arrays.asList(new Copyright("2018 Nay", "C"),
                         new Copyright("2018 Nay", "P"))),
-                Utils.convertToBitmap(R.drawable.kol_hayaty),
+                R.drawable.kol_hayaty,
                 "Kol Hayaty",
                 "2018-10-03",
                 new ArrayList<Track>()));
@@ -155,7 +155,7 @@ public class MockService implements APIs {
                 new ArrayList<Artist>(Collections.singletonList(mArtists.get(29))),
                 new ArrayList<Copyright>(Arrays.asList(new Copyright("2020 MuzicUp", "C"),
                         new Copyright("2020 MuzicUp", "P"))),
-                Utils.convertToBitmap(R.drawable.shamekh),
+                R.drawable.shamekh,
                 "Shamekh",
                 "2020-01-12",
                 new ArrayList<Track>()));
@@ -164,7 +164,7 @@ public class MockService implements APIs {
                 "album",
                 new ArrayList<Artist>(Collections.singletonList(mArtists.get(30))),
                 new ArrayList<Copyright>(Collections.singletonList(new Copyright("2012 Awakening Worldwide", "C"))),
-                Utils.convertToBitmap(R.drawable.fogive_me),
+                R.drawable.fogive_me,
                 "Forgive Me",
                 "2012-04-02",
                 new ArrayList<Track>()));
@@ -174,7 +174,7 @@ public class MockService implements APIs {
                 new ArrayList<Artist>(Collections.singletonList(mArtists.get(12))),
                 new ArrayList<Copyright>(Arrays.asList(new Copyright("2018 KIDinaKORNER/Interscope Records", "C"),
                         new Copyright("2018 KIDinaKORNER/Interscope Records", "P"))),
-                Utils.convertToBitmap(R.drawable.origins),
+                R.drawable.origins,
                 "Origins (Deluxe)",
                 "2018-11-09",
                 new ArrayList<Track>()));
@@ -1070,19 +1070,19 @@ public class MockService implements APIs {
     /**
      * Get a list of the albums saved in the current user’s ‘Your Music’ library
      *
-     * @param context Activity context
+     * @param listener
      * @param offset The index of the first object to return
      * @param limit The maximum number of objects to return
      * @return List of saved albums
      */
     @Override
-    public ArrayList<Album> getUserSavedAlbums(Context context, int offset, int limit) {
+    public ArrayList<Album> getUserSavedAlbums(RestApi.UpdateAlbumsLibrary listener, int offset, int limit) {
         ArrayList<Album> savedAlbums = Constants.currentUser.getSavedAlbums();
         ArrayList<Album> returnedAlbums = new ArrayList<>();
         for (int i = 0; i < Math.min(limit, savedAlbums.size()); i++) {
             returnedAlbums.add(savedAlbums.get(i));
         }
-
+        listener.updateAlbums(returnedAlbums);
         return returnedAlbums;
     }
 

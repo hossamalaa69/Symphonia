@@ -31,11 +31,13 @@ public class Album {
     /**
      * holds album image
      */
-    private Bitmap mAlbumImage;
+    private int mAlbumImage = -1;
     /**
      * holds album name
      */
     private String mAlbumName;
+
+    private String mImageUrl;
     /**
      * holds releasing date of album
      */
@@ -58,7 +60,7 @@ public class Album {
      * @param mAlbumTracks  array of tracks in album
      */
     public Album(String mAlbumId, String mAlbumType, ArrayList<Artist> mAlbumArtists,
-                 ArrayList<Copyright> mCopyrights, Bitmap mAlbumImage, String mAlbumName,
+                 ArrayList<Copyright> mCopyrights, int mAlbumImage, String mAlbumName,
                  String mReleaseDate, ArrayList<Track> mAlbumTracks) {
 
         this.mAlbumId = mAlbumId;
@@ -69,6 +71,14 @@ public class Album {
         this.mAlbumName = mAlbumName;
         this.mReleaseDate = mReleaseDate;
         this.mAlbumTracks = mAlbumTracks;
+    }
+
+    public Album(String mAlbumId, ArrayList<Artist> mAlbumArtists, String mImageUrl, String mAlbumName){
+        this.mAlbumId = mAlbumId;
+        this.mAlbumArtists = mAlbumArtists;
+        this.mImageUrl = mImageUrl;
+        this.mAlbumName = mAlbumName;
+
     }
 
     /**
@@ -148,7 +158,7 @@ public class Album {
      *
      * @return return album image
      */
-    public Bitmap getAlbumImage() {
+    public int getAlbumImage() {
         return mAlbumImage;
     }
 
@@ -157,7 +167,7 @@ public class Album {
      *
      * @param mAlbumImage album image
      */
-    public void setAlbumImage(Bitmap mAlbumImage) {
+    public void setAlbumImage(int mAlbumImage) {
         this.mAlbumImage = mAlbumImage;
     }
 
@@ -213,5 +223,9 @@ public class Album {
      */
     public void setAlbumTracks(ArrayList<Track> mAlbumTracks) {
         this.mAlbumTracks = mAlbumTracks;
+    }
+
+    public String getImageUrl() {
+        return mImageUrl;
     }
 }

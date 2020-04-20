@@ -3,6 +3,7 @@ package com.example.symphonia.Fragments_and_models.library;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -25,6 +26,7 @@ import com.example.symphonia.Service.ServiceController;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -120,27 +122,58 @@ public class BottomSheetDialogAlbum extends BottomSheetDialogFragment {
 
         TextView albumName = view.findViewById(R.id.text_album_name);
         albumName.setText(mAlbum.getAlbumName());
-        ImageView albumImage = view.findViewById(R.id.image_album);
-        albumImage.setImageBitmap(mAlbum.getAlbumImage());
+        final ImageView albumImage = view.findViewById(R.id.image_album);
+        final ConstraintLayout imageFrame = view.findViewById(R.id.image_frame);
+        final FrameLayout imageColor = view.findViewById(R.id.image_color);
+        final ImageView symphoniaImage = view.findViewById(R.id.image_symphonia);
+        final ImageView soundWave = view.findViewById(R.id.image_sound_wave);
 
-        ConstraintLayout imageFrame = view.findViewById(R.id.image_frame);
-        FrameLayout imageColor = view.findViewById(R.id.image_color);
-        ImageView symphoniaImage = view.findViewById(R.id.image_symphonia);
-        ImageView soundWave = view.findViewById(R.id.image_sound_wave);
+        if(mAlbum.getAlbumImage() == -1){
+            Picasso.get()
+                    .load(mAlbum.getImageUrl())
+                    .placeholder(R.drawable.placeholder_artist)
+                    .into(albumImage, new com.squareup.picasso.Callback() {
+                        @Override
+                        public void onSuccess() {
+                            BitmapDrawable drawable = (BitmapDrawable) albumImage.getDrawable();
+                            int dominantColor = Utils.getDominantColor(drawable.getBitmap());
+                            imageFrame.setBackgroundColor(dominantColor);
+                            if (!Utils.isColorDark(dominantColor)) {
+                                symphoniaImage.setColorFilter(Color.rgb(0, 0, 0));
+                                soundWave.setColorFilter(Color.rgb(0, 0, 0));
+                            } else {
+                                symphoniaImage.setColorFilter(Color.rgb(255, 255, 255));
+                                soundWave.setColorFilter(Color.rgb(255, 255, 255));
+                            }
+                            Palette palette = Palette.from(drawable.getBitmap()).generate();
+                            imageColor.setBackgroundColor(palette.getVibrantColor(0));
+                        }
 
-        int dominantColor = Utils.getDominantColor(mAlbum.getAlbumImage());
-        imageFrame.setBackgroundColor(dominantColor);
-        if(!Utils.isColorDark(dominantColor)){
-            symphoniaImage.setColorFilter(Color.rgb(0, 0, 0));
-            soundWave.setColorFilter(Color.rgb(0, 0, 0));
+                        @Override
+                        public void onError(Exception e) {
+
+                        }
+
+                    });
+
+        } else {
+            Picasso.get().load(mAlbum.getAlbumImage()).placeholder(R.drawable.placeholder_artist).into(albumImage);
+            int dominantColor = Utils.getDominantColor(Utils.convertToBitmap(mAlbum.getAlbumImage()));
+            imageFrame.setBackgroundColor(dominantColor);
+            if (!Utils.isColorDark(dominantColor)) {
+                symphoniaImage.setColorFilter(Color.rgb(0, 0, 0));
+                soundWave.setColorFilter(Color.rgb(0, 0, 0));
+            } else {
+                symphoniaImage.setColorFilter(Color.rgb(255, 255, 255));
+                soundWave.setColorFilter(Color.rgb(255, 255, 255));
+            }
+            Palette palette = Palette.from(Utils.convertToBitmap(mAlbum.getAlbumImage())).generate();
+            imageColor.setBackgroundColor(palette.getVibrantColor(0));
         }
-        else{
-            symphoniaImage.setColorFilter(Color.rgb(255, 255, 255));
-            soundWave.setColorFilter(Color.rgb(255, 255, 255));
-        }
 
-        Palette palette = Palette.from(mAlbum.getAlbumImage()).generate();
-        imageColor.setBackgroundColor(palette.getVibrantColor(0));
+
+
+
 
 
         final LinearLayout liked = view.findViewById(R.id.layout_liked);
@@ -186,7 +219,7 @@ public class BottomSheetDialogAlbum extends BottomSheetDialogFragment {
         final TextView likeText = view.findViewById(R.id.text_like);
         final ImageView likeIcon = view.findViewById(R.id.like_icon);
 
-        if(serviceController.checkUserSavedAlbums(getContext(),
+/*        if(serviceController.checkUserSavedAlbums(getContext(),
                 new ArrayList<String>(Collections.singletonList(mAlbum.getAlbumId()))).get(0)) {
             likeIcon.setImageResource(R.drawable.ic_favorite_green_24dp);
             likeText.setText(R.string.liked);
@@ -195,7 +228,7 @@ public class BottomSheetDialogAlbum extends BottomSheetDialogFragment {
         else {
             likeIcon.setImageResource(R.drawable.ic_favorite_border_transparent_white_24dp);
             likeText.setText(R.string.like);
-        }
+        }*/
 
         liked.setOnClickListener(new View.OnClickListener() {
             @Override

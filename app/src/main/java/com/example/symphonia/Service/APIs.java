@@ -247,12 +247,12 @@ public interface APIs {
     /**
      * Get a list of the albums saved in the current user’s ‘Your Music’ library
      *
-     * @param context Activity context
+     * @param listener
      * @param offset  The index of the first object to return
      * @param limit   The maximum number of objects to return
      * @return List of saved albums
      */
-    ArrayList<Album> getUserSavedAlbums(Context context, int offset, int limit);
+    ArrayList<Album> getUserSavedAlbums(RestApi.UpdateAlbumsLibrary listener, int offset, int limit);
 
     /**
      * Get the current user’s followed artists
