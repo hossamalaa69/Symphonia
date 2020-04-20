@@ -43,14 +43,14 @@
         android:background="@android:color/transparent"
         android:src="@drawable/ic_skip_previous_black_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/iv_play_track_playActivity"
+        app:layout_constraintEnd_toStartOf="@+id/frame_layout_play_controller"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/iv_like_track_playActivity"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias=".3" />
 
     <ImageButton
-        android:id="@+id/iv_play_track_playActivity"
+        android:id="@+id/frame_layout_play_controller"
         android:layout_width="@dimen/image_small_item_size"
         android:layout_height="@dimen/image_small_item_size"
         android:background="@android:color/transparent"
@@ -72,7 +72,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/iv_hide_track_playActivity"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/iv_play_track_playActivity"
+        app:layout_constraintStart_toEndOf="@+id/frame_layout_play_controller"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias=".3" />
 

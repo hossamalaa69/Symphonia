@@ -10,7 +10,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,7 +58,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
     TextView seekBarCurr;
     ImageButton closeActivity;
     ImageButton trackSettings;
-    ImageButton playBtn;
+    FrameLayout frameLayout;
     ImageButton nextBtn;
     ImageButton prevBtn;
     ImageButton hideBtn;
@@ -63,12 +66,14 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
     private Drawable trackBackgroun;
     private Handler mHandler = new Handler();
     private MediaController mediaController;
-
+    ImageView playBtn;
+    ImageView pauseBtn;
     private final String IS_PAUSED = "isPaused";
     /**
      * holds position of current track
      */
     int trackPos;
+    private ProgressBar progressBar;
 
 
     /**
@@ -103,6 +108,8 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         intent.setAction(MediaController.ACTION_PLAY);
         Log.e("PlayActivity", "play track     " + i++);
         Utils.CurrTrackInfo.paused = false;
+        frameLayout.removeAllViews();
+        frameLayout.addView(progressBar);
         startService(intent);
     }
 
@@ -120,7 +127,8 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
      * this function updates play button
      */
     private void updatePlayBtn() {
-        playBtn.setImageResource(R.drawable.ic_pause_circle_filled_black_24dp);
+        frameLayout.removeAllViews();
+        frameLayout.addView(pauseBtn);
         Utils.CurrTrackInfo.paused = false;
     }
 
@@ -178,11 +186,11 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
                     seeKBarRemain.setText(String.valueOf(0));
                 }
 
-                if (!Utils.CurrTrackInfo.paused || (mediaController.isMediaNotNull() && mediaController.isMediaPlayerPlaying())) {
+                if (mediaController.isMediaNotNull() && mediaController.isMediaPlayerPlaying()) {
                     updatePlayBtn();
                 } else {
-                    playBtn.setImageResource(R.drawable.ic_play_circle_filled_black_24dp);
-                }
+                    frameLayout.removeAllViews();
+                    frameLayout.addView(playBtn);                }
                 mHandler.postDelayed(this, 500);
             }
         });
@@ -204,7 +212,8 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
             }
 
             if (trackPos > Utils.CurrTrackInfo.currPlaylistTracks.size() - 1) {
-                playBtn.setImageResource(R.drawable.ic_play_circle_filled_black_24dp);
+                frameLayout.removeAllViews();
+                frameLayout.addView(playBtn);
                 Utils.CurrTrackInfo.paused = true;
                 seekBar.setProgress(0);
                 seekBarCurr.setText(String.valueOf(0));
@@ -221,7 +230,8 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
             updatePlayBtn();
             return;
         } else {
-            playBtn.setImageResource(R.drawable.ic_play_circle_filled_black_24dp);
+            frameLayout.removeAllViews();
+            frameLayout.addView(playBtn);
             Utils.CurrTrackInfo.paused = true;
             seekBar.setProgress(0);
             seekBarCurr.setText(String.valueOf(0));
@@ -235,22 +245,25 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
      * add listeners to views (playBtn , nextBtn , prevBtn , likeBtn ,hideBtn )
      */
     private void addListeners() {
-        playBtn.setOnClickListener(new View.OnClickListener() {
+        frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!mediaController.isMediaNotNull()) {
                     playTrack();
-                    playBtn.setImageResource(R.drawable.ic_pause_circle_filled_black_24dp);
+                    frameLayout.removeAllViews();
+                    frameLayout.addView(pauseBtn);
                     Utils.CurrTrackInfo.paused = false;
 
                 } else if (!Utils.CurrTrackInfo.paused) {
                     Utils.CurrTrackInfo.paused = true;
                     Utils.CurrTrackInfo.currPlayingPos = mediaController.getCurrentPosition();
                     mediaController.pauseMedia();
-                    playBtn.setImageResource(R.drawable.ic_play_circle_filled_black_24dp);
+                    frameLayout.removeAllViews();
+                    frameLayout.addView(playBtn);
                 } else {
                     mediaController.resumeMedia();
-                    playBtn.setImageResource(R.drawable.ic_pause_circle_filled_black_24dp);
+                    frameLayout.removeAllViews();
+                    frameLayout.addView(pauseBtn);
                     Utils.CurrTrackInfo.paused = false;
                 }
 
@@ -262,7 +275,8 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
                 if (Utils.CurrTrackInfo.TrackPosInPlaylist < Utils.CurrTrackInfo.currPlaylistTracks.size() - 1) {
                     Utils.CurrTrackInfo.TrackPosInPlaylist++;
                 }
-                playBtn.setImageResource(R.drawable.ic_pause_circle_filled_black_24dp);
+                frameLayout.removeAllViews();
+                frameLayout.addView(pauseBtn);
                 Utils.CurrTrackInfo.paused = false;
                 trackPos = Utils.CurrTrackInfo.TrackPosInPlaylist;
                 layoutManager.scrollToPosition(Utils.CurrTrackInfo.TrackPosInPlaylist);
@@ -280,7 +294,8 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
                 if (Utils.CurrTrackInfo.TrackPosInPlaylist > 0) {
                     Utils.CurrTrackInfo.TrackPosInPlaylist--;
                 }
-                playBtn.setImageResource(R.drawable.ic_pause_circle_filled_black_24dp);
+                frameLayout.removeAllViews();
+                frameLayout.addView(pauseBtn);
                 Utils.CurrTrackInfo.paused = false;
                 trackPos = Utils.CurrTrackInfo.TrackPosInPlaylist;
                 layoutManager.scrollToPosition(Utils.CurrTrackInfo.TrackPosInPlaylist);
@@ -381,9 +396,11 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         //update seekbar position
         if (mediaController.isMediaNotNull()) {
             if (mediaController.isMediaPlayerPlaying()) {
-                playBtn.setImageResource(R.drawable.ic_pause_circle_filled_black_24dp);
+                frameLayout.removeAllViews();
+                frameLayout.addView(pauseBtn);
             } else {
-                playBtn.setImageResource(R.drawable.ic_play_circle_filled_black_24dp);
+                frameLayout.removeAllViews();
+                frameLayout.addView(playBtn);
             }
             if (Utils.CurrTrackInfo.track.isLiked()) {
                 likeBtn.setImageResource(R.drawable.ic_favorite_black_24dp);
@@ -437,13 +454,19 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
      * this function bind views to variables
      */
     private void attachViews() {
+        playBtn = new ImageView(this);
+        playBtn.setImageResource(R.drawable.ic_play_circle_filled_black_24dp);
+        pauseBtn = new ImageView(this);
+        pauseBtn.setImageResource(R.drawable.ic_pause_circle_filled_black_24dp);
+        progressBar =  new ProgressBar(this);
+
         rvTracks = findViewById(R.id.rv_playlist_play_activity);
         trackArtist = findViewById(R.id.tv_track_artist);
         trackTitle = findViewById(R.id.tv_track_title_play_activity);
         playlistTitle = findViewById(R.id.tv_playlist_title_play_activity);
         closeActivity = findViewById(R.id.iv_close_play_activity);
         trackSettings = findViewById(R.id.iv_track_settings_play_activity);
-        playBtn = findViewById(R.id.iv_play_track_playActivity);
+        frameLayout = findViewById(R.id.play_btn_controller_play_activity);
         nextBtn = findViewById(R.id.iv_next_track_playActivity);
         prevBtn = findViewById(R.id.iv_prev_track_playActivity);
         hideBtn = findViewById(R.id.iv_hide_track_playActivity);

@@ -3,6 +3,7 @@ package com.example.symphonia.Service;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -16,7 +17,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
-import com.example.symphonia.Activities.User_Management.ForgetPassword.ResetPassword;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
@@ -46,12 +46,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import android.os.Handler;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Retrofit;
 
 /**
  * Class that holds all functions to be used to fill metadata of application
@@ -208,7 +205,7 @@ public class RestApi implements APIs {
     }
 
     @Override
-    public boolean forgetPassword(final Context context,final String email) {
+    public boolean forgetPassword(final Context context, final String email) {
         final updateUIForgetPassword updateUIforgetpassword = (updateUIForgetPassword) context;
         StringRequest stringrequest = new StringRequest(Request.Method.POST, (Constants.FORGET_PASSWORD_URL),
                 new Response.Listener<String>() {
@@ -241,8 +238,9 @@ public class RestApi implements APIs {
     }
 
 
-    public interface updateUIForgetPassword{
+    public interface updateUIForgetPassword {
         void updateUIForgetPasswordSuccess();
+
         void updateUIForgetPasswordFailed();
     }
 
@@ -661,7 +659,7 @@ public class RestApi implements APIs {
 
             @Override
             public String getBodyContentType() {
-                return "{\"contextId\": \""+ Utils.CurrTrackInfo.track.getmAlbumId() +",\"context_type\": \"album\",\"context_url\": \"https://thesymphonia.ddns.net/\",\"device\": \"android\"}";
+                return "{\"contextId\": \"" + Utils.CurrTrackInfo.track.getmAlbumId() + ",\"context_type\": \"album\",\"context_url\": \"https://thesymphonia.ddns.net/\",\"device\": \"android\"}";
             }
         };
 
@@ -687,9 +685,11 @@ public class RestApi implements APIs {
                 try {
                     Log.e("tracks", "respond");
                     Utils.LoadedPlaylists.randomPlaylists = new ArrayList<>();
-                    JSONArray root = new JSONArray(response);
-                    for (int i = 0; i < root.length(); i++) {
-                        JSONObject track = root.getJSONObject(i);
+                    JSONObject root = new JSONObject(response);
+                    JSONObject tracks = root.getJSONObject("tracks");
+                    JSONArray items = tracks.getJSONArray("items");
+                    for (int i = 0; i < items.length(); i++) {
+                        JSONObject track = items.getJSONObject(i);
                         String title = track.getString("name");
                         String id = track.getString("_id");
                         JSONObject album = track.getJSONObject("album");
@@ -700,7 +700,7 @@ public class RestApi implements APIs {
                         int duration = track.getInt("durationMs");
                         String premium = track.getString("premium");
                         tracksList.add(new Track(title, artistName, Utils.CurrPlaylist.playlist.getmPlaylistTitle()
-                                , id, (premium.matches("true")), R.drawable.no_image, duration, imageUrl,albumId));
+                                , id, (premium.matches("true")), R.drawable.no_image, duration, imageUrl, albumId));
                     }
                     Utils.CurrPlaylist.playlist.setTracks(tracksList);
                     Log.e("tracks", "success");
@@ -840,7 +840,8 @@ public class RestApi implements APIs {
     }
 
     /**
-     *ensure to return empty list when recent searches is required
+     * ensure to return empty list when recent searches is required
+     *
      * @param context context of the activity
      */
     @Override
@@ -850,6 +851,7 @@ public class RestApi implements APIs {
 
     /**
      * return a list of popular playlists
+     *
      * @param context context of the activity
      * @return a ArrayList of Container of Popular playlists
      */
@@ -860,6 +862,7 @@ public class RestApi implements APIs {
 
     /**
      * return four popular playlists
+     *
      * @param context context of the activity
      * @return return four popular playlists
      */
@@ -873,7 +876,7 @@ public class RestApi implements APIs {
      * Get information for a single artist identified by their unique ID
      *
      * @param context activity context
-     * @param id artist id
+     * @param id      artist id
      * @return artist object
      */
     @Override
@@ -885,8 +888,8 @@ public class RestApi implements APIs {
      * Get a list of the albums saved in the current user’s ‘Your Music’ library
      *
      * @param context Activity context
-     * @param offset The index of the first object to return
-     * @param limit The maximum number of objects to return
+     * @param offset  The index of the first object to return
+     * @param limit   The maximum number of objects to return
      * @return List of saved albums
      */
     @Override
@@ -898,9 +901,9 @@ public class RestApi implements APIs {
      * Get the current user’s followed artists
      *
      * @param listener
-     * @param type current type, can be artist or user
-     * @param limit he maximum number of items to return
-     * @param after the last artist ID retrieved from the previous request
+     * @param type     current type, can be artist or user
+     * @param limit    he maximum number of items to return
+     * @param after    the last artist ID retrieved from the previous request
      * @return list of followed artists
      */
     @Override
@@ -911,7 +914,7 @@ public class RestApi implements APIs {
         Uri.Builder builder = Uri.parse(Constants.FOLLOW_ARTIST_URL).buildUpon();
         builder.appendQueryParameter("type", type);
         builder.appendQueryParameter("limit", String.valueOf(limit));
-        builder.appendQueryParameter("after", (after == null)? "null":after);
+        builder.appendQueryParameter("after", (after == null) ? "null" : after);
 
         StringRequest request = new StringRequest(Request.Method.GET, builder.toString(), new Response.Listener<String>() {
             @Override
@@ -952,7 +955,7 @@ public class RestApi implements APIs {
         return followedArtists;
     }
 
-    public interface UpdateArtistsLibrary{
+    public interface UpdateArtistsLibrary {
         void updateArtists(ArrayList<Artist> returnedArtists);
     }
 
@@ -960,8 +963,8 @@ public class RestApi implements APIs {
      * Add the current user as a followers of one or more artists or other users
      *
      * @param context activity context
-     * @param type the type of what will be followed, can be artist or user
-     * @param ids array of users or artists ids
+     * @param type    the type of what will be followed, can be artist or user
+     * @param ids     array of users or artists ids
      */
     @Override
     public void followArtistsOrUsers(Context context, final String type, final ArrayList<String> ids) {
@@ -1006,8 +1009,8 @@ public class RestApi implements APIs {
      * Remove the current user as a follower of one or more artists or other users
      *
      * @param context activity context
-     * @param type the type of what will be unFollowed, can be artist or user
-     * @param ids array of users or artists ids
+     * @param type    the type of what will be unFollowed, can be artist or user
+     * @param ids     array of users or artists ids
      */
     @Override
     public void unFollowArtistsOrUsers(final Context context, final String type, final ArrayList<String> ids) {
@@ -1075,7 +1078,7 @@ public class RestApi implements APIs {
 
 
     @Override
-    public boolean resetPassword(final Context context, final String password,final String token) {
+    public boolean resetPassword(final Context context, final String password, final String token) {
         final updateUIResetPassword updateuiResetPassword = (updateUIResetPassword) context;
 
         RetrofitSingleton retrofitSingleton = RetrofitSingleton.getInstance();
@@ -1085,7 +1088,7 @@ public class RestApi implements APIs {
         passwords.put("password", password);
         passwords.put("passwordConfirm", password);
 
-        Call<JsonObject> call = retrofitApi.resetPassword(token,passwords);
+        Call<JsonObject> call = retrofitApi.resetPassword(token, passwords);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
@@ -1118,11 +1121,10 @@ public class RestApi implements APIs {
                         updateuiResetPassword.updateUIResetSuccess();
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Toast.makeText(context,R.string.error , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show();
                         updateuiResetPassword.updateUIResetFailed();
                     }
-                }
-                else{
+                } else {
                     Toast.makeText(context, R.string.token_is_expired, Toast.LENGTH_SHORT).show();
                     updateuiResetPassword.updateUIResetFailed();
                 }
@@ -1137,16 +1139,19 @@ public class RestApi implements APIs {
 
         return true;
     }
-    public interface updateUIResetPassword{
+
+    public interface updateUIResetPassword {
         void updateUIResetSuccess();
+
         void updateUIResetFailed();
     }
+
     /**
      * Check to see if the current user is following an artist or more or other users
      *
      * @param context activity context
-     * @param type the type of the checked objects, can be artist or user
-     * @param ids array of users or artists ids
+     * @param type    the type of the checked objects, can be artist or user
+     * @param ids     array of users or artists ids
      * @return array of boolean
      */
     @Override
@@ -1158,9 +1163,9 @@ public class RestApi implements APIs {
      * Get a list of recommended artist for the current user
      *
      * @param context activity context
-     * @param type artist or user
-     * @param offset the beginning of the items
-     * @param limit the maximum number of items to return
+     * @param type    artist or user
+     * @param offset  the beginning of the items
+     * @param limit   the maximum number of items to return
      * @return list of recommended artists
      */
     @Override
@@ -1209,7 +1214,7 @@ public class RestApi implements APIs {
             }
 
         };
-        if(finishedUnFollowing)
+        if (finishedUnFollowing)
             VolleySingleton.getInstance(context).getRequestQueue().add(request);
         else {
             final Handler handler = new Handler();
@@ -1226,6 +1231,7 @@ public class RestApi implements APIs {
 
     public interface UpdateAddArtists {
         void updateGetRecommendedArtists(ArrayList<Artist> returnedArtists);
+
         void updateFail(int offset, int limit);
     }
 
@@ -1234,7 +1240,7 @@ public class RestApi implements APIs {
      * Get information about artists similar to a given artist.
      *
      * @param context activity context
-     * @param id artist id
+     * @param id      artist id
      * @return Arraylist of similar artists
      */
     public ArrayList<Artist> getArtistRelatedArtists(Context context, String id) {
@@ -1245,9 +1251,9 @@ public class RestApi implements APIs {
      * Search for a specific artist
      *
      * @param context Activity context
-     * @param q Query to search for
-     * @param offset The index of the first result to return
-     * @param limit Maximum number of results to return
+     * @param q       Query to search for
+     * @param offset  The index of the first result to return
+     * @param limit   Maximum number of results to return
      * @return List of search result artists
      */
     @Override
@@ -1259,7 +1265,7 @@ public class RestApi implements APIs {
      * Get information for a single album.
      *
      * @param context activity context
-     * @param id album id
+     * @param id      album id
      * @return album object
      */
     @Override
@@ -1272,9 +1278,9 @@ public class RestApi implements APIs {
      * Optional parameters can be used to limit the number of tracks returned.
      *
      * @param context activity context
-     * @param id album id
-     * @param offset the beginning of the tracks list
-     * @param limit the maximum number of tracks to get
+     * @param id      album id
+     * @param offset  the beginning of the tracks list
+     * @param limit   the maximum number of tracks to get
      * @return array of album tracks
      */
     @Override
@@ -1286,7 +1292,7 @@ public class RestApi implements APIs {
      * Save one or more albums to the current user’s ‘Your Music’ library.
      *
      * @param context activity context
-     * @param ids array of albums ids
+     * @param ids     array of albums ids
      */
     @Override
     public void saveAlbumsForUser(Context context, ArrayList<String> ids) {
@@ -1297,7 +1303,7 @@ public class RestApi implements APIs {
      * Remove one or more albums from the current user’s ‘Your Music’ library.
      *
      * @param context activity context
-     * @param ids array of albums ids
+     * @param ids     array of albums ids
      */
     @Override
     public void removeAlbumsForUser(Context context, ArrayList<String> ids) {
@@ -1308,7 +1314,7 @@ public class RestApi implements APIs {
      * Check if one or more albums is already saved in the current user’s ‘Your Music’ library.
      *
      * @param context activity context
-     * @param ids array of albums ids
+     * @param ids     array of albums ids
      * @return array of booleans, true for found and false for not found
      */
     @Override
@@ -1342,7 +1348,8 @@ public class RestApi implements APIs {
 
     /**
      * make request to get current user profile
-     * @param context context of the activity
+     *
+     * @param context          context of the activity
      * @param settingsFragment the fragment which called this function
      * @return user profile
      */
@@ -1391,8 +1398,9 @@ public class RestApi implements APIs {
     }
 
     /**
-     *make request to get current user playlists
-     * @param context context of the activity
+     * make request to get current user playlists
+     *
+     * @param context         context of the activity
      * @param fragmentProfile the fragment which called this function
      * @return ArrayList of Container of User's playlists
      */
@@ -1487,7 +1495,8 @@ public class RestApi implements APIs {
 
     /**
      * make request to get users who the current user follow
-     * @param context context of the activity
+     *
+     * @param context                  context of the activity
      * @param profileFollowersFragment the fragment which called this function
      * @return ArrayList of Container current user following
      */
@@ -1538,7 +1547,8 @@ public class RestApi implements APIs {
 
     /**
      * make request to get a list of current user followers
-     * @param context context of the activity
+     *
+     * @param context                  context of the activity
      * @param profileFollowersFragment the fragment the function is called from
      * @return ArrayList of Container of Followers
      */
@@ -1589,7 +1599,8 @@ public class RestApi implements APIs {
 
     /**
      * make request to get number of user followers
-     * @param context context of the activity
+     *
+     * @param context         context of the activity
      * @param fragmentProfile the fragment the function is called from
      * @return string of the number of followers
      */
@@ -1631,7 +1642,8 @@ public class RestApi implements APIs {
 
     /**
      * make request to get number of users that user follow
-     * @param context context of the activity
+     *
+     * @param context         context of the activity
      * @param fragmentProfile the fragment the function is called from
      * @return string of the number of following
      */
@@ -1678,7 +1690,8 @@ public class RestApi implements APIs {
 
     /**
      * make request to get current user playlists
-     * @param context context of the activity
+     *
+     * @param context                  context of the activity
      * @param profilePlaylistsFragment the fragment the function is called from
      * @return current user playlists
      */
@@ -1731,7 +1744,8 @@ public class RestApi implements APIs {
 
     /**
      * make request to follow playlist
-     * @param context context of the activity
+     *
+     * @param context                  context of the activity
      * @param bottomSheetDialogProfile the fragment the function is called from
      */
     @Override
@@ -1741,6 +1755,7 @@ public class RestApi implements APIs {
 
     /**
      * make a request to get number of artists in search result
+     *
      * @return int artists Count
      */
     @Override
@@ -1750,6 +1765,7 @@ public class RestApi implements APIs {
 
     /**
      * make a request to get number of profiles in search result
+     *
      * @return int profiles Count
      */
     @Override
@@ -1759,6 +1775,7 @@ public class RestApi implements APIs {
 
     /**
      * make a request to get number of playlists in search result
+     *
      * @return int playlists Count
      */
     @Override
@@ -1768,6 +1785,7 @@ public class RestApi implements APIs {
 
     /**
      * make a request to get number of genres in search result
+     *
      * @return int genres Count
      */
     @Override
@@ -1777,6 +1795,7 @@ public class RestApi implements APIs {
 
     /**
      * make a request to get number of songs in search result
+     *
      * @return int songs Count
      */
     @Override
@@ -1786,6 +1805,7 @@ public class RestApi implements APIs {
 
     /**
      * get number of albums in search result
+     *
      * @return int albums Count
      */
     @Override
