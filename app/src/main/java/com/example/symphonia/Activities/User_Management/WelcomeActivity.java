@@ -1,12 +1,14 @@
 package com.example.symphonia.Activities.User_Management;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.symphonia.Activities.User_Management.SignUp.Step1Activity;
+import com.example.symphonia.Constants;
 import com.example.symphonia.R;
 
 /**
@@ -60,4 +62,10 @@ public class WelcomeActivity extends AppCompatActivity {
         i.putExtra("user", mType);
         startActivity(i);
     }
+
+    public void goFacebook(View view) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.BASE_URL+"api/v1/users/auth/facebook"));
+        startActivity(intent);
+    }
+
 }

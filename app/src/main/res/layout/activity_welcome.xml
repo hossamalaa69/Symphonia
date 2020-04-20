@@ -68,6 +68,7 @@
 
     <Button
         android:id="@+id/connectfacebook"
+        android:onClick="goFacebook"
         android:layout_width="300dp"
         android:layout_height="55dp"
         android:layout_below="@+id/signup"
