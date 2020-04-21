@@ -949,6 +949,59 @@ public class RestApi implements APIs {
         void updateAlbums(ArrayList<Album> returnedAlbums);
     }
 
+    @Override
+    public ArrayList<Playlist> getCurrentUserPlaylists(final UpdatePlaylistsLibrary listener, int offset, int limit) {
+
+        final ArrayList<Playlist> returnedPlaylists = new ArrayList<>();
+
+        Uri.Builder builder = Uri.parse(Constants.Get_Current_User_Profile_playlists).buildUpon();
+        builder.appendQueryParameter("limit", String.valueOf(limit));
+        builder.appendQueryParameter("offset", String.valueOf(offset));
+
+        final StringRequest request = new StringRequest(Request.Method.GET, builder.toString(), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject root = new JSONObject(response);
+                    JSONObject playlists = root.getJSONObject("playlists");
+                    JSONArray playlistsArray = playlists.getJSONArray("items");
+                    for (int i = 0; i < playlistsArray.length(); i++) {
+                        JSONObject playlist = playlistsArray.getJSONObject(i);
+                        String id = playlist.getString("_id");
+                        String name = playlist.getString("name");
+                        String imageUrl = playlist.getJSONArray("images").getString(0);
+                        String ownerName = playlist.getJSONObject("owner").getString("name");
+                        returnedPlaylists.add(new Playlist(id, name, imageUrl, ownerName));
+                    }
+                    listener.updatePlaylists(returnedPlaylists);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + Constants.currentToken);
+                return headers;
+            }
+
+        };
+
+        VolleySingleton.getInstance(App.getContext()).getRequestQueue().add(request);
+        return returnedPlaylists;
+    }
+
+    public interface UpdatePlaylistsLibrary {
+        void updatePlaylists(ArrayList<Playlist> returnedPlaylists);
+    }
+
+
     /**
      * Get the current user’s followed artists
      *

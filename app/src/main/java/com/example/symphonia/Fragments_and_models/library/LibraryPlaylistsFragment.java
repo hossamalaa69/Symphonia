@@ -1,16 +1,31 @@
 package com.example.symphonia.Fragments_and_models.library;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Activities.User_Interface.CreatePlaylistActivity;
+import com.example.symphonia.Adapters.RvListPlaylistsAdapter;
+import com.example.symphonia.Entities.Playlist;
+import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
+import com.example.symphonia.Service.RestApi;
+import com.example.symphonia.Service.ServiceController;
+
+import java.util.ArrayList;
 
 /**
  * responsible for all the interaction with the playlists
@@ -19,8 +34,50 @@ import com.example.symphonia.R;
  * @author islamahmed1092
  * @version 1.0
  */
-public class LibraryPlaylistsFragment extends Fragment {
+public class LibraryPlaylistsFragment extends Fragment implements RvListPlaylistsAdapter.ListItemClickListener,
+        RvListPlaylistsAdapter.ListItemLongClickListener,
+        RestApi.UpdatePlaylistsLibrary {
 
+    /**
+     * final variable to send the clicked index to the bottomsheet
+     */
+    private static final String CLICKED_INDEX = "CLICKED_INDEX";
+
+    /**
+     * recyclerview to show the data of the albums
+     */
+    private RecyclerView mPlaylistsList;
+
+    /**
+     * adapter to control the items in recyclerview
+     */
+    private RvListPlaylistsAdapter mAdapter;
+    /**
+     * user's saved albums
+     */
+    private ArrayList<Playlist> mFollowedPlaylists;
+    /**
+     * instance to request data from mock services and API
+     */
+    private ServiceController mServiceController;
+    /**
+     * the last touched view
+     */
+    private View touchedView = null;
+    /**
+     * the first x when the user puts his finger on the screen
+     * used to animate the touch of the views
+     */
+    private float firstX = 0;
+    /**
+     * the first y when the user puts his finger on the screen
+     * used to animate the touch of the views
+     */
+    private float firstY = 0;
+
+    private ProgressBar progressBar;
+    private LinearLayout createPlaylist;
+    private ConstraintLayout likedSongs;
     public LibraryPlaylistsFragment() {
         // Required empty public constructor
     }
@@ -35,12 +92,16 @@ public class LibraryPlaylistsFragment extends Fragment {
      * @param savedInstanceState saved data from previous calls
      * @return fragment layout
      */
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_library_playlists, container, false);
-        LinearLayout createPlaylist = rootView.findViewById(R.id.create_playlist);
+
+        createPlaylist = rootView.findViewById(R.id.create_playlist);
+        likedSongs = rootView.findViewById(R.id.liked_songs);
+
         createPlaylist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,6 +109,152 @@ public class LibraryPlaylistsFragment extends Fragment {
                 startActivity(createPlaylistintent);
             }
         });
+
+        mServiceController = ServiceController.getInstance();
+        mPlaylistsList = rootView.findViewById(R.id.rv_playlists);
+        progressBar = rootView.findViewById(R.id.progress_bar);
+        mPlaylistsList.setVisibility(View.INVISIBLE);
+        createPlaylist.setVisibility(View.INVISIBLE);
+        likedSongs.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+
+        mFollowedPlaylists = new ArrayList<>();
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mPlaylistsList.setLayoutManager(layoutManager);
+        mAdapter = new RvListPlaylistsAdapter(new ArrayList<Playlist>(), this, this);
+        mPlaylistsList.setAdapter(mAdapter);
+
+        mServiceController.getCurrentUserPlaylists(this,0, 65535);
+
+
+        createPlaylist.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(final View v, MotionEvent event) {
+                float currentY = event.getY();
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        Utils.startTouchAnimation(v, 0.98f, 0.5f);
+                        firstY = currentY;
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        Utils.cancelTouchAnimation(v);
+                        if ((currentY >= 0) && (currentY <= v.getHeight())) {
+                            v.performClick();
+                        }
+                        return true;
+                    case MotionEvent.ACTION_MOVE:
+                        if (Math.abs(currentY - firstY) > 3) {
+                            Utils.cancelTouchAnimation(v);
+                        }
+                        return true;
+
+                }
+
+                return false;
+            }
+        });
+
+        likedSongs.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(final View v, MotionEvent event) {
+                float currentX = event.getX();
+                float currentY = event.getY();
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        Utils.startTouchAnimation(v, 0.98f, 0.5f);
+                        firstX = currentX;
+                        firstY = currentY;
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        Utils.cancelTouchAnimation(v);
+                        if ((currentY >= 0) && (currentY <= v.getHeight())) {
+                            v.performClick();
+                        }
+                        return true;
+                    case MotionEvent.ACTION_MOVE:
+                        if ((currentX != firstX) || (Math.abs(currentY - firstY) > 3)) {
+                            Utils.cancelTouchAnimation(v);
+                        }
+                        return true;
+
+                }
+
+                return false;
+            }
+        });
+
+
+        mPlaylistsList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+                float currentX = e.getX();
+                float currentY = e.getY();
+
+                View newTouchedView = mPlaylistsList.findChildViewUnder(currentX, currentY);
+                if(touchedView != null && touchedView != newTouchedView){
+                    Utils.cancelTouchAnimation(touchedView);
+                }
+
+                touchedView = newTouchedView;
+                switch (e.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        Utils.startTouchAnimation(touchedView, 0.98f, 0.5f);
+                        firstX = currentX;
+                        firstY = currentY;
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        Utils.cancelTouchAnimation(touchedView);
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        if((currentX != firstX) || (Math.abs(currentY - firstY) > 3)){
+                            Utils.cancelTouchAnimation(touchedView);
+                            Utils.cancelTouchAnimation(createPlaylist);
+                            Utils.cancelTouchAnimation(likedSongs);
+                        }
+                        break;
+                }
+
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
+
         return rootView;
+    }
+
+    @Override
+    public void onListItemClick(int clickedItemIndex) {
+
+    }
+
+    @Override
+    public void onListItemLongClick(int clickedItemIndex) {
+
+    }
+
+    @Override
+    public void updatePlaylists(ArrayList<Playlist> returnedPlaylists) {
+        mPlaylistsList.setVisibility(View.VISIBLE);
+        createPlaylist.setVisibility(View.VISIBLE);
+        likedSongs.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
+
+        mFollowedPlaylists.clear();
+        mFollowedPlaylists.addAll(returnedPlaylists);
+
+        mAdapter.clear();
+        mAdapter.addAll(mFollowedPlaylists);
+        mAdapter.notifyDataSetChanged();
     }
 }

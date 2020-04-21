@@ -372,6 +372,11 @@ public class ServiceController {
         return mSupplier.getUserSavedAlbums(listener, offset, limit);
     }
 
+    public ArrayList<Playlist> getCurrentUserPlaylists(RestApi.UpdatePlaylistsLibrary listener, int offset, int limit){
+        return mSupplier.getCurrentUserPlaylists(listener, offset, limit);
+    }
+
+
     /**
      * return a list of popular playlists
      * @param context context of the activity

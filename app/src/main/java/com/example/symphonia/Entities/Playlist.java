@@ -20,6 +20,8 @@ public class Playlist {
      * playlist description
      */
     private String mPlaylistDescription;
+
+    private String mOwnerName;
     /**
      * playlist image
      */
@@ -52,6 +54,20 @@ public class Playlist {
         this.mPlaylistDescription = mPlaylistDescription;
         this.mPlaylistImage = mPlaylistImage;
         this.tracks = tracks;
+    }
+
+    public Playlist(String id, String mPlaylistTitle, Bitmap mPlaylistImage, String mOwnerName){
+        this.id = id;
+        this.mPlaylistTitle = mPlaylistTitle;
+        this.mPlaylistImage = mPlaylistImage;
+        this.mOwnerName = mOwnerName;
+    }
+
+    public Playlist(String id, String mPlaylistTitle, String imageUrl, String mOwnerName){
+        this.id = id;
+        this.mPlaylistTitle = mPlaylistTitle;
+        this.imageUrl = imageUrl;
+        this.mOwnerName = mOwnerName;
     }
 
     /**
@@ -152,5 +168,9 @@ public class Playlist {
      */
     public void setPlaylistImage(Bitmap bitmap) {
         mPlaylistImage = bitmap;
+    }
+
+    public String getOwnerName() {
+        return mOwnerName;
     }
 }

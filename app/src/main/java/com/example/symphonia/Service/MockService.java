@@ -881,6 +881,11 @@ public class MockService implements APIs {
         return returnedArtists;
     }
 
+    @Override
+    public ArrayList<Playlist> getCurrentUserPlaylists(RestApi.UpdatePlaylistsLibrary listener, int offset, int limit) {
+        return null;
+    }
+
     /**
      * Add the current user as a followers of one or more artists or other users
      *

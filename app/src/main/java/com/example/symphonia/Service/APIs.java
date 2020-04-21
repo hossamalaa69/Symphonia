@@ -265,6 +265,7 @@ public interface APIs {
      */
     ArrayList<Artist> getFollowedArtists(RestApi.UpdateArtistsLibrary listener, String type, int limit, String after);
 
+    ArrayList<Playlist> getCurrentUserPlaylists(RestApi.UpdatePlaylistsLibrary listener, int offset, int limit);
 
     /**
      * Add the current user as a followers of one or more artists or other users
