@@ -6,12 +6,14 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:background="@null"
+    android:id="@+id/nestedscrollview"
     tools:background="@color/colorPrimary"
     tools:context=".Fragments_and_models.library.LibraryPlaylistsFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:descendantFocusability="blocksDescendants">
 
         <LinearLayout
             android:id="@+id/create_playlist"

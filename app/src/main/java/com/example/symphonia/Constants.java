@@ -25,7 +25,7 @@ public class Constants {
      * debug status for app to decide which service mode will be used
      * true for MockService, false for REST APIs mode
      */
-    public final static boolean DEBUG_STATUS = true;
+    public final static boolean DEBUG_STATUS = false;
 
     /**
      * holds base url
@@ -99,6 +99,8 @@ public class Constants {
 
 
     public static final String FOLLOW_ARTIST_URL = BASE_URL + "api/v1/me/following";
+
+    public static final String SAVED_TRACKS = BASE_URL + "api/v1/me/tracks";
 
     /**
      * url of request to get tracks of a playlist

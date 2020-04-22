@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +27,7 @@ import com.example.symphonia.R;
 import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 /**
@@ -37,7 +39,8 @@ import java.util.ArrayList;
  */
 public class LibraryPlaylistsFragment extends Fragment implements RvListPlaylistsAdapter.ListItemClickListener,
         RvListPlaylistsAdapter.ListItemLongClickListener,
-        RestApi.UpdatePlaylistsLibrary {
+        RestApi.UpdatePlaylistsLibrary,
+        RestApi.UpdateLikedSongsNumber{
 
     /**
      * final variable to send the clicked index to the bottomsheet
@@ -79,6 +82,8 @@ public class LibraryPlaylistsFragment extends Fragment implements RvListPlaylist
     private ProgressBar progressBar;
     private LinearLayout createPlaylist;
     private ConstraintLayout likedSongs;
+    private TextView songsNumber;
+    private NestedScrollView nestedScrollView;
     public LibraryPlaylistsFragment() {
         // Required empty public constructor
     }
@@ -99,9 +104,12 @@ public class LibraryPlaylistsFragment extends Fragment implements RvListPlaylist
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_library_playlists, container, false);
-
+        mServiceController = ServiceController.getInstance();
+        mServiceController.getNumberOfLikedSongs(this);
+        nestedScrollView = rootView.findViewById(R.id.nestedscrollview);
         createPlaylist = rootView.findViewById(R.id.create_playlist);
         likedSongs = rootView.findViewById(R.id.liked_songs);
+        songsNumber = rootView.findViewById(R.id.text_songs_number);
 
         createPlaylist.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,7 +129,6 @@ public class LibraryPlaylistsFragment extends Fragment implements RvListPlaylist
             }
         });
 
-        mServiceController = ServiceController.getInstance();
         mPlaylistsList = rootView.findViewById(R.id.rv_playlists);
         progressBar = rootView.findViewById(R.id.progress_bar);
         mPlaylistsList.setVisibility(View.INVISIBLE);
@@ -267,5 +274,11 @@ public class LibraryPlaylistsFragment extends Fragment implements RvListPlaylist
         mAdapter.clear();
         mAdapter.addAll(mFollowedPlaylists);
         mAdapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void updateNumber(int noOfTracks) {
+        songsNumber.setText(MessageFormat.format("{0} songs", noOfTracks));
     }
 }

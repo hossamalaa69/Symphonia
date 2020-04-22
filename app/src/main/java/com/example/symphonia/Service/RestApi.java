@@ -995,8 +995,56 @@ public class RestApi implements APIs {
     }
 
     @Override
-    public ArrayList<Track> getUserSavedTracks(RestApi.UpdateSavedTracks listener, int offset, int limit) {
-        return null;
+    public ArrayList<Track> getUserSavedTracks(final RestApi.UpdateSavedTracks listener, int offset, int limit) {
+        final ArrayList<Track> returnedTracks = new ArrayList<>();
+
+        Uri.Builder builder = Uri.parse(Constants.SAVED_TRACKS).buildUpon();
+        builder.appendQueryParameter("limit", String.valueOf(limit));
+        builder.appendQueryParameter("offset", String.valueOf(offset));
+
+        final StringRequest request = new StringRequest(Request.Method.GET, builder.toString(), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject root = new JSONObject(response);
+                    JSONObject tracks = root.getJSONObject("tracks");
+                    JSONArray items = tracks.getJSONArray("items");
+                    for (int i = 0; i < items.length(); i++) {
+                        JSONObject track = items.getJSONObject(i);
+                        String title = track.getString("name");
+                        String id = track.getString("_id");
+                        JSONObject album = track.getJSONObject("album");
+                        String imageUrl = album.optString("image");
+                        String albumId = album.getString("_id");
+                        JSONObject artist = track.getJSONObject("artist");
+                        String artistName = artist.getString("name");
+                        int duration = track.getInt("durationMs");
+                        String premium = track.getString("premium");
+                        returnedTracks.add(new Track(title, artistName, ""
+                                , id, (premium.matches("true")), R.drawable.no_image, duration, imageUrl, albumId));
+                    }
+                    listener.updateTracks(returnedTracks);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + Constants.currentToken);
+                return headers;
+            }
+
+        };
+
+        VolleySingleton.getInstance(App.getContext()).getRequestQueue().add(request);
+        return returnedTracks;
     }
 
     public interface UpdateSavedTracks{
@@ -1522,6 +1570,43 @@ public class RestApi implements APIs {
 
         VolleySingleton.getInstance(context).getRequestQueue().add(stringRequest);
         return profile[0];
+    }
+
+    @Override
+    public int getNumberOfLikedSongs(final UpdateLikedSongsNumber listener) {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constants.Get_Current_User_Profile,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject root = new JSONObject(response);
+                            JSONArray tracks = root.getJSONArray("followedTracks");
+                            listener.updateNumber(tracks.length());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + Constants.currentToken);
+                return headers;
+            }
+
+        };
+
+        VolleySingleton.getInstance(App.getContext()).getRequestQueue().add(stringRequest);
+        return 0;
+    }
+
+    public interface UpdateLikedSongsNumber{
+        void updateNumber(int noOfTracks);
     }
 
     /**

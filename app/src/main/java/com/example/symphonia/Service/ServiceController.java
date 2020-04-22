@@ -380,6 +380,10 @@ public class ServiceController {
         return mSupplier.getUserSavedTracks(listener, offset, limit);
     }
 
+    public int getNumberOfLikedSongs(RestApi.UpdateLikedSongsNumber listener){
+        return mSupplier.getNumberOfLikedSongs(listener);
+    }
+
 
     /**
      * return a list of popular playlists

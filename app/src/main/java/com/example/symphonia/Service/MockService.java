@@ -223,7 +223,6 @@ public class MockService implements APIs {
         mLikedSongs = new ArrayList<>();
         mLikedSongs.addAll(tracks);
         mLikedSongs.addAll(rTracks);
-        mLikedSongs.addAll(ranTracks);
     }
 
     /**
@@ -1177,6 +1176,12 @@ public class MockService implements APIs {
     @Override
     public Profile getCurrentUserProfile(Context context, SettingsFragment settingsFragment) {
         return null;
+    }
+
+    @Override
+    public int getNumberOfLikedSongs(RestApi.UpdateLikedSongsNumber listener) {
+        listener.updateNumber(Constants.currentUser.getLikedSongs().size());
+        return Constants.currentUser.getLikedSongs().size();
     }
 
     /**

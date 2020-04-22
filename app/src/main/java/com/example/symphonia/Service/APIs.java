@@ -387,6 +387,7 @@ public interface APIs {
      */
     Profile getCurrentUserProfile(Context context, SettingsFragment settingsFragment);
 
+    int getNumberOfLikedSongs(RestApi.UpdateLikedSongsNumber listener);
     /**
      *get current user playlists
      * @param context context of the activity
