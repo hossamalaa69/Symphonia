@@ -335,7 +335,7 @@ public class RestApi implements APIs {
     public interface updateUiPlaylists {
         void getCategoriesSuccess();
 
-        void updateUiNoTracks();
+        void updateUiNoTracks(PlaylistFragment playlistFragment);
 
         void updateUiGetTracksOfPlaylist(PlaylistFragment playlistFragment);
 
@@ -518,20 +518,15 @@ public class RestApi implements APIs {
                     Utils.LoadedPlaylists.recentPlaylists = new ArrayList<>();
                     updateUiPlaylists listener = (updateUiPlaylists) context;
                     JSONObject root = new JSONObject(response);
-                    JSONObject playlistsObj = root.getJSONObject("history");
-                    JSONArray playlists = playlistsObj.getJSONArray("items");
+                    JSONArray playlists = root.getJSONArray("history");
                     for (int i = 0; i < playlists.length(); i++) {
                         JSONObject playlist = playlists.getJSONObject(i);
-                        JSONObject context = playlist.optJSONObject("context");
-                        if (context != null) {
-                            String title = context.getString("name");
-                            String decs = context.optString("description");
-                            JSONArray images = context.getJSONArray("images");
-                            String imageUrl = (String) images.get(0);
-                            String id = context.getString("_id");
-                            Utils.LoadedPlaylists.recentPlaylists.add(new Playlist(title, id, decs, imageUrl,
-                                    null, Constants.BASE_URL + Constants.GET_PLAYLISTS_TRACKS + id + "/tracks"));
-                        }
+                        String title = playlist.getString("contextName");
+                        String decs = playlist.optString("contextDescription");
+                        String imageUrl = playlist.getString("contextImage");
+                        String id = playlist.getString("contextId");
+                        Utils.LoadedPlaylists.recentPlaylists.add(new Playlist(title, id, decs, imageUrl,
+                                null, Constants.BASE_URL + Constants.GET_PLAYLISTS_TRACKS + id + "/tracks"));
                     }
                     Log.e("recent", "success");
                     listener.updateUiGetRecentPlaylistsSuccess(fragment);
@@ -694,7 +689,7 @@ public class RestApi implements APIs {
                         String title = track.getString("name");
                         String id = track.getString("_id");
                         JSONObject album = track.getJSONObject("album");
-                        String imageUrl = album.getString("image");
+                        String imageUrl = album.optString("image");
                         String albumId = album.getString("_id");
                         JSONObject artist = track.getJSONObject("artist");
                         String artistName = artist.getString("name");
@@ -708,7 +703,7 @@ public class RestApi implements APIs {
                     listener.updateUiGetTracksOfPlaylist(playlistFragment);
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    listener.updateUiNoTracks();
+                    listener.updateUiNoTracks(playlistFragment);
 
                 }
             }
@@ -716,8 +711,6 @@ public class RestApi implements APIs {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("tracks", "error");
-
-
             }
         });
         VolleySingleton.getInstance(context).getRequestQueue().add(request);

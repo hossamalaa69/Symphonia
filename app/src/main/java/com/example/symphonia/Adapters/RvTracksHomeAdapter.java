@@ -200,13 +200,18 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
         public void bind(int pos) {
 
             if (!Constants.DEBUG_STATUS)
-                Picasso.get()
-                        .load(mTracks.get(pos).getImageUrl())
-                        .fit()
-                        .centerCrop()
-                        .into(ivTrackImage);
-            else
-                ivTrackImage.setImageResource(mTracks.get(pos).getmImageResources());
+                if (!mTracks.get(pos).getImageUrl().matches(""))
+                    Picasso.get()
+                            .load(mTracks.get(pos).getImageUrl())
+                            .fit()
+                            .centerCrop()
+                            .into(ivTrackImage);
+                else {
+                    ivTrackImage.setImageResource(R.drawable.no_image);
+                    mTracks.get(pos).setImageResources(R.drawable.no_image);
+                }
+                else
+                    ivTrackImage.setImageResource(mTracks.get(pos).getmImageResources());
             tvTrackTitle.setText(mTracks.get(pos).getmTitle());
             tvTrackDescription.setText(mTracks.get(pos).getmArtist());
             Track track = mTracks.get(getAdapterPosition());

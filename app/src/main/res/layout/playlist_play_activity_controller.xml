@@ -56,6 +56,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias=".3" />
 
+
     <FrameLayout
         android:id="@+id/play_btn_controller_play_activity"
         android:layout_width="@dimen/image_small_item_size"
@@ -66,7 +67,6 @@
         app:layout_constraintStart_toEndOf="@+id/iv_prev_track_playActivity"
         app:layout_constraintTop_toTopOf="@+id/seek_bar_play_activity"
         app:layout_constraintVertical_bias=".3" />
-
 
     <ImageButton
         android:id="@+id/iv_next_track_playActivity"

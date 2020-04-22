@@ -117,8 +117,7 @@ public class HomeFragment extends Fragment {
     /**
      * this function hides views untill data is loaded
      */
-    private  void hideViews()
-    {
+    private void hideViews() {
         View view = root.findViewById(R.id.recently_played_playlist);
         rvRecentlyPlayed = view.findViewById(R.id.rv_sample_home);
         playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
@@ -137,6 +136,25 @@ public class HomeFragment extends Fragment {
         playlistTitle.setVisibility(View.GONE);
 
 
+    }
+
+    private void showViews() {
+        View view = root.findViewById(R.id.recently_played_playlist);
+        rvRecentlyPlayed = view.findViewById(R.id.rv_sample_home);
+        playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
+        playlistTitle.setVisibility(View.VISIBLE);
+        view = root.findViewById(R.id.your_heavy_rotation_playlist);
+        rvHeavyPlaylist = view.findViewById(R.id.rv_sample_home);
+        playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
+        playlistTitle.setVisibility(View.VISIBLE);
+        view = root.findViewById(R.id.based_on_your_recently_listening_playlist);
+        rvBasedOnYourRecentlyPlayed = view.findViewById(R.id.rv_sample_home);
+        playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
+        playlistTitle.setVisibility(View.VISIBLE);
+        view = root.findViewById(R.id.made_for_you_playlist);
+        rvMadeForYou = view.findViewById(R.id.rv_sample_home);
+        playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
+        playlistTitle.setVisibility(View.VISIBLE);
     }
 
 
@@ -169,10 +187,10 @@ public class HomeFragment extends Fragment {
      * load data from service
      */
     public void loadAllPlaylists() {
-        ServiceController SController = ServiceController.getInstance();
 
         //   popularPlaylists = SController.getPopularPlaylists(getContext(), Constants.currentToken);
         //   madeForYouPlaylists = SController.getMadeForYoutPlaylists(getContext(), Constants.currentToken);
+        ServiceController SController = ServiceController.getInstance();
         playlists = SController.getRandomPlaylists(getContext(), this);
         recentPlaylists = SController.getRecentPlaylists(getContext(), this);
 

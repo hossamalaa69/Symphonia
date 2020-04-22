@@ -355,4 +355,8 @@ public class Track implements Serializable {
     public String getId() {
         return id;
     }
+
+    public void setImageResources(int no_image) {
+        mImageResources = no_image;
+    }
 }

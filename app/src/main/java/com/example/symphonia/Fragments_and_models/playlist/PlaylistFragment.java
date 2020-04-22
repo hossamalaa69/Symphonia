@@ -234,8 +234,8 @@ public class PlaylistFragment extends Fragment {
                 !Utils.CurrPlaylist.playlist.getmPlaylistTitle().matches(Utils.CurrTrackInfo.currPlaylistName)) {
             return;
         }
-        if (prev != -1 && Utils.CurrTrackInfo.currPlaylistTracks != null &&
-                !(Utils.CurrTrackInfo.currPlaylistTracks.get(prev).isLocked() && !Constants.currentUser.isPremuim())
+        if (prev != -1 && Utils.CurrPlaylist.playlist.getTracks() != null &&
+                !(Utils.CurrPlaylist.playlist.getTracks().get(prev).isLocked() && !Constants.currentUser.isPremuim())
         ) {
             if (prev > -1 && pos < Utils.CurrTrackInfo.currPlaylistTracks.size()) {
                 View prevView = rvTracks.getLayoutManager().getChildAt(prev);
@@ -253,7 +253,7 @@ public class PlaylistFragment extends Fragment {
                 }
             }
         }
-        if (pos != -1 && pos < Utils.CurrTrackInfo.currPlaylistTracks.size()) {
+        if (pos != -1 && pos < Utils.CurrPlaylist.playlist.getTracks().size()) {
             View view = rvTracks.getLayoutManager().getChildAt(pos);
             TextView tvTitle = null;
             if (null != view) {

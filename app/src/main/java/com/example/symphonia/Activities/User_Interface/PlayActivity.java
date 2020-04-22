@@ -38,6 +38,8 @@ import com.squareup.picasso.Target;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import okhttp3.internal.Util;
+
 /**
  * Activity that accessing tracks and playing them
  *
@@ -94,9 +96,9 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
 
         Utils.setTrackInfo(0, pos, tracks);
         trackPos = pos;
-        playTrack();
         updateScreen();
-        updatePlayBtn();
+        playTrack();
+
     }
 
     /**
@@ -176,9 +178,9 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
                     seekBar.setMax(Utils.CurrTrackInfo.track.getmDuration() / 1000);
                     int mCurrentPosition = mediaController.getCurrentPosition();
                     seekBar.setProgress(mCurrentPosition / 1000);
-                    seekBarCurr.setText(String.valueOf(mCurrentPosition / 1000));
-                    seeKBarRemain.setText(String.valueOf(-(
-                            Utils.CurrTrackInfo.track.getmDuration() - mCurrentPosition) / 1000));
+                    seekBarCurr.setText((mCurrentPosition / 60000+":"+(mCurrentPosition / 1000)%60));
+                    seeKBarRemain.setText("-"+ (Utils.CurrTrackInfo.track.getmDuration() - mCurrentPosition)/60000
+                    +":"+((Utils.CurrTrackInfo.track.getmDuration() - mCurrentPosition)/1000)%60);
                 } else if (!mediaController.isMediaNotNull()) {
                     seekBar.setMax(0);
                     seekBar.setProgress(0);
@@ -187,11 +189,9 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
                 }
 
                 if (mediaController.isMediaNotNull() && mediaController.isMediaPlayerPlaying()) {
-                    updatePlayBtn();
-                } else {
-                    frameLayout.removeAllViews();
-                    frameLayout.addView(playBtn);                }
-                mHandler.postDelayed(this, 500);
+                   updatePlayBtn();
+                }
+                mHandler.postDelayed(this, 1000);
             }
         });
     }
@@ -224,10 +224,9 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
             Utils.CurrTrackInfo.TrackPosInPlaylist = trackPos;
             layoutManager.scrollToPosition(Utils.CurrTrackInfo.TrackPosInPlaylist);
             Utils.setTrackInfo(0, Utils.CurrTrackInfo.TrackPosInPlaylist, tracks);
+            updateScreen();
             playTrack();
             Utils.CurrTrackInfo.paused = false;
-            updateScreen();
-            updatePlayBtn();
             return;
         } else {
             frameLayout.removeAllViews();
@@ -272,19 +271,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Utils.CurrTrackInfo.TrackPosInPlaylist < Utils.CurrTrackInfo.currPlaylistTracks.size() - 1) {
-                    Utils.CurrTrackInfo.TrackPosInPlaylist++;
-                }
-                frameLayout.removeAllViews();
-                frameLayout.addView(pauseBtn);
-                Utils.CurrTrackInfo.paused = false;
-                trackPos = Utils.CurrTrackInfo.TrackPosInPlaylist;
-                layoutManager.scrollToPosition(Utils.CurrTrackInfo.TrackPosInPlaylist);
-                Utils.setTrackInfo(0, Utils.CurrTrackInfo.TrackPosInPlaylist, tracks);
-                playTrack();
-                updateScreen();
-                updatePlayBtn();
-
+              playNextTrack();
             }
         });
 
@@ -300,10 +287,8 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
                 trackPos = Utils.CurrTrackInfo.TrackPosInPlaylist;
                 layoutManager.scrollToPosition(Utils.CurrTrackInfo.TrackPosInPlaylist);
                 Utils.setTrackInfo(0, Utils.CurrTrackInfo.TrackPosInPlaylist, tracks);
-                playTrack();
                 updateScreen();
-                updatePlayBtn();
-
+                playTrack();
             }
         });
         likeBtn.setOnClickListener(new View.OnClickListener() {
@@ -435,8 +420,6 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
             });
 
             //Make sure you update SeekBar on UI thread
-
-
         }
 
     }
@@ -478,7 +461,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
     }
 
     public void checkAds() {
-        if (!Constants.currentUser.isPremuim()) {
+        if (Constants.currentUser.isPremuim()) {
             Intent i = new Intent(this, AdDialog.class);
             startActivity(i);
         }
