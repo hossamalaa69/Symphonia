@@ -16,6 +16,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
+        <activity android:name=".Activities.User_Management.PaymentActivity">
+
+        </activity>
+
         <activity android:name=".Activities.User_Management.FacebookRedirect">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -24,9 +29,9 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="https"
                     android:host="thesymphonia.ddns.net"
-                    android:pathPrefix="/facebook/" />
+                    android:pathPrefix="/facebook/"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
         <activity
@@ -192,6 +197,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
     </application>
 

@@ -1,5 +1,6 @@
 package com.example.symphonia.Fragments_and_models.premium;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
 import com.example.symphonia.Activities.User_Interface.MainActivity;
+import com.example.symphonia.Activities.User_Management.PaymentActivity;
 import com.example.symphonia.Adapters.PremiumAdapter;
 import com.example.symphonia.Constants;
 import com.example.symphonia.R;
@@ -106,10 +108,14 @@ public class PremiumFragment extends Fragment {
             @Override
             public void onClick(View v)
             {
-                ServiceController serviceController = ServiceController.getInstance();
-
-                serviceController.promotePremium(getContext(), root, Constants.currentToken);
-                checkPremium(root);
+                if(Constants.DEBUG_STATUS){
+                    ServiceController serviceController = ServiceController.getInstance();
+                    serviceController.promotePremium(getContext(), root, Constants.currentToken);
+                    checkPremium(root);
+                } else{
+                    Intent i = new Intent(getContext(), PaymentActivity.class);
+                    startActivity(i);
+                }
             }
         });
 
