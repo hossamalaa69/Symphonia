@@ -22,6 +22,7 @@ public class Playlist {
     private String mPlaylistDescription;
 
     private String mOwnerName;
+
     /**
      * playlist image
      */
@@ -64,6 +65,13 @@ public class Playlist {
     }
 
     public Playlist(String id, String mPlaylistTitle, String imageUrl, String mOwnerName){
+        this.id = id;
+        this.mPlaylistTitle = mPlaylistTitle;
+        this.imageUrl = imageUrl;
+        this.mOwnerName = mOwnerName;
+    }
+
+    public Playlist(String id, String mPlaylistTitle, String mOwnerName){
         this.id = id;
         this.mPlaylistTitle = mPlaylistTitle;
         this.imageUrl = imageUrl;
@@ -161,6 +169,9 @@ public class Playlist {
         this.tracks = tracks;
     }
 
+    public void setmOwnerName(String mOwnerName) {
+        this.mOwnerName = mOwnerName;
+    }
     /**
      * setter for playlist image
      *

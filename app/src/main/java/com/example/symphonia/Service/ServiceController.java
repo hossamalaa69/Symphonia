@@ -376,6 +376,10 @@ public class ServiceController {
         return mSupplier.getCurrentUserPlaylists(listener, offset, limit);
     }
 
+    public ArrayList<Track> getUserSavedTracks(RestApi.UpdateSavedTracks listener, int offset, int limit){
+        return mSupplier.getUserSavedTracks(listener, offset, limit);
+    }
+
 
     /**
      * return a list of popular playlists

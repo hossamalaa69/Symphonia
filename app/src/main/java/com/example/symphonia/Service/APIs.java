@@ -267,6 +267,9 @@ public interface APIs {
 
     ArrayList<Playlist> getCurrentUserPlaylists(RestApi.UpdatePlaylistsLibrary listener, int offset, int limit);
 
+    ArrayList<Track> getUserSavedTracks(RestApi.UpdateSavedTracks listener, int offset, int limit);
+
+
     /**
      * Add the current user as a followers of one or more artists or other users
      *
@@ -498,4 +501,5 @@ public interface APIs {
      * @param context_type type of context
      */
     void playTrack(Context context, String id, String context_id, String context_url, String context_type);
+
 }

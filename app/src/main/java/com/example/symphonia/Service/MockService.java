@@ -47,6 +47,8 @@ public class MockService implements APIs {
     private ArrayList<Playlist> mRecentPlaylists;
     private ArrayList<Artist> mArtists;
     private ArrayList<Album> mAlbums;
+    private ArrayList<Track> mLikedSongs;
+    private ArrayList<Playlist> mPlaylists;
     private ArrayList<Container> mData;
     private ArrayList<Container> mRecentSearches;
     private ArrayList<Playlist> mPopularPlaylists;
@@ -212,7 +214,16 @@ public class MockService implements APIs {
         mRandomPlaylists.add(new Playlist("Daily Left", "Sia, J Balvin, Bad Bunny, Justin Bieber, Drake",
                 Utils.convertToBitmap(R.drawable.daily_left), ranTracks));
 
+        mPlaylists = new ArrayList<>();
+        mPlaylists.addAll(mPopularPlaylists);
+        mPlaylists.addAll(mRecentPlaylists);
+        mPlaylists.get(0).setmOwnerName("Symphonia");
+        mPlaylists.get(1).setmOwnerName("Symphonia");
 
+        mLikedSongs = new ArrayList<>();
+        mLikedSongs.addAll(tracks);
+        mLikedSongs.addAll(rTracks);
+        mLikedSongs.addAll(ranTracks);
     }
 
     /**
@@ -338,8 +349,8 @@ public class MockService implements APIs {
                     , "Islam Ahmed", "1998/24/11", "male"
                     , mArtistArrayList.get(userIndex).isPremuim()
                     , 65500, 40, new ArrayList<User>()
-                    , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
-                    , followed, new ArrayList<Album>(mAlbums), new ArrayList<Track>());
+                    , new ArrayList<User>(), mPlaylists, new ArrayList<Playlist>()
+                    , followed, new ArrayList<Album>(mAlbums), mLikedSongs);
             Constants.currentUser.setUserType("artist");
         } else {
 
@@ -356,8 +367,8 @@ public class MockService implements APIs {
                     , "Hossam Alaa", "1999/04/06", "male"
                     , mListenerArrayList.get(userIndex).isPremuim()
                     , 65500, 40, new ArrayList<User>()
-                    , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
-                    , followed, new ArrayList<Album>(mAlbums), new ArrayList<Track>());
+                    , new ArrayList<User>(), mPlaylists, new ArrayList<Playlist>()
+                    , followed, new ArrayList<Album>(mAlbums), mLikedSongs);
         }
         if (mType)
             Constants.currentUser.setUserType("user");
@@ -404,7 +415,7 @@ public class MockService implements APIs {
         //creates new object of user and fill data
         Constants.currentUser = new User(email, "2030k", mType, Utils.convertToBitmap(R.drawable.download)
                 , name, DOB, gender, false, 0, 0, new ArrayList<User>()
-                , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
+                , new ArrayList<User>(), mPlaylists, new ArrayList<Playlist>()
                 , new ArrayList<Artist>(), new ArrayList<Album>(), new ArrayList<Track>());
         if (mType)
             Constants.currentUser.setUserType("user");
@@ -883,7 +894,24 @@ public class MockService implements APIs {
 
     @Override
     public ArrayList<Playlist> getCurrentUserPlaylists(RestApi.UpdatePlaylistsLibrary listener, int offset, int limit) {
-        return null;
+        ArrayList<Playlist> followedPlaylists = Constants.currentUser.getAllPlaylists();
+        ArrayList<Playlist> returnedPlaylists = new ArrayList<>();
+        for (int i = 0; i < Math.min(limit, followedPlaylists.size()); i++) {
+            returnedPlaylists.add(followedPlaylists.get(i));
+        }
+        listener.updatePlaylists(returnedPlaylists);
+        return returnedPlaylists;
+    }
+
+    @Override
+    public ArrayList<Track> getUserSavedTracks(RestApi.UpdateSavedTracks listener, int offset, int limit) {
+        ArrayList<Track> savedTracks = Constants.currentUser.getLikedSongs();
+        ArrayList<Track> returnedTracks = new ArrayList<>();
+        for (int i = 0; i < Math.min(limit, savedTracks.size()); i++) {
+            returnedTracks.add(savedTracks.get(i));
+        }
+        listener.updateTracks(returnedTracks);
+        return returnedTracks;
     }
 
     /**

@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.palette.graphics.Palette;
 
 import com.example.symphonia.Entities.Album;
@@ -106,19 +107,10 @@ public class BottomSheetDialogAlbum extends BottomSheetDialogFragment {
         final BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from((View) (view.getParent()));
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
-        bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View view, int i) {
-                if (i == BottomSheetBehavior.STATE_DRAGGING) {
-                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                }
-            }
-
-            @Override
-            public void onSlide(@NonNull View view, float v) {
-
-            }
-        });
+        //this prevents dragging behavior
+        View content = bottomSheet.getWindow().findViewById(R.id.design_bottom_sheet);
+        content.setLayoutParams(new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MATCH_PARENT, CoordinatorLayout.LayoutParams.MATCH_PARENT));
+        ((CoordinatorLayout.LayoutParams) content.getLayoutParams()).setBehavior(null);
 
         TextView albumName = view.findViewById(R.id.text_album_name);
         albumName.setText(mAlbum.getAlbumName());

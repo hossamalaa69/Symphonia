@@ -91,13 +91,11 @@ public class User {
      */
     private ArrayList<Artist> mFollowingArtists;
     /**
-     * holds array of played tracks
-     */
-    private ArrayList<Track> mPlayedTracks;
-    /**
      * holds array of saved albums
      */
     private ArrayList<Album> mSavedAlbums;
+
+    private ArrayList<Track> mLikedSongs;
 
 
     public User() {
@@ -146,13 +144,13 @@ public class User {
      * @param mMadePlaylists    array of playlist that made for user
      * @param mFollowingArtists array of following artists
      * @param mSavedAlbums      array of saved albums
-     * @param mPlayedTracks     array of played tracks
+     * @param mLikedSongs     array of saved tracks
      */
     public User(String mEmail, String id, boolean mType, Bitmap mUserImage, String mName, String mDOB
             , String mGender, boolean mIsPremuim, int mNumOfFollowers, int mNumOfFollowings
             , ArrayList<User> mFollowings, ArrayList<User> mFollowers
             , ArrayList<Playlist> mFavPlaylists, ArrayList<Playlist> mMadePlaylists
-            , ArrayList<Artist> mFollowingArtists, ArrayList<Album> mSavedAlbums, ArrayList<Track> mPlayedTracks) {
+            , ArrayList<Artist> mFollowingArtists, ArrayList<Album> mSavedAlbums, ArrayList<Track> mLikedSongs) {
 
         this.mEmail = mEmail;
         this._id = id;
@@ -169,7 +167,7 @@ public class User {
         this.mFavPlaylists = mFavPlaylists;
         this.mMadePlaylists = mMadePlaylists;
         this.mFollowingArtists = mFollowingArtists;
-        this.mPlayedTracks = mPlayedTracks;
+        this.mLikedSongs = mLikedSongs;
         this.mSavedAlbums = mSavedAlbums;
     }
 
@@ -536,22 +534,29 @@ public class User {
         return false;
     }
 
+    public ArrayList<Playlist> getAllPlaylists(){
+        ArrayList<Playlist> playlists = new ArrayList<>();
+        playlists.addAll(mFavPlaylists);
+        playlists.addAll(mMadePlaylists);
+        return playlists;
+    }
+
     /**
      * getter for array of played tracks
      *
      * @return returns array of played tracks
      */
-    public ArrayList<Track> getmPlayedTracks() {
-        return mPlayedTracks;
+    public ArrayList<Track> getLikedSongs() {
+        return mLikedSongs;
     }
 
     /**
      * setter for array of played tracks
      *
-     * @param mPlayedTracks array of played tracks
+     * @param mLikedSongs array of saved tracks
      */
-    public void setmPlayedTracks(ArrayList<Track> mPlayedTracks) {
-        this.mPlayedTracks = mPlayedTracks;
+    public void setLikedSongs(ArrayList<Track> mLikedSongs) {
+        this.mLikedSongs = mLikedSongs;
     }
 
     /**

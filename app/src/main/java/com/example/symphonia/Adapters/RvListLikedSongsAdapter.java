@@ -9,29 +9,31 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.symphonia.Entities.Playlist;
+import com.example.symphonia.Entities.Artist;
+import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class RvListPlaylistsAdapter extends RecyclerView.Adapter<RvListPlaylistsAdapter.PlaylistViewHolder> {
+public class RvListLikedSongsAdapter extends RecyclerView.Adapter<RvListLikedSongsAdapter.SongViewHolder> {
 
-
-    private ArrayList<Playlist> mPlaylists;
+    /**
+     * list of user's saved albums
+     */
+    private ArrayList<Track> mTracks;
     /**
      * an object from the interface to handle the click on list items
      */
     private ListItemClickListener mOnClickListener;
+
     private ListItemLongClickListener mOnLongClickListener;
 
-    /**
-     * @param playlists
-     * @param mOnClickListener click listener for the list items
-     */
-    public RvListPlaylistsAdapter(ArrayList<Playlist> playlists, ListItemClickListener mOnClickListener, ListItemLongClickListener mOnLongClickListener) {
-        this.mPlaylists = playlists;
+
+
+    public RvListLikedSongsAdapter(ArrayList<Track> mTracks, ListItemClickListener mOnClickListener, ListItemLongClickListener mOnLongClickListener) {
+        this.mTracks = mTracks;
         this.mOnClickListener = mOnClickListener;
         this.mOnLongClickListener = mOnLongClickListener;
     }
@@ -41,75 +43,76 @@ public class RvListPlaylistsAdapter extends RecyclerView.Adapter<RvListPlaylists
      */
     @Override
     public int getItemCount() {
-        return mPlaylists.size();
-    }
-
-    /**
-     * clear all the data in artists array
-     * and create a new one
-     */
-    public void clear() {
-        mPlaylists.clear();
-        mPlaylists = new ArrayList<>();
-    }
-
-    /**
-     * adding an arraylist to the existing one
-     *
-     * @param artists array to be added
-     */
-    public void addAll(ArrayList<Playlist> artists) {
-        this.mPlaylists.addAll(artists);
+        return mTracks.size();
     }
 
 
     /**
      * returns the right view holder for each item in recyclerview
      *
-     * @param parent   the root view
+     * @param parent the root view
      * @param viewType useful if there is more than one view holder
      * @return view holder for the artist item
      */
     @NonNull
     @Override
-    public PlaylistViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SongViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_playlist_list_item, parent, false);
-        return new PlaylistViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_liked_song_item, parent, false);
+        return new SongViewHolder(view);
     }
 
     /**
      * bind the view holder which has the turn to be shown
      *
-     * @param holder   item view holder
+     * @param holder item view holder
      * @param position its position in recyclerview
      */
     @Override
-    public void onBindViewHolder(PlaylistViewHolder holder, int position) {
+    public void onBindViewHolder(SongViewHolder holder, int position) {
         holder.bind(position);
+    }
+
+    /**
+     * clear all the data in tracks array
+     * and create a new one
+     */
+    public void clear(){
+        mTracks.clear();
+        mTracks = new ArrayList<>();
+    }
+
+    /**
+     * adding an arraylist to the existing one
+     *
+     * @param tracks array to be added
+     */
+    public void addAll(ArrayList<Track> tracks){
+        this.mTracks.addAll(tracks);
     }
 
     /**
      * holding the data of each item and showing them
      */
-    public class PlaylistViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
-        ImageView playlistImage;
-        TextView playlistName;
-        TextView ownerName;
+    public class SongViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
+        ImageView trackImage;
+        TextView trackName;
+        TextView artistName;
 
         /**
          * prepare the views of the item and set the clicklistener
          *
          * @param itemView view of the recyclerview item
          */
-        PlaylistViewHolder(View itemView) {
+        SongViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
             Utils.cancelTouchAnimation(itemView);
-            playlistImage = itemView.findViewById(R.id.image_playlist);
-            playlistName = itemView.findViewById(R.id.text_playlist_name);
-            ownerName = itemView.findViewById(R.id.text_owner_name);
+            trackImage = itemView.findViewById(R.id.image_track);
+            trackName = itemView.findViewById(R.id.text_track_name);
+            artistName = itemView.findViewById(R.id.text_artist_name);
+
         }
 
         /**
@@ -118,18 +121,16 @@ public class RvListPlaylistsAdapter extends RecyclerView.Adapter<RvListPlaylists
          * @param position item position
          */
         void bind(int position) {
-            Playlist playlist = mPlaylists.get(position);
-
-            if (playlist.getmPlaylistImage() != null)
-                playlistImage.setImageBitmap(playlist.getmPlaylistImage());
-            else if(playlist.getImageUrl() != null) {
+            Track track = mTracks.get(position);
+            if (track.getmImageResources() != -1)
+                Picasso.get().load(track.getmImageResources()).placeholder(R.drawable.placeholder_playlist).into(trackImage);
+            else
                 Picasso.get()
-                        .load(playlist.getImageUrl())
+                        .load(track.getImageUrl())
                         .placeholder(R.drawable.placeholder_playlist)
-                        .into(playlistImage);
-            }
-            playlistName.setText(playlist.getmPlaylistTitle());
-            ownerName.setText(String.format("by %s", playlist.getOwnerName()));
+                        .into(trackImage);
+            trackName.setText(track.getmTitle());
+            artistName.setText(track.getmArtist());
         }
 
         /**
@@ -147,20 +148,20 @@ public class RvListPlaylistsAdapter extends RecyclerView.Adapter<RvListPlaylists
             mOnLongClickListener.onListItemLongClick(getAdapterPosition());
             return true;
         }
-
     }
 
     /**
      * Interface to handle click for the items
      */
-    public interface ListItemClickListener {
+    public interface ListItemClickListener{
         void onListItemClick(int clickedItemIndex);
     }
 
     /**
      * Interface to handle the long click for the items
      */
-    public interface ListItemLongClickListener {
+    public interface ListItemLongClickListener{
         void onListItemLongClick(int clickedItemIndex);
     }
+
 }

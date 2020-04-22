@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Activities.User_Interface.CreatePlaylistActivity;
+import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Adapters.RvListPlaylistsAdapter;
 import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Helpers.Utils;
@@ -107,6 +108,16 @@ public class LibraryPlaylistsFragment extends Fragment implements RvListPlaylist
             public void onClick(View v) {
                 Intent createPlaylistintent = new Intent(getActivity(), CreatePlaylistActivity.class);
                 startActivity(createPlaylistintent);
+            }
+        });
+
+        likedSongs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(
+                        R.id.nav_host_fragment, new LikedSongsFragment())
+                        .addToBackStack(null)
+                        .commit();
             }
         });
 

@@ -66,7 +66,7 @@ public class Track implements Serializable {
     /**
      * image resource of track
      */
-    private int mImageResources;
+    private int mImageResources = -1;
     /**
      * Duration of Track
      */

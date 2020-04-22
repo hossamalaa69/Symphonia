@@ -994,6 +994,17 @@ public class RestApi implements APIs {
         void updatePlaylists(ArrayList<Playlist> returnedPlaylists);
     }
 
+    @Override
+    public ArrayList<Track> getUserSavedTracks(RestApi.UpdateSavedTracks listener, int offset, int limit) {
+        return null;
+    }
+
+    public interface UpdateSavedTracks{
+        void updateTracks(ArrayList<Track> returnedTracks);
+    }
+
+
+
 
     /**
      * Get the current user’s followed artists
