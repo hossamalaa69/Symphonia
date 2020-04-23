@@ -47,6 +47,7 @@ public class MockService implements APIs {
     private ArrayList<Playlist> mRecentPlaylists;
     private ArrayList<Artist> mArtists;
     private ArrayList<Album> mAlbums;
+    private ArrayList<Track> mTracks;
     private ArrayList<Track> mLikedSongs;
     private ArrayList<Playlist> mPlaylists;
     private ArrayList<Container> mData;
@@ -217,12 +218,24 @@ public class MockService implements APIs {
         mPlaylists = new ArrayList<>();
         mPlaylists.addAll(mPopularPlaylists);
         mPlaylists.addAll(mRecentPlaylists);
-        mPlaylists.get(0).setmOwnerName("Symphonia");
-        mPlaylists.get(1).setmOwnerName("Symphonia");
+
+        for (Playlist playlist: mPlaylists) {
+            playlist.setmOwnerName("Symphonia");
+        }
+
+        mTracks = new ArrayList<>();
+        mTracks.addAll(tracks);
+        mTracks.addAll(rTracks);
+        mTracks.addAll(ranTracks);
+
+        for (int i = 0; i < mTracks.size(); i++) {
+            mTracks.get(i).setId(String.valueOf(i));
+        }
 
         mLikedSongs = new ArrayList<>();
         mLikedSongs.addAll(tracks);
         mLikedSongs.addAll(rTracks);
+
     }
 
     /**
@@ -911,6 +924,23 @@ public class MockService implements APIs {
         }
         listener.updateTracks(returnedTracks);
         return returnedTracks;
+    }
+
+    @Override
+    public ArrayList<Track> getRecommendedTracks(RestApi.UpdateExtraSongs listener, int offset, int limit) {
+        ArrayList<Track> recommendedTracks = new ArrayList<>();
+        ArrayList<Track> currentTracks = new ArrayList<>();
+        for (Track track : mTracks) {
+            if (!Constants.currentUser.checkLikedSong(track)) currentTracks.add(track);
+        }
+
+        for (int i = offset; i < Math.min(offset + limit, currentTracks.size()); i++) {
+            recommendedTracks.add(currentTracks.get(i));
+        }
+
+        listener.updateExtra(recommendedTracks);
+
+        return recommendedTracks;
     }
 
     /**

@@ -521,6 +521,13 @@ public class User {
         return false;
     }
 
+    public boolean checkLikedSong(Track checkedTrack){
+        for (Track track: mLikedSongs) {
+            if(track.getId().equals(checkedTrack.getId())) return true;
+        }
+        return false;
+    }
+
     /**
      * checks if following an artist
      *

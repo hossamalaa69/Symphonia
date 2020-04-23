@@ -380,6 +380,10 @@ public class ServiceController {
         return mSupplier.getUserSavedTracks(listener, offset, limit);
     }
 
+    public ArrayList<Track> getRecommendedTracks(RestApi.UpdateExtraSongs listener, int offset, int limit){
+        return mSupplier.getRecommendedTracks(listener, offset, limit);
+    }
+
     public int getNumberOfLikedSongs(RestApi.UpdateLikedSongsNumber listener){
         return mSupplier.getNumberOfLikedSongs(listener);
     }

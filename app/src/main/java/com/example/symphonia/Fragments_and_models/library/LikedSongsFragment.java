@@ -34,8 +34,11 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class LikedSongsFragment extends Fragment implements RvListLikedSongsAdapter.ListItemClickListener,
+        RvTracksPreviewAdapter.ListItemClickListener,
         RvListLikedSongsAdapter.ListItemLongClickListener,
-        RestApi.UpdateSavedTracks {
+        RvTracksPreviewAdapter.ListItemLongClickListener,
+        RestApi.UpdateSavedTracks,
+        RestApi.UpdateExtraSongs{
 
     private RecyclerView mTracksList;
 
@@ -47,6 +50,18 @@ public class LikedSongsFragment extends Fragment implements RvListLikedSongsAdap
      * user's saved albums
      */
     private ArrayList<Track> mLikedSongs;
+
+    private RecyclerView mExtraSongsList;
+
+    /**
+     * adapter to control the items in recyclerview
+     */
+    private RvTracksPreviewAdapter mExtraAdapter;
+    /**
+     * user's saved albums
+     */
+    private ArrayList<Track> mExtraSongs;
+
     /**
      * instance to request data from mock services and API
      */
@@ -65,6 +80,9 @@ public class LikedSongsFragment extends Fragment implements RvListLikedSongsAdap
      * used to animate the touch of the views
      */
     private float firstY = 0;
+
+    private TextView extraSongs;
+
 
     public LikedSongsFragment() {
         // Required empty public constructor
@@ -86,6 +104,8 @@ public class LikedSongsFragment extends Fragment implements RvListLikedSongsAdap
         });
 
         final TextView likedSongs = rootView.findViewById(R.id.text_liked_songs);
+        extraSongs = rootView.findViewById(R.id.text_extra_songs);
+        extraSongs.setVisibility(View.INVISIBLE);
         final TextView title = rootView.findViewById(R.id.title);
         title.setAlpha(0);
 
@@ -116,8 +136,7 @@ public class LikedSongsFragment extends Fragment implements RvListLikedSongsAdap
         mTracksList.setLayoutManager(layoutManager);
         mAdapter = new RvListLikedSongsAdapter(new ArrayList<Track>(), this, this);
         mTracksList.setAdapter(mAdapter);
-
-        mTracksList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+        RecyclerView.OnItemTouchListener touchListener= new RecyclerView.OnItemTouchListener() {
 
             @Override
             public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
@@ -125,7 +144,7 @@ public class LikedSongsFragment extends Fragment implements RvListLikedSongsAdap
                 float currentX = e.getX();
                 float currentY = e.getY();
 
-                View newTouchedView = mTracksList.findChildViewUnder(currentX, currentY);
+                View newTouchedView = rv.findChildViewUnder(currentX, currentY);
                 if(touchedView != null && touchedView != newTouchedView){
                     Utils.cancelTouchAnimation(touchedView);
                 }
@@ -159,9 +178,20 @@ public class LikedSongsFragment extends Fragment implements RvListLikedSongsAdap
             public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
             }
-        });
+        };
+        mTracksList.addOnItemTouchListener(touchListener);
 
         mServiceController.getUserSavedTracks(this,0, 65535);
+        mExtraSongsList = rootView.findViewById(R.id.rv_extra_songs);
+
+
+        mExtraSongs = new ArrayList<>();
+        LinearLayoutManager extraLayoutManager = new LinearLayoutManager(getActivity());
+        mExtraSongsList.setLayoutManager(extraLayoutManager);
+        mExtraAdapter = new RvTracksPreviewAdapter(new ArrayList<Track>(), this, this);
+        mExtraSongsList.setAdapter(mExtraAdapter);
+        mExtraSongsList.addOnItemTouchListener(touchListener);
+        mServiceController.getRecommendedTracks(this,0, 13);
 
 
         return rootView;
@@ -185,5 +215,26 @@ public class LikedSongsFragment extends Fragment implements RvListLikedSongsAdap
         mAdapter.clear();
         mAdapter.addAll(mLikedSongs);
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void updateExtra(ArrayList<Track> returnedTracks) {
+        extraSongs.setVisibility(View.VISIBLE);
+        mExtraSongs.clear();
+        mExtraSongs.addAll(returnedTracks);
+
+        mExtraAdapter.clear();
+        mExtraAdapter.addAll(mExtraSongs);
+        mExtraAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onTrackPreviewClick(int clickedItemIndex) {
+
+    }
+
+    @Override
+    public void onTrackPreviewLongClick(int clickedItemIndex) {
+
     }
 }

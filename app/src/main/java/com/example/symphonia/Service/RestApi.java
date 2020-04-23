@@ -1051,6 +1051,64 @@ public class RestApi implements APIs {
         void updateTracks(ArrayList<Track> returnedTracks);
     }
 
+    @Override
+    public ArrayList<Track> getRecommendedTracks(final RestApi.UpdateExtraSongs listener, int offset, int limit) {
+        final ArrayList<Track> returnedTracks = new ArrayList<>();
+
+        Uri.Builder builder = Uri.parse(Constants.RANDOM_RECOMMENDATIONS).buildUpon();
+        builder.appendQueryParameter("limit", String.valueOf(limit));
+        builder.appendQueryParameter("offset", String.valueOf(offset));
+
+        final StringRequest request = new StringRequest(Request.Method.GET, builder.toString(), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject root = new JSONObject(response);
+                    JSONObject tracks = root.getJSONObject("tracks");
+                    JSONArray items = tracks.getJSONArray("items");
+                    for (int i = 0; i < items.length(); i++) {
+                        JSONObject track = items.getJSONObject(i);
+                        String title = track.getString("name");
+                        String id = track.getString("_id");
+                        JSONObject album = track.getJSONObject("album");
+                        String imageUrl = album.getString("image");
+                        String albumId = album.getString("_id");
+                        JSONObject artist = track.getJSONObject("artist");
+                        String artistName = artist.getString("name");
+                        int duration = track.getInt("durationMs");
+                        String premium = track.getString("premium");
+                        returnedTracks.add(new Track(title, artistName, ""
+                                , id, (premium.matches("true")), R.drawable.no_image, duration, imageUrl, albumId));
+                    }
+                    listener.updateExtra(returnedTracks);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + Constants.currentToken);
+                return headers;
+            }
+
+        };
+
+        VolleySingleton.getInstance(App.getContext()).getRequestQueue().add(request);
+        return returnedTracks;
+    }
+
+    public interface UpdateExtraSongs{
+        void updateExtra(ArrayList<Track> returnedTracks);
+    }
+
+
 
 
 

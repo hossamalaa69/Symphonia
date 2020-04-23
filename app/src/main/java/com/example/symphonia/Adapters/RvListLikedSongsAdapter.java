@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Helpers.Utils;
@@ -122,7 +123,7 @@ public class RvListLikedSongsAdapter extends RecyclerView.Adapter<RvListLikedSon
          */
         void bind(int position) {
             Track track = mTracks.get(position);
-            if (track.getmImageResources() != -1)
+            if (Constants.DEBUG_STATUS)
                 Picasso.get().load(track.getmImageResources()).placeholder(R.drawable.placeholder_playlist).into(trackImage);
             else
                 Picasso.get()

@@ -269,6 +269,9 @@ public interface APIs {
 
     ArrayList<Track> getUserSavedTracks(RestApi.UpdateSavedTracks listener, int offset, int limit);
 
+    ArrayList<Track> getRecommendedTracks(RestApi.UpdateExtraSongs listener, int offset, int limit);
+
+
 
     /**
      * Add the current user as a followers of one or more artists or other users

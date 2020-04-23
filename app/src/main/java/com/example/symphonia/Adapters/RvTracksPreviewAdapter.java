@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Helpers.Utils;
@@ -30,10 +31,13 @@ public class RvTracksPreviewAdapter extends RecyclerView.Adapter<RvTracksPreview
      */
     private ListItemClickListener mOnClickListener;
 
+    private ListItemLongClickListener mOnLongClickListener;
 
-    public RvTracksPreviewAdapter(ArrayList<Track> mTracks, ListItemClickListener mOnClickListener) {
+
+    public RvTracksPreviewAdapter(ArrayList<Track> mTracks, ListItemClickListener mOnClickListener, ListItemLongClickListener mOnLongClickListener) {
         this.mTracks = mTracks;
         this.mOnClickListener = mOnClickListener;
+        this.mOnLongClickListener = mOnLongClickListener;
     }
 
     /**
@@ -72,9 +76,28 @@ public class RvTracksPreviewAdapter extends RecyclerView.Adapter<RvTracksPreview
     }
 
     /**
+     * clear all the data in tracks array
+     * and create a new one
+     */
+    public void clear(){
+        mTracks.clear();
+        mTracks = new ArrayList<>();
+    }
+
+    /**
+     * adding an arraylist to the existing one
+     *
+     * @param tracks array to be added
+     */
+    public void addAll(ArrayList<Track> tracks){
+        this.mTracks.addAll(tracks);
+    }
+
+
+    /**
      * holding the data of each item and showing them
      */
-    public class TrackPreviewViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class TrackPreviewViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
         ImageView trackImage;
         TextView trackName;
         TextView artistName;
@@ -87,9 +110,10 @@ public class RvTracksPreviewAdapter extends RecyclerView.Adapter<RvTracksPreview
         TrackPreviewViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
             Utils.cancelTouchAnimation(itemView);
-            trackImage = itemView.findViewById(R.id.image_album);
-            trackName = itemView.findViewById(R.id.text_album_name);
+            trackImage = itemView.findViewById(R.id.image_track);
+            trackName = itemView.findViewById(R.id.text_track_name);
             artistName = itemView.findViewById(R.id.text_artist_name);
 
         }
@@ -101,10 +125,13 @@ public class RvTracksPreviewAdapter extends RecyclerView.Adapter<RvTracksPreview
          */
         void bind(int position) {
             Track track = mTracks.get(position);
-            Picasso.get()
-                    .load(track.getImageUrl())
-                    .placeholder(R.drawable.placeholder_playlist)
-                    .into(trackImage);
+            if (Constants.DEBUG_STATUS)
+                Picasso.get().load(track.getmImageResources()).placeholder(R.drawable.placeholder_playlist).into(trackImage);
+            else
+                Picasso.get()
+                        .load(track.getImageUrl())
+                        .placeholder(R.drawable.placeholder_playlist)
+                        .into(trackImage);
             trackName.setText(track.getmTitle());
             artistName.setText(track.getmArtist());
         }
@@ -116,18 +143,29 @@ public class RvTracksPreviewAdapter extends RecyclerView.Adapter<RvTracksPreview
          */
         @Override
         public void onClick(View v) {
-            mOnClickListener.onListItemClick(getAdapterPosition());
+            mOnClickListener.onTrackPreviewClick(getAdapterPosition());
         }
 
+        @Override
+        public boolean onLongClick(View v) {
+            mOnLongClickListener.onTrackPreviewLongClick(getAdapterPosition());
+            return true;
+        }
     }
 
     /**
      * Interface to handle click for the items
      */
     public interface ListItemClickListener{
-        void onListItemClick(int clickedItemIndex);
+        void onTrackPreviewClick(int clickedItemIndex);
     }
 
+    /**
+     * Interface to handle the long click for the items
+     */
+    public interface ListItemLongClickListener{
+        void onTrackPreviewLongClick(int clickedItemIndex);
+    }
 
 }
 

@@ -83,7 +83,6 @@ public class LibraryPlaylistsFragment extends Fragment implements RvListPlaylist
     private LinearLayout createPlaylist;
     private ConstraintLayout likedSongs;
     private TextView songsNumber;
-    private NestedScrollView nestedScrollView;
     public LibraryPlaylistsFragment() {
         // Required empty public constructor
     }
@@ -105,11 +104,10 @@ public class LibraryPlaylistsFragment extends Fragment implements RvListPlaylist
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_library_playlists, container, false);
         mServiceController = ServiceController.getInstance();
+        songsNumber = rootView.findViewById(R.id.text_songs_number);
         mServiceController.getNumberOfLikedSongs(this);
-        nestedScrollView = rootView.findViewById(R.id.nestedscrollview);
         createPlaylist = rootView.findViewById(R.id.create_playlist);
         likedSongs = rootView.findViewById(R.id.liked_songs);
-        songsNumber = rootView.findViewById(R.id.text_songs_number);
 
         createPlaylist.setOnClickListener(new View.OnClickListener() {
             @Override
