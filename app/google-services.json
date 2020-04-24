@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1043431525556",
+    "firebase_url": "https://symphonia-f4a70.firebaseio.com",
+    "project_id": "symphonia-f4a70",
+    "storage_bucket": "symphonia-f4a70.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1043431525556:android:8b9438dc030ca805fa9be1",
+        "android_client_info": {
+          "package_name": "com.example.symphonia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1043431525556-jj3j6icuhnlm3g10752mlrkb1or0lkci.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.symphonia",
+            "certificate_hash": "4fa595d16ac27ffcecff3b13bc95eddcf185e0b3"
+          }
+        },
+        {
+          "client_id": "1043431525556-nqevapkrv8to95b9ce1li1etebit5hu0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWcOPFg3PXK6R98M6mFMVuUjZk_5OvY6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1043431525556-nqevapkrv8to95b9ce1li1etebit5hu0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

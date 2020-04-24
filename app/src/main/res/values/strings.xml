@@ -255,4 +255,6 @@
     <string name="no_tracks">No Tracks Found</string>
     <string name="pay">Pay</string>
 
+    <string name="firebase_id">symphonia-f4a70</string>
+
 </resources>
