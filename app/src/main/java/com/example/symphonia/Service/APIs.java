@@ -225,6 +225,8 @@ public interface APIs {
      */
     Artist getArtist(Context context, String id);
 
+    Playlist getPlaylist(RestApi.UpdatePlaylist listener, String id);
+
     /**
      * Get information about artists similar to a given artist.
      *
@@ -272,6 +274,7 @@ public interface APIs {
 
     ArrayList<Track> getRecommendedTracks(RestApi.UpdateExtraSongs listener, int offset, int limit);
 
+    int getOwnedPlaylistsNumber(Context context);
 
 
     /**
@@ -291,6 +294,8 @@ public interface APIs {
      * @param ids array of users or artists ids
      */
     void unFollowArtistsOrUsers(Context context, String type, ArrayList<String> ids);
+
+    void createPlaylist(Context context, String name);
 
     /**
      * Check to see if the current user is following an artist or more or other users
@@ -506,5 +511,6 @@ public interface APIs {
      * @param context_type type of context
      */
     void playTrack(Context context, String id, String context_id, String context_url, String context_type);
+
 
 }

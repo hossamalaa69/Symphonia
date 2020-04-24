@@ -1,5 +1,6 @@
 package com.example.symphonia.Activities.User_Interface;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.fragment.NavHostFragment;
@@ -34,11 +36,14 @@ import com.example.symphonia.Adapters.RvBarAdapter;
 import com.example.symphonia.Adapters.RvPlaylistsHomeAdapter;
 import com.example.symphonia.Adapters.RvTracksHomeAdapter;
 import com.example.symphonia.Constants;
+import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Profile;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Fragments_and_models.home.HomeFragment;
+import com.example.symphonia.Fragments_and_models.library.ArtistFragment;
+import com.example.symphonia.Fragments_and_models.library.EmptyPlaylistFragment;
 import com.example.symphonia.Fragments_and_models.library.LibraryFragment;
 import com.example.symphonia.Fragments_and_models.playlist.BottomSheetDialogSettings;
 import com.example.symphonia.Fragments_and_models.playlist.BottomSheetDialogSettingsCredits;
@@ -60,6 +65,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static com.example.symphonia.Helpers.Utils.CurrTrackInfo.track;
 
@@ -1064,6 +1070,29 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         this.root = root;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 2) {
+            if (resultCode == Activity.RESULT_OK) {
+                assert data != null;
+                String id = data.getStringExtra("CREATED_PLAYLIST_ID");
+                EmptyPlaylistFragment fragment = new EmptyPlaylistFragment();
+                Bundle arguments = new Bundle();
+                arguments.putString("PLAYLIST_ID" , id);
+                fragment.setArguments(arguments);
+                getSupportFragmentManager().beginTransaction().replace(
+                        R.id.nav_host_fragment, fragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        }
+    }
+
+    public void startCreatePlaylist(){
+        Intent createPlaylistIntent = new Intent(this, CreatePlaylistActivity.class);
+        startActivityForResult(createPlaylistIntent, 2);
+    }
     /*@Override
     public void getCategoriesSuccess(ArrayList<Category> c) {
         searchFragment.UpdateUiGetCategories(c);

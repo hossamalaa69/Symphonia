@@ -620,4 +620,16 @@ public class ServiceController {
     public ArrayList<Track> getTracksOfPlaylist(Context context, String id, PlaylistFragment playlistFragment) {
         return mSupplier.getTracksOfPlaylist(context, id, playlistFragment);
     }
+
+    public void createPlaylist(Context context, String name){
+        mSupplier.createPlaylist(context, name);
+    }
+
+    public int getOwnedPlaylistsNumber(Context context){
+        return mSupplier.getOwnedPlaylistsNumber(context);
+    }
+
+    public Playlist getPlaylist(RestApi.UpdatePlaylist listener, String id){
+        return mSupplier.getPlaylist(listener, id);
+    }
 }

@@ -84,6 +84,8 @@ public class Constants {
 
     public static final String SEARCH_URL = BASE_URL + "api/v1/search";
 
+    public static final String OWNED_PLAYLIST = BASE_URL + "api/v1/me/playlists/owned";
+
     /**
      * made-for-you playlists link
      */

@@ -863,6 +863,11 @@ public class MockService implements APIs {
         return null;
     }
 
+    @Override
+    public Playlist getPlaylist(RestApi.UpdatePlaylist listener, String id) {
+        return null;
+    }
+
     /**
      * Get information about artists similar to a given artist.
      *
@@ -947,6 +952,11 @@ public class MockService implements APIs {
         return recommendedTracks;
     }
 
+    @Override
+    public int getOwnedPlaylistsNumber(Context context) {
+        return 0;
+    }
+
     /**
      * Add the current user as a followers of one or more artists or other users
      *
@@ -975,6 +985,11 @@ public class MockService implements APIs {
             Artist artist = getArtist(context, id);
             if (artist != null) Constants.currentUser.unFollowArtist(artist);
         }
+    }
+
+    @Override
+    public void createPlaylist(Context context, String name) {
+
     }
 
     /**

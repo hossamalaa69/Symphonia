@@ -112,8 +112,8 @@ public class LibraryPlaylistsFragment extends Fragment implements RvListPlaylist
         createPlaylist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent createPlaylistintent = new Intent(getActivity(), CreatePlaylistActivity.class);
-                startActivity(createPlaylistintent);
+
+                ((MainActivity)getActivity()).startCreatePlaylist();
             }
         });
 
@@ -251,7 +251,14 @@ public class LibraryPlaylistsFragment extends Fragment implements RvListPlaylist
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
-
+        EmptyPlaylistFragment fragment = new EmptyPlaylistFragment();
+        Bundle arguments = new Bundle();
+        arguments.putString("PLAYLIST_ID" , mFollowedPlaylists.get(clickedItemIndex).getId());
+        fragment.setArguments(arguments);
+        ((MainActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(
+                R.id.nav_host_fragment, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override

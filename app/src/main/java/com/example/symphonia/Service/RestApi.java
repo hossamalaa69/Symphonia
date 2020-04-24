@@ -46,6 +46,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -881,6 +884,51 @@ public class RestApi implements APIs {
         return null;
     }
 
+    @Override
+    public Playlist getPlaylist(RestApi.UpdatePlaylist listener, String id) {
+
+        RetrofitSingleton retrofitSingleton = RetrofitSingleton.getInstance();
+        RetrofitApi retrofitApi = retrofitSingleton.getRetrofitApi();
+
+        Call<JsonObject> call = retrofitApi.getPlaylist(id);
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(@NonNull Call<JsonObject> call, @NonNull retrofit2.Response<JsonObject> response) {
+
+                if (response.code() == 200) {
+                    try {
+                        JSONObject playlist = new JSONObject(new Gson().toJson(response.body()));
+
+                        String id = playlist.getString("_id");
+                        String name = playlist.getString("name");
+                        String imageUrl = playlist.getJSONArray("images").optString(0);
+                        if(imageUrl == null || imageUrl.contains("default.png")){
+                            imageUrl = "default";
+                        }
+                        String ownerName = playlist.getJSONObject("owner").getString("name");
+
+                        listener.updatePlaylist(new Playlist(id, name, imageUrl, ownerName));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
+
+            }
+        });
+
+
+        return null;
+    }
+
+    public interface UpdatePlaylist{
+        void updatePlaylist(Playlist playlist);
+    }
+
     /**
      * Get a list of the albums saved in the current user’s ‘Your Music’ library
      *
@@ -965,7 +1013,10 @@ public class RestApi implements APIs {
                         JSONObject playlist = playlistsArray.getJSONObject(i);
                         String id = playlist.getString("_id");
                         String name = playlist.getString("name");
-                        String imageUrl = playlist.getJSONArray("images").getString(0);
+                        String imageUrl = playlist.getJSONArray("images").optString(0);
+                        if(imageUrl == null || imageUrl.contains("default.png")){
+                            imageUrl = "default";
+                        }
                         String ownerName = playlist.getJSONObject("owner").getString("name");
                         returnedPlaylists.add(new Playlist(id, name, imageUrl, ownerName));
                     }
@@ -1110,6 +1161,51 @@ public class RestApi implements APIs {
     public interface UpdateExtraSongs{
         void updateExtra(ArrayList<Track> returnedTracks);
     }
+
+    @Override
+    public int getOwnedPlaylistsNumber(Context context) {
+
+        UpdatePlaylistsNumber listener = (UpdatePlaylistsNumber) context;
+
+        Uri.Builder builder = Uri.parse(Constants.OWNED_PLAYLIST).buildUpon();
+        builder.appendQueryParameter("limit", String.valueOf(65353));
+        builder.appendQueryParameter("offset", String.valueOf(0));
+
+        final StringRequest request = new StringRequest(Request.Method.GET, builder.toString(), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject root = new JSONObject(response);
+                    int number = root.getJSONObject("playlists").getInt("total");
+
+                    listener.updateNumber(number);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + Constants.currentToken);
+                return headers;
+            }
+
+        };
+
+        VolleySingleton.getInstance(App.getContext()).getRequestQueue().add(request);
+        return 0;
+    }
+
+    public interface UpdatePlaylistsNumber{
+        void updateNumber(int number);
+    }
+
 
 
 
@@ -1258,6 +1354,59 @@ public class RestApi implements APIs {
                 finishedUnFollowing = true;
             }
         });
+    }
+
+    @Override
+    public void createPlaylist(Context context, String name) {
+
+        final UpdateCreatePlaylist listener = (UpdateCreatePlaylist) context;
+
+        RetrofitSingleton retrofitSingleton = RetrofitSingleton.getInstance();
+        RetrofitApi retrofitApi = retrofitSingleton.getRetrofitApi();
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", "Bearer " + Constants.currentToken);
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("collaborative", false);
+        body.put("public", true);
+        body.put("name", name);
+
+        Call<JsonObject> call = retrofitApi.createPlaylist(headers, Constants.currentUser.get_id(), body);
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(@NonNull Call<JsonObject> call, @NonNull retrofit2.Response<JsonObject> response) {
+                Log.i("TAG", "onResponse: " + response.code());
+                if (response.code() == 200) {
+                    try {
+                        JSONObject playlist = new JSONObject(new Gson().toJson(response.body()));
+
+                        String id = playlist.getString("_id");
+                        String name = playlist.getString("name");
+                        String imageUrl = playlist.getJSONArray("images").optString(0);
+                        if(imageUrl == null || imageUrl.contains("default.png")){
+                            imageUrl = "default";
+                        }
+                        String ownerName = playlist.getJSONObject("owner").getString("name");
+
+                        listener.createdSuccessfully(new Playlist(id, name, imageUrl, ownerName));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
+                Log.i("TAG", "onFailure: ");
+            }
+        });
+
+    }
+
+    public interface UpdateCreatePlaylist{
+        void createdSuccessfully(Playlist createdPlaylist);
     }
 
 
