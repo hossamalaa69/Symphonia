@@ -79,6 +79,10 @@ public class ServiceController {
         return mSupplier.resetPassword(context,password,token);
     }
 
+    public boolean applyArtist(final Context context, final String token){
+        return mSupplier.applyArtist(context, token);
+    }
+
     /**
      * checks if email is already signed in database or not
      *

@@ -16,11 +16,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".Activities.User_Management.SignUp.ApplyArtist">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
-        <activity android:name=".Activities.User_Management.PaymentActivity">
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
+                <data
+                    android:scheme="https"
+                    android:host="thesymphonia.ddns.net"
+                    android:pathPrefix="/artist-activation/" />
+            </intent-filter>
         </activity>
-
+        <activity android:name=".Activities.User_Management.PaymentActivity"></activity>
         <activity android:name=".Activities.User_Management.FacebookRedirect">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -197,7 +206,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
         <service
@@ -207,7 +215,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
     </application>
 
 </manifest>

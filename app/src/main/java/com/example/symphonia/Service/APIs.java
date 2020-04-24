@@ -72,6 +72,7 @@ public interface APIs {
 
     boolean resetPassword(final Context context,final String password,final String token);
 
+    boolean applyArtist(final Context context, final String token);
 
     /**
      * getter for popular playlist

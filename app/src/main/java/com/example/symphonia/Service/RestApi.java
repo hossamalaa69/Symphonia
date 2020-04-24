@@ -1,6 +1,7 @@
 package com.example.symphonia.Service;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Handler;
@@ -17,6 +18,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.example.symphonia.Activities.User_Interface.StartActivity;
+import com.example.symphonia.Activities.User_Management.SignUp.ApplyArtist;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
@@ -263,44 +266,44 @@ public class RestApi implements APIs {
             , final String DOB, final String gender, final String name) {
         final updateUiSignUp updateUiSignUp = (updateUiSignUp) context;
         StringRequest stringrequest = new StringRequest(Request.Method.POST, (Constants.SIGN_UP_URL),
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject root = new JSONObject(response);
-                            Constants.currentToken = root.getString("token");
-                            JSONObject user = root.getJSONObject("user");
-                            String id = user.getString("_id");
-                            String image = user.getString("imageUrl");
-                            String type = user.getString("type");
-                            Constants.currentUser = new User(email, id, mType, Utils.convertToBitmap(R.drawable.img_init_profile)
-                                    , name, DOB, gender, type.equals("artist")
-                                    , 0, 0, new ArrayList<User>(), new ArrayList<User>()
-                                    , new ArrayList<Playlist>(), new ArrayList<Playlist>()
-                                    , new ArrayList<Artist>(), new ArrayList<Album>(), new ArrayList<Track>());
+                response -> {
+                    try {
+                        if(!mType){
+                            Toast.makeText(context,context.getString(R.string.check_mail_activation),Toast.LENGTH_LONG).show();
+                            Intent i = new Intent(context, StartActivity.class);
+                            context.startActivity(i);
+                            return;
+                        }
+                        JSONObject root = new JSONObject(response);
+                        Constants.currentToken = root.getString("token");
+                        JSONObject user = root.getJSONObject("user");
+                        String id = user.getString("_id");
+                        String image = user.getString("imageUrl");
+                        String type = user.getString("type");
+                        Constants.currentUser = new User(email, id, mType, Utils.convertToBitmap(R.drawable.img_init_profile)
+                                , name, DOB, gender, type.equals("artist")
+                                , 0, 0, new ArrayList<User>(), new ArrayList<User>()
+                                , new ArrayList<Playlist>(), new ArrayList<Playlist>()
+                                , new ArrayList<Artist>(), new ArrayList<Album>(), new ArrayList<Track>());
 
-                            Constants.currentUser.setUserType(type);
-                            Constants.currentUser.setImageUrl(image);
-                            Toast.makeText(context, R.string.sign_up_success, Toast.LENGTH_SHORT).show();
-                            updateUiSignUp.updateUiSignUpSuccess();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Toast.makeText(context, R.string.check_internet, Toast.LENGTH_SHORT).show();
-                            updateUiSignUp.updateUiSignUpFailed();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        try {
-                            Toast.makeText(context, "Error: " + error.networkResponse.statusCode, Toast.LENGTH_SHORT).show();
-                            Toast.makeText(context, R.string.failed, Toast.LENGTH_SHORT).show();
-                        } catch (Exception e) {
-                            Toast.makeText(context, R.string.failed, Toast.LENGTH_SHORT).show();
-                        }
+                        Constants.currentUser.setUserType(type);
+                        Constants.currentUser.setImageUrl(image);
+                        Toast.makeText(context, R.string.sign_up_success, Toast.LENGTH_SHORT).show();
+                        updateUiSignUp.updateUiSignUpSuccess();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(context, R.string.check_internet, Toast.LENGTH_SHORT).show();
                         updateUiSignUp.updateUiSignUpFailed();
                     }
+                },
+                error -> {
+                    try {
+                        Toast.makeText(context, "Error: " + error.networkResponse.statusCode, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, R.string.failed, Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        Toast.makeText(context, R.string.failed, Toast.LENGTH_SHORT).show();
+                    }
+                    updateUiSignUp.updateUiSignUpFailed();
                 }) {
             @Override
             protected Map<String, String> getParams() {
@@ -1321,6 +1324,63 @@ public class RestApi implements APIs {
         return true;
     }
 
+    @Override
+    public boolean applyArtist(Context context, String token) {
+        final updateUIApplyArtist uiApplyArtist = (updateUIApplyArtist) context;
+
+        RetrofitSingleton retrofitSingleton = RetrofitSingleton.getInstance();
+        RetrofitApi retrofitApi = retrofitSingleton.getRetrofitApi();
+        Call<JsonObject> call = retrofitApi.applyArtist(token);
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
+
+                if (response.code() >= 200 && response.code() < 300) {
+                    try {
+                        JSONObject root = new JSONObject(new Gson().toJson(response.body()));
+                        Constants.currentToken = root.getString("token");
+                        JSONObject user = root.getJSONObject("user");
+                        String id = user.getString("_id");
+                        String name = user.getString("name");
+                        String type = user.getString("type");
+                        String image = user.getString("imageUrl");
+                        String email = user.getString("email");
+                        String gender = user.getString("gender");
+                        String DOB = user.getString("dateOfBirth");
+                        Constants.currentUser = new User(email, id, false, Utils.convertToBitmap(R.drawable.img_init_profile)
+                                , name, DOB, gender, true
+                                , 0, 0, new ArrayList<User>(), new ArrayList<User>()
+                                , new ArrayList<Playlist>(), new ArrayList<Playlist>()
+                                , new ArrayList<Artist>(), new ArrayList<Album>(), new ArrayList<Track>());
+
+                        Constants.currentUser.setUserType(type);
+                        Constants.currentUser.setImageUrl(image);
+                        uiApplyArtist.updateUIApplyArtistSuccess();
+
+                    } catch (JSONException e) {
+                        Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show();
+                        uiApplyArtist.updateUIApplyArtistFailed();
+                    }
+
+                }else{
+                    Toast.makeText(context, R.string.token_is_expired, Toast.LENGTH_SHORT).show();
+                    uiApplyArtist.updateUIApplyArtistFailed();
+                }
+            }
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                uiApplyArtist.updateUIApplyArtistFailed();
+            }
+        });
+        return true;
+    }
+
+    public interface updateUIApplyArtist{
+        void updateUIApplyArtistSuccess();
+        void updateUIApplyArtistFailed();
+    }
 
     public interface updateUIResetPassword {
         void updateUIResetSuccess();

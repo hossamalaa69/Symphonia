@@ -28,4 +28,8 @@ public interface RetrofitApi {
             @Path("token") String token
             , @Body Map<String,String> passwords
     );
+
+    @PATCH("api/v1/users/activate/{token}")
+    Call <JsonObject> applyArtist(@Path("token") String token);
+
 }

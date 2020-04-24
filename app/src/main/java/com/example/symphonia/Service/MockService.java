@@ -448,6 +448,10 @@ public class MockService implements APIs {
         return false;
     }
 
+    @Override
+    public boolean applyArtist(Context context, String token) {
+        return false;
+    }
 
 
     /**

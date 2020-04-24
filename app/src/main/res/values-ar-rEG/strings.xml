@@ -234,5 +234,6 @@
     <string name="retrieving_data">Retrieving data</string>
     <string name="failed_login">Failed logging in</string>
     <string name="pay">Pay</string>
+    <string name="check_mail_activation">Check mail for activation message</string>
 
 </resources>
