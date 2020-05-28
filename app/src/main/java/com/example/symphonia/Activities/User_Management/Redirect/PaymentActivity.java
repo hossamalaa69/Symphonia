@@ -1,4 +1,4 @@
-package com.example.symphonia.Activities.User_Management;
+package com.example.symphonia.Activities.User_Management.Redirect;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,19 +11,20 @@ import com.example.symphonia.R;
 
 public class PaymentActivity extends AppCompatActivity {
 
-    private WebView webView;
+//    private WebView webView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
 
-        webView = (WebView) findViewById(R.id.webview);
-        webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl("https://www.google.com/");
+//        webView = (WebView) findViewById(R.id.webview);
+//        webView.setWebViewClient(new WebViewClient());
+//        webView.loadUrl("https://www.google.com/");
+//
+//        WebSettings webSettings = webView.getSettings();
+//        webSettings.setJavaScriptEnabled(true);
 
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
 
     }
 }

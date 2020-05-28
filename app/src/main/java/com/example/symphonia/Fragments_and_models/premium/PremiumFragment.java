@@ -1,6 +1,7 @@
 package com.example.symphonia.Fragments_and_models.premium;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -8,18 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
 import com.example.symphonia.Activities.User_Interface.MainActivity;
-import com.example.symphonia.Activities.User_Management.PaymentActivity;
 import com.example.symphonia.Adapters.PremiumAdapter;
 import com.example.symphonia.Constants;
 import com.example.symphonia.R;
@@ -113,8 +111,9 @@ public class PremiumFragment extends Fragment {
                     serviceController.promotePremium(getContext(), root, Constants.currentToken);
                     checkPremium(root);
                 } else{
-                    Intent i = new Intent(getContext(), PaymentActivity.class);
-                    startActivity(i);
+                    Intent intent = new Intent(Intent.ACTION_VIEW
+                            , Uri.parse("https://thesymphonia.ddns.net/api/v1/me/checkout-session"));
+                    startActivity(intent);
                 }
             }
         });
@@ -167,4 +166,6 @@ public class PremiumFragment extends Fragment {
         super.onPause();
         ((MainActivity)getActivity()).setRoot(false);
     }
+
+
 }

@@ -81,7 +81,8 @@
             app:autoSizeTextType="uniform"
             app:autoSizeMinTextSize="14sp"
             app:autoSizeMaxTextSize="20sp"
-            app:autoSizeStepGranularity="1sp" />
+            app:autoSizeStepGranularity="1sp"
+            />
 
         <TextView
             android:id="@+id/t1"

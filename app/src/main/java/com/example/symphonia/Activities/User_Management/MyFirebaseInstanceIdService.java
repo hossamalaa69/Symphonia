@@ -19,9 +19,3 @@ public class MyFirebaseInstanceIdService extends FirebaseMessagingService {
     }
 }
 
-/*
-
-public class MyInstanceIDListenerService extends FirebaseMessagingService {
-
-}
-*/

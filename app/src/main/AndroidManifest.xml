@@ -16,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".Activities.User_Management.NotificationsHistoryActivity"></activity>
         <activity android:name=".Activities.User_Management.SignUp.ApplyArtist">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -24,13 +25,13 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="https"
                     android:host="thesymphonia.ddns.net"
-                    android:pathPrefix="/artist-activation/" />
+                    android:pathPrefix="/artist-activation/"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.User_Management.PaymentActivity"></activity>
-        <activity android:name=".Activities.User_Management.FacebookRedirect">
+        <activity android:name=".Activities.User_Management.Redirect.PaymentActivity" />
+        <activity android:name=".Activities.User_Management.Redirect.FacebookRedirect">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 

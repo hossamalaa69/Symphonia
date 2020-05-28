@@ -1,4 +1,4 @@
-package com.example.symphonia.Activities.User_Management;
+package com.example.symphonia.Activities.User_Management.Redirect;
 
 import androidx.annotation.RequiresPermission;
 import androidx.appcompat.app.AppCompatActivity;
