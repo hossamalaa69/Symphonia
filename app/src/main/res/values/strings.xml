@@ -259,5 +259,6 @@
     <string name="check_mail_activation">Check mail for activation message</string>
     <string name="main_text_place_holder">Main text is here.</string>
     <string name="description_text_placeholder">Description text is here which contains all information about this notification item in the log activity.</string>
+    <string name="notifications">Notifications</string>
 
 </resources>

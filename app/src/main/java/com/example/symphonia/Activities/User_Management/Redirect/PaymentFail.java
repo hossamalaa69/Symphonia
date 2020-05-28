@@ -5,20 +5,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 import com.example.symphonia.Activities.User_Interface.MainActivity;
-import com.example.symphonia.Constants;
+import com.example.symphonia.Helpers.AdDialog;
 import com.example.symphonia.R;
 
-public class PaymentActivity extends AppCompatActivity {
+public class PaymentFail extends AppCompatActivity {
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
+
         handleIntent();
     }
     private void handleIntent() {
@@ -26,9 +25,6 @@ public class PaymentActivity extends AppCompatActivity {
         Intent appLinkIntent = getIntent();
         String appLinkAction = appLinkIntent.getAction();
         Uri appLinkData = appLinkIntent.getData();
-
-        Constants.currentUser.setPremuim(true);
-
         Intent i = new Intent(this, MainActivity.class);
         i.putExtra("go_to","premium" );
         startActivity(i);
@@ -40,6 +36,4 @@ public class PaymentActivity extends AppCompatActivity {
         setIntent(intent);
         handleIntent();
     }
-
-
 }

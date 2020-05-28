@@ -62,6 +62,7 @@ public class Container {
     public Bitmap getImg_Res() {
         return imgRes;
     }
+
     public void setImgBitmap(Bitmap bitmap){
         imgRes=bitmap;
     }

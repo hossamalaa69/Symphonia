@@ -1,5 +1,6 @@
 package com.example.symphonia.Fragments_and_models.home;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Activities.User_Interface.MainActivity;
+import com.example.symphonia.Activities.User_Management.Notifications.NotificationsHistoryActivity;
 import com.example.symphonia.Adapters.RvPlaylistsHomeAdapter;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Playlist;
@@ -90,6 +92,16 @@ public class HomeFragment extends Fragment {
                         .commit();
             }
         });
+        final ImageView notification_button = root.findViewById(R.id.notifications);
+        notification_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), NotificationsHistoryActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
         final FrameLayout frameLayout = root.findViewById(R.id.frame_home_fragment);
         final ScrollView scrollView = root.findViewById(R.id.sv_home);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

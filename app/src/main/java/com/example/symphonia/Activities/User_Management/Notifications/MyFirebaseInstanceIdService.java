@@ -1,4 +1,4 @@
-package com.example.symphonia.Activities.User_Management;
+package com.example.symphonia.Activities.User_Management.Notifications;
 
 import androidx.annotation.NonNull;
 

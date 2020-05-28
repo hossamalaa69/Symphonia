@@ -19,6 +19,7 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class SeeAllArtistsAdapter extends RecyclerView.Adapter<SeeAllArtistsAdapter.SeeAllArtistsViewHolder> {
+
     private ArrayList<Container> container;
 
     /**

@@ -16,7 +16,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activities.User_Management.NotificationsHistoryActivity"></activity>
+        <activity android:name=".Activities.User_Management.Redirect.PaymentFail">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="thesymphonia.ddns.net"
+                    android:pathPrefix="/premium" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activities.User_Management.Notifications.NotificationsHistoryActivity"
+            android:label="@string/notifications" />
         <activity android:name=".Activities.User_Management.SignUp.ApplyArtist">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -30,7 +45,19 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.User_Management.Redirect.PaymentActivity" />
+        <activity android:name=".Activities.User_Management.Redirect.PaymentActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="thesymphonia.ddns.net"
+                    android:scheme="https"
+                    android:pathPrefix="/webhome/home" />
+            </intent-filter>
+        </activity>
         <activity android:name=".Activities.User_Management.Redirect.FacebookRedirect">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -210,7 +237,7 @@
         </activity>
 
         <service
-            android:name=".Activities.User_Management.MyFirebaseInstanceIdService"
+            android:name=".Activities.User_Management.Notifications.MyFirebaseInstanceIdService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
