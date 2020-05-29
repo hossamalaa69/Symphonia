@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Constants;
@@ -28,7 +29,7 @@ public class PaymentActivity extends AppCompatActivity {
         Uri appLinkData = appLinkIntent.getData();
 
         Constants.currentUser.setPremuim(true);
-
+        Toast.makeText(this, "Promoted successfully", Toast.LENGTH_LONG).show();
         Intent i = new Intent(this, MainActivity.class);
         i.putExtra("go_to","premium" );
         startActivity(i);
