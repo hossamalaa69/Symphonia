@@ -380,6 +380,8 @@ public interface APIs {
      * @param context context of the activity
      * @return arraylist of container of followers
      */
+
+    boolean checkPremiumToken(final Context context, final String token);
     ArrayList<Container>getProfileFollowers(Context context);
     /**
      * get users who current user follow them

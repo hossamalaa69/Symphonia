@@ -1183,6 +1183,18 @@ public class MockService implements APIs {
 
     /**
      * get users followers
+     *
+     * @param context context of the activity
+     * @param token
+     * @return arraylist of container of followers
+     */
+    @Override
+    public boolean checkPremiumToken(Context context, String token) {
+        return false;
+    }
+
+    /**
+     * get users followers
      * @param context context of the activity
      * @return arraylist of container of followers
      */

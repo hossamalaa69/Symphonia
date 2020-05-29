@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -18,10 +20,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
 import com.example.symphonia.Activities.User_Interface.MainActivity;
+import com.example.symphonia.Activities.User_Management.Notifications.MyFirebaseInstanceIdService;
+import com.example.symphonia.Activities.User_Management.Redirect.PaymentActivity;
 import com.example.symphonia.Adapters.PremiumAdapter;
 import com.example.symphonia.Constants;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import java.util.ArrayList;
 
@@ -66,6 +74,25 @@ public class PremiumFragment extends Fragment {
         TextView text_view_anchor = (TextView) root.findViewById(R.id.t1);
         text_view_anchor.setMovementMethod(LinkMovementMethod.getInstance());
 
+
+//        String tok = MyFirebaseInstanceIdService.getToken(getContext());
+//        Toast.makeText(getContext(), tok, Toast.LENGTH_LONG).show();
+//        FirebaseInstanceId.getInstance().getInstanceId()
+//                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+//                        if (!task.isSuccessful()) {
+//                            Log.w("ay 7aga", "getInstanceId failed", task.getException());
+//                            return;
+//                        }
+//
+//                        // Get new Instance ID token
+//                        String token = task.getResult().getToken();
+//
+//                        Toast.makeText(getContext(), token, Toast.LENGTH_SHORT).show();
+//                        Log.d("newToken: ",token);
+//                    }
+//                });
         //fills arrays of features from stored strings for free
         mFeaturesFree = new ArrayList<>();
         mFeaturesFree.add(getResources().getString(R.string.ad_break));
@@ -111,8 +138,8 @@ public class PremiumFragment extends Fragment {
                     serviceController.promotePremium(getContext(), root, Constants.currentToken);
                     checkPremium(root);
                 } else{
-                    Intent intent = new Intent(Intent.ACTION_VIEW
-                            , Uri.parse("https://thesymphonia.ddns.net/api/v1/me/checkout-session"));
+                    Intent intent = new Intent(getActivity(), PaymentActivity.class);
+                    intent.putExtra("request","true");
                     startActivity(intent);
                 }
             }
@@ -166,6 +193,5 @@ public class PremiumFragment extends Fragment {
         super.onPause();
         ((MainActivity)getActivity()).setRoot(false);
     }
-
 
 }

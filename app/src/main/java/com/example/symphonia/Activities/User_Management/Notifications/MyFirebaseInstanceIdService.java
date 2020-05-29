@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -25,6 +26,7 @@ public class MyFirebaseInstanceIdService extends FirebaseMessagingService {
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
+
         showNotification(remoteMessage.getNotification().getTitle()
                 ,remoteMessage.getNotification().getBody());
     }
@@ -32,10 +34,13 @@ public class MyFirebaseInstanceIdService extends FirebaseMessagingService {
     @Override
     public void onNewToken(@NonNull String s) {
         super.onNewToken(s);
-
-        Log.d("firebase token",s);
+        getSharedPreferences("_", MODE_PRIVATE).edit().putString("fb", s).apply();
+        Log.d("newToken",s);
     }
 
+    public static String getToken(Context context) {
+        return context.getSharedPreferences("_", MODE_PRIVATE).getString("fb", "empty");
+    }
 
     private void showNotification(String title, String body){
 

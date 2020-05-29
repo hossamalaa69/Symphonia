@@ -28,19 +28,6 @@
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
 
-        <activity android:name=".Activities.User_Management.Redirect.PaymentFail">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:scheme="https"
-                    android:host="thesymphonia.ddns.net"
-                    android:pathPrefix="/premium" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".Activities.User_Management.Notifications.NotificationsHistoryActivity"
             android:label="@string/notifications" />
@@ -67,7 +54,7 @@
                 <data
                     android:host="thesymphonia.ddns.net"
                     android:scheme="https"
-                    android:pathPrefix="/webhome/home" />
+                    android:pathPrefix="/api/v1/me/apply-premium/" />
             </intent-filter>
         </activity>
         <activity android:name=".Activities.User_Management.Redirect.FacebookRedirect">
@@ -250,7 +237,8 @@
 
         <service
             android:name=".Activities.User_Management.Notifications.MyFirebaseInstanceIdService"
-            android:exported="false">
+            android:exported="false"
+            android:stopWithTask="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

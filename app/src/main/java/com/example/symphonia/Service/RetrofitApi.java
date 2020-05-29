@@ -44,4 +44,11 @@ public interface RetrofitApi {
 
     @GET("api/v1/playlists/{id}")
     Call<JsonObject> getPlaylist(@Path("id") String id);
+
+    @POST("api/v1/me/apply-premium/{token}")
+    Call<JsonObject> promotePrem(@Path("token") String token);
+
+    @PATCH("api/v1/me/premium/{token}")
+    Call<JsonObject> checkPremiumToken(@Path("token") String token);
+
 }

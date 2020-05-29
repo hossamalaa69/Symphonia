@@ -1409,6 +1409,88 @@ public class RestApi implements APIs {
         void createdSuccessfully(Playlist createdPlaylist);
     }
 
+    /**
+     * handles promoting user to premium
+     *
+     * @param context holds context of activity
+     * @param root    holds root view of fragment
+     * @param token   holds token of user
+     * @return returns true if promoted
+     */
+    @Override
+    public boolean promotePremium(final Context context, View root, final String token) {
+        final updateUIPromotePremium uiPromotePremium = (updateUIPromotePremium) context;
+
+        RetrofitSingleton retrofitSingleton = RetrofitSingleton.getInstance();
+        RetrofitApi retrofitApi = retrofitSingleton.getRetrofitApi();
+
+        Call<JsonObject> call = retrofitApi.promotePrem(token);
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
+                if(response.code() == 200 || response.code()==201){
+                    Toast.makeText(context, "Wait for email confirmation", Toast.LENGTH_LONG).show();
+                    uiPromotePremium.updateUIPromotePremiumSuccess();
+                }
+                else{
+                    Toast.makeText(context, "Already sent",Toast.LENGTH_SHORT).show();
+                    uiPromotePremium.updateUIPromotePremiumFailed();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                uiPromotePremium.updateUIPromotePremiumFailed();
+            }
+        });
+
+        return false;
+    }
+
+    @Override
+    public boolean checkPremiumToken(Context context, String token) {
+        final updateUICheckPremium uiCheckPremium = (updateUICheckPremium) context;
+
+        RetrofitSingleton retrofitSingleton = RetrofitSingleton.getInstance();
+        RetrofitApi retrofitApi = retrofitSingleton.getRetrofitApi();
+
+        Call<JsonObject> call = retrofitApi.checkPremiumToken(token);
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
+                if(response.code() == 201 || response.code() == 200){
+                    Toast.makeText(context, "Valid token",Toast.LENGTH_SHORT).show();
+                    Constants.currentUser.setPremuim(true);
+                    uiCheckPremium.updateUICheckPremiumSuccess();
+                }
+                else{
+                    Toast.makeText(context,"Expired Token",Toast.LENGTH_SHORT).show();
+                    uiCheckPremium.updateUICheckPremiumFailed();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                uiCheckPremium.updateUICheckPremiumFailed();
+            }
+        });
+
+        return false;
+    }
+
+    public interface updateUICheckPremium{
+        void updateUICheckPremiumSuccess();
+        void updateUICheckPremiumFailed();
+    }
+
+    public interface updateUIPromotePremium{
+        void updateUIPromotePremiumSuccess();
+        void updateUIPromotePremiumFailed();
+    }
 
     @Override
     public boolean resetPassword(final Context context, final String password, final String token) {
@@ -1764,18 +1846,6 @@ public class RestApi implements APIs {
         return null;
     }
 
-    /**
-     * handles promoting user to premium
-     *
-     * @param context holds context of activity
-     * @param root    holds root view of fragment
-     * @param token   holds token of user
-     * @return returns true if promoted
-     */
-    @Override
-    public boolean promotePremium(final Context context, View root, String token) {
-        return false;
-    }
 
     @Override
     public ArrayList<Container> getProfileFollowers(Context context) {

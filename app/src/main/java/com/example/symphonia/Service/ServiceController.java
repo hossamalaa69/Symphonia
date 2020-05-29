@@ -490,6 +490,12 @@ public class ServiceController {
         return mSupplier.promotePremium(context, root, token);
     }
 
+    public boolean checkPremiumToken(Context context, String token) {
+        return mSupplier.checkPremiumToken(context, token);
+    }
+
+
+
     /**
      * get users followers
      * @param context context of the activity
