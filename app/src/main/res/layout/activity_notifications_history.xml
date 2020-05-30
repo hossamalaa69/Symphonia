@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Activities.User_Management.Notifications.NotificationsHistoryActivity"
-    android:background="@color/colorGray2"
+    android:background="@drawable/gradient1"
     >
 
     <androidx.recyclerview.widget.RecyclerView

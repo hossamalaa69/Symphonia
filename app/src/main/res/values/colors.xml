@@ -16,6 +16,7 @@
     <color name="colorGradient2">#000000</color>
     <color name="colorGray">#626567</color>
     <color name="colorGray2">#444444</color>
+    <color name="colorGray3">#303030</color>
     <color name="colorRed">#DC0846</color>
     <color name="colorRedDark">#A52F52</color>
     <color name="libraryTabsTextColor">#8DFFFFFF</color>

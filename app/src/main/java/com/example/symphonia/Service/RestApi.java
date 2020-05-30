@@ -1463,7 +1463,6 @@ public class RestApi implements APIs {
             @Override
             public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
                 if(response.code() == 201 || response.code() == 200){
-                    Toast.makeText(context, "Valid token",Toast.LENGTH_SHORT).show();
                     Constants.currentUser.setPremuim(true);
                     uiCheckPremium.updateUICheckPremiumSuccess();
                 }
@@ -1488,18 +1487,19 @@ public class RestApi implements APIs {
 
         RetrofitSingleton retrofitSingleton = RetrofitSingleton.getInstance();
         RetrofitApi retrofitApi = retrofitSingleton.getRetrofitApi();
-        Map<String,String> map = new HashMap<>();
-        map.put("token",register_token);
-        Call<JsonObject> call = retrofitApi.sendRegisterToken(map);
+        Map<String,String> body = new HashMap<>();
+        body.put("token",register_token);
+
+        Map<String,String> headers = new HashMap<>();
+        headers.put("Authorization","Bearer " + Constants.currentToken);
+        Call<JsonObject> call = retrofitApi.sendRegisterToken(headers,body);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
-                if(response.code()==200 || response.code()==201){
-                    Toast.makeText(context, "registration token is sent",Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(context, "Failed sending registration token",Toast.LENGTH_SHORT).show();
-                }
+                if(response.code()!=200 && response.code()!=201)
+                    Toast.makeText(context, "Failed registration token for notifications",Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
@@ -1518,25 +1518,25 @@ public class RestApi implements APIs {
 
         RetrofitSingleton retrofitSingleton = RetrofitSingleton.getInstance();
         RetrofitApi retrofitApi = retrofitSingleton.getRetrofitApi();
+
         Map<String,String> map = new HashMap<>();
-        map.put("token",token);
+        map.put("Authorization","Bearer " + Constants.currentToken);
         Call<JsonObject> call = retrofitApi.getNotifications(map);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
                 if(response.code() == 200 || response.code() == 201){
-                    Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
                     try {
                         JSONObject root = new JSONObject(new Gson().toJson(response.body()));
                         uiGetNotify.updateUIGetNotifySuccess(root);
                     }catch (Exception e){
-                        Toast.makeText(context, "failed parsing",Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
                         uiGetNotify.updateUIGetNotifyFailed();
                     }
                 }
                 else {
-                    Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "No history", Toast.LENGTH_SHORT).show();
                     uiGetNotify.updateUIGetNotifyFailed();
                 }
             }

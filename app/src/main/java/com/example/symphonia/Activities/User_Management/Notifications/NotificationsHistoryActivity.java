@@ -68,7 +68,11 @@ public class NotificationsHistoryActivity extends AppCompatActivity implements R
     }
 
     public void displayPosition(int position){
-        Toast.makeText(this, ""+position,Toast.LENGTH_SHORT).show();
+        if(Constants.DEBUG_STATUS)
+            Toast.makeText(this, ""+position,Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(this, "From ID:" + mNotificationItems.get(position).getSenderID()
+                    ,Toast.LENGTH_SHORT).show();
     }
 
     private void addSomeItems(){
@@ -104,7 +108,7 @@ public class NotificationsHistoryActivity extends AppCompatActivity implements R
                 JSONObject data = item.getJSONObject("data");
                 String dataIn = data.getString("data");
                 JsonObject object = new JsonParser().parse(dataIn).getAsJsonObject();
-                String SenderID = object.get("follwingUser").getAsString();
+                String SenderID = object.get("from").getAsString();
 
                 JSONObject notification = item.getJSONObject("notification");
                 String title = notification.getString("title");

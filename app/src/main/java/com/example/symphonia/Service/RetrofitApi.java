@@ -52,8 +52,12 @@ public interface RetrofitApi {
     Call<JsonObject> checkPremiumToken(@Path("token") String token);
 
     @PATCH("api/v1/me/registration-token")
-    Call<JsonObject> sendRegisterToken(@Body Map<String,String> body);
+    Call<JsonObject> sendRegisterToken(
+            @HeaderMap Map<String, String> headers,
+            @Body Map<String,String> body
+    );
 
     @GET("api/v1/me/notifications")
     Call<JsonObject> getNotifications(@HeaderMap Map<String,String> headers);
+
 }

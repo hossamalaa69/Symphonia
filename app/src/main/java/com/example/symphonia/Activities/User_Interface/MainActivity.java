@@ -381,8 +381,8 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                         // Get new Instance ID token
                         String token = task.getResult().getToken();
                         Log.d("newToken: ",token);
-                        //ServiceController serviceController = ServiceController.getInstance();
-                        //serviceController.sendRegisterToken(MainActivity.this,token);
+                        ServiceController serviceController = ServiceController.getInstance();
+                        serviceController.sendRegisterToken(MainActivity.this,token);
                     }
                 });
 
