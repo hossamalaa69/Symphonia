@@ -1424,17 +1424,18 @@ public class RestApi implements APIs {
         RetrofitSingleton retrofitSingleton = RetrofitSingleton.getInstance();
         RetrofitApi retrofitApi = retrofitSingleton.getRetrofitApi();
 
-        Call<JsonObject> call = retrofitApi.promotePrem(token);
+        Map<String,String> map = new HashMap<>();
+        map.put("Authorization","Bearer " + token);
+        Call<JsonObject> call = retrofitApi.promotePrem(map);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
                 if(response.code() == 200 || response.code()==201){
-                    Toast.makeText(context, "Wait for email confirmation", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Wait for e-mail confirmation", Toast.LENGTH_LONG).show();
                     uiPromotePremium.updateUIPromotePremiumSuccess();
-                }
-                else{
-                    Toast.makeText(context, "Already sent",Toast.LENGTH_SHORT).show();
+                } else{
+                    Toast.makeText(context, "Not valid e-mail",Toast.LENGTH_SHORT).show();
                     uiPromotePremium.updateUIPromotePremiumFailed();
                 }
             }
@@ -1480,6 +1481,79 @@ public class RestApi implements APIs {
         });
 
         return false;
+    }
+
+    @Override
+    public boolean sendRegisterToken(Context context, String register_token) {
+
+        RetrofitSingleton retrofitSingleton = RetrofitSingleton.getInstance();
+        RetrofitApi retrofitApi = retrofitSingleton.getRetrofitApi();
+        Map<String,String> map = new HashMap<>();
+        map.put("token",register_token);
+        Call<JsonObject> call = retrofitApi.sendRegisterToken(map);
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
+                if(response.code()==200 || response.code()==201){
+                    Toast.makeText(context, "registration token is sent",Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(context, "Failed sending registration token",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return false;
+    }
+
+    @Override
+    public boolean getNotificationHistory(Context context, String token) {
+
+        final updateUIGetNotify uiGetNotify = (updateUIGetNotify) context;
+
+        RetrofitSingleton retrofitSingleton = RetrofitSingleton.getInstance();
+        RetrofitApi retrofitApi = retrofitSingleton.getRetrofitApi();
+        Map<String,String> map = new HashMap<>();
+        map.put("token",token);
+        Call<JsonObject> call = retrofitApi.getNotifications(map);
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
+                if(response.code() == 200 || response.code() == 201){
+                    Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
+                    try {
+                        JSONObject root = new JSONObject(new Gson().toJson(response.body()));
+                        uiGetNotify.updateUIGetNotifySuccess(root);
+                    }catch (Exception e){
+                        Toast.makeText(context, "failed parsing",Toast.LENGTH_SHORT).show();
+                        uiGetNotify.updateUIGetNotifyFailed();
+                    }
+                }
+                else {
+                    Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                    uiGetNotify.updateUIGetNotifyFailed();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                uiGetNotify.updateUIGetNotifyFailed();
+            }
+        });
+
+        return false;
+    }
+
+    public interface updateUIGetNotify{
+        void updateUIGetNotifySuccess(JSONObject root);
+        void updateUIGetNotifyFailed();
     }
 
     public interface updateUICheckPremium{

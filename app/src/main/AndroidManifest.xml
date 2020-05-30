@@ -54,7 +54,7 @@
                 <data
                     android:host="thesymphonia.ddns.net"
                     android:scheme="https"
-                    android:pathPrefix="/api/v1/me/apply-premium/" />
+                    android:pathPrefix="/apply-premium/" />
             </intent-filter>
         </activity>
         <activity android:name=".Activities.User_Management.Redirect.FacebookRedirect">

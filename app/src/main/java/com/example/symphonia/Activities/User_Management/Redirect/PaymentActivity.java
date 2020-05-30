@@ -25,13 +25,13 @@ public class PaymentActivity extends AppCompatActivity implements RestApi.update
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
-        try{
-            //get data from previous activity
-            Bundle b = getIntent().getExtras();
-            String received = b.getString("request");
+        //get data from previous activity
+        Bundle b = getIntent().getExtras();
+        String received = b.getString("request");
+        if(received != null) {
             ServiceController serviceController = ServiceController.getInstance();
-            serviceController.promotePremium(this,null,Constants.currentToken);
-        }catch (NullPointerException e){
+            serviceController.promotePremium(this, null, Constants.currentToken);
+        }else{
             handleIntent();
         }
     }
@@ -44,7 +44,7 @@ public class PaymentActivity extends AppCompatActivity implements RestApi.update
         if(appLinkData!=null){
             String newToken = appLinkData.getLastPathSegment();
             ServiceController serviceController = ServiceController.getInstance();
-
+            serviceController.checkPremiumToken(this,newToken);
         } else{
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);

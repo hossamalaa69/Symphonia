@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Activities.User_Management.Notifications.NotificationItem;
 import com.example.symphonia.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -86,7 +87,15 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         public void bind(int position) {
             //gets each feature from array, then sets it in text views
             NotificationItem notificationItem = mNotifications.get(position);
-            profile_img.setImageResource(notificationItem.getImageResource());
+
+            if(notificationItem.getImageUrl().equals(""))
+                profile_img.setImageResource(notificationItem.getImageResource());
+            else
+                Picasso.get()
+                        .load(notificationItem.getImageUrl())
+                        .placeholder(R.drawable.placeholder_user)
+                        .into(profile_img);
+
             text1.setText(notificationItem.getText1());
             text2.setText(notificationItem.getText2());
         }

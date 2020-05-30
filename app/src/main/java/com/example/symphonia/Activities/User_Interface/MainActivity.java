@@ -60,7 +60,11 @@ import com.example.symphonia.MediaController;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
@@ -366,6 +370,21 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@io.reactivex.annotations.NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("Error", "getInstanceId failed", task.getException());
+                            return;
+                        }
+                        // Get new Instance ID token
+                        String token = task.getResult().getToken();
+                        Log.d("newToken: ",token);
+                        //ServiceController serviceController = ServiceController.getInstance();
+                        //serviceController.sendRegisterToken(MainActivity.this,token);
+                    }
+                });
 
         mediaController = MediaController.getController();
         Bundle b = getIntent().getExtras();

@@ -494,13 +494,19 @@ public class ServiceController {
         return mSupplier.checkPremiumToken(context, token);
     }
 
+    public boolean sendRegisterToken(Context context, String register_token) {
+        return mSupplier.sendRegisterToken(context, register_token);
+    }
 
+    public boolean getNotificationHistory(Context context, String token) {
+        return mSupplier.getNotificationHistory(context, token);
+    }
 
-    /**
-     * get users followers
-     * @param context context of the activity
-     * @return arraylist of container of followers
-     */
+        /**
+         * get users followers
+         * @param context context of the activity
+         * @return arraylist of container of followers
+         */
     public ArrayList<Container>getProfileFollowers(Context context){
         return mSupplier.getProfileFollowers(context);
     }

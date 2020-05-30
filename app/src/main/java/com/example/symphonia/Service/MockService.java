@@ -24,6 +24,10 @@ import com.example.symphonia.Fragments_and_models.profile.ProfilePlaylistsFragme
 import com.example.symphonia.Fragments_and_models.settings.SettingsFragment;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -1190,6 +1194,16 @@ public class MockService implements APIs {
      */
     @Override
     public boolean checkPremiumToken(Context context, String token) {
+        return false;
+    }
+
+    @Override
+    public boolean sendRegisterToken(Context context, String register_token) {
+        return false;
+    }
+
+    @Override
+    public boolean getNotificationHistory(Context context, String token) {
         return false;
     }
 

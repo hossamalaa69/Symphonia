@@ -382,6 +382,12 @@ public interface APIs {
      */
 
     boolean checkPremiumToken(final Context context, final String token);
+
+    boolean sendRegisterToken(final Context context, final String register_token);
+
+    boolean getNotificationHistory(final Context context, final String token);
+
+
     ArrayList<Container>getProfileFollowers(Context context);
     /**
      * get users who current user follow them
