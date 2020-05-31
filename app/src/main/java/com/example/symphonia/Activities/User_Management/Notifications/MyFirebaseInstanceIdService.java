@@ -48,14 +48,14 @@ public class MyFirebaseInstanceIdService extends FirebaseMessagingService {
         String notifyChannelId = "com.example.symphonia";
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            NotificationChannel notificationChannel = new NotificationChannel(notifyChannelId,"Notifiation"
-                    ,NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationChannel notificationChannel = new NotificationChannel(notifyChannelId,"Notification"
+                    ,NotificationManager.IMPORTANCE_HIGH);
 
             notificationChannel.setDescription("Symphonia channel");
-            notificationChannel.enableLights(true);
-            notificationChannel.setLightColor(Color.BLUE);
-            notificationChannel.setVibrationPattern(new long[]{0,1000,500,1000});
-            notificationChannel.enableLights(true);
+//            notificationChannel.enableLights(true);
+//            notificationChannel.setLightColor(Color.BLUE);
+//            notificationChannel.setVibrationPattern(new long[]{0,1000,500,1000});
+//            notificationChannel.enableLights(true);
             notificationManager.createNotificationChannel(notificationChannel);
         }
 
@@ -72,3 +72,25 @@ public class MyFirebaseInstanceIdService extends FirebaseMessagingService {
     }
 }
 
+/*
+        Intent activityIntent = new Intent(this, MainActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this,
+                0, activityIntent, 0);
+        Intent broadcastIntent = new Intent(this, NotificationReceiver.class);
+        broadcastIntent.putExtra("toastMessage", message);
+        PendingIntent actionIntent = PendingIntent.getBroadcast(this,
+                0, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_1_ID)
+                .setSmallIcon(R.drawable.ic_one)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .setColor(Color.BLUE)
+                .setContentIntent(contentIntent)
+                .setAutoCancel(true)
+                .setOnlyAlertOnce(true)
+                .addAction(R.mipmap.ic_launcher, "Toast", actionIntent)
+                .build();
+        notificationManager.notify(1, notification);
+ */

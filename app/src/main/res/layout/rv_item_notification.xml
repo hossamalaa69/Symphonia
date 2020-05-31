@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:text="@string/description_text_placeholder"
-            android:textSize="18sp"
+            android:textSize="12sp"
             android:textColor="#E5F2F1"/>
 
     </LinearLayout>

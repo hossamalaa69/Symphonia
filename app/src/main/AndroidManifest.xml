@@ -238,6 +238,7 @@
         <service
             android:name=".Activities.User_Management.Notifications.MyFirebaseInstanceIdService"
             android:exported="false"
+            android:directBootAware="true"
             android:stopWithTask="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

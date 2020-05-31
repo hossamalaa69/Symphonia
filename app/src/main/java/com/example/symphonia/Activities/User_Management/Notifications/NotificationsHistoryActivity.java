@@ -70,9 +70,20 @@ public class NotificationsHistoryActivity extends AppCompatActivity implements R
     public void displayPosition(int position){
         if(Constants.DEBUG_STATUS)
             Toast.makeText(this, ""+position,Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(this, "From ID:" + mNotificationItems.get(position).getSenderID()
-                    ,Toast.LENGTH_SHORT).show();
+        else {
+            if(mNotificationItems.get(position).getText1().equals("Following User"))
+                Toast.makeText(this, "Follower ID:" + mNotificationItems.get(position).getSenderID()
+                        , Toast.LENGTH_SHORT).show();
+            else if(mNotificationItems.get(position).getText1().equals("Like Playlist"))
+                Toast.makeText(this, "User ID:" + mNotificationItems.get(position).getSenderID()
+                        , Toast.LENGTH_SHORT).show();
+            else if(mNotificationItems.get(position).getText1().equals("PlayList Updated"))
+                Toast.makeText(this, "Playlist ID:" + mNotificationItems.get(position).getSenderID()
+                        , Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(this, "Album ID:" + mNotificationItems.get(position).getSenderID()
+                        , Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void addSomeItems(){
@@ -99,7 +110,7 @@ public class NotificationsHistoryActivity extends AppCompatActivity implements R
 
     @Override
     public void updateUIGetNotifySuccess(JSONObject root) {
-
+        ArrayList<NotificationItem> notificationItemArrayList = new ArrayList<>();
         try {
             JSONObject notifications = root.getJSONObject("notifications");
             JSONArray items = notifications.getJSONArray("items");
@@ -119,9 +130,13 @@ public class NotificationsHistoryActivity extends AppCompatActivity implements R
                         title,body);
                 notificationItem.setImageUrl(icon);
                 notificationItem.setSenderID(SenderID);
-                mNotificationItems.add(notificationItem);
-                notificationAdapter.notifyDataSetChanged();
+                notificationItemArrayList.add(notificationItem);
             }
+            for(int i=notificationItemArrayList.size()-1;i>=0;i--){
+                mNotificationItems.add(notificationItemArrayList.get(i));
+            }
+            notificationAdapter.notifyDataSetChanged();
+
         } catch (JSONException e){
             e.printStackTrace();
         }

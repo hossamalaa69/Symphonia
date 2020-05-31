@@ -222,7 +222,7 @@
     <string name="source">source</string>
     <string name="report_error">Report Error</string>
     <string name="view_profile">View Profile</string>
-    <string name="welcome">\"Welcome: \"</string>
+    <string name="welcome">Welcome: </string>
     <string name="sign_up_success">Signed up successfully</string>
     <string name="failed">Failed</string>
     <string name="free_account">Free Account</string>
