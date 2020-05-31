@@ -168,7 +168,7 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
             if (!Constants.DEBUG_STATUS) {
                  Log.e("media", "setting data resource");
                 mediaPlayer.setDataSource(getApplicationContext(),
-                        Uri.parse(Constants.PLAY_TRACK +Utils.CurrTrackInfo.track.getId()+"/"+ Utils.CurrTrackInfo.trackTocken));
+                        Uri.parse(Constants.PLAY_TRACK +Utils.currTrack.getId()+"/"+ Utils.CurrTrackInfo.trackTocken));
             } else
                 mediaPlayer.setDataSource(getApplicationContext(), Utils.CurrTrackInfo.track.getUri());
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);

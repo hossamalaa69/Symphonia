@@ -513,12 +513,22 @@ public interface APIs {
      * this function initialize the request to stream music
      *
      * @param context      context of current activity
-     * @param id           id of track
-     * @param context_id   id of context
-     * @param context_url  url of context
-     * @param context_type type of context
      */
-    void playTrack(Context context, String id, String context_id, String context_url, String context_type);
+    void playTrack(Context context);
+
+    void playNext(Context context);
+
+    public void getTrack(Context context, String id);
+
+    /**
+     * this function initialize the request to stream music
+     *
+     * @param context      context of current activity
+     */
+    void getCurrPlaying(Context context);
 
 
+    void getQueue(Context context);
+
+    void playPrev(Context context);
 }

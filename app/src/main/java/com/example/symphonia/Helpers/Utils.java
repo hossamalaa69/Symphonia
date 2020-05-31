@@ -37,6 +37,20 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
 public class Utils {
 
     public static ArrayList<Category> categories ;
+    public static Track prevTrack;
+    public  static Track currTrack;
+    public  static String currContextId ;
+    public  static String currContextType;
+    public static ArrayList<String> queueIds;
+    public static Playlist playPlaylist;
+    public static Playlist displayedPlaylist;
+    public  static int getPos(String id){
+        if(id == null||playPlaylist == null) return -1;
+        for (int i = 0; i< displayedPlaylist.getTracks().size(); i++){
+            if(displayedPlaylist.getTracks().get(i).getId().matches(id))return i;
+        }
+        return -1;
+    }
     /**
      * extracts name from email
      *
@@ -50,7 +64,7 @@ public class Utils {
         return email.split("@")[0];
     }
 
-    /**
+     /**
      * this function takes info on track and set it to Utils.CurrTrackInfo
      *
      * @param currPlayingPos

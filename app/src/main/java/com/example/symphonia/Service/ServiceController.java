@@ -3,6 +3,7 @@ package com.example.symphonia.Service;
 import android.content.Context;
 import android.view.View;
 
+import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Entities.Category;
@@ -27,11 +28,11 @@ import static com.example.symphonia.Constants.DEBUG_STATUS;
  */
 
 public class ServiceController {
-
     /**
      * object of parent(abstract class) for supplying app with data
      */
     private final APIs mSupplier;
+
     /**
      * new object of controller class to decide which service to be used
      */
@@ -81,6 +82,9 @@ public class ServiceController {
 
     public boolean applyArtist(final Context context, final String token){
         return mSupplier.applyArtist(context, token);
+    }
+    public void getCurrPlaying(Context context){
+        mSupplier.getCurrPlaying(context);
     }
 
     /**
@@ -612,15 +616,14 @@ public class ServiceController {
      * this function initialize the request to stream music
      *
      * @param context      context of current activity
-     * @param id           id of track
-     * @param context_id   id of context
-     * @param context_url  url of context
-     * @param context_type type of context
-     */
-    public void playTrack(Context context, String id, String context_id, String context_url, String context_type) {
-        mSupplier.playTrack(context, id, context_id, context_url, context_type);
-    }
 
+     */
+    public void playTrack(Context context) {
+        mSupplier.playTrack(context);
+    }
+    public void getTrack(Context context,String id) {
+        mSupplier.getTrack(context,id);
+    }
     /**
      * this function gets tracks of a certain playlist
      *
@@ -643,5 +646,16 @@ public class ServiceController {
 
     public Playlist getPlaylist(RestApi.UpdatePlaylist listener, String id){
         return mSupplier.getPlaylist(listener, id);
+    }
+
+    public void getQueue(Context context) {
+        mSupplier.getQueue(context);
+    }
+    public void playNext(Context context) {
+        mSupplier.playNext(context);
+    }
+
+    public void playPrev(Context context) {
+        mSupplier.playPrev(context);
     }
 }

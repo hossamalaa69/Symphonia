@@ -19,7 +19,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.symphonia.Activities.User_Interface.StartActivity;
-import com.example.symphonia.Activities.User_Management.SignUp.ApplyArtist;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
@@ -46,9 +45,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -340,7 +336,7 @@ public class RestApi implements APIs {
      */
     public interface updateUiPlaylists {
         void getCategoriesSuccess();
-
+        void getCurrPlayingTrackSuccess(String id);
         void updateUiNoTracks(PlaylistFragment playlistFragment);
 
         void updateUiGetTracksOfPlaylist(PlaylistFragment playlistFragment);
@@ -362,6 +358,12 @@ public class RestApi implements APIs {
         void updateUiGetMadeForYouPlaylistsFail();
 
         void updateUiPlayTrack();
+
+        void getTrackSuccess();
+
+        void updateUiGetQueue();
+
+        void getTrackOfQueue();
     }
 
     /**
@@ -607,8 +609,6 @@ public class RestApi implements APIs {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("rand", "error");
-
-
             }
         });
         VolleySingleton.getInstance(context).getRequestQueue().add(request);
@@ -619,19 +619,15 @@ public class RestApi implements APIs {
      * this function initialize the track to be streamed
      *
      * @param context      current activity's context
-     * @param id           id of track
-     * @param context_id   id of context
-     * @param context_url  url of context
-     * @param context_type type of context
      */
+
     @Override
-    public void playTrack(final Context context, String id, String context_id, String context_url, String context_type) {
+    public void playTrack(final Context context) {
         final updateUiPlaylists listener = (updateUiPlaylists) context;
-        final StringRequest request = new StringRequest(Request.Method.POST, Constants.PLAY_TRACK.concat("5e8a1e0f7937ec4d40c6deba")
+        final StringRequest request = new StringRequest(Request.Method.POST, Constants.PLAY_TRACK.concat(Utils.currTrack.getId())
                 , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Utils.CurrTrackInfo.currPlaylistTracks.get(Utils.CurrTrackInfo.TrackPosInPlaylist).setUri(Uri.parse(response));
                 Utils.CurrTrackInfo.loading = false;
                 JSONObject obj;
                 try {
@@ -660,11 +656,244 @@ public class RestApi implements APIs {
             }
 
             @Override
-            public String getBodyContentType() {
-                return "{\"contextId\": \"" + Utils.CurrTrackInfo.track.getmAlbumId() + ",\"context_type\": \"album\",\"context_url\": \"https://thesymphonia.ddns.net/\",\"device\": \"android\"}";
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("contextId", Utils.currContextId);
+                params.put("context_type", Utils.currContextType);
+                params.put("context_url", "https://thesymphonia.ddns.net/");
+                params.put("device", "android");
+                return params;
+            }
+/*
+            @Override
+            public String getBodyContentType() {*//*Utils.currContextId*//*
+                return "{\"contextId\": \"5e701f4d2672a63a60573a02\",\"context_type\": \"album\",\"device\": \"android\"}";
+                //"{\"contextId\":\"" +"5e701f4d2672a63a60573a02" + "\",\"context_type\":\"album\",\"context_url\":\"https://thesymphonia.ddns.net/\",\"device\":\"android\"}";
+            }*/
+        };
+        VolleySingleton.getInstance(context).getRequestQueue().add(request);
+    }
+    @Override
+    public void getCurrPlaying(final Context context) {
+        final updateUiPlaylists listener = (updateUiPlaylists) context;
+        final StringRequest request = new StringRequest(Request.Method.GET , Constants.GET_CURR_PLAYING
+                , new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                JSONObject obj;
+                try {
+                    obj = new JSONObject(response);
+                    JSONObject data = obj.getJSONObject("data");
+                    String link = data.getString("currentTrack");
+                    if(!link.matches("null"))
+                        listener.getCurrPlayingTrackSuccess(link.split("tracks/")[1]);
+                   Log.e("curr playing","success");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("curr playing", "error");
+                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
+
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + Constants.currentToken);
+                //   headers.put("Content-Type", "application/json");
+                return headers;
             }
         };
 
+        VolleySingleton.getInstance(context).getRequestQueue().add(request);
+    }
+
+    @Override
+    public void getQueue(final Context context) {
+           final StringRequest request = new StringRequest(Request.Method.GET , Constants.GET_QUEUE
+            , new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                JSONObject obj;
+                try {
+                    obj = new JSONObject(response);
+                    JSONObject data = obj.getJSONObject("data");
+                    JSONArray devices = data.getJSONArray("devices");
+                    for(int i =0 ;i<devices.length();i++){
+                        JSONObject device = (JSONObject) devices.get(i);
+                        if(device.getString("devicesName").matches("android")){
+                            String contextId = data.getString("contextId");
+                            String contextType = data.getString("contextType");
+                            if(contextType.matches("playlist")){
+                                getTracksOfPlaylist(context,contextId,null);
+                                break;
+                            }
+                        }
+                    }
+                    Log.e("get queue","success");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("get queue", "error");
+                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
+
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + Constants.currentToken);
+                //   headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+
+        VolleySingleton.getInstance(context).getRequestQueue().add(request);
+    }
+
+    @Override
+    public void playNext(final Context context) {
+        final StringRequest request = new StringRequest(Request.Method.POST , Constants.PLAY_NEXT
+                , new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                JSONObject obj;
+                try {
+                    obj = new JSONObject(response);
+                    JSONArray data = obj.getJSONArray("data");
+              //      String nextId = data.get(1).toString().split("tracks/")[1];
+                    getCurrPlaying(context);
+                    Log.e("curr playing","success");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("next", "error");
+                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
+
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + Constants.currentToken);
+                //   headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+
+        VolleySingleton.getInstance(context).getRequestQueue().add(request);
+    }
+
+    @Override
+    public void playPrev(final Context context) {
+        final StringRequest request = new StringRequest(Request.Method.POST , Constants.PLAY_PREV
+                , new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                JSONObject obj;
+                try {
+                    obj = new JSONObject(response);
+                    JSONArray data = obj.getJSONArray("data");
+                    getCurrPlaying(context);
+                    Log.e("play prev","success");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("next", "error");
+                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
+
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + Constants.currentToken);
+                //   headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+
+        VolleySingleton.getInstance(context).getRequestQueue().add(request);
+    }
+    @Override
+    public void getTrack(final Context context,String id) { 
+        final updateUiPlaylists listener = (updateUiPlaylists) context;
+    final StringRequest request = new StringRequest(Request.Method.GET , Constants.GET_TRACK + id
+                , new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                JSONObject obj;
+                try {
+                    //final Context context, String id, String context_id, String context_url, String context_type
+                    obj = new JSONObject(response);
+                    String Type = obj.getString("type");
+                    if(Type.matches("track")) {
+                        String id = obj.getString("_id");
+                        String name = obj.getString("name");
+                        int durationMS = obj.getInt("durationMs");
+                        boolean premium = obj.getBoolean("premium");
+                        JSONObject album = obj.optJSONObject("album");
+                        JSONObject artist = obj.optJSONObject("artist");
+                        String artistName  = artist.getString("name");
+                        String artistID  = artist.getString("_id");
+                        String context_id = null;
+                        String imageUrl = null;
+                        String albumName  = null;
+                        if(album  != null){
+                            context_id = album.getString("_id");
+                            imageUrl = album.getString("image");
+                            albumName = album.getString("name");
+                            Utils.currContextType = "album";
+                        }
+                        else{
+                            JSONObject playlist = obj.optJSONObject("playlist");
+                            if(playlist != null) {
+                                context_id = playlist.getString("_id");
+                                imageUrl = playlist.getString("image");
+                                albumName = playlist.getString("name");
+                                Utils.currContextType = "playlist";
+                            }
+                        }
+                        Utils.currTrack = new Track(name,artistName,albumName,id,premium,0,durationMS,imageUrl,null,context_id);
+                        listener.getTrackSuccess();
+                    }
+                    Log.e("curr playing","success");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("getTrack", "error");
+                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
+
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + Constants.currentToken);
+                //   headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
         VolleySingleton.getInstance(context).getRequestQueue().add(request);
     }
 
@@ -701,16 +930,21 @@ public class RestApi implements APIs {
                         String artistName = artist.getString("name");
                         int duration = track.getInt("durationMs");
                         String premium = track.getString("premium");
-                        tracksList.add(new Track(title, artistName, Utils.CurrPlaylist.playlist.getmPlaylistTitle()
-                                , id, (premium.matches("true")), R.drawable.no_image, duration, imageUrl, albumId));
+                        tracksList.add(new Track(title, artistName, Utils.displayedPlaylist.getmPlaylistTitle()
+                                , id, (premium.matches("true")), R.drawable.no_image, duration, imageUrl, albumId,Utils.displayedPlaylist.getId()));
                     }
-                    Utils.CurrPlaylist.playlist.setTracks(tracksList);
+                    Utils.displayedPlaylist.setTracks(tracksList);
                     Log.e("tracks", "success");
-                    listener.updateUiGetTracksOfPlaylist(playlistFragment);
+                    if(playlistFragment!=null)
+                        listener.updateUiGetTracksOfPlaylist(playlistFragment);
+                    else
+                        listener.updateUiGetQueue();
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    listener.updateUiNoTracks(playlistFragment);
-
+                    if(playlistFragment!=null)
+                        listener.updateUiNoTracks(playlistFragment);
+                    else
+                        listener.updateUiGetQueue();
                 }
             }
         }, new Response.ErrorListener() {
@@ -718,7 +952,8 @@ public class RestApi implements APIs {
             public void onErrorResponse(VolleyError error) {
                 Log.e("tracks", "error");
             }
-        });
+        })
+                ;
         VolleySingleton.getInstance(context).getRequestQueue().add(request);
         return tracksList;
     }
@@ -732,7 +967,6 @@ public class RestApi implements APIs {
     public ArrayList<Container> getResultsOfSearch(Context context, String searchWord) {
         return null;
     }
-
     @Override
     public ArrayList<Category> getCategories(Context context) {
         Log.e("Category", "start fetching");
@@ -1883,7 +2117,45 @@ public class RestApi implements APIs {
      */
     @Override
     public ArrayList<Track> getAlbumTracks(Context context, String id, int offset, int limit) {
-        return null;
+        final ArrayList<Track> tracksList = new ArrayList<>();
+        final StringRequest request = new StringRequest(Request.Method.GET
+                , Constants.GET_PLAYLISTS_TRACKS.concat(id).concat("/tracks"), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    Log.e("tracks", "respond");
+                    Utils.LoadedPlaylists.randomPlaylists = new ArrayList<>();
+                    JSONObject root = new JSONObject(response);
+                    JSONObject tracks = root.getJSONObject("tracks");
+                    JSONArray items = tracks.getJSONArray("items");
+                    for (int i = 0; i < items.length(); i++) {
+                        JSONObject track = items.getJSONObject(i);
+                        String title = track.getString("name");
+                        String id = track.getString("_id");
+                        JSONObject album = track.getJSONObject("album");
+                        String imageUrl = album.optString("image");
+                        String albumId = album.getString("_id");
+                        JSONObject artist = track.getJSONObject("artist");
+                        String artistName = artist.getString("name");
+                        int duration = track.getInt("durationMs");
+                        String premium = track.getString("premium");
+                        tracksList.add(new Track(title, artistName, Utils.displayedPlaylist.getmPlaylistTitle()
+                                , id, (premium.matches("true")), R.drawable.no_image, duration, imageUrl, albumId));
+                    }
+                    Utils.displayedPlaylist.setTracks(tracksList);
+                    Log.e("tracks", "success");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("tracks", "error");
+            }
+        });
+        VolleySingleton.getInstance(context).getRequestQueue().add(request);
+        return tracksList;
     }
 
     /**

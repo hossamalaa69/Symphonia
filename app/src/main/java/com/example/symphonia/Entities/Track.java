@@ -12,6 +12,7 @@ import java.io.Serializable;
  * @since 22-3-2020
  */
 public class Track implements Serializable {
+    private boolean isPlaying = false;
     /**
      * id of album to which track belongs
      */
@@ -77,6 +78,16 @@ public class Track implements Serializable {
      */
     private boolean locked;
 
+
+    private String playListId;
+
+    public void setPlayListId(String playListId) {
+        this.playListId = playListId;
+    }
+
+    public String getPlayListId() {
+        return playListId;
+    }
 
     /**
      * non empty constructor
@@ -179,7 +190,30 @@ public class Track implements Serializable {
         this.mDuration = mDuration;
         this.mAlbumId = albumId;
     }
-
+    /**
+     * non empty constructor
+     *
+     * @param mTitle          title of track
+     * @param playlistName    name of playlsit
+     * @param mImageResources image resources of track
+     * @param mArtist         description of track
+     * @param isLocked        is track locked
+     * @param mDuration       duration of track
+     * @param albumId         id of album to which track belongs
+     * @param playListId
+     */
+    public Track(String mTitle, String mArtist, String playlistName, String id, boolean isLocked, int mImageResources, int mDuration, String imageUrl,String albumId, String playListId) {
+        this.mTitle = mTitle;
+        this.mArtist = mArtist;
+        this.locked = isLocked;
+        this.id = id;
+        this.imageUrl = imageUrl;
+        this.playlistName = playlistName;
+        this.mImageResources = mImageResources;
+        this.mDuration = mDuration;
+        this.mAlbumId = albumId;
+        this.playListId = playListId;
+    }
     /**
      * getter fo album id of track
      *
@@ -358,5 +392,13 @@ public class Track implements Serializable {
 
     public void setImageResources(int no_image) {
         mImageResources = no_image;
+    }
+
+    public boolean isPlaying() {
+    return isPlaying;
+    }
+
+    public void isPlaying(boolean b) {
+        isPlaying = b;
     }
 }

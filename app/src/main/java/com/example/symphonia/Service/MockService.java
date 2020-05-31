@@ -398,13 +398,9 @@ public class MockService implements APIs {
      * this function initialize the request to stream music
      *
      * @param context      context of current activity
-     * @param id           id of track
-     * @param context_id   id of context
-     * @param context_url  url of context
-     * @param context_type type of context
      */
     @Override
-    public void playTrack(Context context, String id, String context_id, String context_url, String context_type) {
+    public void playTrack(Context context) {
 
     }
 
@@ -1332,6 +1328,12 @@ public class MockService implements APIs {
     public String getNumbersoUserFollowers(Context context, FragmentProfile fragmentProfile) {
         return null;
     }
+    @Override
+    public void getCurrPlaying(Context context) {
+    }
+    @Override
+    public void getTrack(Context context,String id ) {
+    }
 
     /**
      * get number of users that user follow
@@ -1431,5 +1433,18 @@ public class MockService implements APIs {
         return albumssCount;
     }
 
+    @Override
+    public void getQueue(Context context) {
 
+    }
+
+    @Override
+    public void playNext(Context context) {
+
+    }
+
+    @Override
+    public void playPrev(Context context) {
+
+    }
 }

@@ -22,12 +22,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Adapters.RvTracksHomeAdapter;
 import com.example.symphonia.Constants;
+import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
 import com.google.android.material.appbar.AppBarLayout;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+
+import java.util.ArrayList;
 
 /**
  * fragment that represent playlist tracks to user
@@ -85,7 +88,7 @@ public class PlaylistFragment extends Fragment {
         progressPar.setVisibility(View.VISIBLE);
         appBarLayout.setScrollbarFadingEnabled(true);
 
-        playlistTitle.setText(Utils.CurrPlaylist.playlist.getmPlaylistTitle());
+        playlistTitle.setText(Utils.displayedPlaylist.getmPlaylistTitle());
         madeForUser.setText(R.string.made_for_you_by_spotify);
 
         if (Constants.DEBUG_STATUS) {
@@ -94,7 +97,7 @@ public class PlaylistFragment extends Fragment {
             progressPar.setVisibility(View.GONE);
         } else {
             ServiceController serviceController = ServiceController.getInstance();
-            serviceController.getTracksOfPlaylist(getContext(), Utils.CurrPlaylist.playlist.getId(), this);
+            serviceController.getTracksOfPlaylist(getContext(), Utils.displayedPlaylist.getId(), this);
         }
         // transition drawable controls the animation ov changing background
 
@@ -114,7 +117,7 @@ public class PlaylistFragment extends Fragment {
                 frameLayout.setAlpha((long) 2 * (alpha - 1));
             }
         });
-        rvTracks.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+      /*  rvTracks.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 if (Utils.CurrTrackInfo.TrackPosInPlaylist != -1) {
@@ -129,25 +132,20 @@ public class PlaylistFragment extends Fragment {
                 // unregister listener (this is important)
                 rvTracks.getViewTreeObserver().removeGlobalOnLayoutListener(this);
             }
-        });
+        });*/
         playBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int prev = Utils.CurrTrackInfo.TrackPosInPlaylist;
-                for (int i = 0; i < Utils.CurrPlaylist.playlist.getTracks().size(); i++) {
-                    if (!Utils.CurrPlaylist.playlist.getTracks().get(i).isHidden() &&
-                            !(Utils.CurrPlaylist.playlist.getTracks().get(i).isLocked() && !Constants.currentUser.isPremuim())) {
-                        Utils.CurrTrackInfo.TrackPosInPlaylist = i;
-                        Utils.setTrackInfo(0, Utils.CurrTrackInfo.TrackPosInPlaylist, Utils.CurrPlaylist.playlist.getTracks());
-                        Utils.CurrTrackInfo.prevTrackPos = Utils.CurrTrackInfo.TrackPosInPlaylist;
-                        changeSelected(prev, Utils.CurrTrackInfo.TrackPosInPlaylist);
-                        ((MainActivity) getActivity()).showPlayBar();
-                        ((MainActivity) getActivity()).updatePlayBar();
-                        ((MainActivity) getActivity()).startTrack();
-                        return;
+
+                for(int i =0 ; i<Utils.displayedPlaylist.getTracks().size();i++)
+                    if(!Utils.displayedPlaylist.getTracks().get(i).isLocked()) {
+                        Utils.currTrack = Utils.displayedPlaylist.getTracks().get(i);
+                        Utils.currContextType  = "playlist";
+                        Utils.currContextId = Utils.displayedPlaylist.getId();
                     }
-                }
-            }
+                    changeSelected();
+                    ((MainActivity) getActivity()).startTrack();
+                    }
         });
 
         return view;
@@ -162,14 +160,14 @@ public class PlaylistFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getContext());
         rvTracks.setHasFixedSize(true);
         rvTracks.setLayoutManager(layoutManager);
-        rvTracksHomeAdapter = new RvTracksHomeAdapter(getContext(), Utils.CurrPlaylist.playlist.getTracks());
+        rvTracksHomeAdapter = new RvTracksHomeAdapter(getContext(), Utils.displayedPlaylist.getTracks());
         rvTracks.setAdapter(rvTracksHomeAdapter);
         Target target = new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                Utils.CurrPlaylist.playlist.setPlaylistImage(bitmap);
-                background = Utils.createBackground(getContext(), Utils.CurrPlaylist.playlist.getmPlaylistImage());
-                playlistImage.setImageBitmap(Utils.CurrPlaylist.playlist.getmPlaylistImage());
+                Utils.displayedPlaylist.setPlaylistImage(bitmap);
+                background = Utils.createBackground(getContext(), Utils.displayedPlaylist.getmPlaylistImage());
+                playlistImage.setImageBitmap(Utils.displayedPlaylist.getmPlaylistImage());
                 TransitionDrawable td = new TransitionDrawable(
                         new Drawable[]{getResources().getDrawable(R.drawable.background), background});
                 backgroundLayout.setBackground(td);
@@ -188,12 +186,12 @@ public class PlaylistFragment extends Fragment {
         };
         if (!Constants.DEBUG_STATUS)
             Picasso.get()
-                    .load(Utils.CurrPlaylist.playlist.getImageUrl())
+                    .load(Utils.displayedPlaylist.getImageUrl())
                     .into(target);
 
         if (Constants.DEBUG_STATUS) {
-            playlistImage.setImageBitmap(Utils.CurrPlaylist.playlist.getmPlaylistImage());
-            background = Utils.createBackground(getContext(), Utils.CurrPlaylist.playlist.getmPlaylistImage());
+            playlistImage.setImageBitmap(Utils.displayedPlaylist.getmPlaylistImage());
+            background = Utils.createBackground(getContext(), Utils.displayedPlaylist.getmPlaylistImage());
             TransitionDrawable td = new TransitionDrawable(
                     new Drawable[]{getResources().getDrawable(R.drawable.background), background});
             backgroundLayout.setBackground(td);
@@ -221,78 +219,24 @@ public class PlaylistFragment extends Fragment {
         }
 
     }
-
-
     /**
      * this function change color of selected item and resets color of previous one
      *
-     * @param prev position of previous item
-     * @param pos  position of current item
+     * @param //prev position of previous item
+     * @param //curr position of current item
      */
-    public void changeSelected(int prev, int pos) {
-        if (Utils.CurrPlaylist.playlist == null || Utils.CurrTrackInfo.currPlaylistName == null ||
-                !Utils.CurrPlaylist.playlist.getmPlaylistTitle().matches(Utils.CurrTrackInfo.currPlaylistName)) {
-            return;
-        }
-        if (prev != -1 && Utils.CurrPlaylist.playlist.getTracks() != null &&
-                !(Utils.CurrPlaylist.playlist.getTracks().get(prev).isLocked() && !Constants.currentUser.isPremuim())
-        ) {
-            if (prev > -1 && pos < Utils.CurrTrackInfo.currPlaylistTracks.size()) {
-                View prevView = rvTracks.getLayoutManager().getChildAt(prev);
-                TextView tvPrevTitle = null;
-                if (prevView != null) {
-                    tvPrevTitle = prevView.findViewById(R.id.tv_track_title_item);
-                }
-                if (tvPrevTitle != null) {
-                    if (!Utils.CurrPlaylist.playlist.getTracks().get(prev).isHidden())
-                        tvPrevTitle.setTextColor(getContext().getResources().getColor(R.color.white));
-                    else {
-                        tvPrevTitle.setTextColor(getContext().getResources().getColor(R.color.light_gray));
+  /*  public void changeSelected(String prev, String curr) {
+      //  View prevView = rvTracks.getLayoutManager().getChildAt(prev);
 
-                    }
-                }
-            }
-        }
-        if (pos != -1 && pos < Utils.CurrPlaylist.playlist.getTracks().size()) {
-            View view = rvTracks.getLayoutManager().getChildAt(pos);
-            TextView tvTitle = null;
-            if (null != view) {
-                tvTitle = view.findViewById(R.id.tv_track_title_item);
-            }
-            if (tvTitle != null) {
-                tvTitle.setTextColor(getContext().getResources().getColor(R.color.colorGreen));
-            }
-        }
-
+    }*/
+    public void changeSelected() {
+     //   rvTracksHomeAdapter.selectPlaying(Utils.currTrack.getId());
+        rvTracksHomeAdapter.notifyDataSetChanged();
     }
 
-    /**
-     * this function called to change hidden item in tracks recycler view
-     *
-     * @param pos      position of track to be hidden
-     * @param isHidden if track is hidden
-     */
     public void changeHidden(int pos, boolean isHidden) {
-        if (pos != -1 && pos < Utils.CurrPlaylist.playlist.getTracks().size()) {
-            View view = rvTracks.getLayoutManager().getChildAt(pos);
-            TextView tvTitle = null;
-            ImageView ivHide = null;
-            if (null != view) {
-                tvTitle = view.findViewById(R.id.tv_track_title_item);
-                ivHide = view.findViewById(R.id.iv_hide_track_item);
-            }
-            if (tvTitle != null) {
-                if (isHidden) {
-                    ivHide.setImageResource(R.drawable.ic_do_not_disturb_on_red_24dp);
-                    ivHide.setSelected(true);
-                    tvTitle.setTextColor(getContext().getResources().getColor(R.color.light_gray));
-                } else {
-                    ivHide.setImageResource(R.drawable.ic_do_not_disturb_on_black_24dp);
-                    ivHide.setSelected(false);
-
-                }
-            }
-        }
-
+        rvTracksHomeAdapter.selectHidden(pos, isHidden);
+        rvTracksHomeAdapter.notifyDataSetChanged();
     }
+
 }
