@@ -35,6 +35,13 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
     private static AudioManager audioManager;
     private static WifiManager.WifiLock wifiLock;
 
+    public  interface OnStartListener{
+        void onStartListener();
+    }
+    OnStartListener listener;
+    public void addListener(Context context){
+        listener = (OnStartListener) context;
+    }
     /**
      * setter for completion listener
      *
@@ -315,6 +322,7 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
     public void onPrepared(MediaPlayer player) {
         Log.e("media", "start");
         player.start();
+        listener.onStartListener();
         //   makeToast(getApplicationContext().getResources().getString(R.string.started));
     }
 

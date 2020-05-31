@@ -36,21 +36,23 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
  */
 public class Utils {
 
-    public static ArrayList<Category> categories ;
+    public static ArrayList<Category> categories;
     public static Track prevTrack;
-    public  static Track currTrack;
-    public  static String currContextId ;
-    public  static String currContextType;
+    public static Track currTrack;
+    public static String currContextId;
+    public static String currContextType;
     public static ArrayList<String> queueIds;
     public static Playlist playPlaylist;
     public static Playlist displayedPlaylist;
-    public  static int getPosInPlaying(String id){
-        if(id == null||playPlaylist == null) return -1;
-        for (int i = 0; i< playPlaylist.getTracks().size(); i++){
-            if(playPlaylist.getTracks().get(i).getId().matches(id))return i;
+
+    public static int getPosInPlaying(String id) {
+        if (id == null || playPlaylist == null) return -1;
+        for (int i = 0; i < playPlaylist.getTracks().size(); i++) {
+            if (playPlaylist.getTracks().get(i).getId().matches(id)) return i;
         }
         return -1;
     }
+
     /**
      * extracts name from email
      *
@@ -64,7 +66,7 @@ public class Utils {
         return email.split("@")[0];
     }
 
-     /**
+    /**
      * this function takes info on track and set it to Utils.CurrTrackInfo
      *
      * @param currPlayingPos
@@ -96,7 +98,7 @@ public class Utils {
     /**
      * this class holds playlists that are loaded from backend
      */
-    public static class LoadedPlaylists{
+    public static class LoadedPlaylists {
         public static ArrayList<Playlist> randomPlaylists;
         public static ArrayList<Playlist> madeForYouPlaylists;
         public static ArrayList<Playlist> recentPlaylists;
@@ -111,7 +113,7 @@ public class Utils {
      */
     public static class CurrTrackInfo {
 
-        public static  boolean loading = false;
+        public static boolean loading = false;
         /**
          * indicates that track is Utils.CurrTrackInfo.paused
          */
@@ -139,8 +141,8 @@ public class Utils {
         /**
          * current second of playing track
          */
-        public static int currPlayingPos =0;
-        public static String trackTocken= null;
+        public static int currPlayingPos = 0;
+        public static String trackTocken = null;
     }
 
 
@@ -323,7 +325,7 @@ public class Utils {
     private static class SomeDrawable3 extends GradientDrawable {
 
         public SomeDrawable3(int pStartColor, int pEndColor) {
-            super(Orientation.BOTTOM_TOP, new int[]{pEndColor, pEndColor,pStartColor});
+            super(Orientation.BOTTOM_TOP, new int[]{pEndColor, pEndColor, pStartColor});
             setShape(GradientDrawable.RECTANGLE);
         }
 
@@ -376,8 +378,8 @@ public class Utils {
     /**
      * function to apply touch animation to a view
      *
-     * @param view the view to apply animation on
-     * @param scale scaling factor
+     * @param view         the view to apply animation on
+     * @param scale        scaling factor
      * @param transparency alpha factor
      */
     public static void startTouchAnimation(View view, float scale, float transparency) {
@@ -405,11 +407,11 @@ public class Utils {
      * convert the dependent pixel value to pixels
      * based on the current device
      *
-     * @param dp value in dependent pixels
+     * @param dp      value in dependent pixels
      * @param context activity context
      * @return the converted value of pixels
      */
-    public static float convertDpToPixel(float dp, Context context){
+    public static float convertDpToPixel(float dp, Context context) {
         return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 

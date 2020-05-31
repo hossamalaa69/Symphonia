@@ -134,11 +134,13 @@ public class PlaylistFragment extends Fragment {
             public void onClick(View v) {
 
                 for (int i = 0; i < Utils.displayedPlaylist.getTracks().size(); i++)
-                    if (!Utils.displayedPlaylist.getTracks().get(i).isLocked()) {
+                    if (!Utils.displayedPlaylist.getTracks().get(i).isLocked()&&!Utils.displayedPlaylist.getTracks().get(i).isHidden()) {
                         Utils.currTrack = Utils.displayedPlaylist.getTracks().get(i);
                         Utils.currContextType = "playlist";
                         Utils.currContextId = Utils.displayedPlaylist.getId();
+                        break;
                     }
+                Utils.playPlaylist = Utils.displayedPlaylist;
                 changeSelected();
                 ((MainActivity) getActivity()).startTrack();
             }

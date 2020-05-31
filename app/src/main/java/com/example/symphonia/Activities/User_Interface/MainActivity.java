@@ -85,7 +85,14 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         , RestApi.updateUiProfileInProfileFragment
         , RestApi.updateProfilePlaylists
         , BottomSheetDialogSettings.BottomSheetListener
-        , RvBarAdapter.ItemInterface, Serializable {
+        , RvBarAdapter.ItemInterface, Serializable
+        , MediaController.OnStartListener {
+
+    @Override
+    public void onStartListener() {
+        playBarBtnFrame.removeAllViews();
+        playBarBtnFrame.addView(pauseBtn);
+    }
 
     /**
      * this holds instance of home fragment
@@ -212,7 +219,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, "" + Utils.CurrPlaylist.playlist.getTracks().get(pos).getUri());
-        mHandler.removeCallbacks(runnable);
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         }
@@ -444,6 +450,9 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
 
         addListeners();
 
+        if(Utils.currTrack!=null){
+            showPlayBar();
+        }
         // add tracks of playlist to play bar recycler view
         if (Utils.CurrPlaylist.playlist != null) {
             barAdapter = new RvBarAdapter(this, Utils.CurrPlaylist.playlist.getTracks());
@@ -481,8 +490,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                 //   playlistFragment.changeLikedItemAtPos(i, Utils.CurrTrackInfo.currPlaylistTracks.get(i).isLiked());
             }
         }
-        mHandler.post(runnable);
-
         MediaController.setOnCompletionListener(onCompletionListener);
         mediaController.setMediaPlayCompletionService();
         prevPos = Utils.CurrTrackInfo.prevTrackPos;
@@ -497,29 +504,11 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                         .into(trackImage);
             else
                 trackImage.setImageResource(track.getmImageResources());
-
-        this.runOnUiThread(runnable);
         //check if user online
         if (!isOnline()) {
             connectToInternet();
         }
     }
-
-    /**
-     * this is a runnable for updating playBar ui in ui thread
-     */
-    private Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            //     updatePlayBar();
-            if ((mediaController.isMediaNotNull() && mediaController.isMediaPlayerPlaying())) {
-                updatePlayBtn();
-            }
-            mHandler.postDelayed(this, 500);
-        }
-    };
-
-
     /**
      * this function shows playBar
      */
@@ -574,22 +563,19 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     public void OnItemSwitchedListener(int pos) {
         Utils.CurrTrackInfo.paused = false;
         int prev = Utils.getPosInPlaying(Utils.currTrack.getId());
-        while (Utils.playPlaylist.getTracks().get(pos).isLocked() && !Constants.currentUser.isPremuim()
+        if (Utils.playPlaylist.getTracks().get(pos).isLocked() && !Constants.currentUser.isPremuim()
                 || Utils.playPlaylist.getTracks().get(pos).isHidden()) {
-            if (Utils.playPlaylist.getTracks().size() < pos)
-                ++pos;
-            else {
                 makeToast(getString(R.string.track_is_locked));
                 updatePlayBar(prev);
                 return;
-            }
         }
         Utils.currTrack = Utils.playPlaylist.getTracks().get(pos);
         mediaController.stop();
-        if (pos - prev > 0) playNextTrack();
-        else
+        if (pos - prev == 1) playNextTrack();
+        else if(prev - pos ==1)
             playPrevTrack();
-
+        else
+            return;
         if (playlistFragment != null && playlistFragment.isVisible())
             playlistFragment.changeSelected();//Utils.CurrTrackInfo.TrackPosInPlaylist, pos);
     }
@@ -643,6 +629,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         Utils.CurrTrackInfo.paused = false;
         Intent intent = new Intent(this, MediaController.class);
         intent.setAction(MediaController.ACTION_PLAY);
+        mediaController.addListener(this);
         startService(intent);
         MediaController.setOnCompletionListener(onCompletionListener);
         showPlayBar();

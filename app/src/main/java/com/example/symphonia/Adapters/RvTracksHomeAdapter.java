@@ -156,25 +156,28 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
             ivHide.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (ivHide.isSelected()) {
-                        ivHide.setImageResource(R.drawable.ic_do_not_disturb_on_black_24dp);
-                        Toast.makeText(context, R.string.return_to_playing_playlist, Toast.LENGTH_SHORT).show();
-                        Utils.playPlaylist.getTracks().get(getAdapterPosition()).setHidden(false);
-                        if (getAdapterPosition() != Utils.CurrTrackInfo.TrackPosInPlaylist)
-                            tvTrackTitle.setTextColor(context.getResources().getColor(R.color.white));
-
-                        tvTrackDescription.setTextColor(context.getResources().getColor(R.color.white));
-                        ivHide.setSelected(false);
-                    } else {
-                        Utils.CurrPlaylist.playlist.getTracks().get(getAdapterPosition()).setHidden(true);
-                        if (getAdapterPosition() != Utils.CurrTrackInfo.TrackPosInPlaylist)
-                            tvTrackTitle.setTextColor(context.getResources().getColor(R.color.light_gray));
-
-                        tvTrackDescription.setTextColor(context.getResources().getColor(R.color.light_gray));
-                        ivHide.setImageResource(R.drawable.ic_do_not_disturb_on_red_24dp);
-                        Toast.makeText(context, R.string.remove_from_playing_list, Toast.LENGTH_SHORT).show();
-                        ivHide.setSelected(true);
+                    if (Utils.playPlaylist != null && Utils.displayedPlaylist.getId().matches(Utils.playPlaylist.getId())) {
+                        if (ivHide.isSelected()) {
+                            ivHide.setImageResource(R.drawable.ic_do_not_disturb_on_black_24dp);
+                            Toast.makeText(context, R.string.return_to_playing_playlist, Toast.LENGTH_SHORT).show();
+                            Utils.playPlaylist.getTracks().get(getAdapterPosition()).setHidden(false);
+                            if (!Utils.playPlaylist.getTracks().get(getAdapterPosition()).getId().matches(Utils.currTrack.getId()))
+                                tvTrackTitle.setTextColor(context.getResources().getColor(R.color.white));
+                                tvTrackDescription.setTextColor(context.getResources().getColor(R.color.white));
+                                ivHide.setSelected(false);
+                        } else {
+                            Utils.playPlaylist.getTracks().get(getAdapterPosition()).setHidden(true);
+                            if (!Utils.playPlaylist.getTracks().get(getAdapterPosition()).getId().matches(Utils.currTrack.getId())) {
+                                tvTrackTitle.setTextColor(context.getResources().getColor(R.color.light_gray));
+                                tvTrackDescription.setTextColor(context.getResources().getColor(R.color.light_gray));
+                            }
+                            ivHide.setImageResource(R.drawable.ic_do_not_disturb_on_red_24dp);
+                            Toast.makeText(context, R.string.remove_from_playing_list, Toast.LENGTH_SHORT).show();
+                            ivHide.setSelected(true);
+                        }
                     }
+                    else
+                        Toast.makeText(context.getApplicationContext(),"this playlist is'nt playping",Toast.LENGTH_LONG).show();
                 }
             });
             ivLike.setOnClickListener(new View.OnClickListener() {
