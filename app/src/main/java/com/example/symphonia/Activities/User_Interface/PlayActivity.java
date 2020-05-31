@@ -27,18 +27,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.symphonia.Adapters.RvTracksPlayActivityAdapter;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Track;
+import com.example.symphonia.Fragments_and_models.home.HomeFragment;
+import com.example.symphonia.Fragments_and_models.playlist.PlaylistFragment;
 import com.example.symphonia.Helpers.AdDialog;
 import com.example.symphonia.Helpers.SnapHelperOneByOne;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.MediaController;
 import com.example.symphonia.R;
+import com.example.symphonia.Service.RestApi;
+import com.example.symphonia.Service.ServiceController;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
-import okhttp3.internal.Util;
 
 /**
  * Activity that accessing tracks and playing them
@@ -46,7 +48,8 @@ import okhttp3.internal.Util;
  * @author Khaled Ali
  * @version 1.0
  */
-public class PlayActivity extends AppCompatActivity implements Serializable, RvTracksPlayActivityAdapter.OnItemSwitched {
+public class PlayActivity extends AppCompatActivity implements Serializable, RvTracksPlayActivityAdapter.OnItemSwitched
+    , RestApi.updateUiPlaylists{
 
     ArrayList<Track> tracks;
     RecyclerView rvTracks;
@@ -77,6 +80,101 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
     int trackPos;
     private ProgressBar progressBar;
 
+    @Override
+    public void getCategoriesSuccess() {
+
+    }
+
+    @Override
+    public void getCurrPlayingTrackSuccess(String id) {
+        int pos = Utils.getPosInPlaying(id);
+        if (Constants.DEBUG_STATUS || pos>-1) {
+            Utils.currTrack = Utils.playPlaylist.getTracks().get(pos);
+            playTrack();
+        }
+        else
+            ServiceController.getInstance().getTrack(PlayActivity.this,id);
+    }
+
+    @Override
+    public void updateUiNoTracks(PlaylistFragment playlistFragment) {
+
+    }
+
+    @Override
+    public void updateUiGetTracksOfPlaylist(PlaylistFragment playlistFragment) {
+
+    }
+
+    @Override
+    public void updateUiGetPopularPlaylistsSuccess() {
+
+    }
+
+    @Override
+    public void updateUiGetPopularPlaylistsFail() {
+
+    }
+
+    @Override
+    public void updateUiGetRandomPlaylistsSuccess(HomeFragment homeFragment) {
+
+    }
+
+    @Override
+    public void updateUiGetRandomPlaylistsFail() {
+
+    }
+
+    @Override
+    public void updateUiGetRecentPlaylistsSuccess(HomeFragment homeFragment) {
+
+    }
+
+    @Override
+    public void updateUiGetRecentPlaylistsFail() {
+
+    }
+
+    @Override
+    public void updateUiGetMadeForYouPlaylistsSuccess() {
+
+    }
+
+    @Override
+    public void updateUiGetMadeForYouPlaylistsFail() {
+
+    }
+
+    @Override
+    public void updateUiPlayTrack() {
+        ServiceController serviceController = ServiceController.getInstance();
+        serviceController.getQueue(PlayActivity.this);
+    }
+
+    @Override
+    public void getTrackSuccess() {
+        startTrack();
+    }
+
+    private void startTrack() {
+        Utils.currContextId = Utils.currTrack.getPlayListId();
+        if (mediaController.isMediaPlayerPlaying())
+            mediaController.releaseMedia();
+        ServiceController.getInstance().playTrack(this);
+    }
+
+    @Override
+    public void updateUiGetQueue() {
+        Log.e("main update", "call play track");
+        if (!Utils.CurrTrackInfo.loading)
+            playTrack();
+    }
+
+    @Override
+    public void getTrackOfQueue() {
+
+    }
 
     /**
      * this function is called when track is switched
@@ -85,20 +183,24 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
      */
     @Override
     public void OnItemSwitchedListener(int pos) {
-        if (Utils.CurrTrackInfo.currPlaylistTracks.get(pos).isHidden()) {
+        int prev = Utils.getPosInPlaying(Utils.playPlaylist.getTracks().get(pos).getId());
+        if(pos - prev > 0) playNextTrack();
+        else playPrevTrack();
+        if (Utils.playPlaylist.getTracks().get(pos).isHidden()) {
             hideBtn.setImageResource(R.drawable.ic_do_not_disturb_on_red_24dp);
         } else
             hideBtn.setImageResource(R.drawable.ic_do_not_disturb_on_black_24dp);
-        if (Utils.CurrTrackInfo.currPlaylistTracks.get(pos).isLiked())
+        if (Utils.playPlaylist.getTracks().get(pos).isLiked())
             likeBtn.setImageResource(R.drawable.ic_favorite_black_24dp);
         else
             likeBtn.setImageResource(R.drawable.ic_favorite_border_black_24dp);
 
         Utils.setTrackInfo(0, pos, tracks);
         trackPos = pos;
-        updateScreen();
-        playTrack();
+    }
 
+    private void playPrevTrack() {
+        ServiceController.getInstance().playPrev(this);
     }
 
     /**
@@ -113,6 +215,11 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         frameLayout.removeAllViews();
         frameLayout.addView(progressBar);
         startService(intent);
+    }
+
+    @Override
+    public void updateUicheckSaved(PlaylistFragment playlistFragment) {
+
     }
 
     /**
@@ -179,8 +286,8 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
                     int mCurrentPosition = mediaController.getCurrentPosition();
                     seekBar.setProgress(mCurrentPosition / 1000);
                     seekBarCurr.setText((mCurrentPosition / 60000+":"+(mCurrentPosition / 1000)%60));
-                    seeKBarRemain.setText("-"+ (Utils.CurrTrackInfo.track.getmDuration() - mCurrentPosition)/60000
-                    +":"+((Utils.CurrTrackInfo.track.getmDuration() - mCurrentPosition)/1000)%60);
+                    seeKBarRemain.setText("-"+ (Utils.currTrack.getmDuration() - mCurrentPosition)/60000
+                    +":"+((Utils.currTrack.getmDuration() - mCurrentPosition)/1000)%60);
                 } else if (!mediaController.isMediaNotNull()) {
                     seekBar.setMax(0);
                     seekBar.setProgress(0);
@@ -201,7 +308,8 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
      */
     private void playNextTrack() {
         Log.e("PlayActivity", "play next track     " + i++);
-
+        ServiceController.getInstance().playNext(this);
+/*
         if (Utils.CurrTrackInfo.TrackPosInPlaylist < Utils.CurrTrackInfo.currPlaylistTracks.size() - 1) {
             for (int i = Utils.CurrTrackInfo.TrackPosInPlaylist + 1; i < Utils.CurrTrackInfo.currPlaylistTracks.size(); i++) {
                 trackPos = i;
@@ -236,7 +344,8 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
             seekBarCurr.setText(String.valueOf(0));
             seeKBarRemain.setText(String.valueOf(Utils.CurrTrackInfo.track.getmDuration() / 1000));
             mediaController.releaseMedia();
-        }
+        }*/
+
         updateScreen();
     }
 
@@ -449,7 +558,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         playlistTitle = findViewById(R.id.tv_playlist_title_play_activity);
         closeActivity = findViewById(R.id.iv_close_play_activity);
         trackSettings = findViewById(R.id.iv_track_settings_play_activity);
-        //frameLayout = findViewById(R.id.play_btn_controller_play_activity);
+        frameLayout = findViewById(R.id.play_btn_controller_play_activity);
         nextBtn = findViewById(R.id.iv_next_track_playActivity);
         prevBtn = findViewById(R.id.iv_prev_track_playActivity);
         hideBtn = findViewById(R.id.iv_hide_track_playActivity);

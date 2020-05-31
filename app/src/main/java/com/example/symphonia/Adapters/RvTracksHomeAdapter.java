@@ -15,6 +15,7 @@ import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
+import com.example.symphonia.Service.ServiceController;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -59,12 +60,12 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
         this.context = context;
         onTrackClicked = (OnTrackClicked) context;
     }
-    public void  selectPlaying(String id){
-        for(int i = 0 ;i<mTracks.size();i++){
-            if(mTracks.get(i).getId().matches(Utils.currTrack.getId())){
+
+    public void selectPlaying(String id) {
+        for (int i = 0; i < mTracks.size(); i++) {
+            if (mTracks.get(i).getId().matches(Utils.currTrack.getId())) {
                 mTracks.get(i).isPlaying(true);
-            }
-            else  mTracks.get(i).isPlaying(false);
+            } else mTracks.get(i).isPlaying(false);
         }
     }
 
@@ -101,8 +102,8 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
         return mTracks.size();
     }
 
-    public void selectHidden(int pos,boolean isHidden) {
-       mTracks.get(pos).setHidden(isHidden);
+    public void selectHidden(int pos, boolean isHidden) {
+        mTracks.get(pos).setHidden(isHidden);
     }
 
     /**
@@ -158,7 +159,7 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
                     if (ivHide.isSelected()) {
                         ivHide.setImageResource(R.drawable.ic_do_not_disturb_on_black_24dp);
                         Toast.makeText(context, R.string.return_to_playing_playlist, Toast.LENGTH_SHORT).show();
-                        Utils.CurrPlaylist.playlist.getTracks().get(getAdapterPosition()).setHidden(false);
+                        Utils.playPlaylist.getTracks().get(getAdapterPosition()).setHidden(false);
                         if (getAdapterPosition() != Utils.CurrTrackInfo.TrackPosInPlaylist)
                             tvTrackTitle.setTextColor(context.getResources().getColor(R.color.white));
 
@@ -179,18 +180,21 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
             ivLike.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                     onTrackClicked.OnLikeClickedListener(!ivLike.isSelected(), getAdapterPosition());
+                    Utils.displayedPlaylist.getTracks().get(getAdapterPosition()).setLiked(ivLike.isSelected());
                     if (ivLike.isSelected()) {
                         ivLike.setImageResource(R.drawable.ic_favorite_border_black_24dp);
                         Toast.makeText(context, R.string.remove_from_liked_playlist, Toast.LENGTH_SHORT).show();
-                        Utils.CurrPlaylist.playlist.getTracks().get(getAdapterPosition()).setLiked(false);
                         ivLike.setSelected(false);
+                        ServiceController.getInstance().removeFromSaved(context.getApplicationContext(),
+                                Utils.displayedPlaylist.getTracks().get(getAdapterPosition()).getId());
+
                     } else {
-                        Utils.CurrPlaylist.playlist.getTracks().get(getAdapterPosition()).setLiked(true);
                         ivLike.setImageResource(R.drawable.ic_favorite_black_24dp);
                         Toast.makeText(context, R.string.add_to_like_playlist, Toast.LENGTH_SHORT).show();
                         ivLike.setSelected(true);
+                        ServiceController.getInstance().saveTrack(context.getApplicationContext(),
+                                Utils.displayedPlaylist.getTracks().get(getAdapterPosition()).getId());
                     }
                 }
             });
@@ -221,8 +225,8 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
                     ivTrackImage.setImageResource(R.drawable.no_image);
                     mTracks.get(pos).setImageResources(R.drawable.no_image);
                 }
-                else
-                    ivTrackImage.setImageResource(mTracks.get(pos).getmImageResources());
+            else
+                ivTrackImage.setImageResource(mTracks.get(pos).getmImageResources());
             tvTrackTitle.setText(mTracks.get(pos).getmTitle());
             tvTrackDescription.setText(mTracks.get(pos).getmArtist());
             Track track = mTracks.get(getAdapterPosition());
@@ -245,7 +249,7 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
                 ivHide.setSelected(false);
 
             }
-            if(mTracks.get(pos).getId().matches(Utils.currTrack.getId())){//.isPlaying()){
+            if (Utils.currTrack != null && mTracks.get(pos).getId().matches(Utils.currTrack.getId())) {//.isPlaying()){
                 tvTrackDescription.setTextColor(context.getColor(R.color.colorGreen));
                 tvTrackTitle.setTextColor(context.getColor(R.color.colorGreen));
             }

@@ -267,8 +267,8 @@ public class RestApi implements APIs {
         StringRequest stringrequest = new StringRequest(Request.Method.POST, (Constants.SIGN_UP_URL),
                 response -> {
                     try {
-                        if(!mType){
-                            Toast.makeText(context,context.getString(R.string.check_mail_activation),Toast.LENGTH_LONG).show();
+                        if (!mType) {
+                            Toast.makeText(context, context.getString(R.string.check_mail_activation), Toast.LENGTH_LONG).show();
                             Intent i = new Intent(context, StartActivity.class);
                             context.startActivity(i);
                             return;
@@ -336,10 +336,14 @@ public class RestApi implements APIs {
      */
     public interface updateUiPlaylists {
         void getCategoriesSuccess();
+
         void getCurrPlayingTrackSuccess(String id);
+
         void updateUiNoTracks(PlaylistFragment playlistFragment);
 
         void updateUiGetTracksOfPlaylist(PlaylistFragment playlistFragment);
+
+        void updateUicheckSaved(PlaylistFragment playlistFragment);
 
         void updateUiGetPopularPlaylistsSuccess();
 
@@ -618,7 +622,7 @@ public class RestApi implements APIs {
     /**
      * this function initialize the track to be streamed
      *
-     * @param context      current activity's context
+     * @param context current activity's context
      */
 
     @Override
@@ -673,10 +677,11 @@ public class RestApi implements APIs {
         };
         VolleySingleton.getInstance(context).getRequestQueue().add(request);
     }
+
     @Override
     public void getCurrPlaying(final Context context) {
         final updateUiPlaylists listener = (updateUiPlaylists) context;
-        final StringRequest request = new StringRequest(Request.Method.GET , Constants.GET_CURR_PLAYING
+        final StringRequest request = new StringRequest(Request.Method.GET, Constants.GET_CURR_PLAYING
                 , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -685,9 +690,9 @@ public class RestApi implements APIs {
                     obj = new JSONObject(response);
                     JSONObject data = obj.getJSONObject("data");
                     String link = data.getString("currentTrack");
-                    if(!link.matches("null"))
+                    if (!link.matches("null"))
                         listener.getCurrPlayingTrackSuccess(link.split("tracks/")[1]);
-                   Log.e("curr playing","success");
+                    Log.e("curr playing", "success");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -714,8 +719,8 @@ public class RestApi implements APIs {
 
     @Override
     public void getQueue(final Context context) {
-           final StringRequest request = new StringRequest(Request.Method.GET , Constants.GET_QUEUE
-            , new Response.Listener<String>() {
+        final StringRequest request = new StringRequest(Request.Method.GET, Constants.GET_QUEUE
+                , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 JSONObject obj;
@@ -723,18 +728,18 @@ public class RestApi implements APIs {
                     obj = new JSONObject(response);
                     JSONObject data = obj.getJSONObject("data");
                     JSONArray devices = data.getJSONArray("devices");
-                    for(int i =0 ;i<devices.length();i++){
+                    for (int i = 0; i < devices.length(); i++) {
                         JSONObject device = (JSONObject) devices.get(i);
-                        if(device.getString("devicesName").matches("android")){
+                        if (device.getString("devicesName").matches("android")) {
                             String contextId = data.getString("contextId");
                             String contextType = data.getString("contextType");
-                            if(contextType.matches("playlist")){
-                                getTracksOfPlaylist(context,contextId,null);
+                            if (contextType.matches("playlist")) {
+                                getTracksOfPlaylist(context, contextId, null);
                                 break;
                             }
                         }
                     }
-                    Log.e("get queue","success");
+                    Log.e("get queue", "success");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -761,7 +766,7 @@ public class RestApi implements APIs {
 
     @Override
     public void playNext(final Context context) {
-        final StringRequest request = new StringRequest(Request.Method.POST , Constants.PLAY_NEXT
+        final StringRequest request = new StringRequest(Request.Method.POST, Constants.PLAY_NEXT
                 , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -769,9 +774,9 @@ public class RestApi implements APIs {
                 try {
                     obj = new JSONObject(response);
                     JSONArray data = obj.getJSONArray("data");
-              //      String nextId = data.get(1).toString().split("tracks/")[1];
+                    //      String nextId = data.get(1).toString().split("tracks/")[1];
                     getCurrPlaying(context);
-                    Log.e("curr playing","success");
+                    Log.e("curr playing", "success");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -798,7 +803,7 @@ public class RestApi implements APIs {
 
     @Override
     public void playPrev(final Context context) {
-        final StringRequest request = new StringRequest(Request.Method.POST , Constants.PLAY_PREV
+        final StringRequest request = new StringRequest(Request.Method.POST, Constants.PLAY_PREV
                 , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -807,7 +812,7 @@ public class RestApi implements APIs {
                     obj = new JSONObject(response);
                     JSONArray data = obj.getJSONArray("data");
                     getCurrPlaying(context);
-                    Log.e("play prev","success");
+                    Log.e("play prev", "success");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -831,10 +836,116 @@ public class RestApi implements APIs {
 
         VolleySingleton.getInstance(context).getRequestQueue().add(request);
     }
+
     @Override
-    public void getTrack(final Context context,String id) { 
+    public void removeFromSaved(final Context context, String id) {
+        final StringRequest request = new StringRequest(Request.Method.DELETE, Constants.REMOVE_SAVED_TRACK + id
+                , new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                JSONArray obj;
+                try {
+                    obj = new JSONArray(response);
+                    Log.e("remove saved tracks", "success");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("remove saved tracks", "error");
+                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
+
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + Constants.currentToken);
+                //headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+        VolleySingleton.getInstance(context).getRequestQueue().add(request);
+    }
+
+    @Override
+    public void checkSaved(final Context context, String ids, PlaylistFragment playlistFragment) {
         final updateUiPlaylists listener = (updateUiPlaylists) context;
-    final StringRequest request = new StringRequest(Request.Method.GET , Constants.GET_TRACK + id
+        final StringRequest request = new StringRequest(Request.Method.GET, Constants.CHECK_SAVED_TRACKS + ids
+                , new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                JSONArray obj;
+                try {
+                    obj = new JSONArray(response);
+                    for (int i = 0; i < obj.length(); i++) {
+                        Utils.displayedPlaylist.getTracks().get(i).setLiked((boolean) obj.get(i));
+                    }
+                    listener.updateUicheckSaved(playlistFragment);
+                    Log.e("check saved tracks", "success");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("check saved tracks", "error");
+                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
+
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + Constants.currentToken);
+                //   headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+        VolleySingleton.getInstance(context).getRequestQueue().add(request);
+    }
+
+    @Override
+    public void saveTrack(final Context context, String id) {
+        final StringRequest request = new StringRequest(Request.Method.PUT, Constants.SAVE_TRACK + id
+                , new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                JSONObject obj;
+                try {
+                    obj = new JSONObject(response);
+                    Toast.makeText(context, "track saved", Toast.LENGTH_SHORT).show();
+                    Log.e("check saved tracks", "success");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("check saved tracks", "error");
+                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
+
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + Constants.currentToken);
+                //   headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+        VolleySingleton.getInstance(context).getRequestQueue().add(request);
+    }
+
+    @Override
+    public void getTrack(final Context context, String id) {
+        final updateUiPlaylists listener = (updateUiPlaylists) context;
+        final StringRequest request = new StringRequest(Request.Method.GET, Constants.GET_TRACK + id
                 , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -843,37 +954,36 @@ public class RestApi implements APIs {
                     //final Context context, String id, String context_id, String context_url, String context_type
                     obj = new JSONObject(response);
                     String Type = obj.getString("type");
-                    if(Type.matches("track")) {
+                    if (Type.matches("track")) {
                         String id = obj.getString("_id");
                         String name = obj.getString("name");
                         int durationMS = obj.getInt("durationMs");
                         boolean premium = obj.getBoolean("premium");
                         JSONObject album = obj.optJSONObject("album");
                         JSONObject artist = obj.optJSONObject("artist");
-                        String artistName  = artist.getString("name");
-                        String artistID  = artist.getString("_id");
+                        String artistName = artist.getString("name");
+                        String artistID = artist.getString("_id");
                         String context_id = null;
                         String imageUrl = null;
-                        String albumName  = null;
-                        if(album  != null){
+                        String albumName = null;
+                        if (album != null) {
                             context_id = album.getString("_id");
                             imageUrl = album.getString("image");
                             albumName = album.getString("name");
                             Utils.currContextType = "album";
-                        }
-                        else{
+                        } else {
                             JSONObject playlist = obj.optJSONObject("playlist");
-                            if(playlist != null) {
+                            if (playlist != null) {
                                 context_id = playlist.getString("_id");
                                 imageUrl = playlist.getString("image");
                                 albumName = playlist.getString("name");
                                 Utils.currContextType = "playlist";
                             }
                         }
-                        Utils.currTrack = new Track(name,artistName,albumName,id,premium,0,durationMS,imageUrl,null,context_id);
+                        Utils.currTrack = new Track(name, artistName, albumName, id, premium, 0, durationMS, imageUrl, null, context_id);
                         listener.getTrackSuccess();
                     }
-                    Log.e("curr playing","success");
+                    Log.e("curr playing", "success");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -931,17 +1041,17 @@ public class RestApi implements APIs {
                         int duration = track.getInt("durationMs");
                         String premium = track.getString("premium");
                         tracksList.add(new Track(title, artistName, Utils.displayedPlaylist.getmPlaylistTitle()
-                                , id, (premium.matches("true")), R.drawable.no_image, duration, imageUrl, albumId,Utils.displayedPlaylist.getId()));
+                                , id, (premium.matches("true")), R.drawable.no_image, duration, imageUrl, albumId, Utils.displayedPlaylist.getId()));
                     }
                     Utils.displayedPlaylist.setTracks(tracksList);
                     Log.e("tracks", "success");
-                    if(playlistFragment!=null)
+                    if (playlistFragment != null)
                         listener.updateUiGetTracksOfPlaylist(playlistFragment);
                     else
                         listener.updateUiGetQueue();
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    if(playlistFragment!=null)
+                    if (playlistFragment != null)
                         listener.updateUiNoTracks(playlistFragment);
                     else
                         listener.updateUiGetQueue();
@@ -952,8 +1062,7 @@ public class RestApi implements APIs {
             public void onErrorResponse(VolleyError error) {
                 Log.e("tracks", "error");
             }
-        })
-                ;
+        });
         VolleySingleton.getInstance(context).getRequestQueue().add(request);
         return tracksList;
     }
@@ -967,6 +1076,7 @@ public class RestApi implements APIs {
     public ArrayList<Container> getResultsOfSearch(Context context, String searchWord) {
         return null;
     }
+
     @Override
     public ArrayList<Category> getCategories(Context context) {
         Log.e("Category", "start fetching");
@@ -1137,7 +1247,7 @@ public class RestApi implements APIs {
                         String id = playlist.getString("_id");
                         String name = playlist.getString("name");
                         String imageUrl = playlist.getJSONArray("images").optString(0);
-                        if(imageUrl == null || imageUrl.contains("default.png")){
+                        if (imageUrl == null || imageUrl.contains("default.png")) {
                             imageUrl = "default";
                         }
                         String ownerName = playlist.getJSONObject("owner").getString("name");
@@ -1159,7 +1269,7 @@ public class RestApi implements APIs {
         return null;
     }
 
-    public interface UpdatePlaylist{
+    public interface UpdatePlaylist {
         void updatePlaylist(Playlist playlist);
     }
 
@@ -1167,8 +1277,8 @@ public class RestApi implements APIs {
      * Get a list of the albums saved in the current user’s ‘Your Music’ library
      *
      * @param listener
-     * @param offset  The index of the first object to return
-     * @param limit   The maximum number of objects to return
+     * @param offset   The index of the first object to return
+     * @param limit    The maximum number of objects to return
      * @return List of saved albums
      */
     @Override
@@ -1248,7 +1358,7 @@ public class RestApi implements APIs {
                         String id = playlist.getString("_id");
                         String name = playlist.getString("name");
                         String imageUrl = playlist.getJSONArray("images").optString(0);
-                        if(imageUrl == null || imageUrl.contains("default.png")){
+                        if (imageUrl == null || imageUrl.contains("default.png")) {
                             imageUrl = "default";
                         }
                         String ownerName = playlist.getJSONObject("owner").getString("name");
@@ -1264,7 +1374,7 @@ public class RestApi implements APIs {
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
             }
-        }){
+        }) {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
@@ -1321,7 +1431,7 @@ public class RestApi implements APIs {
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
             }
-        }){
+        }) {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
@@ -1335,7 +1445,7 @@ public class RestApi implements APIs {
         return returnedTracks;
     }
 
-    public interface UpdateSavedTracks{
+    public interface UpdateSavedTracks {
         void updateTracks(ArrayList<Track> returnedTracks);
     }
 
@@ -1378,7 +1488,7 @@ public class RestApi implements APIs {
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
             }
-        }){
+        }) {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
@@ -1392,7 +1502,7 @@ public class RestApi implements APIs {
         return returnedTracks;
     }
 
-    public interface UpdateExtraSongs{
+    public interface UpdateExtraSongs {
         void updateExtra(ArrayList<Track> returnedTracks);
     }
 
@@ -1422,7 +1532,7 @@ public class RestApi implements APIs {
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
             }
-        }){
+        }) {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
@@ -1436,13 +1546,9 @@ public class RestApi implements APIs {
         return 0;
     }
 
-    public interface UpdatePlaylistsNumber{
+    public interface UpdatePlaylistsNumber {
         void updateNumber(int number);
     }
-
-
-
-
 
 
     /**
@@ -1619,7 +1725,7 @@ public class RestApi implements APIs {
                         String id = playlist.getString("_id");
                         String name = playlist.getString("name");
                         String imageUrl = playlist.getJSONArray("images").optString(0);
-                        if(imageUrl == null || imageUrl.contains("default.png")){
+                        if (imageUrl == null || imageUrl.contains("default.png")) {
                             imageUrl = "default";
                         }
                         String ownerName = playlist.getJSONObject("owner").getString("name");
@@ -1639,7 +1745,7 @@ public class RestApi implements APIs {
 
     }
 
-    public interface UpdateCreatePlaylist{
+    public interface UpdateCreatePlaylist {
         void createdSuccessfully(Playlist createdPlaylist);
     }
 
@@ -1658,18 +1764,18 @@ public class RestApi implements APIs {
         RetrofitSingleton retrofitSingleton = RetrofitSingleton.getInstance();
         RetrofitApi retrofitApi = retrofitSingleton.getRetrofitApi();
 
-        Map<String,String> map = new HashMap<>();
-        map.put("Authorization","Bearer " + token);
+        Map<String, String> map = new HashMap<>();
+        map.put("Authorization", "Bearer " + token);
         Call<JsonObject> call = retrofitApi.promotePrem(map);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
-                if(response.code() == 200 || response.code()==201){
+                if (response.code() == 200 || response.code() == 201) {
                     Toast.makeText(context, "Wait for e-mail confirmation", Toast.LENGTH_LONG).show();
                     uiPromotePremium.updateUIPromotePremiumSuccess();
-                } else{
-                    Toast.makeText(context, "Not valid e-mail",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "Not valid e-mail", Toast.LENGTH_SHORT).show();
                     uiPromotePremium.updateUIPromotePremiumFailed();
                 }
             }
@@ -1696,12 +1802,11 @@ public class RestApi implements APIs {
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
-                if(response.code() == 201 || response.code() == 200){
+                if (response.code() == 201 || response.code() == 200) {
                     Constants.currentUser.setPremuim(true);
                     uiCheckPremium.updateUICheckPremiumSuccess();
-                }
-                else{
-                    Toast.makeText(context,"Expired Token",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "Expired Token", Toast.LENGTH_SHORT).show();
                     uiCheckPremium.updateUICheckPremiumFailed();
                 }
             }
@@ -1721,18 +1826,18 @@ public class RestApi implements APIs {
 
         RetrofitSingleton retrofitSingleton = RetrofitSingleton.getInstance();
         RetrofitApi retrofitApi = retrofitSingleton.getRetrofitApi();
-        Map<String,String> body = new HashMap<>();
-        body.put("token",register_token);
+        Map<String, String> body = new HashMap<>();
+        body.put("token", register_token);
 
-        Map<String,String> headers = new HashMap<>();
-        headers.put("Authorization","Bearer " + Constants.currentToken);
-        Call<JsonObject> call = retrofitApi.sendRegisterToken(headers,body);
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", "Bearer " + Constants.currentToken);
+        Call<JsonObject> call = retrofitApi.sendRegisterToken(headers, body);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
-                if(response.code()!=200 && response.code()!=201)
-                    Toast.makeText(context, "Failed registration token for notifications",Toast.LENGTH_SHORT).show();
+                if (response.code() != 200 && response.code() != 201)
+                    Toast.makeText(context, "Failed registration token for notifications", Toast.LENGTH_SHORT).show();
 
             }
 
@@ -1753,23 +1858,22 @@ public class RestApi implements APIs {
         RetrofitSingleton retrofitSingleton = RetrofitSingleton.getInstance();
         RetrofitApi retrofitApi = retrofitSingleton.getRetrofitApi();
 
-        Map<String,String> map = new HashMap<>();
-        map.put("Authorization","Bearer " + Constants.currentToken);
+        Map<String, String> map = new HashMap<>();
+        map.put("Authorization", "Bearer " + Constants.currentToken);
         Call<JsonObject> call = retrofitApi.getNotifications(map);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
-                if(response.code() == 200 || response.code() == 201){
+                if (response.code() == 200 || response.code() == 201) {
                     try {
                         JSONObject root = new JSONObject(new Gson().toJson(response.body()));
                         uiGetNotify.updateUIGetNotifySuccess(root);
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                         uiGetNotify.updateUIGetNotifyFailed();
                     }
-                }
-                else {
+                } else {
                     Toast.makeText(context, "No history", Toast.LENGTH_SHORT).show();
                     uiGetNotify.updateUIGetNotifyFailed();
                 }
@@ -1785,18 +1889,21 @@ public class RestApi implements APIs {
         return false;
     }
 
-    public interface updateUIGetNotify{
+    public interface updateUIGetNotify {
         void updateUIGetNotifySuccess(JSONObject root);
+
         void updateUIGetNotifyFailed();
     }
 
-    public interface updateUICheckPremium{
+    public interface updateUICheckPremium {
         void updateUICheckPremiumSuccess();
+
         void updateUICheckPremiumFailed();
     }
 
-    public interface updateUIPromotePremium{
+    public interface updateUIPromotePremium {
         void updateUIPromotePremiumSuccess();
+
         void updateUIPromotePremiumFailed();
     }
 
@@ -1902,11 +2009,12 @@ public class RestApi implements APIs {
                         uiApplyArtist.updateUIApplyArtistFailed();
                     }
 
-                }else{
+                } else {
                     Toast.makeText(context, R.string.token_is_expired, Toast.LENGTH_SHORT).show();
                     uiApplyArtist.updateUIApplyArtistFailed();
                 }
             }
+
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
@@ -1916,8 +2024,9 @@ public class RestApi implements APIs {
         return true;
     }
 
-    public interface updateUIApplyArtist{
+    public interface updateUIApplyArtist {
         void updateUIApplyArtistSuccess();
+
         void updateUIApplyArtistFailed();
     }
 
@@ -2089,6 +2198,7 @@ public class RestApi implements APIs {
 
     public interface UpdateSearchArtists {
         void updateSuccess(ArrayList<Artist> result, String q);
+
         void updateFail(String q, int offset, int limit);
     }
 
@@ -2288,7 +2398,7 @@ public class RestApi implements APIs {
         return 0;
     }
 
-    public interface UpdateLikedSongsNumber{
+    public interface UpdateLikedSongsNumber {
         void updateNumber(int noOfTracks);
     }
 

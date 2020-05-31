@@ -3,7 +3,6 @@ package com.example.symphonia.Service;
 import android.content.Context;
 import android.view.View;
 
-import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Entities.Category;
@@ -72,18 +71,19 @@ public class ServiceController {
     }
 
 
-    public boolean forgetPassword(final Context context,String email){
-        return mSupplier.forgetPassword(context,email);
+    public boolean forgetPassword(final Context context, String email) {
+        return mSupplier.forgetPassword(context, email);
     }
 
-    public boolean resetPassword(final Context context,final String password,final String token){
-        return mSupplier.resetPassword(context,password,token);
+    public boolean resetPassword(final Context context, final String password, final String token) {
+        return mSupplier.resetPassword(context, password, token);
     }
 
-    public boolean applyArtist(final Context context, final String token){
+    public boolean applyArtist(final Context context, final String token) {
         return mSupplier.applyArtist(context, token);
     }
-    public void getCurrPlaying(Context context){
+
+    public void getCurrPlaying(Context context) {
         mSupplier.getCurrPlaying(context);
     }
 
@@ -164,6 +164,7 @@ public class ServiceController {
 
     /**
      * get the recent searches of the user
+     *
      * @param context context of the activity
      * @return ArrayList of Container of recent searches
      */
@@ -173,8 +174,9 @@ public class ServiceController {
 
     /**
      * get seven or less results of search
-     * @param context context of the activity
-     * @param searchWord  the word which user searched for
+     *
+     * @param context    context of the activity
+     * @param searchWord the word which user searched for
      * @return ArrayList of Container of Container
      */
     public ArrayList<Container> getResultsOfSearch(Context context, String searchWord) {
@@ -183,6 +185,7 @@ public class ServiceController {
 
     /**
      * get a list of user categories
+     *
      * @param context context of the activity
      * @return ArrayList of Category of categories
      */
@@ -192,6 +195,7 @@ public class ServiceController {
 
     /**
      * get a lsit of user genres
+     *
      * @param context context of the activity
      * @return ArrayList of Category of genres
      */
@@ -201,7 +205,8 @@ public class ServiceController {
 
     /**
      * get a list of artists of the search results
-     * @param context context of the activity
+     *
+     * @param context    context of the activity
      * @param searchWord the word which user searched for
      * @return ArrayList of Container of artists
      */
@@ -211,7 +216,8 @@ public class ServiceController {
 
     /**
      * get a list of songs of the search results
-     * @param context context of the activity
+     *
+     * @param context    context of the activity
      * @param searchWord the word which user searched for
      * @return ArrayList of Container of songs
      */
@@ -221,7 +227,8 @@ public class ServiceController {
 
     /**
      * get a list of albums of the search results
-     * @param context context of the activity
+     *
+     * @param context    context of the activity
      * @param searchWord the word which user searched for
      * @return ArrayList of Container of albums
      */
@@ -232,7 +239,8 @@ public class ServiceController {
 
     /**
      * get a list of genres of the search results
-     * @param context context of the activity
+     *
+     * @param context    context of the activity
      * @param searchWord the word which user searched for
      * @return ArrayList of Container of genres
      */
@@ -243,7 +251,8 @@ public class ServiceController {
 
     /**
      * get a list of playlists of the search results
-     * @param context context of the activity
+     *
+     * @param context    context of the activity
      * @param searchWord the word which user searched for
      * @return ArrayList of Container of playlists
      */
@@ -254,7 +263,8 @@ public class ServiceController {
 
     /**
      * get a list of profiles of the search results
-     * @param context context of the activity
+     *
+     * @param context    context of the activity
      * @param searchWord the word which user searched for
      * @return ArrayList of Container of profiles
      */
@@ -265,7 +275,8 @@ public class ServiceController {
 
     /**
      * ensure that the recent searches won't be returned again
-     * @param context context of the activity
+     *
+     * @param context  context of the activity
      * @param position position of the element which is deleted
      */
     public void removeOneRecentSearch(Context context, int position) {
@@ -273,7 +284,8 @@ public class ServiceController {
     }
 
     /**
-     *ensure to return empty list when recent searches is required
+     * ensure to return empty list when recent searches is required
+     *
      * @param context context of the activity
      */
     public void removeAllRecentSearches(Context context) {
@@ -284,9 +296,9 @@ public class ServiceController {
      * Get the current user’s followed artists
      *
      * @param listener
-     * @param type current type, can be artist or user
-     * @param limit he maximum number of items to return
-     * @param after the last artist ID retrieved from the previous request
+     * @param type     current type, can be artist or user
+     * @param limit    he maximum number of items to return
+     * @param after    the last artist ID retrieved from the previous request
      * @return list of followed artists
      */
     public ArrayList<Artist> getFollowedArtists(RestApi.UpdateArtistsLibrary listener, String type, int limit, String after) {
@@ -297,8 +309,8 @@ public class ServiceController {
      * Add the current user as a followers of one or more artists or other users
      *
      * @param context activity context
-     * @param type the type of what will be followed, can be artist or user
-     * @param ids array of users or artists ids
+     * @param type    the type of what will be followed, can be artist or user
+     * @param ids     array of users or artists ids
      */
     public void followArtistsOrUsers(Context context, String type, ArrayList<String> ids) {
         mSupplier.followArtistsOrUsers(context, type, ids);
@@ -308,8 +320,8 @@ public class ServiceController {
      * Remove the current user as a follower of one or more artists or other users
      *
      * @param context activity context
-     * @param type the type of what will be unFollowed, can be artist or user
-     * @param ids array of users or artists ids
+     * @param type    the type of what will be unFollowed, can be artist or user
+     * @param ids     array of users or artists ids
      */
     public void unFollowArtistsOrUsers(Context context, String type, ArrayList<String> ids) {
         mSupplier.unFollowArtistsOrUsers(context, type, ids);
@@ -319,8 +331,8 @@ public class ServiceController {
      * Check to see if the current user is following an artist or more or other users
      *
      * @param context activity context
-     * @param type the type of the checked objects, can be artist or user
-     * @param ids array of users or artists ids
+     * @param type    the type of the checked objects, can be artist or user
+     * @param ids     array of users or artists ids
      * @return array of boolean
      */
     public ArrayList<Boolean> isFollowing(Context context, String type, ArrayList<String> ids) {
@@ -331,9 +343,9 @@ public class ServiceController {
      * Get a list of recommended artist for the current user
      *
      * @param context activity context
-     * @param type artist or user
-     * @param offset the beginning of the items
-     * @param limit the maximum number of items to return
+     * @param type    artist or user
+     * @param offset  the beginning of the items
+     * @param limit   the maximum number of items to return
      * @return list of recommended artists
      */
     public ArrayList<Artist> getRecommendedArtists(Context context, String type, int offset, int limit) {
@@ -348,9 +360,9 @@ public class ServiceController {
      * Search for a specific artist
      *
      * @param context Activity context
-     * @param q Query to search for
-     * @param offset The index of the first result to return
-     * @param limit Maximum number of results to return
+     * @param q       Query to search for
+     * @param offset  The index of the first result to return
+     * @param limit   Maximum number of results to return
      * @return List of search result artists
      */
     public ArrayList<Artist> searchArtist(Context context, String q, int offset, int limit) {
@@ -361,7 +373,7 @@ public class ServiceController {
      * Get information about artists similar to a given artist.
      *
      * @param context activity context
-     * @param id artist id
+     * @param id      artist id
      * @return Arraylist of similar artists
      */
     public ArrayList<Artist> getArtistRelatedArtists(Context context, String id) {
@@ -372,33 +384,34 @@ public class ServiceController {
      * Get a list of the albums saved in the current user’s ‘Your Music’ library
      *
      * @param listener
-     * @param offset The index of the first object to return
-     * @param limit The maximum number of objects to return
+     * @param offset   The index of the first object to return
+     * @param limit    The maximum number of objects to return
      * @return List of saved albums
      */
     public ArrayList<Album> getUserSavedAlbums(RestApi.UpdateAlbumsLibrary listener, int offset, int limit) {
         return mSupplier.getUserSavedAlbums(listener, offset, limit);
     }
 
-    public ArrayList<Playlist> getCurrentUserPlaylists(RestApi.UpdatePlaylistsLibrary listener, int offset, int limit){
+    public ArrayList<Playlist> getCurrentUserPlaylists(RestApi.UpdatePlaylistsLibrary listener, int offset, int limit) {
         return mSupplier.getCurrentUserPlaylists(listener, offset, limit);
     }
 
-    public ArrayList<Track> getUserSavedTracks(RestApi.UpdateSavedTracks listener, int offset, int limit){
+    public ArrayList<Track> getUserSavedTracks(RestApi.UpdateSavedTracks listener, int offset, int limit) {
         return mSupplier.getUserSavedTracks(listener, offset, limit);
     }
 
-    public ArrayList<Track> getRecommendedTracks(RestApi.UpdateExtraSongs listener, int offset, int limit){
+    public ArrayList<Track> getRecommendedTracks(RestApi.UpdateExtraSongs listener, int offset, int limit) {
         return mSupplier.getRecommendedTracks(listener, offset, limit);
     }
 
-    public int getNumberOfLikedSongs(RestApi.UpdateLikedSongsNumber listener){
+    public int getNumberOfLikedSongs(RestApi.UpdateLikedSongsNumber listener) {
         return mSupplier.getNumberOfLikedSongs(listener);
     }
 
 
     /**
      * return a list of popular playlists
+     *
      * @param context context of the activity
      * @return a ArrayList of Container of Popular playlists
      */
@@ -408,6 +421,7 @@ public class ServiceController {
 
     /**
      * return four popular playlists
+     *
      * @param context context of the activity
      * @return return four popular playlists
      */
@@ -430,7 +444,7 @@ public class ServiceController {
      * Get information for a single album.
      *
      * @param context activity context
-     * @param id album id
+     * @param id      album id
      * @return album object
      */
     public Album getAlbum(Context context, String id) {
@@ -442,9 +456,9 @@ public class ServiceController {
      * Optional parameters can be used to limit the number of tracks returned.
      *
      * @param context activity context
-     * @param id album id
-     * @param offset the beginning of the tracks list
-     * @param limit the maximum number of tracks to get
+     * @param id      album id
+     * @param offset  the beginning of the tracks list
+     * @param limit   the maximum number of tracks to get
      * @return array of album tracks
      */
     public ArrayList<Track> getAlbumTracks(Context context, String id, int offset, int limit) {
@@ -455,7 +469,7 @@ public class ServiceController {
      * Save one or more albums to the current user’s ‘Your Music’ library.
      *
      * @param context activity context
-     * @param ids array of albums ids
+     * @param ids     array of albums ids
      */
     public void saveAlbumsForUser(Context context, ArrayList<String> ids) {
         mSupplier.saveAlbumsForUser(context, ids);
@@ -465,7 +479,7 @@ public class ServiceController {
      * Remove one or more albums from the current user’s ‘Your Music’ library.
      *
      * @param context activity context
-     * @param ids array of albums ids
+     * @param ids     array of albums ids
      */
     public void removeAlbumsForUser(Context context, ArrayList<String> ids) {
         mSupplier.removeAlbumsForUser(context, ids);
@@ -475,7 +489,7 @@ public class ServiceController {
      * Check if one or more albums is already saved in the current user’s ‘Your Music’ library.
      *
      * @param context activity context
-     * @param ids array of albums ids
+     * @param ids     array of albums ids
      * @return array of booleans, true for found and false for not found
      */
     public ArrayList<Boolean> checkUserSavedAlbums(Context context, ArrayList<String> ids) {
@@ -506,124 +520,137 @@ public class ServiceController {
         return mSupplier.getNotificationHistory(context, token);
     }
 
-        /**
-         * get users followers
-         * @param context context of the activity
-         * @return arraylist of container of followers
-         */
-    public ArrayList<Container>getProfileFollowers(Context context){
+    /**
+     * get users followers
+     *
+     * @param context context of the activity
+     * @return arraylist of container of followers
+     */
+    public ArrayList<Container> getProfileFollowers(Context context) {
         return mSupplier.getProfileFollowers(context);
     }
 
     /**
      * get users who current user follow them
+     *
      * @param context context of the activity
      * @return arraylist of container of users who follow the current user
      */
-    public ArrayList<Container>getProfileFollowing(Context context){
+    public ArrayList<Container> getProfileFollowing(Context context) {
         return mSupplier.getProfileFollowing(context);
     }
 
     /**
-     *get current user playlists
-     * @param context context of the activity
+     * get current user playlists
+     *
+     * @param context         context of the activity
      * @param fragmentProfile the fragment which called this function
      * @return ArrayList of Container of User's playlists
      */
-    public ArrayList<Container>getCurrentUserPlaylists(Context context, FragmentProfile fragmentProfile){
-        return mSupplier.getCurrentUserPlaylists(context,fragmentProfile);
+    public ArrayList<Container> getCurrentUserPlaylists(Context context, FragmentProfile fragmentProfile) {
+        return mSupplier.getCurrentUserPlaylists(context, fragmentProfile);
     }
 
     /**
      * get number of user followers
-     * @param context context of the activity
+     *
+     * @param context         context of the activity
      * @param fragmentProfile the fragment the function is called from
      * @return string of the number of followers
      */
-    public String getNumbersoUserFollowers(Context context, FragmentProfile fragmentProfile){
-        return mSupplier.getNumbersoUserFollowers(context,fragmentProfile);
+    public String getNumbersoUserFollowers(Context context, FragmentProfile fragmentProfile) {
+        return mSupplier.getNumbersoUserFollowers(context, fragmentProfile);
     }
 
     /**
      * get number of users that user follow
-     * @param context context of the activity
+     *
+     * @param context         context of the activity
      * @param fragmentProfile the fragment the function is called from
      * @return string of the number of following
      */
-    public String getNumbersoUserFollowing(Context context, FragmentProfile fragmentProfile){
+    public String getNumbersoUserFollowing(Context context, FragmentProfile fragmentProfile) {
         return mSupplier.getNumbersoUserFollowing(context, fragmentProfile);
     }
 
     /**
      * get a list of current user followers
-     * @param context context of the activity
+     *
+     * @param context                  context of the activity
      * @param profileFollowersFragment the fragment the function is called from
      * @return ArrayList of Container of Followers
      */
-    public ArrayList<Container>getCurrentUserFollowers(Context context, ProfileFollowersFragment profileFollowersFragment){
-        return mSupplier.getCurrentUserFollowers(context,profileFollowersFragment);
+    public ArrayList<Container> getCurrentUserFollowers(Context context, ProfileFollowersFragment profileFollowersFragment) {
+        return mSupplier.getCurrentUserFollowers(context, profileFollowersFragment);
     }
 
     /**
      * get number of profiles in search result
+     *
      * @return int profiles Count
      */
-    public int getProfilesCount(){
+    public int getProfilesCount() {
         return mSupplier.getProfilessCount();
     }
 
     /**
      * get number of playlists in search result
+     *
      * @return int playlists Count
      */
-    public int getPlaylistsCount(){
+    public int getPlaylistsCount() {
         return mSupplier.getPlaylistsCount();
     }
 
     /**
      * get number of artists in search result
+     *
      * @return int artists Count
      */
-    public int getArtistsCount(){
+    public int getArtistsCount() {
         return mSupplier.getArtistsCount();
     }
 
     /**
      * get number of albums in search result
+     *
      * @return int albums Count
      */
-    public int getAlbumsCount(){
+    public int getAlbumsCount() {
         return mSupplier.getAlbumsCount();
     }
 
     /**
      * get number of genres in search result
+     *
      * @return int genresCount
      */
-    public int getGenresCount(){
+    public int getGenresCount() {
         return mSupplier.getGenresCount();
     }
 
     /**
      * get number of songs in search result
+     *
      * @return int songs Count
      */
-    public int getSongsCount(){
+    public int getSongsCount() {
         return mSupplier.getSongsCount();
     }
 
     /**
      * this function initialize the request to stream music
      *
-     * @param context      context of current activity
-
+     * @param context context of current activity
      */
     public void playTrack(Context context) {
         mSupplier.playTrack(context);
     }
-    public void getTrack(Context context,String id) {
-        mSupplier.getTrack(context,id);
+
+    public void getTrack(Context context, String id) {
+        mSupplier.getTrack(context, id);
     }
+
     /**
      * this function gets tracks of a certain playlist
      *
@@ -636,26 +663,39 @@ public class ServiceController {
         return mSupplier.getTracksOfPlaylist(context, id, playlistFragment);
     }
 
-    public void createPlaylist(Context context, String name){
+    public void createPlaylist(Context context, String name) {
         mSupplier.createPlaylist(context, name);
     }
 
-    public int getOwnedPlaylistsNumber(Context context){
+    public int getOwnedPlaylistsNumber(Context context) {
         return mSupplier.getOwnedPlaylistsNumber(context);
     }
 
-    public Playlist getPlaylist(RestApi.UpdatePlaylist listener, String id){
+    public Playlist getPlaylist(RestApi.UpdatePlaylist listener, String id) {
         return mSupplier.getPlaylist(listener, id);
     }
 
     public void getQueue(Context context) {
         mSupplier.getQueue(context);
     }
+
     public void playNext(Context context) {
         mSupplier.playNext(context);
     }
 
     public void playPrev(Context context) {
         mSupplier.playPrev(context);
+    }
+
+    public void checkSaved(Context context, String ids, PlaylistFragment playlistFragment) {
+        mSupplier.checkSaved(context, ids, playlistFragment);
+    }
+
+    public void saveTrack(Context context, String id) {
+        mSupplier.saveTrack(context, id);
+    }
+
+    public void removeFromSaved(Context context, String id) {
+        mSupplier.removeFromSaved(context, id);
     }
 }

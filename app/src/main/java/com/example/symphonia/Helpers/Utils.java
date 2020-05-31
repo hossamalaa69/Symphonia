@@ -44,10 +44,10 @@ public class Utils {
     public static ArrayList<String> queueIds;
     public static Playlist playPlaylist;
     public static Playlist displayedPlaylist;
-    public  static int getPos(String id){
+    public  static int getPosInPlaying(String id){
         if(id == null||playPlaylist == null) return -1;
-        for (int i = 0; i< displayedPlaylist.getTracks().size(); i++){
-            if(displayedPlaylist.getTracks().get(i).getId().matches(id))return i;
+        for (int i = 0; i< playPlaylist.getTracks().size(); i++){
+            if(playPlaylist.getTracks().get(i).getId().matches(id))return i;
         }
         return -1;
     }

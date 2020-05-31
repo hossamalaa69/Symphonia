@@ -518,6 +518,10 @@ public interface APIs {
 
     void playNext(Context context);
 
+    void checkSaved(Context context, String ids, PlaylistFragment playlistFragment);
+
+    void saveTrack(Context context, String id);
+
     public void getTrack(Context context, String id);
 
     /**
@@ -531,4 +535,6 @@ public interface APIs {
     void getQueue(Context context);
 
     void playPrev(Context context);
+
+    void removeFromSaved(Context context, String id);
 }

@@ -24,10 +24,6 @@ import com.example.symphonia.Fragments_and_models.profile.ProfilePlaylistsFragme
 import com.example.symphonia.Fragments_and_models.settings.SettingsFragment;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -102,37 +98,37 @@ public class MockService implements APIs {
         mArtists.add(new Artist("7", R.drawable.bts, "BTS"));
         mArtists.add(new Artist("8", R.drawable.billie, "Billie Eilish"));
         mArtists.add(new Artist("9", R.drawable.alan, "Alan Walker"));
-        mArtists.add(new Artist("10",R.drawable.saaad, "Saad Lamjarred"));
-        mArtists.add(new Artist("11",R.drawable.ed, "Ed Sheeran"));
-        mArtists.add(new Artist("12",R.drawable.halsey, "Halsey"));
-        mArtists.add(new Artist("13",R.drawable.imagine, "Imagine Dragons"));
-        mArtists.add(new Artist("14",R.drawable.ariana, "Ariana Grande"));
-        mArtists.add(new Artist("15",R.drawable.aseel, "Aseel Hameem"));
-        mArtists.add(new Artist("16",R.drawable.maroon, "Maroon 5"));
-        mArtists.add(new Artist("17",R.drawable.ali, "Ali Gatie"));
-        mArtists.add(new Artist("18",R.drawable.zayn, "ZAYN"));
-        mArtists.add(new Artist("19",R.drawable.cairokee, "Cairokee"));
-        mArtists.add(new Artist("20",R.drawable.rauf_fayk, "Rauf & Faik"));
-        mArtists.add(new Artist("21",R.drawable.adham, "Adham Nabulsi"));
-        mArtists.add(new Artist("22",R.drawable.abu, "Abu"));
-        mArtists.add(new Artist("23",R.drawable.eminem, "Eminem"));
-        mArtists.add(new Artist("24",R.drawable.hussien, "Hussain Al Jassmi"));
-        mArtists.add(new Artist("25",R.drawable.nancy, "Nancy Ajram"));
-        mArtists.add(new Artist("26",R.drawable.havana, "Camila Cabello"));
-        mArtists.add(new Artist("27",R.drawable.selena, "Selena Gomez"));
-        mArtists.add(new Artist("28",R.drawable.taylor, "Taylor Swift"));
-        mArtists.add(new Artist("29",R.drawable.tamer_ashour, "Tamer Ashour"));
-        mArtists.add(new Artist("30",R.drawable.assala, "Assala Nasri"));
-        mArtists.add(new Artist("31",R.drawable.maher, "Maher Zain"));
-        mArtists.add(new Artist("32",R.drawable.adele, "Adele"));
-        mArtists.add(new Artist("33",R.drawable.hamza, "Hamza Namira"));
-        mArtists.add(new Artist("34",R.drawable.justin, "Justin Bieber"));
-        mArtists.add(new Artist("35",R.drawable.jannat, "Jannat"));
-        mArtists.add(new Artist("36",R.drawable.samira, "Samira Said"));
-        mArtists.add(new Artist("37",R.drawable.maryam, "Myriam Fares"));
-        mArtists.add(new Artist("38",R.drawable.amr, "Amr Diab"));
-        mArtists.add(new Artist("39",R.drawable.bahaa, "Bahaa Sultan"));
-        mArtists.add(new Artist("40",R.drawable.loai, "Loai"));
+        mArtists.add(new Artist("10", R.drawable.saaad, "Saad Lamjarred"));
+        mArtists.add(new Artist("11", R.drawable.ed, "Ed Sheeran"));
+        mArtists.add(new Artist("12", R.drawable.halsey, "Halsey"));
+        mArtists.add(new Artist("13", R.drawable.imagine, "Imagine Dragons"));
+        mArtists.add(new Artist("14", R.drawable.ariana, "Ariana Grande"));
+        mArtists.add(new Artist("15", R.drawable.aseel, "Aseel Hameem"));
+        mArtists.add(new Artist("16", R.drawable.maroon, "Maroon 5"));
+        mArtists.add(new Artist("17", R.drawable.ali, "Ali Gatie"));
+        mArtists.add(new Artist("18", R.drawable.zayn, "ZAYN"));
+        mArtists.add(new Artist("19", R.drawable.cairokee, "Cairokee"));
+        mArtists.add(new Artist("20", R.drawable.rauf_fayk, "Rauf & Faik"));
+        mArtists.add(new Artist("21", R.drawable.adham, "Adham Nabulsi"));
+        mArtists.add(new Artist("22", R.drawable.abu, "Abu"));
+        mArtists.add(new Artist("23", R.drawable.eminem, "Eminem"));
+        mArtists.add(new Artist("24", R.drawable.hussien, "Hussain Al Jassmi"));
+        mArtists.add(new Artist("25", R.drawable.nancy, "Nancy Ajram"));
+        mArtists.add(new Artist("26", R.drawable.havana, "Camila Cabello"));
+        mArtists.add(new Artist("27", R.drawable.selena, "Selena Gomez"));
+        mArtists.add(new Artist("28", R.drawable.taylor, "Taylor Swift"));
+        mArtists.add(new Artist("29", R.drawable.tamer_ashour, "Tamer Ashour"));
+        mArtists.add(new Artist("30", R.drawable.assala, "Assala Nasri"));
+        mArtists.add(new Artist("31", R.drawable.maher, "Maher Zain"));
+        mArtists.add(new Artist("32", R.drawable.adele, "Adele"));
+        mArtists.add(new Artist("33", R.drawable.hamza, "Hamza Namira"));
+        mArtists.add(new Artist("34", R.drawable.justin, "Justin Bieber"));
+        mArtists.add(new Artist("35", R.drawable.jannat, "Jannat"));
+        mArtists.add(new Artist("36", R.drawable.samira, "Samira Said"));
+        mArtists.add(new Artist("37", R.drawable.maryam, "Myriam Fares"));
+        mArtists.add(new Artist("38", R.drawable.amr, "Amr Diab"));
+        mArtists.add(new Artist("39", R.drawable.bahaa, "Bahaa Sultan"));
+        mArtists.add(new Artist("40", R.drawable.loai, "Loai"));
 
 
         mAlbums = new ArrayList<>();
@@ -223,7 +219,7 @@ public class MockService implements APIs {
         mPlaylists.addAll(mPopularPlaylists);
         mPlaylists.addAll(mRecentPlaylists);
 
-        for (Playlist playlist: mPlaylists) {
+        for (Playlist playlist : mPlaylists) {
             playlist.setmOwnerName("Symphonia");
         }
 
@@ -397,7 +393,7 @@ public class MockService implements APIs {
     /**
      * this function initialize the request to stream music
      *
-     * @param context      context of current activity
+     * @param context context of current activity
      */
     @Override
     public void playTrack(Context context) {
@@ -444,7 +440,7 @@ public class MockService implements APIs {
     }
 
     @Override
-    public boolean resetPassword(Context context, String password,final String token) {
+    public boolean resetPassword(Context context, String password, final String token) {
         return false;
     }
 
@@ -479,6 +475,7 @@ public class MockService implements APIs {
 
     /**
      * get the recent searches of the user
+     *
      * @param context context of the activity
      * @return ArrayList of Container of recent searches
      */
@@ -502,7 +499,8 @@ public class MockService implements APIs {
 
     /**
      * get all results of search
-     * @param context context of the activity
+     *
+     * @param context    context of the activity
      * @param searchWord the word which user searched for
      * @return ArrayList of Container of Container
      */
@@ -593,14 +591,13 @@ public class MockService implements APIs {
         for (int i = 0; i < mData.size(); i++) {
             if (mData.get(i).getCat_Name().startsWith(searchWord)) {
                 resultsLinked.addFirst(mData.get(i));
-                if(mData.get(i).getCat_Name2().startsWith("Song")) songsCount++;
-                if(mData.get(i).getCat_Name2().startsWith("Album")) albumssCount++;
-                if(mData.get(i).getCat_Name2().startsWith("Artist")) artistsCount++;
-                if(mData.get(i).getCat_Name2().startsWith("Genre")) genresCount++;
-                if(mData.get(i).getCat_Name2().startsWith("Playlist")) playlistsCount++;
-                if(mData.get(i).getCat_Name2().startsWith("Profile")) profilesCount++;
-            }
-            else if (mData.get(i).getCat_Name().contains(searchWord)) {
+                if (mData.get(i).getCat_Name2().startsWith("Song")) songsCount++;
+                if (mData.get(i).getCat_Name2().startsWith("Album")) albumssCount++;
+                if (mData.get(i).getCat_Name2().startsWith("Artist")) artistsCount++;
+                if (mData.get(i).getCat_Name2().startsWith("Genre")) genresCount++;
+                if (mData.get(i).getCat_Name2().startsWith("Playlist")) playlistsCount++;
+                if (mData.get(i).getCat_Name2().startsWith("Profile")) profilesCount++;
+            } else if (mData.get(i).getCat_Name().contains(searchWord)) {
                 resultsLinked.addLast(mData.get(i));
                 if (mData.get(i).getCat_Name2().startsWith("Song")) songsCount++;
                 if (mData.get(i).getCat_Name2().startsWith("Album")) albumssCount++;
@@ -616,8 +613,9 @@ public class MockService implements APIs {
 
     /**
      * get seven or less results of search
-     * @param context context of the activity
-     * @param searchWord  the word which user searched for
+     *
+     * @param context    context of the activity
+     * @param searchWord the word which user searched for
      * @return ArrayList of Container of Container
      */
     @Override
@@ -635,6 +633,7 @@ public class MockService implements APIs {
 
     /**
      * get a list of user categories
+     *
      * @param context context of the activity
      * @return ArrayList of Category of categories
      */
@@ -664,6 +663,7 @@ public class MockService implements APIs {
 
     /**
      * get a lsit of user genres
+     *
      * @param context context of the activity
      * @return ArrayList of Category of genres
      */
@@ -680,7 +680,8 @@ public class MockService implements APIs {
 
     /**
      * get a list of artists of the search results
-     * @param context context of the activity
+     *
+     * @param context    context of the activity
      * @param searchWord the word which user searched for
      * @return ArrayList of Container of artists
      */
@@ -697,7 +698,8 @@ public class MockService implements APIs {
 
     /**
      * get a list of songs of the search results
-     * @param context context of the activity
+     *
+     * @param context    context of the activity
      * @param searchWord the word which user searched for
      * @return ArrayList of Container of songs
      */
@@ -714,7 +716,8 @@ public class MockService implements APIs {
 
     /**
      * get a list of albums of the search results
-     * @param context context of the activity
+     *
+     * @param context    context of the activity
      * @param searchWord the word which user searched for
      * @return ArrayList of Container of albums
      */
@@ -731,7 +734,8 @@ public class MockService implements APIs {
 
     /**
      * get a list of genres of the search results
-     * @param context context of the activity
+     *
+     * @param context    context of the activity
      * @param searchWord the word which user searched for
      * @return ArrayList of Container of genres
      */
@@ -748,7 +752,8 @@ public class MockService implements APIs {
 
     /**
      * get a list of playlists of the search results
-     * @param context context of the activity
+     *
+     * @param context    context of the activity
      * @param searchWord the word which user searched for
      * @return ArrayList of Container of playlists
      */
@@ -765,7 +770,8 @@ public class MockService implements APIs {
 
     /**
      * get a list of profiles of the search results
-     * @param context context of the activity
+     *
+     * @param context    context of the activity
      * @param searchWord the word which user searched for
      * @return ArrayList of Container of profiles
      */
@@ -782,7 +788,8 @@ public class MockService implements APIs {
 
     /**
      * ensure that the recent searches won't be returned again
-     * @param context context of the activity
+     *
+     * @param context  context of the activity
      * @param position position of the element which is deleted
      */
     @Override
@@ -792,7 +799,8 @@ public class MockService implements APIs {
     }
 
     /**
-     *ensure to return empty list when recent searches is required
+     * ensure to return empty list when recent searches is required
+     *
      * @param context context of the activity
      */
     @Override
@@ -804,6 +812,7 @@ public class MockService implements APIs {
 
     /**
      * return a list of popular playlists
+     *
      * @param context context of the activity
      * @return a ArrayList of Container of Popular playlists
      */
@@ -830,6 +839,7 @@ public class MockService implements APIs {
 
     /**
      * return four popular playlists
+     *
      * @param context context of the activity
      * @return return four popular playlists
      */
@@ -849,7 +859,7 @@ public class MockService implements APIs {
      * Get information for a single artist identified by their unique ID
      *
      * @param context activity context
-     * @param id artist id
+     * @param id      artist id
      * @return artist object
      */
 
@@ -872,7 +882,7 @@ public class MockService implements APIs {
      * Get information about artists similar to a given artist.
      *
      * @param context activity context
-     * @param id artist id
+     * @param id      artist id
      * @return Arraylist of similar artists
      */
     @Override
@@ -897,9 +907,9 @@ public class MockService implements APIs {
      * Get the current user’s followed artists
      *
      * @param listener
-     * @param type current type, can be artist or user
-     * @param limit he maximum number of items to return
-     * @param after the last artist ID retrieved from the previous request
+     * @param type     current type, can be artist or user
+     * @param limit    he maximum number of items to return
+     * @param after    the last artist ID retrieved from the previous request
      * @return list of followed artists
      */
     @Override
@@ -961,8 +971,8 @@ public class MockService implements APIs {
      * Add the current user as a followers of one or more artists or other users
      *
      * @param context activity context
-     * @param type the type of what will be followed, can be artist or user
-     * @param ids array of users or artists ids
+     * @param type    the type of what will be followed, can be artist or user
+     * @param ids     array of users or artists ids
      */
     @Override
     public void followArtistsOrUsers(Context context, String type, ArrayList<String> ids) {
@@ -976,8 +986,8 @@ public class MockService implements APIs {
      * Remove the current user as a follower of one or more artists or other users
      *
      * @param context activity context
-     * @param type the type of what will be unFollowed, can be artist or user
-     * @param ids array of users or artists ids
+     * @param type    the type of what will be unFollowed, can be artist or user
+     * @param ids     array of users or artists ids
      */
     @Override
     public void unFollowArtistsOrUsers(Context context, String type, ArrayList<String> ids) {
@@ -996,8 +1006,8 @@ public class MockService implements APIs {
      * Check to see if the current user is following an artist or more or other users
      *
      * @param context activity context
-     * @param type the type of the checked objects, can be artist or user
-     * @param ids array of users or artists ids
+     * @param type    the type of the checked objects, can be artist or user
+     * @param ids     array of users or artists ids
      * @return array of boolean
      */
     @Override
@@ -1014,9 +1024,9 @@ public class MockService implements APIs {
      * Get a list of recommended artist for the current user
      *
      * @param context activity context
-     * @param type artist or user
-     * @param offset the beginning of the items
-     * @param limit the maximum number of items to return
+     * @param type    artist or user
+     * @param offset  the beginning of the items
+     * @param limit   the maximum number of items to return
      * @return list of recommended artists
      */
     @Override
@@ -1030,10 +1040,10 @@ public class MockService implements APIs {
         for (int i = offset; i < Math.min(offset + limit, currentArtists.size()); i++) {
             recommendedArtists.add(currentArtists.get(i));
         }
-        try{
+        try {
             RestApi.UpdateAddArtists listener = (RestApi.UpdateAddArtists) context;
             listener.updateGetRecommendedArtists(recommendedArtists);
-        } catch (ClassCastException e){
+        } catch (ClassCastException e) {
             e.printStackTrace();
         }
 
@@ -1045,7 +1055,7 @@ public class MockService implements APIs {
      * Get information for a single album.
      *
      * @param context activity context
-     * @param id album id
+     * @param id      album id
      * @return album object
      */
     @Override
@@ -1063,9 +1073,9 @@ public class MockService implements APIs {
      * Optional parameters can be used to limit the number of tracks returned.
      *
      * @param context activity context
-     * @param id album id
-     * @param offset the beginning of the tracks list
-     * @param limit the maximum number of tracks to get
+     * @param id      album id
+     * @param offset  the beginning of the tracks list
+     * @param limit   the maximum number of tracks to get
      * @return array of album tracks
      */
     @Override
@@ -1079,7 +1089,7 @@ public class MockService implements APIs {
      * Save one or more albums to the current user’s ‘Your Music’ library.
      *
      * @param context activity context
-     * @param ids array of albums ids
+     * @param ids     array of albums ids
      */
     @Override
     public void saveAlbumsForUser(Context context, ArrayList<String> ids) {
@@ -1093,7 +1103,7 @@ public class MockService implements APIs {
      * Remove one or more albums from the current user’s ‘Your Music’ library.
      *
      * @param context activity context
-     * @param ids array of albums ids
+     * @param ids     array of albums ids
      */
     @Override
     public void removeAlbumsForUser(Context context, ArrayList<String> ids) {
@@ -1107,7 +1117,7 @@ public class MockService implements APIs {
      * Check if one or more albums is already saved in the current user’s ‘Your Music’ library.
      *
      * @param context activity context
-     * @param ids array of albums ids
+     * @param ids     array of albums ids
      * @return array of booleans, true for found and false for not found
      */
     @Override
@@ -1124,9 +1134,9 @@ public class MockService implements APIs {
      * Search for a specific artist
      *
      * @param context Activity context
-     * @param q Query to search for
-     * @param offset The index of the first result to return
-     * @param limit Maximum number of results to return
+     * @param q       Query to search for
+     * @param offset  The index of the first result to return
+     * @param limit   Maximum number of results to return
      * @return List of search result artists
      */
     @Override
@@ -1152,8 +1162,8 @@ public class MockService implements APIs {
      * Get a list of the albums saved in the current user’s ‘Your Music’ library
      *
      * @param listener
-     * @param offset The index of the first object to return
-     * @param limit The maximum number of objects to return
+     * @param offset   The index of the first object to return
+     * @param limit    The maximum number of objects to return
      * @return List of saved albums
      */
     @Override
@@ -1205,6 +1215,7 @@ public class MockService implements APIs {
 
     /**
      * get users followers
+     *
      * @param context context of the activity
      * @return arraylist of container of followers
      */
@@ -1215,6 +1226,7 @@ public class MockService implements APIs {
 
     /**
      * get users who current user follow them
+     *
      * @param context context of the activity
      * @return arraylist of container of users who follow the current user
      */
@@ -1240,7 +1252,8 @@ public class MockService implements APIs {
 
     /**
      * get current user profile
-     * @param context context of the activity
+     *
+     * @param context          context of the activity
      * @param settingsFragment the fragment which called this function
      * @return user profile
      */
@@ -1256,8 +1269,9 @@ public class MockService implements APIs {
     }
 
     /**
-     *get current user playlists
-     * @param context context of the activity
+     * get current user playlists
+     *
+     * @param context         context of the activity
      * @param fragmentProfile the fragment which called this function
      * @return ArrayList of Container of User's playlists
      */
@@ -1268,7 +1282,8 @@ public class MockService implements APIs {
 
     /**
      * get users who the current user follow them
-     * @param context context of the activity
+     *
+     * @param context                  context of the activity
      * @param profileFollowersFragment the fragment which called this function
      * @return ArrayList of Container current user following
      */
@@ -1279,7 +1294,8 @@ public class MockService implements APIs {
 
     /**
      * get a list of current user followers
-     * @param context context of the activity
+     *
+     * @param context                  context of the activity
      * @param profileFollowersFragment the fragment the function is called from
      * @return ArrayList of Container of Followers
      */
@@ -1320,7 +1336,8 @@ public class MockService implements APIs {
 
     /**
      * get number of user followers
-     * @param context context of the activity
+     *
+     * @param context         context of the activity
      * @param fragmentProfile the fragment the function is called from
      * @return string of the number of followers
      */
@@ -1328,16 +1345,19 @@ public class MockService implements APIs {
     public String getNumbersoUserFollowers(Context context, FragmentProfile fragmentProfile) {
         return null;
     }
+
     @Override
     public void getCurrPlaying(Context context) {
     }
+
     @Override
-    public void getTrack(Context context,String id ) {
+    public void getTrack(Context context, String id) {
     }
 
     /**
      * get number of users that user follow
-     * @param context context of the activity
+     *
+     * @param context         context of the activity
      * @param fragmentProfile the fragment the function is called from
      * @return string of the number of following
      */
@@ -1348,7 +1368,8 @@ public class MockService implements APIs {
 
     /**
      * get number of playlists of current user
-     * @param context context of the activity
+     *
+     * @param context         context of the activity
      * @param fragmentProfile the fragment the function is called from
      * @return string of the number of playlists
      */
@@ -1359,7 +1380,8 @@ public class MockService implements APIs {
 
     /**
      * get current user playlists
-     * @param context context of the activity
+     *
+     * @param context                  context of the activity
      * @param profilePlaylistsFragment the fragment the function is called from
      * @return current user playlists
      */
@@ -1370,7 +1392,8 @@ public class MockService implements APIs {
 
     /**
      * follow playlist
-     * @param context context of the activity
+     *
+     * @param context                  context of the activity
      * @param bottomSheetDialogProfile the fragment the function is called from
      */
     @Override
@@ -1380,6 +1403,7 @@ public class MockService implements APIs {
 
     /**
      * get number of artists in search result
+     *
      * @return int artistsCount
      */
     @Override
@@ -1389,6 +1413,7 @@ public class MockService implements APIs {
 
     /**
      * get number of profiles in search result
+     *
      * @return int profilesCount
      */
     @Override
@@ -1398,6 +1423,7 @@ public class MockService implements APIs {
 
     /**
      * get number of playlists in search result
+     *
      * @return int playlistsCount
      */
     @Override
@@ -1407,6 +1433,7 @@ public class MockService implements APIs {
 
     /**
      * get number of genres in search result
+     *
      * @return int genresCount
      */
     @Override
@@ -1416,6 +1443,7 @@ public class MockService implements APIs {
 
     /**
      * get number of songs in search result
+     *
      * @return int songsCount
      */
     @Override
@@ -1425,6 +1453,7 @@ public class MockService implements APIs {
 
     /**
      * get number of albums in search result
+     *
      * @return int albumssCount
      */
     @Override
@@ -1445,6 +1474,21 @@ public class MockService implements APIs {
 
     @Override
     public void playPrev(Context context) {
+
+    }
+
+    @Override
+    public void checkSaved(Context context, String ids, PlaylistFragment playlistFragment) {
+
+    }
+
+    @Override
+    public void saveTrack(Context context, String id) {
+
+    }
+
+    @Override
+    public void removeFromSaved(Context context, String id) {
 
     }
 }

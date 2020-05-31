@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -22,15 +21,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Adapters.RvTracksHomeAdapter;
 import com.example.symphonia.Constants;
-import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
 import com.google.android.material.appbar.AppBarLayout;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
-
-import java.util.ArrayList;
 
 /**
  * fragment that represent playlist tracks to user
@@ -137,15 +133,15 @@ public class PlaylistFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                for(int i =0 ; i<Utils.displayedPlaylist.getTracks().size();i++)
-                    if(!Utils.displayedPlaylist.getTracks().get(i).isLocked()) {
+                for (int i = 0; i < Utils.displayedPlaylist.getTracks().size(); i++)
+                    if (!Utils.displayedPlaylist.getTracks().get(i).isLocked()) {
                         Utils.currTrack = Utils.displayedPlaylist.getTracks().get(i);
-                        Utils.currContextType  = "playlist";
+                        Utils.currContextType = "playlist";
                         Utils.currContextId = Utils.displayedPlaylist.getId();
                     }
-                    changeSelected();
-                    ((MainActivity) getActivity()).startTrack();
-                    }
+                changeSelected();
+                ((MainActivity) getActivity()).startTrack();
+            }
         });
 
         return view;
@@ -219,6 +215,7 @@ public class PlaylistFragment extends Fragment {
         }
 
     }
+
     /**
      * this function change color of selected item and resets color of previous one
      *
@@ -230,7 +227,7 @@ public class PlaylistFragment extends Fragment {
 
     }*/
     public void changeSelected() {
-     //   rvTracksHomeAdapter.selectPlaying(Utils.currTrack.getId());
+        //   rvTracksHomeAdapter.selectPlaying(Utils.currTrack.getId());
         rvTracksHomeAdapter.notifyDataSetChanged();
     }
 
