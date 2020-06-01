@@ -125,7 +125,7 @@ public class ServiceController {
      * @param fragment fragment of user
      * @return recently-player  playlist
      */
-    public ArrayList<Playlist> getRecentPlaylists(Context context, HomeFragment fragment) {
+    public ArrayList<com.example.symphonia.Entities.Context> getRecentPlaylists(Context context, HomeFragment fragment) {
         return mSupplier.getRecentPlaylists(context, fragment);
     }
 
@@ -136,7 +136,7 @@ public class ServiceController {
      * @param homeFragment token of user
      * @return random  playlist
      */
-    public ArrayList<Playlist> getRandomPlaylists(Context context, HomeFragment homeFragment) {
+    public ArrayList<com.example.symphonia.Entities.Context> getRandomPlaylists(Context context, HomeFragment homeFragment) {
         return mSupplier.getRandomPlaylists(context, homeFragment);
     }
 
@@ -147,7 +147,7 @@ public class ServiceController {
      * @param mToken  token of user
      * @return made-for-you  playlist
      */
-    public ArrayList<Playlist> getMadeForYoutPlaylists(Context context, String mToken) {
+    public ArrayList<com.example.symphonia.Entities.Context> getMadeForYoutPlaylists(Context context, String mToken) {
         return mSupplier.getMadeForYouPlaylists(context, mToken);
     }
 
@@ -158,7 +158,7 @@ public class ServiceController {
      * @param mToken  token of user
      * @return popular  playlist
      */
-    public ArrayList<Playlist> getPopularPlaylists(Context context, String mToken) {
+    public ArrayList<com.example.symphonia.Entities.Context> getPopularPlaylists(Context context, String mToken) {
         return mSupplier.getPopularPlaylists(context, mToken);
     }
 

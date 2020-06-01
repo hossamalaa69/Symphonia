@@ -339,6 +339,8 @@ public class RestApi implements APIs {
 
         void getCurrPlayingTrackSuccess(String id);
 
+        void getCurrPlayingTrackFailed();
+
         void updateUiNoTracks(PlaylistFragment playlistFragment);
 
         void updateUiGetTracksOfPlaylist(PlaylistFragment playlistFragment);
@@ -378,9 +380,9 @@ public class RestApi implements APIs {
      * @return popular  playlist
      */
     @Override
-    public ArrayList<Playlist> getPopularPlaylists(final Context context, String mToken) {
+    public ArrayList<com.example.symphonia.Entities.Context> getPopularPlaylists(final Context context, String mToken) {
         final updateUiPlaylists listener = (updateUiPlaylists) context;
-        final ArrayList<Playlist> popularPlaylists = new ArrayList<>();
+        final ArrayList<com.example.symphonia.Entities.Context> popularPlaylists = new ArrayList<>();
         //TODO  backend still under working
         StringRequest request = new StringRequest(Request.Method.GET, Utils.categories.get(0).getCat_Name(), new Response.Listener<String>() {
             @Override
@@ -399,7 +401,7 @@ public class RestApi implements APIs {
                         String id = playlist.getString("_id");
                         JSONObject tracks = playlist.getJSONObject("tracks");
                         String tracksUrl = tracks.getString("href");
-                        popularPlaylists.add(new Playlist(title, id, decs, imageUrl, null, tracksUrl));
+                        popularPlaylists.add(new com.example.symphonia.Entities.Context(title, id, decs, imageUrl, null, tracksUrl));
                         listener.updateUiGetPopularPlaylistsSuccess();
 
                     }
@@ -457,9 +459,9 @@ public class RestApi implements APIs {
      * @return made-for-you  playlist
      */
     @Override
-    public ArrayList<Playlist> getMadeForYouPlaylists(final Context context, String mToken) {
+    public ArrayList<com.example.symphonia.Entities.Context> getMadeForYouPlaylists(final Context context, String mToken) {
         final updateUiPlaylists listener = (updateUiPlaylists) context;
-        final ArrayList<Playlist> madeForYouPlaylists = new ArrayList<>();
+        final ArrayList<com.example.symphonia.Entities.Context> madeForYouPlaylists = new ArrayList<>();
         //TODO  backend still under working
         StringRequest request = new StringRequest(Request.Method.GET, Utils.categories.get(0).getCat_Name(), new Response.Listener<String>() {
             @Override
@@ -470,6 +472,7 @@ public class RestApi implements APIs {
                     JSONArray playlists = playlistsObj.getJSONArray("items");
                     for (int i = 0; i < playlists.length(); i++) {
                         JSONObject playlist = playlists.getJSONObject(i);
+                        String type = "playlist";
                         String title = playlist.getString("name");
                         String decs = playlist.getString("description");
                         JSONArray images = playlist.getJSONArray("images");
@@ -478,7 +481,7 @@ public class RestApi implements APIs {
                         String id = playlist.getString("_id");
                         JSONObject tracks = playlist.getJSONObject("tracks");
                         String tracksUrl = tracks.getString("href");
-                        madeForYouPlaylists.add(new Playlist(title, id, decs, imageUrl, null, tracksUrl));
+                        madeForYouPlaylists.add(new com.example.symphonia.Entities.Context(title, id, decs, imageUrl, null, tracksUrl,type));
                         listener.updateUiGetMadeForYouPlaylistsSuccess();
 
                     }
@@ -518,9 +521,9 @@ public class RestApi implements APIs {
      * @return recently-player  playlist
      */
     @Override
-    public ArrayList<Playlist> getRecentPlaylists(final Context context, final HomeFragment fragment) {
+    public ArrayList<com.example.symphonia.Entities.Context> getRecentPlaylists(final Context context, final HomeFragment fragment) {
         Log.e("recent", "start");
-        final ArrayList<Playlist> recentPlaylists = new ArrayList<>();
+        final ArrayList<com.example.symphonia.Entities.Context> recentPlaylists = new ArrayList<>();
         //TODO  backend still under working
         StringRequest request = new StringRequest(Request.Method.GET, Constants.GET_RECENT_PLAYLISTS, new Response.Listener<String>() {
             @Override
@@ -533,12 +536,13 @@ public class RestApi implements APIs {
                     JSONArray playlists = root.getJSONArray("history");
                     for (int i = 0; i < playlists.length(); i++) {
                         JSONObject playlist = playlists.getJSONObject(i);
+                        String type = playlist.getString("contextType");
                         String title = playlist.getString("contextName");
                         String decs = playlist.optString("contextDescription");
                         String imageUrl = playlist.getString("contextImage");
                         String id = playlist.getString("contextId");
-                        Utils.LoadedPlaylists.recentPlaylists.add(new Playlist(title, id, decs, imageUrl,
-                                null, Constants.BASE_URL + Constants.GET_PLAYLISTS_TRACKS + id + "/tracks"));
+                        Utils.LoadedPlaylists.recentPlaylists.add(new com.example.symphonia.Entities.Context(title, id, decs, imageUrl,
+                                null, Constants.BASE_URL + Constants.GET_PLAYLISTS_TRACKS + id + "/tracks",type));
                     }
                     Log.e("recent", "success");
                     listener.updateUiGetRecentPlaylistsSuccess(fragment);
@@ -550,7 +554,7 @@ public class RestApi implements APIs {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("recent", "error");
-
+                Toast.makeText(context.getApplicationContext(),"failed to get playlists, please refresh",Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
@@ -580,12 +584,11 @@ public class RestApi implements APIs {
      * @return random  playlist
      */
     @Override
-    public ArrayList<Playlist> getRandomPlaylists(final Context context, final HomeFragment homeFragment) {
+    public ArrayList<com.example.symphonia.Entities.Context> getRandomPlaylists(final Context context, final HomeFragment homeFragment) {
         Log.e("rand", "start");
 
         final updateUiPlaylists listener = (updateUiPlaylists) context;
-        final ArrayList<Playlist> randomPlaylists = new ArrayList<>();
-        //TODO  backend still under working
+        final ArrayList<com.example.symphonia.Entities.Context> randomPlaylists = new ArrayList<>();
         StringRequest request = new StringRequest(Request.Method.GET, Constants.GET_RANDOM_PLAYLISTS.concat("number=10"), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -595,13 +598,14 @@ public class RestApi implements APIs {
                     JSONArray playlists = new JSONArray(response);
                     for (int i = 0; i < playlists.length(); i++) {
                         JSONObject playlist = playlists.getJSONObject(i);
+                        String type = "playlist";
                         String title = playlist.getString("name");
                         String id = playlist.getString("_id");
                         String decs = playlist.optString("description");
                         JSONArray images = playlist.getJSONArray("images");
                         String imageUrl = (String) images.get(0);
-                        Utils.LoadedPlaylists.randomPlaylists.add(new Playlist(title, id, "", imageUrl,
-                                null, Constants.BASE_URL + Constants.GET_PLAYLISTS_TRACKS + id + "/tracks"));
+                        Utils.LoadedPlaylists.randomPlaylists.add(new com.example.symphonia.Entities.Context(title, id, "", imageUrl,
+                                null, Constants.BASE_URL + Constants.GET_PLAYLISTS_TRACKS + id + "/tracks",type));
                     }
                     Log.e("rand", "success");
                     listener.updateUiGetRandomPlaylistsSuccess(homeFragment);
@@ -612,6 +616,7 @@ public class RestApi implements APIs {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context.getApplicationContext(),"failed to get playlists, please refresh",Toast.LENGTH_SHORT).show();
                 Log.e("rand", "error");
             }
         });
@@ -662,8 +667,8 @@ public class RestApi implements APIs {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("contextId", Utils.currContextId);
-                params.put("context_type", Utils.currContextType);
+                params.put("contextId", Utils.playingContext.getId());
+                params.put("context_type", Utils.playingContext.getContextType());
                 params.put("context_url", "https://thesymphonia.ddns.net/");
                 params.put("device", "android");
                 return params;
@@ -692,17 +697,20 @@ public class RestApi implements APIs {
                     String link = data.getString("currentTrack");
                     if (!link.matches("null"))
                         listener.getCurrPlayingTrackSuccess(link.split("tracks/")[1]);
+                    else
+                        listener.getCurrPlayingTrackFailed();
                     Log.e("curr playing", "success");
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    listener.getCurrPlayingTrackFailed();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("curr playing", "error");
-                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
-
+                //Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
+                listener.getCurrPlayingTrackFailed();
             }
         }) {
             @Override
@@ -776,7 +784,7 @@ public class RestApi implements APIs {
                     JSONArray data = obj.getJSONArray("data");
                     //      String nextId = data.get(1).toString().split("tracks/")[1];
                     getCurrPlaying(context);
-                    Log.e("curr playing", "success");
+                    Log.e("play next", "success");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -820,7 +828,7 @@ public class RestApi implements APIs {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("next", "error");
+                Log.e("prev", "error");
                 Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
 
             }
@@ -881,7 +889,7 @@ public class RestApi implements APIs {
                 try {
                     obj = new JSONArray(response);
                     for (int i = 0; i < obj.length(); i++) {
-                        Utils.displayedPlaylist.getTracks().get(i).setLiked((boolean) obj.get(i));
+                        Utils.displayedContext.getTracks().get(i).setLiked((boolean) obj.get(i));
                     }
                     listener.updateUicheckSaved(playlistFragment);
                     Log.e("check saved tracks", "success");
@@ -1040,10 +1048,10 @@ public class RestApi implements APIs {
                         String artistName = artist.getString("name");
                         int duration = track.getInt("durationMs");
                         String premium = track.getString("premium");
-                        tracksList.add(new Track(title, artistName, Utils.displayedPlaylist.getmPlaylistTitle()
-                                , id, (premium.matches("true")), R.drawable.no_image, duration, imageUrl, albumId, Utils.displayedPlaylist.getId()));
+                        tracksList.add(new Track(title, artistName, Utils.displayedContext.getmContextTitle()
+                                , id, (premium.matches("true")), R.drawable.no_image, duration, imageUrl, albumId, Utils.displayedContext.getId()));
                     }
-                    Utils.displayedPlaylist.setTracks(tracksList);
+                    Utils.displayedContext.setTracks(tracksList);
                     Log.e("tracks", "success");
                     if (playlistFragment != null)
                         listener.updateUiGetTracksOfPlaylist(playlistFragment);
@@ -2249,10 +2257,10 @@ public class RestApi implements APIs {
                         String artistName = artist.getString("name");
                         int duration = track.getInt("durationMs");
                         String premium = track.getString("premium");
-                        tracksList.add(new Track(title, artistName, Utils.displayedPlaylist.getmPlaylistTitle()
+                        tracksList.add(new Track(title, artistName, Utils.displayedContext.getmContextTitle()
                                 , id, (premium.matches("true")), R.drawable.no_image, duration, imageUrl, albumId));
                     }
-                    Utils.displayedPlaylist.setTracks(tracksList);
+                    Utils.displayedContext.setTracks(tracksList);
                     Log.e("tracks", "success");
                 } catch (JSONException e) {
                     e.printStackTrace();

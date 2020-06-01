@@ -70,6 +70,7 @@ dependencies {
     testImplementation 'org.powermock:powermock-module-junit4:1.6.2'
     implementation 'com.google.firebase:firebase-analytics:17.4.0'
     implementation 'com.google.firebase:firebase-messaging:20.1.6'
+    implementation 'androidx.media:media:1.1.0'
 
 }
 

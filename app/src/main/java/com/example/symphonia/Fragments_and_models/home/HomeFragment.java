@@ -22,6 +22,7 @@ import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Activities.User_Management.Notifications.NotificationsHistoryActivity;
 import com.example.symphonia.Adapters.RvPlaylistsHomeAdapter;
 import com.example.symphonia.Constants;
+import com.example.symphonia.Entities.Context;
 import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Fragments_and_models.settings.SettingsFragment;
 import com.example.symphonia.Helpers.Utils;
@@ -50,15 +51,15 @@ public class HomeFragment extends Fragment {
 
     private View root;
 
-    private ArrayList<Playlist> popularPlaylists;
-    private ArrayList<Playlist> recentPlaylists;
-    private ArrayList<Playlist> madeForYouPlaylists;
+    private ArrayList<Context> popularPlaylists;
+    private ArrayList<Context> recentPlaylists;
+    private ArrayList<Context> madeForYouPlaylists;
     private TextView playlistTitle;
 
     /**
      * random playlists
      */
-    private ArrayList<Playlist> playlists;
+    private ArrayList<Context> playlists;
 
     /**
      * inflate view of fragment

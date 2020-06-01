@@ -1,5 +1,6 @@
 package com.example.symphonia.Entities;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 
 import java.io.Serializable;
@@ -400,5 +401,14 @@ public class Track implements Serializable {
 
     public void isPlaying(boolean b) {
         isPlaying = b;
+    }
+
+    private Bitmap imageBitmap;
+    public void setImageBitmap(Bitmap bitmap) {
+        imageBitmap = bitmap;
+    }
+
+    public Bitmap getImageBitmap() {
+        return imageBitmap;
     }
 }

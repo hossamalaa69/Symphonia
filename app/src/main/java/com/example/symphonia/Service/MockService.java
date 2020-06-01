@@ -43,16 +43,21 @@ import java.util.regex.Pattern;
 public class MockService implements APIs {
 
     private Boolean firstTimeToGetRecentSearches;
+    private ArrayList<com.example.symphonia.Entities.Context> mRandomContext;
+    private ArrayList<com.example.symphonia.Entities.Context> mRecentContext;
+    private ArrayList<com.example.symphonia.Entities.Context> mContexts;
+    private ArrayList<com.example.symphonia.Entities.Context> mPopularContext;
+
     private ArrayList<Playlist> mRandomPlaylists;
     private ArrayList<Playlist> mRecentPlaylists;
+    private ArrayList<Playlist> mPlaylists;
+    private ArrayList<Playlist> mPopularPlaylists;
     private ArrayList<Artist> mArtists;
     private ArrayList<Album> mAlbums;
     private ArrayList<Track> mTracks;
     private ArrayList<Track> mLikedSongs;
-    private ArrayList<Playlist> mPlaylists;
     private ArrayList<Container> mData;
     private ArrayList<Container> mRecentSearches;
-    private ArrayList<Playlist> mPopularPlaylists;
     private int artistsCount = 0;
     private int albumssCount = 0;
     private int songsCount = 0;
@@ -183,7 +188,7 @@ public class MockService implements APIs {
                 new ArrayList<Track>()));
 
 
-        mPopularPlaylists = new ArrayList<>();
+        mPopularContext = new ArrayList<>();
         ArrayList<Track> tracks = new ArrayList<Track>();
         tracks.add(new Track("Rescue Me", "OneRepublic", "mood booster",
                 "Rescue Me", R.drawable.rescue_me, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), false));
@@ -192,11 +197,11 @@ public class MockService implements APIs {
         tracks.add(new Track("You Can't Stop The Girl",
                 "Bebe Rexha", "mood booster", null, R.drawable.you_cant_stop_the_girl
                 , Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), false));
-        mPopularPlaylists.add(new Playlist("mood booster",
+        mPopularContext.add(new com.example.symphonia.Entities.Context("mood booster",
                 "Get happy with this pick-up playlist full of current feel-good songs",
-                Utils.convertToBitmap(R.drawable.mood_booster), tracks));
+                Utils.convertToBitmap(R.drawable.mood_booster), tracks,"playlist"));
 
-        mRecentPlaylists = new ArrayList<>();
+        mRecentContext = new ArrayList<com.example.symphonia.Entities.Context>();
         ArrayList<Track> rTracks = new ArrayList<Track>();
         rTracks.add(new Track("Little Do You Know", "Alex & Sierra", "Rewind-the sound of 2014"
                 , null, R.drawable.little_do_you_know, Settings.System.DEFAULT_RINGTONE_URI, true));
@@ -204,22 +209,22 @@ public class MockService implements APIs {
                 , null, R.drawable.wildest_dreams, Uri.parse("http://stream.radiosai.net:8002/"), false));
         rTracks.add(new Track("One Last Time", "Ariana Grande", "Rewind-the sound of 2014"
                 , null, R.drawable.one_last_time, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), false));
-        mRecentPlaylists.add(new Playlist("Rewind-the sound of 2014", null,
+        mRecentContext.add(new com.example.symphonia.Entities.Context("Rewind-the sound of 2014", null,
                 Utils.convertToBitmap(R.drawable.rewind_the_sound), rTracks));
 
-        mRandomPlaylists = new ArrayList<>();
+        mRandomContext = new ArrayList<>();
         ArrayList<Track> ranTracks = new ArrayList<Track>();
         ranTracks.add(new Track("Intentions", "Justing Bieber, Quavo", "Daily Left", null, R.drawable.intentions, Settings.System.DEFAULT_RINGTONE_URI, false));
         ranTracks.add(new Track("Stupid Love", "Lady Gaga", "Daily Left", null, R.drawable.stupid_love, Uri.parse("http://stream.radiosai.net:8002/"), false));
         ranTracks.add(new Track("Feel Me", "Selena Gomez", "Daily Left", null, R.drawable.feel_me, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), true));
-        mRandomPlaylists.add(new Playlist("Daily Left", "Sia, J Balvin, Bad Bunny, Justin Bieber, Drake",
+        mRandomContext.add(new com.example.symphonia.Entities.Context("Daily Left", "Sia, J Balvin, Bad Bunny, Justin Bieber, Drake",
                 Utils.convertToBitmap(R.drawable.daily_left), ranTracks));
 
-        mPlaylists = new ArrayList<>();
-        mPlaylists.addAll(mPopularPlaylists);
-        mPlaylists.addAll(mRecentPlaylists);
+        mContexts = new ArrayList<com.example.symphonia.Entities.Context>();
+        mContexts.addAll(mPopularContext);
+        mContexts.addAll(mRecentContext);
 
-        for (Playlist playlist : mPlaylists) {
+        for (com.example.symphonia.Entities.Context playlist : mContexts) {
             playlist.setmOwnerName("Symphonia");
         }
 
@@ -246,8 +251,8 @@ public class MockService implements APIs {
      * @return made-for-you  playlist
      */
     @Override
-    public ArrayList<Playlist> getMadeForYouPlaylists(Context context, String mToken) {
-        return mRandomPlaylists;
+    public ArrayList<com.example.symphonia.Entities.Context> getMadeForYouPlaylists(Context context, String mToken) {
+        return mRandomContext;
     }
 
     /**
@@ -258,8 +263,8 @@ public class MockService implements APIs {
      * @return recently-player  playlist
      */
     @Override
-    public ArrayList<Playlist> getRecentPlaylists(Context context, HomeFragment fragment) {
-        return mRecentPlaylists;
+    public ArrayList<com.example.symphonia.Entities.Context> getRecentPlaylists(Context context, HomeFragment fragment) {
+        return mRecentContext;
     }
 
     /**
@@ -284,8 +289,8 @@ public class MockService implements APIs {
      * @return Random  playlist
      */
     @Override
-    public ArrayList<Playlist> getRandomPlaylists(Context context, HomeFragment homeFragment) {
-        return mRandomPlaylists;
+    public ArrayList<com.example.symphonia.Entities.Context> getRandomPlaylists(Context context, HomeFragment homeFragment) {
+        return mRandomContext;
     }
 
 
@@ -297,8 +302,8 @@ public class MockService implements APIs {
      * @return Random  playlist
      */
     @Override
-    public ArrayList<Playlist> getPopularPlaylists(Context context, String mToken) {
-        return mPopularPlaylists;
+    public ArrayList<com.example.symphonia.Entities.Context> getPopularPlaylists(Context context, String mToken) {
+        return mPopularContext;
     }
 
     /**

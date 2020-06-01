@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.symphonia.Constants;
-import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.R;
 import com.squareup.picasso.Picasso;
 
@@ -33,7 +32,7 @@ public class RvPlaylistsHomeAdapter extends RecyclerView.Adapter<RvPlaylistsHome
     /**
      * playlist that would be represented
      */
-    private ArrayList<Playlist> mPlaylists;
+    private ArrayList<com.example.symphonia.Entities.Context> mPlaylists;
     /**
      * context of hosting activity
      */
@@ -45,7 +44,7 @@ public class RvPlaylistsHomeAdapter extends RecyclerView.Adapter<RvPlaylistsHome
      * @param context context of hosting activity
      * @param list    arrayList of playlists that would be represented
      */
-    public RvPlaylistsHomeAdapter(Context context, ArrayList<Playlist> list) {
+    public RvPlaylistsHomeAdapter(Context context, ArrayList<com.example.symphonia.Entities.Context> list) {
         this.mPlaylists = list;
         this.context = context;
         onPlaylistClicked = (OnPlaylistClicked) context;
@@ -88,7 +87,7 @@ public class RvPlaylistsHomeAdapter extends RecyclerView.Adapter<RvPlaylistsHome
      * this interface for listeners of recycler view
      */
     public interface OnPlaylistClicked {
-        void OnPlaylistClickedListener(Playlist playlist);
+        void OnPlaylistClickedListener(com.example.symphonia.Entities.Context playlist);
     }
 
     /**
@@ -119,7 +118,7 @@ public class RvPlaylistsHomeAdapter extends RecyclerView.Adapter<RvPlaylistsHome
          * bind data to views
          */
         private void bind(int pos) {
-            if (mPlaylists.get(pos).getmPlaylistImage() == null) {
+            if (mPlaylists.get(pos).getmContextImage() == null) {
                 ivPlaylistImage.setImageResource(R.drawable.no_image);
             }
 
@@ -130,24 +129,24 @@ public class RvPlaylistsHomeAdapter extends RecyclerView.Adapter<RvPlaylistsHome
                         .centerCrop()
                         .into(ivPlaylistImage);
             else {
-                ivPlaylistImage.setImageBitmap(mPlaylists.get(pos).getmPlaylistImage());
+                ivPlaylistImage.setImageBitmap(mPlaylists.get(pos).getmContextImage());
             }
 
-            if (mPlaylists.get(pos).getmPlaylistTitle() == null) {
+            if (mPlaylists.get(pos).getmContextTitle() == null) {
                 tvPlaylistTitle.setVisibility(View.GONE);
             }
 
-            tvPlaylistTitle.setText(mPlaylists.get(pos).getmPlaylistTitle());
-            if (mPlaylists.get(pos).getmPlaylistDescription() == null) {
+            tvPlaylistTitle.setText(mPlaylists.get(pos).getmContextTitle());
+            if (mPlaylists.get(pos).getmContextDescription() == null) {
                 tvPlaylistDescription.setVisibility(View.GONE);
             } else {
-                tvPlaylistDescription.setText(mPlaylists.get(pos).getmPlaylistDescription());
+                tvPlaylistDescription.setText(mPlaylists.get(pos).getmContextDescription());
             }
         }
 
         /**
          * this function is called when user click on item
-         *
+         *z
          * @param view takes view that is clicked
          */
         @Override

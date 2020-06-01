@@ -42,13 +42,13 @@ public class Utils {
     public static String currContextId;
     public static String currContextType;
     public static ArrayList<String> queueIds;
-    public static Playlist playPlaylist;
-    public static Playlist displayedPlaylist;
+    public static com.example.symphonia.Entities.Context playingContext;
+    public static com.example.symphonia.Entities.Context displayedContext;
 
     public static int getPosInPlaying(String id) {
-        if (id == null || playPlaylist == null) return -1;
-        for (int i = 0; i < playPlaylist.getTracks().size(); i++) {
-            if (playPlaylist.getTracks().get(i).getId().matches(id)) return i;
+        if (id == null || playingContext == null) return -1;
+        for (int i = 0; i < playingContext.getTracks().size(); i++) {
+            if (playingContext.getTracks().get(i).getId().matches(id)) return i;
         }
         return -1;
     }
@@ -99,10 +99,10 @@ public class Utils {
      * this class holds playlists that are loaded from backend
      */
     public static class LoadedPlaylists {
-        public static ArrayList<Playlist> randomPlaylists;
-        public static ArrayList<Playlist> madeForYouPlaylists;
-        public static ArrayList<Playlist> recentPlaylists;
-        public static ArrayList<Playlist> popularPlaylists;
+        public static ArrayList<com.example.symphonia.Entities.Context> randomPlaylists;
+        public static ArrayList<com.example.symphonia.Entities.Context> madeForYouPlaylists;
+        public static ArrayList<com.example.symphonia.Entities.Context> recentPlaylists;
+        public static ArrayList<com.example.symphonia.Entities.Context> popularPlaylists;
 
     }
 

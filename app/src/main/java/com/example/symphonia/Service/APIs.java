@@ -81,7 +81,7 @@ public interface APIs {
      * @param mToken  token of user
      * @return popular  playlist
      */
-    ArrayList<Playlist> getPopularPlaylists(Context context, String mToken);
+    ArrayList<com.example.symphonia.Entities.Context> getPopularPlaylists(Context context, String mToken);
 
     /**
      * getter for made-for-you playlist
@@ -90,7 +90,7 @@ public interface APIs {
      * @param mToken  token of user
      * @return made-for-you  playlist
      */
-    ArrayList<Playlist> getMadeForYouPlaylists(Context context, String mToken);
+    ArrayList<com.example.symphonia.Entities.Context> getMadeForYouPlaylists(Context context, String mToken);
 
 
     /**
@@ -100,7 +100,7 @@ public interface APIs {
      * @param fragment token of user
      * @return recently-player  playlist
      */
-    ArrayList<Playlist> getRecentPlaylists(Context context, HomeFragment fragment);
+    ArrayList<com.example.symphonia.Entities.Context> getRecentPlaylists(Context context, HomeFragment fragment);
 
 
     /**
@@ -110,7 +110,7 @@ public interface APIs {
      * @param homeFragment token of user
      * @return random  playlist
      */
-    ArrayList<Playlist> getRandomPlaylists(Context context, HomeFragment homeFragment);
+    ArrayList<com.example.symphonia.Entities.Context> getRandomPlaylists(Context context, HomeFragment homeFragment);
 
     /**
      * get the recent searches of the user

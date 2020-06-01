@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.symphonia">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -15,6 +16,7 @@
         android:roundIcon="@mipmap/ic_app_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        tools:ignore ="GoogleAppIndexingWarning"
         android:usesCleartextTraffic="true">
 
         <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
@@ -244,6 +246,8 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+        <receiver android:name=".NotificationActionService"/>
+        <service android:name=".OnClearFromRecentService"/>
     </application>
 
 </manifest>

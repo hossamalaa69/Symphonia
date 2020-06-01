@@ -1,6 +1,8 @@
 package com.example.symphonia.Adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 
@@ -106,6 +109,11 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
         mTracks.get(pos).setHidden(isHidden);
     }
 
+    public void selectLiked(String id, boolean isLiked) {
+        int pos = Utils.getPosInPlaying(id);
+        mTracks.get(pos).setLiked(isLiked);
+    }
+
     /**
      * this interface for listeners of recycler view
      */
@@ -156,18 +164,18 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
             ivHide.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (Utils.playPlaylist != null && Utils.displayedPlaylist.getId().matches(Utils.playPlaylist.getId())) {
+                    if (Utils.playingContext != null && Utils.displayedContext.getId().matches(Utils.playingContext.getId())) {
                         if (ivHide.isSelected()) {
                             ivHide.setImageResource(R.drawable.ic_do_not_disturb_on_black_24dp);
                             Toast.makeText(context, R.string.return_to_playing_playlist, Toast.LENGTH_SHORT).show();
-                            Utils.playPlaylist.getTracks().get(getAdapterPosition()).setHidden(false);
-                            if (!Utils.playPlaylist.getTracks().get(getAdapterPosition()).getId().matches(Utils.currTrack.getId()))
+                            Utils.playingContext.getTracks().get(getAdapterPosition()).setHidden(false);
+                            if (!Utils.playingContext.getTracks().get(getAdapterPosition()).getId().matches(Utils.currTrack.getId()))
                                 tvTrackTitle.setTextColor(context.getResources().getColor(R.color.white));
-                                tvTrackDescription.setTextColor(context.getResources().getColor(R.color.white));
-                                ivHide.setSelected(false);
+                            tvTrackDescription.setTextColor(context.getResources().getColor(R.color.white));
+                            ivHide.setSelected(false);
                         } else {
-                            Utils.playPlaylist.getTracks().get(getAdapterPosition()).setHidden(true);
-                            if (!Utils.playPlaylist.getTracks().get(getAdapterPosition()).getId().matches(Utils.currTrack.getId())) {
+                            Utils.playingContext.getTracks().get(getAdapterPosition()).setHidden(true);
+                            if (!Utils.playingContext.getTracks().get(getAdapterPosition()).getId().matches(Utils.currTrack.getId())) {
                                 tvTrackTitle.setTextColor(context.getResources().getColor(R.color.light_gray));
                                 tvTrackDescription.setTextColor(context.getResources().getColor(R.color.light_gray));
                             }
@@ -175,29 +183,30 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
                             Toast.makeText(context, R.string.remove_from_playing_list, Toast.LENGTH_SHORT).show();
                             ivHide.setSelected(true);
                         }
-                    }
-                    else
-                        Toast.makeText(context.getApplicationContext(),"this playlist is'nt playping",Toast.LENGTH_LONG).show();
+                    } else
+                        Toast.makeText(context.getApplicationContext(), "this playlist is'nt playping", Toast.LENGTH_LONG).show();
                 }
             });
             ivLike.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     onTrackClicked.OnLikeClickedListener(!ivLike.isSelected(), getAdapterPosition());
-                    Utils.displayedPlaylist.getTracks().get(getAdapterPosition()).setLiked(ivLike.isSelected());
+                    Utils.displayedContext.getTracks().get(getAdapterPosition()).setLiked(ivLike.isSelected());
                     if (ivLike.isSelected()) {
                         ivLike.setImageResource(R.drawable.ic_favorite_border_black_24dp);
                         Toast.makeText(context, R.string.remove_from_liked_playlist, Toast.LENGTH_SHORT).show();
                         ivLike.setSelected(false);
                         ServiceController.getInstance().removeFromSaved(context.getApplicationContext(),
-                                Utils.displayedPlaylist.getTracks().get(getAdapterPosition()).getId());
-
+                                Utils.displayedContext.getTracks().get(getAdapterPosition()).getId());
+                        mTracks.get(getAdapterPosition()).setLiked(true);
                     } else {
                         ivLike.setImageResource(R.drawable.ic_favorite_black_24dp);
                         Toast.makeText(context, R.string.add_to_like_playlist, Toast.LENGTH_SHORT).show();
                         ivLike.setSelected(true);
                         ServiceController.getInstance().saveTrack(context.getApplicationContext(),
-                                Utils.displayedPlaylist.getTracks().get(getAdapterPosition()).getId());
+                                Utils.displayedContext.getTracks().get(getAdapterPosition()).getId());
+                        mTracks.get(getAdapterPosition()).setLiked(false);
+
                     }
                 }
             });
@@ -218,13 +227,28 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
          */
         public void bind(int pos) {
             if (!Constants.DEBUG_STATUS)
-                if (!mTracks.get(pos).getImageUrl().matches(""))
+                if (!mTracks.get(pos).getImageUrl().matches("")) {
+                    Target target = new Target() {
+                        @Override
+                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                            ivTrackImage.setImageBitmap(bitmap);
+                            Utils.displayedContext.getTracks().get(pos).setImageBitmap(bitmap);
+                        }
+
+                        @Override
+                        public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+
+                        }
+
+                        @Override
+                        public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                        }
+                    };
                     Picasso.get()
                             .load(mTracks.get(pos).getImageUrl())
-                            .fit()
-                            .centerCrop()
-                            .into(ivTrackImage);
-                else {
+                            .into(target);
+                } else {
                     ivTrackImage.setImageResource(R.drawable.no_image);
                     mTracks.get(pos).setImageResources(R.drawable.no_image);
                 }
@@ -240,7 +264,9 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
                 ivLike.setImageResource(R.drawable.ic_favorite_border_black_24dp);
                 ivLike.setSelected(false);
             }
-            if (track.isHidden()) {
+            if (Utils.playingContext != null
+                    && Utils.playingContext.getTracks().get(getAdapterPosition()).getId().matches(track.getId()) &&
+                    Utils.playingContext.getTracks().get(getAdapterPosition()).isHidden()) {
                 tvTrackTitle.setTextColor(context.getResources().getColor(R.color.light_gray));
                 ivHide.setImageResource(R.drawable.ic_do_not_disturb_on_red_24dp);
                 tvTrackDescription.setTextColor(context.getResources().getColor(R.color.light_gray));

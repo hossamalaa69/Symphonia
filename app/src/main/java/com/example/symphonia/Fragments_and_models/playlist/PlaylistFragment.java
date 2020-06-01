@@ -84,7 +84,7 @@ public class PlaylistFragment extends Fragment {
         progressPar.setVisibility(View.VISIBLE);
         appBarLayout.setScrollbarFadingEnabled(true);
 
-        playlistTitle.setText(Utils.displayedPlaylist.getmPlaylistTitle());
+        playlistTitle.setText(Utils.displayedContext.getmContextTitle());
         madeForUser.setText(R.string.made_for_you_by_spotify);
 
         if (Constants.DEBUG_STATUS) {
@@ -93,7 +93,7 @@ public class PlaylistFragment extends Fragment {
             progressPar.setVisibility(View.GONE);
         } else {
             ServiceController serviceController = ServiceController.getInstance();
-            serviceController.getTracksOfPlaylist(getContext(), Utils.displayedPlaylist.getId(), this);
+            serviceController.getTracksOfPlaylist(getContext(), Utils.displayedContext.getId(), this);
         }
         // transition drawable controls the animation ov changing background
 
@@ -133,14 +133,14 @@ public class PlaylistFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                for (int i = 0; i < Utils.displayedPlaylist.getTracks().size(); i++)
-                    if (!Utils.displayedPlaylist.getTracks().get(i).isLocked()&&!Utils.displayedPlaylist.getTracks().get(i).isHidden()) {
-                        Utils.currTrack = Utils.displayedPlaylist.getTracks().get(i);
+                for (int i = 0; i < Utils.displayedContext.getTracks().size(); i++)
+                    if (!Utils.displayedContext.getTracks().get(i).isLocked()&&!Utils.displayedContext.getTracks().get(i).isHidden()) {
+                        Utils.currTrack = Utils.displayedContext.getTracks().get(i);
                         Utils.currContextType = "playlist";
-                        Utils.currContextId = Utils.displayedPlaylist.getId();
+                        Utils.currContextId = Utils.displayedContext.getId();
                         break;
                     }
-                Utils.playPlaylist = Utils.displayedPlaylist;
+                Utils.playingContext = Utils.displayedContext;
                 changeSelected();
                 ((MainActivity) getActivity()).startTrack();
             }
@@ -158,14 +158,14 @@ public class PlaylistFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getContext());
         rvTracks.setHasFixedSize(true);
         rvTracks.setLayoutManager(layoutManager);
-        rvTracksHomeAdapter = new RvTracksHomeAdapter(getContext(), Utils.displayedPlaylist.getTracks());
+        rvTracksHomeAdapter = new RvTracksHomeAdapter(getContext(), Utils.displayedContext.getTracks());
         rvTracks.setAdapter(rvTracksHomeAdapter);
         Target target = new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                Utils.displayedPlaylist.setPlaylistImage(bitmap);
-                background = Utils.createBackground(getContext(), Utils.displayedPlaylist.getmPlaylistImage());
-                playlistImage.setImageBitmap(Utils.displayedPlaylist.getmPlaylistImage());
+                Utils.displayedContext.setPlaylistImage(bitmap);
+                background = Utils.createBackground(getContext(), Utils.displayedContext.getmContextImage());
+                playlistImage.setImageBitmap(Utils.displayedContext.getmContextImage());
                 TransitionDrawable td = new TransitionDrawable(
                         new Drawable[]{getResources().getDrawable(R.drawable.background), background});
                 backgroundLayout.setBackground(td);
@@ -184,12 +184,12 @@ public class PlaylistFragment extends Fragment {
         };
         if (!Constants.DEBUG_STATUS)
             Picasso.get()
-                    .load(Utils.displayedPlaylist.getImageUrl())
+                    .load(Utils.displayedContext.getImageUrl())
                     .into(target);
 
         if (Constants.DEBUG_STATUS) {
-            playlistImage.setImageBitmap(Utils.displayedPlaylist.getmPlaylistImage());
-            background = Utils.createBackground(getContext(), Utils.displayedPlaylist.getmPlaylistImage());
+            playlistImage.setImageBitmap(Utils.displayedContext.getmContextImage());
+            background = Utils.createBackground(getContext(), Utils.displayedContext.getmContextImage());
             TransitionDrawable td = new TransitionDrawable(
                     new Drawable[]{getResources().getDrawable(R.drawable.background), background});
             backgroundLayout.setBackground(td);
@@ -205,17 +205,9 @@ public class PlaylistFragment extends Fragment {
      * @param pos     position of item
      * @param isLiked if item favourite
      */
-    public void changeLikedItemAtPos(int pos, boolean isLiked) {
-        View view = rvTracks.getLayoutManager().getChildAt(pos);
-        ImageView ivLike = view.findViewById(R.id.iv_like_track_item);
-        if (isLiked) {
-            ivLike.setImageResource(R.drawable.ic_favorite_black_24dp);
-            ivLike.setSelected(true);
-        } else {
-            ivLike.setImageResource(R.drawable.ic_favorite_border_black_24dp);
-            ivLike.setSelected(false);
-        }
-
+    public void changeLikedItemAtPos(String id, boolean isLiked) {
+        rvTracksHomeAdapter.selectLiked(id, isLiked);
+        rvTracksHomeAdapter.notifyDataSetChanged();
     }
 
     /**

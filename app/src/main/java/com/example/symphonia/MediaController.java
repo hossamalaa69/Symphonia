@@ -38,8 +38,8 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
     public  interface OnStartListener{
         void onStartListener();
     }
-    OnStartListener listener;
-    public void addListener(Context context){
+    static OnStartListener listener;
+    public static void addListener(Context context){
         listener = (OnStartListener) context;
     }
     /**
