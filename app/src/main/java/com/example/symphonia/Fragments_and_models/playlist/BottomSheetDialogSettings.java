@@ -16,12 +16,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.squareup.picasso.Picasso;
 
 /**
  * class that holds bottom sheet of settings of track.
@@ -32,9 +34,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 public class BottomSheetDialogSettings extends BottomSheetDialogFragment {
 
     /**
-     * position of track in playlist
+     *  track in playlist
      */
-    int pos;
+    Track track;
     /**
      * listener of sheet
      */
@@ -44,12 +46,11 @@ public class BottomSheetDialogSettings extends BottomSheetDialogFragment {
      * non empty  constructor
      *
      * @param context context of current activity
-     * @param pos     position of track in playlist
+     * @param track     position of track in playlist
      */
-    public BottomSheetDialogSettings(int pos, Context context) {
-        this.pos = pos;
+    public BottomSheetDialogSettings(Track track, Context context) {
+        this.track = track;
         listener = (BottomSheetListener) context;
-
     }
 
 
@@ -77,51 +78,50 @@ public class BottomSheetDialogSettings extends BottomSheetDialogFragment {
         showArtist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onViewArtistClicked(pos);
+                listener.onViewArtistClicked(Utils.getPosInPlaying(track.getId()));
             }
         });
         credits.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onCreditsClicked(pos);
+                listener.onCreditsClicked(Utils.getPosInPlaying(track.getId()));
                 dismiss();
             }
         });
         report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onReportClicked(pos);
+                listener.onReportClicked(Utils.getPosInPlaying(track.getId()));
             }
         });
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onShareClicked(pos);
+                listener.onShareClicked(Utils.getPosInPlaying(track.getId()));
             }
         });
         hide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!Utils.CurrPlaylist.playlist.getTracks().get(pos).isHidden() && !Utils.CurrPlaylist.playlist.getTracks().get(pos).isLocked()) {
+                if (!track.isHidden() && !track.isLocked()) {
                     hide.setCompoundDrawablesWithIntrinsicBounds(getContext().getDrawable(R.drawable.ic_do_not_disturb_on_red_24dp), null, null, null);
-                } else if (!Utils.CurrPlaylist.playlist.getTracks().get(pos).isLocked()) {
+                } else if (!track.isLocked()) {
                     hide.setCompoundDrawablesWithIntrinsicBounds(getContext().getDrawable(R.drawable.ic_do_not_disturb_on_black_24dp), null, null, null);
                 }
-                listener.onHideClicked(pos);
+                listener.onHideClicked(Utils.getPosInPlaying(track.getId()));
             }
         });
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!Utils.CurrPlaylist.playlist.getTracks().get(pos).isLiked() && !Utils.CurrPlaylist.playlist.getTracks().get(pos).isLocked()) {
+                if (!track.isLiked() && !track.isLocked()) {
                     like.setCompoundDrawablesWithIntrinsicBounds(getContext().getDrawable(R.drawable.ic_favorite_black_24dp), null, null, null);
-                } else if (!Utils.CurrPlaylist.playlist.getTracks().get(pos).isLocked()) {
+                } else if (!track.isLocked()) {
                     like.setCompoundDrawablesWithIntrinsicBounds(getContext().getDrawable(R.drawable.ic_favorite_border_black_24dp), null, null, null);
                 }
-                listener.onLikeClicked(pos);
+                listener.onLikeClicked(Utils.getPosInPlaying(track.getId()));
             }
         });
-        Track track = Utils.CurrPlaylist.playlist.getTracks().get(pos);
 
         if (track.isLiked()) {
             like.setText(R.string.liked);
@@ -143,10 +143,13 @@ public class BottomSheetDialogSettings extends BottomSheetDialogFragment {
         ImageView trackImage = view.findViewById(R.id.iv_track_image_settings);
         TextView trackTitle = view.findViewById(R.id.tv_track_title_settings);
         TextView trackArtist = view.findViewById(R.id.tv_track_artist_settings);
-
-        trackImage.setImageResource(track.getmImageResources());
+        Picasso.get()
+                .load(track.getImageUrl())
+                .centerCrop()
+                .fit()
+                .into(trackImage);
         trackTitle.setText(track.getmTitle());
-        //   trackArtist.setText(track.getmDescription());
+        trackArtist.setText(track.getmDescription());
 
         return view;
     }

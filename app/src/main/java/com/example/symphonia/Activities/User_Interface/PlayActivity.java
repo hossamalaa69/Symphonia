@@ -302,7 +302,6 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         Intent intent = new Intent(this, MediaController.class);
         intent.setAction(MediaController.ACTION_PLAY);
         Log.e("PlayActivity", "play track");
-        Utils.CurrTrackInfo.paused = false;
         startService(intent);
         updateScreen();
     }

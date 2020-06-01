@@ -259,6 +259,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
      */
     @Override
     public void onHideClicked(int pos) {
+        if(Utils.playingContext==null){makeToast(getString(R.string.playlist_not_playing)); }
         if (!Utils.displayedContext.getTracks().get(pos).isHidden() && !Utils.displayedContext.getTracks().get(pos).isLocked()) {
             Utils.playingContext.getTracks().get(pos).setHidden(true);
             if (playlistFragment != null && playlistFragment.isVisible()) {
@@ -961,12 +962,12 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     /**
      * this function is called when setting is clicked
      *
-     * @param pos position of track
+     * @param track  track
      */
     @Override
-    public void showTrackSettingFragment(int pos) {
+    public void showTrackSettingFragment(Track track) {
 
-        BottomSheetDialogSettings settings = new BottomSheetDialogSettings(pos, this);
+        BottomSheetDialogSettings settings = new BottomSheetDialogSettings(track, this);
         settings.show(getSupportFragmentManager(), "settings");
       /*  setDataOfTrackSettings(pos);
         setSettingListeners(pos);*/

@@ -260,5 +260,6 @@
     <string name="main_text_place_holder">Main text is here.</string>
     <string name="description_text_placeholder">Description text is here.</string>
     <string name="notifications">Notifications</string>
+    <string name="playlist_not_playing">"playlist not playing now "</string>
 
 </resources>

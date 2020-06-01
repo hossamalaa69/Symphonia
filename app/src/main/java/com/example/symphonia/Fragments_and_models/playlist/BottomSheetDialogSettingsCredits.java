@@ -66,15 +66,15 @@ public class BottomSheetDialogSettingsCredits extends BottomSheetDialogFragment 
         TextView source = view.findViewById(R.id.settings_credit_source);
         final ImageButton close = view.findViewById(R.id.close_credits);
 
-        artist.setText(Utils.CurrPlaylist.playlist.getTracks().get(pos).getmArtist());
+        artist.setText(Utils.displayedContext.getTracks().get(pos).getmArtist());
         //TODO add author
-        author.setText(Utils.CurrPlaylist.playlist.getTracks().get(pos).getmArtist());
+        author.setText(Utils.displayedContext.getTracks().get(pos).getmArtist());
         //TODO add producer
-        producer.setText(Utils.CurrPlaylist.playlist.getTracks().get(pos).getmArtist());
+        producer.setText(Utils.displayedContext.getTracks().get(pos).getmArtist());
 
-        trackTitle.setText(Utils.CurrPlaylist.playlist.getTracks().get(pos).getmTitle());
+        trackTitle.setText(Utils.displayedContext.getTracks().get(pos).getmTitle());
         //TODO add resource
-        source.setText(Utils.CurrPlaylist.playlist.getTracks().get(pos).getmArtist());
+        source.setText(Utils.displayedContext.getTracks().get(pos).getmArtist());
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +87,7 @@ public class BottomSheetDialogSettingsCredits extends BottomSheetDialogFragment 
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, "" + Utils.CurrPlaylist.playlist.getTracks().get(pos).getUri());
+                intent.putExtra(Intent.EXTRA_TEXT, "" + Utils.displayedContext.getTracks().get(pos).getUri());
                 if (intent.resolveActivity(getContext().getPackageManager()) != null) {
                     startActivity(intent);
                 }

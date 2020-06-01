@@ -120,7 +120,7 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
     public interface OnTrackClicked {
         void OnTrackClickedListener(ArrayList<Track> tracks, int pos, int prev);
 
-        void showTrackSettingFragment(int pos);
+        void showTrackSettingFragment(Track track);
 
         void OnLikeClickedListener(boolean selected, int pos);
 
@@ -215,7 +215,7 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
                 public void onClick(View view) {
                     //TODO handle open settings track, call func of interface
                     Toast.makeText(context, "open settings ", Toast.LENGTH_SHORT).show();
-                    onTrackClicked.showTrackSettingFragment(getAdapterPosition());
+                    onTrackClicked.showTrackSettingFragment(mTracks.get(getAdapterPosition()));
 
                 }
             });
