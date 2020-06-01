@@ -205,6 +205,7 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
                 wifiLock.release();
             } catch (RuntimeException e) {
             }
+        Utils.currTrack.isPlaying(false);
     }
 
     /**
@@ -213,6 +214,8 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
     public void resumeMedia() {
         if (mediaPlayer != null)
             mediaPlayer.start();
+        Utils.currTrack.isPlaying(true);
+
     }
 
     /**
@@ -284,6 +287,7 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
      * this function release data of media player
      */
     public void releaseMedia() {
+        Utils.currTrack.isPlaying(false);
         if (mediaPlayer != null) {
             mediaPlayer.release();
             mediaPlayer = null;
@@ -322,6 +326,7 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
     public void onPrepared(MediaPlayer player) {
         Log.e("media", "start");
         player.start();
+        Utils.currTrack.isPlaying(true);
         listener.onStartListener();
         //   makeToast(getApplicationContext().getResources().getString(R.string.started));
     }
@@ -333,6 +338,7 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
     public void onDestroy() {
         super.onDestroy();
         if (mediaPlayer != null) {
+            Utils.currTrack.isPlaying(false);
             mediaPlayer.release();
             mediaPlayer = null;
         }

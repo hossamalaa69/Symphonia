@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             if (action.matches(PlayBarNotification.CHANNEL_NEXT)) {
                 onTrackNext();
             } else if (action.matches(PlayBarNotification.CHANNEL_PLAY)) {
-                if (MediaController.getController().isMediaPlayerPlaying())
+                if (Utils.currTrack.isPlaying())
                     onTrackPause();
                 else
                     onTrackPlay();

@@ -113,7 +113,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
      */
     @Override
     public void onTrackPlay() {
-        MediaController.getController().resumeMedia();
+
         PlayBarNotification.PlayBarNotification(PlayActivity.this
                 , Utils.currTrack
                 , R.drawable.ic_baseline_pause_24
@@ -129,7 +129,6 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
      */
     @Override
     public void onTrackPause() {
-        MediaController.getController().pauseMedia();
         PlayBarNotification.PlayBarNotification(PlayActivity.this
                 , Utils.currTrack
                 , R.drawable.ic_baseline_play_arrow_24
@@ -170,10 +169,11 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
             if (action.matches(PlayBarNotification.CHANNEL_NEXT)) {
                 onTrackNext();
             } else if (action.matches(PlayBarNotification.CHANNEL_PLAY)) {
-                if (MediaController.getController().isMediaPlayerPlaying())
+               if (!Utils.currTrack.isPlaying())
                     onTrackPause();
-                else
-                    onTrackPlay();
+               else
+                   onTrackPlay();
+
             } else if (action.matches(PlayBarNotification.CHANNEL_PREV)) {
                 onTrackPrev();
             }
@@ -269,6 +269,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
     public void getTrackOfQueue() {
 
     }
+    boolean hardScroll = false;
 
     /**
      * this function is called when track is switched
@@ -277,6 +278,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
      */
     @Override
     public void OnItemSwitchedListener(int pos) {
+        if(hardScroll){hardScroll = false; return;}
         if (Utils.playingContext.getTracks().get(pos).isHidden()) {
             return;
         } else
@@ -303,6 +305,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         intent.setAction(MediaController.ACTION_PLAY);
         Log.e("PlayActivity", "play track");
         startService(intent);
+        onTrackPlay();
         updateScreen();
     }
 
@@ -353,6 +356,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         rvTracks.setLayoutManager(layoutManager);
         adapterPlayActivity = new RvTracksPlayActivityAdapter(this, tracks);
         rvTracks.setAdapter(adapterPlayActivity);
+        hardScroll = true;
         rvTracks.getLayoutManager().scrollToPosition(Utils.getPosInPlaying(Utils.currTrack.getId()));
         // add the recycler view to the snapHelper
         LinearSnapHelper linearSnapHelper = new SnapHelperOneByOne();
@@ -514,6 +518,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         frameLayout.addView(pauseBtn);
         frameLayout.setOnClickListener(playBtnListener);
         if (layoutManager != null) {
+            hardScroll = true;
             rvTracks.getLayoutManager().scrollToPosition(Utils.getPosInPlaying(Utils.currTrack.getId()));
         }
         // change background color according to track image
