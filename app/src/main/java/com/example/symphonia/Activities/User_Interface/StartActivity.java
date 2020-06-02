@@ -54,6 +54,8 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
+
+
         handleIntent();
 
 
@@ -87,6 +89,8 @@ public class StartActivity extends AppCompatActivity {
             Constants.currentUser = new User(email, id, name, type, premium);
             Constants.currentUser.setImageUrl(image);
             Toast.makeText(this, getString(R.string.welcome) + Constants.currentUser.getmEmail(), Toast.LENGTH_SHORT).show();
+
+
 
             //after set last user data, then go to main activity directly
             Intent i = new Intent(this, MainActivity.class);

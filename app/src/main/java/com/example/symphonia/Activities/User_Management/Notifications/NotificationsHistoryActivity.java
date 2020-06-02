@@ -5,11 +5,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Notification;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Adapters.NotificationAdapter;
 import com.example.symphonia.Constants;
 import com.example.symphonia.R;
@@ -175,4 +178,11 @@ public class NotificationsHistoryActivity extends AppCompatActivity implements R
     public void updateUIGetNotifyFailed() {
 
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent setIntent = new Intent(this, MainActivity.class);
+        startActivity(setIntent);
+    }
+
 }

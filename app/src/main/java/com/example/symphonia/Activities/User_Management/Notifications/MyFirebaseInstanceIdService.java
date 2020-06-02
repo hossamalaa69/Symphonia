@@ -57,8 +57,8 @@ public class MyFirebaseInstanceIdService extends FirebaseMessagingService {
             notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
             stackBuilder.addNextIntentWithParentStack(notificationIntent);
-            PendingIntent contentIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-
+            PendingIntent contentIntent = stackBuilder.getPendingIntent(0
+                    , PendingIntent.FLAG_UPDATE_CURRENT);
 
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this,notifyChannelId);
             notificationBuilder.setAutoCancel(true)
