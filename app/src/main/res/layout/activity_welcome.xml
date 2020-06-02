@@ -66,29 +66,20 @@
         app:autoSizeStepGranularity="1sp"
         android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/connectfacebook"
-        android:onClick="goFacebook"
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_below="@id/signup"
+        android:layout_centerHorizontal="true"
         android:layout_width="300dp"
         android:layout_height="55dp"
-        android:layout_below="@+id/signup"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/btn_curved_border_transparent"
-        android:fontFamily="sans-serif"
-        android:text="@string/connect_with_facebook"
-        android:textColor="#FFFFFF"
-        app:autoSizeTextType="uniform"
-        app:autoSizeMinTextSize="8sp"
-        app:autoSizeMaxTextSize="14sp"
-        app:autoSizeStepGranularity="1sp"
-        android:textStyle="bold" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"/>
 
     <Button
         android:id="@+id/login"
         android:layout_width="300dp"
         android:layout_height="55dp"
-        android:layout_below="@+id/connectfacebook"
+        android:layout_below="@+id/login_button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:background="@drawable/btn_transparent"

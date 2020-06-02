@@ -262,4 +262,6 @@
     <string name="notifications">Notifications</string>
     <string name="playlist_not_playing">"playlist not playing now "</string>
 
+    <string name="facebook_app_id">820827945085597</string>
+    <string name="fb_login_protocol_scheme">fb820827945085597</string>
 </resources>

@@ -1,10 +1,14 @@
 package com.example.symphonia.Activities.User_Interface;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -24,6 +28,8 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+
+import java.security.MessageDigest;
 
 import io.reactivex.annotations.NonNull;
 
@@ -54,6 +60,7 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
+        printHashKey(this);
 
 
         handleIntent();
@@ -165,4 +172,18 @@ public class StartActivity extends AppCompatActivity {
         startActivity(a);
     }
 
+    public static void printHashKey(Context context) {
+        try {
+            final PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName()
+                    , PackageManager.GET_SIGNATURES);
+            for (android.content.pm.Signature signature : info.signatures) {
+                final MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                final String hashKey = new String(Base64.encode(md.digest(), 0));
+                Log.i("AppLog", "key:" + hashKey + "=");
+            }
+        } catch (Exception e) {
+            Log.e("AppLog", "error:", e);
+        }
+    }
 }

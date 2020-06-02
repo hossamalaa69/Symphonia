@@ -72,6 +72,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:20.1.6'
     implementation 'androidx.media:media:1.1.0'
 
+    implementation 'com.facebook.android:facebook-login:5.4.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
