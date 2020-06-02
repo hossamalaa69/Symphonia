@@ -68,9 +68,9 @@ public interface APIs {
             , String DOB, String gender, String name);
 
 
-    boolean forgetPassword(final Context context,String email);
+    boolean forgetPassword(final Context context, String email);
 
-    boolean resetPassword(final Context context,final String password,final String token);
+    boolean resetPassword(final Context context, final String password, final String token);
 
     boolean applyArtist(final Context context, final String token);
 
@@ -114,6 +114,7 @@ public interface APIs {
 
     /**
      * get the recent searches of the user
+     *
      * @param context context of the activity
      * @return ArrayList of Container of recent searches
      */
@@ -121,14 +122,16 @@ public interface APIs {
 
     /**
      * get seven or less results of search
-     * @param context context of the activity
-     * @param searchWord  the word which user searched for
+     *
+     * @param context    context of the activity
+     * @param searchWord the word which user searched for
      * @return ArrayList of Container of Container
      */
     ArrayList<Container> getResultsOfSearch(Context context, String searchWord);
 
     /**
      * get a list of user categories
+     *
      * @param context context of the activity
      * @return ArrayList of Category of categories
      */
@@ -136,6 +139,7 @@ public interface APIs {
 
     /**
      * get a lsit of user genres
+     *
      * @param context context of the activity
      * @return ArrayList of Category of genres
      */
@@ -143,7 +147,8 @@ public interface APIs {
 
     /**
      * get a list of artists of the search results
-     * @param context context of the activity
+     *
+     * @param context    context of the activity
      * @param searchWord the word which user searched for
      * @return ArrayList of Container of artists
      */
@@ -151,7 +156,8 @@ public interface APIs {
 
     /**
      * get a list of songs of the search results
-     * @param context context of the activity
+     *
+     * @param context    context of the activity
      * @param searchWord the word which user searched for
      * @return ArrayList of Container of songs
      */
@@ -159,7 +165,8 @@ public interface APIs {
 
     /**
      * get a list of albums of the search results
-     * @param context context of the activity
+     *
+     * @param context    context of the activity
      * @param searchWord the word which user searched for
      * @return ArrayList of Container of albums
      */
@@ -167,7 +174,8 @@ public interface APIs {
 
     /**
      * get a list of genres of the search results
-     * @param context context of the activity
+     *
+     * @param context    context of the activity
      * @param searchWord the word which user searched for
      * @return ArrayList of Container of genres
      */
@@ -175,7 +183,8 @@ public interface APIs {
 
     /**
      * get a list of playlists of the search results
-     * @param context context of the activity
+     *
+     * @param context    context of the activity
      * @param searchWord the word which user searched for
      * @return ArrayList of Container of playlists
      */
@@ -183,7 +192,8 @@ public interface APIs {
 
     /**
      * get a list of profiles of the search results
-     * @param context context of the activity
+     *
+     * @param context    context of the activity
      * @param searchWord the word which user searched for
      * @return ArrayList of Container of profiles
      */
@@ -191,19 +201,22 @@ public interface APIs {
 
     /**
      * ensure that the recent searches won't be returned again
-     * @param context context of the activity
+     *
+     * @param context  context of the activity
      * @param position position of the element which is deleted
      */
     void removeOneRecentSearch(Context context, int position);
 
     /**
-     *ensure to return empty list when recent searches is required
+     * ensure to return empty list when recent searches is required
+     *
      * @param context context of the activity
      */
     void removeAllRecentSearches(Context context);
 
     /**
      * return a list of popular playlists
+     *
      * @param context context of the activity
      * @return a ArrayList of Container of Popular playlists
      */
@@ -211,6 +224,7 @@ public interface APIs {
 
     /**
      * return four popular playlists
+     *
      * @param context context of the activity
      * @return return four popular playlists
      */
@@ -251,8 +265,8 @@ public interface APIs {
      * Get a list of the albums saved in the current user’s ‘Your Music’ library
      *
      * @param listener
-     * @param offset  The index of the first object to return
-     * @param limit   The maximum number of objects to return
+     * @param offset   The index of the first object to return
+     * @param limit    The maximum number of objects to return
      * @return List of saved albums
      */
     ArrayList<Album> getUserSavedAlbums(RestApi.UpdateAlbumsLibrary listener, int offset, int limit);
@@ -261,9 +275,9 @@ public interface APIs {
      * Get the current user’s followed artists
      *
      * @param listener
-     * @param type  true for user and false for artist
-     * @param limit he maximum number of items to return
-     * @param after the last artist ID retrieved from the previous request
+     * @param type     true for user and false for artist
+     * @param limit    he maximum number of items to return
+     * @param after    the last artist ID retrieved from the previous request
      * @return list of followed artists
      */
     ArrayList<Artist> getFollowedArtists(RestApi.UpdateArtistsLibrary listener, String type, int limit, String after);
@@ -281,8 +295,8 @@ public interface APIs {
      * Add the current user as a followers of one or more artists or other users
      *
      * @param context activity context
-     * @param type the type of what will be followed, can be artist or user
-     * @param ids array of users or artists ids
+     * @param type    the type of what will be followed, can be artist or user
+     * @param ids     array of users or artists ids
      */
     void followArtistsOrUsers(Context context, String type, ArrayList<String> ids);
 
@@ -290,8 +304,8 @@ public interface APIs {
      * Remove the current user as a follower of one or more artists or other users
      *
      * @param context activity context
-     * @param type the type of what will be unFollowed, can be artist or user
-     * @param ids array of users or artists ids
+     * @param type    the type of what will be unFollowed, can be artist or user
+     * @param ids     array of users or artists ids
      */
     void unFollowArtistsOrUsers(Context context, String type, ArrayList<String> ids);
 
@@ -301,8 +315,8 @@ public interface APIs {
      * Check to see if the current user is following an artist or more or other users
      *
      * @param context activity context
-     * @param type the type of the checked objects, can be artist or user
-     * @param ids array of users or artists ids
+     * @param type    the type of the checked objects, can be artist or user
+     * @param ids     array of users or artists ids
      * @return array of boolean
      */
     ArrayList<Boolean> isFollowing(Context context, String type, ArrayList<String> ids);
@@ -311,9 +325,9 @@ public interface APIs {
      * Get a list of recommended artist for the current user
      *
      * @param context activity context
-     * @param type artist or user
-     * @param offset the beginning of the items
-     * @param limit the maximum number of items to return
+     * @param type    artist or user
+     * @param offset  the beginning of the items
+     * @param limit   the maximum number of items to return
      * @return list of recommended artists
      */
     ArrayList<Artist> getRecommendedArtists(Context context, String type, int offset, int limit);
@@ -323,7 +337,7 @@ public interface APIs {
      * Get information for a single album.
      *
      * @param context activity context
-     * @param id album id
+     * @param id      album id
      * @return album object
      */
     Album getAlbum(Context context, String id);
@@ -333,9 +347,9 @@ public interface APIs {
      * Optional parameters can be used to limit the number of tracks returned.
      *
      * @param context activity context
-     * @param id album id
-     * @param offset the beginning of the tracks list
-     * @param limit the maximum number of tracks to get
+     * @param id      album id
+     * @param offset  the beginning of the tracks list
+     * @param limit   the maximum number of tracks to get
      * @return array of album tracks
      */
     ArrayList<Track> getAlbumTracks(Context context, String id, int offset, int limit);
@@ -344,7 +358,7 @@ public interface APIs {
      * Save one or more albums to the current user’s ‘Your Music’ library.
      *
      * @param context activity context
-     * @param ids array of albums ids
+     * @param ids     array of albums ids
      */
     void saveAlbumsForUser(Context context, ArrayList<String> ids);
 
@@ -352,7 +366,7 @@ public interface APIs {
      * Remove one or more albums from the current user’s ‘Your Music’ library.
      *
      * @param context activity context
-     * @param ids array of albums ids
+     * @param ids     array of albums ids
      */
     void removeAlbumsForUser(Context context, ArrayList<String> ids);
 
@@ -360,7 +374,7 @@ public interface APIs {
      * Check if one or more albums is already saved in the current user’s ‘Your Music’ library.
      *
      * @param context activity context
-     * @param ids array of albums ids
+     * @param ids     array of albums ids
      * @return array of booleans, true for found and false for not found
      */
     ArrayList<Boolean> checkUserSavedAlbums(Context context, ArrayList<String> ids);
@@ -377,6 +391,7 @@ public interface APIs {
 
     /**
      * get users followers
+     *
      * @param context context of the activity
      * @return arraylist of container of followers
      */
@@ -388,26 +403,31 @@ public interface APIs {
     boolean getNotificationHistory(final Context context, final String token);
 
 
-    ArrayList<Container>getProfileFollowers(Context context);
+    ArrayList<Container> getProfileFollowers(Context context);
+
     /**
      * get users who current user follow them
+     *
      * @param context context of the activity
      * @return arraylist of container of users who follow the current user
      */
-    ArrayList<Container>getProfileFollowing(Context context);
+    ArrayList<Container> getProfileFollowing(Context context);
 
     /**
      * get current user profile
-     * @param context context of the activity
+     *
+     * @param context          context of the activity
      * @param settingsFragment the fragment which called this function
      * @return user profile
      */
     Profile getCurrentUserProfile(Context context, SettingsFragment settingsFragment);
 
     int getNumberOfLikedSongs(RestApi.UpdateLikedSongsNumber listener);
+
     /**
-     *get current user playlists
-     * @param context context of the activity
+     * get current user playlists
+     *
+     * @param context         context of the activity
      * @param fragmentProfile the fragment which called this function
      * @return ArrayList of Container of User's playlists
      */
@@ -415,7 +435,8 @@ public interface APIs {
 
     /**
      * get users who the current user follow
-     * @param context context of the activity
+     *
+     * @param context                  context of the activity
      * @param profileFollowersFragment the fragment which called this function
      * @return ArrayList of Container current user following
      */
@@ -423,7 +444,8 @@ public interface APIs {
 
     /**
      * get a list of current user followers
-     * @param context context of the activity
+     *
+     * @param context                  context of the activity
      * @param profileFollowersFragment the fragment the function is called from
      * @return ArrayList of Container of Followers
      */
@@ -431,7 +453,8 @@ public interface APIs {
 
     /**
      * get number of user followers
-     * @param context context of the activity
+     *
+     * @param context         context of the activity
      * @param fragmentProfile the fragment the function is called from
      * @return string of the number of followers
      */
@@ -439,7 +462,8 @@ public interface APIs {
 
     /**
      * get number of users that user follow
-     * @param context context of the activity
+     *
+     * @param context         context of the activity
      * @param fragmentProfile the fragment the function is called from
      * @return string of the number of following
      */
@@ -447,14 +471,17 @@ public interface APIs {
 
     /**
      * get number of playlists of current user
-     * @param context context of the activity
+     *
+     * @param context         context of the activity
      * @param fragmentProfile the fragment the function is called from
      * @return string of the number of playlists
      */
-    String getNumberofUserPlaylists(Context context,FragmentProfile fragmentProfile);
+    String getNumberofUserPlaylists(Context context, FragmentProfile fragmentProfile);
+
     /**
      * get current user playlists
-     * @param context context of the activity
+     *
+     * @param context                  context of the activity
      * @param profilePlaylistsFragment the fragment the function is called from
      * @return current user playlists
      */
@@ -462,39 +489,50 @@ public interface APIs {
 
     /**
      * follow playlist
-     * @param context context of the activity
+     *
+     * @param context                  context of the activity
      * @param bottomSheetDialogProfile the fragment the function is called from
      */
     void followPlaylist(Context context, BottomSheetDialogProfile bottomSheetDialogProfile);
 
     /**
      * get number of artists in search result
+     *
      * @return int artists Count
      */
     int getArtistsCount();
 
     /**
      * get number of profiles in search result
+     *
      * @return int profiles Count
      */
     int getProfilessCount();
+
     /**
      * get number of playlists in search result
+     *
      * @return int playlists Count
      */
     int getPlaylistsCount();
+
     /**
      * get number of genres in search result
+     *
      * @return int genresCount
      */
     int getGenresCount();
+
     /**
      * get number of songs in search result
+     *
      * @return int songs Count
      */
     int getSongsCount();
+
     /**
      * get number of albums in search result
+     *
      * @return int albums Count
      */
     int getAlbumsCount();
@@ -512,7 +550,7 @@ public interface APIs {
     /**
      * this function initialize the request to stream music
      *
-     * @param context      context of current activity
+     * @param context context of current activity
      */
     void playTrack(Context context);
 
@@ -522,12 +560,12 @@ public interface APIs {
 
     void saveTrack(Context context, String id);
 
-    public void getTrack(Context context, String id);
+    void getTrack(Context context, String id);
 
     /**
      * this function initialize the request to stream music
      *
-     * @param context      context of current activity
+     * @param context context of current activity
      */
     void getCurrPlaying(Context context);
 

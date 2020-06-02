@@ -65,6 +65,7 @@ import retrofit2.Callback;
 public class RestApi implements APIs {
 
     private boolean finishedUnFollowing = true;
+    private Bitmap image;
 
     /**
      * holds logging user in, creation of user object and sets token
@@ -146,13 +147,6 @@ public class RestApi implements APIs {
         return true;
     }
 
-
-    public interface updateUiLogin {
-        void updateUiLoginSuccess();
-
-        void updateUiLoginFail(String reason);
-    }
-
     /**
      * checks if email is already signed in database or not
      *
@@ -201,12 +195,6 @@ public class RestApi implements APIs {
         return true;
     }
 
-    public interface updateUiEmailValidity {
-        void updateUiEmailValiditySuccess();
-
-        void updateUiEmailValidityFail(String type);
-    }
-
     @Override
     public boolean forgetPassword(final Context context, final String email) {
         final updateUIForgetPassword updateUIforgetpassword = (updateUIForgetPassword) context;
@@ -238,13 +226,6 @@ public class RestApi implements APIs {
         };
         VolleySingleton.getInstance(context).getRequestQueue().add(stringrequest);
         return true;
-    }
-
-
-    public interface updateUIForgetPassword {
-        void updateUIForgetPasswordSuccess();
-
-        void updateUIForgetPasswordFailed();
     }
 
     /**
@@ -324,54 +305,6 @@ public class RestApi implements APIs {
         return true;
     }
 
-    public interface updateUiSignUp {
-        void updateUiSignUpSuccess();
-
-        void updateUiSignUpFailed();
-    }
-
-
-    /**
-     * this interface includes listeners to update ui
-     */
-    public interface updateUiPlaylists {
-        void getCategoriesSuccess();
-
-        void getCurrPlayingTrackSuccess(String id);
-
-        void getCurrPlayingTrackFailed();
-
-        void updateUiNoTracks(PlaylistFragment playlistFragment);
-
-        void updateUiGetTracksOfPlaylist(PlaylistFragment playlistFragment);
-
-        void updateUicheckSaved(PlaylistFragment playlistFragment);
-
-        void updateUiGetPopularPlaylistsSuccess();
-
-        void updateUiGetPopularPlaylistsFail();
-
-        void updateUiGetRandomPlaylistsSuccess(HomeFragment homeFragment);
-
-        void updateUiGetRandomPlaylistsFail();
-
-        void updateUiGetRecentPlaylistsSuccess(HomeFragment homeFragment);
-
-        void updateUiGetRecentPlaylistsFail();
-
-        void updateUiGetMadeForYouPlaylistsSuccess();
-
-        void updateUiGetMadeForYouPlaylistsFail();
-
-        void updateUiPlayTrack();
-
-        void getTrackSuccess();
-
-        void updateUiGetQueue();
-
-        void getTrackOfQueue();
-    }
-
     /**
      * getter for popular playlist
      *
@@ -432,8 +365,6 @@ public class RestApi implements APIs {
         return popularPlaylists;
     }
 
-    private Bitmap image;
-
     private Bitmap fetchImage(final Context context, String url) {
         ImageRequest request = new ImageRequest(url,
                 new Response.Listener<Bitmap>() {
@@ -481,7 +412,7 @@ public class RestApi implements APIs {
                         String id = playlist.getString("_id");
                         JSONObject tracks = playlist.getJSONObject("tracks");
                         String tracksUrl = tracks.getString("href");
-                        madeForYouPlaylists.add(new com.example.symphonia.Entities.Context(title, id, decs, imageUrl, null, tracksUrl,type));
+                        madeForYouPlaylists.add(new com.example.symphonia.Entities.Context(title, id, decs, imageUrl, null, tracksUrl, type));
                         listener.updateUiGetMadeForYouPlaylistsSuccess();
 
                     }
@@ -512,7 +443,6 @@ public class RestApi implements APIs {
         return madeForYouPlaylists;
     }
 
-
     /**
      * getter for recently-player playlist
      *
@@ -542,7 +472,7 @@ public class RestApi implements APIs {
                         String imageUrl = playlist.getString("contextImage");
                         String id = playlist.getString("contextId");
                         Utils.LoadedPlaylists.recentPlaylists.add(new com.example.symphonia.Entities.Context(title, id, decs, imageUrl,
-                                null, Constants.BASE_URL + Constants.GET_PLAYLISTS_TRACKS + id + "/tracks",type));
+                                null, Constants.BASE_URL + Constants.GET_PLAYLISTS_TRACKS + id + "/tracks", type));
                     }
                     Log.e("recent", "success");
                     listener.updateUiGetRecentPlaylistsSuccess(fragment);
@@ -554,7 +484,7 @@ public class RestApi implements APIs {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("recent", "error");
-                Toast.makeText(context.getApplicationContext(),"failed to get playlists, please refresh",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context.getApplicationContext(), "failed to get playlists, please refresh", Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
@@ -574,7 +504,6 @@ public class RestApi implements APIs {
         VolleySingleton.getInstance(context).getRequestQueue().add(request);
         return recentPlaylists;
     }
-
 
     /**
      * getter for random playlist
@@ -605,7 +534,7 @@ public class RestApi implements APIs {
                         JSONArray images = playlist.getJSONArray("images");
                         String imageUrl = (String) images.get(0);
                         Utils.LoadedPlaylists.randomPlaylists.add(new com.example.symphonia.Entities.Context(title, id, "", imageUrl,
-                                null, Constants.BASE_URL + Constants.GET_PLAYLISTS_TRACKS + id + "/tracks",type));
+                                null, Constants.BASE_URL + Constants.GET_PLAYLISTS_TRACKS + id + "/tracks", type));
                     }
                     Log.e("rand", "success");
                     listener.updateUiGetRandomPlaylistsSuccess(homeFragment);
@@ -616,7 +545,7 @@ public class RestApi implements APIs {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context.getApplicationContext(),"failed to get playlists, please refresh",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context.getApplicationContext(), "failed to get playlists, please refresh", Toast.LENGTH_SHORT).show();
                 Log.e("rand", "error");
             }
         });
@@ -695,11 +624,14 @@ public class RestApi implements APIs {
                     obj = new JSONObject(response);
                     JSONObject data = obj.getJSONObject("data");
                     String link = data.getString("currentTrack");
-                    if (!link.matches("null"))
+                    if (!link.matches("null")){
                         listener.getCurrPlayingTrackSuccess(link.split("tracks/")[1]);
-                    else
+                        Log.e("curr playing", "success");}
+                    else {
                         listener.getCurrPlayingTrackFailed();
-                    Log.e("curr playing", "success");
+                        Log.e("curr playing", "failed");
+                    }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                     listener.getCurrPlayingTrackFailed();
@@ -743,6 +675,10 @@ public class RestApi implements APIs {
                             String contextType = data.getString("contextType");
                             if (contextType.matches("playlist")) {
                                 getTracksOfPlaylist(context, contextId, null);
+                                break;
+                            }
+                            else if (contextType.matches("album")){
+                                getTracksOfAlbum(context,contextId);
                                 break;
                             }
                         }
@@ -864,7 +800,6 @@ public class RestApi implements APIs {
             public void onErrorResponse(VolleyError error) {
                 Log.e("remove saved tracks", "error");
                 Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
-
             }
         }) {
             @Override
@@ -889,7 +824,10 @@ public class RestApi implements APIs {
                 try {
                     obj = new JSONArray(response);
                     for (int i = 0; i < obj.length(); i++) {
+                        if(Utils.displayedContext!= null)
                         Utils.displayedContext.getTracks().get(i).setLiked((boolean) obj.get(i));
+                        else
+                            Utils.playingContext.getTracks().get(i).setLiked((boolean) obj.get(i));
                     }
                     listener.updateUicheckSaved(playlistFragment);
                     Log.e("check saved tracks", "success");
@@ -989,6 +927,9 @@ public class RestApi implements APIs {
                             }
                         }
                         Utils.currTrack = new Track(name, artistName, albumName, id, premium, 0, durationMS, imageUrl, null, context_id);
+                        Utils.playingContext = new com.example.symphonia.Entities.Context();
+                        Utils.playingContext.setId(context_id);
+                        Utils.playingContext.setContextType((album != null) ? "album" : "playlist");
                         listener.getTrackSuccess();
                     }
                     Log.e("curr playing", "success");
@@ -1051,10 +992,9 @@ public class RestApi implements APIs {
                         tracksList.add(new Track(title, artistName, Utils.displayedContext.getmContextTitle()
                                 , id, (premium.matches("true")), R.drawable.no_image, duration, imageUrl, albumId, Utils.displayedContext.getId()));
                     }
-                    Utils.displayedContext.setTracks(tracksList);
                     Log.e("tracks", "success");
                     if (playlistFragment != null)
-                        listener.updateUiGetTracksOfPlaylist(playlistFragment);
+                        listener.updateUiGetTracksOfPlaylist(playlistFragment,tracksList);
                     else
                         listener.updateUiGetQueue();
                 } catch (JSONException e) {
@@ -1135,7 +1075,6 @@ public class RestApi implements APIs {
         return categoriesList;
     }
 
-
     /**
      * get genres for the current user
      *
@@ -1146,15 +1085,6 @@ public class RestApi implements APIs {
     public ArrayList<Category> getGenres(Context context) {
         return null;
     }
-
-   /*
-    public interface updateUigetGenres {
->>>>>>> 598a3dc644c95c2e4a950f5d68f49279662ee492
-        void updateUigetGenresSuccess();
-
-        void updateUigetGenresFail();
-    }*/
-
 
     @Override
     public ArrayList<Container> getArtists(Context context, String searchWord) {
@@ -1180,6 +1110,14 @@ public class RestApi implements APIs {
     public ArrayList<Container> getPlaylists(Context context, String searchWord) {
         return null;
     }
+
+   /*
+    public interface updateUigetGenres {
+>>>>>>> 598a3dc644c95c2e4a950f5d68f49279662ee492
+        void updateUigetGenresSuccess();
+
+        void updateUigetGenresFail();
+    }*/
 
     @Override
     public ArrayList<Container> getProfiles(Context context, String searchWord) {
@@ -1277,10 +1215,6 @@ public class RestApi implements APIs {
         return null;
     }
 
-    public interface UpdatePlaylist {
-        void updatePlaylist(Playlist playlist);
-    }
-
     /**
      * Get a list of the albums saved in the current user’s ‘Your Music’ library
      *
@@ -1341,10 +1275,6 @@ public class RestApi implements APIs {
         return savedAlbums;
     }
 
-    public interface UpdateAlbumsLibrary {
-        void updateAlbums(ArrayList<Album> returnedAlbums);
-    }
-
     @Override
     public ArrayList<Playlist> getCurrentUserPlaylists(final UpdatePlaylistsLibrary listener, int offset, int limit) {
 
@@ -1394,10 +1324,6 @@ public class RestApi implements APIs {
 
         VolleySingleton.getInstance(App.getContext()).getRequestQueue().add(request);
         return returnedPlaylists;
-    }
-
-    public interface UpdatePlaylistsLibrary {
-        void updatePlaylists(ArrayList<Playlist> returnedPlaylists);
     }
 
     @Override
@@ -1453,10 +1379,6 @@ public class RestApi implements APIs {
         return returnedTracks;
     }
 
-    public interface UpdateSavedTracks {
-        void updateTracks(ArrayList<Track> returnedTracks);
-    }
-
     @Override
     public ArrayList<Track> getRecommendedTracks(final RestApi.UpdateExtraSongs listener, int offset, int limit) {
         final ArrayList<Track> returnedTracks = new ArrayList<>();
@@ -1510,10 +1432,6 @@ public class RestApi implements APIs {
         return returnedTracks;
     }
 
-    public interface UpdateExtraSongs {
-        void updateExtra(ArrayList<Track> returnedTracks);
-    }
-
     @Override
     public int getOwnedPlaylistsNumber(Context context) {
 
@@ -1553,11 +1471,6 @@ public class RestApi implements APIs {
         VolleySingleton.getInstance(App.getContext()).getRequestQueue().add(request);
         return 0;
     }
-
-    public interface UpdatePlaylistsNumber {
-        void updateNumber(int number);
-    }
-
 
     /**
      * Get the current user’s followed artists
@@ -1613,10 +1526,6 @@ public class RestApi implements APIs {
         };
         VolleySingleton.getInstance(App.getContext()).getRequestQueue().add(request);
         return followedArtists;
-    }
-
-    public interface UpdateArtistsLibrary {
-        void updateArtists(ArrayList<Artist> returnedArtists);
     }
 
     /**
@@ -1751,10 +1660,6 @@ public class RestApi implements APIs {
             }
         });
 
-    }
-
-    public interface UpdateCreatePlaylist {
-        void createdSuccessfully(Playlist createdPlaylist);
     }
 
     /**
@@ -1898,24 +1803,6 @@ public class RestApi implements APIs {
         return false;
     }
 
-    public interface updateUIGetNotify {
-        void updateUIGetNotifySuccess(JSONObject root);
-
-        void updateUIGetNotifyFailed();
-    }
-
-    public interface updateUICheckPremium {
-        void updateUICheckPremiumSuccess();
-
-        void updateUICheckPremiumFailed();
-    }
-
-    public interface updateUIPromotePremium {
-        void updateUIPromotePremiumSuccess();
-
-        void updateUIPromotePremiumFailed();
-    }
-
     @Override
     public boolean resetPassword(final Context context, final String password, final String token) {
         final updateUIResetPassword updateuiResetPassword = (updateUIResetPassword) context;
@@ -2033,18 +1920,6 @@ public class RestApi implements APIs {
         return true;
     }
 
-    public interface updateUIApplyArtist {
-        void updateUIApplyArtistSuccess();
-
-        void updateUIApplyArtistFailed();
-    }
-
-    public interface updateUIResetPassword {
-        void updateUIResetSuccess();
-
-        void updateUIResetFailed();
-    }
-
     /**
      * Check to see if the current user is following an artist or more or other users
      *
@@ -2128,13 +2003,6 @@ public class RestApi implements APIs {
         return recommendedArtists;
     }
 
-    public interface UpdateAddArtists {
-        void updateGetRecommendedArtists(ArrayList<Artist> returnedArtists);
-
-        void updateFail(int offset, int limit);
-    }
-
-
     /**
      * Get information about artists similar to a given artist.
      *
@@ -2205,13 +2073,6 @@ public class RestApi implements APIs {
         return result;
     }
 
-    public interface UpdateSearchArtists {
-        void updateSuccess(ArrayList<Artist> result, String q);
-
-        void updateFail(String q, int offset, int limit);
-    }
-
-
     /**
      * Get information for a single album.
      *
@@ -2224,6 +2085,50 @@ public class RestApi implements APIs {
         return null;
     }
 
+
+    public ArrayList<Track> getTracksOfAlbum(Context context, String id) {
+        final updateUiPlaylists listener = (updateUiPlaylists) context;
+        final ArrayList<Track> tracksList = new ArrayList<>();
+        final StringRequest request = new StringRequest(Request.Method.GET
+                , Constants.GET_ALBUM_TRACKS.concat(id).concat("/tracks"), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    Log.e("tracks", "respond");
+                    Utils.LoadedPlaylists.randomPlaylists = new ArrayList<>();
+                    JSONObject root = new JSONObject(response);
+                    JSONObject tracks = root.getJSONObject("tracks");
+                    JSONArray items = tracks.getJSONArray("items");
+                    for (int i = 0; i < items.length(); i++) {
+                        JSONObject track = items.getJSONObject(i);
+                        String title = track.getString("name");
+                        String id = track.getString("_id");
+                        JSONObject album = track.getJSONObject("album");
+                        String imageUrl = album.optString("image");
+                        String albumId = album.getString("_id");
+                        String albumName = album.getString("name");
+                        JSONObject artist = track.getJSONObject("artist");
+                        String artistName = artist.getString("name");
+                        int duration = track.getInt("durationMs");
+                        String premium = track.getString("premium");
+                        tracksList.add(new Track(title, artistName, albumName
+                                , id, (premium.matches("true")), R.drawable.no_image, duration, imageUrl, albumId));
+                    }
+                    listener.updateUiGetTracksOfPlaylist(null, tracksList);
+                    Log.e("tracks", "success");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("tracks", "error");
+            }
+        });
+        VolleySingleton.getInstance(context).getRequestQueue().add(request);
+        return tracksList;
+    }
     /**
      * Get information about an album’s tracks.
      * Optional parameters can be used to limit the number of tracks returned.
@@ -2311,7 +2216,6 @@ public class RestApi implements APIs {
         return null;
     }
 
-
     @Override
     public ArrayList<Container> getProfileFollowers(Context context) {
         return null;
@@ -2321,7 +2225,6 @@ public class RestApi implements APIs {
     public ArrayList<Container> getProfileFollowing(Context context) {
         return null;
     }
-
 
     /**
      * make request to get current user profile
@@ -2407,10 +2310,6 @@ public class RestApi implements APIs {
         return 0;
     }
 
-    public interface UpdateLikedSongsNumber {
-        void updateNumber(int noOfTracks);
-    }
-
     /**
      * make request to get current user playlists
      *
@@ -2464,48 +2363,6 @@ public class RestApi implements APIs {
         return playlists;
 
     }
-
-    /*private Container getPlaylist(Context context,String s){
-        StringRequest stringRequest = new StringRequest(Request.Method.GET,Constants.Get_playlist+"/"+s
-                ,new Response.Listener<String>() {
-||||||| 0fb18ee
-    private Container getPlaylist(Context context,String s){
-        StringRequest stringRequest = new StringRequest(Request.Method.GET,Constants.Get_playlist+"/"+s
-                ,new Response.Listener<String>() {
-=======
-    private Container getPlaylist(Context context, String s) {
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constants.Get_playlist + "/" + s
-                , new Response.Listener<String>() {
->>>>>>> cec5f31be5ee509f21ce7e00c479917d08c0bf77
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                } catch (Exception e) {
-                    e.fillInStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("Profile", "" + error.getMessage());
-            }
-        }) {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + Constants.currentToken);
-                return headers;
-            }
-        };
-
-
-        VolleySingleton.getInstance(context).getRequestQueue().add(stringRequest);
-        Container container = new Container("ava", Utils.convertToBitmap(R.drawable.amr));
-        return container;
-
-    }*/
 
     /**
      * make request to get users who the current user follow
@@ -2827,39 +2684,226 @@ public class RestApi implements APIs {
         return 0;
     }
 
+    public interface updateUiLogin {
+        void updateUiLoginSuccess();
+
+        void updateUiLoginFail(String reason);
+    }
+
+    public interface updateUiEmailValidity {
+        void updateUiEmailValiditySuccess();
+
+        void updateUiEmailValidityFail(String type);
+    }
+
+
+    public interface updateUIForgetPassword {
+        void updateUIForgetPasswordSuccess();
+
+        void updateUIForgetPasswordFailed();
+    }
+
+    public interface updateUiSignUp {
+        void updateUiSignUpSuccess();
+
+        void updateUiSignUpFailed();
+    }
+
+
+    /**
+     * this interface includes listeners to update ui
+     */
+    public interface updateUiPlaylists {
+        void getCategoriesSuccess();
+
+        void getCurrPlayingTrackSuccess(String id);
+
+        void getCurrPlayingTrackFailed();
+
+        void updateUiNoTracks(PlaylistFragment playlistFragment);
+
+        void updateUiGetTracksOfPlaylist(PlaylistFragment playlistFragment, ArrayList<Track> tracksList);
+
+        void updateUicheckSaved(PlaylistFragment playlistFragment);
+
+        void updateUiGetPopularPlaylistsSuccess();
+
+        void updateUiGetPopularPlaylistsFail();
+
+        void updateUiGetRandomPlaylistsSuccess(HomeFragment homeFragment);
+
+        void updateUiGetRandomPlaylistsFail();
+
+        void updateUiGetRecentPlaylistsSuccess(HomeFragment homeFragment);
+
+        void updateUiGetRecentPlaylistsFail();
+
+        void updateUiGetMadeForYouPlaylistsSuccess();
+
+        void updateUiGetMadeForYouPlaylistsFail();
+
+        void updateUiPlayTrack();
+
+        void getTrackSuccess();
+
+        void updateUiGetQueue();
+
+        void getTrackOfQueue();
+    }
+
+    public interface UpdatePlaylist {
+        void updatePlaylist(Playlist playlist);
+    }
+
+    public interface UpdateAlbumsLibrary {
+        void updateAlbums(ArrayList<Album> returnedAlbums);
+    }
+
+    public interface UpdatePlaylistsLibrary {
+        void updatePlaylists(ArrayList<Playlist> returnedPlaylists);
+    }
+
+    /*private Container getPlaylist(Context context,String s){
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,Constants.Get_playlist+"/"+s
+                ,new Response.Listener<String>() {
+||||||| 0fb18ee
+    private Container getPlaylist(Context context,String s){
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,Constants.Get_playlist+"/"+s
+                ,new Response.Listener<String>() {
+=======
+    private Container getPlaylist(Context context, String s) {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constants.Get_playlist + "/" + s
+                , new Response.Listener<String>() {
+>>>>>>> cec5f31be5ee509f21ce7e00c479917d08c0bf77
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                } catch (Exception e) {
+                    e.fillInStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Profile", "" + error.getMessage());
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + Constants.currentToken);
+                return headers;
+            }
+        };
+
+
+        VolleySingleton.getInstance(context).getRequestQueue().add(stringRequest);
+        Container container = new Container("ava", Utils.convertToBitmap(R.drawable.amr));
+        return container;
+
+    }*/
+
+    public interface UpdateSavedTracks {
+        void updateTracks(ArrayList<Track> returnedTracks);
+    }
+
+    public interface UpdateExtraSongs {
+        void updateExtra(ArrayList<Track> returnedTracks);
+    }
+
+    public interface UpdatePlaylistsNumber {
+        void updateNumber(int number);
+    }
+
+    public interface UpdateArtistsLibrary {
+        void updateArtists(ArrayList<Artist> returnedArtists);
+    }
+
+    public interface UpdateCreatePlaylist {
+        void createdSuccessfully(Playlist createdPlaylist);
+    }
+
+    public interface updateUIGetNotify {
+        void updateUIGetNotifySuccess(JSONObject root);
+
+        void updateUIGetNotifyFailed();
+    }
+
+    public interface updateUICheckPremium {
+        void updateUICheckPremiumSuccess();
+
+        void updateUICheckPremiumFailed();
+    }
+
+    public interface updateUIPromotePremium {
+        void updateUIPromotePremiumSuccess();
+
+        void updateUIPromotePremiumFailed();
+    }
+
+    public interface updateUIApplyArtist {
+        void updateUIApplyArtistSuccess();
+
+        void updateUIApplyArtistFailed();
+    }
+
+    public interface updateUIResetPassword {
+        void updateUIResetSuccess();
+
+        void updateUIResetFailed();
+    }
+
+    public interface UpdateAddArtists {
+        void updateGetRecommendedArtists(ArrayList<Artist> returnedArtists);
+
+        void updateFail(int offset, int limit);
+    }
+
+    public interface UpdateSearchArtists {
+        void updateSuccess(ArrayList<Artist> result, String q);
+
+        void updateFail(String q, int offset, int limit);
+    }
+
+    public interface UpdateLikedSongsNumber {
+        void updateNumber(int noOfTracks);
+    }
+
 
     /**
      * update ui in the profile fragment
      */
     public interface updateUiProfileInProfileFragment {
-        public void getCurrentProfilePlaylists(ArrayList<Container> playlists, FragmentProfile fragmentProfile);
+        void getCurrentProfilePlaylists(ArrayList<Container> playlists, FragmentProfile fragmentProfile);
 
-        public void getCurrentUserFollowingNumber(String f, FragmentProfile fragmentProfile);
+        void getCurrentUserFollowingNumber(String f, FragmentProfile fragmentProfile);
 
-        public void getCurrentUserFollowersNumber(String s, FragmentProfile fragmentProfile);
+        void getCurrentUserFollowersNumber(String s, FragmentProfile fragmentProfile);
     }
 
     /**
      * update ui of profile in settings fragment
      */
     public interface updateUiProfileInSetting {
-        public void getCurrentProfile(Profile profile, SettingsFragment settingsFragment);
+        void getCurrentProfile(Profile profile, SettingsFragment settingsFragment);
     }
 
     /**
      * update ui in profileplaylistfragmnet
      */
     public interface updateProfilePlaylists {
-        public void getAllUserPlaylists(ArrayList<Container> p, ProfilePlaylistsFragment profilePlaylistsFragment);
+        void getAllUserPlaylists(ArrayList<Container> p, ProfilePlaylistsFragment profilePlaylistsFragment);
     }
 
     /**
      * update follow and ujnfollow
      */
     public interface updateProfileFollow {
-        public void getUserFollowers(ArrayList<Container> f, ProfileFollowersFragment profileFollowersFragment);
+        void getUserFollowers(ArrayList<Container> f, ProfileFollowersFragment profileFollowersFragment);
 
-        public void getUserFollowing(ArrayList<Container> f, ProfileFollowersFragment profileFollowersFragment);
+        void getUserFollowing(ArrayList<Container> f, ProfileFollowersFragment profileFollowersFragment);
 
     }
 

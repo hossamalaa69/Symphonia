@@ -199,7 +199,7 @@ public class MockService implements APIs {
                 , Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), false));
         mPopularContext.add(new com.example.symphonia.Entities.Context("mood booster",
                 "Get happy with this pick-up playlist full of current feel-good songs",
-                Utils.convertToBitmap(R.drawable.mood_booster), tracks,"playlist"));
+                Utils.convertToBitmap(R.drawable.mood_booster), tracks, "playlist"));
 
         mRecentContext = new ArrayList<com.example.symphonia.Entities.Context>();
         ArrayList<Track> rTracks = new ArrayList<Track>();

@@ -21,17 +21,17 @@ public class VolleySingleton {
      */
     private static VolleySingleton instance;
     /**
+     * context of activity that calls request
+     */
+    private static Context ctx;
+    /**
      * queue that holds all requests
      */
     private RequestQueue requestQueue;
 
     /**
-     * context of activity that calls request
-     */
-    private static Context ctx;
-
-    /**
      * constructor of volley singleton
+     *
      * @param context holds context of activity that calls request
      */
     private VolleySingleton(Context context) {
@@ -42,6 +42,7 @@ public class VolleySingleton {
     /**
      * initializes an instance of volley singleton,
      * synchronized to prevent making many treads for same request
+     *
      * @param context context of activity to call request
      * @return returns an instance
      */
@@ -54,6 +55,7 @@ public class VolleySingleton {
 
     /**
      * getter for queue of requests
+     *
      * @return returns requests queue
      */
     public RequestQueue getRequestQueue() {
@@ -65,6 +67,7 @@ public class VolleySingleton {
 
     /**
      * adds new request to queue
+     *
      * @param req holds request to be added
      * @param <T> template type for method
      */

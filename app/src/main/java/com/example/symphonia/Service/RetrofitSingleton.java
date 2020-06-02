@@ -11,16 +11,16 @@ public class RetrofitSingleton {
     private static RetrofitSingleton instance = null;
     private RetrofitApi retrofitApi;
 
+    private RetrofitSingleton() {
+        buildRetrofit();
+    }
+
     public static RetrofitSingleton getInstance() {
         if (instance == null) {
             instance = new RetrofitSingleton();
         }
 
         return instance;
-    }
-
-    private RetrofitSingleton() {
-        buildRetrofit();
     }
 
     private void buildRetrofit() {

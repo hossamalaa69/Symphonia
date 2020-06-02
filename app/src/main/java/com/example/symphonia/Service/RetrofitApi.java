@@ -1,17 +1,13 @@
 package com.example.symphonia.Service;
 
-import com.example.symphonia.Constants;
 import com.google.gson.JsonObject;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
@@ -29,11 +25,11 @@ public interface RetrofitApi {
     @PATCH("api/v1/users/resetpassword/{token}")
     Call<JsonObject> resetPassword(
             @Path("token") String token
-            , @Body Map<String,String> passwords
+            , @Body Map<String, String> passwords
     );
 
     @PATCH("api/v1/users/activate/{token}")
-    Call <JsonObject> applyArtist(@Path("token") String token);
+    Call<JsonObject> applyArtist(@Path("token") String token);
 
     @POST("api/v1/users/{id}/playlists")
     Call<JsonObject> createPlaylist(
@@ -46,7 +42,7 @@ public interface RetrofitApi {
     Call<JsonObject> getPlaylist(@Path("id") String id);
 
     @POST("api/v1/me/apply-premium")
-    Call<JsonObject> promotePrem(@HeaderMap Map<String,String> headers);
+    Call<JsonObject> promotePrem(@HeaderMap Map<String, String> headers);
 
     @PATCH("api/v1/me/premium/{token}")
     Call<JsonObject> checkPremiumToken(@Path("token") String token);
@@ -54,10 +50,10 @@ public interface RetrofitApi {
     @PATCH("api/v1/me/registration-token")
     Call<JsonObject> sendRegisterToken(
             @HeaderMap Map<String, String> headers,
-            @Body Map<String,String> body
+            @Body Map<String, String> body
     );
 
     @GET("api/v1/me/notifications")
-    Call<JsonObject> getNotifications(@HeaderMap Map<String,String> headers);
+    Call<JsonObject> getNotifications(@HeaderMap Map<String, String> headers);
 
 }

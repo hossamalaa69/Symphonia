@@ -19,8 +19,6 @@ import androidx.annotation.Nullable;
 import com.example.symphonia.Helpers.Utils;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * this class controls media player
@@ -30,59 +28,15 @@ import java.util.Map;
  */
 public class MediaController extends Service implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener {
     public static final String ACTION_PLAY = "com.example.action.PLAY";
-    private static MediaPlayer mediaPlayer = null;
-    private static MediaPlayer.OnCompletionListener onCompletionListener;
-    private static AudioManager audioManager;
-    private static WifiManager.WifiLock wifiLock;
-
-    public  interface OnStartListener{
-        void onStartListener();
-    }
-    static OnStartListener listener;
-    public static void addListener(Context context){
-        listener = (OnStartListener) context;
-    }
-    /**
-     * setter for completion listener
-     *
-     * @param onCompletionListener listener to be added to media player
-     */
-    public static void setOnCompletionListener(MediaPlayer.OnCompletionListener onCompletionListener) {
-        MediaController.onCompletionListener = onCompletionListener;
-    }
-
     /**
      * static instance of class
      */
     private static final MediaController controller = new MediaController();
-
-    /**
-     * getter for class instance
-     *
-     * @return instance of class @MediaController
-     */
-    public static MediaController getController() {
-        return controller;
-    }
-
-    /**
-     * setter for media player completion listener
-     */
-    public void setMediaPlayCompletionService() {
-        if (mediaPlayer != null)
-            mediaPlayer.setOnCompletionListener(onCompletionListener);
-    }
-
-    /**
-     * check if media is null
-     *
-     * @return if media is null
-     */
-    public boolean isMediaNotNull() {
-        return mediaPlayer != null;
-    }
-
-
+    static OnStartListener listener;
+    private static MediaPlayer mediaPlayer = null;
+    private static MediaPlayer.OnCompletionListener onCompletionListener;
+    private static AudioManager audioManager;
+    private static WifiManager.WifiLock wifiLock;
     /**
      * listener of focus of audio
      */
@@ -113,6 +67,46 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
         }
 
     };
+    private Toast toast;
+
+    public static void addListener(Context context) {
+        listener = (OnStartListener) context;
+    }
+
+    /**
+     * setter for completion listener
+     *
+     * @param onCompletionListener listener to be added to media player
+     */
+    public static void setOnCompletionListener(MediaPlayer.OnCompletionListener onCompletionListener) {
+        MediaController.onCompletionListener = onCompletionListener;
+    }
+
+    /**
+     * getter for class instance
+     *
+     * @return instance of class @MediaController
+     */
+    public static MediaController getController() {
+        return controller;
+    }
+
+    /**
+     * setter for media player completion listener
+     */
+    public void setMediaPlayCompletionService() {
+        if (mediaPlayer != null)
+            mediaPlayer.setOnCompletionListener(onCompletionListener);
+    }
+
+    /**
+     * check if media is null
+     *
+     * @return if media is null
+     */
+    public boolean isMediaNotNull() {
+        return mediaPlayer != null;
+    }
 
     @Nullable
     @Override
@@ -173,9 +167,9 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
             Log.e("media", "init");
 
             if (!Constants.DEBUG_STATUS) {
-                 Log.e("media", "setting data resource");
+                Log.e("media", "setting data resource");
                 mediaPlayer.setDataSource(getApplicationContext(),
-                        Uri.parse(Constants.PLAY_TRACK +Utils.currTrack.getId()+"/"+ Utils.CurrTrackInfo.trackTocken));
+                        Uri.parse(Constants.PLAY_TRACK + Utils.currTrack.getId() + "/" + Utils.CurrTrackInfo.trackTocken));
             } else
                 mediaPlayer.setDataSource(getApplicationContext(), Utils.CurrTrackInfo.track.getUri());
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -242,8 +236,6 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
         return 0;
     }
 
-    private Toast toast;
-
     private void makeToast(String message) {
         if (toast != null) {
             toast.cancel();
@@ -301,7 +293,6 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
         Utils.CurrTrackInfo.paused = true;
     }
 
-
     /**
      * listener for media player in case an error occurs
      *
@@ -355,5 +346,9 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
         if (mediaPlayer != null)
             return mediaPlayer.isPlaying();
         return false;
+    }
+
+    public interface OnStartListener {
+        void onStartListener();
     }
 }

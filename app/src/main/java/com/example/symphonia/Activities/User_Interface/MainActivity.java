@@ -111,10 +111,10 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     public void onTrackPlay() {
         MediaController.getController().resumeMedia();
         PlayBarNotification.PlayBarNotification(MainActivity.this
-                ,Utils.currTrack
+                , Utils.currTrack
                 , R.drawable.ic_baseline_pause_24
-                ,Utils.getPosInPlaying(Utils.currTrack.getId())
-                ,Utils.playingContext.getTracks().size()-1);
+                , Utils.getPosInPlaying(Utils.currTrack.getId())
+                , Utils.playingContext.getTracks().size() - 1);
         playBarBtnFrame.removeAllViews();
         playBarBtnFrame.addView(pauseBtn);
         playBarBtnFrame.setOnClickListener(playBtnListener);
@@ -127,10 +127,10 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     public void onTrackPause() {
         MediaController.getController().pauseMedia();
         PlayBarNotification.PlayBarNotification(MainActivity.this
-                ,Utils.currTrack
+                , Utils.currTrack
                 , R.drawable.ic_baseline_play_arrow_24
-                ,Utils.getPosInPlaying(Utils.currTrack.getId())
-                ,Utils.playingContext.getTracks().size()-1);
+                , Utils.getPosInPlaying(Utils.currTrack.getId())
+                , Utils.playingContext.getTracks().size() - 1);
         playBarBtnFrame.removeAllViews();
         playBarBtnFrame.addView(playBtn);
         playBarBtnFrame.setOnClickListener(playBtnListener);
@@ -173,6 +173,8 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         playBarBtnFrame.removeAllViews();
         playBarBtnFrame.addView(playBtn);
         playBarBtnFrame.setOnClickListener(playBtnListener);
+        MediaController.getController().releaseMedia();
+        onTrackPause();
 
     }
 
@@ -259,7 +261,9 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
      */
     @Override
     public void onHideClicked(int pos) {
-        if(Utils.playingContext==null){makeToast(getString(R.string.playlist_not_playing)); }
+        if (Utils.playingContext == null) {
+            makeToast(getString(R.string.playlist_not_playing));
+        }
         if (!Utils.displayedContext.getTracks().get(pos).isHidden() && !Utils.displayedContext.getTracks().get(pos).isLocked()) {
             Utils.playingContext.getTracks().get(pos).setHidden(true);
             if (playlistFragment != null && playlistFragment.isVisible()) {
@@ -363,13 +367,19 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
      * this function updates ui when request returns tracks of playlists
      *
      * @param playlistFragment
+     * @param tracksList
      */
     @Override
-    public void updateUiGetTracksOfPlaylist(PlaylistFragment playlistFragment) {
+    public void updateUiGetTracksOfPlaylist(PlaylistFragment playlistFragment, ArrayList<Track> tracksList) {
+        if(playlistFragment!= null && playlistFragment.isVisible()){
+            Utils.displayedContext.setTracks(tracksList);
+        }else{
+            Utils.playingContext.setTracks(tracksList);
+        }
         String ids = "";
-        ids += Utils.displayedContext.getTracks().get(0).getId();
-        for (int i = 1; i < Utils.displayedContext.getTracks().size(); i++) {
-            ids += "," + Utils.displayedContext.getTracks().get(i).getId();
+        ids += tracksList.get(0).getId();
+        for (int i = 1; i < tracksList.size(); i++) {
+            ids += "," + tracksList.get(i).getId();
         }
         ServiceController.getInstance().checkSaved(MainActivity.this, ids, playlistFragment);
     }
@@ -381,10 +391,12 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
      */
     @Override
     public void updateUicheckSaved(PlaylistFragment playlistFragment) {
-        if (playlistFragment.isVisible()) {
+        if (playlistFragment != null && playlistFragment.isVisible()) {
             playlistFragment.updateTracks();
             playlistFragment.hideProgressBar();
         }
+        else
+            playTrack();
     }
 
     /**
@@ -501,6 +513,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //create channel for play bar notification
         createChannel();
         registerReceiver(broadcastReceiver, new IntentFilter("TRACKS_TRACKS"));
         startService(new Intent(getBaseContext(), OnClearFromRecentService.class));
@@ -531,7 +544,9 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         progressBar = new ProgressBar(this);
 
         ServiceController controller = ServiceController.getInstance();
+        // get recently played track
         controller.getCurrPlaying(this);
+        
         // initialize bottom navigation view
         initBottomNavView();
 
@@ -637,6 +652,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         toast.show();
 
     }
+
     /**
      * this function is called when playBar is recycled
      *
@@ -649,8 +665,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                 || Utils.playingContext.getTracks().get(pos).isHidden()) {
             rvBar.getLayoutManager().scrollToPosition(prev);
             return;
-        } else
-        if (pos - prev > 0) playNextTrack();
+        } else if (pos - prev > 0) playNextTrack();
         else
             playPrevTrack();
     }
@@ -725,24 +740,21 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         playBarBtnFrame.addView(progressBar);
         playBarBtnFrame.setOnClickListener(null);
     }
+
     private NotificationManager notificationManager;
+
     private void createChannel() {
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(PlayBarNotification.CHANNEL_ID,
                     "Symphonia"
-                    , NotificationManager.IMPORTANCE_HIGH);
+                    , NotificationManager.IMPORTANCE_DEFAULT);
             notificationManager = getSystemService(NotificationManager.class);
             if (notificationManager != null) {
                 notificationManager.createNotificationChannel(channel);
             }
         }
 
-    }
-
-    private void showPlayBarNotification() {
-        PlayBarNotification.PlayBarNotification(this, Utils.currTrack, R.drawable.ic_baseline_pause_24
-                , Utils.getPosInPlaying(Utils.currTrack.getId()), Utils.playingContext.getTracks().size() - 1);
     }
 
     /**
@@ -856,14 +868,15 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             if (mediaController.isMediaPlayerPlaying()) {
                 playBarBtnFrame.removeAllViews();
                 playBarBtnFrame.addView(playBtn);
-                Utils.CurrTrackInfo.paused = true;
                 mediaController.pauseMedia();
+                onTrackPause();
             } else {
                 playBarBtnFrame.removeAllViews();
                 playBarBtnFrame.addView(pauseBtn);
-                Utils.CurrTrackInfo.paused = false;
-                if (mediaController.isMediaNotNull())
+                if (mediaController.isMediaNotNull()) {
                     mediaController.resumeMedia();
+                    onTrackPlay();
+                }
                 else {
                     startTrack();
                     if (playlistFragment.isVisible()) {
@@ -962,7 +975,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     /**
      * this function is called when setting is clicked
      *
-     * @param track  track
+     * @param track track
      */
     @Override
     public void showTrackSettingFragment(Track track) {
@@ -1279,8 +1292,11 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        notificationManager.cancelAll();
-        unregisterReceiver(broadcastReceiver);
+        if (notificationManager != null)
+            notificationManager.cancelAll();
+
+        if (broadcastReceiver != null)
+            unregisterReceiver(broadcastReceiver);
     }
 /*@Override
     public void getCategoriesSuccess(ArrayList<Category> c) {

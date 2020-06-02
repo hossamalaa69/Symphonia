@@ -47,6 +47,8 @@ import com.squareup.picasso.Target;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import okhttp3.internal.Util;
+
 /**
  * Activity that accessing tracks and playing them
  *
@@ -196,7 +198,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
     }
 
     @Override
-    public void updateUiGetTracksOfPlaylist(PlaylistFragment playlistFragment) {
+    public void updateUiGetTracksOfPlaylist(PlaylistFragment playlistFragment, ArrayList<Track> tracksList) {
 
     }
 
@@ -349,12 +351,11 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         mediaController = MediaController.getController();
         attachViews();
         addListeners();
-        readTrackData();
         trackBackgroun = getResources().getDrawable(R.drawable.background);
         updateScreen();
         layoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
         rvTracks.setLayoutManager(layoutManager);
-        adapterPlayActivity = new RvTracksPlayActivityAdapter(this, tracks);
+        adapterPlayActivity = new RvTracksPlayActivityAdapter(this, Utils.playingContext.getTracks());
         rvTracks.setAdapter(adapterPlayActivity);
         hardScroll = true;
         rvTracks.getLayoutManager().scrollToPosition(Utils.getPosInPlaying(Utils.currTrack.getId()));
@@ -392,7 +393,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
             @Override
             public void run() {
                 if (mediaController.isMediaNotNull() && mediaController.isMediaPlayerPlaying()) {
-                    seekBar.setMax(Utils.CurrTrackInfo.track.getmDuration() / 1000);
+                    seekBar.setMax(Utils.currTrack.getmDuration() / 1000);
                     int mCurrentPosition = mediaController.getCurrentPosition();
                     seekBar.setProgress(mCurrentPosition / 1000);
                     seekBarCurr.setText((mCurrentPosition / 60000 + ":" + (mCurrentPosition / 1000) % 60));
@@ -431,11 +432,13 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
 
             } else if (!Utils.CurrTrackInfo.paused) {
                 Utils.CurrTrackInfo.paused = true;
+                onTrackPause();
                 Utils.CurrTrackInfo.currPlayingPos = mediaController.getCurrentPosition();
                 mediaController.pauseMedia();
                 frameLayout.removeAllViews();
                 frameLayout.addView(playBtn);
             } else {
+                onTrackPlay();
                 mediaController.resumeMedia();
                 frameLayout.removeAllViews();
                 frameLayout.addView(pauseBtn);
@@ -595,14 +598,6 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
 
     }
 
-
-    /**
-     * this function reads track info
-     */
-    private void readTrackData() {
-        trackPos = Utils.CurrTrackInfo.TrackPosInPlaylist;
-        tracks = Utils.CurrTrackInfo.currPlaylistTracks;
-    }
 
     /**
      * this function bind views to variables

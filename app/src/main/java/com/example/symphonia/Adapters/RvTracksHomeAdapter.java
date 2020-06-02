@@ -23,6 +23,8 @@ import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 
+import okhttp3.internal.Util;
+
 /**
  * class tha adapt recycler view of tracks
  *
@@ -265,7 +267,8 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
                 ivLike.setSelected(false);
             }
             if (Utils.playingContext != null
-                    && Utils.playingContext.getTracks().get(getAdapterPosition()).getId().matches(track.getId()) &&
+                    &&Utils.displayedContext.getId().matches(Utils.playingContext.getId())
+                    &&Utils.playingContext.getTracks().get(getAdapterPosition()).getId().matches(track.getId()) &&
                     Utils.playingContext.getTracks().get(getAdapterPosition()).isHidden()) {
                 tvTrackTitle.setTextColor(context.getResources().getColor(R.color.light_gray));
                 ivHide.setImageResource(R.drawable.ic_do_not_disturb_on_red_24dp);

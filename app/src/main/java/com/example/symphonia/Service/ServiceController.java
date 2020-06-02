@@ -28,14 +28,13 @@ import static com.example.symphonia.Constants.DEBUG_STATUS;
 
 public class ServiceController {
     /**
-     * object of parent(abstract class) for supplying app with data
-     */
-    private final APIs mSupplier;
-
-    /**
      * new object of controller class to decide which service to be used
      */
     private static final ServiceController REST_CLIENT = new ServiceController();
+    /**
+     * object of parent(abstract class) for supplying app with data
+     */
+    private final APIs mSupplier;
 
     /**
      * constructor of ServiceController that decides which type service to be used
