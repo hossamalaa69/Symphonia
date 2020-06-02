@@ -56,4 +56,6 @@ public interface RetrofitApi {
     @GET("api/v1/me/notifications")
     Call<JsonObject> getNotifications(@HeaderMap Map<String, String> headers);
 
+    @POST("users/auth/facebook/Symphonia")
+    Call<JsonObject> loginFacebookAPI(@HeaderMap Map<String,String> headers);
 }

@@ -306,6 +306,11 @@ public class MockService implements APIs {
         return mPopularContext;
     }
 
+    @Override
+    public boolean facebookLogin(Context context, String fb_token) {
+        return false;
+    }
+
     /**
      * holds logging user in, creation of user object and sets token
      *

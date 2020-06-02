@@ -67,6 +67,67 @@ public class RestApi implements APIs {
     private boolean finishedUnFollowing = true;
     private Bitmap image;
 
+
+    @Override
+    public boolean facebookLogin(final Context context, final String fb_token) {
+        final updateUIFacebook uiFacebook = (updateUIFacebook) context;
+
+        RetrofitSingleton retrofitSingleton = RetrofitSingleton.getInstance();
+        RetrofitApi retrofitApi = retrofitSingleton.getRetrofitApi();
+
+        Map<String,String> map = new HashMap<>();
+        map.put("access_token",fb_token);
+
+        Call<JsonObject> call = retrofitApi.loginFacebookAPI(map);
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
+                if(response.code()==200 || response.code()==201){
+                    try {
+                        JSONObject root = new JSONObject(new Gson().toJson(response.body()));
+                        Constants.currentToken = root.getString("token");
+                        JSONObject user = root.getJSONObject("user");
+                        String id = user.getString("_id");
+                        String name = user.getString("name");
+                        String email = user.getString("email");
+                        String type = user.getString("type");
+                        String image = user.getString("imageUrl");
+                        boolean premium = false;
+                        if (type.equals("premium-user")) {
+                            premium = true;
+                            type = "user";
+                        } else if (type.equals("artist")) {
+                            premium = true;
+                        }
+
+                        Constants.currentUser = new User(email, id, name, type.equals("user"), premium);
+                        Constants.currentUser.setUserType(type);
+                        Constants.currentUser.setImageUrl(image);
+                        uiFacebook.updateUIFacebookSuccess();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        uiFacebook.updateUIFacebookFail();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(),Toast.LENGTH_SHORT).show();
+                uiFacebook.updateUIFacebookFail();
+            }
+        });
+
+        return false;
+    }
+
+    public interface updateUIFacebook{
+        void updateUIFacebookSuccess();
+        void updateUIFacebookFail();
+    }
+
+
     /**
      * holds logging user in, creation of user object and sets token
      *

@@ -1,6 +1,7 @@
 package com.example.symphonia.Activities.User_Management;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,8 @@ import com.example.symphonia.Activities.User_Interface.StartActivity;
 import com.example.symphonia.Activities.User_Management.SignUp.Step1Activity;
 import com.example.symphonia.Constants;
 import com.example.symphonia.R;
+import com.example.symphonia.Service.RestApi;
+import com.example.symphonia.Service.ServiceController;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -31,7 +34,7 @@ import org.json.JSONObject;
  * @since 22-3-2020
  * @version 1.0
  */
-public class WelcomeActivity extends AppCompatActivity {
+public class WelcomeActivity extends AppCompatActivity implements RestApi.updateUIFacebook {
 
     /**
      * Holds user type(listener or artist)
@@ -62,14 +65,8 @@ public class WelcomeActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 String token = loginResult.getAccessToken().getToken();
-
-                GraphRequest graphRequest = GraphRequest.newMeRequest(loginResult.getAccessToken()
-                        , new GraphRequest.GraphJSONObjectCallback() {
-                            @Override
-                            public void onCompleted(JSONObject object, GraphResponse response) {
-                                    getUserInfo(object);
-                            }
-                        });
+                showToken(token);
+                getUserInfo(token);
             }
 
             @Override
@@ -84,8 +81,9 @@ public class WelcomeActivity extends AppCompatActivity {
         });
     }
 
-    public void getUserInfo(JSONObject object){
-
+    public void getUserInfo(String token){
+        ServiceController serviceController = ServiceController.getInstance();
+        serviceController.facebookLogin(this,token);
     }
 
     public void cancelLogin(){
@@ -141,5 +139,30 @@ public class WelcomeActivity extends AppCompatActivity {
         }
 
     }
+    @Override
+    public void updateUIFacebookSuccess() {
+        // Creates object of SharedPreferences.
+        SharedPreferences sharedPref= getSharedPreferences("LoginPref", 0);
+        //new Editor
+        SharedPreferences.Editor editor= sharedPref.edit();
+        //put user's params if REST API mode
+        editor.putString("token", Constants.currentToken);
+        editor.putString("name", Constants.currentUser.getmName());
+        editor.putString("email", Constants.currentUser.getmEmail());
+        editor.putString("id",Constants.currentUser.get_id());
+        editor.putBoolean("type", Constants.currentUser.isListenerType());
+        editor.putBoolean("premium", Constants.currentUser.isPremuim());
+        editor.putString("image",Constants.currentUser.getImageUrl());
+        editor.apply();
 
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+
+    }
+
+    @Override
+    public void updateUIFacebookFail() {
+        Intent i = new Intent(this, StartActivity.class);
+        startActivity(i);
+    }
 }
