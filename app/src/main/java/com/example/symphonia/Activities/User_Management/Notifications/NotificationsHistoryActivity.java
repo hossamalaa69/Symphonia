@@ -71,18 +71,46 @@ public class NotificationsHistoryActivity extends AppCompatActivity implements R
         if(Constants.DEBUG_STATUS)
             Toast.makeText(this, ""+position,Toast.LENGTH_SHORT).show();
         else {
-            if(mNotificationItems.get(position).getText1().equals("Following User"))
+
+            //TODO:Mohamoud
+            if(mNotificationItems.get(position).getText1().equals("Following User")) {
                 Toast.makeText(this, "Follower ID:" + mNotificationItems.get(position).getSenderID()
                         , Toast.LENGTH_SHORT).show();
-            else if(mNotificationItems.get(position).getText1().equals("Like Playlist"))
+                String profileID = mNotificationItems.get(position).getSenderID();
+                /*
+                TODO:open profile page which it's ID is stored in profileID variable
+                */
+            }
+
+            //TODO:Mahmoud
+            else if(mNotificationItems.get(position).getText1().equals("Like Playlist")) {
                 Toast.makeText(this, "User ID:" + mNotificationItems.get(position).getSenderID()
                         , Toast.LENGTH_SHORT).show();
-            else if(mNotificationItems.get(position).getText1().equals("PlayList Updated"))
+                String profileID = mNotificationItems.get(position).getSenderID();
+                /*
+                TODO:open profile page which it's ID is stored in profileID variable
+                 */
+            }
+
+            //TODO:Khalid
+            else if(mNotificationItems.get(position).getText1().equals("PlayList Updated")) {
                 Toast.makeText(this, "Playlist ID:" + mNotificationItems.get(position).getSenderID()
                         , Toast.LENGTH_SHORT).show();
-            else
+                String playlistID = mNotificationItems.get(position).getSenderID();
+                /*
+                 TODO:open playlist page which it's ID is stored in playlistID variable
+                 */
+            }
+
+            //TODO:Islam
+            else {
                 Toast.makeText(this, "Album ID:" + mNotificationItems.get(position).getSenderID()
                         , Toast.LENGTH_SHORT).show();
+                String albumID = mNotificationItems.get(position).getSenderID();
+                /*
+                 TODO:open album page which it's ID is stored in albumID variable
+                 */
+            }
         }
     }
 

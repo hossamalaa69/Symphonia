@@ -19,20 +19,15 @@
         tools:ignore ="GoogleAppIndexingWarning"
         android:usesCleartextTraffic="true">
 
-        <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
-     See README(https://goo.gl/l4GJaQ) for more. -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_symphonia" />
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more. -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/colorAccent" />
-
         <activity
             android:name=".Activities.User_Management.Notifications.NotificationsHistoryActivity"
-            android:label="@string/notifications" />
+            android:parentActivityName=".Activities.User_Interface.MainActivity"
+            android:label="@string/notifications"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
+            />
+
         <activity android:name=".Activities.User_Management.SignUp.ApplyArtist">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -46,6 +41,7 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
+
         <activity android:name=".Activities.User_Management.Redirect.PaymentActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -59,6 +55,7 @@
                     android:pathPrefix="/apply-premium/" />
             </intent-filter>
         </activity>
+
         <activity android:name=".Activities.User_Management.Redirect.FacebookRedirect">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -72,14 +69,17 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".Activities.User_Interface.TracksPreview"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".Activities.User_Management.ForgetPassword.ResetPassword"
             android:label="@string/reset_password"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".Helpers.AdDialog"
             android:theme="@style/Theme.UserDialog" />
@@ -91,6 +91,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:name=".Activities.User_Management.ForgetPassword.EmailCheck"
             android:label="@string/check_email"
@@ -102,6 +103,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.User_Interface.MainActivity" />
         </activity>
+
         <activity
             android:name=".Activities.User_Management.ForgetPassword.ForgetPassword"
             android:label="@string/forgot_password"
@@ -113,6 +115,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.User_Interface.MainActivity" />
         </activity>
+
         <activity
             android:name=".Activities.User_Management.SignUp.Step5Activity"
             android:label="@string/create_account"
@@ -123,6 +126,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.User_Management.SignUp.Step4Activity" />
         </activity>
+
         <activity
             android:name=".Activities.User_Management.SignUp.Step4Activity"
             android:label="@string/create_account"
@@ -134,6 +138,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.User_Management.SignUp.Step3Activity" />
         </activity>
+
         <activity
             android:name=".Activities.User_Management.SignUp.Step3Activity"
             android:label="@string/create_account"
@@ -145,6 +150,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.User_Management.SignUp.Step2Activity" />
         </activity>
+
         <activity
             android:name=".Activities.User_Management.SignUp.Step2Activity"
             android:label="@string/create_account"
@@ -156,6 +162,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.User_Management.SignUp.Step1Activity" />
         </activity>
+
         <activity
             android:name=".Activities.User_Management.SignUp.Step1Activity"
             android:label="@string/create_account"
@@ -167,24 +174,29 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.User_Management.WelcomeActivity" />
         </activity>
+
         <activity
             android:name=".Activities.User_Management.WelcomeActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".Activities.User_Interface.AddArtistsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".Activities.User_Interface.CreatePlaylistActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:name=".Activities.User_Interface.PlayActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".Activities.User_Management.LoginActivity"
             android:label=""
@@ -196,6 +208,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.User_Interface.MainActivity" />
         </activity>
+
         <activity
             android:name=".Activities.User_Interface.MainActivity"
             android:label="@string/app_name"
@@ -210,6 +223,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".Activities.User_Interface.StartActivity"
             android:screenOrientation="portrait"
@@ -226,6 +240,7 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".Activities.User_Interface.SplashScreenActivity"
             android:screenOrientation="portrait"
@@ -240,14 +255,15 @@
         <service
             android:name=".Activities.User_Management.Notifications.MyFirebaseInstanceIdService"
             android:exported="false"
-            android:directBootAware="true"
-            android:stopWithTask="false">
+            android:directBootAware="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
+
         </service>
-        <receiver android:name=".NotificationActionService"/>
+            <receiver android:name=".NotificationActionService"/>
         <service android:name=".OnClearFromRecentService"/>
+
     </application>
 
 </manifest>

@@ -3,7 +3,10 @@ package com.example.symphonia.Activities.User_Management.Notifications;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
@@ -34,13 +37,9 @@ public class MyFirebaseInstanceIdService extends FirebaseMessagingService {
     @Override
     public void onNewToken(@NonNull String s) {
         super.onNewToken(s);
-        getSharedPreferences("_", MODE_PRIVATE).edit().putString("fb", s).apply();
         Log.d("newToken",s);
     }
 
-    public static String getToken(Context context) {
-        return context.getSharedPreferences("_", MODE_PRIVATE).getString("fb", "empty");
-    }
 
     private void showNotification(String title, String body){
 
@@ -52,23 +51,28 @@ public class MyFirebaseInstanceIdService extends FirebaseMessagingService {
                     ,NotificationManager.IMPORTANCE_HIGH);
 
             notificationChannel.setDescription("Symphonia channel");
-//            notificationChannel.enableLights(true);
-//            notificationChannel.setLightColor(Color.BLUE);
-//            notificationChannel.setVibrationPattern(new long[]{0,1000,500,1000});
-//            notificationChannel.enableLights(true);
             notificationManager.createNotificationChannel(notificationChannel);
-        }
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this,notifyChannelId);
-        notificationBuilder.setAutoCancel(true)
-                .setDefaults(Notification.DEFAULT_ALL)
-                .setWhen(System.currentTimeMillis())
-                .setSmallIcon(R.drawable.ic_symphonia)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.ic_symphonia))
-                .setContentTitle(title)
-                .setContentText(body)
-                .setContentInfo("Info");
-        notificationManager.notify(new Random().nextInt(),notificationBuilder.build());
+            Intent notificationIntent = new Intent(getApplicationContext(), NotificationsHistoryActivity.class);
+            notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+            stackBuilder.addNextIntentWithParentStack(notificationIntent);
+            PendingIntent contentIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this,notifyChannelId);
+            notificationBuilder.setAutoCancel(true)
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setWhen(System.currentTimeMillis())
+                    .setSmallIcon(R.mipmap.ic_app_round)
+                    .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_app))
+                    .setContentTitle(title)
+                    .setContentText(body)
+                    .setContentIntent(contentIntent)
+                    .setContentInfo("Info");
+            notificationManager.notify(new Random().nextInt(),notificationBuilder.build());
+
+        }
     }
 }
 

@@ -1851,6 +1851,7 @@ public class RestApi implements APIs {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
+                Toast.makeText(context,"Failed Retrofit", Toast.LENGTH_SHORT).show();
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
