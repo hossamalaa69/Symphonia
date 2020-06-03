@@ -239,8 +239,8 @@ public class BottomSheetDialogProfile extends BottomSheetDialogFragment {
             artistOptions.setVisibility(View.VISIBLE);
         }
         //handle clicks
-        //delete.setOnClickListener(del);
-        //rename.setOnClickListener(ren);
+        delete.setOnClickListener(del);
+        rename.setOnClickListener(ren);
 
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
