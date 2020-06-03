@@ -34,7 +34,7 @@ import java.util.ArrayList;
  */
 public interface APIs {
 
-    boolean facebookLogin(Context context, String fb_token);
+    boolean facebookLogin(Context context, String fb_token, String image);
 
     /**
      * holds logging user in, creation of user object and sets token

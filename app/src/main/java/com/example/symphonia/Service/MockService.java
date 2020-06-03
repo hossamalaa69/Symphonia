@@ -337,7 +337,7 @@ public class MockService implements APIs {
     }
 
     @Override
-    public boolean facebookLogin(Context context, String fb_token) {
+    public boolean facebookLogin(Context context, String fb_token, String image) {
         return false;
     }
 
