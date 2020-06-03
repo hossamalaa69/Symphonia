@@ -144,10 +144,10 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
                 if(s.equals(getResources().getString(R.string.follow)))
                     followButton.setText(getResources().getString(R.string.Following));
                 else if(s.equals(getResources().getString(R.string.Following))) followButton.setText(getResources().getString(R.string.follow));
-                /*else if(s.equals(getContext().getResources().getString(R.string.Edit_Profile))){
+                else if(s.equals(getContext().getResources().getString(R.string.Edit_Profile))){
                    /* EditProfileFragment bottomSheet = new EditProfileFragment(profile);
                     assert getParentFragmentManager() != null;
-                    bottomSheet.show(getParentFragmentManager(),bottomSheet.getTag());//
+                    bottomSheet.show(getParentFragmentManager(),bottomSheet.getTag());*/
                     Intent editProfileActivity = new Intent(getContext(), EditProfileActivity.class);
                     Bundle b = new Bundle();
                     b.putString("name", profile.getCat_Name());
@@ -157,7 +157,7 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
                     b.putByteArray("bitmap",bytes);
                     editProfileActivity.putExtras(b);
                     startActivityForResult(editProfileActivity,111);
-                }*/
+                }
             }
         }
     };
