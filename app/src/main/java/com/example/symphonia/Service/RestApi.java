@@ -298,6 +298,7 @@ public class RestApi implements APIs {
                         String email = convertedObject.getString("email");
                         String name = convertedObject.getString("name");
                         String type = convertedObject.getString("type");
+                        String img = convertedObject.getString("imageFacebookUrl");
                         boolean mType = true;
                         boolean premium = false;
                         if(type.equals("user-premium")){
@@ -310,7 +311,7 @@ public class RestApi implements APIs {
                         Constants.currentToken=token_str;
                         Constants.currentUser = new User(email, id, name, mType, premium);
                         Constants.currentUser.setUserType(type);
-                        Constants.currentUser.setImageUrl(image);
+                        Constants.currentUser.setImageUrl(img);
                         uiFacebook.updateUIFacebookSuccess();
                     }catch (Exception e){
                         e.printStackTrace();

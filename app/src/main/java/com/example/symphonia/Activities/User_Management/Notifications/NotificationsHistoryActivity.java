@@ -47,10 +47,16 @@ public class NotificationsHistoryActivity extends AppCompatActivity implements R
 
         mNotificationItems = new ArrayList<>();
         mRecyclerView = findViewById(R.id.rv_notification);
+        mProgressBar = findViewById(R.id.progress);
+
         if(Constants.DEBUG_STATUS){
+            mRecyclerView.setVisibility(View.VISIBLE);
+            mProgressBar.setVisibility(View.GONE);
             addSomeItems();
         }
         else{
+            mRecyclerView.setVisibility(View.GONE);
+            mProgressBar.setVisibility(View.VISIBLE);
             ServiceController serviceController = ServiceController.getInstance();
             serviceController.getNotificationHistory(this,Constants.currentToken);
         }
@@ -155,8 +161,12 @@ public class NotificationsHistoryActivity extends AppCompatActivity implements R
                 JSONObject notification = item.getJSONObject("notification");
                 String title = notification.getString("title");
                 String body = notification.getString("body");
-                String icon = notification.getString("icon");
-
+                String icon = "";
+                try {
+                     icon = notification.getString("icon");
+                }catch (Exception e){
+                    icon = "https://thesymphonia.ddns.net/api/v1/images/users/default.png";
+                }
                 NotificationItem notificationItem = new NotificationItem(R.drawable.placeholder_user,
                         title,body);
                 notificationItem.setImageUrl(icon);
@@ -166,9 +176,13 @@ public class NotificationsHistoryActivity extends AppCompatActivity implements R
             for(int i=notificationItemArrayList.size()-1;i>=0;i--){
                 mNotificationItems.add(notificationItemArrayList.get(i));
             }
+            mRecyclerView.setVisibility(View.VISIBLE);
+            mProgressBar.setVisibility(View.GONE);
             notificationAdapter.notifyDataSetChanged();
 
         } catch (JSONException e){
+            mRecyclerView.setVisibility(View.VISIBLE);
+            mProgressBar.setVisibility(View.GONE);
             e.printStackTrace();
         }
 
@@ -176,7 +190,8 @@ public class NotificationsHistoryActivity extends AppCompatActivity implements R
 
     @Override
     public void updateUIGetNotifyFailed() {
-
+        mRecyclerView.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.GONE);
     }
 
     @Override
