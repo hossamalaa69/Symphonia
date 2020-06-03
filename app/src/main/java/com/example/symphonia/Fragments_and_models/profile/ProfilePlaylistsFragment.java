@@ -30,15 +30,22 @@ public class ProfilePlaylistsFragment extends Fragment implements ProfilePlaylis
     private ServiceController controller;
     private RecyclerView recyclerView;
     private ImageView backImg;
+    private String id;
+
     private View.OnClickListener listener=new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             getParentFragmentManager().popBackStack();
         }
     };
+
+    public ProfilePlaylistsFragment(String i){
+        id=i;
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.all_profile_playlists, container, false);
-        controller=ServiceController.getInstance();
+        controller= ServiceController.getInstance();
 
         recyclerView=root.findViewById(R.id.rv_all_profile_playlists);
         backImg=root.findViewById(R.id.img_back_profile_main);
@@ -46,7 +53,7 @@ public class ProfilePlaylistsFragment extends Fragment implements ProfilePlaylis
         backImg.setOnClickListener(listener);
         if(!Constants.DEBUG_STATUS) {
             RestApi restApi=new RestApi();
-            restApi.getAllCurrentUserPlaylists(getContext(),this);
+            restApi.getAllCurrentUserPlaylists(getContext(),this,id);
         }
         else {
             recyclerView.setHasFixedSize(true);

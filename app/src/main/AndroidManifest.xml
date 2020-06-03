@@ -19,6 +19,9 @@
         tools:ignore ="GoogleAppIndexingWarning"
         android:usesCleartextTraffic="true">
 
+        <activity android:name=".Activities.User_Interface.RenameAlbum"/>
+        <activity android:name=".Activities.User_Interface.EditProfileActivity"/>
+        <activity android:name=".Activities.User_Interface.AddAlbum" />
         <activity
             android:name=".Activities.User_Management.Notifications.NotificationsHistoryActivity"
             android:label="@string/notifications"

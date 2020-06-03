@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -30,6 +31,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
@@ -50,6 +52,7 @@ import com.example.symphonia.Fragments_and_models.playlist.BottomSheetDialogSett
 import com.example.symphonia.Fragments_and_models.playlist.BottomSheetDialogSettingsCredits;
 import com.example.symphonia.Fragments_and_models.playlist.PlaylistFragment;
 import com.example.symphonia.Fragments_and_models.premium.PremiumFragment;
+import com.example.symphonia.Fragments_and_models.profile.ArtistAlbums;
 import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
 import com.example.symphonia.Fragments_and_models.profile.ProfileFollowersFragment;
 import com.example.symphonia.Fragments_and_models.profile.ProfilePlaylistsFragment;
@@ -88,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         , RvTracksHomeAdapter.OnTrackClicked
         , updateUiPlaylists
         // ,RestApi.updateUiGetCategories
+        ,RestApi.updateUiArtistAlbums
         , RestApi.updateProfileFollow
         , RestApi.updateUiProfileInSetting
         , RestApi.updateUiProfileInProfileFragment
@@ -1199,9 +1203,18 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
      * @param settingsFragment the fragment which will be updated
      */
     @Override
-    public void getCurrentProfile(Profile profile, SettingsFragment settingsFragment) {
-        settingsFragment.updateUiProfile(profile);
+    public void getCurrentProfile(Profile profile, Fragment settingsFragment, String id) {
+        if(id==null) {
+            SettingsFragment fragment=(SettingsFragment)settingsFragment ;
+            fragment.updateUiProfile(profile);
+        }
+        else {
+            FragmentProfile fragmentProfile=(FragmentProfile)settingsFragment;
+            fragmentProfile.updateUiProfile(profile);
+        }
     }
+
+
 
     /*@Override
     public void getCurrentUserFollowing(ArrayList<Container> f, FragmentProfile fragmentProfile) {
@@ -1257,6 +1270,11 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         profileFollowersFragment.updateUiFollowing(f);
     }
 
+    @Override
+    public void getArtistAlbums(ArrayList<Container> f, ArtistAlbums artistAlbums) {
+        artistAlbums.updateUiArtistAlbums(f);
+    }
+
     public boolean isRoot() {
         return root;
     }
@@ -1299,6 +1317,39 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         if (broadcastReceiver != null)
             unregisterReceiver(broadcastReceiver);
     }
+
+    @Override
+    public void onAddAlbumSuccess(ArtistAlbums artistAlbums, String id, String name, String imgUrl, Bitmap bitmap) {
+        artistAlbums.OnAddAlbumSuccess(id,name,imgUrl,bitmap);
+    }
+
+    @Override
+    public void onAddAlbumfailure(ArtistAlbums artistAlbums) {
+        artistAlbums.OnAddAlbumFailure();
+    }
+
+    @Override
+    public void onRenameAlbumSuccess(ArtistAlbums artistAlbums,int pos,String name){
+        artistAlbums.OnRenameAlbumSuccess(pos,name);
+    }
+
+    @Override
+    public void onRenameAlbumfailure(ArtistAlbums artistAlbums) {
+        artistAlbums.OnRenameAlbumFailure();
+    }
+
+    @Override
+    public void onDelAlbumSuccess(ArtistAlbums artistAlbums, String id,int pos) {
+        artistAlbums.OnDelAlbumSuccess(pos);
+    }
+
+    @Override
+    public void onDelAlbumfailure(ArtistAlbums artistAlbums) {
+        artistAlbums.OnDelAlbumFailure();
+    }
+
+
+
 /*@Override
     public void getCategoriesSuccess(ArrayList<Category> c) {
         searchFragment.UpdateUiGetCategories(c);

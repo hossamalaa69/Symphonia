@@ -14,7 +14,6 @@ public class Container {
     private Bitmap imgRes;
     private String imgUrl;
     private String id;
-    private JSONArray followers;
 
     public Container(String s, Bitmap i) {
         catName = s;
@@ -34,17 +33,21 @@ public class Container {
         catName2 = s2;
     }
 
-    public Container(String s, String url, JSONArray f) {
+    public Container(String s, String url, String f) {
         catName = s;
         imgUrl=url;
-        followers=f;
+        catName2=f;
     }
 
-    public Container(String s, String url, JSONArray f,String i) {
+    public Container(String s, String url, String f,String i) {
         catName = s;
         imgUrl=url;
-        followers=f;
+        catName2=f;
         id=i;
+    }
+
+    public void setCatName(String s){
+        catName=s;
     }
 
     public Container(String s) {
@@ -69,10 +72,6 @@ public class Container {
 
     public String getImgUrl() {
         return imgUrl;
-    }
-
-    public int getFollowersCount(){
-        return followers.length();
     }
 
     public String getId(){

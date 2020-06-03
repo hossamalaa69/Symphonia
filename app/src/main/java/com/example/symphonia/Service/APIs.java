@@ -1,7 +1,10 @@
 package com.example.symphonia.Service;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.View;
+
+import androidx.fragment.app.Fragment;
 
 import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
@@ -12,6 +15,7 @@ import com.example.symphonia.Entities.Profile;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Fragments_and_models.home.HomeFragment;
 import com.example.symphonia.Fragments_and_models.playlist.PlaylistFragment;
+import com.example.symphonia.Fragments_and_models.profile.ArtistAlbums;
 import com.example.symphonia.Fragments_and_models.profile.BottomSheetDialogProfile;
 import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
 import com.example.symphonia.Fragments_and_models.profile.ProfileFollowersFragment;
@@ -422,7 +426,7 @@ public interface APIs {
      * @param settingsFragment the fragment which called this function
      * @return user profile
      */
-    Profile getCurrentUserProfile(Context context, SettingsFragment settingsFragment);
+    Profile getCurrentUserProfile(Context context, Fragment settingsFragment, String id);
 
     int getNumberOfLikedSongs(RestApi.UpdateLikedSongsNumber listener);
 
@@ -433,7 +437,7 @@ public interface APIs {
      * @param fragmentProfile the fragment which called this function
      * @return ArrayList of Container of User's playlists
      */
-    ArrayList<Container> getCurrentUserPlaylists(Context context, FragmentProfile fragmentProfile);
+    ArrayList<Container> getCurrentUserPlaylists(Context context, FragmentProfile fragmentProfile,String id);
 
     /**
      * get users who the current user follow
@@ -442,7 +446,7 @@ public interface APIs {
      * @param profileFollowersFragment the fragment which called this function
      * @return ArrayList of Container current user following
      */
-    ArrayList<Container> getCurrentUserFollowing(Context context, ProfileFollowersFragment profileFollowersFragment);
+    ArrayList<Container> getCurrentUserFollowing(Context context, ProfileFollowersFragment profileFollowersFragment,String id);
 
     /**
      * get a list of current user followers
@@ -451,7 +455,7 @@ public interface APIs {
      * @param profileFollowersFragment the fragment the function is called from
      * @return ArrayList of Container of Followers
      */
-    ArrayList<Container> getCurrentUserFollowers(Context context, ProfileFollowersFragment profileFollowersFragment);
+    ArrayList<Container> getCurrentUserFollowers(Context context, ProfileFollowersFragment profileFollowersFragment,String id);
 
     /**
      * get number of user followers
@@ -460,7 +464,7 @@ public interface APIs {
      * @param fragmentProfile the fragment the function is called from
      * @return string of the number of followers
      */
-    String getNumbersoUserFollowers(Context context, FragmentProfile fragmentProfile);
+    String getNumbersoUserFollowers(Context context, FragmentProfile fragmentProfile,String id);
 
     /**
      * get number of users that user follow
@@ -469,7 +473,7 @@ public interface APIs {
      * @param fragmentProfile the fragment the function is called from
      * @return string of the number of following
      */
-    String getNumbersoUserFollowing(Context context, FragmentProfile fragmentProfile);
+    String getNumbersoUserFollowing(Context context, FragmentProfile fragmentProfile,String id);
 
     /**
      * get number of playlists of current user
@@ -487,7 +491,7 @@ public interface APIs {
      * @param profilePlaylistsFragment the fragment the function is called from
      * @return current user playlists
      */
-    ArrayList<Container> getAllCurrentUserPlaylists(Context context, ProfilePlaylistsFragment profilePlaylistsFragment);
+    ArrayList<Container> getAllCurrentUserPlaylists(Context context, ProfilePlaylistsFragment profilePlaylistsFragment,String id);
 
     /**
      * follow playlist
@@ -570,6 +574,16 @@ public interface APIs {
      * @param context context of current activity
      */
     void getCurrPlaying(Context context);
+
+    void createAlbum(Context context, ArtistAlbums artistAlbums, String name, String image, String albumType, String copyRights, String copyRightsType, Bitmap bitmap);
+
+    void deleteAlbum(Context context,ArtistAlbums artistAlbums,String id,int pos);
+
+    void renameAlbum(Context context,ArtistAlbums artistAlbums,String id,int pos,String name);
+
+    void editProfile(Context context,FragmentProfile fragmentProfile,String name,String image);
+
+    ArrayList<Container> getCurrentArtistAlbums(Context context, ArtistAlbums artistAlbums, String albumType);
 
 
     void getQueue(Context context);

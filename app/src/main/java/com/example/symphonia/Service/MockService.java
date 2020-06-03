@@ -1,9 +1,12 @@
 package com.example.symphonia.Service;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.Settings;
 import android.view.View;
+
+import androidx.fragment.app.Fragment;
 
 import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Album;
@@ -17,6 +20,7 @@ import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Entities.User;
 import com.example.symphonia.Fragments_and_models.home.HomeFragment;
 import com.example.symphonia.Fragments_and_models.playlist.PlaylistFragment;
+import com.example.symphonia.Fragments_and_models.profile.ArtistAlbums;
 import com.example.symphonia.Fragments_and_models.profile.BottomSheetDialogProfile;
 import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
 import com.example.symphonia.Fragments_and_models.profile.ProfileFollowersFragment;
@@ -64,6 +68,8 @@ public class MockService implements APIs {
     private int profilesCount = 0;
     private int genresCount = 0;
     private int playlistsCount = 0;
+    private ArrayList<Container>mArtistAlbums;
+
 
     /**
      * Array that holds some users of type listener to be mimic
@@ -134,6 +140,13 @@ public class MockService implements APIs {
         mArtists.add(new Artist("38", R.drawable.amr, "Amr Diab"));
         mArtists.add(new Artist("39", R.drawable.bahaa, "Bahaa Sultan"));
         mArtists.add(new Artist("40", R.drawable.loai, "Loai"));
+
+        mArtistAlbums=new ArrayList<>();
+        mArtistAlbums.add(new Container("album1","3 songs",Utils.convertToBitmap(R.drawable.amr)));
+        mArtistAlbums.add(new Container("album2","3 songs",Utils.convertToBitmap(R.drawable.adele)));
+        mArtistAlbums.add(new Container("album3","3 songs",Utils.convertToBitmap(R.drawable.abu)));
+        mArtistAlbums.add(new Container("album4","3 songs",Utils.convertToBitmap(R.drawable.assala)));
+
 
 
         mAlbums = new ArrayList<>();
@@ -1290,7 +1303,7 @@ public class MockService implements APIs {
      * @return user profile
      */
     @Override
-    public Profile getCurrentUserProfile(Context context, SettingsFragment settingsFragment) {
+    public Profile getCurrentUserProfile(Context context, Fragment settingsFragment, String id) {
         return null;
     }
 
@@ -1308,7 +1321,7 @@ public class MockService implements APIs {
      * @return ArrayList of Container of User's playlists
      */
     @Override
-    public ArrayList<Container> getCurrentUserPlaylists(Context context, FragmentProfile fragmentProfile) {
+    public ArrayList<Container> getCurrentUserPlaylists(Context context, FragmentProfile fragmentProfile,String id) {
         return null;
     }
 
@@ -1320,7 +1333,7 @@ public class MockService implements APIs {
      * @return ArrayList of Container current user following
      */
     @Override
-    public ArrayList<Container> getCurrentUserFollowing(Context context, ProfileFollowersFragment profileFollowersFragment) {
+    public ArrayList<Container> getCurrentUserFollowing(Context context, ProfileFollowersFragment profileFollowersFragment,String id) {
         return null;
     }
 
@@ -1332,7 +1345,7 @@ public class MockService implements APIs {
      * @return ArrayList of Container of Followers
      */
     @Override
-    public ArrayList<Container> getCurrentUserFollowers(Context context, ProfileFollowersFragment profileFollowersFragment) {
+    public ArrayList<Container> getCurrentUserFollowers(Context context, ProfileFollowersFragment profileFollowersFragment,String id) {
         ArrayList<Container> followers = new ArrayList<>();
         followers.add(new Container("HuffPost", "2,700 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.images)));
         followers.add(new Container("Majeestic Casual", "5,200 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.images3)));
@@ -1374,7 +1387,7 @@ public class MockService implements APIs {
      * @return string of the number of followers
      */
     @Override
-    public String getNumbersoUserFollowers(Context context, FragmentProfile fragmentProfile) {
+    public String getNumbersoUserFollowers(Context context, FragmentProfile fragmentProfile,String id) {
         return null;
     }
 
@@ -1387,6 +1400,34 @@ public class MockService implements APIs {
         final updateUiPlaylists listener = (updateUiPlaylists) context;
         listener.getCurrPlayingTrackSuccess(currTrackId);
 
+    }
+
+    @Override
+    public void createAlbum(Context context, ArtistAlbums artistAlbums, String name, String image, String albumType, String copyRights, String copyRightsType, Bitmap bitmap) {
+        RestApi.updateUiArtistAlbums listener=(RestApi.updateUiArtistAlbums)context;
+        listener.onAddAlbumSuccess(artistAlbums,"",name,"mnk;m",bitmap);
+    }
+
+    @Override
+    public void deleteAlbum(Context context, ArtistAlbums artistAlbums, String id, int pos) {
+        RestApi.updateUiArtistAlbums listener=(RestApi.updateUiArtistAlbums)context;
+        listener.onDelAlbumSuccess(artistAlbums,id,pos);
+    }
+
+    @Override
+    public void renameAlbum(Context context, ArtistAlbums artistAlbums, String id, int pos,String name) {
+        RestApi.updateUiArtistAlbums listener=(RestApi.updateUiArtistAlbums)context;
+        listener.onRenameAlbumSuccess(artistAlbums,pos,name);
+    }
+
+    @Override
+    public void editProfile(Context context, FragmentProfile fragmentProfile, String name, String image) {
+
+    }
+
+    @Override
+    public ArrayList<Container> getCurrentArtistAlbums(Context context, ArtistAlbums artistAlbums, String albumType) {
+        return mArtistAlbums;
     }
 
     private com.example.symphonia.Entities.Context playingContext;
@@ -1437,7 +1478,7 @@ public class MockService implements APIs {
      * @return string of the number of following
      */
     @Override
-    public String getNumbersoUserFollowing(Context context, FragmentProfile fragmentProfile) {
+    public String getNumbersoUserFollowing(Context context, FragmentProfile fragmentProfile,String id) {
         return null;
     }
 
@@ -1461,7 +1502,7 @@ public class MockService implements APIs {
      * @return current user playlists
      */
     @Override
-    public ArrayList<Container> getAllCurrentUserPlaylists(Context context, ProfilePlaylistsFragment profilePlaylistsFragment) {
+    public ArrayList<Container> getAllCurrentUserPlaylists(Context context, ProfilePlaylistsFragment profilePlaylistsFragment,String id) {
         return null;
     }
 

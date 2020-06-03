@@ -1,8 +1,14 @@
 package com.example.symphonia.Fragments_and_models.profile;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,15 +26,19 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.symphonia.Activities.User_Interface.EditProfileActivity;
 import com.example.symphonia.Adapters.ProfilePlaylistsAdapter;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Container;
+import com.example.symphonia.Entities.Profile;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
 import com.google.android.material.appbar.AppBarLayout;
+import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +69,14 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
     private TextView playlistsNum;
     private TextView followersNum;
     private TextView followingNum;
+    private LinearLayout artist_part;
+    private LinearLayout graphs;
+    private LinearLayout albums;
+    private LinearLayout singles;
+
     private boolean checkIfUserProfile=true;
+    private String id=null;
+
 
     private View.OnClickListener showOptions=new View.OnClickListener() {
         @Override
@@ -75,7 +92,7 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
         public void onClick(View v) {
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.nav_host_fragment,new ProfilePlaylistsFragment());
+            fragmentTransaction.replace(R.id.nav_host_fragment,new ProfilePlaylistsFragment(id));
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
 
@@ -87,7 +104,7 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
         public void onClick(View v) {
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.nav_host_fragment,new ProfileFollowersFragment(true));
+            fragmentTransaction.replace(R.id.nav_host_fragment,new ProfileFollowersFragment("followers",id));
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
 
@@ -99,7 +116,7 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
         public void onClick(View v) {
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.nav_host_fragment,new ProfileFollowersFragment(false));
+            fragmentTransaction.replace(R.id.nav_host_fragment,new ProfileFollowersFragment("Following",id));
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
 
@@ -126,7 +143,21 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
                 String s=(String) followButton.getText();
                 if(s.equals(getResources().getString(R.string.follow)))
                     followButton.setText(getResources().getString(R.string.Following));
-                if(s.equals(getResources().getString(R.string.Following))) followButton.setText(getResources().getString(R.string.follow));
+                else if(s.equals(getResources().getString(R.string.Following))) followButton.setText(getResources().getString(R.string.follow));
+                /*else if(s.equals(getContext().getResources().getString(R.string.Edit_Profile))){
+                   /* EditProfileFragment bottomSheet = new EditProfileFragment(profile);
+                    assert getParentFragmentManager() != null;
+                    bottomSheet.show(getParentFragmentManager(),bottomSheet.getTag());//
+                    Intent editProfileActivity = new Intent(getContext(), EditProfileActivity.class);
+                    Bundle b = new Bundle();
+                    b.putString("name", profile.getCat_Name());
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    profile.getImg_Res().compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                    byte[] bytes = stream.toByteArray();
+                    b.putByteArray("bitmap",bytes);
+                    editProfileActivity.putExtras(b);
+                    startActivityForResult(editProfileActivity,111);
+                }*/
             }
         }
     };
@@ -144,13 +175,55 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
             return false;
         }
     };
+
+
+
+    public FragmentProfile(String i){
+        id=i;
+        checkIfUserProfile=false;
+    }
+
     public FragmentProfile(Container c){
         profile=c;
+        //id="5e812a3454660672fd699880";
+        //checkIfUserProfile=false;
     }
     public FragmentProfile(Container c,boolean b){
         profile=c;
         checkIfUserProfile=b;
     }
+
+    private View.OnClickListener showGraphs=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+        }
+    };
+
+
+
+    private View.OnClickListener showAlbums=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.nav_host_fragment,new ArtistAlbums());
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
+    };
+
+    private View.OnClickListener showSingles=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.nav_host_fragment,new ProfileFollowersFragment("singles",id));
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
+    };
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -158,6 +231,10 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
         //get instance of Service controller
         controller=ServiceController.getInstance();
         //attach views
+        artist_part=root.findViewById(R.id.rest_of_bar);
+        if(/*Constants.currentUser.getUserType()=="artist"*/true){
+            artist_part.setVisibility(View.VISIBLE);
+        }
         background=root.findViewById(R.id.profile_background);
         profileName=root.findViewById(R.id.tv_profile_name_animated);
         backgroundProfileName=root.findViewById(R.id.tv_profile_background);
@@ -175,6 +252,9 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
         playlistsNum=root.findViewById(R.id.number_of_playlists);
         followersNum=root.findViewById(R.id.number_of_followers);
         followingNum=root.findViewById(R.id.number_of_following);
+        graphs=root.findViewById(R.id.graphs);
+        albums=root.findViewById(R.id.albums);
+        singles=root.findViewById(R.id.singles);
 
         //handle clicks
         options.setOnClickListener(showOptions);
@@ -183,7 +263,11 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
 
         if(!checkIfUserProfile)  followButton.setText(getContext().getResources().getString(R.string.follow));
 
-        profileImage.setImageBitmap(profile.getImg_Res());
+        if(checkIfUserProfile) {
+            profileImage.setImageBitmap(profile.getImg_Res());
+            profileName.setText(profile.getCat_Name());
+            backgroundProfileName.setText(profile.getCat_Name());
+        }
 
         //followButton.setOnClickListener(follow);
         backImg.setOnClickListener(back);
@@ -191,15 +275,19 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
         seeAll.setOnClickListener(toPlaylists);
         followersLayout.setOnClickListener(toFollowers);
         followingLayout.setOnClickListener(toFollowing);
-        profileName.setText(profile.getCat_Name());
-        backgroundProfileName.setText(profile.getCat_Name());
-        Drawable drawable=Utils.createSearchListBackground(getContext(),profile);
-        background.setBackground(drawable);
+        albums.setOnClickListener(showAlbums);
+        if(id==null) {
+            Drawable drawable = Utils.createSearchListBackground(getContext(), profile);
+            background.setBackground(drawable);
+        }
         if(!Constants.DEBUG_STATUS) {
             RestApi restApi = new RestApi();
-            restApi.getCurrentUserPlaylists(getContext(), this);
-            restApi.getNumbersoUserFollowers(getContext(),this);
-            restApi.getNumbersoUserFollowing(getContext(),this);
+            restApi.getCurrentUserPlaylists(getContext(), this,id);
+            restApi.getNumbersoUserFollowers(getContext(),this,id);
+            restApi.getNumbersoUserFollowing(getContext(),this,id);
+            if (id != null) {
+                restApi.getCurrentUserProfile(getContext(),this,id);
+            }
         }
         else {
             seeAll.setVisibility(View.VISIBLE);
@@ -207,8 +295,8 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setNestedScrollingEnabled(false);
             recyclerView.setHasFixedSize(true);
-            ProfilePlaylistsAdapter adapter = new ProfilePlaylistsAdapter(controller.getFourPlaylists(getContext()), this);
-            recyclerView.setAdapter(adapter);
+            //       ProfilePlaylistsAdapter adapter = new ProfilePlaylistsAdapter(controller.getFourPlaylists(getContext(),"", this);
+            // recyclerView.setAdapter(adapter);
         }
         //handle animation
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -276,7 +364,7 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
      */
     public void updatePlaylists(ArrayList<Container> p){
         int n=3;
-        if(p.size()>3) {n=p.size(); seeAll.setVisibility(View.VISIBLE);}
+        if(p.size()>3) {n=3; seeAll.setVisibility(View.VISIBLE);}
         LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setNestedScrollingEnabled(false);
@@ -303,5 +391,58 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
      */
     public void updateUiFollowers(String s){
         followersNum.setText(s);
+    }
+
+    public void updateUiProfile(Profile p){
+        final Bitmap[] bitmap = new Bitmap[1];
+        //if(!p.getImgUrl().contains("default")) {
+        Picasso.get()
+                .load(p.getImgUrl())
+                .fit()
+                .centerCrop()
+                .placeholder(R.drawable.img_init_profile)
+                .into(profileImage, new com.squareup.picasso.Callback() {
+                    @Override
+                    public void onSuccess() {
+                        BitmapDrawable drawable = (BitmapDrawable) profileImage.getDrawable();
+                        bitmap[0] =drawable.getBitmap();
+                        profile.setImgBitmap(bitmap[0]);
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+
+                    }
+
+                });
+        //}
+        profile=new Container(p.getCat_Name(),p.getImgUrl(),null,id);
+        profile.setImgBitmap(bitmap[0]);
+        profileName.setText(p.getCat_Name());
+        backgroundProfileName.setText(p.getCat_Name());
+        Drawable drawable=Utils.createSearchListBackground(getContext(),profile);
+        background.setBackground(drawable);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 111 && resultCode == Activity.RESULT_OK) {
+            String name=data.getStringExtra("name");
+            String image=data.getStringExtra("image");
+            byte[] decodedBytes = Base64.decode(image, 0);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+
+            RestApi restApi=new RestApi();
+            restApi.editProfile(getContext(),this,name,image);
+
+            profileImage.setImageBitmap(bitmap);
+            profileName.setText(name);
+            backgroundProfileName.setText(name);
+            profile=new Container(profile.getCat_Name(),profile.getImgUrl(),null,null);
+            profile.setImgBitmap(bitmap);
+            Drawable drawable=Utils.createSearchListBackground(getContext(),profile);
+            background.setBackground(drawable);
+        }
     }
 }

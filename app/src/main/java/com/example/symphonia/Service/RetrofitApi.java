@@ -11,6 +11,7 @@ import retrofit2.http.GET;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 
@@ -58,4 +59,24 @@ public interface RetrofitApi {
 
     @POST("users/auth/facebook/Symphonia")
     Call<JsonObject> loginFacebookAPI(@HeaderMap Map<String,String> headers);
+
+    @DELETE("api/v1/albums/{album_id}")
+    Call<JsonObject> deleteAlbum(
+            @Path("album_id") String id,
+            @HeaderMap Map<String, String> headers
+    );
+
+    @PATCH("api/v1/albums/{album_id}")
+    Call<JsonObject> renameAlbum(
+            @Path("album_id") String id,
+            @HeaderMap Map<String, String> headers,
+            @Body Map<String, String> params
+    );
+
+    @PUT("api/v1/me/")
+    Call<JsonObject>editProfile(
+            @HeaderMap Map<String, String> headers,
+            @Body Map<String,String>params
+    );
+
 }

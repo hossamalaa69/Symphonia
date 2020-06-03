@@ -33,6 +33,7 @@ public class ProfileFollowersFragment extends Fragment implements FollowersAdapt
     private RecyclerView recyclerView;
     private TextView textView;
     private ImageView backImg;
+    private String id;
     private View.OnClickListener back=new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -40,15 +41,16 @@ public class ProfileFollowersFragment extends Fragment implements FollowersAdapt
         }
     };
 
-    private boolean getRightData;//to choose if we get the data of followers or following by artist
+    private String getRightData;//to choose if we get the data of followers or following by artist
 
-    public ProfileFollowersFragment(boolean b){
+    public ProfileFollowersFragment(String b, String i){
         getRightData=b;
+        id=i;
     }
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.profile_folllowers, container, false);
 
-        controller=ServiceController.getInstance();
+        controller= ServiceController.getInstance();
         //attach views
         recyclerView=root.findViewById(R.id.rv_followers_profile);
         textView=root.findViewById(R.id.tv_followers_following);
@@ -61,20 +63,20 @@ public class ProfileFollowersFragment extends Fragment implements FollowersAdapt
         recyclerView.setLayoutManager(layoutManager);
         data=new ArrayList<>();
         RestApi restApi=new RestApi();
-        if(getRightData) {
+        if(getRightData=="followers") {
             textView.setText(getResources().getString(R.string.followers));
             if(!Constants.DEBUG_STATUS)
-                restApi.getCurrentUserFollowers(getContext(),this);
+                restApi.getCurrentUserFollowers(getContext(),this,id);
             else
-            data=controller.getCurrentUserFollowers(getContext(),this);
+                data=controller.getCurrentUserFollowers(getContext(),this,id);
             //data=controller.getProfileFollowers(getContext());
-                    }
-        else {
-            textView.setText(getResources().getString(R.string.Following));
-            if(!Constants.DEBUG_STATUS) restApi.getCurrentUserFollowing(getContext(),this);
-            else data=controller.getProfileFollowing(getContext());
-
         }
+        else if(getRightData=="Following"){
+            textView.setText(getResources().getString(R.string.Following));
+            if(!Constants.DEBUG_STATUS) restApi.getCurrentUserFollowing(getContext(),this,id);
+            else data=controller.getProfileFollowing(getContext());
+        }
+
         if(Constants.DEBUG_STATUS) {
             FollowersAdapter adapter = new FollowersAdapter(data, this);
             recyclerView.setAdapter(adapter);
@@ -87,10 +89,15 @@ public class ProfileFollowersFragment extends Fragment implements FollowersAdapt
      * @param c the follower that user long clicked on
      */
     @Override
-    public void onProfileFollowerItemlongClickListener(Container c) {
+    public void onProfileFollowerItemlongClickListener(Container c, int p) {
         BottomSheetDialogProfile bottomSheet = new BottomSheetDialogProfile(c,4);
         assert getParentFragmentManager() != null;
         bottomSheet.show(getParentFragmentManager(),bottomSheet.getTag());
+    }
+
+    @Override
+    public void onProfileFollowerItemClickListener(Container c) {
+
     }
 
     /**
@@ -110,4 +117,5 @@ public class ProfileFollowersFragment extends Fragment implements FollowersAdapt
         FollowersAdapter adapter = new FollowersAdapter(c, this);
         recyclerView.setAdapter(adapter);
     }
+
 }

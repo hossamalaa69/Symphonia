@@ -112,7 +112,7 @@ public class ProfilePlaylistsAdapter extends RecyclerView.Adapter<ProfilePlaylis
             textView.setText(temp.getCat_Name());
             imageView.setOval(false);
             if(!Constants.DEBUG_STATUS){
-                textView2.setText(String.valueOf(temp.getFollowersCount())+" Followers");
+                textView2.setText(temp.getCat_Name2());
                 Picasso.get()
                         .load(temp.getImgUrl())
                         .fit()

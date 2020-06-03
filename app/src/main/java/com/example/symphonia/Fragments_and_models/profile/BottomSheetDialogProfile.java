@@ -1,6 +1,7 @@
 package com.example.symphonia.Fragments_and_models.profile;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -14,10 +15,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
+import com.example.symphonia.Activities.User_Interface.RenameAlbum;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.R;
+import com.example.symphonia.Service.RestApi;
+import com.example.symphonia.Service.ServiceController;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -32,6 +37,7 @@ public class BottomSheetDialogProfile extends BottomSheetDialogFragment {
 
     private Container profile;
     private int chooseLayout;
+    private ServiceController controller;
 
     private LinearLayout options1;
     private View divider;
@@ -47,11 +53,49 @@ public class BottomSheetDialogProfile extends BottomSheetDialogFragment {
     private LinearLayout smsShare;
     private LinearLayout linkShare;
     private LinearLayout moreShare;
+    private LinearLayout artistOptions;
+    private LinearLayout delete;
+    private LinearLayout rename;
+    private int position;
 
-    public BottomSheetDialogProfile(Container container,int i) {
+    private ArtistAlbums artistAlbums;
+
+    public BottomSheetDialogProfile(Container container, int i) {
         profile=container;
         chooseLayout=i;
     }
+
+    public BottomSheetDialogProfile(Container container, int i, ArtistAlbums artAlbums, int p){
+        profile=container;
+        chooseLayout=i;
+        position=p;
+        artistAlbums=artAlbums;
+    }
+
+    private View.OnClickListener del=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(!Constants.DEBUG_STATUS){
+                RestApi restApi=new RestApi();
+                restApi.deleteAlbum(getContext(),artistAlbums,profile.getId(),position);
+            }
+            else {
+                controller.deleteAlbum(getContext(),artistAlbums,profile.getId(),position);
+            }
+            dismiss();
+        }
+    };
+
+    private View.OnClickListener ren=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent renameAlbums = new Intent(getContext(), RenameAlbum.class);
+            Bundle b = new Bundle();
+            b.putString("name", profile.getCat_Name());
+            renameAlbums.putExtras(b);
+            startActivityForResult(renameAlbums,66);
+        }
+    };
 
     @SuppressLint("ClickableViewAccessibility")
     @NonNull
@@ -94,6 +138,8 @@ public class BottomSheetDialogProfile extends BottomSheetDialogFragment {
             }
         });
 
+        controller= ServiceController.getInstance();
+
         TextView profileName = view.findViewById(R.id.tv_profile_playlist_name);
         profileName.setText(profile.getCat_Name());
         ImageView profileImage = view.findViewById(R.id.image_profile_or_playlist);
@@ -103,7 +149,7 @@ public class BottomSheetDialogProfile extends BottomSheetDialogFragment {
         LinearLayout imageFrame = view.findViewById(R.id.image_frame);
         ImageView symphoniaImage = view.findViewById(R.id.image_symphonia);
         ImageView soundWave = view.findViewById(R.id.image_sound_wave);
-        if(chooseLayout==3&& Constants.DEBUG_STATUS==false) {
+        if((chooseLayout==3||chooseLayout==5)&& Constants.DEBUG_STATUS==false) {
             Picasso.get()
                     .load(profile.getImgUrl())
                     .fit()
@@ -119,7 +165,8 @@ public class BottomSheetDialogProfile extends BottomSheetDialogFragment {
                     .placeholder(R.drawable.img_init_profile)
                     .into(profileImage);
         }
-        else profileImage.setImageBitmap(profile.getImg_Res());
+        else
+            profileImage.setImageBitmap(profile.getImg_Res());
         /*BitmapDrawable drawable=(BitmapDrawable)profileImage.getDrawable();
         Bitmap bitmap=drawable.getBitmap();
 
@@ -149,6 +196,10 @@ public class BottomSheetDialogProfile extends BottomSheetDialogFragment {
         smsShare=view.findViewById(R.id.sms_share);
         linkShare=view.findViewById(R.id.link_share);
         moreShare=view.findViewById(R.id.more_share);
+
+        artistOptions=view.findViewById(R.id.list_Artist_options);
+        delete=view.findViewById(R.id.delete_album);
+        rename=view.findViewById(R.id.rename_album);
         //handle which view will be shown
         if(chooseLayout==1){
             options1.setVisibility(View.VISIBLE);
@@ -182,7 +233,15 @@ public class BottomSheetDialogProfile extends BottomSheetDialogFragment {
             homeScreen.setVisibility(View.VISIBLE);
             share.setVisibility(View.VISIBLE);
         }
+        else if(chooseLayout==5){
+            options1.setVisibility(View.GONE);
+            options2.setVisibility(View.GONE);
+            artistOptions.setVisibility(View.VISIBLE);
+        }
         //handle clicks
+        //delete.setOnClickListener(del);
+        //rename.setOnClickListener(ren);
+
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -255,10 +314,10 @@ public class BottomSheetDialogProfile extends BottomSheetDialogFragment {
         smsShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent smsIntent = new Intent(android.content.Intent.ACTION_VIEW);
+                Intent smsIntent = new Intent(Intent.ACTION_VIEW);
                 smsIntent.setType("vnd.android-dir/mms-sms");
                 smsIntent.putExtra("sms_body","https://www.google.com/search?q=spotify+api+documentation&oq=spotif&aqs=chrome.0.69i59j69i57j35i39j69i60l5.3902j0j7&sourceid=chrome&ie=UTF-8");
-                smsIntent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
+                smsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 try {
                     startActivity(smsIntent);
                 }catch (Exception e){
@@ -293,5 +352,15 @@ public class BottomSheetDialogProfile extends BottomSheetDialogFragment {
         return bottomSheet;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 66 && resultCode == Activity.RESULT_OK) {
+            String name = data.getStringExtra("name");
+            RestApi restApi=new RestApi();
+            restApi.renameAlbum(getContext(),artistAlbums,profile.getId(),position,name);
+            dismiss();
+        }
+    }
 }
 

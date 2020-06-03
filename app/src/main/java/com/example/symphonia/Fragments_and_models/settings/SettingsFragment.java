@@ -107,8 +107,8 @@ public class SettingsFragment extends Fragment{
         final TextView viewProfile = rootView.findViewById(R.id.text_view_profile);
 
         RestApi restApi=new RestApi();
-        restApi.getCurrentUserProfile(getContext(),this);
-        restApi.getCurrentUserProfile(getContext(),this);
+        restApi.getCurrentUserProfile(getContext(),this,null);
+        restApi.getCurrentUserProfile(getContext(),this,null);
 
 
         premiumButton.setOnTouchListener(new View.OnTouchListener() {

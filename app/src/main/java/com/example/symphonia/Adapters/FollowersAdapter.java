@@ -25,7 +25,8 @@ public class
 FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.FollowersViewHolder> {
     private ArrayList<Container> container;
     public interface ProfileFollowersItemClickListner{
-        void onProfileFollowerItemlongClickListener(Container c);//handle clicking on close image
+        void onProfileFollowerItemlongClickListener(Container c,int p);//handle clicking on close image
+        void onProfileFollowerItemClickListener(Container c);//handle clicking on close image
     }
     private ProfileFollowersItemClickListner listner;
 
@@ -118,7 +119,7 @@ FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.FollowersViewHold
             textView.setText(temp.getCat_Name());
             imageView.setOval(false);
             if(!Constants.DEBUG_STATUS){
-                textView2.setText(String.valueOf(temp.getFollowersCount())+" Followers");
+                textView2.setText(temp.getCat_Name2());
                 if(!temp.getImgUrl().equals("https://thesymphonia.ddns.net/api/v1/images/users/default.png"))
                 {
                     Picasso.get()
@@ -145,7 +146,7 @@ FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.FollowersViewHold
          */
         @Override
         public boolean onLongClick(View v) {
-            listner.onProfileFollowerItemlongClickListener(container.get(getAdapterPosition()));
+            listner.onProfileFollowerItemlongClickListener(container.get(getAdapterPosition()),getAdapterPosition());
             return false;
         }
     }

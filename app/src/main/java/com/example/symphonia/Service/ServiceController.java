@@ -1,6 +1,7 @@
 package com.example.symphonia.Service;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.View;
 
 import com.example.symphonia.Entities.Album;
@@ -11,6 +12,7 @@ import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Fragments_and_models.home.HomeFragment;
 import com.example.symphonia.Fragments_and_models.playlist.PlaylistFragment;
+import com.example.symphonia.Fragments_and_models.profile.ArtistAlbums;
 import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
 import com.example.symphonia.Fragments_and_models.profile.ProfileFollowersFragment;
 
@@ -549,8 +551,8 @@ public class ServiceController {
      * @param fragmentProfile the fragment which called this function
      * @return ArrayList of Container of User's playlists
      */
-    public ArrayList<Container> getCurrentUserPlaylists(Context context, FragmentProfile fragmentProfile) {
-        return mSupplier.getCurrentUserPlaylists(context, fragmentProfile);
+    public ArrayList<Container> getCurrentUserPlaylists(Context context, FragmentProfile fragmentProfile,String id) {
+        return mSupplier.getCurrentUserPlaylists(context, fragmentProfile,id);
     }
 
     /**
@@ -560,8 +562,8 @@ public class ServiceController {
      * @param fragmentProfile the fragment the function is called from
      * @return string of the number of followers
      */
-    public String getNumbersoUserFollowers(Context context, FragmentProfile fragmentProfile) {
-        return mSupplier.getNumbersoUserFollowers(context, fragmentProfile);
+    public String getNumbersoUserFollowers(Context context, FragmentProfile fragmentProfile,String id) {
+        return mSupplier.getNumbersoUserFollowers(context, fragmentProfile,id);
     }
 
     /**
@@ -571,8 +573,8 @@ public class ServiceController {
      * @param fragmentProfile the fragment the function is called from
      * @return string of the number of following
      */
-    public String getNumbersoUserFollowing(Context context, FragmentProfile fragmentProfile) {
-        return mSupplier.getNumbersoUserFollowing(context, fragmentProfile);
+    public String getNumbersoUserFollowing(Context context, FragmentProfile fragmentProfile,String id) {
+        return mSupplier.getNumbersoUserFollowing(context, fragmentProfile,id);
     }
 
     /**
@@ -582,8 +584,8 @@ public class ServiceController {
      * @param profileFollowersFragment the fragment the function is called from
      * @return ArrayList of Container of Followers
      */
-    public ArrayList<Container> getCurrentUserFollowers(Context context, ProfileFollowersFragment profileFollowersFragment) {
-        return mSupplier.getCurrentUserFollowers(context, profileFollowersFragment);
+    public ArrayList<Container> getCurrentUserFollowers(Context context, ProfileFollowersFragment profileFollowersFragment,String id) {
+        return mSupplier.getCurrentUserFollowers(context, profileFollowersFragment,id);
     }
 
     /**
@@ -699,5 +701,17 @@ public class ServiceController {
 
     public void removeFromSaved(Context context, String id) {
         mSupplier.removeFromSaved(context, id);
+    }
+
+    public void createAlbum(Context context, ArtistAlbums artistAlbums, String name, String image, String albumType, String copyRights, String copyRightsType, Bitmap bitmap){
+        mSupplier.createAlbum(context,artistAlbums,name,image,albumType,copyRights,copyRightsType,bitmap);
+    }
+
+    public void deleteAlbum(Context context,ArtistAlbums artistAlbums,String id,int pos){
+        mSupplier.deleteAlbum(context,artistAlbums,id,pos);
+    }
+
+    public ArrayList<Container> getCurrentArtistAlbums(Context context, ArtistAlbums artistAlbums, String albumType){
+        return mSupplier.getCurrentArtistAlbums(context,artistAlbums,albumType);
     }
 }
