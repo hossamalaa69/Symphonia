@@ -81,6 +81,10 @@ public class Album {
 
     }
 
+    public void setAlbum(Context currContext) {
+
+    }
+
     /**
      * getter for album id
      *

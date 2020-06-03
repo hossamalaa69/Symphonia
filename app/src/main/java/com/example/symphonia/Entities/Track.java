@@ -100,7 +100,7 @@ public class Track implements Serializable {
      * @param mAlbum          album name
      * @param uri             Uri of track
      */
-    public Track(String mTitle, String mArtist, String playlistName, String mAlbum, int mImageResources, Uri uri, boolean locked) {
+    public Track(String mTitle,String id, String mArtist, String playlistName, String mAlbum, int mImageResources, Uri uri, boolean locked) {
         this.mTitle = mTitle;
         this.mArtist = mArtist;
         this.mAlbum = mAlbum;
@@ -108,6 +108,7 @@ public class Track implements Serializable {
         this.mImageResources = mImageResources;
         this.uri = uri;
         this.locked = locked;
+        this.id = id;
     }
 
     /**

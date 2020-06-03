@@ -1,4 +1,4 @@
-package com.example.symphonia;
+package com.example.symphonia.Helpers.MediaHelpers;
 
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -10,6 +10,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.example.symphonia.Entities.Track;
+import com.example.symphonia.R;
 
 public class PlayBarNotification {
     public static final String CHANNEL_ID = "channel1";

@@ -1,4 +1,4 @@
-package com.example.symphonia;
+package com.example.symphonia.Helpers.MediaHelpers;
 
 import android.annotation.TargetApi;
 import android.app.Service;
@@ -16,7 +16,9 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.example.symphonia.Constants;
 import com.example.symphonia.Helpers.Utils;
+import com.example.symphonia.R;
 
 import java.io.IOException;
 
@@ -171,7 +173,7 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
                 mediaPlayer.setDataSource(getApplicationContext(),
                         Uri.parse(Constants.PLAY_TRACK + Utils.currTrack.getId() + "/" + Utils.CurrTrackInfo.trackTocken));
             } else
-                mediaPlayer.setDataSource(getApplicationContext(), Utils.CurrTrackInfo.track.getUri());
+                mediaPlayer.setDataSource(getApplicationContext(), Utils.currTrack.getUri());
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.setOnPreparedListener(this);
             mediaPlayer.setOnErrorListener(this);
@@ -199,7 +201,8 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
                 wifiLock.release();
             } catch (RuntimeException e) {
             }
-        Utils.currTrack.isPlaying(false);
+        if (Utils.currTrack!=null)
+            Utils.currTrack.isPlaying(false);
     }
 
     /**
@@ -279,7 +282,8 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
      * this function release data of media player
      */
     public void releaseMedia() {
-        Utils.currTrack.isPlaying(false);
+        if(Utils.currTrack!=null)
+            Utils.currTrack.isPlaying(false);
         if (mediaPlayer != null) {
             mediaPlayer.release();
             mediaPlayer = null;

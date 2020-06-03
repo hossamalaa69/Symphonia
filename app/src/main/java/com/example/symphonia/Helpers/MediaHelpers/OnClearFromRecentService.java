@@ -1,4 +1,4 @@
-package com.example.symphonia;
+package com.example.symphonia.Helpers.MediaHelpers;
 
 import android.app.Service;
 import android.content.Intent;

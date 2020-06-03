@@ -55,15 +55,16 @@ import com.example.symphonia.Fragments_and_models.profile.ProfileFollowersFragme
 import com.example.symphonia.Fragments_and_models.profile.ProfilePlaylistsFragment;
 import com.example.symphonia.Fragments_and_models.search.SearchFragment;
 import com.example.symphonia.Fragments_and_models.settings.SettingsFragment;
+import com.example.symphonia.Helpers.MediaHelpers.MediaController;
+import com.example.symphonia.Helpers.MediaHelpers.OnClearFromRecentService;
+import com.example.symphonia.Helpers.MediaHelpers.PlayBarNotification;
+import com.example.symphonia.Helpers.MediaHelpers.playable;
 import com.example.symphonia.Helpers.SnapHelperOneByOne;
 import com.example.symphonia.Helpers.Utils;
-import com.example.symphonia.MediaController;
-import com.example.symphonia.OnClearFromRecentService;
-import com.example.symphonia.PlayBarNotification;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
-import com.example.symphonia.playable;
+import com.example.symphonia.Service.updateUiPlaylists;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -85,7 +86,7 @@ import static com.example.symphonia.Helpers.Utils.CurrTrackInfo.track;
  */
 public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAdapter.OnPlaylistClicked
         , RvTracksHomeAdapter.OnTrackClicked
-        , RestApi.updateUiPlaylists
+        , updateUiPlaylists
         // ,RestApi.updateUiGetCategories
         , RestApi.updateProfileFollow
         , RestApi.updateUiProfileInSetting
@@ -109,7 +110,8 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
      */
     @Override
     public void onTrackPlay() {
-        MediaController.getController().resumeMedia();
+        if (!MediaController.getController().isMediaPlayerPlaying())
+            MediaController.getController().resumeMedia();
         PlayBarNotification.PlayBarNotification(MainActivity.this
                 , Utils.currTrack
                 , R.drawable.ic_baseline_pause_24
@@ -125,15 +127,17 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
      */
     @Override
     public void onTrackPause() {
-        MediaController.getController().pauseMedia();
-        PlayBarNotification.PlayBarNotification(MainActivity.this
-                , Utils.currTrack
-                , R.drawable.ic_baseline_play_arrow_24
-                , Utils.getPosInPlaying(Utils.currTrack.getId())
-                , Utils.playingContext.getTracks().size() - 1);
-        playBarBtnFrame.removeAllViews();
-        playBarBtnFrame.addView(playBtn);
-        playBarBtnFrame.setOnClickListener(playBtnListener);
+        if(Utils.currTrack!=null) {
+            MediaController.getController().pauseMedia();
+            PlayBarNotification.PlayBarNotification(MainActivity.this
+                    , Utils.currTrack
+                    , R.drawable.ic_baseline_play_arrow_24
+                    , Utils.getPosInPlaying(Utils.currTrack.getId())
+                    , Utils.playingContext.getTracks().size() - 1);
+            playBarBtnFrame.removeAllViews();
+            playBarBtnFrame.addView(playBtn);
+            playBarBtnFrame.setOnClickListener(playBtnListener);
+        }
     }
 
     /**
@@ -346,7 +350,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     @Override
     public void getCurrPlayingTrackSuccess(String id) {
         int pos = Utils.getPosInPlaying(id);
-        if (Constants.DEBUG_STATUS || pos > -1) {
+        if (pos > -1) {
             if (!Utils.playingContext.getTracks().get(pos).isHidden()
                     && !Utils.playingContext.getTracks().get(pos).isLocked()) {
                 Utils.currTrack = Utils.playingContext.getTracks().get(pos);
@@ -371,9 +375,13 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
      */
     @Override
     public void updateUiGetTracksOfPlaylist(PlaylistFragment playlistFragment, ArrayList<Track> tracksList) {
-        if(playlistFragment!= null && playlistFragment.isVisible()){
+        if (tracksList.size() < 1) {
+            makeToast(getString(R.string.no_tracks));
+            return;
+        }
+        if (playlistFragment != null && playlistFragment.isVisible()) {
             Utils.displayedContext.setTracks(tracksList);
-        }else{
+        } else {
             Utils.playingContext.setTracks(tracksList);
         }
         String ids = "";
@@ -394,9 +402,9 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         if (playlistFragment != null && playlistFragment.isVisible()) {
             playlistFragment.updateTracks();
             playlistFragment.hideProgressBar();
-        }
-        else
+        } else
             playTrack();
+
     }
 
     /**
@@ -517,21 +525,22 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         createChannel();
         registerReceiver(broadcastReceiver, new IntentFilter("TRACKS_TRACKS"));
         startService(new Intent(getBaseContext(), OnClearFromRecentService.class));
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@io.reactivex.annotations.NonNull Task<InstanceIdResult> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w("Error", "getInstanceId failed", task.getException());
-                            return;
+        if (!Constants.DEBUG_STATUS)
+            FirebaseInstanceId.getInstance().getInstanceId()
+                    .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                        @Override
+                        public void onComplete(@io.reactivex.annotations.NonNull Task<InstanceIdResult> task) {
+                            if (!task.isSuccessful()) {
+                                Log.w("Error", "getInstanceId failed", task.getException());
+                                return;
+                            }
+                            // Get new Instance ID token
+                            String token = task.getResult().getToken();
+                            Log.d("newToken: ", token);
+                            ServiceController serviceController = ServiceController.getInstance();
+                            serviceController.sendRegisterToken(MainActivity.this, token);
                         }
-                        // Get new Instance ID token
-                        String token = task.getResult().getToken();
-                        Log.d("newToken: ", token);
-                        ServiceController serviceController = ServiceController.getInstance();
-                        serviceController.sendRegisterToken(MainActivity.this, token);
-                    }
-                });
+                    });
 
         mediaController = MediaController.getController();
         Bundle b = getIntent().getExtras();
@@ -545,8 +554,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
 
         ServiceController controller = ServiceController.getInstance();
         // get recently played track
-        controller.getCurrPlaying(this);
-        
         // initialize bottom navigation view
         initBottomNavView();
 
@@ -555,9 +562,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
 
         addListeners();
 
-        if (Utils.currTrack != null) {
-            showPlayBar();
-        }
         // add tracks of playlist to play bar recycler view
         if (Utils.CurrPlaylist.playlist != null) {
             barAdapter = new RvBarAdapter(this, Utils.CurrPlaylist.playlist.getTracks());
@@ -566,7 +570,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             barAdapter = new RvBarAdapter(this, null);
 
         rvBar.setAdapter(barAdapter);
-
         if (mediaController.isMediaPlayerPlaying()) {
             playBar.setVisibility(View.VISIBLE);
             rvBar.getLayoutManager().scrollToPosition(Utils.CurrTrackInfo.TrackPosInPlaylist);
@@ -575,6 +578,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         toast = null;
         checkIntent(getIntent().getExtras());
 
+        controller.getCurrPlaying(this);
 
     }
 
@@ -614,6 +618,8 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             connectToInternet();
         }
     }
+
+    private boolean dataChange = false;
 
     /**
      * this function shows playBar
@@ -661,13 +667,21 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     @Override
     public void OnItemSwitchedListener(int pos) {
         int prev = Utils.getPosInPlaying(Utils.currTrack.getId());
-        if (Utils.playingContext.getTracks().get(pos).isLocked() && !Constants.currentUser.isPremuim()
-                || Utils.playingContext.getTracks().get(pos).isHidden()) {
-            rvBar.getLayoutManager().scrollToPosition(prev);
-            return;
-        } else if (pos - prev > 0) playNextTrack();
-        else
-            playPrevTrack();
+        while (pos > -1 && pos < Utils.playingContext.getTracks().size()
+                && !Constants.currentUser.isPremuim()
+                &&(Utils.playingContext.getTracks().get(pos).isLocked()
+                || Utils.playingContext.getTracks().get(pos).isHidden())) {
+            if (pos - prev > 0) ++pos;
+            else --pos;
+        }
+        if(pos<0||pos>=Utils.playingContext.getTracks().size())
+            {
+                rvBar.getLayoutManager().scrollToPosition(prev);
+                makeToast(getString(R.string.track_is_locked));
+                return;
+            }
+        if (pos - prev > 0) playNextTrack();
+        else playPrevTrack();
     }
 
     private void playPrevTrack() {
@@ -771,13 +785,9 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             return;
         }
         Utils.playingContext = Utils.displayedContext;
-        Utils.currContextType = "playlist";
+        Utils.currContextType = Utils.displayedContext.getContextType();
         Utils.currTrack = tracks.get(pos);
-        // show play bar notification
-        if (barAdapter.getTracks() == null) {
-            barAdapter.setTracks(Utils.displayedContext.getTracks());
-            barAdapter.notifyDataSetChanged();
-        }
+
         // update data of bar
         if (!Constants.DEBUG_STATUS)
             if (!Utils.currTrack.getImageUrl().matches(""))
@@ -792,10 +802,9 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             }
         else
             trackImage.setImageResource(Utils.currTrack.getmImageResources());
-        rvBar.getLayoutManager().scrollToPosition(pos);
         playBarBtnFrame.removeAllViews();
         playBarBtnFrame.addView(pauseBtn);
-        Utils.setTrackInfo(0, pos, tracks);
+        //Utils.setTrackInfo(0, pos, tracks);
         if (playlistFragment.isVisible()) {
             playlistFragment.changeSelected();
         }
@@ -876,8 +885,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                 if (mediaController.isMediaNotNull()) {
                     mediaController.resumeMedia();
                     onTrackPlay();
-                }
-                else {
+                } else {
                     startTrack();
                     if (playlistFragment.isVisible()) {
                         playlistFragment.changeSelected();//-1, Utils.CurrTrackInfo.TrackPosInPlaylist);
@@ -886,15 +894,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             }
         }
     };
-
-    /**
-     * this function updates playButton to playing
-     */
-    private void updatePlayBtn() {
-        playBarBtnFrame.removeAllViews();
-        playBarBtnFrame.addView(pauseBtn);
-        playBarBtnFrame.setOnClickListener(playBtnListener);
-    }
 
     /**
      * this is a listener to media player after completion
@@ -946,6 +945,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                     .addToBackStack(null)
                     .commit();
         } else if (currContext.getContextType().matches("album")) {
+            // ServiceController.getInstance().getAlbum(this,currContext.getId());
             //TODO open album
             makeToast("open album");
         } else if (currContext.getContextType().matches("artist")) {
@@ -953,6 +953,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             makeToast("open artist");
         }
     }
+
 
     /**
      * this function attach data to views in mainActivity

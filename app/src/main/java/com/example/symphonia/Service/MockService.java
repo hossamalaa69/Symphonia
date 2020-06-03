@@ -190,35 +190,34 @@ public class MockService implements APIs {
 
         mPopularContext = new ArrayList<>();
         ArrayList<Track> tracks = new ArrayList<Track>();
-        tracks.add(new Track("Rescue Me", "OneRepublic", "mood booster",
+        tracks.add(new Track("Rescue Me", "sdflk;asfl;jsd[jrfd", "OneRepublic", "mood booster",
                 "Rescue Me", R.drawable.rescue_me, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), false));
-        tracks.add(new Track("Freaking Me Out", "Ava Max",
+        tracks.add(new Track("Freaking Me Out", "sdlfknesdfalklsdlsd", "Ava Max",
                 "mood booster", null, R.drawable.freaking_me_out, Settings.System.DEFAULT_RINGTONE_URI, true));
-        tracks.add(new Track("You Can't Stop The Girl",
+        tracks.add(new Track("You Can't Stop The Girl", "dlsfk;jl;esafdoilfd",
                 "Bebe Rexha", "mood booster", null, R.drawable.you_cant_stop_the_girl
                 , Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), false));
-        mPopularContext.add(new com.example.symphonia.Entities.Context("mood booster",
+        mPopularContext.add(new com.example.symphonia.Entities.Context("mood booster", "ewoirgwepdoed",
                 "Get happy with this pick-up playlist full of current feel-good songs",
                 Utils.convertToBitmap(R.drawable.mood_booster), tracks, "playlist"));
-
         mRecentContext = new ArrayList<com.example.symphonia.Entities.Context>();
         ArrayList<Track> rTracks = new ArrayList<Track>();
-        rTracks.add(new Track("Little Do You Know", "Alex & Sierra", "Rewind-the sound of 2014"
+        rTracks.add(new Track("Little Do You Know", "srtyhtutyhgdgsfdgdsdf", "Alex & Sierra", "Rewind-the sound of 2014"
                 , null, R.drawable.little_do_you_know, Settings.System.DEFAULT_RINGTONE_URI, true));
-        rTracks.add(new Track("Wildest Dreams", "Taylor Swift", "Rewind-the sound of 2014"
+        rTracks.add(new Track("Wildest Dreams", "shtfgfmnbghguyghf", "Taylor Swift", "Rewind-the sound of 2014"
                 , null, R.drawable.wildest_dreams, Uri.parse("http://stream.radiosai.net:8002/"), false));
-        rTracks.add(new Track("One Last Time", "Ariana Grande", "Rewind-the sound of 2014"
+        rTracks.add(new Track("One Last Time", "lfdgkm;dskvnlsd", "Ariana Grande", "Rewind-the sound of 2014"
                 , null, R.drawable.one_last_time, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), false));
-        mRecentContext.add(new com.example.symphonia.Entities.Context("Rewind-the sound of 2014", null,
-                Utils.convertToBitmap(R.drawable.rewind_the_sound), rTracks));
+        mRecentContext.add(new com.example.symphonia.Entities.Context("Rewind-the sound of 2014", "sdfljdsfkdslkfv", null,
+                Utils.convertToBitmap(R.drawable.rewind_the_sound), rTracks, "playlist"));
 
         mRandomContext = new ArrayList<>();
         ArrayList<Track> ranTracks = new ArrayList<Track>();
-        ranTracks.add(new Track("Intentions", "Justing Bieber, Quavo", "Daily Left", null, R.drawable.intentions, Settings.System.DEFAULT_RINGTONE_URI, false));
-        ranTracks.add(new Track("Stupid Love", "Lady Gaga", "Daily Left", null, R.drawable.stupid_love, Uri.parse("http://stream.radiosai.net:8002/"), false));
-        ranTracks.add(new Track("Feel Me", "Selena Gomez", "Daily Left", null, R.drawable.feel_me, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), true));
-        mRandomContext.add(new com.example.symphonia.Entities.Context("Daily Left", "Sia, J Balvin, Bad Bunny, Justin Bieber, Drake",
-                Utils.convertToBitmap(R.drawable.daily_left), ranTracks));
+        ranTracks.add(new Track("Intentions", "sdfirjkfdvkjdsc", "Justing Bieber, Quavo", "Daily Left", null, R.drawable.intentions, Settings.System.DEFAULT_RINGTONE_URI, false));
+        ranTracks.add(new Track("Stupid Love", "sldksldkfnlasdnc", "Lady Gaga", "Daily Left", null, R.drawable.stupid_love, Uri.parse("http://stream.radiosai.net:8002/"), false));
+        ranTracks.add(new Track("Feel Me", "slkdjfslkfdkdsljf", "Selena Gomez", "Daily Left", null, R.drawable.feel_me, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), true));
+        mRandomContext.add(new com.example.symphonia.Entities.Context("Daily Left", "dslkfoeirefdds", "Sia, J Balvin, Bad Bunny, Justin Bieber, Drake",
+                Utils.convertToBitmap(R.drawable.daily_left), ranTracks, "playlist"));
 
         mContexts = new ArrayList<com.example.symphonia.Entities.Context>();
         mContexts.addAll(mPopularContext);
@@ -228,14 +227,14 @@ public class MockService implements APIs {
             playlist.setmOwnerName("Symphonia");
         }
 
-        mTracks = new ArrayList<>();
+/*        mTracks = new ArrayList<>();
         mTracks.addAll(tracks);
         mTracks.addAll(rTracks);
         mTracks.addAll(ranTracks);
 
         for (int i = 0; i < mTracks.size(); i++) {
             mTracks.get(i).setId(String.valueOf(i));
-        }
+        }*/
 
         mLikedSongs = new ArrayList<>();
         mLikedSongs.addAll(tracks);
@@ -277,7 +276,25 @@ public class MockService implements APIs {
      */
     @Override
     public ArrayList<Track> getTracksOfPlaylist(Context context, String id, PlaylistFragment playlistFragment) {
-        return mRecentPlaylists.get(0).getTracks();
+        final updateUiPlaylists listener = (updateUiPlaylists) context;
+        for (int i = 0; i < mPopularContext.size(); i++) {
+            if (mPopularContext.get(i).getId().matches(id)) {
+                Utils.playingContext.setTracks( mPopularContext.get(i).getTracks());
+            }
+        }
+        for (int i = 0; i < mRecentContext.size(); i++) {
+            if (mRecentContext.get(i).getId().matches(id)) {
+                Utils.playingContext.setTracks( mRecentContext.get(i).getTracks());
+
+            }
+        }
+        for (int i = 0; i < mRandomContext.size(); i++) {
+            if (mRandomContext.get(i).getId().matches(id)) {
+                Utils.playingContext.setTracks( mRandomContext.get(i).getTracks());
+            }
+        }
+        listener.updateUiGetTracksOfPlaylist(playlistFragment,Utils.playingContext.getTracks());
+        return null; //mRecentPlaylists.get(0).getTracks();
     }
 
 
@@ -407,6 +424,11 @@ public class MockService implements APIs {
      */
     @Override
     public void playTrack(Context context) {
+        final updateUiPlaylists listener = (updateUiPlaylists) context;
+        playingContextId = Utils.playingContext.getId();
+        currTrackId = Utils.currTrack.getId();
+        currContextType = Utils.playingContext.getContextType();
+        listener.updateUiPlayTrack();
 
     }
 
@@ -1356,12 +1378,55 @@ public class MockService implements APIs {
         return null;
     }
 
+    private static String currTrackId = "dlsfk;jl;esafdoilfd";
+    private static String currContextType = "playlist";
+    private static String playingContextId = "ewoirgwepdoed";
+
     @Override
     public void getCurrPlaying(Context context) {
+        final updateUiPlaylists listener = (updateUiPlaylists) context;
+        listener.getCurrPlayingTrackSuccess(currTrackId);
+
+    }
+
+    private com.example.symphonia.Entities.Context playingContext;
+
+    private Track getTrackOfId(String id) {
+        for (int i = 0; i < mPopularContext.size(); i++) {
+            for (int j = 0; j < mPopularContext.get(i).getTracks().size(); j++) {
+                mPopularContext.get(i).getTracks().get(j).getId();
+                if (mPopularContext.get(i).getTracks().get(j).getId().matches(id)) {
+                    playingContext = mPopularContext.get(i);
+                    return mPopularContext.get(i).getTracks().get(j);
+                }
+            }
+        }
+        for (int i = 0; i < mRecentContext.size(); i++) {
+            for (int j = 0; j < mRecentContext.get(i).getTracks().size(); j++) {
+                if (mRecentContext.get(i).getTracks().get(j).getId().matches(id)) {
+                    playingContext = mRecentContext.get(i);
+                    return mRecentContext.get(i).getTracks().get(j);
+                }
+            }
+        }
+        for (int i = 0; i < mRandomContext.size(); i++) {
+            for (int j = 0; j < mRandomContext.get(i).getTracks().size(); j++) {
+                if (mRandomContext.get(i).getTracks().get(j).getId().matches(id)) {
+                    playingContext = mRandomContext.get(i);
+                    return mRandomContext.get(i).getTracks().get(j);
+                }
+            }
+        }
+        return null;
     }
 
     @Override
     public void getTrack(Context context, String id) {
+        final updateUiPlaylists listener = (updateUiPlaylists) context;
+        Utils.currContextType = currContextType;
+        Utils.currTrack = getTrackOfId(id);
+        Utils.playingContext = playingContext;
+        listener.getTrackSuccess();
     }
 
     /**
@@ -1474,21 +1539,40 @@ public class MockService implements APIs {
 
     @Override
     public void getQueue(Context context) {
-
+        getTracksOfPlaylist(context, playingContextId, null);
     }
 
     @Override
     public void playNext(Context context) {
-
+        int pos = Utils.getPosInPlaying(Utils.currTrack.getId());
+        if(Utils.playingContext.getTracks().size()-1> pos)
+            pos++;
+        Utils.currTrack = Utils.playingContext.getTracks().get(pos);
+        getCurrPlaying(context);
     }
 
     @Override
     public void playPrev(Context context) {
-
+        int pos = Utils.getPosInPlaying(Utils.currTrack.getId());
+        if(pos>0)
+            pos--;
+        Utils.currTrack = Utils.playingContext.getTracks().get(pos);
+        getCurrPlaying(context);
     }
 
     @Override
     public void checkSaved(Context context, String ids, PlaylistFragment playlistFragment) {
+        final updateUiPlaylists listener = (updateUiPlaylists) context;
+        if(Utils.displayedContext!=null)
+            Utils.displayedContext.getTracks().get(0).setLiked(false);
+        Utils.playingContext.getTracks().get(0).setLiked(false);
+        for(int i = 1 ;i<Utils.playingContext.getTracks().size();i++) {
+            if (Utils.displayedContext != null) {
+                    Utils.displayedContext.getTracks().get(i).setLiked(false);
+            }
+            Utils.playingContext.getTracks().get(i).setLiked(false);
+        }
+        listener.updateUicheckSaved(playlistFragment);
 
     }
 

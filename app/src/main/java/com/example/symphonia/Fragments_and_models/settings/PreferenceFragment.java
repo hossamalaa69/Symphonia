@@ -29,7 +29,10 @@ import androidx.preference.PreferenceFragmentCompat;
 import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Activities.User_Interface.StartActivity;
 import com.example.symphonia.Constants;
+import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
+
+import okhttp3.internal.Util;
 
 
 public class PreferenceFragment extends PreferenceFragmentCompat {
@@ -43,6 +46,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat {
         logOut.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
+                Utils.resetUserData();
                 getActivity().finish();
 
                 SharedPreferences sharedPref= getContext().getSharedPreferences("LoginPref",0);

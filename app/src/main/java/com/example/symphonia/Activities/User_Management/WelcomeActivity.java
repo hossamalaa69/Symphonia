@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Activities.User_Interface.StartActivity;
 import com.example.symphonia.Activities.User_Management.SignUp.Step1Activity;
 import com.example.symphonia.Constants;

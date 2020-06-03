@@ -80,7 +80,7 @@
             android:name=".Helpers.AdDialog"
             android:theme="@style/Theme.UserDialog" />
 
-        <service android:name=".MediaController" />
+        <service android:name=".Helpers.MediaHelpers.MediaController" />
 
         <activity
             android:name=".Activities.User_Interface.ArtistsSearchActivity"
@@ -257,8 +257,8 @@
             </intent-filter>
 
         </service>
-            <receiver android:name=".NotificationActionService"/>
-        <service android:name=".OnClearFromRecentService"/>
+            <receiver android:name=".Helpers.MediaHelpers.NotificationActionService"/>
+        <service android:name=".Helpers.MediaHelpers.OnClearFromRecentService"/>
 
 
         <meta-data android:name="com.facebook.sdk.ApplicationId"

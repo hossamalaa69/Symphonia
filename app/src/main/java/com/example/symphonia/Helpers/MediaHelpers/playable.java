@@ -1,4 +1,4 @@
-package com.example.symphonia;
+package com.example.symphonia.Helpers.MediaHelpers;
 
 public interface playable {
     void onTrackPrev();

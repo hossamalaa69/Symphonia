@@ -56,7 +56,7 @@ public class Context {
      * @param mContextImage       playlist image
      * @param tracks               playlist tracks
      */
-    public Context(String mContextTitle, String mContextDescription, Bitmap mContextImage, ArrayList<Track> tracks) {
+    public Context(String mContextTitle, String id,String mContextDescription, Bitmap mContextImage, ArrayList<Track> tracks) {
         this.mContextTitle = mContextTitle;
         this.mContextDescription = mContextDescription;
         this.mContextImage = mContextImage;
@@ -84,12 +84,13 @@ public class Context {
         this.mOwnerName = mOwnerName;
     }
 
-    public  Context(String mContextTitle, String mContextDescription, Bitmap mContextImage, ArrayList<Track> tracks,String type) {
+    public  Context(String mContextTitle, String id,String mContextDescription, Bitmap mContextImage, ArrayList<Track> tracks,String type) {
         this.mContextTitle = mContextTitle;
         this.mContextDescription = mContextDescription;
         this.mContextImage = mContextImage;
         this.tracks = tracks;
         contextType =type;
+        this.id = id;
     }
 
     /**

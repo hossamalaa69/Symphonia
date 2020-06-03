@@ -34,20 +34,19 @@ import com.example.symphonia.Fragments_and_models.playlist.PlaylistFragment;
 import com.example.symphonia.Helpers.AdDialog;
 import com.example.symphonia.Helpers.SnapHelperOneByOne;
 import com.example.symphonia.Helpers.Utils;
-import com.example.symphonia.MediaController;
-import com.example.symphonia.OnClearFromRecentService;
-import com.example.symphonia.PlayBarNotification;
+import com.example.symphonia.Helpers.MediaHelpers.MediaController;
+import com.example.symphonia.Helpers.MediaHelpers.OnClearFromRecentService;
+import com.example.symphonia.Helpers.MediaHelpers.PlayBarNotification;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
-import com.example.symphonia.playable;
+import com.example.symphonia.Helpers.MediaHelpers.playable;
+import com.example.symphonia.Service.updateUiPlaylists;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
-import okhttp3.internal.Util;
 
 /**
  * Activity that accessing tracks and playing them
@@ -56,7 +55,7 @@ import okhttp3.internal.Util;
  * @version 1.0
  */
 public class PlayActivity extends AppCompatActivity implements Serializable, RvTracksPlayActivityAdapter.OnItemSwitched
-        , RestApi.updateUiPlaylists
+        , updateUiPlaylists
         , MediaController.OnStartListener
         , playable {
 

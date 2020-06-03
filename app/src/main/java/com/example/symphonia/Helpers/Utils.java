@@ -18,6 +18,7 @@ import com.example.symphonia.Entities.Category;
 import com.example.symphonia.Entities.Container;
 import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Track;
+import com.example.symphonia.Helpers.MediaHelpers.MediaController;
 import com.example.symphonia.R;
 
 import java.util.ArrayList;
@@ -51,6 +52,14 @@ public class Utils {
             if (playingContext.getTracks().get(i).getId().matches(id)) return i;
         }
         return -1;
+    }
+    public static void resetUserData(){
+        currTrack = null;
+        currContextType = null;
+        currContextId   = null;
+        playingContext = null;
+        displayedContext = null;
+        MediaController.getController().releaseMedia();
     }
 
     /**

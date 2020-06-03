@@ -1035,7 +1035,7 @@ public class RestApi implements APIs {
             public void onResponse(String response) {
                 try {
                     Log.e("tracks", "respond");
-                    Utils.LoadedPlaylists.randomPlaylists = new ArrayList<>();
+                   // Utils.LoadedPlaylists.randomPlaylists = new ArrayList<>();
                     JSONObject root = new JSONObject(response);
                     JSONObject tracks = root.getJSONObject("tracks");
                     JSONArray items = tracks.getJSONArray("items");
@@ -2768,48 +2768,6 @@ public class RestApi implements APIs {
         void updateUiSignUpSuccess();
 
         void updateUiSignUpFailed();
-    }
-
-
-    /**
-     * this interface includes listeners to update ui
-     */
-    public interface updateUiPlaylists {
-        void getCategoriesSuccess();
-
-        void getCurrPlayingTrackSuccess(String id);
-
-        void getCurrPlayingTrackFailed();
-
-        void updateUiNoTracks(PlaylistFragment playlistFragment);
-
-        void updateUiGetTracksOfPlaylist(PlaylistFragment playlistFragment, ArrayList<Track> tracksList);
-
-        void updateUicheckSaved(PlaylistFragment playlistFragment);
-
-        void updateUiGetPopularPlaylistsSuccess();
-
-        void updateUiGetPopularPlaylistsFail();
-
-        void updateUiGetRandomPlaylistsSuccess(HomeFragment homeFragment);
-
-        void updateUiGetRandomPlaylistsFail();
-
-        void updateUiGetRecentPlaylistsSuccess(HomeFragment homeFragment);
-
-        void updateUiGetRecentPlaylistsFail();
-
-        void updateUiGetMadeForYouPlaylistsSuccess();
-
-        void updateUiGetMadeForYouPlaylistsFail();
-
-        void updateUiPlayTrack();
-
-        void getTrackSuccess();
-
-        void updateUiGetQueue();
-
-        void getTrackOfQueue();
     }
 
     public interface UpdatePlaylist {

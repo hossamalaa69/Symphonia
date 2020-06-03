@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -87,15 +89,7 @@ public class PlaylistFragment extends Fragment {
         playlistTitle.setText(Utils.displayedContext.getmContextTitle());
         madeForUser.setText(R.string.made_for_you_by_spotify);
 
-        if (Constants.DEBUG_STATUS) {
-
-            updateTracks();
-            progressPar.setVisibility(View.GONE);
-        } else {
-            ServiceController serviceController = ServiceController.getInstance();
-            serviceController.getTracksOfPlaylist(getContext(), Utils.displayedContext.getId(), this);
-        }
-        // transition drawable controls the animation ov changing background
+       // transition drawable controls the animation ov changing background
 
 
         final FrameLayout frameLayout = view.findViewById(R.id.frame_playlist_fragment);
@@ -134,7 +128,7 @@ public class PlaylistFragment extends Fragment {
             public void onClick(View v) {
 
                 for (int i = 0; i < Utils.displayedContext.getTracks().size(); i++)
-                    if (!Utils.displayedContext.getTracks().get(i).isLocked()&&!Utils.displayedContext.getTracks().get(i).isHidden()) {
+                    if (!Utils.displayedContext.getTracks().get(i).isLocked() && !Utils.displayedContext.getTracks().get(i).isHidden()) {
                         Utils.currTrack = Utils.displayedContext.getTracks().get(i);
                         Utils.currContextType = "playlist";
                         Utils.currContextId = Utils.displayedContext.getId();
@@ -150,6 +144,13 @@ public class PlaylistFragment extends Fragment {
     }
 
     Drawable background;
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ServiceController serviceController = ServiceController.getInstance();
+        serviceController.getTracksOfPlaylist(getContext(), Utils.displayedContext.getId(), this);
+    }
 
     /**
      * this function is called to update recycler view of tracks
