@@ -401,7 +401,6 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
             BitmapDrawable drawable = (BitmapDrawable) profileImage.getDrawable();
             bitmap[0] =drawable.getBitmap();
             profile.setImgBitmap(bitmap[0]);
-
         }
         else {
         Picasso.get()

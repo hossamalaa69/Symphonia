@@ -213,7 +213,7 @@ public class SettingsFragment extends Fragment{
             profileImg = drawable.getBitmap();
         }
         else {
-            if (!profile.getImgUrl().contains("default")) {
+            //if (!profile.getImgUrl().contains("default")) {
                 Picasso.get()
                         .load(profile.getImgUrl())
                         .fit()
@@ -232,10 +232,10 @@ public class SettingsFragment extends Fragment{
                             }
 
                         });
+        }
                 BitmapDrawable drawable = (BitmapDrawable) userImg.getDrawable();
                 profileImg = drawable.getBitmap();
-            }
-        }
+            //}
         profileName=profile.getCat_Name();
         Constants.currentUser.setmName(profileName);
         //userImg.setImageBitmap(profileImg);
