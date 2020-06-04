@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/search_background">
-    <com.makeramen.roundedimageview.RoundedImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
         android:layout_gravity="center"
         android:layout_width="150dp"
@@ -14,7 +14,6 @@
         android:layout_marginTop="90dp"
         android:src="@drawable/selena"
         android:scaleType="centerCrop"
-        app:riv_oval="true"
         />
     <TextView
         android:textStyle="bold"

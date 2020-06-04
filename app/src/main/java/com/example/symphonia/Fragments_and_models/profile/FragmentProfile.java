@@ -420,8 +420,8 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
         profile.setImgBitmap(bitmap[0]);
         profileName.setText(p.getCat_Name());
         backgroundProfileName.setText(p.getCat_Name());
-        Drawable drawable=Utils.createSearchListBackground(getContext(),profile);
-        background.setBackground(drawable);
+        //Drawable drawable=Utils.createSearchListBackground(getContext(),profile);
+        //background.setBackground(drawable);
     }
 
     @Override

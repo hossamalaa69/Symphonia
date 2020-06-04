@@ -1,6 +1,8 @@
 package com.example.symphonia.Activities.User_Management.Notifications;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,6 +17,8 @@ import android.widget.Toast;
 import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Adapters.NotificationAdapter;
 import com.example.symphonia.Constants;
+import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
+import com.example.symphonia.Fragments_and_models.profile.ProfilePlaylistsFragment;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
@@ -83,6 +87,11 @@ public class NotificationsHistoryActivity extends AppCompatActivity implements R
                 /*
                 TODO:open profile page which it's ID is stored in profileID variable
                 */
+                Intent i = new Intent(this, MainActivity.class);
+                Bundle b = new Bundle();
+                b.putString("id",profileID );
+                i.putExtras(b);
+                startActivity(i);
             }
 
             //TODO:Mahmoud
@@ -93,6 +102,13 @@ public class NotificationsHistoryActivity extends AppCompatActivity implements R
                 /*
                 TODO:open profile page which it's ID is stored in profileID variable
                  */
+
+                Intent i = new Intent(this, MainActivity.class);
+                Bundle b = new Bundle();
+                b.putString("id",profileID );
+                i.putExtras(b);
+                startActivityForResult(i,123);
+
             }
 
             //TODO:Khalid

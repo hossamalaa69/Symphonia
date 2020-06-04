@@ -32,6 +32,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
@@ -104,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     /**
      * listener of notification
      */
+
     @Override
     public void onTrackPrev() {
         playPrevTrack();
@@ -526,6 +529,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //create channel for play bar notification
+
         createChannel();
         registerReceiver(broadcastReceiver, new IntentFilter("TRACKS_TRACKS"));
         startService(new Intent(getBaseContext(), OnClearFromRecentService.class));
@@ -584,6 +588,17 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
 
         controller.getCurrPlaying(this);
 
+        Bundle bundle = getIntent().getExtras();
+        if(bundle!=null) {
+            String id = bundle.getString("id");
+            if(id!=null){
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.nav_host_fragment,new FragmentProfile(id));
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        }
     }
 
     /**
@@ -1300,7 +1315,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                         .commit();
             }
         }
-    }
+            }
 
     public void startCreatePlaylist() {
         Intent createPlaylistIntent = new Intent(this, CreatePlaylistActivity.class);
