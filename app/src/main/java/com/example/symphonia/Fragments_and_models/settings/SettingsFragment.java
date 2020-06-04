@@ -23,6 +23,9 @@ import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Container;
@@ -208,7 +211,20 @@ public class SettingsFragment extends Fragment{
 
     public void updateUiProfile(Profile profile){
         if(profile.getImgUrl().contains("facebook")) {
-            Glide.with(getContext()).load(profile.getImgUrl()).into(userImg);
+            Glide.with(getContext()).load(profile.getImgUrl()).listener(new RequestListener<String, GlideDrawable>() {
+                @Override
+                public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                    userImg.setImageDrawable(resource);
+                    BitmapDrawable drawable = (BitmapDrawable) userImg.getDrawable();
+                    profileImg = drawable.getBitmap();
+                    return false;
+                }
+            });
             BitmapDrawable drawable = (BitmapDrawable) userImg.getDrawable();
             profileImg = drawable.getBitmap();
         }
