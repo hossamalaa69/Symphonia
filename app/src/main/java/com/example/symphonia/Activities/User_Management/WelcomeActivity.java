@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,7 +44,7 @@ public class WelcomeActivity extends AppCompatActivity implements RestApi.update
      */
     private String mType;
 
-
+    private ProgressBar progressBar;
     private LoginButton loginButton;
     private CallbackManager callbackManager;
 
@@ -60,6 +61,7 @@ public class WelcomeActivity extends AppCompatActivity implements RestApi.update
         Bundle b = getIntent().getExtras();
         mType = b.getString("user");
 
+        progressBar = (ProgressBar) findViewById(R.id.progress_welcome);
         loginButton = (LoginButton) findViewById(R.id.login_button);
 
 
@@ -68,6 +70,7 @@ public class WelcomeActivity extends AppCompatActivity implements RestApi.update
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+                progressBar.setVisibility(View.VISIBLE);
                 String token = loginResult.getAccessToken().getToken();
                 String id = loginResult.getAccessToken().getUserId();
                 String imageUrl = "https://graph.facebook.com/"+id+"/picture?type=large";
@@ -161,6 +164,7 @@ public class WelcomeActivity extends AppCompatActivity implements RestApi.update
         editor.putString("image",Constants.currentUser.getImageUrl());
         editor.apply();
 
+        progressBar.setVisibility(View.GONE);
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
 
@@ -168,6 +172,7 @@ public class WelcomeActivity extends AppCompatActivity implements RestApi.update
 
     @Override
     public void updateUIFacebookFail() {
+        progressBar.setVisibility(View.GONE);
         Intent i = new Intent(this, StartActivity.class);
         startActivity(i);
     }

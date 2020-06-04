@@ -420,7 +420,6 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
                     public void onError(Exception e) {
 
                     }
-
                 });
         }
         profile=new Container(p.getCat_Name(),p.getImgUrl(),null,id);
