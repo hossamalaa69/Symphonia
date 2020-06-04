@@ -113,7 +113,7 @@ public class NotificationsHistoryActivity extends AppCompatActivity implements R
                 Bundle b = new Bundle();
                 b.putString("id",profileID );
                 i.putExtras(b);
-                startActivityForResult(i,123);
+                startActivity(i);
 
             }
 
