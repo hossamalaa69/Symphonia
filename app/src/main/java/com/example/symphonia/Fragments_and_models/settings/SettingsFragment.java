@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 
+import com.bumptech.glide.Glide;
 import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Container;
@@ -206,27 +207,34 @@ public class SettingsFragment extends Fragment{
     }
 
     public void updateUiProfile(Profile profile){
-        if(!profile.getImgUrl().contains("default")) {
-            Picasso.get()
-                    .load(profile.getImgUrl())
-                    .fit()
-                    .centerCrop()
-                    .placeholder(R.drawable.img_init_profile)
-                    .into(userImg, new com.squareup.picasso.Callback() {
-                        @Override
-                        public void onSuccess() {
-                            BitmapDrawable drawable = (BitmapDrawable) userImg.getDrawable();
-                            profileImg = drawable.getBitmap();
-                        }
-
-                        @Override
-                        public void onError(Exception e) {
-
-                        }
-
-                    });
+        if(profile.getImgUrl().contains("facebook")) {
+            Glide.with(getContext()).load(profile.getImgUrl()).into(userImg);
             BitmapDrawable drawable = (BitmapDrawable) userImg.getDrawable();
             profileImg = drawable.getBitmap();
+        }
+        else {
+            if (!profile.getImgUrl().contains("default")) {
+                Picasso.get()
+                        .load(profile.getImgUrl())
+                        .fit()
+                        .centerCrop()
+                        .placeholder(R.drawable.img_init_profile)
+                        .into(userImg, new com.squareup.picasso.Callback() {
+                            @Override
+                            public void onSuccess() {
+                                BitmapDrawable drawable = (BitmapDrawable) userImg.getDrawable();
+                                profileImg = drawable.getBitmap();
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+
+                            }
+
+                        });
+                BitmapDrawable drawable = (BitmapDrawable) userImg.getDrawable();
+                profileImg = drawable.getBitmap();
+            }
         }
         profileName=profile.getCat_Name();
         Constants.currentUser.setmName(profileName);

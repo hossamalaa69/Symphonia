@@ -26,6 +26,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.symphonia.Activities.User_Interface.EditProfileActivity;
 import com.example.symphonia.Adapters.ProfilePlaylistsAdapter;
 import com.example.symphonia.Constants;
@@ -395,7 +396,14 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
 
     public void updateUiProfile(Profile p){
         final Bitmap[] bitmap = new Bitmap[1];
-        //if(!p.getImgUrl().contains("default")) {
+        if(p.getImgUrl().contains("facebook")) {
+            Glide.with(getContext()).load(p.getImgUrl()).into(profileImage);
+            BitmapDrawable drawable = (BitmapDrawable) profileImage.getDrawable();
+            bitmap[0] =drawable.getBitmap();
+            profile.setImgBitmap(bitmap[0]);
+
+        }
+        else {
         Picasso.get()
                 .load(p.getImgUrl())
                 .fit()
@@ -415,13 +423,13 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
                     }
 
                 });
-        //}
+        }
         profile=new Container(p.getCat_Name(),p.getImgUrl(),null,id);
         profile.setImgBitmap(bitmap[0]);
         profileName.setText(p.getCat_Name());
         backgroundProfileName.setText(p.getCat_Name());
-        //Drawable drawable=Utils.createSearchListBackground(getContext(),profile);
-        //background.setBackground(drawable);
+        Drawable drawable=Utils.createSearchListBackground(getContext(),profile);
+        background.setBackground(drawable);
     }
 
     @Override
