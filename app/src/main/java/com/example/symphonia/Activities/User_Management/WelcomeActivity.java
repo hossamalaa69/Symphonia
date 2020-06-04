@@ -25,6 +25,7 @@ import com.facebook.login.Login;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -60,14 +61,17 @@ public class WelcomeActivity extends AppCompatActivity implements RestApi.update
         mType = b.getString("user");
 
         loginButton = (LoginButton) findViewById(R.id.login_button);
+
+
         callbackManager = CallbackManager.Factory.create();
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 String token = loginResult.getAccessToken().getToken();
-                showToken(token);
-                getUserInfo(token);
+                String id = loginResult.getAccessToken().getUserId();
+                String imageUrl = "https://graph.facebook.com/"+id+"/picture?type=large";
+                getUserInfo(token,imageUrl);
             }
 
             @Override
@@ -82,9 +86,10 @@ public class WelcomeActivity extends AppCompatActivity implements RestApi.update
         });
     }
 
-    public void getUserInfo(String token){
+
+    public void getUserInfo(String token, String ImageUrl){
         ServiceController serviceController = ServiceController.getInstance();
-        serviceController.facebookLogin(this,token);
+        serviceController.facebookLogin(this,token, ImageUrl);
     }
 
     public void cancelLogin(){

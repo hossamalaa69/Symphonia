@@ -274,7 +274,7 @@ public class RestApi implements APIs {
 
 
     @Override
-    public boolean facebookLogin(final Context context, final String fb_token) {
+    public boolean facebookLogin(final Context context, final String fb_token, final String image) {
         final updateUIFacebook uiFacebook = (updateUIFacebook) context;
 
         RetrofitSingleton retrofitSingleton = RetrofitSingleton.getInstance();
@@ -291,29 +291,35 @@ public class RestApi implements APIs {
                 if(response.code()==200 || response.code()==201){
                     try {
                         JSONObject root = new JSONObject(new Gson().toJson(response.body()));
-                        Constants.currentToken = root.getString("token");
-                        JSONObject user = root.getJSONObject("user");
-                        String id = user.getString("_id");
-                        String name = user.getString("name");
-                        String email = user.getString("email");
-                        String type = user.getString("type");
-                        String image = user.getString("imageUrl");
-                        boolean premium = false;
-                        if (type.equals("premium-user")) {
-                            premium = true;
-                            type = "user";
-                        } else if (type.equals("artist")) {
-                            premium = true;
-                        }
 
-                        Constants.currentUser = new User(email, id, name, type.equals("user"), premium);
+                        String token_str = root.getString("token");
+                        JSONObject convertedObject = root.getJSONObject("user");
+                        String id = convertedObject.getString("_id");
+                        String email = convertedObject.getString("email");
+                        String name = convertedObject.getString("name");
+                        String type = convertedObject.getString("type");
+                        String img = convertedObject.getString("imageFacebookUrl");
+                        boolean mType = true;
+                        boolean premium = false;
+                        if(type.equals("user-premium")){
+                            type = "user";
+                            premium=true;
+                        }else if(type.equals("artist")){
+                            mType=false;
+                            premium=true;
+                        }
+                        Constants.currentToken=token_str;
+                        Constants.currentUser = new User(email, id, name, mType, premium);
                         Constants.currentUser.setUserType(type);
-                        Constants.currentUser.setImageUrl(image);
+                        Constants.currentUser.setImageUrl(img);
                         uiFacebook.updateUIFacebookSuccess();
                     }catch (Exception e){
                         e.printStackTrace();
                         uiFacebook.updateUIFacebookFail();
                     }
+                }else{
+                    Toast.makeText(context, "Failed, Code:"+response.code(),Toast.LENGTH_SHORT).show();
+                    uiFacebook.updateUIFacebookFail();
                 }
             }
 

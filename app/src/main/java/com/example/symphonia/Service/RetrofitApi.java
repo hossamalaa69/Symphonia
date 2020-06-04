@@ -57,8 +57,8 @@ public interface RetrofitApi {
     @GET("api/v1/me/notifications")
     Call<JsonObject> getNotifications(@HeaderMap Map<String, String> headers);
 
-    @POST("users/auth/facebook/Symphonia")
-    Call<JsonObject> loginFacebookAPI(@HeaderMap Map<String,String> headers);
+    @POST("api/v1/users/auth/facebook/Symphonia")
+    Call<JsonObject> loginFacebookAPI(@Body Map<String,String> body);
 
     @DELETE("api/v1/albums/{album_id}")
     Call<JsonObject> deleteAlbum(

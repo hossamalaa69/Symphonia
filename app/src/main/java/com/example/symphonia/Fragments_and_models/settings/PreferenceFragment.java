@@ -31,6 +31,7 @@ import com.example.symphonia.Activities.User_Interface.StartActivity;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
+import com.facebook.login.LoginManager;
 
 import okhttp3.internal.Util;
 
@@ -53,6 +54,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat {
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.clear();
                 editor.apply();
+                LoginManager.getInstance().logOut();
 
                 Intent startActivityIntent = new Intent(getContext(), StartActivity.class);
                 startActivity(startActivityIntent);

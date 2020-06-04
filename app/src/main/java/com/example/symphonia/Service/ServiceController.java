@@ -71,8 +71,8 @@ public class ServiceController {
         return mSupplier.logIn(context, username, password, mType);
     }
 
-    public boolean facebookLogin(Context context, String fb_token) {
-        return mSupplier.facebookLogin(context, fb_token);
+    public boolean facebookLogin(Context context, String fb_token, String image) {
+        return mSupplier.facebookLogin(context, fb_token, image);
     }
 
     public boolean forgetPassword(final Context context, String email) {
