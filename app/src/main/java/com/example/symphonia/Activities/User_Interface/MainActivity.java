@@ -585,9 +585,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         }
         toast = null;
         checkIntent(getIntent().getExtras());
-
-        controller.getCurrPlaying(this);
-
         Bundle bundle = getIntent().getExtras();
         if(bundle!=null) {
             String id = bundle.getString("id");
@@ -599,6 +596,12 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                 fragmentTransaction.commit();
             }
         }
+        String fragment = getIntent().getExtras().getString("playlist_fragment");
+        if(fragment!= null && fragment.matches("playlist_fragment")){
+            OnPlaylistClickedListener(Utils.displayedContext);
+        }
+        else
+            controller.getCurrPlaying(this);
     }
 
     /**

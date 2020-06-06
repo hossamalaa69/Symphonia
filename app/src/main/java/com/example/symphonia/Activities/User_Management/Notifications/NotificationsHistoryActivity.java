@@ -19,6 +19,10 @@ import com.example.symphonia.Adapters.NotificationAdapter;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
 import com.example.symphonia.Fragments_and_models.profile.ProfilePlaylistsFragment;
+import com.example.symphonia.Entities.Context;
+import com.example.symphonia.Entities.Playlist;
+import com.example.symphonia.Fragments_and_models.playlist.PlaylistFragment;
+import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
@@ -122,11 +126,21 @@ public class NotificationsHistoryActivity extends AppCompatActivity implements R
                 Toast.makeText(this, "Playlist ID:" + mNotificationItems.get(position).getSenderID()
                         , Toast.LENGTH_SHORT).show();
                 String playlistID = mNotificationItems.get(position).getSenderID();
+                RestApi.UpdatePlaylist listener = new RestApi.UpdatePlaylist() {
+                    @Override
+                    public void updatePlaylist(Playlist playlist) {
+                            Intent i = new Intent(NotificationsHistoryActivity.this,MainActivity.class);
+                            i.putExtra("playlist_fragment", "playlist_fragment");
+                            Utils.displayedContext = new Context();
+                            Utils.displayedContext.setContext(playlist);
+                            startActivity(i);
+                    }
+                };
+                ServiceController.getInstance().getPlaylist(listener,playlistID);
                 /*
                  TODO:open playlist page which it's ID is stored in playlistID variable
                  */
             }
-
             //TODO:Islam
             else {
                 Toast.makeText(this, "Album ID:" + mNotificationItems.get(position).getSenderID()
@@ -137,6 +151,7 @@ public class NotificationsHistoryActivity extends AppCompatActivity implements R
                  */
             }
         }
+
     }
 
     private void addSomeItems(){

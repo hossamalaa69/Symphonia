@@ -188,6 +188,8 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         frameLayout.removeAllViews();
         frameLayout.addView(playBtn);
         frameLayout.setOnClickListener(playBtnListener);
+        rvTracks.getLayoutManager().scrollToPosition(
+                Utils.getPosInPlaying(Utils.currTrack.getId()));
         onTrackPause();
     }
 
@@ -279,7 +281,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
      */
     @Override
     public void OnItemSwitchedListener(int pos) {
-        if(hardScroll){hardScroll = false; return;}
+        if(!hardScroll){hardScroll = true; return;}
         if (Utils.playingContext.getTracks().get(pos).isHidden()) {
             return;
         } else
