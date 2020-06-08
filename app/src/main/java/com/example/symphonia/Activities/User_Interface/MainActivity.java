@@ -1375,33 +1375,33 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     }
 
     @Override
-    public void onAddTrackSuccess(ArtistAlbums artistAlbums, String id, String name, String imgUrl, Bitmap bitmap) {
+    public void onAddTrackSuccess(ArtistAlbumTracks artistAlbumTracks, String id, String name, String imgUrl, Bitmap bitmap) {
 
     }
 
     @Override
-    public void onAddTrackfailure(ArtistAlbums artistAlbums) {
+    public void onAddTrackfailure(ArtistAlbumTracks artistAlbumTracks) {
 
     }
 
     @Override
-    public void onRenameTrackSuccess(ArtistAlbums artistAlbums, int pos, String name) {
-
+    public void onRenameTrackSuccess(ArtistAlbumTracks artistAlbumTracks, int pos, String name) {
+        artistAlbumTracks.OnRenameTrackSuccess(pos,name);
     }
 
     @Override
-    public void onRenameTrackfailure(ArtistAlbums artistAlbums) {
-
+    public void onRenameTrackfailure(ArtistAlbumTracks artistAlbumTracks) {
+        artistAlbumTracks.OnRenameTrackFailure();
     }
 
     @Override
-    public void onDelTrackSuccess(ArtistAlbums artistAlbums, String id, int pos) {
-
+    public void onDelTrackSuccess(ArtistAlbumTracks artistAlbumTracks, String id, int pos) {
+        artistAlbumTracks.OnDelTrackSuccess(pos);
     }
 
     @Override
-    public void onDelTrackfailure(ArtistAlbums artistAlbums) {
-
+    public void onDelTrackfailure(ArtistAlbumTracks artistAlbumTracks) {
+        artistAlbumTracks.OnDelTrackFailure();
     }
 
 

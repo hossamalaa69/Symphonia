@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -94,7 +95,7 @@ public class ArtistAlbumTracks extends Fragment implements FollowersAdapter.Prof
 
     @Override
     public void onProfileFollowerItemlongClickListener(Container c, int p) {
-        BottomSheetDialogProfile bottomSheet = new BottomSheetDialogProfile(c,5,this,p);
+        BottomSheetDialogProfile bottomSheet = new BottomSheetDialogProfile(c,6,this,p);
         assert getParentFragmentManager() != null;
         bottomSheet.show(getParentFragmentManager(),bottomSheet.getTag());
     }
@@ -102,5 +103,27 @@ public class ArtistAlbumTracks extends Fragment implements FollowersAdapter.Prof
     @Override
     public void onProfileFollowerItemClickListener(Container c) {
 
+    }
+
+    public void OnDelTrackSuccess(int pos){
+        data.remove(pos);
+        albumsAdapter.notifyItemRemoved(pos);
+        albumsAdapter.notifyItemRangeChanged(pos, data.size());
+    }
+
+    public void OnDelTrackFailure(){
+        Toast toast=Toast.makeText(getContext(),"Sorry your track couldn't be deleted",Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+    public void OnRenameTrackSuccess(int pos,String name){
+        data.get(pos).setCatName(name);
+        albumsAdapter.notifyDataSetChanged();
+
+    }
+
+    public void OnRenameTrackFailure(){
+        Toast toast=Toast.makeText(getContext(),"Sorry your track couldn't be renamed",Toast.LENGTH_SHORT);
+        toast.show();
     }
 }
