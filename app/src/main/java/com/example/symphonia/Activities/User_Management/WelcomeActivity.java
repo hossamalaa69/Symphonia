@@ -29,6 +29,9 @@ import com.facebook.login.widget.LoginButton;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Set;
+
 /**
  * Activity that Welcome page that user chooses
  * his action(login, sign up and connect with facebook)
@@ -63,7 +66,7 @@ public class WelcomeActivity extends AppCompatActivity implements RestApi.update
 
         progressBar = (ProgressBar) findViewById(R.id.progress_welcome);
         loginButton = (LoginButton) findViewById(R.id.login_button);
-
+        loginButton.setPermissions("public_profile","email");
 
         callbackManager = CallbackManager.Factory.create();
 
@@ -71,6 +74,7 @@ public class WelcomeActivity extends AppCompatActivity implements RestApi.update
             @Override
             public void onSuccess(LoginResult loginResult) {
                 progressBar.setVisibility(View.VISIBLE);
+                Set<String> Permission = loginResult.getAccessToken().getPermissions();
                 String token = loginResult.getAccessToken().getToken();
                 String id = loginResult.getAccessToken().getUserId();
                 String imageUrl = "https://graph.facebook.com/"+id+"/picture?type=large";
