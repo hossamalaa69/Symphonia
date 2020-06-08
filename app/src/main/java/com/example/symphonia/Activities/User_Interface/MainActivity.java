@@ -596,12 +596,15 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                 fragmentTransaction.commit();
             }
         }
-        String fragment = getIntent().getExtras().getString("playlist_fragment");
-        if(fragment!= null && fragment.matches("playlist_fragment")){
-            OnPlaylistClickedListener(Utils.displayedContext);
-        }
-        else
+        try {
+            String fragment = getIntent().getExtras().getString("playlist_fragment");
+            if(fragment!= null && fragment.matches("playlist_fragment")){
+                OnPlaylistClickedListener(Utils.displayedContext);
+            }
+        }catch (Exception e){
             controller.getCurrPlaying(this);
+        }
+
     }
 
     /**
