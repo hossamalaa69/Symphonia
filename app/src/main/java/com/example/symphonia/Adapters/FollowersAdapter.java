@@ -76,7 +76,7 @@ FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.FollowersViewHold
     }
 
 
-    class FollowersViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
+    class FollowersViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnClickListener {
         private TextView textView;
         private RoundedImageView imageView;
         private TextView textView2;
@@ -86,6 +86,7 @@ FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.FollowersViewHold
         public FollowersViewHolder(@NonNull View itemView) {
             super(itemView);
             itemView.setOnLongClickListener(this);
+            itemView.setOnClickListener(this);
             //attach views
             textView = itemView.findViewById(R.id.tv_search_list_item);
             imageView = itemView.findViewById(R.id.img_search_list_item);
@@ -139,6 +140,7 @@ FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.FollowersViewHold
             }
         }
 
+
         /**
          * handle long click on followers item
          * @param v view which is long clicked on
@@ -148,6 +150,11 @@ FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.FollowersViewHold
         public boolean onLongClick(View v) {
             listner.onProfileFollowerItemlongClickListener(container.get(getAdapterPosition()),getAdapterPosition());
             return false;
+        }
+
+        @Override
+        public void onClick(View v) {
+            listner.onProfileFollowerItemClickListener(container.get(getAdapterPosition()));
         }
     }
 }

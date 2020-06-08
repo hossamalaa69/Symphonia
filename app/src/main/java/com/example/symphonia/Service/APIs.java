@@ -15,6 +15,7 @@ import com.example.symphonia.Entities.Profile;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Fragments_and_models.home.HomeFragment;
 import com.example.symphonia.Fragments_and_models.playlist.PlaylistFragment;
+import com.example.symphonia.Fragments_and_models.profile.ArtistAlbumTracks;
 import com.example.symphonia.Fragments_and_models.profile.ArtistAlbums;
 import com.example.symphonia.Fragments_and_models.profile.BottomSheetDialogProfile;
 import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
@@ -585,6 +586,11 @@ public interface APIs {
 
     ArrayList<Container> getCurrentArtistAlbums(Context context, ArtistAlbums artistAlbums, String albumType);
 
+    ArrayList<Container>getAlbumTracks(Context context, ArtistAlbumTracks artistAlbumTracks, String id);
+
+    void deleteTrack(Context context,ArtistAlbumTracks artistAlbumTracks,String id,int pos);
+
+    void renameTrack(Context context,ArtistAlbumTracks artistAlbumTracks,String id,int pos,String name);
 
     void getQueue(Context context);
 

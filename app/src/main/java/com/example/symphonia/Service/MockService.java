@@ -20,6 +20,7 @@ import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Entities.User;
 import com.example.symphonia.Fragments_and_models.home.HomeFragment;
 import com.example.symphonia.Fragments_and_models.playlist.PlaylistFragment;
+import com.example.symphonia.Fragments_and_models.profile.ArtistAlbumTracks;
 import com.example.symphonia.Fragments_and_models.profile.ArtistAlbums;
 import com.example.symphonia.Fragments_and_models.profile.BottomSheetDialogProfile;
 import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
@@ -1428,6 +1429,23 @@ public class MockService implements APIs {
     @Override
     public ArrayList<Container> getCurrentArtistAlbums(Context context, ArtistAlbums artistAlbums, String albumType) {
         return mArtistAlbums;
+    }
+
+    @Override
+    public ArrayList<Container> getAlbumTracks(Context context, ArtistAlbumTracks artistAlbumTracks, String id) {
+        return null;
+    }
+
+    @Override
+    public void deleteTrack(Context context, ArtistAlbumTracks artistAlbumTracks, String id, int pos) {
+        RestApi.updateUiArtistAlbumTracks listener=(RestApi.updateUiArtistAlbumTracks)context;
+        listener.onDelTrackSuccess(artistAlbumTracks,id,pos);
+    }
+
+    @Override
+    public void renameTrack(Context context, ArtistAlbumTracks artistAlbumTracks, String id, int pos, String name) {
+        RestApi.updateUiArtistAlbumTracks listener=(RestApi.updateUiArtistAlbumTracks)context;
+        listener.onRenameTrackSuccess(artistAlbumTracks,pos,name);
     }
 
     private com.example.symphonia.Entities.Context playingContext;

@@ -54,6 +54,7 @@ import com.example.symphonia.Fragments_and_models.playlist.BottomSheetDialogSett
 import com.example.symphonia.Fragments_and_models.playlist.BottomSheetDialogSettingsCredits;
 import com.example.symphonia.Fragments_and_models.playlist.PlaylistFragment;
 import com.example.symphonia.Fragments_and_models.premium.PremiumFragment;
+import com.example.symphonia.Fragments_and_models.profile.ArtistAlbumTracks;
 import com.example.symphonia.Fragments_and_models.profile.ArtistAlbums;
 import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
 import com.example.symphonia.Fragments_and_models.profile.ProfileFollowersFragment;
@@ -101,7 +102,8 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         , BottomSheetDialogSettings.BottomSheetListener
         , RvBarAdapter.ItemInterface, Serializable
         , MediaController.OnStartListener
-        , playable {
+        , playable
+        ,RestApi.updateUiArtistAlbumTracks{
 
     /**
      * listener of notification
@@ -596,7 +598,8 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                 fragmentTransaction.commit();
             }
         }
-        String fragment = getIntent().getExtras().getString("playlist_fragment");
+        String fragment=null;
+        //String fragment = getIntent().getExtras().getString("playlist_fragment");
         if(fragment!= null && fragment.matches("playlist_fragment")){
             OnPlaylistClickedListener(Utils.displayedContext);
         }
@@ -1364,6 +1367,41 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     @Override
     public void onDelAlbumfailure(ArtistAlbums artistAlbums) {
         artistAlbums.OnDelAlbumFailure();
+    }
+
+    @Override
+    public void ongetAlbumTracks(ArtistAlbumTracks artistAlbumTracks, ArrayList<Container> tracks) {
+        artistAlbumTracks.updateUiGetTracks(tracks);
+    }
+
+    @Override
+    public void onAddTrackSuccess(ArtistAlbums artistAlbums, String id, String name, String imgUrl, Bitmap bitmap) {
+
+    }
+
+    @Override
+    public void onAddTrackfailure(ArtistAlbums artistAlbums) {
+
+    }
+
+    @Override
+    public void onRenameTrackSuccess(ArtistAlbums artistAlbums, int pos, String name) {
+
+    }
+
+    @Override
+    public void onRenameTrackfailure(ArtistAlbums artistAlbums) {
+
+    }
+
+    @Override
+    public void onDelTrackSuccess(ArtistAlbums artistAlbums, String id, int pos) {
+
+    }
+
+    @Override
+    public void onDelTrackfailure(ArtistAlbums artistAlbums) {
+
     }
 
 

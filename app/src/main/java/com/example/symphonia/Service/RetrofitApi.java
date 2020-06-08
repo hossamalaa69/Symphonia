@@ -79,4 +79,16 @@ public interface RetrofitApi {
             @Body Map<String,String>params
     );
 
+    @DELETE("api/v1/users/track/{track_id}")
+    Call<JsonObject>deleteTrack(
+            @Path("album_id") String id,
+            @HeaderMap Map<String, String> headers
+    );
+
+    @PATCH("api/v1/users/track/{track_id}")
+    Call<JsonObject>renameTrack(
+            @Path("album_id") String id,
+            @HeaderMap Map<String, String> headers,
+            @Body Map<String, String> params
+    );
 }

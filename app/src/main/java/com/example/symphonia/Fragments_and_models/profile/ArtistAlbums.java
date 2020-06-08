@@ -17,6 +17,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -119,6 +121,11 @@ public class ArtistAlbums extends Fragment implements FollowersAdapter.ProfileFo
 
     @Override
     public void onProfileFollowerItemClickListener(Container c) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.nav_host_fragment,new ArtistAlbumTracks(c.getId()));
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
 
     }
 

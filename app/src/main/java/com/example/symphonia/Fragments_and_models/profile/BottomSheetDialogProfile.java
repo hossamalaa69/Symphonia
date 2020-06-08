@@ -59,6 +59,7 @@ public class BottomSheetDialogProfile extends BottomSheetDialogFragment {
     private int position;
 
     private ArtistAlbums artistAlbums;
+    private ArtistAlbumTracks artistAlbumTracks;
 
     public BottomSheetDialogProfile(Container container, int i) {
         profile=container;
@@ -71,6 +72,38 @@ public class BottomSheetDialogProfile extends BottomSheetDialogFragment {
         position=p;
         artistAlbums=artAlbums;
     }
+
+    public BottomSheetDialogProfile(Container container, int i, ArtistAlbumTracks artistAlbumTrks, int p){
+        profile=container;
+        chooseLayout=i;
+        position=p;
+        artistAlbumTracks=artistAlbumTrks;
+    }
+
+    private View.OnClickListener delTrack=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(!Constants.DEBUG_STATUS){
+                RestApi restApi=new RestApi();
+                restApi.deleteTrack(getContext(),artistAlbumTracks,profile.getId(),position);
+            }
+            else {
+                controller.deleteTrack(getContext(),artistAlbumTracks,profile.getId(),position);
+            }
+            dismiss();
+        }
+    };
+
+    private View.OnClickListener renTrack=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent renameAlbums = new Intent(getContext(), RenameAlbum.class);
+            Bundle b = new Bundle();
+            b.putString("name", profile.getCat_Name());
+            renameAlbums.putExtras(b);
+            startActivityForResult(renameAlbums,88);
+        }
+    };
 
     private View.OnClickListener del=new View.OnClickListener() {
         @Override
@@ -237,10 +270,18 @@ public class BottomSheetDialogProfile extends BottomSheetDialogFragment {
             options1.setVisibility(View.GONE);
             options2.setVisibility(View.GONE);
             artistOptions.setVisibility(View.VISIBLE);
+            //handle clicks
+            delete.setOnClickListener(del);
+            rename.setOnClickListener(ren);
         }
-        //handle clicks
-        delete.setOnClickListener(del);
-        rename.setOnClickListener(ren);
+        else if(chooseLayout==6){
+            options1.setVisibility(View.GONE);
+            options2.setVisibility(View.GONE);
+            artistOptions.setVisibility(View.VISIBLE);
+            //handle clicks
+            delete.setOnClickListener(delTrack);
+            rename.setOnClickListener(renTrack);
+        }
 
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -359,6 +400,12 @@ public class BottomSheetDialogProfile extends BottomSheetDialogFragment {
             String name = data.getStringExtra("name");
             RestApi restApi=new RestApi();
             restApi.renameAlbum(getContext(),artistAlbums,profile.getId(),position,name);
+            dismiss();
+        }
+        else if (requestCode == 88 && resultCode == Activity.RESULT_OK) {
+            String name = data.getStringExtra("name");
+            RestApi restApi=new RestApi();
+            restApi.renameTrack(getContext(),artistAlbumTracks,profile.getId(),position,name);
             dismiss();
         }
     }

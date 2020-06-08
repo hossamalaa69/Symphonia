@@ -12,6 +12,7 @@ import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Fragments_and_models.home.HomeFragment;
 import com.example.symphonia.Fragments_and_models.playlist.PlaylistFragment;
+import com.example.symphonia.Fragments_and_models.profile.ArtistAlbumTracks;
 import com.example.symphonia.Fragments_and_models.profile.ArtistAlbums;
 import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
 import com.example.symphonia.Fragments_and_models.profile.ProfileFollowersFragment;
@@ -713,5 +714,13 @@ public class ServiceController {
 
     public ArrayList<Container> getCurrentArtistAlbums(Context context, ArtistAlbums artistAlbums, String albumType){
         return mSupplier.getCurrentArtistAlbums(context,artistAlbums,albumType);
+    }
+
+    public ArrayList<Container> getAlbumTracks(Context context, ArtistAlbumTracks artistAlbumTracks, String id){
+        return mSupplier.getAlbumTracks(context,artistAlbumTracks,id);
+    }
+
+    public void deleteTrack(Context context,ArtistAlbumTracks artistAlbumTracks,String id,int pos){
+        mSupplier.deleteTrack(context,artistAlbumTracks,id,pos);
     }
 }

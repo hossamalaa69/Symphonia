@@ -33,6 +33,7 @@ import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Entities.User;
 import com.example.symphonia.Fragments_and_models.home.HomeFragment;
 import com.example.symphonia.Fragments_and_models.playlist.PlaylistFragment;
+import com.example.symphonia.Fragments_and_models.profile.ArtistAlbumTracks;
 import com.example.symphonia.Fragments_and_models.profile.ArtistAlbums;
 import com.example.symphonia.Fragments_and_models.profile.BottomSheetDialogProfile;
 import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
@@ -268,6 +269,106 @@ public class RestApi implements APIs {
     }
 
 
+    @Override
+    public ArrayList<Container> getAlbumTracks(Context context, ArtistAlbumTracks artistAlbumTracks, String id) {
+        updateUiArtistAlbumTracks listener=(updateUiArtistAlbumTracks)context;
+        ArrayList<Container>albumTracks=new ArrayList<>();
+        StringRequest stringRequest=new StringRequest(Request.Method.GET, Constants.BASE_URL + "api/v1/albums/" + id + "/tracks",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONObject tracks=jsonObject.getJSONObject("tracks");
+                            JSONArray items=tracks.getJSONArray("items");
+                            for(int i=0;i<items.length();i++){
+                                JSONObject track=items.getJSONObject(i);
+                                String title = track.getString("name");
+                                String id = track.getString("_id");
+                                JSONObject album = track.getJSONObject("album");
+                                String imageUrl = album.getString("image");
+                                int duration=track.getInt("durationMs");
+                                float d=Math.round((duration/60000.0)*10)/10;
+                                albumTracks.add(new Container(title,imageUrl,String.valueOf(d)+" minutes",id));
+                            }
+                            listener.ongetAlbumTracks(artistAlbumTracks,albumTracks);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(context,"error",Toast.LENGTH_SHORT);
+            }
+        });
+        VolleySingleton.getInstance(context).getRequestQueue().add(stringRequest);
+        return albumTracks;
+    }
+
+    @Override
+    public void deleteTrack(Context context, ArtistAlbumTracks artistAlbumTracks, String id, int pos) {
+        updateUiArtistAlbumTracks listeners=(updateUiArtistAlbumTracks)context;
+        RetrofitSingleton retrofitSingleton = RetrofitSingleton.getInstance();
+        RetrofitApi retrofitApi = retrofitSingleton.getRetrofitApi();
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", "Bearer " + Constants.currentToken);
+        headers.put("Content-Type", "application/json");
+
+        Call<JsonObject> call = retrofitApi.deleteTrack(id,headers);
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(@NonNull Call<JsonObject> call, @NonNull retrofit2.Response<JsonObject> response) {
+                listeners.onDelTrackSuccess(artistAlbumTracks,id,pos);
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
+                listeners.onDelTrackfailure(artistAlbumTracks);
+            }
+        });
+    }
+
+    @Override
+    public void renameTrack(Context context, ArtistAlbumTracks artistAlbumTracks, String id, int pos, String name) {
+        updateUiArtistAlbumTracks listeners=(updateUiArtistAlbumTracks)context;
+        RetrofitSingleton retrofitSingleton = RetrofitSingleton.getInstance();
+        RetrofitApi retrofitApi = retrofitSingleton.getRetrofitApi();
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", "Bearer " + Constants.currentToken);
+        headers.put("Content-Type", "application/json");
+
+        Map<String,String> params=new HashMap<>();
+        params.put("name",name);
+
+        Call<JsonObject> call = retrofitApi.renameTrack(id,headers,params);
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(@NonNull Call<JsonObject> call, @NonNull retrofit2.Response<JsonObject> response) {
+                listeners.onRenameTrackSuccess(artistAlbumTracks,pos,name);
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
+                listeners.onRenameTrackfailure(artistAlbumTracks);
+            }
+        });
+    }
+
+
+    public interface updateUiArtistAlbumTracks{
+        public void ongetAlbumTracks(ArtistAlbumTracks artistAlbumTracks,ArrayList<Container>tracks);
+        public void onAddTrackSuccess(ArtistAlbumTracks artistAlbumTracks,String id,String name,String imgUrl,Bitmap bitmap);
+        public void onAddTrackfailure(ArtistAlbumTracks artistAlbumTracks);
+        public void onRenameTrackSuccess(ArtistAlbumTracks artistAlbumTracks,int pos,String name);
+        public void onRenameTrackfailure(ArtistAlbumTracks artistAlbumTracks);
+        public void onDelTrackSuccess(ArtistAlbumTracks artistAlbumTracks,String id,int pos);
+        public void onDelTrackfailure(ArtistAlbumTracks artistAlbumTracks);
+    }
 
     private boolean finishedUnFollowing = true;
     private Bitmap image;
