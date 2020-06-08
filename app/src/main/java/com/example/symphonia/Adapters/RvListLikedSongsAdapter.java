@@ -31,12 +31,15 @@ public class RvListLikedSongsAdapter extends RecyclerView.Adapter<RvListLikedSon
 
     private ListItemLongClickListener mOnLongClickListener;
 
+    private LikeClickListener mOnLikeClickListener;
 
 
-    public RvListLikedSongsAdapter(ArrayList<Track> mTracks, ListItemClickListener mOnClickListener, ListItemLongClickListener mOnLongClickListener) {
+
+    public RvListLikedSongsAdapter(ArrayList<Track> mTracks, ListItemClickListener mOnClickListener, ListItemLongClickListener mOnLongClickListener, LikeClickListener mOnLikeClickListener) {
         this.mTracks = mTracks;
         this.mOnClickListener = mOnClickListener;
         this.mOnLongClickListener = mOnLongClickListener;
+        this.mOnLikeClickListener = mOnLikeClickListener;
     }
 
     /**
@@ -99,6 +102,7 @@ public class RvListLikedSongsAdapter extends RecyclerView.Adapter<RvListLikedSon
         ImageView trackImage;
         TextView trackName;
         TextView artistName;
+        ImageView likeImage;
 
         /**
          * prepare the views of the item and set the clicklistener
@@ -113,7 +117,13 @@ public class RvListLikedSongsAdapter extends RecyclerView.Adapter<RvListLikedSon
             trackImage = itemView.findViewById(R.id.image_track);
             trackName = itemView.findViewById(R.id.text_track_name);
             artistName = itemView.findViewById(R.id.text_artist_name);
-
+            likeImage = itemView.findViewById(R.id.image_like);
+            likeImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnLikeClickListener.onLikeClick(getAdapterPosition());
+                }
+            });
         }
 
         /**
@@ -156,6 +166,10 @@ public class RvListLikedSongsAdapter extends RecyclerView.Adapter<RvListLikedSon
      */
     public interface ListItemClickListener{
         void onListItemClick(int clickedItemIndex);
+    }
+
+    public interface LikeClickListener{
+        void onLikeClick(int clickedItemIndex);
     }
 
     /**

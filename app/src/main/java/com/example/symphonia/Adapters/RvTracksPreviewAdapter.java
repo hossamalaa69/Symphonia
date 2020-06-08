@@ -33,11 +33,15 @@ public class RvTracksPreviewAdapter extends RecyclerView.Adapter<RvTracksPreview
 
     private ListItemLongClickListener mOnLongClickListener;
 
+    private LikeClickListener mOnLikeClickListener;
 
-    public RvTracksPreviewAdapter(ArrayList<Track> mTracks, ListItemClickListener mOnClickListener, ListItemLongClickListener mOnLongClickListener) {
+
+
+    public RvTracksPreviewAdapter(ArrayList<Track> mTracks, ListItemClickListener mOnClickListener, ListItemLongClickListener mOnLongClickListener, LikeClickListener mOnLikeClickListener) {
         this.mTracks = mTracks;
         this.mOnClickListener = mOnClickListener;
         this.mOnLongClickListener = mOnLongClickListener;
+        this.mOnLikeClickListener = mOnLikeClickListener;
     }
 
     /**
@@ -101,6 +105,7 @@ public class RvTracksPreviewAdapter extends RecyclerView.Adapter<RvTracksPreview
         ImageView trackImage;
         TextView trackName;
         TextView artistName;
+        ImageView likeImage;
 
         /**
          * prepare the views of the item and set the clicklistener
@@ -115,7 +120,13 @@ public class RvTracksPreviewAdapter extends RecyclerView.Adapter<RvTracksPreview
             trackImage = itemView.findViewById(R.id.image_track);
             trackName = itemView.findViewById(R.id.text_track_name);
             artistName = itemView.findViewById(R.id.text_artist_name);
-
+            likeImage = itemView.findViewById(R.id.image_like);
+            likeImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnLikeClickListener.onExtraLikeClick(getAdapterPosition());
+                }
+            });
         }
 
         /**
@@ -158,6 +169,10 @@ public class RvTracksPreviewAdapter extends RecyclerView.Adapter<RvTracksPreview
      */
     public interface ListItemClickListener{
         void onTrackPreviewClick(int clickedItemIndex);
+    }
+
+    public interface LikeClickListener{
+        void onExtraLikeClick(int clickedItemIndex);
     }
 
     /**

@@ -230,7 +230,7 @@
     <string name="undo">UNDO</string>
     <string name="un_following_message">OK, got it.</string>
     <string name="log_out">Log out</string>
-    <string name="logged_as">You are Logged in as </string>
+    <string name="logged_as">You are Logged in as&#160;</string>
 
     <string name="insongs">in songs</string>
     <string name="inplaylists">in playlists</string>
@@ -264,4 +264,6 @@
 
     <string name="facebook_app_id">820827945085597</string>
     <string name="fb_login_protocol_scheme">fb820827945085597</string>
+    <string name="added_liked_songs">Added to liked songs.</string>
+    <string name="removed_liked_songs">Removed from liked songs.</string>
 </resources>

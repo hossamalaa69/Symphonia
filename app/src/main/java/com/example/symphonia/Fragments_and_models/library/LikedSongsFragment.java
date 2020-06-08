@@ -22,11 +22,13 @@ import android.widget.TextView;
 import com.example.symphonia.Adapters.RvListLikedSongsAdapter;
 import com.example.symphonia.Adapters.RvTracksPreviewAdapter;
 import com.example.symphonia.Entities.Track;
+import com.example.symphonia.Helpers.SnackbarHelper;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -36,7 +38,9 @@ import java.util.ArrayList;
 public class LikedSongsFragment extends Fragment implements RvListLikedSongsAdapter.ListItemClickListener,
         RvTracksPreviewAdapter.ListItemClickListener,
         RvListLikedSongsAdapter.ListItemLongClickListener,
+        RvListLikedSongsAdapter.LikeClickListener,
         RvTracksPreviewAdapter.ListItemLongClickListener,
+        RvTracksPreviewAdapter.LikeClickListener,
         RestApi.UpdateSavedTracks,
         RestApi.UpdateExtraSongs{
 
@@ -83,6 +87,8 @@ public class LikedSongsFragment extends Fragment implements RvListLikedSongsAdap
 
     private TextView extraSongs;
 
+    private View rootView;
+
 
     public LikedSongsFragment() {
         // Required empty public constructor
@@ -93,7 +99,7 @@ public class LikedSongsFragment extends Fragment implements RvListLikedSongsAdap
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_liked_songs, container, false);
+        rootView = inflater.inflate(R.layout.fragment_liked_songs, container, false);
 
         ImageView backIcon = rootView.findViewById(R.id.arrow_back);
         backIcon.setOnClickListener(new View.OnClickListener() {
@@ -134,7 +140,7 @@ public class LikedSongsFragment extends Fragment implements RvListLikedSongsAdap
         mLikedSongs = new ArrayList<>();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mTracksList.setLayoutManager(layoutManager);
-        mAdapter = new RvListLikedSongsAdapter(new ArrayList<Track>(), this, this);
+        mAdapter = new RvListLikedSongsAdapter(mLikedSongs, this, this, this);
         mTracksList.setAdapter(mAdapter);
         RecyclerView.OnItemTouchListener touchListener= new RecyclerView.OnItemTouchListener() {
 
@@ -188,7 +194,7 @@ public class LikedSongsFragment extends Fragment implements RvListLikedSongsAdap
         mExtraSongs = new ArrayList<>();
         LinearLayoutManager extraLayoutManager = new LinearLayoutManager(getActivity());
         mExtraSongsList.setLayoutManager(extraLayoutManager);
-        mExtraAdapter = new RvTracksPreviewAdapter(new ArrayList<Track>(), this, this);
+        mExtraAdapter = new RvTracksPreviewAdapter(mExtraSongs, this, this, this);
         mExtraSongsList.setAdapter(mExtraAdapter);
         mExtraSongsList.addOnItemTouchListener(touchListener);
         mServiceController.getRecommendedTracks(this,0, 13);
@@ -211,20 +217,14 @@ public class LikedSongsFragment extends Fragment implements RvListLikedSongsAdap
     public void updateTracks(ArrayList<Track> returnedTracks) {
         mLikedSongs.clear();
         mLikedSongs.addAll(returnedTracks);
-
-        mAdapter.clear();
-        mAdapter.addAll(mLikedSongs);
         mAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void updateExtra(ArrayList<Track> returnedTracks) {
-        extraSongs.setVisibility(View.VISIBLE);
+        if(returnedTracks.size() != 0) extraSongs.setVisibility(View.VISIBLE);
         mExtraSongs.clear();
         mExtraSongs.addAll(returnedTracks);
-
-        mExtraAdapter.clear();
-        mExtraAdapter.addAll(mExtraSongs);
         mExtraAdapter.notifyDataSetChanged();
     }
 
@@ -236,5 +236,30 @@ public class LikedSongsFragment extends Fragment implements RvListLikedSongsAdap
     @Override
     public void onTrackPreviewLongClick(int clickedItemIndex) {
 
+    }
+
+    @Override
+    public void onLikeClick(int clickedItemIndex) {
+
+        mServiceController.removeFromSaved(getActivity(), mLikedSongs.get(clickedItemIndex).getId());
+        mLikedSongs.remove(clickedItemIndex);
+        mAdapter.notifyItemRemoved(clickedItemIndex);
+        Snackbar snack = Snackbar.make(rootView, R.string.removed_liked_songs, Snackbar.LENGTH_LONG);
+        SnackbarHelper.configSnackbar(getContext(), snack, R.drawable.custom_snackbar, Color.BLACK);
+        snack.show();
+    }
+
+    @Override
+    public void onExtraLikeClick(int clickedItemIndex) {
+
+        mServiceController.saveTrack(getActivity(), mExtraSongs.get(clickedItemIndex).getId());
+        mLikedSongs.add(0, mExtraSongs.get(clickedItemIndex));
+        mAdapter.notifyItemInserted(0);
+        mExtraSongs.remove(clickedItemIndex);
+        if(mExtraSongs.size() == 0) extraSongs.setVisibility(View.GONE);
+        mExtraAdapter.notifyItemRemoved(clickedItemIndex);
+        Snackbar snack = Snackbar.make(rootView, R.string.added_liked_songs, Snackbar.LENGTH_LONG);
+        SnackbarHelper.configSnackbar(getContext(), snack, R.drawable.custom_snackbar, Color.BLACK);
+        snack.show();
     }
 }
