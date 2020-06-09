@@ -71,6 +71,14 @@ public class Playlist {
         this.mOwnerName = mOwnerName;
     }
 
+    public Playlist(String id, String mPlaylistTitle, String imageUrl, String mOwnerName, ArrayList<Track> tracks){
+        this.id = id;
+        this.mPlaylistTitle = mPlaylistTitle;
+        this.imageUrl = imageUrl;
+        this.mOwnerName = mOwnerName;
+        this.tracks = tracks;
+    }
+
     public Playlist(String id, String mPlaylistTitle, String mOwnerName){
         this.id = id;
         this.mPlaylistTitle = mPlaylistTitle;

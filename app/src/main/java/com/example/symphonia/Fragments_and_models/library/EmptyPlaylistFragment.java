@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.example.symphonia.Activities.User_Interface.AddArtistsActivity;
 import com.example.symphonia.Activities.User_Interface.AddSongsActivity;
+import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Helpers.Utils;
@@ -42,6 +43,8 @@ public class EmptyPlaylistFragment extends Fragment implements RestApi.UpdatePla
     private TextView playlistName;
     private ServiceController mServiceController;
     private ProgressBar progressBar;
+    private String playlistId;
+    boolean paused = false;
 
     public EmptyPlaylistFragment() {
         // Required empty public constructor
@@ -66,7 +69,7 @@ public class EmptyPlaylistFragment extends Fragment implements RestApi.UpdatePla
 
         Bundle arguments = getArguments();
         assert arguments != null;
-        String playlistId = arguments.getString("PLAYLIST_ID");
+        playlistId = arguments.getString("PLAYLIST_ID");
         mServiceController.getPlaylist(this, playlistId);
 
         backIcon.setOnClickListener(new View.OnClickListener() {
@@ -92,6 +95,16 @@ public class EmptyPlaylistFragment extends Fragment implements RestApi.UpdatePla
 
     @Override
     public void updatePlaylist(Playlist playlist) {
+        if(playlist.getTracks().size() != 0){
+            CreatedPlaylistFragment fragment = new CreatedPlaylistFragment();
+            Bundle arguments = new Bundle();
+            arguments.putString("PLAYLIST_ID" , playlist.getId());
+            fragment.setArguments(arguments);
+            ((MainActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(
+                    R.id.nav_host_fragment, fragment)
+                    .commit();
+            return;
+        }
         playlistName.setText(playlist.getmPlaylistTitle());
         ownerName.setText(String.format("by %s", playlist.getOwnerName()));
         if(!Constants.DEBUG_STATUS){
@@ -127,5 +140,18 @@ public class EmptyPlaylistFragment extends Fragment implements RestApi.UpdatePla
             viewContainer.setVisibility(View.VISIBLE);
         }
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(paused)
+            mServiceController.getPlaylist(this, playlistId);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        paused = true;
     }
 }

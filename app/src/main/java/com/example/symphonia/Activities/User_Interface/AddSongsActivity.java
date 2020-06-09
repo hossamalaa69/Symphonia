@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.example.symphonia.Adapters.RvListAddSongsAdapter;
 import com.example.symphonia.Adapters.RvListPlaylistsAdapter;
@@ -43,6 +45,14 @@ public class AddSongsActivity extends AppCompatActivity implements RvListAddSong
 
         mServiceController = ServiceController.getInstance();
         mServiceController.getRecommendedTracks(this,0, 13);
+
+        ImageView backIcon = findViewById(R.id.back_icon);
+        backIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         mSuggestedSongs = new ArrayList<>();
         mSongsList = findViewById(R.id.rv_suggested_songs);
