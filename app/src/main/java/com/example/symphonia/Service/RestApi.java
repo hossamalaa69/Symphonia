@@ -868,7 +868,7 @@ public class RestApi implements APIs {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("recent", "error");
-                Toast.makeText(context.getApplicationContext(), "failed to get playlists, please refresh", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context.getApplicationContext(), "failed to get playlists, please refresh", Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
@@ -929,7 +929,7 @@ public class RestApi implements APIs {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context.getApplicationContext(), "failed to get playlists, please refresh", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(context.getApplicationContext(), "failed to get playlists, please refresh", Toast.LENGTH_SHORT).show();
                 Log.e("rand", "error");
             }
         });
