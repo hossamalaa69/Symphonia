@@ -556,6 +556,8 @@ public interface APIs {
      */
     ArrayList<Track> getTracksOfPlaylist(Context context, String id, PlaylistFragment playlistFragment);
 
+    ArrayList<Track> getPlaylistTracks(RestApi.updateTracksNames listener, String id);
+
     /**
      * this function initialize the request to stream music
      *

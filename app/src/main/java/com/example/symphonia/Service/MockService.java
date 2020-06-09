@@ -311,6 +311,11 @@ public class MockService implements APIs {
         return null; //mRecentPlaylists.get(0).getTracks();
     }
 
+    @Override
+    public ArrayList<Track> getPlaylistTracks(RestApi.updateTracksNames listener, String id) {
+        return null;
+    }
+
 
     /**
      * getter for Random playlist

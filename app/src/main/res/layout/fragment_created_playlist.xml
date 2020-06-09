@@ -213,7 +213,7 @@
                     android:layout_marginEnd="16dp"
                     android:gravity="center_horizontal"
                     android:lineSpacingExtra="16dp"
-                    android:text="@string/album_tracks_placeholder"
+                    tools:text="@string/album_tracks_placeholder"
                     android:textColor="@color/album_tracks_color"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"

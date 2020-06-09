@@ -19,14 +19,17 @@ import android.widget.TextView;
 
 import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Playlist;
+import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 
-public class CreatedPlaylistFragment extends Fragment implements RestApi.UpdatePlaylist {
+
+public class CreatedPlaylistFragment extends Fragment implements RestApi.UpdatePlaylist, RestApi.updateTracksNames {
 
     private Playlist mPlaylist;
     private ImageView playlistImage;
@@ -36,6 +39,7 @@ public class CreatedPlaylistFragment extends Fragment implements RestApi.UpdateP
     private TextView playlistName;
     private ServiceController mServiceController;
     private ProgressBar progressBar;
+    private TextView playlistTracks;
 
     public CreatedPlaylistFragment() {
         // Required empty public constructor
@@ -55,6 +59,7 @@ public class CreatedPlaylistFragment extends Fragment implements RestApi.UpdateP
         viewContainer = rootView.findViewById(R.id.container);
         progressBar = rootView.findViewById(R.id.progress_bar);
         ImageView backIcon = rootView.findViewById(R.id.arrow_back);
+        playlistTracks = rootView.findViewById(R.id.text_playlist_tracks);
 
         parent.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.VISIBLE);
@@ -63,6 +68,8 @@ public class CreatedPlaylistFragment extends Fragment implements RestApi.UpdateP
         assert arguments != null;
         String playlistId = arguments.getString("PLAYLIST_ID");
         mServiceController.getPlaylist(this, playlistId);
+
+        mServiceController.getPlaylistTracks(this, playlistId);
 
         backIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,6 +116,20 @@ public class CreatedPlaylistFragment extends Fragment implements RestApi.UpdateP
             progressBar.setVisibility(View.INVISIBLE);
             parent.setVisibility(View.INVISIBLE);
         }
+
+    }
+
+    @Override
+    public void updateTracks(ArrayList<Track> tracks) {
+        StringBuilder names = new StringBuilder();
+
+        for (int i = 0; i < tracks.size(); i++) {
+            names.append(tracks.get(i).getmTitle());
+            if(i != tracks.size() - 1)
+                names.append(" • ");
+        }
+
+        playlistTracks.setText(names.toString());
 
     }
 }
