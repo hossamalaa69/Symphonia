@@ -318,6 +318,8 @@ public interface APIs {
 
     void createPlaylist(Context context, String name);
 
+    void addTrackToPlaylist(Context context, String playlistId, String trackId);
+
     /**
      * Check to see if the current user is following an artist or more or other users
      *

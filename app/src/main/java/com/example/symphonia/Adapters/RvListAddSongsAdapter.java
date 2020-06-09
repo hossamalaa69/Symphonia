@@ -18,7 +18,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class RvListLikedSongsAdapter extends RecyclerView.Adapter<RvListLikedSongsAdapter.SongViewHolder> {
+public class RvListAddSongsAdapter extends RecyclerView.Adapter<RvListAddSongsAdapter.SongViewHolder> {
 
     /**
      * list of user's saved albums
@@ -31,15 +31,15 @@ public class RvListLikedSongsAdapter extends RecyclerView.Adapter<RvListLikedSon
 
     private ListItemLongClickListener mOnLongClickListener;
 
-    private LikeClickListener mOnLikeClickListener;
+    private AddClickListener mOnAddClickListener;
 
 
 
-    public RvListLikedSongsAdapter(ArrayList<Track> mTracks, ListItemClickListener mOnClickListener, ListItemLongClickListener mOnLongClickListener, LikeClickListener mOnLikeClickListener) {
+    public RvListAddSongsAdapter(ArrayList<Track> mTracks, ListItemClickListener mOnClickListener, ListItemLongClickListener mOnLongClickListener, AddClickListener mOnAddClickListener) {
         this.mTracks = mTracks;
         this.mOnClickListener = mOnClickListener;
         this.mOnLongClickListener = mOnLongClickListener;
-        this.mOnLikeClickListener = mOnLikeClickListener;
+        this.mOnAddClickListener = mOnAddClickListener;
     }
 
     /**
@@ -62,7 +62,7 @@ public class RvListLikedSongsAdapter extends RecyclerView.Adapter<RvListLikedSon
     @Override
     public SongViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_liked_song_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_add_song_item, parent, false);
         return new SongViewHolder(view);
     }
 
@@ -102,7 +102,7 @@ public class RvListLikedSongsAdapter extends RecyclerView.Adapter<RvListLikedSon
         ImageView trackImage;
         TextView trackName;
         TextView artistName;
-        ImageView likeImage;
+        ImageView addImage;
 
         /**
          * prepare the views of the item and set the clicklistener
@@ -117,11 +117,11 @@ public class RvListLikedSongsAdapter extends RecyclerView.Adapter<RvListLikedSon
             trackImage = itemView.findViewById(R.id.image_track);
             trackName = itemView.findViewById(R.id.text_track_name);
             artistName = itemView.findViewById(R.id.text_artist_name);
-            likeImage = itemView.findViewById(R.id.image_like);
-            likeImage.setOnClickListener(new View.OnClickListener() {
+            addImage = itemView.findViewById(R.id.image_add);
+            addImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mOnLikeClickListener.onLikeClick(getAdapterPosition());
+                    mOnAddClickListener.onAddClick(getAdapterPosition());
                 }
             });
         }
@@ -168,8 +168,8 @@ public class RvListLikedSongsAdapter extends RecyclerView.Adapter<RvListLikedSon
         void onListItemClick(int clickedItemIndex);
     }
 
-    public interface LikeClickListener{
-        void onLikeClick(int clickedItemIndex);
+    public interface AddClickListener{
+        void onAddClick(int clickedItemIndex);
     }
 
     /**

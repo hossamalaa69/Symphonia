@@ -41,6 +41,7 @@ import com.example.symphonia.Fragments_and_models.profile.ProfileFollowersFragme
 import com.example.symphonia.Fragments_and_models.profile.ProfilePlaylistsFragment;
 import com.example.symphonia.Fragments_and_models.settings.SettingsFragment;
 import com.example.symphonia.Helpers.App;
+import com.example.symphonia.Helpers.TracksModel;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.google.gson.Gson;
@@ -409,6 +410,11 @@ public class RestApi implements APIs {
                             mType=false;
                             premium=true;
                         }
+                        try{
+                            premium = convertedObject.getBoolean("premium");
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
                         Constants.currentToken=token_str;
                         Constants.currentUser = new User(email, id, name, mType, premium);
                         Constants.currentUser.setUserType(type);
@@ -471,7 +477,11 @@ public class RestApi implements APIs {
                             } else if (type.equals("artist")) {
                                 premium = true;
                             }
-
+                            try{
+                                premium = user.getBoolean("premium");
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
                             if ((type.equals("user") && !mType) || (type.equals("artist") && mType))
                                 updateLogin.updateUiLoginFail("type");
                             else {
@@ -2033,6 +2043,30 @@ public class RestApi implements APIs {
             }
         });
 
+    }
+
+    @Override
+    public void addTrackToPlaylist(Context context, String playlistId, String trackId) {
+        RetrofitSingleton retrofitSingleton = RetrofitSingleton.getInstance();
+        RetrofitApi retrofitApi = retrofitSingleton.getRetrofitApi();
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", "Bearer " + Constants.currentToken);
+
+        TracksModel body = new TracksModel(new ArrayList<>(Collections.singletonList(trackId)));
+
+        Call<Void> call = retrofitApi.addTrackToPlaylist(headers, playlistId, body);
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull retrofit2.Response<Void> response) {
+//                Toast.makeText(context, "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+            }
+        });
     }
 
     /**
