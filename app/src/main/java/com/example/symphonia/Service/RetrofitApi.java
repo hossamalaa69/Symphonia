@@ -47,6 +47,13 @@ public interface RetrofitApi {
             @Body TracksModel body
     );
 
+    @GET("api/v1/playlists/{playlist_id}/tracks")
+    Call<JsonObject> getPlaylistTracks(
+            @HeaderMap Map<String, String> headers,
+            @Path("playlist_id") String id,
+            @QueryMap Map<String, Object> params
+    );
+
     @GET("api/v1/playlists/{id}")
     Call<JsonObject> getPlaylist(@Path("id") String id);
 

@@ -66,7 +66,7 @@ public class LibraryFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity)getActivity()).setRoot(true);
+        ((MainActivity)getActivity()).setRoot(false);
     }
 
 
@@ -76,6 +76,6 @@ public class LibraryFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        ((MainActivity)getActivity()).setRoot(false);
+        ((MainActivity)getActivity()).setRoot(true);
     }
 }

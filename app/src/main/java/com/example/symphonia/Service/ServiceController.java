@@ -680,6 +680,10 @@ public class ServiceController {
         return mSupplier.getPlaylist(listener, id);
     }
 
+    public ArrayList<Track> getPlaylistTracks(RestApi.updateTracksNames listener, String id){
+        return mSupplier.getPlaylistTracks(listener, id);
+    }
+
     public void getQueue(Context context) {
         mSupplier.getQueue(context);
     }

@@ -899,6 +899,7 @@ public class RestApi implements APIs {
                         String decs = playlist.optString("contextDescription");
                         String imageUrl = playlist.getString("contextImage");
                         String id = playlist.getString("contextId");
+                        if(type == "playlist")
                         Utils.LoadedPlaylists.recentPlaylists.add(new com.example.symphonia.Entities.Context(title, id, decs, imageUrl,
                                 null, Constants.BASE_URL + Constants.GET_PLAYLISTS_TRACKS + id + "/tracks", type));
                     }
@@ -912,7 +913,7 @@ public class RestApi implements APIs {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("recent", "error");
-                Toast.makeText(context.getApplicationContext(), "failed to get playlists, please refresh", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context.getApplicationContext(), "failed to get playlists, please refresh", Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
@@ -973,7 +974,7 @@ public class RestApi implements APIs {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context.getApplicationContext(), "failed to get playlists, please refresh", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(context.getApplicationContext(), "failed to get playlists, please refresh", Toast.LENGTH_SHORT).show();
                 Log.e("rand", "error");
             }
         });
@@ -1441,6 +1442,67 @@ public class RestApi implements APIs {
         });
         VolleySingleton.getInstance(context).getRequestQueue().add(request);
         return tracksList;
+    }
+
+    @Override
+    public ArrayList<Track> getPlaylistTracks(RestApi.updateTracksNames listener, String id) {
+
+        final ArrayList<Track> returnedTracks = new ArrayList<>();
+
+        RetrofitSingleton retrofitSingleton = RetrofitSingleton.getInstance();
+        RetrofitApi retrofitApi = retrofitSingleton.getRetrofitApi();
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", "Bearer " + Constants.currentToken);
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("offset", 0);
+        params.put("limit", 65535);
+
+        Call<JsonObject> call = retrofitApi.getPlaylistTracks(headers, id, params);
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(@NonNull Call<JsonObject> call, @NonNull retrofit2.Response<JsonObject> response) {
+
+                if (response.code() == 200) {
+                    try {
+                        JSONObject root = new JSONObject(new Gson().toJson(response.body()));
+                        JSONObject tracks = root.getJSONObject("tracks");
+                        JSONArray items = tracks.getJSONArray("items");
+                        for (int i = 0; i < items.length(); i++) {
+                            JSONObject track = items.getJSONObject(i);
+                            String title = track.getString("name");
+                            String id = track.getString("_id");
+                            JSONObject album = track.getJSONObject("album");
+                            String imageUrl = album.getString("image");
+                            String albumId = album.getString("_id");
+                            JSONObject artist = track.getJSONObject("artist");
+                            String artistName = artist.getString("name");
+                            int duration = track.getInt("durationMs");
+                            String premium = track.getString("premium");
+                            returnedTracks.add(new Track(title, artistName, ""
+                                    , id, (premium.matches("true")), R.drawable.no_image, duration, imageUrl, albumId));
+                        }
+                        listener.updateTracks(returnedTracks);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
+
+            }
+        });
+
+
+        return returnedTracks;
+    }
+
+    public interface updateTracksNames{
+        void updateTracks(ArrayList<Track> tracks);
     }
 
     @Override
@@ -2566,7 +2628,7 @@ public class RestApi implements APIs {
             public void onResponse(String response) {
                 try {
                     Log.e("tracks", "respond");
-                    Utils.LoadedPlaylists.randomPlaylists = new ArrayList<>();
+                    //Utils.LoadedPlaylists.randomPlaylists = new ArrayList<>();
                     JSONObject root = new JSONObject(response);
                     JSONObject tracks = root.getJSONObject("tracks");
                     JSONArray items = tracks.getJSONArray("items");
@@ -2619,7 +2681,7 @@ public class RestApi implements APIs {
             public void onResponse(String response) {
                 try {
                     Log.e("tracks", "respond");
-                    Utils.LoadedPlaylists.randomPlaylists = new ArrayList<>();
+                    //Utils.LoadedPlaylists.randomPlaylists = new ArrayList<>();
                     JSONObject root = new JSONObject(response);
                     JSONObject tracks = root.getJSONObject("tracks");
                     JSONArray items = tracks.getJSONArray("items");

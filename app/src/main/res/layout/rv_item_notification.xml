@@ -14,7 +14,7 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_img"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="15dp"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:src="@drawable/placeholder_user"
@@ -26,7 +26,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="100dp"
         android:orientation="vertical">
 
         <TextView
@@ -39,10 +39,19 @@
         <TextView
             android:id="@+id/description_text"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:text="@string/description_text_placeholder"
+            android:layout_height="40dp"
+            android:text="Frank Castle liked your playlist with all love to you baby "
+            android:layout_marginTop="2dp"
             android:textSize="12sp"
             android:textColor="#E5F2F1"/>
+        <TextView
+            android:id="@+id/date_text"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:text="20-11-2020 At 18:40"
+            android:textSize="10sp"
+            android:layout_marginTop="2dp"
+            android:textColor="#E5F2E5"/>
 
     </LinearLayout>
 
