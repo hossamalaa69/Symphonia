@@ -70,7 +70,7 @@ public class MockService implements APIs {
     private int genresCount = 0;
     private int playlistsCount = 0;
     private ArrayList<Container>mArtistAlbums;
-
+    private ArrayList<Container>mArtistTracks;
 
     /**
      * Array that holds some users of type listener to be mimic
@@ -148,6 +148,11 @@ public class MockService implements APIs {
         mArtistAlbums.add(new Container("album3","3 songs",Utils.convertToBitmap(R.drawable.abu)));
         mArtistAlbums.add(new Container("album4","3 songs",Utils.convertToBitmap(R.drawable.assala)));
 
+        mArtistTracks=new ArrayList<>();
+        mArtistTracks.add(new Container("track1","3 minutes",Utils.convertToBitmap(R.drawable.amr)));
+        mArtistTracks.add(new Container("track2","2 minutes",Utils.convertToBitmap(R.drawable.adele)));
+        mArtistTracks.add(new Container("track3","1 minutes",Utils.convertToBitmap(R.drawable.abu)));
+        mArtistTracks.add(new Container("track4","5 minutes",Utils.convertToBitmap(R.drawable.assala)));
 
 
         mAlbums = new ArrayList<>();
@@ -1437,7 +1442,7 @@ public class MockService implements APIs {
 
     @Override
     public ArrayList<Container> getAlbumTracks(Context context, ArtistAlbumTracks artistAlbumTracks, String id) {
-        return null;
+        return mArtistTracks;
     }
 
     @Override
@@ -1450,6 +1455,11 @@ public class MockService implements APIs {
     public void renameTrack(Context context, ArtistAlbumTracks artistAlbumTracks, String id, int pos, String name) {
         RestApi.updateUiArtistAlbumTracks listener=(RestApi.updateUiArtistAlbumTracks)context;
         listener.onRenameTrackSuccess(artistAlbumTracks,pos,name);
+    }
+
+    @Override
+    public void createTrack(Context context, String songEncoded, String albumId) {
+
     }
 
     private com.example.symphonia.Entities.Context playingContext;

@@ -66,8 +66,11 @@ public class ArtistAlbumTracks extends Fragment implements FollowersAdapter.Prof
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent addAlbums = new Intent(getContext(), AddAlbum.class);
-                startActivityForResult(addAlbums,1);
+                /*Intent addAlbums = new Intent(getContext(), AddAlbum.class);
+                Bundle b=new Bundle();
+                b.putString("albumId",id);
+                addAlbums.putExtras(b);
+                startActivityForResult(addAlbums,3456);*/
             }
         });
         //handle recycler view

@@ -360,6 +360,51 @@ public class RestApi implements APIs {
         });
     }
 
+    @Override
+    public void createTrack(Context context,String songEncoded,String albumId) {
+        final StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.BASE_URL+"api/v1/users/tracks",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("uploade",response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            //String id=jsonObject.getString("_id");
+                            //String imgUrl=jsonObject.getString("image");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + Constants.currentToken);
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new Hashtable<String, String>();
+                params.put("track",songEncoded);
+                params.put("name","name");
+                params.put("album",albumId);
+                return params;
+            }
+        };
+        int socketTimeout = 30000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        stringRequest.setRetryPolicy(policy);
+        VolleySingleton.getInstance(context).getRequestQueue().add(stringRequest);
+    }
+
 
     public interface updateUiArtistAlbumTracks{
         public void ongetAlbumTracks(ArtistAlbumTracks artistAlbumTracks,ArrayList<Container>tracks);

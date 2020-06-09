@@ -18,7 +18,7 @@ public class Constants {
      * debug status for app to decide which service mode will be used
      * true for MockService, false for REST APIs mode
      */
-    public final static boolean DEBUG_STATUS = true;
+    public final static boolean DEBUG_STATUS = false;
     /**
      * holds base url
      */

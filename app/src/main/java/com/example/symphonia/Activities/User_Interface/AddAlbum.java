@@ -3,15 +3,19 @@ package com.example.symphonia.Activities.User_Interface;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +26,7 @@ import com.example.symphonia.Service.RestApi;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class AddAlbum extends AppCompatActivity {
     private TextView save;
@@ -30,20 +35,53 @@ public class AddAlbum extends AppCompatActivity {
     private EditText copyRights;
     private String copyRightsType;
     private String image;
-
+    private ImageView back;
+    private TextView textView;
+    private String albumId;
+    private RadioGroup radioGroup;
+    private boolean track_album=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_album);
 
+        Bundle b = getIntent().getExtras();
+        if(b!=null){
+            albumId=b.getString("albumId");
+            if(albumId!=null){
+                track_album=true;
+            }
+        }
 
         //attach views
+        back=findViewById(R.id.img_back_artist_albums);
         save=findViewById(R.id.save);
         name=findViewById(R.id.edit_text_album);
         copyRights=findViewById(R.id.copyrights);
         albumImg=findViewById(R.id.album_img);
+        textView=findViewById(R.id.tv_copyrights);
+        radioGroup=findViewById(R.id.choose_copyRight);
         //handle clicks
+        if(track_album) {
+            radioGroup.setVisibility(View.GONE);
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent;
+                    intent = new Intent();
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    intent.setType("audio/mpeg");
+                    startActivityForResult(intent, 3333);
+                }
+            });
+        }
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         albumImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +130,27 @@ public class AddAlbum extends AppCompatActivity {
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
+            }
+        }
+        if (requestCode == 3333 && resultCode == Activity.RESULT_OK) {
+            if ((data != null) && (data.getData() != null)) {
+                Uri audioFileUri = data.getData();
+                //File file=new File(String.valueOf(new File(getRealPathFromURI(audioFileUri))));
+                byte[] bytearray = new byte[0];
+                try {
+                    InputStream inputStream =
+                            getContentResolver().openInputStream(audioFileUri);
+
+                    bytearray = new byte[inputStream.available()];
+                    //bytearray = toByteArray(inputStream);
+
+                    Toast.makeText(this, "" + bytearray, Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                String reducedArray = Base64.encodeToString(bytearray, Base64.NO_WRAP);
+                RestApi restApi=new RestApi();
+                restApi.createTrack(this,reducedArray,albumId);
             }
         }
     }

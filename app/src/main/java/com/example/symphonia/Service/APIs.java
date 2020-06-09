@@ -594,6 +594,8 @@ public interface APIs {
 
     void renameTrack(Context context,ArtistAlbumTracks artistAlbumTracks,String id,int pos,String name);
 
+    void createTrack(Context context,String songEncoded,String albumId);
+
     void getQueue(Context context);
 
     void playPrev(Context context);
