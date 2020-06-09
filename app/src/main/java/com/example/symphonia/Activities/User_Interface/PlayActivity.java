@@ -12,7 +12,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -31,6 +34,8 @@ import com.example.symphonia.Adapters.RvTracksPlayActivityAdapter;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Fragments_and_models.home.HomeFragment;
+import com.example.symphonia.Fragments_and_models.playlist.BottomSheetDialogSettings;
+import com.example.symphonia.Fragments_and_models.playlist.BottomSheetDialogSettingsCredits;
 import com.example.symphonia.Fragments_and_models.playlist.PlaylistFragment;
 import com.example.symphonia.Helpers.AdDialog;
 import com.example.symphonia.Helpers.SnapHelperOneByOne;
@@ -58,8 +63,105 @@ import java.util.ArrayList;
 public class PlayActivity extends AppCompatActivity implements Serializable, RvTracksPlayActivityAdapter.OnItemSwitched
         , updateUiPlaylists
         , MediaController.OnStartListener
-        , playable {
+        , playable
+        ,BottomSheetDialogSettings.BottomSheetListener{
+    /**
+     * this function is called when user click on like item in settings of track
+     *
+     * @param pos position of track in current playlist
+     */
+    @Override
+    public void onLikeClicked(int pos) {
+        if (!Utils.currTrack.isLiked() && !Utils.currTrack.isLocked()) {
+            Utils.playingContext.setTrackLiked(pos,true);
+            Utils.currTrack.setLiked(true);
+            ServiceController.getInstance().saveTrack(PlayActivity.this
+                    , Utils.currTrack.getId());
+        } else if (!Utils.currTrack.isLocked()) {
+            Utils.playingContext.setTrackHidden(pos,false);
+            Utils.currTrack.setLiked(false);
+            ServiceController.getInstance().removeFromSaved(PlayActivity.this
+                    , Utils.currTrack.getId());
+        } else {
+            Toast.makeText(PlayActivity.this,getString(R.string.locked_songs),Toast.LENGTH_SHORT).show();
+        }
+        updateScreen();
+    }
 
+    /**
+     * this function is called when user click on hide item in settings of track
+     *
+     * @param pos position of track in current playlist
+     */
+    @Override
+    public void onHideClicked(int pos) {
+        if (!Utils.currTrack.isHidden() && !Utils.currTrack.isLocked()) {
+            Utils.playingContext.setTrackHidden(pos,true);
+            Utils.currTrack.setHidden(true);
+            playNextTrack();
+
+        } else if (!Utils.currTrack.isLocked()) {
+            Utils.playingContext.setTrackHidden(pos,false);
+            Utils.currTrack.setHidden(false);
+
+        } else {
+            Toast.makeText(PlayActivity.this,getString(R.string.locked_songs),Toast.LENGTH_SHORT).show();
+        }
+        updateScreen();
+    }
+
+    /**
+     * this function is called when user click on report item in settings of track
+     *
+     * @param pos position of track in current playlist
+     */
+    @Override
+    public void onReportClicked(int pos) {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.custom_toast,
+                (ViewGroup) findViewById(R.id.custom_toast_container));
+        Toast toast = new Toast(PlayActivity.this);
+        toast.setView(layout);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+    }
+
+    /**
+     * this function is called when user click on share item in settings of track
+     *
+     * @param pos position of track in current playlist
+     */
+    @Override
+    public void onShareClicked(int pos) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+            intent.putExtra(Intent.EXTRA_TEXT, "" + Utils.currTrack.getUri());
+        }
+    }
+
+    /**
+     * this function is called when user click on show credits item in settings of track
+     *
+     * @param pos position of track in current playlist
+     */
+    @Override
+    public void onCreditsClicked(int pos) {
+        BottomSheetDialogSettingsCredits sheet = new BottomSheetDialogSettingsCredits(pos);
+        sheet.show(getSupportFragmentManager(), "credits");
+    }
+
+    /**
+     * this function is called when user click on view artist item in settings of track
+     *
+     * @param pos position of track in current playlist
+     */
+    @Override
+    public void onViewArtistClicked(int pos) {
+        //TODO open artist in islam's work
+    }
 
     ArrayList<Track> tracks;
     RecyclerView rvTracks;
@@ -68,6 +170,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
     TextView trackTitle;
     TextView trackArtist;
     TextView playlistTitle;
+    ImageButton shareBtn;
     SeekBar seekBar;
     TextView seeKBarRemain;
     TextView seekBarCurr;
@@ -351,6 +454,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         resetSeekBar();
         Intent intent = new Intent(this, MediaController.class);
         intent.setAction(MediaController.ACTION_PLAY);
+        MediaController.addListener(this);
         MediaController.setOnCompletionListener(onCompletionListener);
         MediaController.getController().setOnAudioFocusChangeListener(onAudioFocusChangeListener);
         Log.e("PlayActivity", "play track");
@@ -507,7 +611,17 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
                 playNextTrack();
             }
         });
-
+        shareBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                    intent.putExtra(Intent.EXTRA_TEXT, "" + Utils.currTrack.getUri());
+                }
+            }
+        });
         prevBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -545,9 +659,8 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         trackSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO handle btn here
-                Toast.makeText(PlayActivity.this, "Settings", Toast.LENGTH_SHORT).show();
-
+                BottomSheetDialogSettings settings = new BottomSheetDialogSettings(Utils.currTrack, PlayActivity.this);
+                settings.show(getSupportFragmentManager(), "settings");
             }
         });
 
@@ -565,9 +678,9 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         trackTitle.setText(Utils.currTrack.getmTitle());
         trackArtist.setText(Utils.currTrack.getmDescription());
         playlistTitle.setText(Utils.currTrack.getPlaylistName());
-        frameLayout.removeAllViews();
+        /*frameLayout.removeAllViews();
         frameLayout.addView(pauseBtn);
-        frameLayout.setOnClickListener(playBtnListener);
+        frameLayout.setOnClickListener(playBtnListener);*/
         if (layoutManager != null) {
             hardScroll = true;
             rvTracks.getLayoutManager().scrollToPosition(Utils.getPosInPlaying(Utils.currTrack.getId()));
@@ -656,7 +769,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         pauseBtn = new ImageView(this);
         pauseBtn.setImageResource(R.drawable.ic_pause_circle_filled_black_24dp);
         progressBar = new ProgressBar(this);
-
+        shareBtn = findViewById(R.id.shareButton);
         rvTracks = findViewById(R.id.rv_playlist_play_activity);
         trackArtist = findViewById(R.id.tv_track_artist);
         trackTitle = findViewById(R.id.tv_track_title_play_activity);

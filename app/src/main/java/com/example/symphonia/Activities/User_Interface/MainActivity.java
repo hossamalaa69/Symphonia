@@ -639,29 +639,29 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
-        } else
-            try {
-                String fragment = getIntent().getExtras().getString("playlist_fragment");
-                if (fragment != null && fragment.matches("playlist_fragment")) {
-                    OnPlaylistClickedListener(Utils.displayedContext);
-                }
-            } catch (Exception e) {
-                if (Utils.currTrack == null) {
-                    controller.getCurrPlaying(this);
-                    start = true;
+        }
+        try {
+            String fragment = getIntent().getExtras().getString("playlist_fragment");
+            if (fragment != null && fragment.matches("playlist_fragment")) {
+                OnPlaylistClickedListener(Utils.displayedContext);
+            }
+        } catch (Exception e) {
+            if (Utils.currTrack == null) {
+                controller.getCurrPlaying(this);
+                start = true;
+            } else {
+                showPlayBar();
+                if (mediaController.isMediaNotNull() && mediaController.isMediaPlayerPlaying()) {
+                    playBarBtnFrame.removeAllViews();
+                    playBarBtnFrame.addView(pauseBtn);
+                    playBarBtnFrame.setOnClickListener(playBtnListener);
                 } else {
-                    showPlayBar();
-                    if (mediaController.isMediaNotNull() && mediaController.isMediaPlayerPlaying()) {
-                        playBarBtnFrame.removeAllViews();
-                        playBarBtnFrame.addView(pauseBtn);
-                        playBarBtnFrame.setOnClickListener(playBtnListener);
-                    } else {
-                        playBarBtnFrame.removeAllViews();
-                        playBarBtnFrame.addView(playBtn);
-                        playBarBtnFrame.setOnClickListener(playBtnListener);
-                    }
+                    playBarBtnFrame.removeAllViews();
+                    playBarBtnFrame.addView(playBtn);
+                    playBarBtnFrame.setOnClickListener(playBtnListener);
                 }
             }
+        }
 
     }
 
@@ -687,8 +687,18 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         MediaController.setOnCompletionListener(onCompletionListener);
         mediaController.setMediaPlayCompletionService();
         prevPos = Utils.CurrTrackInfo.prevTrackPos;
-        if (Utils.currTrack != null)
+        if (Utils.currTrack != null) {
             showPlayBar();
+            if (MediaController.getController().isMediaPlayerPlaying()) {
+                playBarBtnFrame.removeAllViews();
+                playBarBtnFrame.addView(pauseBtn);
+                playBarBtnFrame.setOnClickListener(playBtnListener);
+            } else {
+                playBarBtnFrame.removeAllViews();
+                playBarBtnFrame.addView(playBtn);
+                playBarBtnFrame.setOnClickListener(playBtnListener);
+            }
+        }
         if (trackImage != null && track != null)
             if (!Constants.DEBUG_STATUS)
                 Picasso.get()
@@ -979,10 +989,10 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
      */
     @Override
     public void OnLikeClickedListener(boolean selected, int pos) {
-        if (Utils.playingContext == null) {
+        if (Utils.displayedContext == null) {
             return;
         }
-        Utils.playingContext.getTracks().get(pos).setLiked(selected);
+        Utils.displayedContext.getTracks().get(pos).setLiked(selected);
         if (Utils.displayedContext.getTracks().get(pos).getId().matches(Utils.currTrack.getId())) {
             if (selected) {
                 ivIsFavourite.setImageResource(R.drawable.ic_favorite_black_24dp);

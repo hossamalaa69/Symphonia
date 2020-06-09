@@ -904,7 +904,8 @@ public class RestApi implements APIs {
                                 null, Constants.BASE_URL + Constants.GET_PLAYLISTS_TRACKS + id + "/tracks", type));
                     }
                     Log.e("recent", "success");
-                    listener.updateUiGetRecentPlaylistsSuccess(fragment);
+                    if(Utils.LoadedPlaylists.recentPlaylists.size()>0)
+                         listener.updateUiGetRecentPlaylistsSuccess(fragment);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

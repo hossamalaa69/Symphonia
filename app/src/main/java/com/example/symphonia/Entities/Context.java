@@ -83,7 +83,13 @@ public class Context {
         this.imageUrl = imageUrl;
         this.mOwnerName = mOwnerName;
     }
+    public void setTrackLiked(int pos , boolean liked){
+        tracks.get(pos).setLiked(liked);
+    }
 
+    public void setTrackHidden(int pos , boolean hidden){
+        tracks.get(pos).setHidden(hidden);
+    }
     public  Context(String mContextTitle, String id,String mContextDescription, Bitmap mContextImage, ArrayList<Track> tracks,String type) {
         this.mContextTitle = mContextTitle;
         this.mContextDescription = mContextDescription;

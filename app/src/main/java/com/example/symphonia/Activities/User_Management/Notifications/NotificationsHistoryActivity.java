@@ -130,6 +130,7 @@ public class NotificationsHistoryActivity extends AppCompatActivity implements R
                             i.putExtra("playlist_fragment", "playlist_fragment");
                             Utils.displayedContext = new Context();
                             Utils.displayedContext.setContext(playlist);
+                            Utils.displayedContext.setContextType("playlist");
                             startActivity(i);
                     }
                 };
