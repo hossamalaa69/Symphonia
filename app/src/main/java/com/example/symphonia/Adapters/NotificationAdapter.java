@@ -64,12 +64,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         CircleImageView profile_img;
         TextView text1;
         TextView text2;
+        TextView text3;
 
         public Holder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             profile_img = itemView.findViewById(R.id.profile_img);
             text1 = itemView.findViewById(R.id.main_text);
             text2 = itemView.findViewById(R.id.description_text);
+            text3 = itemView.findViewById(R.id.date_text);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -98,6 +100,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
             text1.setText(notificationItem.getText1());
             text2.setText(notificationItem.getText2());
+            text3.setText(notificationItem.getText3());
         }
 
     }

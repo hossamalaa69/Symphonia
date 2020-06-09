@@ -91,8 +91,7 @@ public class NotificationsHistoryActivity extends AppCompatActivity implements R
 
             //TODO:Mohamoud
             if(mNotificationItems.get(position).getText1().equals("Following User")) {
-                Toast.makeText(this, "Follower ID:" + mNotificationItems.get(position).getSenderID()
-                        , Toast.LENGTH_SHORT).show();
+
                 String profileID = mNotificationItems.get(position).getSenderID();
                 /*
                 TODO:open profile page which it's ID is stored in profileID variable
@@ -106,8 +105,6 @@ public class NotificationsHistoryActivity extends AppCompatActivity implements R
 
             //TODO:Mahmoud
             else if(mNotificationItems.get(position).getText1().equals("Like Playlist")) {
-                Toast.makeText(this, "User ID:" + mNotificationItems.get(position).getSenderID()
-                        , Toast.LENGTH_SHORT).show();
                 String profileID = mNotificationItems.get(position).getSenderID();
                 /*
                 TODO:open profile page which it's ID is stored in profileID variable
@@ -156,23 +153,23 @@ public class NotificationsHistoryActivity extends AppCompatActivity implements R
 
     private void addSomeItems(){
         mNotificationItems.add(new NotificationItem(R.drawable.amr,"Amr Diab"
-                , "new user has followed you"));
+                , "new user has followed you","03:04:2020 At 02:13"));
         mNotificationItems.add(new NotificationItem(R.drawable.elissa,"Elissa"
-                , "Artist posted new song"));
+                , "Artist posted new song","03:04:2020 At 02:13"));
         mNotificationItems.add(new NotificationItem(R.drawable.taylor,"Taylor Swift"
-                , "new user added song to your playlist"));
+                , "new user added song to your playlist","03:04:2020 At 02:13"));
         mNotificationItems.add(new NotificationItem(R.drawable.amr,"Amr Diab"
-                , "new user has followed you"));
+                , "new user has followed you","03:04:2020 At 02:13"));
         mNotificationItems.add(new NotificationItem(R.drawable.elissa,"Ellissa"
-                , "Artist posted new song"));
+                , "Artist posted new song","03:04:2020 At 02:13"));
         mNotificationItems.add(new NotificationItem(R.drawable.taylor,"Taylor Swift"
-                , "new user added song to your playlist"));
+                , "new user added song to your playlist","03:04:2020 At 02:13"));
         mNotificationItems.add(new NotificationItem(R.drawable.amr,"Amr Diab"
-                , "new user has followed you"));
+                , "new user has followed you","03:04:2020 At 02:13"));
         mNotificationItems.add(new NotificationItem(R.drawable.elissa,"Ellissa"
-                , "Artist posted new song"));
+                , "Artist posted new song","03:04:2020 At 02:13"));
         mNotificationItems.add(new NotificationItem(R.drawable.taylor,"Taylor Swift"
-                , "new user added song to your playlist"));
+                , "new user added song to your playlist","03:04:2020 At 02:13"));
 
     }
 
@@ -202,6 +199,18 @@ public class NotificationsHistoryActivity extends AppCompatActivity implements R
                         title,body);
                 notificationItem.setImageUrl(icon);
                 notificationItem.setSenderID(SenderID);
+
+                String time_total = "";
+                try {
+                    time_total = item.getString("date");
+                    String date = time_total.substring(0,10);
+                    date += " "+"At ";
+                    String time = time_total.substring(11,16);
+                    time_total = date+time;
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                notificationItem.setText3(time_total);
                 notificationItemArrayList.add(notificationItem);
             }
             for(int i=notificationItemArrayList.size()-1;i>=0;i--){
