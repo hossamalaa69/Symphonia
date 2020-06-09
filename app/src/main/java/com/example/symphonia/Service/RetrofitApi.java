@@ -1,5 +1,6 @@
 package com.example.symphonia.Service;
 
+import com.example.symphonia.Helpers.TracksModel;
 import com.google.gson.JsonObject;
 
 import java.util.Map;
@@ -37,6 +38,13 @@ public interface RetrofitApi {
             @HeaderMap Map<String, String> headers,
             @Path("id") String id,
             @Body Map<String, Object> body
+    );
+
+    @POST("api/v1/playlists/{playlist_id}/tracks")
+    Call<Void> addTrackToPlaylist(
+            @HeaderMap Map<String, String> headers,
+            @Path("playlist_id") String id,
+            @Body TracksModel body
     );
 
     @GET("api/v1/playlists/{id}")

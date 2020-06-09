@@ -16,17 +16,15 @@
         android:roundIcon="@mipmap/ic_app_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore ="GoogleAppIndexingWarning"
-        android:usesCleartextTraffic="true">
-
-        <activity android:name=".Activities.User_Interface.RenameAlbum"/>
-        <activity android:name=".Activities.User_Interface.EditProfileActivity"/>
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".Activities.User_Interface.AddSongsActivity" android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".Activities.User_Interface.RenameAlbum" />
+        <activity android:name=".Activities.User_Interface.EditProfileActivity" />
         <activity android:name=".Activities.User_Interface.AddAlbum" />
         <activity
             android:name=".Activities.User_Management.Notifications.NotificationsHistoryActivity"
-            android:label="@string/notifications"
-            />
-
+            android:label="@string/notifications" />
         <activity android:name=".Activities.User_Management.SignUp.ApplyArtist">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -40,7 +38,6 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
-
         <activity android:name=".Activities.User_Management.Redirect.PaymentActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -50,11 +47,10 @@
 
                 <data
                     android:host="thesymphonia.ddns.net"
-                    android:scheme="https"
-                    android:pathPrefix="/apply-premium/" />
+                    android:pathPrefix="/apply-premium/"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
-
         <activity android:name=".Activities.User_Management.Redirect.FacebookRedirect">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -68,17 +64,14 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Activities.User_Interface.TracksPreview"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".Activities.User_Management.ForgetPassword.ResetPassword"
             android:label="@string/reset_password"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".Helpers.AdDialog"
             android:theme="@style/Theme.UserDialog" />
@@ -90,7 +83,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
             android:name=".Activities.User_Management.ForgetPassword.EmailCheck"
             android:label="@string/check_email"
@@ -102,7 +94,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.User_Interface.MainActivity" />
         </activity>
-
         <activity
             android:name=".Activities.User_Management.ForgetPassword.ForgetPassword"
             android:label="@string/forgot_password"
@@ -114,7 +105,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.User_Interface.MainActivity" />
         </activity>
-
         <activity
             android:name=".Activities.User_Management.SignUp.Step5Activity"
             android:label="@string/create_account"
@@ -125,7 +115,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.User_Management.SignUp.Step4Activity" />
         </activity>
-
         <activity
             android:name=".Activities.User_Management.SignUp.Step4Activity"
             android:label="@string/create_account"
@@ -137,7 +126,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.User_Management.SignUp.Step3Activity" />
         </activity>
-
         <activity
             android:name=".Activities.User_Management.SignUp.Step3Activity"
             android:label="@string/create_account"
@@ -149,7 +137,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.User_Management.SignUp.Step2Activity" />
         </activity>
-
         <activity
             android:name=".Activities.User_Management.SignUp.Step2Activity"
             android:label="@string/create_account"
@@ -161,7 +148,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.User_Management.SignUp.Step1Activity" />
         </activity>
-
         <activity
             android:name=".Activities.User_Management.SignUp.Step1Activity"
             android:label="@string/create_account"
@@ -173,29 +159,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.User_Management.WelcomeActivity" />
         </activity>
-
         <activity
             android:name=".Activities.User_Management.WelcomeActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".Activities.User_Interface.AddArtistsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".Activities.User_Interface.CreatePlaylistActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
             android:name=".Activities.User_Interface.PlayActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".Activities.User_Management.LoginActivity"
             android:label=""
@@ -207,7 +188,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.User_Interface.MainActivity" />
         </activity>
-
         <activity
             android:name=".Activities.User_Interface.MainActivity"
             android:label="@string/app_name"
@@ -222,7 +202,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Activities.User_Interface.StartActivity"
             android:screenOrientation="portrait"
@@ -239,7 +218,6 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Activities.User_Interface.SplashScreenActivity"
             android:screenOrientation="portrait"
@@ -253,34 +231,37 @@
 
         <service
             android:name=".Activities.User_Management.Notifications.MyFirebaseInstanceIdService"
-            android:exported="false"
-            android:directBootAware="true">
+            android:directBootAware="true"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-
         </service>
-            <receiver android:name=".Helpers.MediaHelpers.NotificationActionService"/>
-        <service android:name=".Helpers.MediaHelpers.OnClearFromRecentService"/>
 
+        <receiver android:name=".Helpers.MediaHelpers.NotificationActionService" />
 
-        <meta-data android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+        <service android:name=".Helpers.MediaHelpers.OnClearFromRecentService" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

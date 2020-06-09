@@ -723,4 +723,8 @@ public class ServiceController {
     public void deleteTrack(Context context,ArtistAlbumTracks artistAlbumTracks,String id,int pos){
         mSupplier.deleteTrack(context,artistAlbumTracks,id,pos);
     }
+    public void addTrackToPlaylist(Context context, String playlistId, String trackId){
+        mSupplier.addTrackToPlaylist(context, playlistId, trackId);
+    }
+
 }
