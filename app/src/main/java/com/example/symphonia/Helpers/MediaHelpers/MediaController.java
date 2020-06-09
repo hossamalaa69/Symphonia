@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -42,33 +43,7 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
     /**
      * listener of focus of audio
      */
-    private AudioManager.OnAudioFocusChangeListener onAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
-        @Override
-        public void onAudioFocusChange(int focusChange) {
-            switch (focusChange) {
-                case AudioManager.AUDIOFOCUS_REQUEST_GRANTED:
-                    if (mediaPlayer != null)
-                        mediaPlayer.start();
-                    break;
-                case AudioManager.AUDIOFOCUS_LOSS:
-                    releaseMedia();
-                    break;
-                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-                    if (mediaPlayer != null) {
-                        mediaPlayer.stop();
-                    }
-                    break;
-                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                    if (mediaPlayer != null) {
-                        mediaPlayer.pause();
-                        Utils.CurrTrackInfo.currPlayingPos = mediaPlayer.getCurrentPosition();
-                    }
-                    break;
-
-            }
-        }
-
-    };
+    private AudioManager.OnAudioFocusChangeListener onAudioFocusChangeListener ;
     private Toast toast;
 
     public static void addListener(Context context) {
@@ -82,6 +57,13 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
      */
     public static void setOnCompletionListener(MediaPlayer.OnCompletionListener onCompletionListener) {
         MediaController.onCompletionListener = onCompletionListener;
+    }
+    public static void play(){
+        mediaPlayer.start();
+    }
+
+    public static void pause(){
+        mediaPlayer.pause();
     }
 
     /**
@@ -100,6 +82,11 @@ public class MediaController extends Service implements MediaPlayer.OnPreparedLi
         if (mediaPlayer != null)
             mediaPlayer.setOnCompletionListener(onCompletionListener);
     }
+    public void setOnAudioFocusChangeListener(AudioManager.OnAudioFocusChangeListener Listener) {
+        if (mediaPlayer != null)
+            onAudioFocusChangeListener= Listener;
+    }
+
 
     /**
      * check if media is null

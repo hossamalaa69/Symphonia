@@ -6,6 +6,7 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -88,7 +89,51 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
      */
     int trackPos;
     private ProgressBar progressBar;
+    AudioManager.OnAudioFocusChangeListener onAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
+        @Override
+        public void onAudioFocusChange(int focusChange) {
+            switch (focusChange) {
+                case android.media.AudioManager.AUDIOFOCUS_REQUEST_GRANTED:
+                    if (MediaController.getController().isMediaNotNull()) {
+                        MediaController.play();
+                        onTrackPlay();
+                        frameLayout.removeAllViews();
+                        frameLayout.addView(pauseBtn);
+                        frameLayout.setOnClickListener(playBtnListener);
+                    }
 
+                    break;
+                case android.media.AudioManager.AUDIOFOCUS_LOSS:
+                    MediaController.getController().releaseMedia();
+                    onTrackPause();
+                    frameLayout.removeAllViews();
+                    frameLayout.addView(playBtn);
+                    frameLayout.setOnClickListener(playBtnListener);
+                    break;
+                case android.media.AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                    if (MediaController.getController().isMediaNotNull()) {
+                        MediaController.getController().stop();
+                        onTrackPause();
+                        frameLayout.removeAllViews();
+                        frameLayout.addView(playBtn);
+                        frameLayout.setOnClickListener(playBtnListener);
+
+                    }
+                    break;
+                case android.media.AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+                    if (MediaController.getController().isMediaNotNull()) {
+                        MediaController.pause();
+                        Utils.CurrTrackInfo.currPlayingPos = MediaController.getController().getCurrentPosition();
+                        onTrackPause();
+                        frameLayout.removeAllViews();
+                        frameLayout.addView(playBtn);
+                        frameLayout.setOnClickListener(playBtnListener);
+                    }
+                    break;
+            }
+        }
+
+    };
     @Override
     public void onStartListener() {
         frameLayout.removeAllViews();
@@ -306,6 +351,8 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         resetSeekBar();
         Intent intent = new Intent(this, MediaController.class);
         intent.setAction(MediaController.ACTION_PLAY);
+        MediaController.setOnCompletionListener(onCompletionListener);
+        MediaController.getController().setOnAudioFocusChangeListener(onAudioFocusChangeListener);
         Log.e("PlayActivity", "play track");
         startService(intent);
         onTrackPlay();
@@ -378,15 +425,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
             frameLayout.addView(progressBar);
             frameLayout.setOnClickListener(null);
         }
-        MediaController.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                playNextTrack();
-                frameLayout.removeAllViews();
-                frameLayout.addView(progressBar);
-                frameLayout.setOnClickListener(null);
-            }
-        });
+        MediaController.setOnCompletionListener(onCompletionListener);
         mediaController.setMediaPlayCompletionService();
 
         this.runOnUiThread(new Runnable() {
@@ -410,7 +449,15 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
             }
         });
     }
-
+    MediaPlayer.OnCompletionListener onCompletionListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            playNextTrack();
+            frameLayout.removeAllViews();
+            frameLayout.addView(progressBar);
+            frameLayout.setOnClickListener(null);
+        }
+    };
     /**
      * this function gets the next not hidden track
      */

@@ -854,6 +854,7 @@ public class RestApi implements APIs {
                         String decs = playlist.optString("contextDescription");
                         String imageUrl = playlist.getString("contextImage");
                         String id = playlist.getString("contextId");
+                        if(type == "playlist")
                         Utils.LoadedPlaylists.recentPlaylists.add(new com.example.symphonia.Entities.Context(title, id, decs, imageUrl,
                                 null, Constants.BASE_URL + Constants.GET_PLAYLISTS_TRACKS + id + "/tracks", type));
                     }
@@ -2521,7 +2522,7 @@ public class RestApi implements APIs {
             public void onResponse(String response) {
                 try {
                     Log.e("tracks", "respond");
-                    Utils.LoadedPlaylists.randomPlaylists = new ArrayList<>();
+                    //Utils.LoadedPlaylists.randomPlaylists = new ArrayList<>();
                     JSONObject root = new JSONObject(response);
                     JSONObject tracks = root.getJSONObject("tracks");
                     JSONArray items = tracks.getJSONArray("items");
@@ -2574,7 +2575,7 @@ public class RestApi implements APIs {
             public void onResponse(String response) {
                 try {
                     Log.e("tracks", "respond");
-                    Utils.LoadedPlaylists.randomPlaylists = new ArrayList<>();
+                    //Utils.LoadedPlaylists.randomPlaylists = new ArrayList<>();
                     JSONObject root = new JSONObject(response);
                     JSONObject tracks = root.getJSONObject("tracks");
                     JSONArray items = tracks.getJSONArray("items");

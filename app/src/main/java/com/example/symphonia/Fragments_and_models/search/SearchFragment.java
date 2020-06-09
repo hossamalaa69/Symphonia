@@ -120,12 +120,12 @@ public class SearchFragment extends Fragment implements SearchMainAdapter.CatLis
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity)getActivity()).setRoot(true);
+        ((MainActivity)getActivity()).setRoot(false);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        ((MainActivity)getActivity()).setRoot(false);
+        ((MainActivity)getActivity()).setRoot(true);
     }
 }

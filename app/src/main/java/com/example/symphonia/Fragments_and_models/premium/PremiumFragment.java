@@ -184,7 +184,7 @@ public class PremiumFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if(getTag() != null && getTag().equals("premium"))
-            ((MainActivity)getActivity()).setRoot(true);
+            ((MainActivity)getActivity()).setRoot(false);
     }
 
     /**
@@ -193,7 +193,7 @@ public class PremiumFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        ((MainActivity)getActivity()).setRoot(false);
+        ((MainActivity)getActivity()).setRoot(true);
     }
 
 }
