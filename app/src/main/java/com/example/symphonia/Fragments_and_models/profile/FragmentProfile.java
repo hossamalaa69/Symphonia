@@ -233,7 +233,8 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
         controller=ServiceController.getInstance();
         //attach views
         artist_part=root.findViewById(R.id.rest_of_bar);
-        if(/*Constants.currentUser.getUserType()=="artist"*/true){
+        boolean userType = Constants.currentUser.isListenerType();
+        if(!userType){
             artist_part.setVisibility(View.VISIBLE);
         }
         background=root.findViewById(R.id.profile_background);
@@ -411,9 +412,14 @@ public class FragmentProfile extends Fragment implements ProfilePlaylistsAdapter
                 .into(profileImage, new com.squareup.picasso.Callback() {
                     @Override
                     public void onSuccess() {
+                        profile=new Container(p.getCat_Name(),p.getImgUrl(),null,id);
                         BitmapDrawable drawable = (BitmapDrawable) profileImage.getDrawable();
                         bitmap[0] =drawable.getBitmap();
                         profile.setImgBitmap(bitmap[0]);
+                        profileName.setText(p.getCat_Name());
+                        backgroundProfileName.setText(p.getCat_Name());
+                        Drawable drawable2=Utils.createSearchListBackground(getContext(),profile);
+                        background.setBackground(drawable2);
                     }
 
                     @Override

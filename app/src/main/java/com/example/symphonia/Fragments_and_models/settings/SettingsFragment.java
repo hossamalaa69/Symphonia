@@ -192,7 +192,9 @@ public class SettingsFragment extends Fragment{
                 getParentFragmentManager().beginTransaction()
                         .replace(R.id.nav_host_fragment, new FragmentProfile(new Container(profileName,profileImg)))
                         .addToBackStack(null)
-                        .commit();            }
+                        .commit();
+
+            }
         });
 
         
@@ -238,6 +240,7 @@ public class SettingsFragment extends Fragment{
             //}
         profileName=profile.getCat_Name();
         Constants.currentUser.setmName(profileName);
+        userName.setText(profileName);
         //userImg.setImageBitmap(profileImg);
     }
 
