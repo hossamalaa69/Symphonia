@@ -21,7 +21,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.symphonia.Activities.User_Interface.CreatePlaylistActivity;
 import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Adapters.RvListPlaylistsAdapter;
+import com.example.symphonia.Constants;
+import com.example.symphonia.Entities.Context;
 import com.example.symphonia.Entities.Playlist;
+import com.example.symphonia.Fragments_and_models.playlist.PlaylistFragment;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.RestApi;
@@ -251,14 +254,38 @@ public class LibraryPlaylistsFragment extends Fragment implements RvListPlaylist
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
-        EmptyPlaylistFragment fragment = new EmptyPlaylistFragment();
-        Bundle arguments = new Bundle();
-        arguments.putString("PLAYLIST_ID" , mFollowedPlaylists.get(clickedItemIndex).getId());
-        fragment.setArguments(arguments);
-        ((MainActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(
-                R.id.nav_host_fragment, fragment)
-                .addToBackStack(null)
-                .commit();
+        Playlist playlist = mFollowedPlaylists.get(clickedItemIndex);
+        if(playlist.getTracks().size() == 0){
+            EmptyPlaylistFragment fragment = new EmptyPlaylistFragment();
+            Bundle arguments = new Bundle();
+            arguments.putString("PLAYLIST_ID" , playlist.getId());
+            fragment.setArguments(arguments);
+            ((MainActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(
+                    R.id.nav_host_fragment, fragment)
+                    .addToBackStack(null)
+                    .commit();
+
+        } else {
+            if(playlist.getOwnerName().equals(Constants.currentUser.getmName())){
+                CreatedPlaylistFragment fragment = new CreatedPlaylistFragment();
+                Bundle arguments = new Bundle();
+                arguments.putString("PLAYLIST_ID" , playlist.getId());
+                fragment.setArguments(arguments);
+                ((MainActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(
+                        R.id.nav_host_fragment, fragment)
+                        .addToBackStack(null)
+                        .commit();
+
+            } else {
+                Utils.displayedContext = new Context();
+                Utils.displayedContext.setContext(playlist);
+                ((MainActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(
+                        R.id.nav_host_fragment, new PlaylistFragment())
+                        .addToBackStack(null)
+                        .commit();
+            }
+        }
+
     }
 
     @Override

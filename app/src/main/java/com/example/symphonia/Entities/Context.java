@@ -241,6 +241,8 @@ public class Context {
         setmContextTitle(playlist.getmPlaylistTitle());
     }
 
+
+
     public void setId(String id) {
         this.id = id;
     }

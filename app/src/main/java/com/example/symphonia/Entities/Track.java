@@ -216,6 +216,11 @@ public class Track implements Serializable {
         this.mAlbumId = albumId;
         this.playListId = playListId;
     }
+
+    public Track(String id){
+        this.id = id;
+    }
+
     /**
      * getter fo album id of track
      *

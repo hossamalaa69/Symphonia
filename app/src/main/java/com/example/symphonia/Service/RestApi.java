@@ -1579,9 +1579,16 @@ public class RestApi implements APIs {
                         if (imageUrl == null || imageUrl.contains("default.png")) {
                             imageUrl = "default";
                         }
+                        ArrayList<Track> tracks = new ArrayList<>();
+                        JSONArray tracksArray = playlist.getJSONArray("tracks");
+                        for (int i = 0; i < tracksArray.length(); i++) {
+                            String trackId = tracksArray.getString(i);
+                            tracks.add(new Track(trackId));
+                        }
+
                         String ownerName = playlist.getJSONObject("owner").getString("name");
 
-                        listener.updatePlaylist(new Playlist(id, name, imageUrl, ownerName));
+                        listener.updatePlaylist(new Playlist(id, name, imageUrl, ownerName, tracks));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -1682,8 +1689,14 @@ public class RestApi implements APIs {
                         if (imageUrl == null || imageUrl.contains("default.png")) {
                             imageUrl = "default";
                         }
+                        ArrayList<Track> tracks = new ArrayList<>();
+                        JSONArray tracksArray = playlist.getJSONArray("tracks");
+                        for (int j = 0; j < tracksArray.length(); j++) {
+                            String trackId = tracksArray.getString(j);
+                            tracks.add(new Track(trackId));
+                        }
                         String ownerName = playlist.getJSONObject("owner").getString("name");
-                        returnedPlaylists.add(new Playlist(id, name, imageUrl, ownerName));
+                        returnedPlaylists.add(new Playlist(id, name, imageUrl, ownerName, tracks));
                     }
                     listener.updatePlaylists(returnedPlaylists);
                 } catch (JSONException e) {
@@ -2025,12 +2038,18 @@ public class RestApi implements APIs {
                         String id = playlist.getString("_id");
                         String name = playlist.getString("name");
                         String imageUrl = playlist.getJSONArray("images").optString(0);
+                        ArrayList<Track> tracks = new ArrayList<>();
+                        JSONArray tracksArray = playlist.getJSONArray("tracks");
+                        for (int i = 0; i < tracksArray.length(); i++) {
+                            String trackId = tracksArray.getString(i);
+                            tracks.add(new Track(trackId));
+                        }
                         if (imageUrl == null || imageUrl.contains("default.png")) {
                             imageUrl = "default";
                         }
                         String ownerName = playlist.getJSONObject("owner").getString("name");
 
-                        listener.createdSuccessfully(new Playlist(id, name, imageUrl, ownerName));
+                        listener.createdSuccessfully(new Playlist(id, name, imageUrl, ownerName, tracks));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
