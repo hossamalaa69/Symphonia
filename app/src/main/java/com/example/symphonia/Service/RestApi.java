@@ -410,6 +410,11 @@ public class RestApi implements APIs {
                             mType=false;
                             premium=true;
                         }
+                        try{
+                            premium = convertedObject.getBoolean("premium");
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
                         Constants.currentToken=token_str;
                         Constants.currentUser = new User(email, id, name, mType, premium);
                         Constants.currentUser.setUserType(type);
@@ -472,7 +477,11 @@ public class RestApi implements APIs {
                             } else if (type.equals("artist")) {
                                 premium = true;
                             }
-
+                            try{
+                                premium = user.getBoolean("premium");
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
                             if ((type.equals("user") && !mType) || (type.equals("artist") && mType))
                                 updateLogin.updateUiLoginFail("type");
                             else {
