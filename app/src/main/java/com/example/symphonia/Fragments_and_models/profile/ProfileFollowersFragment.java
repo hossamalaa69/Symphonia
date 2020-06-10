@@ -23,7 +23,7 @@ import com.example.symphonia.Service.ServiceController;
 import java.util.ArrayList;
 
 /**
- * FragmentProfile to show the Profile_Followers layout
+ * FragmentProfile to show the differant data for user
  *  * @author Mahmoud Amr Nabil
  *  * @version 1.0
  */

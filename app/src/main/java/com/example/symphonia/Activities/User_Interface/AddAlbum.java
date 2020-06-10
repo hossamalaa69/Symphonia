@@ -27,7 +27,11 @@ import com.example.symphonia.Service.RestApi;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-
+/**
+ * AddAlbum to add new album
+ * @author Mahmoud Amr Nabil
+ * @version 1.0
+ */
 public class AddAlbum extends AppCompatActivity {
     private TextView save;
     private ImageView albumImg;

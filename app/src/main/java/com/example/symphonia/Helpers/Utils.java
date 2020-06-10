@@ -427,6 +427,12 @@ public class Utils {
         return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 
+    /**
+     * convert bitmap to string
+     * @param image bitmap of the image
+     * @return string of the image
+     * @throws IOException
+     */
     public static String getStringImage(Bitmap image) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.JPEG, 80, baos);

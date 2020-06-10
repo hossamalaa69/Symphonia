@@ -593,6 +593,7 @@ public class ServiceController {
      *
      * @param context         context of the activity
      * @param fragmentProfile the fragment which called this function
+     * @param id id of user
      * @return ArrayList of Container of User's playlists
      */
     public ArrayList<Container> getCurrentUserPlaylists(Context context, FragmentProfile fragmentProfile,String id) {
@@ -604,6 +605,7 @@ public class ServiceController {
      *
      * @param context         context of the activity
      * @param fragmentProfile the fragment the function is called from
+     * @param id id of user
      * @return string of the number of followers
      */
     public String getNumbersoUserFollowers(Context context, FragmentProfile fragmentProfile,String id) {
@@ -615,6 +617,7 @@ public class ServiceController {
      *
      * @param context         context of the activity
      * @param fragmentProfile the fragment the function is called from
+     * @param id id of user
      * @return string of the number of following
      */
     public String getNumbersoUserFollowing(Context context, FragmentProfile fragmentProfile,String id) {
@@ -626,6 +629,7 @@ public class ServiceController {
      *
      * @param context                  context of the activity
      * @param profileFollowersFragment the fragment the function is called from
+     * @param id id of user
      * @return ArrayList of Container of Followers
      */
     public ArrayList<Container> getCurrentUserFollowers(Context context, ProfileFollowersFragment profileFollowersFragment,String id) {
@@ -755,22 +759,61 @@ public class ServiceController {
         mSupplier.removeFromSaved(context, id);
     }
 
+    /**
+     *
+     * @param context context of the activity
+     * @param artistAlbums instance of artistAlbums fragment
+     * @param name name of the album
+     * @param image string of the image
+     * @param albumType album or single
+     * @param copyRights copyright of the album
+     * @param copyRightsType p or c
+     * @param bitmap bitmab of the image
+     */
     public void createAlbum(Context context, ArtistAlbums artistAlbums, String name, String image, String albumType, String copyRights, String copyRightsType, Bitmap bitmap){
         mSupplier.createAlbum(context,artistAlbums,name,image,albumType,copyRights,copyRightsType,bitmap);
     }
 
+    /**
+     *
+     * @param context context of the activity
+     * @param artistAlbums instance of ArtistAlbums
+     * @param id id of the album
+     * @param pos pos of the album in the adapter
+     */
     public void deleteAlbum(Context context,ArtistAlbums artistAlbums,String id,int pos){
         mSupplier.deleteAlbum(context,artistAlbums,id,pos);
     }
 
+    /**
+     *
+     * @param context context of the activity
+     * @param artistAlbums instance of ArtistAlbums
+     * @param albumType album or sinlge
+     * @return ArrayList<Container> of current artist's albums
+     */
     public ArrayList<Container> getCurrentArtistAlbums(Context context, ArtistAlbums artistAlbums, String albumType){
         return mSupplier.getCurrentArtistAlbums(context,artistAlbums,albumType);
     }
 
+    /**
+     *
+     * @param context context of the activity
+     * @param artistAlbumTracks instance of ArtistAlbumTracks fragmnt
+     * @param id id of the track
+     * @return ArrayList<Container> of album's tracks
+     */
     public ArrayList<Container> getAlbumTracks(Context context, ArtistAlbumTracks artistAlbumTracks, String id){
         return mSupplier.getAlbumTracks(context,artistAlbumTracks,id);
     }
 
+    /**
+     *
+     * @param context context of the activity
+     * @param artistAlbumTracks instance of ArtistAlbumTracks fragmnt
+     * @param id id of the track
+     * @param pos pos of the track in the adaper
+     */
     public void deleteTrack(Context context,ArtistAlbumTracks artistAlbumTracks,String id,int pos){
         mSupplier.deleteTrack(context,artistAlbumTracks,id,pos);
     }

@@ -94,12 +94,14 @@ public interface RetrofitApi {
     @POST("api/v1/users/auth/facebook/Symphonia")
     Call<JsonObject> loginFacebookAPI(@Body Map<String,String> body);
 
+    //holds delete album API
     @DELETE("api/v1/albums/{album_id}")
     Call<JsonObject> deleteAlbum(
             @Path("album_id") String id,
             @HeaderMap Map<String, String> headers
     );
 
+    //holds rename album API
     @PATCH("api/v1/albums/{album_id}")
     Call<JsonObject> renameAlbum(
             @Path("album_id") String id,
@@ -107,18 +109,21 @@ public interface RetrofitApi {
             @Body Map<String, String> params
     );
 
+    //holds edit profile API
     @PUT("api/v1/me/")
     Call<JsonObject>editProfile(
             @HeaderMap Map<String, String> headers,
             @Body Map<String,String>params
     );
 
+    //holds delete track API
     @DELETE("api/v1/users/track/{track_id}")
     Call<JsonObject>deleteTrack(
             @Path("track_id") String id,
             @HeaderMap Map<String, String> headers
     );
 
+    //holds rename track API
     @PATCH("api/v1/users/track/{track_id}")
     Call<JsonObject>renameTrack(
             @Path("track_id") String id,

@@ -1459,51 +1459,119 @@ public class MockService implements APIs {
 
     }
 
+    /**
+     *
+     * @param context context of the activity
+     * @param artistAlbums instance of artistAlbums fragment
+     * @param name name of the album
+     * @param image string of the image
+     * @param albumType album or single
+     * @param copyRights copyright of the album
+     * @param copyRightsType p or c
+     * @param bitmap bitmab of the image
+     */
     @Override
     public void createAlbum(Context context, ArtistAlbums artistAlbums, String name, String image, String albumType, String copyRights, String copyRightsType, Bitmap bitmap) {
         RestApi.updateUiArtistAlbums listener=(RestApi.updateUiArtistAlbums)context;
         listener.onAddAlbumSuccess(artistAlbums,"",name,"mnk;m",bitmap);
     }
 
+    /**
+     *
+     * @param context context of the activity
+     * @param artistAlbums instance of ArtistAlbums
+     * @param id id of the album
+     * @param pos pos of the album in the adapter
+     */
     @Override
     public void deleteAlbum(Context context, ArtistAlbums artistAlbums, String id, int pos) {
         RestApi.updateUiArtistAlbums listener=(RestApi.updateUiArtistAlbums)context;
         listener.onDelAlbumSuccess(artistAlbums,id,pos);
     }
 
+    /**
+     *
+     * @param context context of the activity
+     * @param artistAlbums instance of artistAlbums fragment
+     * @param id id of the album
+     * @param pos pos of the album in the adapter
+     * @param name new name of the album
+     */
     @Override
     public void renameAlbum(Context context, ArtistAlbums artistAlbums, String id, int pos,String name) {
         RestApi.updateUiArtistAlbums listener=(RestApi.updateUiArtistAlbums)context;
         listener.onRenameAlbumSuccess(artistAlbums,pos,name);
     }
 
+    /**
+     *
+     * @param context context of the activity
+     * @param fragmentProfile instance of fragmentProfile
+     * @param name new name of user
+     * @param image string of new image of user
+     */
     @Override
     public void editProfile(Context context, FragmentProfile fragmentProfile, String name, String image) {
 
     }
 
+    /**
+     *
+     * @param context context of the activity
+     * @param artistAlbums instance of ArtistAlbums
+     * @param albumType album or sinlge
+     * @return ArrayList<Container> of current artist's albums
+     */
     @Override
     public ArrayList<Container> getCurrentArtistAlbums(Context context, ArtistAlbums artistAlbums, String albumType) {
         return mArtistAlbums;
     }
 
+    /**
+     *
+     * @param context context of the activity
+     * @param artistAlbumTracks instance of ArtistAlbumTracks fragmnt
+     * @param id id of the track
+     * @return ArrayList<Container> of album's tracks
+     */
     @Override
     public ArrayList<Container> getAlbumTracks(Context context, ArtistAlbumTracks artistAlbumTracks, String id) {
         return mArtistTracks;
     }
 
+    /**
+     *
+     * @param context context of the activity
+     * @param artistAlbumTracks instance of ArtistAlbumTracks fragmnt
+     * @param id id of the track
+     * @param pos pos of the track in the adaper
+     */
     @Override
     public void deleteTrack(Context context, ArtistAlbumTracks artistAlbumTracks, String id, int pos) {
         RestApi.updateUiArtistAlbumTracks listener=(RestApi.updateUiArtistAlbumTracks)context;
         listener.onDelTrackSuccess(artistAlbumTracks,id,pos);
     }
 
+    /**
+     *
+     * @param context context of the activity
+     * @param artistAlbumTracks instance of ArtistAlbumTracks fragmnt
+     * @param id id of the track
+     * @param pos pos of the track in the adaper
+     * @param name new name of the track
+     */
     @Override
     public void renameTrack(Context context, ArtistAlbumTracks artistAlbumTracks, String id, int pos, String name) {
         RestApi.updateUiArtistAlbumTracks listener=(RestApi.updateUiArtistAlbumTracks)context;
         listener.onRenameTrackSuccess(artistAlbumTracks,pos,name);
     }
 
+    /**
+     *
+     * @param context context of the activity
+     * @param songEncoded string of encoded song
+     * @param albumId album id
+     */
     @Override
     public void createTrack(Context context, String songEncoded, String albumId) {
 

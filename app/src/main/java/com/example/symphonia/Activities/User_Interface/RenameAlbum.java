@@ -10,6 +10,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.symphonia.R;
 
+/**
+ * RenameAlbum use to show view to rename album or track
+ * @author Mahmoud Amr Nabil
+ * @version 1.0
+ */
 public class RenameAlbum extends AppCompatActivity {
     private TextView save;
     private TextView cancel;

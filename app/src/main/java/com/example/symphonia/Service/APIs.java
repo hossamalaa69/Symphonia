@@ -470,6 +470,7 @@ public interface APIs {
      *
      * @param context          context of the activity
      * @param settingsFragment the fragment which called this function
+     * @param id if the user
      * @return user profile
      */
     Profile getCurrentUserProfile(Context context, Fragment settingsFragment, String id);
@@ -481,6 +482,7 @@ public interface APIs {
      *
      * @param context         context of the activity
      * @param fragmentProfile the fragment which called this function
+     * @param id if the user
      * @return ArrayList of Container of User's playlists
      */
     ArrayList<Container> getCurrentUserPlaylists(Context context, FragmentProfile fragmentProfile,String id);
@@ -490,6 +492,7 @@ public interface APIs {
      *
      * @param context                  context of the activity
      * @param profileFollowersFragment the fragment which called this function
+     * @param id if the user
      * @return ArrayList of Container current user following
      */
     ArrayList<Container> getCurrentUserFollowing(Context context, ProfileFollowersFragment profileFollowersFragment,String id);
@@ -499,6 +502,7 @@ public interface APIs {
      *
      * @param context                  context of the activity
      * @param profileFollowersFragment the fragment the function is called from
+     * @param id if the user
      * @return ArrayList of Container of Followers
      */
     ArrayList<Container> getCurrentUserFollowers(Context context, ProfileFollowersFragment profileFollowersFragment,String id);
@@ -508,6 +512,7 @@ public interface APIs {
      *
      * @param context         context of the activity
      * @param fragmentProfile the fragment the function is called from
+     * @param id if the user
      * @return string of the number of followers
      */
     String getNumbersoUserFollowers(Context context, FragmentProfile fragmentProfile,String id);
@@ -517,6 +522,7 @@ public interface APIs {
      *
      * @param context         context of the activity
      * @param fragmentProfile the fragment the function is called from
+     * @param id if the user
      * @return string of the number of following
      */
     String getNumbersoUserFollowing(Context context, FragmentProfile fragmentProfile,String id);
@@ -535,6 +541,7 @@ public interface APIs {
      *
      * @param context                  context of the activity
      * @param profilePlaylistsFragment the fragment the function is called from
+     * @param id of user
      * @return current user playlists
      */
     ArrayList<Container> getAllCurrentUserPlaylists(Context context, ProfilePlaylistsFragment profilePlaylistsFragment,String id);
@@ -623,22 +630,90 @@ public interface APIs {
      */
     void getCurrPlaying(Context context);
 
+    /**
+     *
+     * @param context context of the activity
+     * @param artistAlbums instance of artistAlbums fragment
+     * @param name name of the album
+     * @param image string of the image
+     * @param albumType album or single
+     * @param copyRights copyright of the album
+     * @param copyRightsType p or c
+     * @param bitmap bitmab of the image
+     */
     void createAlbum(Context context, ArtistAlbums artistAlbums, String name, String image, String albumType, String copyRights, String copyRightsType, Bitmap bitmap);
 
+    /**
+     *
+     * @param context context of the activity
+     * @param artistAlbums instance of ArtistAlbums
+     * @param id id of the album
+     * @param pos pos of the album in the adapter
+     */
     void deleteAlbum(Context context,ArtistAlbums artistAlbums,String id,int pos);
 
+    /**
+     *
+     * @param context context of the activity
+     * @param artistAlbums instance of artistAlbums fragment
+     * @param id id of the album
+     * @param pos pos of the album in the adapter
+     * @param name new name of the album
+     */
     void renameAlbum(Context context,ArtistAlbums artistAlbums,String id,int pos,String name);
 
+    /**
+     *
+     * @param context context of the activity
+     * @param fragmentProfile instance of fragmentProfile
+     * @param name new name of user
+     * @param image string of new image of user
+     */
     void editProfile(Context context,FragmentProfile fragmentProfile,String name,String image);
 
+    /**
+     *
+     * @param context context of the activity
+     * @param artistAlbums instance of ArtistAlbums
+     * @param albumType album or sinlge
+     * @return ArrayList<Container> of current artist's albums
+     */
     ArrayList<Container> getCurrentArtistAlbums(Context context, ArtistAlbums artistAlbums, String albumType);
 
+    /**
+     *
+     * @param context context of the activity
+     * @param artistAlbumTracks instance of ArtistAlbumTracks fragmnt
+     * @param id id of the track
+     * @return ArrayList<Container> of album's tracks
+     */
     ArrayList<Container>getAlbumTracks(Context context, ArtistAlbumTracks artistAlbumTracks, String id);
 
+    /**
+     *
+     * @param context context of the activity
+     * @param artistAlbumTracks instance of ArtistAlbumTracks fragmnt
+     * @param id id of the track
+     * @param pos pos of the track in the adaper
+     */
     void deleteTrack(Context context,ArtistAlbumTracks artistAlbumTracks,String id,int pos);
 
+    /**
+     *
+     * @param context context of the activity
+     * @param artistAlbumTracks instance of ArtistAlbumTracks fragmnt
+     * @param id id of the track
+     * @param pos pos of the track in the adaper
+     * @param name new name of the track
+     */
     void renameTrack(Context context,ArtistAlbumTracks artistAlbumTracks,String id,int pos,String name);
 
+    /**
+     *
+     * @param context context of the activity
+     * @param songEncoded string of encoded song
+     * @param albumId album id
+     */
     void createTrack(Context context,String songEncoded,String albumId);
 
     void getQueue(Context context);

@@ -26,6 +26,11 @@ import com.example.symphonia.Service.ServiceController;
 
 import java.util.ArrayList;
 
+/**
+ * ArtistAlbumTracks to show current aritst'tracks
+ * @author Mahmoud Amr Nabil
+ * @version 1.0
+ */
 public class ArtistAlbumTracks extends Fragment implements FollowersAdapter.ProfileFollowersItemClickListner {
     private ServiceController controller;
     private String id;

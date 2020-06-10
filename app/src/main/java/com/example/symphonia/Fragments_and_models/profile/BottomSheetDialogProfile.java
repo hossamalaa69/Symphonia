@@ -29,7 +29,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.squareup.picasso.Picasso;
 
 /**
- * FragmentProfile to show the BottomSheetDialogProfile layout
+ * BottomSheetDialogProfile to show the BottomSheetDialogProfile layout
  *  * @author Mahmoud Amr Nabil
  *  * @version 1.0
  */
@@ -172,11 +172,10 @@ public class BottomSheetDialogProfile extends BottomSheetDialogFragment {
         });
 
         controller= ServiceController.getInstance();
-
+        //attach views
         TextView profileName = view.findViewById(R.id.tv_profile_playlist_name);
         profileName.setText(profile.getCat_Name());
         ImageView profileImage = view.findViewById(R.id.image_profile_or_playlist);
-
         final TextView followText=view.findViewById(R.id.tv_follow);
         final ImageView followImg=view.findViewById(R.id.imgv_follow);
         LinearLayout imageFrame = view.findViewById(R.id.image_frame);

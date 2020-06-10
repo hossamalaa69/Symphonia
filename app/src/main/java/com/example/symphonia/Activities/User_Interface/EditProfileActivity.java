@@ -28,6 +28,11 @@ import com.example.symphonia.Service.RestApi;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+/**
+ * EditProfileActivity to show the editpofile layout
+ *  @author Mahmoud Amr Nabil
+ *  @version 1.0
+ */
 public class EditProfileActivity extends AppCompatActivity {
     private Container profile;
     private EditText editText;

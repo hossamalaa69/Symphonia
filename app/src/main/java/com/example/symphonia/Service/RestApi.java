@@ -71,7 +71,13 @@ import retrofit2.Callback;
  */
 
 public class RestApi implements APIs {
-
+    /**
+     *
+     * @param context context of the activity
+     * @param artistAlbums instance of ArtistAlbums
+     * @param albumType album or sinlge
+     * @return ArrayList<Container> of current artist's albums
+     */
     @Override
     public ArrayList<Container> getCurrentArtistAlbums(Context context, final ArtistAlbums artistAlbums, String albumType) {
         final updateProfileFollow listener = (updateProfileFollow) context;
@@ -121,6 +127,17 @@ public class RestApi implements APIs {
 
     }
 
+    /**
+     *
+     * @param context context of the activity
+     * @param artistAlbums instance of artistAlbums fragment
+     * @param name name of the album
+     * @param image string of the image
+     * @param albumType album or single
+     * @param copyRights copyright of the album
+     * @param copyRightsType p or c
+     * @param bitmap bitmab of the image
+     */
     @Override
     public void createAlbum(final Context context,ArtistAlbums artistAlbums,String name,String image,String albumType,String copyRights,String copyRightsType,Bitmap bitmap)  {
         final updateUiArtistAlbums listener=(updateUiArtistAlbums)context;
@@ -176,6 +193,13 @@ public class RestApi implements APIs {
 
     }
 
+    /**
+     *
+     * @param context context of the activity
+     * @param artistAlbums instance of ArtistAlbums
+     * @param id id of the album
+     * @param pos pos of the album in the adapter
+     */
     @Override
     public void deleteAlbum(Context context,ArtistAlbums artistAlbums,String id,int pos){
         updateUiArtistAlbums listeners=(updateUiArtistAlbums)context;
@@ -201,6 +225,14 @@ public class RestApi implements APIs {
         });
     }
 
+    /**
+     *
+     * @param context context of the activity
+     * @param artistAlbums instance of artistAlbums fragment
+     * @param id id of the album
+     * @param pos pos of the album in the adapter
+     * @param name new name of the album
+     */
     @Override
     public void renameAlbum(Context context, ArtistAlbums artistAlbums, String id, int pos, String name) {
         updateUiArtistAlbums listeners=(updateUiArtistAlbums)context;
@@ -229,6 +261,13 @@ public class RestApi implements APIs {
         });
     }
 
+    /**
+     *
+     * @param context context of the activity
+     * @param fragmentProfile instance of fragmentProfile
+     * @param name new name of user
+     * @param image string of new image of user
+     */
     @Override
     public void editProfile(Context context, FragmentProfile fragmentProfile, String name, String image) {
         updateUiProfileInProfileFragment listeners=(updateUiProfileInProfileFragment)context;
@@ -261,6 +300,9 @@ public class RestApi implements APIs {
     }
 
 
+    /**
+     * interface to update ui in ArtistAlbums
+     */
     public interface updateUiArtistAlbums{
         public void onAddAlbumSuccess(ArtistAlbums artistAlbums,String id,String name,String imgUrl,Bitmap bitmap);
         public void onAddAlbumfailure(ArtistAlbums artistAlbums);
@@ -270,7 +312,13 @@ public class RestApi implements APIs {
         public void onDelAlbumfailure(ArtistAlbums artistAlbums);
     }
 
-
+    /**
+     *
+     * @param context context of the activity
+     * @param artistAlbumTracks instance of ArtistAlbumTracks fragmnt
+     * @param id id of the track
+     * @return ArrayList<Container> of album's tracks
+     */
     @Override
     public ArrayList<Container> getAlbumTracks(Context context, ArtistAlbumTracks artistAlbumTracks, String id) {
         updateUiArtistAlbumTracks listener=(updateUiArtistAlbumTracks)context;
@@ -308,6 +356,13 @@ public class RestApi implements APIs {
         return albumTracks;
     }
 
+    /**
+     *
+     * @param context context of the activity
+     * @param artistAlbumTracks instance of ArtistAlbumTracks fragmnt
+     * @param id id of the track
+     * @param pos pos of the track in the adaper
+     */
     @Override
     public void deleteTrack(Context context, ArtistAlbumTracks artistAlbumTracks, String id, int pos) {
         updateUiArtistAlbumTracks listeners=(updateUiArtistAlbumTracks)context;
@@ -333,6 +388,14 @@ public class RestApi implements APIs {
         });
     }
 
+    /**
+     *
+     * @param context context of the activity
+     * @param artistAlbumTracks instance of ArtistAlbumTracks fragmnt
+     * @param id id of the track
+     * @param pos pos of the track in the adaper
+     * @param name new name of the track
+     */
     @Override
     public void renameTrack(Context context, ArtistAlbumTracks artistAlbumTracks, String id, int pos, String name) {
         updateUiArtistAlbumTracks listeners=(updateUiArtistAlbumTracks)context;
@@ -361,6 +424,12 @@ public class RestApi implements APIs {
         });
     }
 
+    /**
+     *
+     * @param context context of the activity
+     * @param songEncoded string of encoded song
+     * @param albumId album id
+     */
     @Override
     public void createTrack(Context context,String songEncoded,String albumId) {
         final StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.BASE_URL+"api/v1/users/tracks",
@@ -406,7 +475,9 @@ public class RestApi implements APIs {
         VolleySingleton.getInstance(context).getRequestQueue().add(stringRequest);
     }
 
-
+    /**
+     * interface to update ui of ArtistAlbumTracks
+     */
     public interface updateUiArtistAlbumTracks{
         public void ongetAlbumTracks(ArtistAlbumTracks artistAlbumTracks,ArrayList<Container>tracks);
         public void onAddTrackSuccess(ArtistAlbumTracks artistAlbumTracks,String id,String name,String imgUrl,Bitmap bitmap);
@@ -2895,6 +2966,7 @@ public class RestApi implements APIs {
      *
      * @param context          context of the activity
      * @param settingsFragment the fragment which called this function
+     * @param id if the user
      * @return user profile
      */
     @Override
@@ -2981,6 +3053,7 @@ public class RestApi implements APIs {
      *
      * @param context         context of the activity
      * @param fragmentProfile the fragment which called this function
+     * @param id if the user
      * @return ArrayList of Container of User's playlists
      */
     @Override
@@ -3041,6 +3114,7 @@ public class RestApi implements APIs {
      *
      * @param context                  context of the activity
      * @param profileFollowersFragment the fragment which called this function
+     * @param id if the user
      * @return ArrayList of Container current user following
      */
     @Override
@@ -3092,6 +3166,7 @@ public class RestApi implements APIs {
      *
      * @param context                  context of the activity
      * @param profileFollowersFragment the fragment the function is called from
+     * @param id if the user
      * @return ArrayList of Container of Followers
      */
     @Override
@@ -3147,6 +3222,7 @@ public class RestApi implements APIs {
      *
      * @param context         context of the activity
      * @param fragmentProfile the fragment the function is called from
+     * @param id if the user
      * @return string of the number of followers
      */
     @Override
@@ -3195,6 +3271,7 @@ public class RestApi implements APIs {
      *
      * @param context         context of the activity
      * @param fragmentProfile the fragment the function is called from
+     * @param id if the user
      * @return string of the number of following
      */
     @Override
@@ -3243,6 +3320,7 @@ public class RestApi implements APIs {
      *
      * @param context                  context of the activity
      * @param profilePlaylistsFragment the fragment the function is called from
+     * @param id if the user
      * @return current user playlists
      */
     @Override

@@ -15,7 +15,7 @@
         android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="150dp"
-        android:text="Enter the your album's name"
+        android:text="Enter the your new name"
         android:textColor="@color/white"
         app:autoSizeMaxTextSize="24sp"
         app:autoSizeMinTextSize="18sp"
