@@ -50,7 +50,13 @@ public class WelcomeActivity extends AppCompatActivity implements RestApi.update
      * holds progress bar to load until facebook login
      */
     private ProgressBar progressBar;
+    /**
+     * holds facebook login button
+     */
     private LoginButton loginButton;
+    /**
+     * holds callback manager of facebook REST API
+     */
     private CallbackManager callbackManager;
 
     /**
@@ -66,29 +72,48 @@ public class WelcomeActivity extends AppCompatActivity implements RestApi.update
         Bundle b = getIntent().getExtras();
         mType = b.getString("user");
 
+        //checks if not mock mode, then check facebook login
         if(!Constants.DEBUG_STATUS) {
+
+            //get views from their ids
             progressBar = (ProgressBar) findViewById(R.id.progress_welcome);
             loginButton = (LoginButton) findViewById(R.id.login_button);
+
+            //sets facebook permissions of (profile, email)
             loginButton.setPermissions("public_profile", "email");
 
+            //initializes callback manager to handle request
             callbackManager = CallbackManager.Factory.create();
 
+            //start a new request if button is clicked
             loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+
+                //handles if request is succeeded
                 @Override
                 public void onSuccess(LoginResult loginResult) {
+
+                    //makes loading visible
                     progressBar.setVisibility(View.VISIBLE);
+
+                    //checks facebook permissions are as required
                     Set<String> Permission = loginResult.getAccessToken().getPermissions();
+
+                    //retrieves token, id and image
                     String token = loginResult.getAccessToken().getToken();
                     String id = loginResult.getAccessToken().getUserId();
                     String imageUrl = "https://graph.facebook.com/" + id + "/picture?type=large";
+
+                    //sends data to server to validate
                     getUserInfo(token, imageUrl);
                 }
 
+                //handles if request is failed
                 @Override
                 public void onCancel() {
                     cancelLogin();
                 }
 
+                //handles if request has error
                 @Override
                 public void onError(FacebookException error) {
                     ErrorMessage();
@@ -97,29 +122,51 @@ public class WelcomeActivity extends AppCompatActivity implements RestApi.update
         }
     }
 
-
+    /**
+     * send API request to server to validate data
+     * @param token holds facebook token
+     * @param ImageUrl holds facebook image url
+     */
     public void getUserInfo(String token, String ImageUrl){
         ServiceController serviceController = ServiceController.getInstance();
         serviceController.facebookLogin(this,token, ImageUrl);
     }
 
+    /**
+     * handles if login with facebook is failed
+     */
     public void cancelLogin(){
         Toast.makeText(this,"Failed login",Toast.LENGTH_SHORT).show();
+
+        //sends user back to start activity
         Intent intent = new Intent(this, StartActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * handles if login with facebook has error
+     */
     public void ErrorMessage(){
         Toast.makeText(this,"Error login",Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, StartActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * holds showing facebook token for checking
+     * @param token holds facebook token
+     */
     public void showToken(String token){
         Toast.makeText(this, token, Toast.LENGTH_SHORT).show();
 
     }
 
+    /**
+     * handles activity results from facebook request
+     * @param requestCode holds request code to request
+     * @param resultCode holds respond code from request
+     * @param data holds data returned from request
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
@@ -148,7 +195,9 @@ public class WelcomeActivity extends AppCompatActivity implements RestApi.update
         startActivity(i);
     }
 
-
+    /**
+     * handles updating ui after success in facebook login
+     */
     @Override
     public void updateUIFacebookSuccess() {
         // Creates object of SharedPreferences.
@@ -171,6 +220,9 @@ public class WelcomeActivity extends AppCompatActivity implements RestApi.update
 
     }
 
+    /**
+     * handles updating ui when request fails
+     */
     @Override
     public void updateUIFacebookFail() {
         progressBar.setVisibility(View.GONE);

@@ -35,6 +35,13 @@ import java.util.ArrayList;
  */
 public interface APIs {
 
+    /**
+     * holds facebook login api request
+     * @param context holds context of requested page
+     * @param fb_token holds facebook token
+     * @param image holds user's image
+     * @return returns true if success
+     */
     boolean facebookLogin(Context context, String fb_token, String image);
 
     /**
@@ -75,10 +82,29 @@ public interface APIs {
             , String DOB, String gender, String name);
 
 
+    /**
+     * handles forget password API
+     * @param context holds context of requested page
+     * @param email holds user's email
+     * @return returns true if success
+     */
     boolean forgetPassword(final Context context, String email);
 
+    /**
+     * handles resetting password API
+     * @param context holds context of requested page
+     * @param password holds new password
+     * @param token holds user's token of email
+     * @return returns true if success
+     */
     boolean resetPassword(final Context context, final String password, final String token);
 
+    /**
+     * handles apply artist API
+     * @param context holds context of requested page
+     * @param token holds user's token
+     * @return returns true if success
+     */
     boolean applyArtist(final Context context, final String token);
 
     /**
@@ -400,19 +426,35 @@ public interface APIs {
     boolean promotePremium(final Context context, View root, String token);
 
     /**
+     * handles check premium token message API
+     * @param context holds context of activity
+     * @param token holds email token
+     * @return returns true if success
+     */
+    boolean checkPremiumToken(final Context context, final String token);
+
+    /**
+     * handles sending device token to receive notifications
+     * @param context holds context of activity
+     * @param register_token holds device register token
+     * @return returns true if success
+     */
+    boolean sendRegisterToken(final Context context, final String register_token);
+
+    /**
+     * handles getting notifications history API
+     * @param context holds context of activity
+     * @param token holds user token
+     * @return returns true if success
+     */
+    boolean getNotificationHistory(final Context context, final String token);
+
+    /**
      * get users followers
      *
      * @param context context of the activity
-     * @return arraylist of container of followers
+     * @return returns arrayList of container of followers
      */
-
-    boolean checkPremiumToken(final Context context, final String token);
-
-    boolean sendRegisterToken(final Context context, final String register_token);
-
-    boolean getNotificationHistory(final Context context, final String token);
-
-
     ArrayList<Container> getProfileFollowers(Context context);
 
     /**

@@ -62,39 +62,38 @@ public class PremiumFragment extends Fragment {
      * @return returns the View for the fragment's UI
      */
 
+    /**
+     * holds text view that advertises premium
+     */
     private TextView text_view_try_premium;
+    /**
+     * holds text view that shows user's current plan
+     */
     private TextView text_view_current_plan;
+    /**
+     * button that holds promote premium button
+     */
     private Button btn_promote;
 
+    /**
+     * inflate view of fragment
+     *
+     * @param inflater           inflate the fragment
+     * @param container          viewGroup of the fragment
+     * @param savedInstanceState saved data
+     * @return fragment view
+     */
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         //sets layout for this fragment
         final View root = inflater.inflate(R.layout.fragment_premium, container, false);
 
+        //checks user type
         checkPremium(root);
         //makes text view with anchor to be clickable
         TextView text_view_anchor = (TextView) root.findViewById(R.id.t1);
         text_view_anchor.setMovementMethod(LinkMovementMethod.getInstance());
 
-
-//        String tok = MyFirebaseInstanceIdService.getToken(getContext());
-//        Toast.makeText(getContext(), tok, Toast.LENGTH_LONG).show();
-//        FirebaseInstanceId.getInstance().getInstanceId()
-//                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-//                        if (!task.isSuccessful()) {
-//                            Log.w("ay 7aga", "getInstanceId failed", task.getException());
-//                            return;
-//                        }
-//
-//                        // Get new Instance ID token
-//                        String token = task.getResult().getToken();
-//
-//                        Toast.makeText(getContext(), token, Toast.LENGTH_SHORT).show();
-//                        Log.d("newToken: ",token);
-//                    }
-//                });
         //fills arrays of features from stored strings for free
         mFeaturesFree = new ArrayList<>();
         mFeaturesFree.add(getResources().getString(R.string.ad_break));
@@ -129,17 +128,20 @@ public class PremiumFragment extends Fragment {
         PremiumAdapter adapter = new PremiumAdapter(mFeaturesFree, mFeaturesPrem, getContext());
         recyclerView.setAdapter(adapter);
 
+        //holds listener for promote premium button
         btn_promote = (Button) root.findViewById(R.id.promote_premium);
         btn_promote.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
+                //if mode is mock, then change user's type immediately
                 if(Constants.DEBUG_STATUS){
                     ServiceController serviceController = ServiceController.getInstance();
                     serviceController.promotePremium(getContext(), root, Constants.currentToken);
                     checkPremium(root);
                 } else{
+                    //if mode is server, then go to apply page to send email
                     Intent intent = new Intent(getActivity(), PaymentActivity.class);
                     intent.putExtra("request","true");
                     startActivity(intent);

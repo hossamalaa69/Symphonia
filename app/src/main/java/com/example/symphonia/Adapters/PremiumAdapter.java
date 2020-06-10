@@ -105,7 +105,8 @@ public class PremiumAdapter extends RecyclerView.Adapter<PremiumAdapter.Holder> 
          */
         public Holder(@NonNull View itemView) {
             super(itemView);
-            //gets text views that holds strings
+
+            //gets text views that holds text
             text_view_free = (TextView) itemView.findViewById(R.id.text_free);
             text_view_premium = (TextView) itemView.findViewById(R.id.text_prem);
         }

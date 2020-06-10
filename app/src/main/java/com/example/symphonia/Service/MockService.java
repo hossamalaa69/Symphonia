@@ -347,6 +347,13 @@ public class MockService implements APIs {
         return mPopularContext;
     }
 
+    /**
+     * holds facebook login api request
+     * @param context holds context of requested page
+     * @param fb_token holds facebook token
+     * @param image holds user's image
+     * @return returns true if success
+     */
     @Override
     public boolean facebookLogin(Context context, String fb_token, String image) {
         return false;
@@ -490,16 +497,35 @@ public class MockService implements APIs {
         return true;
     }
 
+    /**
+     * handles forget password API
+     * @param context holds context of requested page
+     * @param email holds user's email
+     * @return returns true if success
+     */
     @Override
     public boolean forgetPassword(Context context, String email) {
         return true;
     }
 
+    /**
+     * handles resetting password API
+     * @param context holds context of requested page
+     * @param password holds new password
+     * @param token holds user's token of email
+     * @return returns true if success
+     */
     @Override
     public boolean resetPassword(Context context, String password, final String token) {
         return false;
     }
 
+    /**
+     * handles apply artist API
+     * @param context holds context of requested page
+     * @param token holds user's token
+     * @return returns true if success
+     */
     @Override
     public boolean applyArtist(Context context, String token) {
         return false;
@@ -1267,11 +1293,23 @@ public class MockService implements APIs {
         return false;
     }
 
+    /**
+     * handles sending device token to receive notifications
+     * @param context holds context of activity
+     * @param register_token holds device register token
+     * @return returns true if success
+     */
     @Override
     public boolean sendRegisterToken(Context context, String register_token) {
         return false;
     }
 
+    /**
+     * handles getting notifications history API
+     * @param context holds context of activity
+     * @param token holds user token
+     * @return returns true if success
+     */
     @Override
     public boolean getNotificationHistory(Context context, String token) {
         return false;

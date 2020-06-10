@@ -24,14 +24,17 @@ public interface RetrofitApi {
             @QueryMap Map<String, String> params
     );
 
+    //holds reset password API
     @PATCH("api/v1/users/resetpassword/{token}")
     Call<JsonObject> resetPassword(
             @Path("token") String token
             , @Body Map<String, String> passwords
     );
 
+    //holds activate artist API
     @PATCH("api/v1/users/activate/{token}")
     Call<JsonObject> applyArtist(@Path("token") String token);
+
 
     @POST("api/v1/users/{id}/playlists")
     Call<JsonObject> createPlaylist(
@@ -68,21 +71,26 @@ public interface RetrofitApi {
             @Path("id") String id
     );
 
+    //holds apply premium API
     @POST("api/v1/me/apply-premium")
     Call<JsonObject> promotePrem(@HeaderMap Map<String, String> headers);
 
+    //holds check premium token API
     @PATCH("api/v1/me/premium/{token}")
     Call<JsonObject> checkPremiumToken(@Path("token") String token);
 
+    //holds sending device registration token API
     @PATCH("api/v1/me/registration-token")
     Call<JsonObject> sendRegisterToken(
             @HeaderMap Map<String, String> headers,
             @Body Map<String, String> body
     );
 
+    //holds get notifications history API
     @GET("api/v1/me/notifications")
     Call<JsonObject> getNotifications(@HeaderMap Map<String, String> headers);
 
+    //holds send facebook token API
     @POST("api/v1/users/auth/facebook/Symphonia")
     Call<JsonObject> loginFacebookAPI(@Body Map<String,String> body);
 

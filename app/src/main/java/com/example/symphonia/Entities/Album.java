@@ -36,7 +36,9 @@ public class Album {
      * holds album name
      */
     private String mAlbumName;
-
+    /**
+     * holds image url
+     */
     private String mImageUrl;
     /**
      * holds releasing date of album
@@ -73,6 +75,18 @@ public class Album {
         this.mAlbumTracks = mAlbumTracks;
     }
 
+    /**
+     * Constructor for album to initialize attributes
+     *
+     * @param mAlbumId album id
+     * @param mAlbumType album type
+     * @param mAlbumArtists array of album's artists
+     * @param mCopyrights array of copyrights of album
+     * @param mImageUrl image url
+     * @param mAlbumName album name
+     * @param mReleaseDate release date
+     * @param mAlbumTracks list of albums tracks
+     */
     public Album(String mAlbumId, String mAlbumType, ArrayList<Artist> mAlbumArtists,
                  ArrayList<Copyright> mCopyrights, String mImageUrl, String mAlbumName,
                  String mReleaseDate, ArrayList<Track> mAlbumTracks) {
@@ -87,6 +101,14 @@ public class Album {
         this.mAlbumTracks = mAlbumTracks;
     }
 
+    /**
+     * Constructor for album to initialize attributes
+     *
+     * @param mAlbumId album id
+     * @param mAlbumArtists album artists
+     * @param mImageUrl image url
+     * @param mAlbumName album name
+     */
     public Album(String mAlbumId, ArrayList<Artist> mAlbumArtists, String mImageUrl, String mAlbumName){
         this.mAlbumId = mAlbumId;
         this.mAlbumArtists = mAlbumArtists;
@@ -95,8 +117,11 @@ public class Album {
 
     }
 
+    /**
+     * sets album context
+     * @param currContext holds context
+     */
     public void setAlbum(Context currContext) {
-
     }
 
     /**
@@ -243,6 +268,10 @@ public class Album {
         this.mAlbumTracks = mAlbumTracks;
     }
 
+    /**
+     * getter for album image url
+     * @return returns album image url
+     */
     public String getImageUrl() {
         return mImageUrl;
     }

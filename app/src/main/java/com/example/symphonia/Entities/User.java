@@ -13,7 +13,6 @@ import java.util.ArrayList;
  */
 public class User {
 
-
     /**
      * phone number of user
      */
@@ -94,12 +93,15 @@ public class User {
      * holds array of saved albums
      */
     private ArrayList<Album> mSavedAlbums;
-
+    /**
+     * holds list of liked songs
+     */
     private ArrayList<Track> mLikedSongs;
 
-
+    /**
+     * Default constructor for user
+     */
     public User() {
-
     }
 
     /**
@@ -541,6 +543,10 @@ public class User {
         return false;
     }
 
+    /**
+     * getter for playlists
+     * @return returns user's playlists
+     */
     public ArrayList<Playlist> getAllPlaylists(){
         ArrayList<Playlist> playlists = new ArrayList<>();
         playlists.addAll(mFavPlaylists);

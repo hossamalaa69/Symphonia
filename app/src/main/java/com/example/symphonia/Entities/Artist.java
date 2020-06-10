@@ -103,6 +103,4 @@ public class Artist implements Serializable {
     public String getId() {
         return mArtistId;
     }
-
-
 }

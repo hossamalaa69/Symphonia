@@ -421,6 +421,13 @@ public class RestApi implements APIs {
     private Bitmap image;
 
 
+    /**
+     * holds facebook login api request
+     * @param context holds context of requested page
+     * @param fb_token holds facebook token
+     * @param image holds user's image
+     * @return returns true if success
+     */
     @Override
     public boolean facebookLogin(final Context context, final String fb_token, final String image) {
         final updateUIFacebook uiFacebook = (updateUIFacebook) context;
@@ -624,6 +631,12 @@ public class RestApi implements APIs {
         return true;
     }
 
+    /**
+     * handles forget password API
+     * @param context holds context of requested page
+     * @param email holds user's email
+     * @return returns true if success
+     */
     @Override
     public boolean forgetPassword(final Context context, final String email) {
         final updateUIForgetPassword updateUIforgetpassword = (updateUIForgetPassword) context;
@@ -2261,6 +2274,12 @@ public class RestApi implements APIs {
         return false;
     }
 
+    /**
+     * handles check premium token message API
+     * @param context holds context of activity
+     * @param token holds email token
+     * @return returns true if success
+     */
     @Override
     public boolean checkPremiumToken(Context context, String token) {
         final updateUICheckPremium uiCheckPremium = (updateUICheckPremium) context;
@@ -2292,6 +2311,12 @@ public class RestApi implements APIs {
         return false;
     }
 
+    /**
+     * handles sending device token to receive notifications
+     * @param context holds context of activity
+     * @param register_token holds device register token
+     * @return returns true if success
+     */
     @Override
     public boolean sendRegisterToken(Context context, String register_token) {
 
@@ -2322,6 +2347,12 @@ public class RestApi implements APIs {
         return false;
     }
 
+    /**
+     * handles getting notifications history API
+     * @param context holds context of activity
+     * @param token holds user token
+     * @return returns true if success
+     */
     @Override
     public boolean getNotificationHistory(Context context, String token) {
 
@@ -2361,6 +2392,13 @@ public class RestApi implements APIs {
         return false;
     }
 
+    /**
+     * handles resetting password API
+     * @param context holds context of requested page
+     * @param password holds new password
+     * @param token holds user's token of email
+     * @return returns true if success
+     */
     @Override
     public boolean resetPassword(final Context context, final String password, final String token) {
         final updateUIResetPassword updateuiResetPassword = (updateUIResetPassword) context;
@@ -2424,6 +2462,12 @@ public class RestApi implements APIs {
         return true;
     }
 
+    /**
+     * handles apply artist API
+     * @param context holds context of requested page
+     * @param token holds user's token
+     * @return returns true if success
+     */
     @Override
     public boolean applyArtist(Context context, String token) {
         final updateUIApplyArtist uiApplyArtist = (updateUIApplyArtist) context;

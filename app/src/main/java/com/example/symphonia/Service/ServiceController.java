@@ -72,18 +72,44 @@ public class ServiceController {
         return mSupplier.logIn(context, username, password, mType);
     }
 
+    /**
+     * holds facebook login api request
+     * @param context holds context of requested page
+     * @param fb_token holds facebook token
+     * @param image holds user's image
+     * @return returns true if success
+     */
     public boolean facebookLogin(Context context, String fb_token, String image) {
         return mSupplier.facebookLogin(context, fb_token, image);
     }
 
+    /**
+     * handles forget password API
+     * @param context holds context of requested page
+     * @param email holds user's email
+     * @return returns true if success
+     */
     public boolean forgetPassword(final Context context, String email) {
         return mSupplier.forgetPassword(context, email);
     }
 
+    /**
+     * handles resetting password API
+     * @param context holds context of requested page
+     * @param password holds new password
+     * @param token holds user's token of email
+     * @return returns true if success
+     */
     public boolean resetPassword(final Context context, final String password, final String token) {
         return mSupplier.resetPassword(context, password, token);
     }
 
+    /**
+     * handles apply artist API
+     * @param context holds context of requested page
+     * @param token holds user's token
+     * @return returns true if success
+     */
     public boolean applyArtist(final Context context, final String token) {
         return mSupplier.applyArtist(context, token);
     }
@@ -512,14 +538,32 @@ public class ServiceController {
         return mSupplier.promotePremium(context, root, token);
     }
 
+    /**
+     * handles check premium token message API
+     * @param context holds context of activity
+     * @param token holds email token
+     * @return returns true if success
+     */
     public boolean checkPremiumToken(Context context, String token) {
         return mSupplier.checkPremiumToken(context, token);
     }
 
+    /**
+     * handles sending device token to receive notifications
+     * @param context holds context of activity
+     * @param register_token holds device register token
+     * @return returns true if success
+     */
     public boolean sendRegisterToken(Context context, String register_token) {
         return mSupplier.sendRegisterToken(context, register_token);
     }
 
+    /**
+     * handles getting notifications history API
+     * @param context holds context of activity
+     * @param token holds user token
+     * @return returns true if success
+     */
     public boolean getNotificationHistory(Context context, String token) {
         return mSupplier.getNotificationHistory(context, token);
     }
