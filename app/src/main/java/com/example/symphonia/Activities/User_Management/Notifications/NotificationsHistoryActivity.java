@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -26,7 +27,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Activity that holds notifications history
@@ -243,12 +249,15 @@ public class NotificationsHistoryActivity extends AppCompatActivity implements R
                 String time_total = "";
                 try {
                     time_total = item.getString("date");
-                    String date = time_total.substring(0,10);
-                    date += " "+"At ";
-                    String time = time_total.substring(11,16);
-                    time_total = date+time;
+                    DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" ,Locale.getDefault());
+                    format.setTimeZone(TimeZone.getTimeZone("GMT"));
+                    Date date = format.parse(time_total);
+                    DateFormat format1 = new SimpleDateFormat("EEE, d MMM yyyy h:mm a", Locale.getDefault());
+                    time_total = format1.format(date);
+                 //   time_total = time_total.substring(0, time_total.length()-9);
                 }catch (Exception e){
                     e.printStackTrace();
+                    time_total = "";
                 }
                 notificationItem.setText3(time_total);
                 notificationItemArrayList.add(notificationItem);
