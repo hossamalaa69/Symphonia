@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient"
     android:padding="20dp"
-    tools:context=".Activities.User_Management.ForgetPassword.ResetPassword">
+    tools:context=".Activities.User_Management.ForgetPassword.NewPassword">
 
     <TextView
         android:layout_width="match_parent"

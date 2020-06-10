@@ -71,7 +71,7 @@
             android:name=".Activities.User_Interface.TracksPreview"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Activities.User_Management.ForgetPassword.ResetPassword"
+            android:name=".Activities.User_Management.ForgetPassword.NewPassword"
             android:label="@string/reset_password"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />

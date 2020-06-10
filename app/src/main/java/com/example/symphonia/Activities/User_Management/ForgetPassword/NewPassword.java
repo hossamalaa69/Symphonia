@@ -37,21 +37,34 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ResetPassword extends AppCompatActivity implements RestApi.updateUIResetPassword {
-
-
+/**
+ * Activity that handles Entering new password after forgetting
+ *
+ * @author Hossam Alaa
+ * @since 10-06-2020
+ * @version 1.0
+ */
+public class NewPassword extends AppCompatActivity implements RestApi.updateUIResetPassword {
 
     /**
      * represents Edit text that holds password input
      */
     private EditText mPassword;
+    /**
+     * holds token received from email
+     */
     private String token;
 
+    /**
+     * Represents the initialization of activity
+     * @param savedInstanceState represents received data from other activities
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_passsword);
 
+        //holds params received from previous activity which is token
         Bundle b = getIntent().getExtras();
         token="";
         try {
@@ -102,6 +115,9 @@ public class ResetPassword extends AppCompatActivity implements RestApi.updateUI
         login.setBackgroundResource(R.drawable.btn_curved_gray);
     }
 
+    /**
+     * holds if back button is pressed, then kill app
+     */
     @Override
     public void onBackPressed(){
         Intent a = new Intent(Intent.ACTION_MAIN);
@@ -110,26 +126,40 @@ public class ResetPassword extends AppCompatActivity implements RestApi.updateUI
         startActivity(a);
     }
 
+    /**
+     * holds sending password in request to check validity and save
+     * @param view holds save button
+     */
     public void goHome(View view) {
 
+        //gets password entered from editText view
         Button btn_save = (Button) findViewById(R.id.save);
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         btn_save.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
 
+        //sending API request to new check password
         ServiceController serviceController = ServiceController.getInstance();
         serviceController.resetPassword(this,mPassword.getText().toString(), token);
 
     }
 
+    /**
+     * handles if response of request is failed
+     */
     public void failedReset(){
+        //opens save button to retry and turn off progress bar
         Button btn_save = (Button) findViewById(R.id.save);
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.GONE);
         btn_save.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * handles if response of request is success
+     */
     public void successReset(){
+        //turns off save button to retry and progress bar
         Button btn_save = (Button) findViewById(R.id.save);
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.GONE);
@@ -150,15 +180,22 @@ public class ResetPassword extends AppCompatActivity implements RestApi.updateUI
 
         editor.apply();
 
+        //sends user to home page
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
     }
 
+    /**
+     * handles request api success function in volley
+     */
     @Override
     public void updateUIResetSuccess() {
         successReset();
     }
 
+    /**
+     * handles request api failure function in volley
+     */
     @Override
     public void updateUIResetFailed() {
         failedReset();

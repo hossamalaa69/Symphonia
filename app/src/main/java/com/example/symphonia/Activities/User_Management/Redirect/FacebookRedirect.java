@@ -1,27 +1,20 @@
 package com.example.symphonia.Activities.User_Management.Redirect;
 
-import androidx.annotation.RequiresPermission;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.symphonia.Activities.User_Interface.MainActivity;
 import com.example.symphonia.Activities.User_Interface.StartActivity;
-import com.example.symphonia.Activities.User_Management.ForgetPassword.ResetPassword;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.User;
 import com.example.symphonia.R;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class FacebookRedirect extends AppCompatActivity {
 

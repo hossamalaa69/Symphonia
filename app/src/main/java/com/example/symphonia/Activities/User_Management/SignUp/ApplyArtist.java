@@ -9,7 +9,6 @@ import android.os.Bundle;
 
 import com.example.symphonia.Activities.User_Interface.AddArtistsActivity;
 import com.example.symphonia.Activities.User_Interface.StartActivity;
-import com.example.symphonia.Activities.User_Management.ForgetPassword.ResetPassword;
 import com.example.symphonia.Constants;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.RestApi;

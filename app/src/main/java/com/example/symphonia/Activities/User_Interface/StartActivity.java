@@ -16,22 +16,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.symphonia.Activities.User_Management.ForgetPassword.ResetPassword;
+import com.example.symphonia.Activities.User_Management.ForgetPassword.NewPassword;
 import com.example.symphonia.Activities.User_Management.WelcomeActivity;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.User;
 import com.example.symphonia.R;
-import com.example.symphonia.Service.ServiceController;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import java.security.MessageDigest;
-
-import io.reactivex.annotations.NonNull;
 
 /**
  * Activity that handles Start page with animations
@@ -60,9 +51,10 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
+        //generates the hash key of app
         printHashKey(this);
 
-
+        //checks incoming link of Reset password to handle
         handleIntent();
 
 
@@ -97,8 +89,6 @@ public class StartActivity extends AppCompatActivity {
             Constants.currentUser.setImageUrl(image);
             Toast.makeText(this, getString(R.string.welcome) + Constants.currentUser.getmEmail(), Toast.LENGTH_SHORT).show();
 
-
-
             //after set last user data, then go to main activity directly
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
@@ -119,6 +109,10 @@ public class StartActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * handles the new intent coming from url link
+     * @param intent holds activity to go to
+     */
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -126,13 +120,21 @@ public class StartActivity extends AppCompatActivity {
         handleIntent();
     }
 
+    /**
+     * handles received url link of Reset password to parse its data
+     */
     private void handleIntent() {
+        //receiving url
         Intent appLinkIntent = getIntent();
         String appLinkAction = appLinkIntent.getAction();
         Uri appLinkData = appLinkIntent.getData();
+
+        //checks if url has parameters in
         if(appLinkData!=null){
+            //get last parameter in url
             String newToken = appLinkData.getLastPathSegment();
-            Intent i = new Intent(this, ResetPassword.class);
+            //send the token for reset password page
+            Intent i = new Intent(this, NewPassword.class);
             i.putExtra("token",newToken);
             startActivity(i);
         }
@@ -172,6 +174,12 @@ public class StartActivity extends AppCompatActivity {
         startActivity(a);
     }
 
+    /**
+     * handles generating unique hash key for app to be
+     * used in firebase and facebook developer
+     * @param context holds current activity context to be shown in
+     * @auther Majid Laissi from stash overflow
+     */
     public static void printHashKey(Context context) {
         try {
             final PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName()

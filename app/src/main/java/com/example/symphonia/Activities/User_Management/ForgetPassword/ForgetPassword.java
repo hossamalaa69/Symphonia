@@ -26,13 +26,18 @@ import com.example.symphonia.Service.ServiceController;
  */
 public class ForgetPassword extends AppCompatActivity implements RestApi.updateUIForgetPassword {
 
-
+    /**
+     * handles updating ui if request is succeeded
+     */
     @Override
     public void updateUIForgetPasswordSuccess() {
-
+        //go to nest step (confirmation page)
         goNext();
     }
 
+    /**
+     * handles updating ui if request is failed
+     */
     @Override
     public void updateUIForgetPasswordFailed() {
         failForget();
@@ -127,6 +132,7 @@ public class ForgetPassword extends AppCompatActivity implements RestApi.updateU
         if(Constants.DEBUG_STATUS)
             goNext();
         else {
+            //if current state is server, then send request
             email = findViewById(R.id.emailInput);
             Button btn_getLink = (Button) findViewById(R.id.getlink);
             ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar);
@@ -138,7 +144,7 @@ public class ForgetPassword extends AppCompatActivity implements RestApi.updateU
     }
 
     public void goNext(){
-
+        //turn of progress bar and unlock next button
         Button btn_getLink = (Button) findViewById(R.id.getlink);
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.GONE);
@@ -152,7 +158,7 @@ public class ForgetPassword extends AppCompatActivity implements RestApi.updateU
     }
 
     public void failForget(){
-
+        //locks next button and hides progress bar
         Button btn_getLink = (Button) findViewById(R.id.getlink);
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.GONE);
