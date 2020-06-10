@@ -287,12 +287,6 @@ public class LoginActivity extends AppCompatActivity implements RestApi.updateUi
         //save shared preferences
         editor.apply();
 
-        //Intent i = new Intent(this, StartActivity.class);
-        //startActivity(i);
-
-//        Intent i = new Intent(this, MainActivity.class);
-//        startActivity(i);
-
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
     }

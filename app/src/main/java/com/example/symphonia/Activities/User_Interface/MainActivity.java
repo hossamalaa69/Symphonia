@@ -49,6 +49,7 @@ import com.example.symphonia.Entities.Context;
 import com.example.symphonia.Entities.Profile;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Fragments_and_models.home.HomeFragment;
+import com.example.symphonia.Fragments_and_models.library.AlbumFragment;
 import com.example.symphonia.Fragments_and_models.library.EmptyPlaylistFragment;
 import com.example.symphonia.Fragments_and_models.library.LibraryFragment;
 import com.example.symphonia.Fragments_and_models.playlist.BottomSheetDialogSettings;
@@ -638,8 +639,22 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                 fragmentTransaction.replace(R.id.nav_host_fragment, new FragmentProfile(id));
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
+            }else {
+                String albumID = bundle.getString("albumID");
+                if(albumID != null) {
+                    AlbumFragment fragment = new AlbumFragment();
+                    Bundle arguments = new Bundle();
+                    arguments.putString("ALBUM_ID", albumID);
+                    fragment.setArguments(arguments);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.nav_host_fragment, fragment)
+                            .addToBackStack(null)
+                            .commit();
+                }
             }
         }
+
+
         try {
             String fragment = getIntent().getExtras().getString("playlist_fragment");
             if (fragment != null && fragment.matches("playlist_fragment")) {

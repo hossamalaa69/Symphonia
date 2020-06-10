@@ -14,16 +14,31 @@ import com.example.symphonia.R;
 import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
 
+/**
+ * Activity that handles received token from email url link to promote premium
+ *
+ * @author Hossam Alaa
+ * @version 1.0
+ * @since 10-06-2020
+ */
 public class ApplyArtist extends AppCompatActivity implements RestApi.updateUIApplyArtist {
 
+    /**
+     * Represents the initialization of activity
+     * @param savedInstanceState represents received data from other activities
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apply_artist);
-        // ATTENTION: This was auto-generated to handle app links.
+        //handles sending user to correspond page
         handleIntent();
     }
 
+    /**
+     * handles the new intent coming from url link
+     * @param intent holds activity to go to
+     */
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -31,20 +46,35 @@ public class ApplyArtist extends AppCompatActivity implements RestApi.updateUIAp
         handleIntent();
     }
 
+    /**
+     * handles received url link of apply artist to parse its data
+     */
     private void handleIntent() {
+
+        //get url of email message
         Intent appLinkIntent = getIntent();
         String appLinkAction = appLinkIntent.getAction();
         Uri appLinkData = appLinkIntent.getData();
+
+        //checks if url is not empty
         if(appLinkData!=null){
+
+            //retrieve token from data
             String newToken = appLinkData.getLastPathSegment();
+
+            //send API request to check token validity
             ServiceController serviceController = ServiceController.getInstance();
             serviceController.applyArtist(this, newToken);
         } else{
+            //if url is not valid, then return to start page
             Intent i = new Intent(this, StartActivity.class);
             startActivity(i);
         }
     }
 
+    /**
+     * holds updating ui after checking token validity
+     */
     @Override
     public void updateUIApplyArtistSuccess() {
         // Creates object of SharedPreferences.
@@ -70,6 +100,9 @@ public class ApplyArtist extends AppCompatActivity implements RestApi.updateUIAp
         startActivity(i);
     }
 
+    /**
+     * holds updating ui if token is expired
+     */
     @Override
     public void updateUIApplyArtistFailed() {
         Intent i = new Intent(this, StartActivity.class);

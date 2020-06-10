@@ -170,7 +170,11 @@ public class NotificationsHistoryActivity extends AppCompatActivity implements R
                 String albumID = mNotificationItems.get(position).getSenderID();
 
                 //sends this id to album page
-
+                Intent i = new Intent(this, MainActivity.class);
+                Bundle b = new Bundle();
+                b.putString("albumID",albumID);
+                i.putExtras(b);
+                startActivity(i);
             }
         }
 
@@ -289,3 +293,14 @@ public class NotificationsHistoryActivity extends AppCompatActivity implements R
     }
 
 }
+
+/*
+AlbumFragment fragment = new AlbumFragment();
+Bundle arguments = new Bundle();
+arguments.putString("ALBUM_ID" , mAlbum.getAlbumId());
+fragment.setArguments(arguments);
+((MainActivity)getActivity()).getSupportFragmentManager().beginTransaction()
+        .replace(R.id.nav_host_fragment, fragment)
+        .addToBackStack(null)
+        .commit();
+*/

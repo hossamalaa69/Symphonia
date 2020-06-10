@@ -46,7 +46,9 @@ public class WelcomeActivity extends AppCompatActivity implements RestApi.update
      * Holds user type(listener or artist)
      */
     private String mType;
-
+    /**
+     * holds progress bar to load until facebook login
+     */
     private ProgressBar progressBar;
     private LoginButton loginButton;
     private CallbackManager callbackManager;
@@ -64,33 +66,35 @@ public class WelcomeActivity extends AppCompatActivity implements RestApi.update
         Bundle b = getIntent().getExtras();
         mType = b.getString("user");
 
-        progressBar = (ProgressBar) findViewById(R.id.progress_welcome);
-        loginButton = (LoginButton) findViewById(R.id.login_button);
-        loginButton.setPermissions("public_profile","email");
+        if(!Constants.DEBUG_STATUS) {
+            progressBar = (ProgressBar) findViewById(R.id.progress_welcome);
+            loginButton = (LoginButton) findViewById(R.id.login_button);
+            loginButton.setPermissions("public_profile", "email");
 
-        callbackManager = CallbackManager.Factory.create();
+            callbackManager = CallbackManager.Factory.create();
 
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                progressBar.setVisibility(View.VISIBLE);
-                Set<String> Permission = loginResult.getAccessToken().getPermissions();
-                String token = loginResult.getAccessToken().getToken();
-                String id = loginResult.getAccessToken().getUserId();
-                String imageUrl = "https://graph.facebook.com/"+id+"/picture?type=large";
-                getUserInfo(token,imageUrl);
-            }
+            loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess(LoginResult loginResult) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    Set<String> Permission = loginResult.getAccessToken().getPermissions();
+                    String token = loginResult.getAccessToken().getToken();
+                    String id = loginResult.getAccessToken().getUserId();
+                    String imageUrl = "https://graph.facebook.com/" + id + "/picture?type=large";
+                    getUserInfo(token, imageUrl);
+                }
 
-            @Override
-            public void onCancel() {
-                cancelLogin();
-            }
+                @Override
+                public void onCancel() {
+                    cancelLogin();
+                }
 
-            @Override
-            public void onError(FacebookException error) {
-                ErrorMessage();
-            }
-        });
+                @Override
+                public void onError(FacebookException error) {
+                    ErrorMessage();
+                }
+            });
+        }
     }
 
 
@@ -144,14 +148,7 @@ public class WelcomeActivity extends AppCompatActivity implements RestApi.update
         startActivity(i);
     }
 
-    public void goFacebook(View view) {
 
-        if(!Constants.DEBUG_STATUS) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.BASE_URL + "api/v1/users/auth/facebook"));
-            startActivity(intent);
-        }
-
-    }
     @Override
     public void updateUIFacebookSuccess() {
         // Creates object of SharedPreferences.
