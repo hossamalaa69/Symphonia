@@ -92,8 +92,8 @@
 
                 <ImageView
                     android:id="@+id/image_album"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
                     android:layout_marginTop="80dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

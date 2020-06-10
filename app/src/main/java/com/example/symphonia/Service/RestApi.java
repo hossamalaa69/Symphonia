@@ -2692,7 +2692,7 @@ public class RestApi implements APIs {
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(@NonNull Call<JsonObject> call, @NonNull retrofit2.Response<JsonObject> response) {
-
+                Log.i("TAG", "onResponse: code " + response.code());
                 if (response.code() == 200) {
                     try {
                         JSONObject album = new JSONObject(new Gson().toJson(response.body()));
@@ -2728,11 +2728,16 @@ public class RestApi implements APIs {
                         e.printStackTrace();
                     }
                 }
+                else {
+                    listener.updateAlbum(new Album("", "album", new ArrayList<Artist>(), new ArrayList<Copyright>(),
+                            "default", "", "2020-12-12T", new ArrayList<Track>()));
+                    Toast.makeText(App.getContext(), "ERROR: album not found", Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
-
+                Log.i("TAG", "onFailure: getAlbum");
             }
         });
 
