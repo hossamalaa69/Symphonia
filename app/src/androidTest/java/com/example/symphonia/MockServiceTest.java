@@ -16,6 +16,8 @@ import com.example.symphonia.Entities.Copyright;
 import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Entities.User;
+import com.example.symphonia.Fragments_and_models.profile.ArtistAlbumTracks;
+import com.example.symphonia.Fragments_and_models.profile.ArtistAlbums;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.Service.MockService;
 
@@ -788,5 +790,67 @@ public class MockServiceTest {
         for (int i = 0; i < testPlaylists.size(); i++) {
             assertNotEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
         }
+    }
+
+    @Test
+    public void getArtistAlbumsSuccess(){
+        ArrayList<Container>testedData=new ArrayList<>();
+        testedData.add(new Container("album1","3 songs",Utils.convertToBitmap(R.drawable.amr)));
+        testedData.add(new Container("album2","3 songs",Utils.convertToBitmap(R.drawable.adele)));
+        testedData.add(new Container("album3","3 songs",Utils.convertToBitmap(R.drawable.abu)));
+        testedData.add(new Container("album4","3 songs",Utils.convertToBitmap(R.drawable.assala)));
+        ArtistAlbums artistAlbums=new ArtistAlbums();
+        ArrayList<Container> comingData = mockService.getCurrentArtistAlbums(appContext, artistAlbums,"album");
+        assertEquals(comingData.size(), testedData.size());
+        for (int i = 0; i < comingData.size(); i++) {
+            assertEquals(comingData.get(i).getCat_Name(), testedData.get(i).getCat_Name());
+            assertEquals(comingData.get(i).getCat_Name2(), comingData.get(i).getCat_Name2());
+            assertEquals(comingData.get(i).getImg_Res().getConfig(), testedData.get(i).getImg_Res().getConfig());
+            assertEquals(comingData.get(i).getImg_Res().getWidth(), testedData.get(i).getImg_Res().getWidth());
+            assertEquals(comingData.get(i).getImg_Res().getHeight(), testedData.get(i).getImg_Res().getHeight());        }
+
+    }
+
+    @Test
+    public void getArtistAlbumsFailure(){
+        ArrayList<Container>testedData=new ArrayList<>();
+        testedData.add(new Container("album1","3 songs",Utils.convertToBitmap(R.drawable.amr)));
+        testedData.add(new Container("album2","3 songs",Utils.convertToBitmap(R.drawable.adele)));
+        testedData.add(new Container("album3","3 songs",Utils.convertToBitmap(R.drawable.abu)));
+        ArtistAlbums artistAlbums=new ArtistAlbums();
+        ArrayList<Container> comingData = mockService.getCurrentArtistAlbums(appContext, artistAlbums,"album");
+        assertNotEquals(comingData.size(), testedData.size());
+
+    }
+
+    @Test
+    public void getArtistAlbumTracksSuccess(){
+        ArrayList<Container>testedData=new ArrayList<>();
+        testedData.add(new Container("track1","3 minutes",Utils.convertToBitmap(R.drawable.amr)));
+        testedData.add(new Container("track2","2 minutes",Utils.convertToBitmap(R.drawable.adele)));
+        testedData.add(new Container("track3","1 minutes",Utils.convertToBitmap(R.drawable.abu)));
+        testedData.add(new Container("track4","5 minutes",Utils.convertToBitmap(R.drawable.assala)));
+        ArtistAlbumTracks artistAlbumTracks=new ArtistAlbumTracks("");
+        ArrayList<Container> comingData = mockService.getAlbumTracks(appContext, artistAlbumTracks,"id");
+        assertEquals(comingData.size(), testedData.size());
+        for (int i = 0; i < comingData.size(); i++) {
+            assertEquals(comingData.get(i).getCat_Name(), testedData.get(i).getCat_Name());
+            assertEquals(comingData.get(i).getCat_Name2(), comingData.get(i).getCat_Name2());
+            assertEquals(comingData.get(i).getImg_Res().getConfig(), testedData.get(i).getImg_Res().getConfig());
+            assertEquals(comingData.get(i).getImg_Res().getWidth(), testedData.get(i).getImg_Res().getWidth());
+            assertEquals(comingData.get(i).getImg_Res().getHeight(), testedData.get(i).getImg_Res().getHeight());        }
+
+    }
+
+    @Test
+    public void getArtistAlbumTracksFailure(){
+        ArrayList<Container>testedData=new ArrayList<>();
+        testedData.add(new Container("track","3 minutes",Utils.convertToBitmap(R.drawable.amr)));
+        testedData.add(new Container("track2","2 minutes",Utils.convertToBitmap(R.drawable.adele)));
+        testedData.add(new Container("track3","1 minutes",Utils.convertToBitmap(R.drawable.abu)));
+        testedData.add(new Container("track4","5 minutes",Utils.convertToBitmap(R.drawable.assala)));
+        ArtistAlbumTracks artistAlbumTracks=new ArtistAlbumTracks("");
+        ArrayList<Container> comingData = mockService.getAlbumTracks(appContext, artistAlbumTracks,"id");
+        assertNotEquals(comingData.get(0).getCat_Name(), testedData.get(0).getCat_Name());
     }
 }

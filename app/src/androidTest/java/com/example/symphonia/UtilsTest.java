@@ -1,9 +1,11 @@
 
 package com.example.symphonia;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.Settings;
 import android.graphics.Color;
+import android.util.Base64;
 
 import androidx.test.filters.LargeTest;
 
@@ -15,6 +17,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static junit.framework.TestCase.assertTrue;
@@ -97,5 +101,15 @@ public class UtilsTest {
     public void isColorDarkTest(){
         assertTrue(Utils.isColorDark(Color.BLACK));
         assertFalse(Utils.isColorDark(Color.WHITE));
+    }
+
+    @Test
+    public void getStringImage() throws IOException {
+        Bitmap bitmap=Utils.convertToBitmap(R.drawable.amr);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        assertEquals(encodedImage,Utils.getStringImage(bitmap));
     }
 }
