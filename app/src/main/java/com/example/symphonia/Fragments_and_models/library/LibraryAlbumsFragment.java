@@ -186,9 +186,10 @@ public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapt
     @Override
     public void onListItemClick(int clickedItemIndex) {
 
-        AlbumFragment fragment = new AlbumFragment(mLikedAlbums.get(clickedItemIndex));
-
-
+        AlbumFragment fragment = new AlbumFragment();
+        Bundle arguments = new Bundle();
+        arguments.putString("ALBUM_ID" , mLikedAlbums.get(clickedItemIndex).getAlbumId());
+        fragment.setArguments(arguments);
         ((MainActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(
                 R.id.nav_host_fragment, fragment)
                 .addToBackStack(null)
@@ -238,8 +239,10 @@ public class LibraryAlbumsFragment extends Fragment implements RvListAlbumsAdapt
      */
     @Override
     public void onGoFullAlbumLayoutClicked(Album mAlbum) {
-        AlbumFragment fragment = new AlbumFragment(mAlbum);
-
+        AlbumFragment fragment = new AlbumFragment();
+        Bundle arguments = new Bundle();
+        arguments.putString("ALBUM_ID" , mAlbum.getAlbumId());
+        fragment.setArguments(arguments);
         ((MainActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(
                 R.id.nav_host_fragment, fragment)
                 .addToBackStack(null)

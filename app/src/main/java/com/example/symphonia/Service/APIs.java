@@ -316,6 +316,8 @@ public interface APIs {
      */
     void unFollowArtistsOrUsers(Context context, String type, ArrayList<String> ids);
 
+    void deletePlaylist(Context context, String id);
+
     void createPlaylist(Context context, String name);
 
     void addTrackToPlaylist(Context context, String playlistId, String trackId);
@@ -345,11 +347,10 @@ public interface APIs {
     /**
      * Get information for a single album.
      *
-     * @param context activity context
      * @param id      album id
      * @return album object
      */
-    Album getAlbum(Context context, String id);
+    Album getAlbum(RestApi.UpdateAlbum listener, String id);
 
     /**
      * Get information about an album’s tracks.

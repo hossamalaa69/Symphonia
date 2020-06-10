@@ -448,12 +448,11 @@ public class ServiceController {
     /**
      * Get information for a single album.
      *
-     * @param context activity context
      * @param id      album id
      * @return album object
      */
-    public Album getAlbum(Context context, String id) {
-        return mSupplier.getAlbum(context, id);
+    public Album getAlbum(RestApi.UpdateAlbum listener, String id) {
+        return mSupplier.getAlbum(listener, id);
     }
 
     /**
@@ -682,6 +681,10 @@ public class ServiceController {
 
     public ArrayList<Track> getPlaylistTracks(RestApi.updateTracksNames listener, String id){
         return mSupplier.getPlaylistTracks(listener, id);
+    }
+
+    public void deletePlaylist(Context context, String id){
+        mSupplier.deletePlaylist(context, id);
     }
 
     public void getQueue(Context context) {

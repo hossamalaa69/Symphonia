@@ -221,6 +221,11 @@ public class Track implements Serializable {
         this.id = id;
     }
 
+    public Track(String id, String mTitle){
+        this.id = id;
+        this.mTitle = mTitle;
+    }
+
     /**
      * getter fo album id of track
      *

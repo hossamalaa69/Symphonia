@@ -73,6 +73,20 @@ public class Album {
         this.mAlbumTracks = mAlbumTracks;
     }
 
+    public Album(String mAlbumId, String mAlbumType, ArrayList<Artist> mAlbumArtists,
+                 ArrayList<Copyright> mCopyrights, String mImageUrl, String mAlbumName,
+                 String mReleaseDate, ArrayList<Track> mAlbumTracks) {
+
+        this.mAlbumId = mAlbumId;
+        this.mAlbumType = mAlbumType;
+        this.mAlbumArtists = mAlbumArtists;
+        this.mCopyrights = mCopyrights;
+        this.mImageUrl = mImageUrl;
+        this.mAlbumName = mAlbumName;
+        this.mReleaseDate = mReleaseDate;
+        this.mAlbumTracks = mAlbumTracks;
+    }
+
     public Album(String mAlbumId, ArrayList<Artist> mAlbumArtists, String mImageUrl, String mAlbumName){
         this.mAlbumId = mAlbumId;
         this.mAlbumArtists = mAlbumArtists;

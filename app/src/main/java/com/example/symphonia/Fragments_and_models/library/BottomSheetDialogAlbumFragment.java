@@ -19,6 +19,7 @@ import androidx.palette.graphics.Palette;
 import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
+import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -29,7 +30,7 @@ import java.util.Collections;
 
 import static java.util.Arrays.asList;
 
-public class BottomSheetDialogAlbumFragment extends BottomSheetDialogFragment {
+public class BottomSheetDialogAlbumFragment extends BottomSheetDialogFragment implements RestApi.UpdateAlbum {
     /**
      * Final variable to get the album id
      */
@@ -73,7 +74,7 @@ public class BottomSheetDialogAlbumFragment extends BottomSheetDialogFragment {
         assert arguments != null;
         String albumId = arguments.getString(ALBUM_ID);
 
-        final Album mAlbum = serviceController.getAlbum(getContext(), albumId);
+        final Album mAlbum = serviceController.getAlbum(this, albumId);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,6 +199,11 @@ public class BottomSheetDialogAlbumFragment extends BottomSheetDialogFragment {
         });
 
         return bottomSheet;
+    }
+
+    @Override
+    public void updateAlbum(Album album) {
+
     }
 
     /**

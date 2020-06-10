@@ -2,6 +2,7 @@ package com.example.symphonia.Fragments_and_models.library;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -25,10 +26,12 @@ import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Context;
 import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Fragments_and_models.playlist.PlaylistFragment;
+import com.example.symphonia.Helpers.SnackbarHelper;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -290,7 +293,22 @@ public class LibraryPlaylistsFragment extends Fragment implements RvListPlaylist
 
     @Override
     public void onListItemLongClick(int clickedItemIndex) {
+        if(mFollowedPlaylists.get(clickedItemIndex).getOwnerName().equals(Constants.currentUser.getmName())){
+            Snackbar snack = Snackbar.make(mPlaylistsList, "Want to delete playlist?", Snackbar.LENGTH_LONG);
 
+            snack.setAction("DELETE", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mServiceController.deletePlaylist(getContext(), mFollowedPlaylists.get(clickedItemIndex).getId());
+                    Snackbar snack = Snackbar.make(mPlaylistsList, "deleted successfully", Snackbar.LENGTH_LONG);
+                    mFollowedPlaylists.remove(clickedItemIndex);
+                    mAdapter.notifyItemRemoved(clickedItemIndex);
+                }
+            });
+
+            SnackbarHelper.configSnackbar(getContext(), snack, R.drawable.custom_snackbar, Color.BLACK);
+            snack.show();
+        }
     }
 
     @Override

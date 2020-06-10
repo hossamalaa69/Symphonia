@@ -1054,6 +1054,11 @@ public class MockService implements APIs {
     }
 
     @Override
+    public void deletePlaylist(Context context, String id) {
+
+    }
+
+    @Override
     public void createPlaylist(Context context, String name) {
 
     }
@@ -1114,12 +1119,11 @@ public class MockService implements APIs {
     /**
      * Get information for a single album.
      *
-     * @param context activity context
      * @param id      album id
      * @return album object
      */
     @Override
-    public Album getAlbum(Context context, String id) {
+    public Album getAlbum(RestApi.UpdateAlbum listener, String id) {
         for (Album album : mAlbums) {
             if (album.getAlbumId().equals(id))
                 return album;
@@ -1140,7 +1144,7 @@ public class MockService implements APIs {
      */
     @Override
     public ArrayList<Track> getAlbumTracks(Context context, String id, int offset, int limit) {
-        Album album = getAlbum(context, id);
+        Album album = getAlbum(null, id);
         if (album != null) return album.getAlbumTracks();
         return null;
     }
@@ -1154,7 +1158,7 @@ public class MockService implements APIs {
     @Override
     public void saveAlbumsForUser(Context context, ArrayList<String> ids) {
         for (String id : ids) {
-            Album album = getAlbum(context, id);
+            Album album = getAlbum(null, id);
             if (album != null) Constants.currentUser.saveAlbum(album);
         }
     }
@@ -1168,7 +1172,7 @@ public class MockService implements APIs {
     @Override
     public void removeAlbumsForUser(Context context, ArrayList<String> ids) {
         for (String id : ids) {
-            Album album = getAlbum(context, id);
+            Album album = getAlbum(null, id);
             if (album != null) Constants.currentUser.removeAlbum(album);
         }
     }
@@ -1184,7 +1188,7 @@ public class MockService implements APIs {
     public ArrayList<Boolean> checkUserSavedAlbums(Context context, ArrayList<String> ids) {
         ArrayList<Boolean> checkArray = new ArrayList<>();
         for (String id : ids) {
-            Album album = getAlbum(context, id);
+            Album album = getAlbum(null, id);
             if (album != null) checkArray.add(Constants.currentUser.checkSavedAlbum(album));
         }
         return checkArray;

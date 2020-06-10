@@ -18,7 +18,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.symphonia.Activities.User_Interface.MainActivity;
@@ -26,9 +28,11 @@ import com.example.symphonia.Adapters.RvListArtistSearchAdapter;
 import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Entities.Copyright;
+import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Helpers.SnackbarHelper;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
+import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
 import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Callback;
@@ -48,7 +52,8 @@ import java.util.Locale;
  * @version 1.0
  */
 public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter.ListItemClickListener
-, BottomSheetDialogAlbumFragment.BottomSheetListener {
+, BottomSheetDialogAlbumFragment.BottomSheetListener,
+        RestApi.UpdateAlbum {
 
     /**
      * Final value to get the album id
@@ -67,10 +72,6 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
      */
     private NestedScrollView viewContainer;
     /**
-     * object from album contains all the data
-     */
-    private Album mAlbum;
-    /**
      * the first y when the user puts his finger on the screen
      * used to animate the touch of the views
      */
@@ -80,12 +81,24 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
      */
     private View touchedView = null;
 
+    private String albumId;
+    private ImageView albumImage;
+    private TextView albumName;
+    private TextView toolbarTitle;
+    private ArrayList<Artist> mAlbumArtists;
+    private RvListArtistSearchAdapter mAdapter;
+    private TextView typeArtistYearTextView;
+    private TextView copyrightsTextView;
+    private TextView releaseDate;
+    private FrameLayout parent;
+    private ProgressBar progressBar;
+    private TextView albumTracks;
+
+
+
+
     public AlbumFragment() {
         // Required empty public constructor
-    }
-
-    public AlbumFragment(Album mAlbum){
-        this.mAlbum = mAlbum;
     }
 
     /**
@@ -105,6 +118,18 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
 
         serviceController = ServiceController.getInstance();
 
+        Bundle arguments = getArguments();
+        assert arguments != null;
+        albumId = arguments.getString("ALBUM_ID");
+        serviceController.getAlbum(this, albumId);
+
+        parent = rootView.findViewById(R.id.parent);
+        progressBar = rootView.findViewById(R.id.progress_bar);
+
+        parent.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+
+        albumTracks = rootView.findViewById(R.id.album_tracks);
         ImageView backIcon = rootView.findViewById(R.id.back_icon);
         backIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,13 +139,13 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
         });
 
         saveIcon = rootView.findViewById(R.id.save_icon);
-        if(serviceController.checkUserSavedAlbums(getContext(),
+        /*if(serviceController.checkUserSavedAlbums(getContext(),
                 new ArrayList<String>(Collections.singletonList(mAlbum.getAlbumId()))).get(0))
             saveIcon.setImageResource(R.drawable.ic_favorite_green_24dp);
         else
-            saveIcon.setImageResource(R.drawable.ic_favorite_border_white_24dp);
+            saveIcon.setImageResource(R.drawable.ic_favorite_border_white_24dp);*/
 
-        saveIcon.setOnClickListener(new View.OnClickListener() {
+/*        saveIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(serviceController.checkUserSavedAlbums(getContext(),
@@ -144,7 +169,7 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
                     snack.show();
                 }
             }
-        });
+        });*/
 
         ImageView settingsIcon = rootView.findViewById(R.id.settings_icon);
         settingsIcon.setOnClickListener(new View.OnClickListener() {
@@ -152,40 +177,16 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
             public void onClick(View v) {
                 BottomSheetDialogAlbumFragment bottomSheet = new BottomSheetDialogAlbumFragment(AlbumFragment.this);
                 Bundle arguments = new Bundle();
-                arguments.putString( ALBUM_ID , mAlbum.getAlbumId());
+                arguments.putString( ALBUM_ID , albumId);
                 bottomSheet.setArguments(arguments);
                 bottomSheet.show(((MainActivity)getActivity()).getSupportFragmentManager(), bottomSheet.getTag());
             }
         });
 
-        final ImageView albumImage = rootView.findViewById(R.id.image_album);
+        albumImage = rootView.findViewById(R.id.image_album);
         viewContainer = rootView.findViewById(R.id.container);
-        if(mAlbum.getAlbumImage() != -1)
-            Picasso.get()
-                    .load(mAlbum.getAlbumImage())
-                    .placeholder(R.drawable.placeholder_album)
-                    .into(albumImage, new com.squareup.picasso.Callback() {
-            @Override
-            public void onSuccess() {
-                Drawable drawable = Utils.createAlbumBackground(getContext(), ((BitmapDrawable)albumImage.getDrawable()).getBitmap());
-                viewContainer.setBackground(drawable);
-            }
 
-            @Override
-            public void onError(Exception e) {
 
-            }
-
-        });
-        else {
-            Picasso.get()
-                    .load(mAlbum.getImageUrl())
-                    .placeholder(R.drawable.placeholder_album)
-                    .into(albumImage);
-
-            Drawable drawable = Utils.createAlbumBackground(getContext(), Utils.convertToBitmap(mAlbum.getAlbumImage()));
-            viewContainer.setBackground(drawable);
-        }
         final TextView albumTracks = rootView.findViewById(R.id.album_tracks);
         final Button shuffleButton = rootView.findViewById(R.id.button_shuffle);
 
@@ -239,12 +240,9 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
             }
         });
 
-        TextView albumName = rootView.findViewById(R.id.text_album_name);
-        TextView toolbarTitle = rootView.findViewById(R.id.title_toolbar);
-        albumName.setText(mAlbum.getAlbumName());
-        toolbarTitle.setText(mAlbum.getAlbumName());
+        albumName = rootView.findViewById(R.id.text_album_name);
+        toolbarTitle = rootView.findViewById(R.id.title_toolbar);
 
-        ArrayList<Artist> mAlbumArtists = mAlbum.getAlbumArtists();
         final RecyclerView mArtistsList = rootView.findViewById(R.id.rv_artists_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity()){
             @Override
@@ -252,10 +250,12 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
                 return false;
             }
         };
+        mAlbumArtists = new ArrayList<>();
 
         mArtistsList.setLayoutManager(layoutManager);
-        RvListArtistSearchAdapter mAdapter = new RvListArtistSearchAdapter(mAlbumArtists, this);
+        mAdapter = new RvListArtistSearchAdapter(mAlbumArtists, this);
         mArtistsList.setAdapter(mAdapter);
+
 
         mArtistsList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
 
@@ -300,30 +300,9 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
             }
         });
 
-        String albumType = mAlbum.getAlbumType();
-        albumType = albumType.substring(0, 1).toUpperCase() + albumType.substring(1);
-        StringBuilder typeArtistYearText = new StringBuilder();
-        typeArtistYearText.append(albumType).append(" by ");
-
-        for (int i = 0; i < mAlbumArtists.size(); i++) {
-            typeArtistYearText.append(mAlbumArtists.get(i).getArtistName());
-            if(i != mAlbumArtists.size() - 1)
-                typeArtistYearText.append(", ");
-            else
-                typeArtistYearText.append(" • ");
-        }
-        typeArtistYearText.append(getYear(mAlbum.getReleaseDate()));
-
-        TextView typeArtistYearTextView = rootView.findViewById(R.id.text_type_artist_year);
-        typeArtistYearTextView.setText(typeArtistYearText.toString());
-
-        TextView releaseDate = rootView.findViewById(R.id.text_release_date);
-        releaseDate.setText(formatDate(mAlbum.getReleaseDate()));
-
-        TextView copyrightsTextView = rootView.findViewById(R.id.text_copyrights);
-        copyrightsTextView.setText(getCopyrightsString(mAlbum.getCopyrights()));
-
-
+        typeArtistYearTextView = rootView.findViewById(R.id.text_type_artist_year);
+        releaseDate = rootView.findViewById(R.id.text_release_date);
+        copyrightsTextView = rootView.findViewById(R.id.text_copyrights);
 
 
         return rootView;
@@ -406,7 +385,7 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
      */
     @Override
     public void onLikedLayoutClicked() {
-        if(serviceController.checkUserSavedAlbums(getContext(),
+/*        if(serviceController.checkUserSavedAlbums(getContext(),
                 new ArrayList<String>(Collections.singletonList(mAlbum.getAlbumId()))).get(0)) {
             saveIcon.setImageResource(R.drawable.ic_favorite_green_24dp);
             Snackbar snack = Snackbar.make(viewContainer, R.string.add_album_snackbar_text, Snackbar.LENGTH_LONG);
@@ -417,6 +396,86 @@ public class AlbumFragment extends Fragment implements RvListArtistSearchAdapter
             Snackbar snack = Snackbar.make(viewContainer, R.string.remove_album_snackbar_text, Snackbar.LENGTH_LONG);
             SnackbarHelper.configSnackbar(getContext(), snack, R.drawable.custom_snackbar, Color.BLACK);
             snack.show();
+        }*/
+    }
+
+    @Override
+    public void updateAlbum(Album mAlbum) {
+        if(mAlbum.getAlbumImage() != -1)
+            Picasso.get()
+                    .load(mAlbum.getAlbumImage())
+                    .placeholder(R.drawable.placeholder_album)
+                    .into(albumImage, new com.squareup.picasso.Callback() {
+                        @Override
+                        public void onSuccess() {
+                            Drawable drawable = Utils.createAlbumBackground(getContext(), ((BitmapDrawable)albumImage.getDrawable()).getBitmap());
+                            viewContainer.setBackground(drawable);
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+
+                        }
+
+                    });
+        else {
+            Picasso.get()
+                    .load(mAlbum.getImageUrl())
+                    .placeholder(R.drawable.placeholder_album)
+                    .into(albumImage, new com.squareup.picasso.Callback() {
+                        @Override
+                        public void onSuccess() {
+                            Drawable drawable = Utils.createAlbumBackground(getContext(), ((BitmapDrawable)albumImage.getDrawable()).getBitmap());
+                            viewContainer.setBackground(drawable);
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+
+                        }
+                    });
+
         }
+
+        albumName.setText(mAlbum.getAlbumName());
+        toolbarTitle.setText(mAlbum.getAlbumName());
+
+        mAlbumArtists.addAll(mAlbum.getAlbumArtists());
+        mAdapter.notifyDataSetChanged();
+
+        String albumType = mAlbum.getAlbumType();
+        albumType = albumType.substring(0, 1).toUpperCase() + albumType.substring(1);
+        StringBuilder typeArtistYearText = new StringBuilder();
+        typeArtistYearText.append(albumType).append(" by ");
+
+        for (int i = 0; i < mAlbumArtists.size(); i++) {
+            typeArtistYearText.append(mAlbumArtists.get(i).getArtistName());
+            if(i != mAlbumArtists.size() - 1)
+                typeArtistYearText.append(", ");
+            else
+                typeArtistYearText.append(" • ");
+        }
+
+        StringBuilder names = new StringBuilder();
+        ArrayList<Track> tracks = mAlbum.getAlbumTracks();
+
+        for (int i = 0; i < tracks.size(); i++) {
+            names.append(tracks.get(i).getmTitle());
+            if(i != tracks.size() - 1)
+                names.append(" • ");
+        }
+
+        albumTracks.setText(names.toString());
+
+        typeArtistYearText.append(getYear(mAlbum.getReleaseDate()));
+
+        typeArtistYearTextView.setText(typeArtistYearText.toString());
+
+        releaseDate.setText(formatDate(mAlbum.getReleaseDate()));
+
+        copyrightsTextView.setText(getCopyrightsString(mAlbum.getCopyrights()));
+
+        parent.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
     }
 }

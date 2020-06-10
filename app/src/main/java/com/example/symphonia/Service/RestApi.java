@@ -27,6 +27,7 @@ import com.example.symphonia.Entities.Album;
 import com.example.symphonia.Entities.Artist;
 import com.example.symphonia.Entities.Category;
 import com.example.symphonia.Entities.Container;
+import com.example.symphonia.Entities.Copyright;
 import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Entities.Profile;
 import com.example.symphonia.Entities.Track;
@@ -2118,6 +2119,29 @@ public class RestApi implements APIs {
     }
 
     @Override
+    public void deletePlaylist(Context context, String id) {
+
+        RetrofitSingleton retrofitSingleton = RetrofitSingleton.getInstance();
+        RetrofitApi retrofitApi = retrofitSingleton.getRetrofitApi();
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", "Bearer " + Constants.currentToken);
+
+        Call<Void> call = retrofitApi.deletePlaylist(headers, id);
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull retrofit2.Response<Void> response) {
+                Toast.makeText(context, "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+            }
+        });
+    }
+
+    @Override
     public void createPlaylist(Context context, String name) {
 
         final UpdateCreatePlaylist listener = (UpdateCreatePlaylist) context;
@@ -2610,13 +2634,70 @@ public class RestApi implements APIs {
     /**
      * Get information for a single album.
      *
-     * @param context activity context
      * @param id      album id
      * @return album object
      */
     @Override
-    public Album getAlbum(Context context, String id) {
+    public Album getAlbum(RestApi.UpdateAlbum listener, String id) {
+
+        RetrofitSingleton retrofitSingleton = RetrofitSingleton.getInstance();
+        RetrofitApi retrofitApi = retrofitSingleton.getRetrofitApi();
+
+        Call<JsonObject> call = retrofitApi.getAlbum(id);
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(@NonNull Call<JsonObject> call, @NonNull retrofit2.Response<JsonObject> response) {
+
+                if (response.code() == 200) {
+                    try {
+                        JSONObject album = new JSONObject(new Gson().toJson(response.body()));
+
+                        String id = album.getString("_id");
+                        String name = album.getString("name");
+                        /*JSONArray images = artist.getJSONArray("images");
+                        JSONObject image = images.getJSONObject(1);*/
+                        String imageUrl = album.getString("image");
+                        JSONObject artist = album.getJSONObject("artist");
+                        String artistId = artist.getString("_id");
+                        String artistName = artist.getString("name");
+                        String albumType = album.getString("type");
+                        JSONObject copyrights = album.getJSONObject("copyrights");
+                        String releaseDate = album.getString("releaseDate");
+                        releaseDate = releaseDate.split("T", 2)[0];
+                        ArrayList<Track> tracks = new ArrayList<>();
+                        JSONArray tracksArray = album.getJSONArray("tracks");
+                        for (int i = 0; i < tracksArray.length(); i++) {
+                            JSONObject track = tracksArray.getJSONObject(i);
+                            String trackId = track.getString("_id");
+                            String trackName = track.getString("name");
+                            tracks.add(new Track(trackId, trackName));
+                        }
+
+                        Copyright copyright = new Copyright(copyrights.getString("text"), copyrights.getString("type"));
+
+                        ArrayList<Artist> artists = new ArrayList<>(Collections.singletonList(new Artist(artistId, null, artistName)));
+                        listener.updateAlbum(new Album(id, albumType, artists, new ArrayList<Copyright>(Collections.singletonList(copyright)),
+                                imageUrl, name, releaseDate, tracks));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
+
+            }
+        });
+
         return null;
+
+    }
+
+    public interface UpdateAlbum{
+        void updateAlbum(Album album);
     }
 
 

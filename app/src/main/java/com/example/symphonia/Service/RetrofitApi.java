@@ -54,8 +54,19 @@ public interface RetrofitApi {
             @QueryMap Map<String, Object> params
     );
 
+    @GET("api/v1/albums/{id}")
+    Call<JsonObject> getAlbum(
+            @Path("id") String id
+    );
+
     @GET("api/v1/playlists/{id}")
     Call<JsonObject> getPlaylist(@Path("id") String id);
+
+    @DELETE("api/v1/playlists/{id}")
+    Call<Void> deletePlaylist(
+            @HeaderMap Map<String, String> headers,
+            @Path("id") String id
+    );
 
     @POST("api/v1/me/apply-premium")
     Call<JsonObject> promotePrem(@HeaderMap Map<String, String> headers);
