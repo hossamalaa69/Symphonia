@@ -18,6 +18,7 @@ import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
+import com.google.android.gms.common.util.ArrayUtils;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -53,7 +54,9 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
      */
     private OnTrackClicked onTrackClicked;
 
-
+    public void changeTracks(ArrayList<Track>tracks){
+        mTracks  = tracks;
+    }
     /**
      * non empty constructor
      *
@@ -215,7 +218,6 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
             ivSettings.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //TODO handle open settings track, call func of interface
                     Toast.makeText(context, "open settings ", Toast.LENGTH_SHORT).show();
                     onTrackClicked.showTrackSettingFragment(mTracks.get(getAdapterPosition()));
 

@@ -133,7 +133,6 @@ public class PlaylistFragment extends Fragment {
         playBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 for (int i = 0; i < Utils.displayedContext.getTracks().size(); i++)
                     if (!Utils.displayedContext.getTracks().get(i).isLocked() && !Utils.displayedContext.getTracks().get(i).isHidden()) {
                         Utils.currTrack = Utils.displayedContext.getTracks().get(i);
@@ -231,6 +230,7 @@ public class PlaylistFragment extends Fragment {
      */
     public void changeSelected() {
         //   rvTracksHomeAdapter.selectPlaying(Utils.currTrack.getId());
+        rvTracksHomeAdapter.changeTracks(Utils.displayedContext.getTracks());
         rvTracksHomeAdapter.notifyDataSetChanged();
     }
 
