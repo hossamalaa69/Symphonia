@@ -26,10 +26,10 @@ import com.example.symphonia.Fragments_and_models.profile.BottomSheetDialogProfi
 import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
 import com.example.symphonia.Fragments_and_models.profile.ProfileFollowersFragment;
 import com.example.symphonia.Fragments_and_models.profile.ProfilePlaylistsFragment;
-import com.example.symphonia.Fragments_and_models.settings.SettingsFragment;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -69,8 +69,8 @@ public class MockService implements APIs {
     private int profilesCount = 0;
     private int genresCount = 0;
     private int playlistsCount = 0;
-    private ArrayList<Container>mArtistAlbums;
-    private ArrayList<Container>mArtistTracks;
+    private ArrayList<Container> mArtistAlbums;
+    private ArrayList<Container> mArtistTracks;
 
     /**
      * Array that holds some users of type listener to be mimic
@@ -142,17 +142,17 @@ public class MockService implements APIs {
         mArtists.add(new Artist("39", R.drawable.bahaa, "Bahaa Sultan"));
         mArtists.add(new Artist("40", R.drawable.loai, "Loai"));
 
-        mArtistAlbums=new ArrayList<>();
-        mArtistAlbums.add(new Container("album1","3 songs",Utils.convertToBitmap(R.drawable.amr)));
-        mArtistAlbums.add(new Container("album2","3 songs",Utils.convertToBitmap(R.drawable.adele)));
-        mArtistAlbums.add(new Container("album3","3 songs",Utils.convertToBitmap(R.drawable.abu)));
-        mArtistAlbums.add(new Container("album4","3 songs",Utils.convertToBitmap(R.drawable.assala)));
+        mArtistAlbums = new ArrayList<>();
+        mArtistAlbums.add(new Container("album1", "3 songs", Utils.convertToBitmap(R.drawable.amr)));
+        mArtistAlbums.add(new Container("album2", "3 songs", Utils.convertToBitmap(R.drawable.adele)));
+        mArtistAlbums.add(new Container("album3", "3 songs", Utils.convertToBitmap(R.drawable.abu)));
+        mArtistAlbums.add(new Container("album4", "3 songs", Utils.convertToBitmap(R.drawable.assala)));
 
-        mArtistTracks=new ArrayList<>();
-        mArtistTracks.add(new Container("track1","3 minutes",Utils.convertToBitmap(R.drawable.amr)));
-        mArtistTracks.add(new Container("track2","2 minutes",Utils.convertToBitmap(R.drawable.adele)));
-        mArtistTracks.add(new Container("track3","1 minutes",Utils.convertToBitmap(R.drawable.abu)));
-        mArtistTracks.add(new Container("track4","5 minutes",Utils.convertToBitmap(R.drawable.assala)));
+        mArtistTracks = new ArrayList<>();
+        mArtistTracks.add(new Container("track1", "3 minutes", Utils.convertToBitmap(R.drawable.amr)));
+        mArtistTracks.add(new Container("track2", "2 minutes", Utils.convertToBitmap(R.drawable.adele)));
+        mArtistTracks.add(new Container("track3", "1 minutes", Utils.convertToBitmap(R.drawable.abu)));
+        mArtistTracks.add(new Container("track4", "5 minutes", Utils.convertToBitmap(R.drawable.assala)));
 
 
         mAlbums = new ArrayList<>();
@@ -295,25 +295,31 @@ public class MockService implements APIs {
      */
     @Override
     public ArrayList<Track> getTracksOfPlaylist(Context context, String id, PlaylistFragment playlistFragment) {
+        ArrayList<Track> tracks = new ArrayList<>();
         final updateUiPlaylists listener = (updateUiPlaylists) context;
         for (int i = 0; i < mPopularContext.size(); i++) {
             if (mPopularContext.get(i).getId().matches(id)) {
-                Utils.playingContext.setTracks( mPopularContext.get(i).getTracks());
+                Utils.playingContext.setTracks(mPopularContext.get(i).getTracks());
+                tracks = mPopularContext.get(i).getTracks();
             }
         }
         for (int i = 0; i < mRecentContext.size(); i++) {
             if (mRecentContext.get(i).getId().matches(id)) {
-                Utils.playingContext.setTracks( mRecentContext.get(i).getTracks());
+                Utils.playingContext.setTracks(mRecentContext.get(i).getTracks());
+                tracks = mRecentContext.get(i).getTracks();
 
             }
         }
         for (int i = 0; i < mRandomContext.size(); i++) {
             if (mRandomContext.get(i).getId().matches(id)) {
-                Utils.playingContext.setTracks( mRandomContext.get(i).getTracks());
+                Utils.playingContext.setTracks(mRandomContext.get(i).getTracks());
+                tracks = mRandomContext.get(i).getTracks();
+
             }
         }
-        listener.updateUiGetTracksOfPlaylist(playlistFragment,Utils.playingContext.getTracks());
-        return null; //mRecentPlaylists.get(0).getTracks();
+        if (listener != null)
+            listener.updateUiGetTracksOfPlaylist(playlistFragment, Utils.playingContext.getTracks());
+        return tracks; //mRecentPlaylists.get(0).getTracks();
     }
 
     @Override
@@ -349,9 +355,10 @@ public class MockService implements APIs {
 
     /**
      * holds facebook login api request
-     * @param context holds context of requested page
+     *
+     * @param context  holds context of requested page
      * @param fb_token holds facebook token
-     * @param image holds user's image
+     * @param image    holds user's image
      * @return returns true if success
      */
     @Override
@@ -499,8 +506,9 @@ public class MockService implements APIs {
 
     /**
      * handles forget password API
+     *
      * @param context holds context of requested page
-     * @param email holds user's email
+     * @param email   holds user's email
      * @return returns true if success
      */
     @Override
@@ -510,9 +518,10 @@ public class MockService implements APIs {
 
     /**
      * handles resetting password API
-     * @param context holds context of requested page
+     *
+     * @param context  holds context of requested page
      * @param password holds new password
-     * @param token holds user's token of email
+     * @param token    holds user's token of email
      * @return returns true if success
      */
     @Override
@@ -522,8 +531,9 @@ public class MockService implements APIs {
 
     /**
      * handles apply artist API
+     *
      * @param context holds context of requested page
-     * @param token holds user's token
+     * @param token   holds user's token
      * @return returns true if success
      */
     @Override
@@ -1145,7 +1155,7 @@ public class MockService implements APIs {
     /**
      * Get information for a single album.
      *
-     * @param id      album id
+     * @param id album id
      * @return album object
      */
     @Override
@@ -1295,7 +1305,8 @@ public class MockService implements APIs {
 
     /**
      * handles sending device token to receive notifications
-     * @param context holds context of activity
+     *
+     * @param context        holds context of activity
      * @param register_token holds device register token
      * @return returns true if success
      */
@@ -1306,8 +1317,9 @@ public class MockService implements APIs {
 
     /**
      * handles getting notifications history API
+     *
      * @param context holds context of activity
-     * @param token holds user token
+     * @param token   holds user token
      * @return returns true if success
      */
     @Override
@@ -1378,7 +1390,7 @@ public class MockService implements APIs {
      * @return ArrayList of Container of User's playlists
      */
     @Override
-    public ArrayList<Container> getCurrentUserPlaylists(Context context, FragmentProfile fragmentProfile,String id) {
+    public ArrayList<Container> getCurrentUserPlaylists(Context context, FragmentProfile fragmentProfile, String id) {
         return null;
     }
 
@@ -1390,7 +1402,7 @@ public class MockService implements APIs {
      * @return ArrayList of Container current user following
      */
     @Override
-    public ArrayList<Container> getCurrentUserFollowing(Context context, ProfileFollowersFragment profileFollowersFragment,String id) {
+    public ArrayList<Container> getCurrentUserFollowing(Context context, ProfileFollowersFragment profileFollowersFragment, String id) {
         return null;
     }
 
@@ -1402,7 +1414,7 @@ public class MockService implements APIs {
      * @return ArrayList of Container of Followers
      */
     @Override
-    public ArrayList<Container> getCurrentUserFollowers(Context context, ProfileFollowersFragment profileFollowersFragment,String id) {
+    public ArrayList<Container> getCurrentUserFollowers(Context context, ProfileFollowersFragment profileFollowersFragment, String id) {
         ArrayList<Container> followers = new ArrayList<>();
         followers.add(new Container("HuffPost", "2,700 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.images)));
         followers.add(new Container("Majeestic Casual", "5,200 " + context.getResources().getString(R.string.Followers), Utils.convertToBitmap(R.drawable.images3)));
@@ -1444,7 +1456,7 @@ public class MockService implements APIs {
      * @return string of the number of followers
      */
     @Override
-    public String getNumbersoUserFollowers(Context context, FragmentProfile fragmentProfile,String id) {
+    public String getNumbersoUserFollowers(Context context, FragmentProfile fragmentProfile, String id) {
         return null;
     }
 
@@ -1460,55 +1472,51 @@ public class MockService implements APIs {
     }
 
     /**
-     *
-     * @param context context of the activity
-     * @param artistAlbums instance of artistAlbums fragment
-     * @param name name of the album
-     * @param image string of the image
-     * @param albumType album or single
-     * @param copyRights copyright of the album
+     * @param context        context of the activity
+     * @param artistAlbums   instance of artistAlbums fragment
+     * @param name           name of the album
+     * @param image          string of the image
+     * @param albumType      album or single
+     * @param copyRights     copyright of the album
      * @param copyRightsType p or c
-     * @param bitmap bitmab of the image
+     * @param bitmap         bitmab of the image
      */
     @Override
     public void createAlbum(Context context, ArtistAlbums artistAlbums, String name, String image, String albumType, String copyRights, String copyRightsType, Bitmap bitmap) {
-        RestApi.updateUiArtistAlbums listener=(RestApi.updateUiArtistAlbums)context;
-        listener.onAddAlbumSuccess(artistAlbums,"",name,"mnk;m",bitmap);
+        RestApi.updateUiArtistAlbums listener = (RestApi.updateUiArtistAlbums) context;
+        listener.onAddAlbumSuccess(artistAlbums, "", name, "mnk;m", bitmap);
     }
 
     /**
-     *
-     * @param context context of the activity
+     * @param context      context of the activity
      * @param artistAlbums instance of ArtistAlbums
-     * @param id id of the album
-     * @param pos pos of the album in the adapter
+     * @param id           id of the album
+     * @param pos          pos of the album in the adapter
      */
     @Override
     public void deleteAlbum(Context context, ArtistAlbums artistAlbums, String id, int pos) {
-        RestApi.updateUiArtistAlbums listener=(RestApi.updateUiArtistAlbums)context;
-        listener.onDelAlbumSuccess(artistAlbums,id,pos);
+        RestApi.updateUiArtistAlbums listener = (RestApi.updateUiArtistAlbums) context;
+        listener.onDelAlbumSuccess(artistAlbums, id, pos);
     }
 
     /**
-     *
-     * @param context context of the activity
+     * @param context      context of the activity
      * @param artistAlbums instance of artistAlbums fragment
-     * @param id id of the album
-     * @param pos pos of the album in the adapter
-     * @param name new name of the album
+     * @param id           id of the album
+     * @param pos          pos of the album in the adapter
+     * @param name         new name of the album
      */
     @Override
-    public void renameAlbum(Context context, ArtistAlbums artistAlbums, String id, int pos,String name) {
-        RestApi.updateUiArtistAlbums listener=(RestApi.updateUiArtistAlbums)context;
-        listener.onRenameAlbumSuccess(artistAlbums,pos,name);
+    public void renameAlbum(Context context, ArtistAlbums artistAlbums, String id, int pos, String name) {
+        RestApi.updateUiArtistAlbums listener = (RestApi.updateUiArtistAlbums) context;
+        listener.onRenameAlbumSuccess(artistAlbums, pos, name);
     }
 
     /**
-     *
-     * @param context context of the activity
+     * @param context         context of the activity
      * @param fragmentProfile instance of fragmentProfile
-     * @param name new name of user
-     * @param image string of new image of user
+     * @param name            new name of user
+     * @param image           string of new image of user
      */
     @Override
     public void editProfile(Context context, FragmentProfile fragmentProfile, String name, String image) {
@@ -1516,10 +1524,9 @@ public class MockService implements APIs {
     }
 
     /**
-     *
-     * @param context context of the activity
+     * @param context      context of the activity
      * @param artistAlbums instance of ArtistAlbums
-     * @param albumType album or sinlge
+     * @param albumType    album or sinlge
      * @return ArrayList<Container> of current artist's albums
      */
     @Override
@@ -1528,10 +1535,9 @@ public class MockService implements APIs {
     }
 
     /**
-     *
-     * @param context context of the activity
+     * @param context           context of the activity
      * @param artistAlbumTracks instance of ArtistAlbumTracks fragmnt
-     * @param id id of the track
+     * @param id                id of the track
      * @return ArrayList<Container> of album's tracks
      */
     @Override
@@ -1540,37 +1546,34 @@ public class MockService implements APIs {
     }
 
     /**
-     *
-     * @param context context of the activity
+     * @param context           context of the activity
      * @param artistAlbumTracks instance of ArtistAlbumTracks fragmnt
-     * @param id id of the track
-     * @param pos pos of the track in the adaper
+     * @param id                id of the track
+     * @param pos               pos of the track in the adaper
      */
     @Override
     public void deleteTrack(Context context, ArtistAlbumTracks artistAlbumTracks, String id, int pos) {
-        RestApi.updateUiArtistAlbumTracks listener=(RestApi.updateUiArtistAlbumTracks)context;
-        listener.onDelTrackSuccess(artistAlbumTracks,id,pos);
+        RestApi.updateUiArtistAlbumTracks listener = (RestApi.updateUiArtistAlbumTracks) context;
+        listener.onDelTrackSuccess(artistAlbumTracks, id, pos);
     }
 
     /**
-     *
-     * @param context context of the activity
+     * @param context           context of the activity
      * @param artistAlbumTracks instance of ArtistAlbumTracks fragmnt
-     * @param id id of the track
-     * @param pos pos of the track in the adaper
-     * @param name new name of the track
+     * @param id                id of the track
+     * @param pos               pos of the track in the adaper
+     * @param name              new name of the track
      */
     @Override
     public void renameTrack(Context context, ArtistAlbumTracks artistAlbumTracks, String id, int pos, String name) {
-        RestApi.updateUiArtistAlbumTracks listener=(RestApi.updateUiArtistAlbumTracks)context;
-        listener.onRenameTrackSuccess(artistAlbumTracks,pos,name);
+        RestApi.updateUiArtistAlbumTracks listener = (RestApi.updateUiArtistAlbumTracks) context;
+        listener.onRenameTrackSuccess(artistAlbumTracks, pos, name);
     }
 
     /**
-     *
-     * @param context context of the activity
+     * @param context     context of the activity
      * @param songEncoded string of encoded song
-     * @param albumId album id
+     * @param albumId     album id
      */
     @Override
     public void createTrack(Context context, String songEncoded, String albumId) {
@@ -1625,7 +1628,7 @@ public class MockService implements APIs {
      * @return string of the number of following
      */
     @Override
-    public String getNumbersoUserFollowing(Context context, FragmentProfile fragmentProfile,String id) {
+    public String getNumbersoUserFollowing(Context context, FragmentProfile fragmentProfile, String id) {
         return null;
     }
 
@@ -1649,7 +1652,7 @@ public class MockService implements APIs {
      * @return current user playlists
      */
     @Override
-    public ArrayList<Container> getAllCurrentUserPlaylists(Context context, ProfilePlaylistsFragment profilePlaylistsFragment,String id) {
+    public ArrayList<Container> getAllCurrentUserPlaylists(Context context, ProfilePlaylistsFragment profilePlaylistsFragment, String id) {
         return null;
     }
 
@@ -1733,7 +1736,7 @@ public class MockService implements APIs {
     @Override
     public void playNext(Context context) {
         int pos = Utils.getPosInPlaying(Utils.currTrack.getId());
-        if(Utils.playingContext.getTracks().size()-1> pos)
+        if (Utils.playingContext.getTracks().size() - 1 > pos)
             pos++;
         Utils.currTrack = Utils.playingContext.getTracks().get(pos);
         getCurrPlaying(context);
@@ -1742,7 +1745,7 @@ public class MockService implements APIs {
     @Override
     public void playPrev(Context context) {
         int pos = Utils.getPosInPlaying(Utils.currTrack.getId());
-        if(pos>0)
+        if (pos > 0)
             pos--;
         Utils.currTrack = Utils.playingContext.getTracks().get(pos);
         getCurrPlaying(context);
@@ -1751,12 +1754,12 @@ public class MockService implements APIs {
     @Override
     public void checkSaved(Context context, String ids, PlaylistFragment playlistFragment) {
         final updateUiPlaylists listener = (updateUiPlaylists) context;
-        if(Utils.displayedContext!=null)
+        if (Utils.displayedContext != null)
             Utils.displayedContext.getTracks().get(0).setLiked(false);
         Utils.playingContext.getTracks().get(0).setLiked(false);
-        for(int i = 1 ;i<Utils.playingContext.getTracks().size();i++) {
+        for (int i = 1; i < Utils.playingContext.getTracks().size(); i++) {
             if (Utils.displayedContext != null) {
-                    Utils.displayedContext.getTracks().get(i).setLiked(false);
+                Utils.displayedContext.getTracks().get(i).setLiked(false);
             }
             Utils.playingContext.getTracks().get(i).setLiked(false);
         }

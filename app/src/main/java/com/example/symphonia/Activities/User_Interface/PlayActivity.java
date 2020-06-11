@@ -38,15 +38,14 @@ import com.example.symphonia.Fragments_and_models.playlist.BottomSheetDialogSett
 import com.example.symphonia.Fragments_and_models.playlist.BottomSheetDialogSettingsCredits;
 import com.example.symphonia.Fragments_and_models.playlist.PlaylistFragment;
 import com.example.symphonia.Helpers.AdDialog;
-import com.example.symphonia.Helpers.SnapHelperOneByOne;
-import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.Helpers.MediaHelpers.MediaController;
 import com.example.symphonia.Helpers.MediaHelpers.OnClearFromRecentService;
 import com.example.symphonia.Helpers.MediaHelpers.PlayBarNotification;
-import com.example.symphonia.R;
-import com.example.symphonia.Service.RestApi;
-import com.example.symphonia.Service.ServiceController;
 import com.example.symphonia.Helpers.MediaHelpers.playable;
+import com.example.symphonia.Helpers.SnapHelperOneByOne;
+import com.example.symphonia.Helpers.Utils;
+import com.example.symphonia.R;
+import com.example.symphonia.Service.ServiceController;
 import com.example.symphonia.Service.updateUiPlaylists;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -64,7 +63,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         , updateUiPlaylists
         , MediaController.OnStartListener
         , playable
-        ,BottomSheetDialogSettings.BottomSheetListener{
+        , BottomSheetDialogSettings.BottomSheetListener {
     /**
      * this function is called when user click on like item in settings of track
      *
@@ -73,17 +72,17 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
     @Override
     public void onLikeClicked(int pos) {
         if (!Utils.currTrack.isLiked() && !Utils.currTrack.isLocked()) {
-            Utils.playingContext.setTrackLiked(pos,true);
+            Utils.playingContext.setTrackLiked(pos, true);
             Utils.currTrack.setLiked(true);
             ServiceController.getInstance().saveTrack(PlayActivity.this
                     , Utils.currTrack.getId());
         } else if (!Utils.currTrack.isLocked()) {
-            Utils.playingContext.setTrackHidden(pos,false);
+            Utils.playingContext.setTrackHidden(pos, false);
             Utils.currTrack.setLiked(false);
             ServiceController.getInstance().removeFromSaved(PlayActivity.this
                     , Utils.currTrack.getId());
         } else {
-            Toast.makeText(PlayActivity.this,getString(R.string.locked_songs),Toast.LENGTH_SHORT).show();
+            Toast.makeText(PlayActivity.this, getString(R.string.locked_songs), Toast.LENGTH_SHORT).show();
         }
         updateScreen();
     }
@@ -96,16 +95,16 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
     @Override
     public void onHideClicked(int pos) {
         if (!Utils.currTrack.isHidden() && !Utils.currTrack.isLocked()) {
-            Utils.playingContext.setTrackHidden(pos,true);
+            Utils.playingContext.setTrackHidden(pos, true);
             Utils.currTrack.setHidden(true);
             playNextTrack();
 
         } else if (!Utils.currTrack.isLocked()) {
-            Utils.playingContext.setTrackHidden(pos,false);
+            Utils.playingContext.setTrackHidden(pos, false);
             Utils.currTrack.setHidden(false);
 
         } else {
-            Toast.makeText(PlayActivity.this,getString(R.string.locked_songs),Toast.LENGTH_SHORT).show();
+            Toast.makeText(PlayActivity.this, getString(R.string.locked_songs), Toast.LENGTH_SHORT).show();
         }
         updateScreen();
     }
@@ -163,35 +162,105 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         //TODO open artist in islam's work
     }
 
-    ArrayList<Track> tracks;
+    /**
+     * recycler view of tracks
+     */
     RecyclerView rvTracks;
+    /**
+     * layout manager object
+     */
     RecyclerView.LayoutManager layoutManager;
+    /**
+     * adapter of track
+     */
     RvTracksPlayActivityAdapter adapterPlayActivity;
+    /**
+     * track title
+     */
     TextView trackTitle;
+    /**
+     * artist name
+     */
     TextView trackArtist;
+    /**
+     * playlist title
+     */
     TextView playlistTitle;
+    /**
+     * share button image
+     */
     ImageButton shareBtn;
+    /**
+     * seek bar
+     */
     SeekBar seekBar;
+    /**
+     * remain of track period
+     */
     TextView seeKBarRemain;
+    /**
+     * current position of track
+     */
     TextView seekBarCurr;
+    /**
+     * close actvitiy button
+     */
     ImageButton closeActivity;
+    /**
+     * track settings button
+     */
     ImageButton trackSettings;
+    /**
+     * play button container
+     */
     FrameLayout frameLayout;
+    /**
+     * next track button
+     */
     ImageButton nextBtn;
+    /**
+     * previous track button
+     */
     ImageButton prevBtn;
+    /**
+     * hide track button
+     */
     ImageButton hideBtn;
+    /**
+     * like track button
+     */
     ImageButton likeBtn;
+    /**
+     * track background drawable
+     */
     private Drawable trackBackgroun;
+    /**
+     * handler of seek bar and track data
+     */
     private Handler mHandler = new Handler();
+    /**
+     * media controller instance
+     */
     private MediaController mediaController;
+    /**
+     * play button image
+     */
     ImageView playBtn;
+    /**
+     * pause button image
+     */
     ImageView pauseBtn;
+    /**
+     * is track paused
+     */
     private final String IS_PAUSED = "isPaused";
     /**
-     * holds position of current track
+     * progress bar
      */
-    int trackPos;
     private ProgressBar progressBar;
+    /**
+     * on audio focus change listener
+     */
     AudioManager.OnAudioFocusChangeListener onAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
         @Override
         public void onAudioFocusChange(int focusChange) {
@@ -237,6 +306,10 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         }
 
     };
+
+    /**
+     * on track start listener
+     */
     @Override
     public void onStartListener() {
         frameLayout.removeAllViews();
@@ -250,7 +323,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
     }
 
     /**
-     * listener of notification
+     * play previous listener of notification
      */
     @Override
     public void onTrackPrev() {
@@ -258,7 +331,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
     }
 
     /**
-     * listener of notification
+     * play track listener of notification
      */
     @Override
     public void onTrackPlay() {
@@ -274,7 +347,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
     }
 
     /**
-     * listener of notification
+     * pause track listener of notification
      */
     @Override
     public void onTrackPause() {
@@ -289,13 +362,18 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
     }
 
     /**
-     * listener of notification
+     * play next track listener of notification
      */
     @Override
     public void onTrackNext() {
         playNextTrack();
     }
 
+    /**
+     * get current playing track success listener
+     *
+     * @param id id of track
+     */
     @Override
     public void getCurrPlayingTrackSuccess(String id) {
         int pos = Utils.getPosInPlaying(id);
@@ -311,6 +389,9 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
             ServiceController.getInstance().getTrack(PlayActivity.this, id);
     }
 
+    /**
+     * play bar notification receiver
+     */
     BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(android.content.Context context, Intent intent) {
@@ -318,10 +399,10 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
             if (action.matches(PlayBarNotification.CHANNEL_NEXT)) {
                 onTrackNext();
             } else if (action.matches(PlayBarNotification.CHANNEL_PLAY)) {
-               if (!Utils.currTrack.isPlaying())
+                if (!Utils.currTrack.isPlaying())
                     onTrackPause();
-               else
-                   onTrackPlay();
+                else
+                    onTrackPlay();
 
             } else if (action.matches(PlayBarNotification.CHANNEL_PREV)) {
                 onTrackPrev();
@@ -329,6 +410,9 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         }
     };
 
+    /**
+     * on get current playing tarck failed listener
+     */
     @Override
     public void getCurrPlayingTrackFailed() {
         MediaController.getController().releaseMedia();
@@ -391,17 +475,26 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
 
     }
 
+    /**
+     * on play track success listener
+     */
     @Override
     public void updateUiPlayTrack() {
         ServiceController serviceController = ServiceController.getInstance();
         serviceController.getQueue(PlayActivity.this);
     }
 
+    /**
+     * on get track success listener
+     */
     @Override
     public void getTrackSuccess() {
         startTrack();
     }
 
+    /**
+     * start track function
+     */
     private void startTrack() {
         Utils.currContextId = Utils.currTrack.getPlayListId();
         if (mediaController.isMediaPlayerPlaying())
@@ -409,6 +502,9 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         ServiceController.getInstance().playTrack(this);
     }
 
+    /**
+     * on get track success listener
+     */
     @Override
     public void updateUiGetQueue() {
         Log.e("main update", "call play track");
@@ -420,6 +516,10 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
     public void getTrackOfQueue() {
 
     }
+
+    /**
+     * indicates if hard scrolling
+     */
     boolean hardScroll = false;
 
     /**
@@ -429,7 +529,10 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
      */
     @Override
     public void OnItemSwitchedListener(int pos) {
-        if(!hardScroll){hardScroll = true; return;}
+        if (!hardScroll) {
+            hardScroll = true;
+            return;
+        }
         if (Utils.playingContext.getTracks().get(pos).isHidden()) {
             return;
         } else
@@ -440,6 +543,9 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
             playPrevTrack();
     }
 
+    /**
+     * play previous track
+     */
     private void playPrevTrack() {
         frameLayout.removeAllViews();
         frameLayout.addView(progressBar);
@@ -554,6 +660,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
             }
         });
     }
+
     MediaPlayer.OnCompletionListener onCompletionListener = new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mp) {
@@ -563,6 +670,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
             frameLayout.setOnClickListener(null);
         }
     };
+
     /**
      * this function gets the next not hidden track
      */
@@ -574,6 +682,9 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
         frameLayout.setOnClickListener(null);
     }
 
+    /**
+     * play button listener
+     */
     private View.OnClickListener playBtnListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -639,7 +750,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
                 } else {
                     Utils.currTrack.setLiked(true);
                     Utils.playingContext.getTracks().get(Utils.getPosInPlaying(Utils.currTrack.getId())).setLiked(true);
-                    ServiceController.getInstance().removeFromSaved(PlayActivity.this,Utils.currTrack.getId());
+                    ServiceController.getInstance().removeFromSaved(PlayActivity.this, Utils.currTrack.getId());
                     likeBtn.setImageResource(R.drawable.ic_favorite_black_24dp);
                 }
             }
@@ -788,6 +899,9 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
 
     }
 
+    /**
+     * check ads
+     */
     public void checkAds() {
         if (!Constants.currentUser.isPremuim()) {
             Intent i = new Intent(this, AdDialog.class);
