@@ -4,21 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-<<<<<<< Updated upstream
 import android.os.Handler;
-=======
->>>>>>> Stashed changes
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-<<<<<<< Updated upstream
 import androidx.fragment.app.Fragment;
-=======
-import androidx.core.widget.ContentLoadingProgressBar;
->>>>>>> Stashed changes
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -67,7 +60,6 @@ import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
-<<<<<<< Updated upstream
 
 /**
  * Class that holds all functions to be used to fill metadata of application
@@ -77,9 +69,6 @@ import retrofit2.Callback;
  * @version 1.0
  * @since 11-4-2020
  */
-=======
-import retrofit2.Retrofit;
->>>>>>> Stashed changes
 
 public class RestApi implements APIs {
     /**
@@ -996,12 +985,12 @@ public class RestApi implements APIs {
                         String imageUrl = playlist.getString("contextImage");
                         String id = playlist.getString("contextId");
                         if(type == "playlist")
-                        Utils.LoadedPlaylists.recentPlaylists.add(new com.example.symphonia.Entities.Context(title, id, decs, imageUrl,
-                                null, Constants.BASE_URL + Constants.GET_PLAYLISTS_TRACKS + id + "/tracks", type));
+                            Utils.LoadedPlaylists.recentPlaylists.add(new com.example.symphonia.Entities.Context(title, id, decs, imageUrl,
+                                    null, Constants.BASE_URL + Constants.GET_PLAYLISTS_TRACKS + id + "/tracks", type));
                     }
                     Log.e("recent", "success");
                     if(Utils.LoadedPlaylists.recentPlaylists.size()>0)
-                         listener.updateUiGetRecentPlaylistsSuccess(fragment);
+                        listener.updateUiGetRecentPlaylistsSuccess(fragment);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -1071,7 +1060,7 @@ public class RestApi implements APIs {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-               // Toast.makeText(context.getApplicationContext(), "failed to get playlists, please refresh", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(context.getApplicationContext(), "failed to get playlists, please refresh", Toast.LENGTH_SHORT).show();
                 Log.e("rand", "error");
             }
         });
@@ -1139,20 +1128,10 @@ public class RestApi implements APIs {
     }
 
     @Override
-<<<<<<< Updated upstream
     public void getCurrPlaying(final Context context) {
         final updateUiPlaylists listener = (updateUiPlaylists) context;
         final StringRequest request = new StringRequest(Request.Method.GET, Constants.GET_CURR_PLAYING
                 , new Response.Listener<String>() {
-=======
-    public void followArtistsOrUsers(Context context, final String type, final ArrayList<String> ids) {
-
-        Uri.Builder builder = Uri.parse(Constants.FOLLOW_ARTIST_URL).buildUpon();
-        builder.appendQueryParameter("type", type);
-        builder.appendQueryParameter("ids", TextUtils.join(",", ids));
-
-        StringRequest request = new StringRequest(Request.Method.PUT, builder.toString(), new Response.Listener<String>() {
->>>>>>> Stashed changes
             @Override
             public void onResponse(String response) {
                 JSONObject obj;
@@ -1176,56 +1155,27 @@ public class RestApi implements APIs {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-<<<<<<< Updated upstream
                 Log.e("curr playing", "error");
                 //Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
                 listener.getCurrPlayingTrackFailed();
-=======
-                Log.e("recent", "error");
->>>>>>> Stashed changes
             }
         }) {
-/*            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("type", type);
-                params.put("ids", TextUtils.join(",", ids));
-                return params;
-            }*/
-
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Authorization", "Bearer " + Constants.currentToken);
-<<<<<<< Updated upstream
                 //   headers.put("Content-Type", "application/json");
                 return headers;
             }
-=======
-                headers.put("Content-Type", "application/json");
-                return headers;
-            }
-
->>>>>>> Stashed changes
         };
 
         VolleySingleton.getInstance(context).getRequestQueue().add(request);
     }
 
     @Override
-<<<<<<< Updated upstream
     public void getQueue(final Context context) {
         final StringRequest request = new StringRequest(Request.Method.GET, Constants.GET_QUEUE
                 , new Response.Listener<String>() {
-=======
-    public void unFollowArtistsOrUsers(final Context context, final String type, final ArrayList<String> ids) {
-
-/*        Uri.Builder builder = Uri.parse(Constants.FOLLOW_ARTIST_URL).buildUpon();
-        builder.appendQueryParameter("type", type);
-        builder.appendQueryParameter("ids", TextUtils.join(",", ids));*/
-
-        /*StringRequest request = new StringRequest(Request.Method.DELETE, Constants.FOLLOW_ARTIST_URL, new Response.Listener<String>() {
->>>>>>> Stashed changes
             @Override
             public void onResponse(String response) {
                 JSONObject obj;
@@ -1390,7 +1340,7 @@ public class RestApi implements APIs {
                     obj = new JSONArray(response);
                     for (int i = 0; i < obj.length(); i++) {
                         if(Utils.displayedContext!= null)
-                        Utils.displayedContext.getTracks().get(i).setLiked((boolean) obj.get(i));
+                            Utils.displayedContext.getTracks().get(i).setLiked((boolean) obj.get(i));
                         else
                             Utils.playingContext.getTracks().get(i).setLiked((boolean) obj.get(i));
                     }
@@ -1539,7 +1489,7 @@ public class RestApi implements APIs {
             public void onResponse(String response) {
                 try {
                     Log.e("tracks", "respond");
-                   // Utils.LoadedPlaylists.randomPlaylists = new ArrayList<>();
+                    // Utils.LoadedPlaylists.randomPlaylists = new ArrayList<>();
                     JSONObject root = new JSONObject(response);
                     JSONObject tracks = root.getJSONObject("tracks");
                     JSONArray items = tracks.getJSONArray("items");
@@ -2189,7 +2139,6 @@ public class RestApi implements APIs {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-<<<<<<< Updated upstream
                 Log.e("recent", "error");
             }
         }) {
@@ -2572,23 +2521,12 @@ public class RestApi implements APIs {
                     Toast.makeText(context, R.string.token_is_expired, Toast.LENGTH_SHORT).show();
                     updateuiResetPassword.updateUIResetFailed();
                 }
-=======
-                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
->>>>>>> Stashed changes
             }
 
             @Override
-<<<<<<< Updated upstream
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
                 updateuiResetPassword.updateUIResetFailed();
-=======
-            public Map<String, String> getHeaders() {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + Constants.currentToken);
-                headers.put("Content-Type", "application/json");
-                return headers;
->>>>>>> Stashed changes
             }
         });
 
@@ -2645,7 +2583,6 @@ public class RestApi implements APIs {
                     uiApplyArtist.updateUIApplyArtistFailed();
                 }
             }
-<<<<<<< Updated upstream
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
@@ -2654,38 +2591,6 @@ public class RestApi implements APIs {
             }
         });
         return true;
-=======
-        };
-        VolleySingleton.getInstance(context).getRequestQueue().add(request);*/
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .build();
-
-        RetrofitApi retrofitApi = retrofit.create(RetrofitApi.class);
-
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Authorization", "Bearer " + Constants.currentToken);
-        headers.put("Content-Type", "application/json");
-
-        Map<String, String> params = new HashMap<>();
-        params.put("type", type);
-        params.put("ids", TextUtils.join(",", ids));
-
-        Call<Void> call = retrofitApi.unFollowArtists(headers, params);
-
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(@NonNull Call<Void> call, @NonNull retrofit2.Response<Void> response) {
-                Toast.makeText(context, "Code: " + response.code(), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-
-            }
-        });
->>>>>>> Stashed changes
     }
 
     /**
@@ -2720,11 +2625,7 @@ public class RestApi implements APIs {
         builder.appendQueryParameter("limit", String.valueOf(limit));
         builder.appendQueryParameter("offset", String.valueOf(offset));
 
-<<<<<<< Updated upstream
         final StringRequest request = new StringRequest(Request.Method.GET, builder.toString(), new Response.Listener<String>() {
-=======
-        StringRequest request = new StringRequest(Request.Method.GET, builder.toString(), new Response.Listener<String>() {
->>>>>>> Stashed changes
             @Override
             public void onResponse(String response) {
                 try {
@@ -2748,27 +2649,18 @@ public class RestApi implements APIs {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-<<<<<<< Updated upstream
                 listener.updateFail(offset, limit);
-=======
-                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
->>>>>>> Stashed changes
             }
         }) {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
-<<<<<<< Updated upstream
                 headers.put("Authorization", "Bearer " + Constants.currentToken);
-=======
-                headers.put("Authorization","Bearer " + Constants.currentToken);
->>>>>>> Stashed changes
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
 
         };
-<<<<<<< Updated upstream
         if (finishedUnFollowing)
             VolleySingleton.getInstance(context).getRequestQueue().add(request);
         else {
@@ -2781,9 +2673,6 @@ public class RestApi implements APIs {
                 }
             }, 1000);
         }
-=======
-        VolleySingleton.getInstance(context).getRequestQueue().add(request);
->>>>>>> Stashed changes
         return recommendedArtists;
     }
 

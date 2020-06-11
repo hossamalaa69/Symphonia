@@ -277,7 +277,6 @@ public class LibraryArtistsFragment extends Fragment implements RvListArtistsAda
         snack.setAction("UNDO", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-<<<<<<< Updated upstream
                         if(!(mFollowedArtists.contains(removedArtist))){
                             mFollowedArtists.add(clickedItemIndex, removedArtist);
                             mAdapter.notifyItemInserted(clickedItemIndex);
@@ -287,17 +286,6 @@ public class LibraryArtistsFragment extends Fragment implements RvListArtistsAda
 */
                         }
 
-=======
-                        if (!mFollowedArtists.contains(removedArtist)) {
-                            mServiceController.followArtistsOrUsers
-                                    (getContext(), "artist", new ArrayList<String>(Collections.singletonList(id)));
-                            mFollowedArtists.add(0, removedArtist);
-                            mAdapter.clear();
-                            mAdapter.addAll(mFollowedArtists);
-                            mAdapter.notifyItemInserted(0);
-                            mArtistsList.smoothScrollBy(0, -(int) Utils.convertDpToPixel(80f, getContext()));
-                        }
->>>>>>> Stashed changes
                     }
                 });
 

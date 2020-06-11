@@ -1035,7 +1035,14 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                     .commit();
         } else if (currContext.getContextType().matches("album")) {
             // ServiceController.getInstance().getAlbum(this,currContext.getId());
-            //TODO open album
+            AlbumFragment fragment = new AlbumFragment();
+            Bundle arguments = new Bundle();
+            arguments.putString("ALBUM_ID" , currContext.getId());
+            fragment.setArguments(arguments);
+            getSupportFragmentManager().beginTransaction().replace(
+                    R.id.nav_host_fragment, fragment)
+                    .addToBackStack(null)
+                    .commit();
             makeToast("open album");
         } else if (currContext.getContextType().matches("artist")) {
             //TODO open artist fragment

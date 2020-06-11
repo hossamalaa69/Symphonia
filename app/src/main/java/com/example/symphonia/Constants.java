@@ -26,7 +26,6 @@ public class Constants {
     /**
      * holds login API
      */
-<<<<<<< Updated upstream
     public final static String LOG_IN_URL = BASE_URL + "api/v1/users/login?";
     /**
      * holds sign up API
@@ -64,35 +63,7 @@ public class Constants {
     public static final String ALBUMS_URL = BASE_URL + "api/v1/me/albums";
     public static final String SEARCH_URL = BASE_URL + "api/v1/search";
     public static final String OWNED_PLAYLIST = BASE_URL + "api/v1/me/playlists/owned";
-=======
-    public final static boolean DEBUG_STATUS = false;
 
-    //Base URL
-    public final static  String BASE_URL="https://thesymphonia.ddns.net/";
-
-    public final static  String LOG_IN_URL  = BASE_URL+"api/v1/users/login?";
-
-    public final static  String SIGN_UP_URL = BASE_URL+"api/v1/users/signup?";
-
-    public final static String EMAIL_EXISTS_URL = BASE_URL+"api/v1/users/email-exist?";
-
-    public static final String GET_RECENT_PLAYLISTS = BASE_URL+"api/v1/me/recently-played";
-
-    public static  final  String GET_POPULAR_PLAYLISTS = BASE_URL + "api/v1/browse/categories/party/playlists?";
-
-    public static final String GET_ALL_CATEGORIES= BASE_URL+ "api/v1/browse/categories?";
-
-    public static final String Get_Current_User_Profile=BASE_URL+"api/v1/me";
-
-    public static final String Get_Current_User_Profile_playlists=BASE_URL+"api/v1/me/playlists";
-
-    public static final String Get_playlist=BASE_URL+"api/v1/playlists";
-
-    public static final String Get_User_Following=BASE_URL+"api/v1/me/following";
-
-    public static final String Get_User_Followers=BASE_URL+"api/v1/Artists/5e7f76abdb66b448b4356324/followers";
-
->>>>>>> Stashed changes
     /**
      * made-for-you playlists link
      */

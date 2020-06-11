@@ -24,14 +24,11 @@ import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Helpers.MediaHelpers.MediaController;
 import com.example.symphonia.R;
 
-<<<<<<< Updated upstream
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-=======
 import org.json.JSONException;
 import org.json.JSONObject;
 
->>>>>>> Stashed changes
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -435,7 +432,6 @@ public class Utils {
         return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 
-<<<<<<< Updated upstream
     /**
      * convert bitmap to string
      * @param image bitmap of the image
@@ -449,7 +445,6 @@ public class Utils {
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
         return encodedImage;
     }
-=======
     public static Artist parseAritst(JSONObject root) throws JSONException {
         String id = root.getString("_id");
         String name = root.getString("name");
@@ -462,6 +457,5 @@ public class Utils {
         String name = root.getString("name");
         String imageUrl = root.getString("image");
     }*/
->>>>>>> Stashed changes
 
 }
