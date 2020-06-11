@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.symphonia.R;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import gr.net.maroulis.library.EasySplashScreen;
 
@@ -31,6 +34,14 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            Toast.makeText(this, "Got notification",Toast.LENGTH_SHORT).show();
+            String data = bundle.getString("data");
+            JsonObject object = new JsonParser().parse(data).getAsJsonObject();
+            String from = object.get("from").getAsString();
+            String to = object.get("to").getAsString();
+        }
         //creates an object of SplashScreen Library
         //makes it full screen
         //next step is start activity

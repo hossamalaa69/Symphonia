@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -20,7 +21,10 @@ import com.example.symphonia.R;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -41,8 +45,13 @@ public class MyFirebaseInstanceIdService extends FirebaseMessagingService {
         super.onMessageReceived(remoteMessage);
 
         //sends data to be retrieved
+        Map<String, String> map = remoteMessage.getData();
+        String data = map.get("data");
+        JsonObject object = new JsonParser().parse(data).getAsJsonObject();
+        String from = object.get("from").getAsString();
+        String to = object.get("to").getAsString();
         showNotification(remoteMessage.getNotification().getTitle()
-                ,remoteMessage.getNotification().getBody());
+                ,remoteMessage.getNotification().getBody(), from);
     }
 
     /**
@@ -60,7 +69,7 @@ public class MyFirebaseInstanceIdService extends FirebaseMessagingService {
      * @param title holds title of notification
      * @param body holds body of notification
      */
-    private void showNotification(String title, String body){
+    private void showNotification(String title, String body, String to){
 
         //create new notification manager to handle the channel
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -76,7 +85,12 @@ public class MyFirebaseInstanceIdService extends FirebaseMessagingService {
             notificationManager.createNotificationChannel(notificationChannel);
 
             //holds the page to go to on pressed (History page)
-            Intent notificationIntent = new Intent(getApplicationContext(), NotificationsHistoryActivity.class);
+            Intent notificationIntent = new Intent(getApplicationContext(), NotificationReceiver.class);
+            Bundle bundlee =new Bundle();
+            bundlee.putString("type",title);
+            bundlee.putString("id",to);
+            notificationIntent.putExtras(bundlee);
+
             notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
             stackBuilder.addNextIntentWithParentStack(notificationIntent);

@@ -16,15 +16,18 @@
         android:roundIcon="@mipmap/ic_app_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore ="GoogleAppIndexingWarning"
-        android:usesCleartextTraffic="true">
-
-        <activity android:name=".Activities.User_Interface.RenameAlbum"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Activities.User_Interface.EditProfileActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Activities.User_Interface.AddAlbum"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".Activities.User_Management.Notifications.NotificationReceiver"></activity>
+        <activity
+            android:name=".Activities.User_Interface.RenameAlbum"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.User_Interface.EditProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.User_Interface.AddAlbum"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.User_Management.Notifications.NotificationsHistoryActivity"
             android:label="@string/notifications" />
