@@ -466,6 +466,7 @@ public class RestApi implements APIs {
                 params.put("track",songEncoded);
                 params.put("name","name");
                 params.put("album",albumId);
+                params.put("category","5e8072e5e478cf39b47bd1ef");
                 return params;
             }
         };

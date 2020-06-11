@@ -413,42 +413,7 @@ public class MockServiceTest {
             assertEquals(comingData.get(i).getImg_Res().getHeight(), testedData.get(i).getImg_Res().getHeight());
         }
     }
-    @Test
-    public void getPlaylistsFails() {
-        ArrayList<Container> testedData = new ArrayList<>();
-        testedData.add(new Container("quran", appContext.getResources().getString(R.string.Playlist), Utils.convertToBitmap(R.drawable.images)));
-        ArrayList<Container> comingData = mockService.getPlaylists(appContext, "Q");
-        assertNotEquals(comingData.get(0).getCat_Name(), testedData.get(0).getCat_Name());
-    }
-    /*@Test
-    public void getPlaylistsSuccess() {
-        ArrayList<Container> testedData = new ArrayList<>();
-        testedData.add(new Container("Quran", "Playlist", R.drawable.images));
-        ArrayList<Container> comingData = mockService.getPlaylists(appContext, "Q");
-        assertEquals(comingData.size(), testedData.size());
-    }
-    @Test
-    public void  بgetPlaylistsFails() {
-        ArrayList<Container> testedData = new ArrayList<>();
-        testedData.add(new Container("quran", "Playlist", R.drawable.images2));
-        ArrayList<Container> comingData = mockService.getPlaylists(appContext, "Q");
-        assertNotEquals(comingData.size(), testedData.size());
-    }*/
-
-
-    @Test
-    public void getPlaylistsSuccess() {
-        ArrayList<Container> testedData = new ArrayList<>();
-        testedData.add(new Container("Quran", appContext.getResources().getString(R.string.Playlist), Utils.convertToBitmap(R.drawable.download)));
-        ArrayList<Container> comingData = mockService.getPlaylists(appContext, "Q");
-        assertEquals(comingData.size(), testedData.size());
-        for (int i = 0; i < comingData.size(); i++) {
-            assertEquals(comingData.get(i).getCat_Name(), testedData.get(i).getCat_Name());
-            assertEquals(comingData.get(i).getCat_Name2(), testedData.get(i).getCat_Name2());
-            assertEquals(comingData.get(i).getImg_Res().getConfig(), testedData.get(i).getImg_Res().getConfig());
-            assertEquals(comingData.get(i).getImg_Res().getWidth(), testedData.get(i).getImg_Res().getWidth());
-            assertEquals(comingData.get(i).getImg_Res().getHeight(), testedData.get(i).getImg_Res().getHeight());        }
-    }
+    
 
     @Test
     public void removeAllRecentSearchesTest() {
