@@ -55,6 +55,7 @@ public class MockServiceTest {
 
         mockService = new MockService();
 
+
         ArrayList<Artist> artists = new ArrayList<>();
         artists.add(new Artist("1", Utils.convertToBitmap(R.drawable.ragheb), "Ragheb Alama"));
         artists.add(new Artist("2", Utils.convertToBitmap(R.drawable.elissa), "Elissa"));
@@ -111,8 +112,8 @@ public class MockServiceTest {
                 , new ArrayList<User>(), new ArrayList<Playlist>(), new ArrayList<Playlist>()
                 , artists, albums, new ArrayList<Track>());
 
-    }
 
+    }
 
     @Test
     public void LoginListenerFail() {
@@ -172,7 +173,7 @@ public class MockServiceTest {
         assertTrue(mockService.promotePremium(appContext, new View(appContext), "Token"));
     }
 
-    public void getFollowedArtistsSuccess() {
+   public void getFollowedArtistsSuccess() {
         Constants.currentUser = user;
         assertEquals(5, mockService.getFollowedArtists(appContext, "user", 20, null).size());
     }
@@ -203,7 +204,6 @@ public class MockServiceTest {
         mockService.unFollowArtistsOrUsers(appContext, "artist", new ArrayList<String>(Collections.singletonList("3")));
         assertEquals(4, mockService.getFollowedArtists(appContext, "user", 20, null).size());
     }
-
     @Test
     public void isFollowingSuccess() {
         Constants.currentUser = user;
@@ -239,6 +239,7 @@ public class MockServiceTest {
     }
 
 
+
     @Test
     public void getAlbumSuccess(){
         assertEquals("2D1nEskDzLz38JiUeVK5mh", mockService.getAlbum(appContext, "2D1nEskDzLz38JiUeVK5mh").getAlbumId());
@@ -248,6 +249,7 @@ public class MockServiceTest {
     public void getAlbumFail(){
         assertNull(mockService.getAlbum(appContext, "500"));
     }
+
 
     @Test
     public void getArtistRelatedArtistsTest(){
@@ -420,7 +422,7 @@ public class MockServiceTest {
         ArrayList<Container> comingData = mockService.getPlaylists(appContext, "Q");
         assertNotEquals(comingData.get(0).getCat_Name(), testedData.get(0).getCat_Name());
     }
-    /*@Test
+    @Test
     public void getPlaylistsSuccess() {
         ArrayList<Container> testedData = new ArrayList<>();
         testedData.add(new Container("Quran", "Playlist", R.drawable.images));
@@ -433,7 +435,7 @@ public class MockServiceTest {
         testedData.add(new Container("quran", "Playlist", R.drawable.images2));
         ArrayList<Container> comingData = mockService.getPlaylists(appContext, "Q");
         assertNotEquals(comingData.size(), testedData.size());
-    }*/
+    }
 
 
     @Test
@@ -533,17 +535,20 @@ public class MockServiceTest {
 
     @Test
     public void getTrackOfPlaylistSuccess() {
-        ArrayList<Playlist> testPlaylists = new ArrayList<>();
+        ArrayList<com.example.symphonia.Entities.Context> testPlaylists = new ArrayList<>();
         ArrayList<Track> tracks = new ArrayList<Track>();
-        tracks.add(new Track("Little Do You Know", "Alex & Sierra", "Rewind-the sound of 2014"
-                , null, R.drawable.little_do_you_know, Settings.System.DEFAULT_RINGTONE_URI, true));
-        tracks.add(new Track("Wildest Dreams", "Taylor Swift", "Rewind-the sound of 2014"
-                , null, R.drawable.wildest_dreams, Uri.parse("http://stream.radiosai.net:8002/"), false));
-        tracks.add(new Track("One Last Time", "Ariana Grande", "Rewind-the sound of 2014"
-                , null, R.drawable.one_last_time, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), false));
-        testPlaylists.add(new Playlist("Rewind-the sound of 2014", null,
-                Utils.convertToBitmap(R.drawable.rewind_the_sound), tracks));
-        ArrayList<Track> comingData = mockService.getTracksOfPlaylist(appContext, null, null);
+        tracks.add(new Track("Rescue Me", "sdflk;asfl;jsd[jrfd", "OneRepublic", "mood booster",
+                "Rescue Me", R.drawable.rescue_me, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), false));
+        tracks.add(new Track("Freaking Me Out", "sdlfknesdfalklsdlsd", "Ava Max",
+                "mood booster", null, R.drawable.freaking_me_out, Settings.System.DEFAULT_RINGTONE_URI, true));
+        tracks.add(new Track("You Can't Stop The Girl", "dlsfk;jl;esafdoilfd",
+                "Bebe Rexha", "mood booster", null, R.drawable.you_cant_stop_the_girl
+                , Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), false));
+        testPlaylists.add(new com.example.symphonia.Entities.Context("mood booster", "ewoirgwepdoed",
+                "Get happy with this pick-up playlist full of current feel-good songs",
+                Utils.convertToBitmap(R.drawable.mood_booster), tracks, "playlist"));
+        Utils.playingContext = testPlaylists.get(0);
+        ArrayList<Track> comingData = mockService.getTracksOfPlaylist(appContext, testPlaylists.get(0).getId(), null);
         assertEquals(testPlaylists.get(0).getTracks().size(), comingData.size());
         for (int i = 0; i < testPlaylists.size(); i++) {
             //     assertEquals(testPlaylists.get(i), comingData.get(i));
@@ -564,37 +569,38 @@ public class MockServiceTest {
 
     @Test
     public void getTrackOfPlaylistFail() {
-        ArrayList<Playlist> testPlaylists = new ArrayList<>();
+        ArrayList<com.example.symphonia.Entities.Context> testPlaylists = new ArrayList<>();
         ArrayList<Track> tracks = new ArrayList<Track>();
-        tracks.add(new Track("Little Do You Know", "Alex & Sierra", "Rewind-the sound of 2014"
-                , null, R.drawable.little_do_you_know, Settings.System.DEFAULT_RINGTONE_URI, true));
-        testPlaylists.add(new Playlist("Rewind-the sound of 2014", null,
-                Utils.convertToBitmap(R.drawable.rewind_the_sound), tracks));
-        ArrayList<Track> comingData = mockService.getTracksOfPlaylist(appContext, null, null);
+        tracks.add(new Track("Rescue Me", "sdflk;asfl;jsd[jrfd", "OneRepublic", "mood booster",
+                "Rescue Me", R.drawable.rescue_me, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), false));
+        testPlaylists.add(new com.example.symphonia.Entities.Context("mood booster", "ewoirgwepdoed",
+                "Get happy with this pick-up playlist full of current feel-good songs",
+                Utils.convertToBitmap(R.drawable.mood_booster), tracks, "playlist"));
+        ArrayList<Track> comingData = mockService.getTracksOfPlaylist(appContext, testPlaylists.get(0).getId(), null);
         assertNotEquals(testPlaylists.get(0).getTracks().size(), comingData.size());
     }
 
     @Test
     public void getRecentPlaylistsTest() {
-        ArrayList<Playlist> testPlaylists = new ArrayList<>();
+        ArrayList<com.example.symphonia.Entities.Context> testPlaylists = new ArrayList<>();
         ArrayList<Track> tracks = new ArrayList<Track>();
-        tracks.add(new Track("Little Do You Know", "Alex & Sierra", "Rewind-the sound of 2014"
+        tracks.add(new Track("Little Do You Know", "srtyhtutyhgdgsfdgdsdf", "Alex & Sierra", "Rewind-the sound of 2014"
                 , null, R.drawable.little_do_you_know, Settings.System.DEFAULT_RINGTONE_URI, true));
-        tracks.add(new Track("Wildest Dreams", "Taylor Swift", "Rewind-the sound of 2014"
+        tracks.add(new Track("Wildest Dreams", "shtfgfmnbghguyghf", "Taylor Swift", "Rewind-the sound of 2014"
                 , null, R.drawable.wildest_dreams, Uri.parse("http://stream.radiosai.net:8002/"), false));
-        tracks.add(new Track("One Last Time", "Ariana Grande", "Rewind-the sound of 2014"
+        tracks.add(new Track("One Last Time", "lfdgkm;dskvnlsd", "Ariana Grande", "Rewind-the sound of 2014"
                 , null, R.drawable.one_last_time, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), false));
-        testPlaylists.add(new Playlist("Rewind-the sound of 2014", null,
-                Utils.convertToBitmap(R.drawable.rewind_the_sound), tracks));
-        ArrayList<Playlist> comingData = mockService.getRecentPlaylists(appContext, null);
+        testPlaylists.add(new com.example.symphonia.Entities.Context("Rewind-the sound of 2014", "sdfljdsfkdslkfv", null,
+                Utils.convertToBitmap(R.drawable.rewind_the_sound), tracks, "playlist"));
+        ArrayList<com.example.symphonia.Entities.Context> comingData = mockService.getRecentPlaylists(appContext, null);
         assertEquals(testPlaylists.size(), comingData.size());
         for (int i = 0; i < testPlaylists.size(); i++) {
             //     assertEquals(testPlaylists.get(i), comingData.get(i));
             assertEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
             assertEquals(testPlaylists.get(i).getId(), comingData.get(i).getId());
             assertEquals(testPlaylists.get(i).getImageUrl(), comingData.get(i).getImageUrl());
-            assertEquals(testPlaylists.get(i).getmPlaylistDescription(), comingData.get(i).getmPlaylistDescription());
-            assertEquals(testPlaylists.get(i).getmPlaylistTitle(), comingData.get(i).getmPlaylistTitle());
+            assertEquals(testPlaylists.get(i).getmContextDescription(), comingData.get(i).getmContextDescription());
+            assertEquals(testPlaylists.get(i).getmContextTitle(), comingData.get(i).getmContextTitle());
             assertEquals(testPlaylists.get(i).getTracksURL(), comingData.get(i).getTracksURL());
             for (int j = 0; j < testPlaylists.get(i).getTracks().size(); j++) {
                 assertEquals(testPlaylists.get(i).getTracks().get(j).getId(), comingData.get(i).getTracks().get(j).getId());
@@ -613,12 +619,13 @@ public class MockServiceTest {
 
     @Test
     public void getRecentPlaylistsFails() {
-        ArrayList<Playlist> testPlaylists = new ArrayList<>();
+        ArrayList<com.example.symphonia.Entities.Context> testPlaylists = new ArrayList<>();
         ArrayList<Track> tracks = new ArrayList<Track>();
-        tracks.add(new Track("Rescue Me", "OneRepublic", "mood booster", "Rescue Me", R.drawable.rescue_me));
-        testPlaylists.add(new Playlist("mood booster", "Get happy with this pick-up playlist full of current feel-good songs",
-                Utils.convertToBitmap(R.drawable.mood_booster), tracks));
-        ArrayList<Playlist> comingData = mockService.getRecentPlaylists(appContext, null);
+        tracks.add(new Track("Little Do You Know", "srtyhtutyhgdgsfdgdsdf", "Alex & Sierra", "Rewind-the sound of 2014"
+                , null, R.drawable.little_do_you_know, Settings.System.DEFAULT_RINGTONE_URI, true));
+        testPlaylists.add(new com.example.symphonia.Entities.Context("Rewind-the sound of 2014", "sdfljdsfkdslkfv", null,
+                Utils.convertToBitmap(R.drawable.rewind_the_sound), tracks, "playlist"));
+        ArrayList<com.example.symphonia.Entities.Context> comingData = mockService.getRecentPlaylists(appContext, null);
         for (int i = 0; i < testPlaylists.size(); i++) {
             assertNotEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
         }
@@ -626,25 +633,22 @@ public class MockServiceTest {
 
     @Test
     public void getRandomPlaylists() {
-        ArrayList<Playlist> testPlaylists = new ArrayList<>();
+        ArrayList<com.example.symphonia.Entities.Context> testPlaylists = new ArrayList<>();
         ArrayList<Track> tracks = new ArrayList<Track>();
-        tracks.add(new Track("Intentions", "Justing Bieber, Quavo", "Daily Left", null
-                , R.drawable.intentions, Settings.System.DEFAULT_RINGTONE_URI, false));
-        tracks.add(new Track("Stupid Love", "Lady Gaga", "Daily Left", null
-                , R.drawable.stupid_love, Uri.parse("http://stream.radiosai.net:8002/"), false));
-        tracks.add(new Track("Feel Me", "Selena Gomez", "Daily Left", null
-                , R.drawable.feel_me, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), true));
-        testPlaylists.add(new Playlist("Daily Left", "Sia, J Balvin, Bad Bunny, Justin Bieber, Drake",
-                Utils.convertToBitmap(R.drawable.daily_left), tracks));
-        ArrayList<Playlist> comingData = mockService.getRandomPlaylists(appContext, null);
+        tracks.add(new Track("Intentions", "sdfirjkfdvkjdsc", "Justing Bieber, Quavo", "Daily Left", null, R.drawable.intentions, Settings.System.DEFAULT_RINGTONE_URI, false));
+        tracks.add(new Track("Stupid Love", "sldksldkfnlasdnc", "Lady Gaga", "Daily Left", null, R.drawable.stupid_love, Uri.parse("http://stream.radiosai.net:8002/"), false));
+        tracks.add(new Track("Feel Me", "slkdjfslkfdkdsljf", "Selena Gomez", "Daily Left", null, R.drawable.feel_me, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), true));
+        testPlaylists.add(new com.example.symphonia.Entities.Context("Daily Left", "dslkfoeirefdds", "Sia, J Balvin, Bad Bunny, Justin Bieber, Drake",
+                Utils.convertToBitmap(R.drawable.daily_left), tracks, "playlist"));
+        ArrayList<com.example.symphonia.Entities.Context> comingData = mockService.getRandomPlaylists(appContext, null);
         assertEquals(testPlaylists.size(), comingData.size());
         for (int i = 0; i < testPlaylists.size(); i++) {
             //  assertEquals(testPlaylists.get(i), comingData.get(i));
             assertEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
             assertEquals(testPlaylists.get(i).getId(), comingData.get(i).getId());
             assertEquals(testPlaylists.get(i).getImageUrl(), comingData.get(i).getImageUrl());
-            assertEquals(testPlaylists.get(i).getmPlaylistDescription(), comingData.get(i).getmPlaylistDescription());
-            assertEquals(testPlaylists.get(i).getmPlaylistTitle(), comingData.get(i).getmPlaylistTitle());
+            assertEquals(testPlaylists.get(i).getmContextDescription(), comingData.get(i).getmContextDescription());
+            assertEquals(testPlaylists.get(i).getmContextTitle(), comingData.get(i).getmContextTitle());
             assertEquals(testPlaylists.get(i).getTracksURL(), comingData.get(i).getTracksURL());
             for (int j = 0; j < testPlaylists.get(i).getTracks().size(); j++) {
                 assertEquals(testPlaylists.get(i).getTracks().get(j).getId(), comingData.get(i).getTracks().get(j).getId());
@@ -663,37 +667,27 @@ public class MockServiceTest {
 
     @Test
     public void getRandomPlaylistsFails() {
-        ArrayList<Playlist> testPlaylists = new ArrayList<>();
+        ArrayList<com.example.symphonia.Entities.Context> testPlaylists = new ArrayList<>();
         ArrayList<Track> tracks = new ArrayList<Track>();
-        tracks.add(new Track("Stupid Love", "Lady Gaga", "Daily Left", null
-                , R.drawable.stupid_love, Uri.parse("http://stream.radiosai.net:8002/"), false));
-        testPlaylists.add(new Playlist("Daily Left", "Sia, J Balvin, Bad Bunny, Justin Bieber, Drake",
-                Utils.convertToBitmap(R.drawable.images), tracks));
-        ArrayList<Playlist> comingData = mockService.getRandomPlaylists(appContext, null);
+        tracks.add(new Track("Intentions", "sdfirjkfdvkjdsc", "Justing Bieber, Quavo", "Daily Left", null, R.drawable.intentions, Settings.System.DEFAULT_RINGTONE_URI, false));
+        testPlaylists.add(new com.example.symphonia.Entities.Context("Daily Left", "dslkfoeirefdds", "Sia, J Balvin, Bad Bunny, Justin Bieber, Drake",
+                Utils.convertToBitmap(R.drawable.daily_left), tracks, "playlist"));
+        ArrayList<com.example.symphonia.Entities.Context> comingData = mockService.getRandomPlaylists(appContext, null);
         for (int i = 0; i < testPlaylists.size(); i++) {
             assertNotEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
         }
     }
 
     @Test
-    public void playTrackTest()
-    {
-        mockService.playTrack(appContext,"123","123","http://example.com","playlist");
-    }
-
-    @Test
     public void getMadeForYouPlaylists() {
-        ArrayList<Playlist> testPlaylists = new ArrayList<>();
+        ArrayList<com.example.symphonia.Entities.Context> testPlaylists = new ArrayList<>();
         ArrayList<Track> tracks = new ArrayList<Track>();
-        tracks.add(new Track("Intentions", "Justing Bieber, Quavo", "Daily Left", null
-                , R.drawable.intentions, Settings.System.DEFAULT_RINGTONE_URI, false));
-        tracks.add(new Track("Stupid Love", "Lady Gaga", "Daily Left", null
-                , R.drawable.stupid_love, Uri.parse("http://stream.radiosai.net:8002/"), false));
-        tracks.add(new Track("Feel Me", "Selena Gomez", "Daily Left", null
-                , R.drawable.feel_me, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), true));
-        testPlaylists.add(new Playlist("Daily Left", "Sia, J Balvin, Bad Bunny, Justin Bieber, Drake",
-                Utils.convertToBitmap(R.drawable.daily_left), tracks));
-        ArrayList<Playlist> comingData = mockService.getMadeForYouPlaylists(appContext, Constants.currentToken);
+        tracks.add(new Track("Intentions", "sdfirjkfdvkjdsc", "Justing Bieber, Quavo", "Daily Left", null, R.drawable.intentions, Settings.System.DEFAULT_RINGTONE_URI, false));
+        tracks.add(new Track("Stupid Love", "sldksldkfnlasdnc", "Lady Gaga", "Daily Left", null, R.drawable.stupid_love, Uri.parse("http://stream.radiosai.net:8002/"), false));
+        tracks.add(new Track("Feel Me", "slkdjfslkfdkdsljf", "Selena Gomez", "Daily Left", null, R.drawable.feel_me, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), true));
+        testPlaylists.add(new com.example.symphonia.Entities.Context("Daily Left", "dslkfoeirefdds", "Sia, J Balvin, Bad Bunny, Justin Bieber, Drake",
+                Utils.convertToBitmap(R.drawable.daily_left), tracks, "playlist"));
+        ArrayList<com.example.symphonia.Entities.Context> comingData = mockService.getMadeForYouPlaylists(appContext, Constants.currentToken);
         assertEquals(testPlaylists.size(), comingData.size());
         for (int i = 0; i < testPlaylists.size(); i++) {
             //    assertEquals(testPlaylists.get(i), comingData.get(i));
@@ -701,8 +695,8 @@ public class MockServiceTest {
             assertEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
             assertEquals(testPlaylists.get(i).getId(), comingData.get(i).getId());
             assertEquals(testPlaylists.get(i).getImageUrl(), comingData.get(i).getImageUrl());
-            assertEquals(testPlaylists.get(i).getmPlaylistDescription(), comingData.get(i).getmPlaylistDescription());
-            assertEquals(testPlaylists.get(i).getmPlaylistTitle(), comingData.get(i).getmPlaylistTitle());
+            assertEquals(testPlaylists.get(i).getmContextDescription(), comingData.get(i).getmContextDescription());
+            assertEquals(testPlaylists.get(i).getmContextTitle(), comingData.get(i).getmContextTitle());
             assertEquals(testPlaylists.get(i).getTracksURL(), comingData.get(i).getTracksURL());
 
             for (int j = 0; j < testPlaylists.get(i).getTracks().size(); j++) {
@@ -723,13 +717,12 @@ public class MockServiceTest {
 
     @Test
     public void getMadeForYouPlaylistsFails() {
-        ArrayList<Playlist> testPlaylists = new ArrayList<>();
+        ArrayList<com.example.symphonia.Entities.Context> testPlaylists = new ArrayList<>();
         ArrayList<Track> tracks = new ArrayList<Track>();
-        tracks.add(new Track("Feel Me", "Selena Gomez", "Daily Left", null
-                , R.drawable.feel_me, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), true));
-        testPlaylists.add(new Playlist("Daily Left", "Sia, J Balvin, Bad Bunny, Justin Bieber, Drake",
-                Utils.convertToBitmap(R.drawable.daily_left), tracks));
-        ArrayList<Playlist> comingData = mockService.getMadeForYouPlaylists(appContext, Constants.currentToken);
+        tracks.add(new Track("Feel Me", "slkdjfslkfdkdsljf", "Selena Gomez", "Daily Left", null, R.drawable.feel_me, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), true));
+        testPlaylists.add(new com.example.symphonia.Entities.Context("Daily Left", "dslkfoeirefdds", "Sia, J Balvin, Bad Bunny, Justin Bieber, Drake",
+                Utils.convertToBitmap(R.drawable.daily_left), tracks, "playlist"));
+        ArrayList<com.example.symphonia.Entities.Context> comingData = mockService.getMadeForYouPlaylists(appContext, Constants.currentToken);
         for (int i = 0; i < testPlaylists.size(); i++) {
             assertNotEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
         }
@@ -738,27 +731,27 @@ public class MockServiceTest {
 
     @Test
     public void getPopularPlaylists() {
-        ArrayList<Playlist> testPlaylists = new ArrayList<>();
+        ArrayList<com.example.symphonia.Entities.Context> testPlaylists = new ArrayList<>();
         ArrayList<Track> tracks = new ArrayList<Track>();
-        tracks.add(new Track("Rescue Me", "OneRepublic", "mood booster",
+        tracks.add(new Track("Rescue Me", "sdflk;asfl;jsd[jrfd", "OneRepublic", "mood booster",
                 "Rescue Me", R.drawable.rescue_me, Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), false));
-        tracks.add(new Track("Freaking Me Out", "Ava Max",
+        tracks.add(new Track("Freaking Me Out", "sdlfknesdfalklsdlsd", "Ava Max",
                 "mood booster", null, R.drawable.freaking_me_out, Settings.System.DEFAULT_RINGTONE_URI, true));
-        tracks.add(new Track("You Can't Stop The Girl",
+        tracks.add(new Track("You Can't Stop The Girl", "dlsfk;jl;esafdoilfd",
                 "Bebe Rexha", "mood booster", null, R.drawable.you_cant_stop_the_girl
                 , Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), false));
-        testPlaylists.add(new Playlist("mood booster",
+        testPlaylists.add(new com.example.symphonia.Entities.Context("mood booster", "ewoirgwepdoed",
                 "Get happy with this pick-up playlist full of current feel-good songs",
-                Utils.convertToBitmap(R.drawable.mood_booster), tracks));
-        ArrayList<Playlist> comingData = mockService.getPopularPlaylists(appContext, null);
+                Utils.convertToBitmap(R.drawable.mood_booster), tracks, "playlist"));
+        ArrayList<com.example.symphonia.Entities.Context> comingData = mockService.getPopularPlaylists(appContext, null);
         assertEquals(testPlaylists.size(), comingData.size());
         for (int i = 0; i < testPlaylists.size(); i++) {
             //   assertEquals(testPlaylists.get(i), comingData.get(i));
             assertEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
             assertEquals(testPlaylists.get(i).getId(), comingData.get(i).getId());
             assertEquals(testPlaylists.get(i).getImageUrl(), comingData.get(i).getImageUrl());
-            assertEquals(testPlaylists.get(i).getmPlaylistDescription(), comingData.get(i).getmPlaylistDescription());
-            assertEquals(testPlaylists.get(i).getmPlaylistTitle(), comingData.get(i).getmPlaylistTitle());
+            assertEquals(testPlaylists.get(i).getmContextDescription(), comingData.get(i).getmContextDescription());
+            assertEquals(testPlaylists.get(i).getmContextTitle(), comingData.get(i).getmContextTitle());
             assertEquals(testPlaylists.get(i).getTracksURL(), comingData.get(i).getTracksURL());
 
             for (int j = 0; j < testPlaylists.get(i).getTracks().size(); j++) {
@@ -778,15 +771,15 @@ public class MockServiceTest {
 
     @Test
     public void getPopularPlaylistsFails() {
-        ArrayList<Playlist> testPlaylists = new ArrayList<>();
+        ArrayList<com.example.symphonia.Entities.Context> testPlaylists = new ArrayList<>();
         ArrayList<Track> tracks = new ArrayList<Track>();
-        tracks.add(new Track("You Can't Stop The Girl",
+        tracks.add(new Track("You Can't Stop The Girl", "dlsfk;jl;esafdoilfd",
                 "Bebe Rexha", "mood booster", null, R.drawable.you_cant_stop_the_girl
                 , Uri.parse("http://android.programmerguru.com/wp-content/uploads/2013/04/hosannatelugu.mp3"), false));
-        testPlaylists.add(new Playlist("mood booster",
+        testPlaylists.add(new com.example.symphonia.Entities.Context("mood booster", "ewoirgwepdoed",
                 "Get happy with this pick-up playlist full of current feel-good songs",
-                Utils.convertToBitmap(R.drawable.mood_booster), tracks));
-        ArrayList<Playlist> comingData = mockService.getPopularPlaylists(appContext, null);
+                Utils.convertToBitmap(R.drawable.mood_booster), tracks, "playlist"));
+        ArrayList<com.example.symphonia.Entities.Context> comingData = mockService.getPopularPlaylists(appContext, null);
         for (int i = 0; i < testPlaylists.size(); i++) {
             assertNotEquals(testPlaylists.get(i).getTracks().size(), comingData.get(i).getTracks().size());
         }

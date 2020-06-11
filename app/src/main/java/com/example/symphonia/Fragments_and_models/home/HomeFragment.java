@@ -100,7 +100,7 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
+        firstRand = true;
 
         final FrameLayout frameLayout = root.findViewById(R.id.frame_home_fragment);
         final ScrollView scrollView = root.findViewById(R.id.sv_home);
@@ -204,6 +204,7 @@ public class HomeFragment extends Fragment {
         //   madeForYouPlaylists = SController.getMadeForYoutPlaylists(getContext(), Constants.currentToken);
         ServiceController SController = ServiceController.getInstance();
         playlists = SController.getRandomPlaylists(getContext(), this);
+        SController.getRandomPlaylists(getContext(), this);
         recentPlaylists = SController.getRecentPlaylists(getContext(), this);
 
         //hide data of playlists commented
@@ -234,25 +235,34 @@ public class HomeFragment extends Fragment {
         rvRecentlyPlayed.setAdapter(rvPlaylistsHomeAdapter);
     }
 
-
+    /**
+     * inidcates if first random playlist
+     */
+    private static
+    boolean firstRand = true;
     /**
      * this function updates ui of random playlists
      */
     public void updateRandomPlaylists() {
+
 
         //heavy playlist
         if (!Constants.DEBUG_STATUS)
             playlists = Utils.LoadedPlaylists.randomPlaylists;
         layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
         View view = root.findViewById(R.id.your_heavy_rotation_playlist);
-        rvHeavyPlaylist = view.findViewById(R.id.rv_sample_home);
-        playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
-        playlistTitle.setText(R.string.heavy_playlist);
-        playlistTitle.setVisibility(View.VISIBLE);
+        if(firstRand) {
+            rvHeavyPlaylist = view.findViewById(R.id.rv_sample_home);
+            playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
+            playlistTitle.setText(R.string.heavy_playlist);
+            playlistTitle.setVisibility(View.VISIBLE);
 
-        rvHeavyPlaylist.setLayoutManager(layoutManager);
-        rvPlaylistsHomeAdapter = new RvPlaylistsHomeAdapter(getContext(), playlists);
-        rvHeavyPlaylist.setAdapter(rvPlaylistsHomeAdapter);
+            rvHeavyPlaylist.setLayoutManager(layoutManager);
+            rvPlaylistsHomeAdapter = new RvPlaylistsHomeAdapter(getContext(), playlists);
+            rvHeavyPlaylist.setAdapter(rvPlaylistsHomeAdapter);
+            firstRand = false;
+            return;
+        }
         // based on your recently played
         layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
         view = root.findViewById(R.id.based_on_your_recently_listening_playlist);

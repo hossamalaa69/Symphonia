@@ -50,6 +50,7 @@ public class UtilsTest {
     public void getNameEmailFails(){
         assertNotEquals(Utils.getNameFromEmail("abc@gmail.com"),"fgfd");
     }
+/*
 
     @Test
     public  void setTrackInfoTestSuccess()
@@ -96,6 +97,7 @@ public class UtilsTest {
         Utils.setTrackInfo(0, 0, tracks);
         assertNotEquals(Utils.CurrTrackInfo.currPlaylistName, "mood boost");
     }
+*/
 
     @Test
     public void isColorDarkTest(){
