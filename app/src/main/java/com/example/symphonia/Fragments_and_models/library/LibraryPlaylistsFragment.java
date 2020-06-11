@@ -258,7 +258,7 @@ public class LibraryPlaylistsFragment extends Fragment implements RvListPlaylist
     @Override
     public void onListItemClick(int clickedItemIndex) {
         Playlist playlist = mFollowedPlaylists.get(clickedItemIndex);
-        if(playlist.getTracks().size() == 0){
+        if(playlist.getTracks().size() == 0 && playlist.getOwnerName().equals(Constants.currentUser.getmName())){
             EmptyPlaylistFragment fragment = new EmptyPlaylistFragment();
             Bundle arguments = new Bundle();
             arguments.putString("PLAYLIST_ID" , playlist.getId());

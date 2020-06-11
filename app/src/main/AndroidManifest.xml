@@ -36,6 +36,9 @@
             android:name=".Activities.User_Interface.EditProfileActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".Activities.User_Interface.AddSongsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".Activities.User_Interface.AddAlbum"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
