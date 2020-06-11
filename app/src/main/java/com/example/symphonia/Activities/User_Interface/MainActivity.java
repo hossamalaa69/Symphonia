@@ -350,7 +350,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     public void onLikeClicked(int pos) {
         if (!Utils.displayedContext.getTracks().get(pos).isLiked() && (!Utils.displayedContext.getTracks().get(pos).isLocked()
         || Constants.currentUser.isPremuim())) {
-            Utils.displayedContext.setTrackLiked(pos,true);
+            Utils.displayedContext.getTracks().get(pos).setLiked(true);
             ServiceController.getInstance().saveTrack(MainActivity.this
                     , Utils.displayedContext.getTracks().get(pos).getId());
             if (playlistFragment != null && playlistFragment.isVisible()) {
@@ -358,7 +358,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             }
 
         } else if (!Utils.displayedContext.getTracks().get(pos).isLocked() || Constants.currentUser.isPremuim()) {
-            Utils.displayedContext.setTrackLiked(pos,false);
+            Utils.displayedContext.getTracks().get(pos).setLiked(false);
             if (playlistFragment != null && playlistFragment.isVisible()) {
                 playlistFragment.changeLikedItemAtPos(Utils.displayedContext.getTracks().get(pos).getId(), false);
             }
@@ -1111,7 +1111,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                 ivIsFavourite.setImageResource(R.drawable.ic_favorite_border_black_24dp);
             }
         }
-        Utils.displayedContext.setTrackLiked(pos,selected);
+        Utils.displayedContext.getTracks().get(pos).setLiked(selected);
     }
 
 

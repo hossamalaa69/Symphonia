@@ -196,22 +196,21 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
                 @Override
                 public void onClick(View view) {
                     onTrackClicked.OnLikeClickedListener(!ivLike.isSelected(), getAdapterPosition());
-                    Utils.displayedContext.getTracks().get(getAdapterPosition()).setLiked(ivLike.isSelected());
+                    Utils.displayedContext.getTracks().get(getAdapterPosition()).setLiked(!ivLike.isSelected());
                     if (ivLike.isSelected()) {
                         ivLike.setImageResource(R.drawable.ic_favorite_border_black_24dp);
                         Toast.makeText(context, R.string.remove_from_liked_playlist, Toast.LENGTH_SHORT).show();
                         ivLike.setSelected(false);
                         ServiceController.getInstance().removeFromSaved(context.getApplicationContext(),
                                 Utils.displayedContext.getTracks().get(getAdapterPosition()).getId());
-                        mTracks.get(getAdapterPosition()).setLiked(true);
+                        mTracks.get(getAdapterPosition()).setLiked(false);
                     } else {
                         ivLike.setImageResource(R.drawable.ic_favorite_black_24dp);
                         Toast.makeText(context, R.string.add_to_like_playlist, Toast.LENGTH_SHORT).show();
                         ivLike.setSelected(true);
                         ServiceController.getInstance().saveTrack(context.getApplicationContext(),
                                 Utils.displayedContext.getTracks().get(getAdapterPosition()).getId());
-                        mTracks.get(getAdapterPosition()).setLiked(false);
-
+                        mTracks.get(getAdapterPosition()).setLiked(true);
                     }
                 }
             });
