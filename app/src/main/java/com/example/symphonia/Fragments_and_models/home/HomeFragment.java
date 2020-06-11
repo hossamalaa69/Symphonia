@@ -23,7 +23,6 @@ import com.example.symphonia.Activities.User_Management.Notifications.Notificati
 import com.example.symphonia.Adapters.RvPlaylistsHomeAdapter;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Entities.Context;
-import com.example.symphonia.Entities.Playlist;
 import com.example.symphonia.Fragments_and_models.settings.SettingsFragment;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
@@ -151,7 +150,7 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void showViews() {
+  /*  private void showViews() {
         View view = root.findViewById(R.id.recently_played_playlist);
         rvRecentlyPlayed = view.findViewById(R.id.rv_sample_home);
         playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
@@ -169,7 +168,7 @@ public class HomeFragment extends Fragment {
         playlistTitle = view.findViewById(R.id.tv_playlist_type_sample_home);
         playlistTitle.setVisibility(View.VISIBLE);
     }
-
+*/
 
     /**
      * this function initialize views for fragment

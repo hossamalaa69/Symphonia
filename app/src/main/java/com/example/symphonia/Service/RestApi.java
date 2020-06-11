@@ -967,7 +967,6 @@ public class RestApi implements APIs {
     public ArrayList<com.example.symphonia.Entities.Context> getRecentPlaylists(final Context context, final HomeFragment fragment) {
         Log.e("recent", "start");
         final ArrayList<com.example.symphonia.Entities.Context> recentPlaylists = new ArrayList<>();
-        //TODO  backend still under working
         StringRequest request = new StringRequest(Request.Method.GET, Constants.GET_RECENT_PLAYLISTS, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -984,9 +983,9 @@ public class RestApi implements APIs {
                         String decs = playlist.optString("contextDescription");
                         String imageUrl = playlist.getString("contextImage");
                         String id = playlist.getString("contextId");
-                        if(type == "playlist")
+                        if(type.matches("playlist")||type.matches("album"))
                             Utils.LoadedPlaylists.recentPlaylists.add(new com.example.symphonia.Entities.Context(title, id, decs, imageUrl,
-                                    null, Constants.BASE_URL + Constants.GET_PLAYLISTS_TRACKS + id + "/tracks", type));
+                                    null, Constants.BASE_URL + Constants.GET_PLAYLISTS_TRACKS + id + "/tracks", type,""));
                     }
                     Log.e("recent", "success");
                     if(Utils.LoadedPlaylists.recentPlaylists.size()>0)
@@ -1045,11 +1044,12 @@ public class RestApi implements APIs {
                         String type = "playlist";
                         String title = playlist.getString("name");
                         String id = playlist.getString("_id");
+                        String owner  = playlist.optString("owner");
                         String decs = playlist.optString("description");
                         JSONArray images = playlist.getJSONArray("images");
                         String imageUrl = (String) images.get(0);
-                        Utils.LoadedPlaylists.randomPlaylists.add(new com.example.symphonia.Entities.Context(title, id, "", imageUrl,
-                                null, Constants.BASE_URL + Constants.GET_PLAYLISTS_TRACKS + id + "/tracks", type));
+                        Utils.LoadedPlaylists.randomPlaylists.add(new com.example.symphonia.Entities.Context(title, id, decs, imageUrl,
+                                null, Constants.BASE_URL + Constants.GET_PLAYLISTS_TRACKS + id + "/tracks", type,owner));
                     }
                     Log.e("rand", "success");
                     listener.updateUiGetRandomPlaylistsSuccess(homeFragment);
@@ -3014,6 +3014,54 @@ public class RestApi implements APIs {
         VolleySingleton.getInstance(context).getRequestQueue().add(stringRequest);
         return profile[0];
     }
+    /**
+     * make request to get current user profile
+     *
+     * @param context          context of the activity
+     * @param playlistFragment the fragment which called this function
+     * @param id if the user
+     * @return user profile
+     */
+    public void getCurrentUserProfile(final Context context, String id,PlaylistFragment playlistFragment) {
+        final updateUiProfileInSetting listener = (updateUiProfileInSetting) context;
+        String req=Constants.Get_Current_User_Profile;
+        if(id!=null) req=req+"/user/"+id;
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, req,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String name = jsonObject.getString("name");
+                            listener.getCurrentProfilePlaylistFragment(name,playlistFragment);
+                        } catch (Exception e) {
+                            e.fillInStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Profile", "" + error.getMessage());
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + Constants.currentToken);
+                return headers;
+            }
+
+           /* @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("user_id", "exampleuser01");
+                return params;
+            }*/
+        };
+
+        VolleySingleton.getInstance(context).getRequestQueue().add(stringRequest);
+    }
 
     @Override
     public int getNumberOfLikedSongs(final UpdateLikedSongsNumber listener) {
@@ -3609,6 +3657,8 @@ public class RestApi implements APIs {
      */
     public interface updateUiProfileInSetting {
         void getCurrentProfile(Profile profile, Fragment settingsFragment,String id);
+
+        void getCurrentProfilePlaylistFragment(String name, PlaylistFragment playlistFragment);
     }
 
     /**

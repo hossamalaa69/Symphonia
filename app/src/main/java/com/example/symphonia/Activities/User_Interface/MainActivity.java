@@ -14,7 +14,6 @@ import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.Gravity;
@@ -108,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         , RestApi.updateUiArtistAlbumTracks {
 
     /**
-     * listener of notification
+     * play prev track  listener of notification
      */
 
     @Override
@@ -117,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     }
 
     /**
-     * listener of notification
+     * play track listener of notification
      */
     @Override
     public void onTrackPlay() {
@@ -134,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     }
 
     /**
-     * listener of notification
+     * pause track listener of notification
      */
     @Override
     public void onTrackPause() {
@@ -152,13 +151,16 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     }
 
     /**
-     * listener of notification
+     * play next track listener of notification
      */
     @Override
     public void onTrackNext() {
         playNextTrack();
     }
 
+    /**
+     * broad cast receiver of notification play bar
+     */
     BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(android.content.Context context, Intent intent) {
@@ -176,6 +178,9 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         }
     };
 
+    /**
+     * on start track success listener
+     */
     @Override
     public void onStartListener() {
         playBarBtnFrame.removeAllViews();
@@ -183,6 +188,9 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         playBarBtnFrame.setOnClickListener(playBtnListener);
     }
 
+    /**
+     * on get current playing track failed listener
+     */
     @Override
     public void getCurrPlayingTrackFailed() {
         playBarBtnFrame.removeAllViews();
@@ -199,29 +207,59 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
      */
     private HomeFragment homeFragment;
 
+    /**
+     * search fragment objcet reference
+     */
     private SearchFragment searchFragment;
+    /**
+     * library fragment objcet reference
+     */
     private LibraryFragment libraryFragment;
+    /**
+     * premium fragment objcet reference
+     */
     private PremiumFragment premiumFragment;
+    /**
+     * layout manager of recycler view in play bar
+     */
     private RecyclerView.LayoutManager layoutManager;
+    /**
+     * recycler view of play bar
+     */
     private RecyclerView rvBar;
+    /**
+     * adapter of play bar
+     */
     private RvBarAdapter barAdapter;
+    /**
+     * like button
+     */
     private ImageView ivIsFavourite;
+    /**
+     * play bar view
+     */
     private View playBar;
+
     /**
      * image of track in playbar
      */
     private ImageView trackImage;
+    /**
+     * toast object
+     */
     private Toast toast;
+    /**
+     * playlist fragment object reference
+     */
     private PlaylistFragment playlistFragment;
+    /**
+     * indicates if root fragment is visible
+     */
     private boolean root = true;
     /**
      * holds position of item which its color needs to be reset
      */
     int prevPos;
-    /**
-     * this handler is responsible for delay of update playBar
-     */
-    Handler mHandler = new Handler();
     /**
      * instance of Media Controller
      */
@@ -238,10 +276,25 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
      * layout of settings
      */
     View linearLayout;
+    /**
+     * play bar btn frame container
+     */
     FrameLayout playBarBtnFrame;
+    /**
+     * play button
+     */
     ImageView playBtn;
+    /**
+     * pause button
+     */
     ImageView pauseBtn;
+    /**
+     * progress bar
+     */
     ProgressBar progressBar;
+    /**
+     * on Audio focus change listener of media
+     */
     AudioManager.OnAudioFocusChangeListener onAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
         @Override
         public void onAudioFocusChange(int focusChange) {
@@ -404,6 +457,11 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             homeFragment.loadAllPlaylists();*/
     }
 
+    /**
+     * get current playing track success listener
+     *
+     * @param id id of tarck
+     */
     @Override
     public void getCurrPlayingTrackSuccess(String id) {
         int pos = Utils.getPosInPlaying(id);
@@ -419,6 +477,9 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             ServiceController.getInstance().getTrack(MainActivity.this, id);
     }
 
+    /**
+     * get track data success listener
+     */
     @Override
     public void getTrackSuccess() {
         startTrack();
@@ -427,8 +488,8 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     /**
      * this function updates ui when request returns tracks of playlists
      *
-     * @param playlistFragment
-     * @param tracksList
+     * @param playlistFragment playlist fragment object reference
+     * @param tracksList       tracks list
      */
     @Override
     public void updateUiGetTracksOfPlaylist(PlaylistFragment playlistFragment, ArrayList<Track> tracksList) {
@@ -452,7 +513,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     /**
      * this function updates ui when request returns tracks of playlists
      *
-     * @param playlistFragment
+     * @param playlistFragment playlist fragment object reference
      */
     @Override
     public void updateUicheckSaved(PlaylistFragment playlistFragment) {
@@ -498,17 +559,26 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         }
     }
 
+    /**
+     * get track of queueu success listener
+     */
     @Override
     public void getTrackOfQueue() {
         showPlayBar();
     }
 
+    /**
+     * play track in queueu success listener
+     */
     @Override
     public void updateUiPlayTrack() {
         ServiceController serviceController = ServiceController.getInstance();
         serviceController.getQueue(MainActivity.this);
     }
 
+    /**
+     * get queue success listener
+     */
     @Override
     public void updateUiGetQueue() {
         Log.e("main update", "call play track");
@@ -639,9 +709,9 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                 fragmentTransaction.replace(R.id.nav_host_fragment, new FragmentProfile(id));
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
-            }else {
+            } else {
                 String albumID = bundle.getString("albumID");
-                if(albumID != null) {
+                if (albumID != null) {
                     AlbumFragment fragment = new AlbumFragment();
                     Bundle arguments = new Bundle();
                     arguments.putString("ALBUM_ID", albumID);
@@ -680,6 +750,9 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
 
     }
 
+    /**
+     * indicates if activity is running for the first time
+     */
     private static boolean start = true;
 
     /**
@@ -729,8 +802,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         }
     }
 
-    private boolean dataChange = false;
-
     /**
      * this function shows playBar
      */
@@ -771,6 +842,9 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
 
     }
 
+    /**
+     * indicates if recycler bar is hard scrolling
+     */
     private static boolean hardScrolling = false;
 
     /**
@@ -801,6 +875,9 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         else playPrevTrack();
     }
 
+    /**
+     * play previous track
+     */
     private void playPrevTrack() {
         ServiceController.getInstance().playPrev(this);
         playBarBtnFrame.removeAllViews();
@@ -836,6 +913,9 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         }
     }
 
+    /**
+     * play next track
+     */
     private void playNextTrack() {
         ServiceController.getInstance().playNext(this);
         playBarBtnFrame.removeAllViews();
@@ -843,8 +923,14 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         playBarBtnFrame.setOnClickListener(null);
     }
 
+    /**
+     * notification manager object
+     */
     private NotificationManager notificationManager;
 
+    /**
+     * create channel for notification play bar
+     */
     private void createChannel() {
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -959,6 +1045,9 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         playBarBtnFrame.setOnClickListener(playBtnListener);
     }
 
+    /**
+     * play buutonn listenr of play bar
+     */
     View.OnClickListener playBtnListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -1037,13 +1126,12 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             // ServiceController.getInstance().getAlbum(this,currContext.getId());
             AlbumFragment fragment = new AlbumFragment();
             Bundle arguments = new Bundle();
-            arguments.putString("ALBUM_ID" , currContext.getId());
+            arguments.putString("ALBUM_ID", currContext.getId());
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction().replace(
                     R.id.nav_host_fragment, fragment)
                     .addToBackStack(null)
                     .commit();
-            makeToast("open album");
         } else if (currContext.getContextType().matches("artist")) {
             //TODO open artist fragment
             makeToast("open artist");
@@ -1431,6 +1519,9 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     }
 
 
+    /**
+     * on destroy activity called
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -1506,7 +1597,13 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         artistAlbumTracks.OnDelTrackFailure();
     }
 
-
+    @Override
+    public void getCurrentProfilePlaylistFragment(String name, PlaylistFragment playlistFragment) {
+        if(playlistFragment!=null &&playlistFragment.isVisible())
+        {
+            playlistFragment.updateMadeByView(name);
+        }
+    }
 
 /*@Override
     public void getCategoriesSuccess(ArrayList<Category> c) {

@@ -25,6 +25,7 @@ import com.example.symphonia.Adapters.RvTracksHomeAdapter;
 import com.example.symphonia.Constants;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
+import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
 import com.google.android.material.appbar.AppBarLayout;
 import com.squareup.picasso.Picasso;
@@ -56,10 +57,16 @@ public class PlaylistFragment extends Fragment {
 
     }
 
+    /**
+     * hide progress bar when data feched
+     */
     public void hideProgressBar() {
         progressPar.setVisibility(View.GONE);
     }
 
+    /**
+     * background layout
+     */
     RelativeLayout backgroundLayout;
 
     /**
@@ -89,7 +96,7 @@ public class PlaylistFragment extends Fragment {
         playlistTitle.setText(Utils.displayedContext.getmContextTitle());
         madeForUser.setText(R.string.made_for_you_by_spotify);
 
-       // transition drawable controls the animation ov changing background
+        // transition drawable controls the animation ov changing background
 
 
         final FrameLayout frameLayout = view.findViewById(R.id.frame_playlist_fragment);
@@ -143,6 +150,9 @@ public class PlaylistFragment extends Fragment {
         return view;
     }
 
+    /**
+     * back ground drawable
+     */
     Drawable background;
 
     @Override
@@ -150,6 +160,11 @@ public class PlaylistFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ServiceController serviceController = ServiceController.getInstance();
         serviceController.getTracksOfPlaylist(getContext(), Utils.displayedContext.getId(), this);
+        RestApi restApi = new RestApi();
+        if(Utils.displayedContext.getOwnerId()!=null &&!Utils.displayedContext.getOwnerId().matches(""))
+            restApi.getCurrentUserProfile(getContext(),Utils.displayedContext.getOwnerId(),this);
+        else
+            updateMadeByView("Symphonia");
     }
 
     /**
@@ -203,7 +218,7 @@ public class PlaylistFragment extends Fragment {
     /**
      * this function change item image view favourite according to its data
      *
-     * @param pos     position of item
+     * @param id      id of item
      * @param isLiked if item favourite
      */
     public void changeLikedItemAtPos(String id, boolean isLiked) {
@@ -212,23 +227,29 @@ public class PlaylistFragment extends Fragment {
     }
 
     /**
-     * this function change color of selected item and resets color of previous one
-     *
-     * @param //prev position of previous item
-     * @param //curr position of current item
+     * change selected track
      */
-  /*  public void changeSelected(String prev, String curr) {
-      //  View prevView = rvTracks.getLayoutManager().getChildAt(prev);
-
-    }*/
     public void changeSelected() {
         //   rvTracksHomeAdapter.selectPlaying(Utils.currTrack.getId());
         rvTracksHomeAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * change hidden track
+     *
+     * @param pos      positon of track
+     * @param isHidden is hidden
+     */
     public void changeHidden(int pos, boolean isHidden) {
         rvTracksHomeAdapter.selectHidden(pos, isHidden);
         rvTracksHomeAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * update made by text view
+     */
+    public void updateMadeByView(String name) {
+        madeForUser.setText(getString(R.string.made_for_you) + " by " + name);
     }
 
 }
