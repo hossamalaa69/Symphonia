@@ -496,9 +496,10 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
+
+        checkAds();
         registerReceiver(broadcastReceiver, new IntentFilter("TRACKS_TRACKS"));
         startService(new Intent(getBaseContext(), OnClearFromRecentService.class));
-        checkAds();
         Utils.CurrTrackInfo.paused = getIntent().getBooleanExtra(IS_PAUSED, false);
         mediaController = MediaController.getController();
         attachViews();
@@ -788,7 +789,7 @@ public class PlayActivity extends AppCompatActivity implements Serializable, RvT
     }
 
     public void checkAds() {
-        if (Constants.currentUser.isPremuim()) {
+        if (!Constants.currentUser.isPremuim()) {
             Intent i = new Intent(this, AdDialog.class);
             startActivity(i);
         }
