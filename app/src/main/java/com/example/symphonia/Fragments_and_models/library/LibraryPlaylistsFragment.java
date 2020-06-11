@@ -143,7 +143,7 @@ public class LibraryPlaylistsFragment extends Fragment implements RvListPlaylist
         mFollowedPlaylists = new ArrayList<>();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mPlaylistsList.setLayoutManager(layoutManager);
-        mAdapter = new RvListPlaylistsAdapter(new ArrayList<Playlist>(), this, this);
+        mAdapter = new RvListPlaylistsAdapter(mFollowedPlaylists, this, this);
         mPlaylistsList.setAdapter(mAdapter);
 
         mServiceController.getCurrentUserPlaylists(this,0, 65535);
@@ -300,7 +300,9 @@ public class LibraryPlaylistsFragment extends Fragment implements RvListPlaylist
                 @Override
                 public void onClick(View view) {
                     mServiceController.deletePlaylist(getContext(), mFollowedPlaylists.get(clickedItemIndex).getId());
-                    Snackbar snack = Snackbar.make(mPlaylistsList, "deleted successfully", Snackbar.LENGTH_LONG);
+                    Snackbar snack1 = Snackbar.make(mPlaylistsList, "deleted successfully", Snackbar.LENGTH_SHORT);
+                    SnackbarHelper.configSnackbar(getContext(), snack1, R.drawable.custom_snackbar, Color.BLACK);
+                    snack1.show();
                     mFollowedPlaylists.remove(clickedItemIndex);
                     mAdapter.notifyItemRemoved(clickedItemIndex);
                 }
@@ -321,8 +323,6 @@ public class LibraryPlaylistsFragment extends Fragment implements RvListPlaylist
         mFollowedPlaylists.clear();
         mFollowedPlaylists.addAll(returnedPlaylists);
 
-        mAdapter.clear();
-        mAdapter.addAll(mFollowedPlaylists);
         mAdapter.notifyDataSetChanged();
 
     }
