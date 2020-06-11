@@ -68,6 +68,7 @@ public class MyFirebaseInstanceIdService extends FirebaseMessagingService {
      * holds showing notification with data
      * @param title holds title of notification
      * @param body holds body of notification
+     * @param to holds id of going to profile
      */
     private void showNotification(String title, String body, String to){
 
@@ -84,12 +85,14 @@ public class MyFirebaseInstanceIdService extends FirebaseMessagingService {
             notificationChannel.setDescription("Symphonia channel");
             notificationManager.createNotificationChannel(notificationChannel);
 
-            //holds the page to go to on pressed (History page)
+            //holds the page to go to on pressed (Receive page)
             Intent notificationIntent = new Intent(getApplicationContext(), NotificationReceiver.class);
-            Bundle bundlee =new Bundle();
-            bundlee.putString("type",title);
-            bundlee.putString("id",to);
-            notificationIntent.putExtras(bundlee);
+
+            //store required data (type and id) and send them to receiver page
+            Bundle bundle =new Bundle();
+            bundle.putString("type",title);
+            bundle.putString("id",to);
+            notificationIntent.putExtras(bundle);
 
             notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);

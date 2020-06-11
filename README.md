@@ -9,7 +9,7 @@
 ## 2-Install packages
   
   &nbsp;&nbsp;&nbsp; 1-Open **Android studio** then select **File** and press **open** then choose project directory <br>
-  &nbsp;&nbsp;&nbsp; 2-Wait untill **gradle files** are setup automatically  <br>
+  &nbsp;&nbsp;&nbsp; 2-Wait until **gradle files** are setup automatically  <br>
   &nbsp;&nbsp;&nbsp; 3-Click in top left on item **1:project** <br>
   &nbsp;&nbsp;&nbsp; 3-then select **Android** from the dropdown list <br>
   &nbsp;&nbsp;&nbsp; 4-select **Gradle Scripts**, then open **build.gradle(Module:App)** <br>
@@ -28,10 +28,10 @@
    #### 4.1-Running Unit Tests:
    
    &nbsp;&nbsp;&nbsp; in **explorer** >> **app** >> **Java** >> **com.example.symphonia** >> right click >> **run Tests** <br>
-   &nbsp;&nbsp;&nbsp; to show results and execution time >> press on **Export Test Results** after ruunning test file or folder
+   &nbsp;&nbsp;&nbsp; to show results and execution time >> press on **Export Test Results** after running test file or folder
    #### 4.2-Coverage Report Generation:
    &nbsp;&nbsp;&nbsp; Choose **Gradle** in top right corner >> double click on **app** >> click on **execute gradle task** icon <br>
-   &nbsp;&nbsp;&nbsp; Write this command **createDebugAndroidTestCoverageReport** and wait untill building is finshed <br>
+   &nbsp;&nbsp;&nbsp; Write this command **createDebugAndroidTestCoverageReport** and wait until building is finished <br>
    &nbsp;&nbsp;&nbsp; Report generated in >> **app** >> **build** >> **reports** >> **coverage** >> **debug** open **index.html**
   <br>
   

@@ -14,16 +14,30 @@ import com.example.symphonia.R;
 import com.example.symphonia.Service.RestApi;
 import com.example.symphonia.Service.ServiceController;
 
+/**
+ * Activity that handles receiving notification and send them to right pages
+ *
+ * @author Hossam Alaa
+ * @version 1.0
+ * @since 10-06-2020
+ */
 public class NotificationReceiver extends AppCompatActivity {
 
+    /**
+     * Represents the initialization of activity
+     * @param savedInstanceState represents received data from other activities
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification_receiver);
         try {
+            //receive type and ids of notification
             Bundle bundle = getIntent().getExtras();
             String Type = bundle.getString("type");
             String id = bundle.getString("id");
+
+            //following code checks each type of them
             if(Type.equals("Following User")){
                 //sends this id to open its profile
                 Intent i = new Intent(this, MainActivity.class);
