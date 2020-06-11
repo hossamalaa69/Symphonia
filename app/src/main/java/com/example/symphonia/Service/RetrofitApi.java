@@ -1,5 +1,6 @@
 package com.example.symphonia.Service;
 
+<<<<<<< Updated upstream
 import com.example.symphonia.Helpers.TracksModel;
 import com.google.gson.JsonObject;
 
@@ -14,6 +15,13 @@ import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+=======
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.http.DELETE;
+import retrofit2.http.HeaderMap;
+>>>>>>> Stashed changes
 import retrofit2.http.QueryMap;
 
 public interface RetrofitApi {
@@ -23,6 +31,7 @@ public interface RetrofitApi {
             @HeaderMap Map<String, String> headers,
             @QueryMap Map<String, String> params
     );
+<<<<<<< Updated upstream
 
     //holds reset password API
     @PATCH("api/v1/users/resetpassword/{token}")
@@ -130,4 +139,6 @@ public interface RetrofitApi {
             @HeaderMap Map<String, String> headers,
             @Body Map<String, String> params
     );
+=======
+>>>>>>> Stashed changes
 }
