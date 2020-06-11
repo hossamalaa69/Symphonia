@@ -160,8 +160,8 @@ public class PlaylistFragment extends Fragment {
         ServiceController serviceController = ServiceController.getInstance();
         serviceController.getTracksOfPlaylist(getContext(), Utils.displayedContext.getId(), this);
         RestApi restApi = new RestApi();
-        if(Utils.displayedContext.getOwnerId()!=null &&!Utils.displayedContext.getOwnerId().matches(""))
-            restApi.getCurrentUserProfile(getContext(),Utils.displayedContext.getOwnerId(),this);
+        if (Utils.displayedContext.getOwnerId() != null && !Utils.displayedContext.getOwnerId().matches(""))
+            restApi.getCurrentUserProfile(getContext(), Utils.displayedContext.getOwnerId(), this);
         else
             updateMadeByView("Symphonia");
     }

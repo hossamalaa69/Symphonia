@@ -60,7 +60,6 @@ import com.example.symphonia.Fragments_and_models.profile.ArtistAlbums;
 import com.example.symphonia.Fragments_and_models.profile.FragmentProfile;
 import com.example.symphonia.Fragments_and_models.profile.ProfileFollowersFragment;
 import com.example.symphonia.Fragments_and_models.profile.ProfilePlaylistsFragment;
-import com.example.symphonia.Fragments_and_models.search.SearchFragment;
 import com.example.symphonia.Fragments_and_models.settings.SettingsFragment;
 import com.example.symphonia.Helpers.MediaHelpers.MediaController;
 import com.example.symphonia.Helpers.MediaHelpers.OnClearFromRecentService;
@@ -208,10 +207,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     private HomeFragment homeFragment;
 
     /**
-     * search fragment objcet reference
-     */
-    private SearchFragment searchFragment;
-    /**
      * library fragment objcet reference
      */
     private LibraryFragment libraryFragment;
@@ -349,7 +344,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
     @Override
     public void onLikeClicked(int pos) {
         if (!Utils.displayedContext.getTracks().get(pos).isLiked() && (!Utils.displayedContext.getTracks().get(pos).isLocked()
-        || Constants.currentUser.isPremuim())) {
+                || Constants.currentUser.isPremuim())) {
             Utils.displayedContext.getTracks().get(pos).setLiked(true);
             ServiceController.getInstance().saveTrack(MainActivity.this
                     , Utils.displayedContext.getTracks().get(pos).getId());
@@ -367,7 +362,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         } else {
             makeToast(MainActivity.this.getString(R.string.locked_songs));
         }
-        if(Utils.playingContext!=null && Utils.playingContext.getId().matches(Utils.displayedContext.getId()))
+        if (Utils.playingContext != null && Utils.playingContext.getId().matches(Utils.displayedContext.getId()))
             Utils.playingContext = Utils.displayedContext;
     }
 
@@ -382,7 +377,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             makeToast(getString(R.string.playlist_not_playing));
         }
         if (!Utils.displayedContext.getTracks().get(pos).isHidden() &&
-        (!Utils.displayedContext.getTracks().get(pos).isLocked()|| Constants.currentUser.isPremuim())) {
+                (!Utils.displayedContext.getTracks().get(pos).isLocked() || Constants.currentUser.isPremuim())) {
             Utils.playingContext.getTracks().get(pos).setHidden(true);
             if (playlistFragment != null && playlistFragment.isVisible()) {
                 playlistFragment.changeHidden(pos, true);
@@ -471,7 +466,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
         int pos = Utils.getPosInPlaying(id);
         if (pos > -1) {
             if (!Utils.playingContext.getTracks().get(pos).isHidden()
-                    &&(!Utils.playingContext.getTracks().get(pos).isLocked() || Constants.currentUser.isPremuim())) {
+                    && (!Utils.playingContext.getTracks().get(pos).isLocked() || Constants.currentUser.isPremuim())) {
                 Utils.currTrack = Utils.playingContext.getTracks().get(pos);
                 playTrack();
             } else {
@@ -1099,8 +1094,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
             return;
         }
 
-        if(Utils.playingContext!=null && Utils.playingContext.getId().matches(Utils.displayedContext.getId()))
-        {
+        if (Utils.playingContext != null && Utils.playingContext.getId().matches(Utils.displayedContext.getId())) {
             Utils.playingContext.setTracks(Utils.displayedContext.getTracks());
         }
         if (Utils.displayedContext.getTracks().get(pos).getId().matches(Utils.currTrack.getId())) {
@@ -1207,11 +1201,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                 navView.setSelectedItemId(R.id.navigation_library);
                 return;
             }
-            fragment = getSupportFragmentManager().findFragmentByTag("search");
-            if (fragment != null) {
-                navView.setSelectedItemId(R.id.navigation_search);
-                return;
-            }
             fragment = getSupportFragmentManager().findFragmentByTag("premium");
             if (fragment != null) {
                 navView.setSelectedItemId(R.id.navigation_premium);
@@ -1252,7 +1241,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                 .setPrimaryNavigationFragment(navHostFragment)
                 .commit();
         homeFragment = new HomeFragment();
-        searchFragment = new SearchFragment();
         libraryFragment = new LibraryFragment();
         premiumFragment = new PremiumFragment();
 
@@ -1270,12 +1258,6 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.nav_host_fragment, libraryFragment, "library")
                                 .addToBackStack("library")
-                                .commit();
-                        return true;
-                    case R.id.navigation_search:
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.nav_host_fragment, searchFragment, "search")
-                                .addToBackStack("search")
                                 .commit();
                         return true;
                     case R.id.navigation_premium:
@@ -1607,8 +1589,7 @@ public class MainActivity extends AppCompatActivity implements RvPlaylistsHomeAd
 
     @Override
     public void getCurrentProfilePlaylistFragment(String name, PlaylistFragment playlistFragment) {
-        if(playlistFragment!=null &&playlistFragment.isVisible())
-        {
+        if (playlistFragment != null && playlistFragment.isVisible()) {
             playlistFragment.updateMadeByView(name);
         }
     }

@@ -18,13 +18,10 @@ import com.example.symphonia.Entities.Track;
 import com.example.symphonia.Helpers.Utils;
 import com.example.symphonia.R;
 import com.example.symphonia.Service.ServiceController;
-import com.google.android.gms.common.util.ArrayUtils;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
-
-import okhttp3.internal.Util;
 
 /**
  * class tha adapt recycler view of tracks
@@ -54,9 +51,10 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
      */
     private OnTrackClicked onTrackClicked;
 
-    public void changeTracks(ArrayList<Track>tracks){
-        mTracks  = tracks;
+    public void changeTracks(ArrayList<Track> tracks) {
+        mTracks = tracks;
     }
+
     /**
      * non empty constructor
      *
@@ -268,8 +266,8 @@ public class RvTracksHomeAdapter extends RecyclerView.Adapter<RvTracksHomeAdapte
                 ivLike.setSelected(false);
             }
             if (Utils.playingContext != null
-                    &&Utils.displayedContext.getId().matches(Utils.playingContext.getId())
-                    &&Utils.playingContext.getTracks().get(getAdapterPosition()).getId().matches(track.getId()) &&
+                    && Utils.displayedContext.getId().matches(Utils.playingContext.getId())
+                    && Utils.playingContext.getTracks().get(getAdapterPosition()).getId().matches(track.getId()) &&
                     Utils.playingContext.getTracks().get(getAdapterPosition()).isHidden()) {
                 tvTrackTitle.setTextColor(context.getResources().getColor(R.color.light_gray));
                 ivHide.setImageResource(R.drawable.ic_do_not_disturb_on_red_24dp);
