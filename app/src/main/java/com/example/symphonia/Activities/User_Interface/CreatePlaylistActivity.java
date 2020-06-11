@@ -97,7 +97,7 @@ public class CreatePlaylistActivity extends AppCompatActivity implements RestApi
     }
 
     /**
-     * calls when the user go to another activity
+     * called when the user go to another activity
      * it simply hides the keyboard from the screen
      * in case if the user didn't close it
      */
