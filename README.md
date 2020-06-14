@@ -5,7 +5,7 @@
 ## 1- Features supported in application:
   &nbsp;&nbsp;&nbsp; **1- User management**: Login, Sign up, login with facebook and forget password<br>
   &nbsp;&nbsp;&nbsp; **2- Music Library**: Playlists, Albums and Artists <br>
-  &nbsp;&nbsp;&nbsp; **3- Media player**: including playbar shortcut and Notification media player<br>
+  &nbsp;&nbsp;&nbsp; **3- Media player**: main media player, playbar shortcut and Notification media player<br>
   &nbsp;&nbsp;&nbsp; **4- Profiles**: including all profile features <br>
   &nbsp;&nbsp;&nbsp; **5- Premium features**: No Ads and No hidden songs<br>
   &nbsp;&nbsp;&nbsp; **6- Artist experience**: Uploading tracks and albums <br>
