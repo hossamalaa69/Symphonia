@@ -46,6 +46,16 @@
   &nbsp;&nbsp;&nbsp;&nbsp; 1-For **Mock Service** Mode : *DEBUG_STATUS=true* <br>
   &nbsp;&nbsp;&nbsp;&nbsp; 2-For **REST API** Mode : *DEBUG_STATUS=false* <br>
    
-## 7- apk file:
+## 7- Features supported in application:
+  &nbsp;&nbsp;&nbsp; 1- User management: Login, Sign up, login with facebook and forget password
+  &nbsp;&nbsp;&nbsp; 2- Music Library: Playlists, Albums and Artists 
+  &nbsp;&nbsp;&nbsp; 3- Media player: including playbar shortcut and Notification media player
+  &nbsp;&nbsp;&nbsp; 4- Profiles: including all profile features 
+  &nbsp;&nbsp;&nbsp; 5- Premium features: No Ads and No hidden songs
+  &nbsp;&nbsp;&nbsp; 6- Artist experience: Uploading tracks and albums 
+  &nbsp;&nbsp;&nbsp; 7- Notifications system: Push notifications (follow, edit playlist, edit album and new track) and notifications history 
+
+
+## 8- apk file:
   
  &nbsp;&nbsp;&nbsp; [download](https://drive.google.com/file/d/1r-aOlpR258OShMChsqTQMnnHTx37Zy_w/view?usp=sharing), setup and enjoy!
